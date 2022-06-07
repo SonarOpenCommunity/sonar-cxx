@@ -53,7 +53,6 @@ import org.sonar.api.utils.log.Loggers;
 public class PPInclude {
 
   private static final Logger LOG = Loggers.get(PPInclude.class);
-  private static int missingFileCounter = 0;
 
   private final CxxPreprocessor pp;
   private final Lexer fileLexer;
@@ -61,13 +60,15 @@ public class PPInclude {
   private final List<Path> standardIncludeDirs = new ArrayList<>();
   private final PPState state;
 
+  private int missingFileCounter = 0;
+
   public PPInclude(CxxPreprocessor pp, @Nonnull File contextFile) {
     this.pp = pp;
     fileLexer = IncludeDirectiveLexer.create(pp);
     state = PPState.build(contextFile);
   }
 
-  public PPState State() {
+  public PPState state() {
     return state;
   }
 
@@ -75,12 +76,14 @@ public class PPInclude {
    * Define the standard include directories for form (1).
    *
    * Hints:
-   * - in case directories are relative, they are made absolute to baseDir
    * - directories that do not exist are not included in the list to optimize the subsequent search
+   *
+   * @param includeDirs standard include directories
+   * @param baseDir in case directories are relative, they are made absolute to baseDir
    */
-  public void setStandardIncludeDirs(List<String> roots, String baseDir) {
-    for (var root : roots) {
-      var path = Paths.get(root);
+  public void setStandardIncludeDirs(List<String> includeDirs, String baseDir) {
+    for (var dir : includeDirs) {
+      var path = Paths.get(dir);
       try {
         if (!path.isAbsolute()) {
           path = Paths.get(baseDir).resolve(path);
@@ -93,7 +96,7 @@ public class PPInclude {
           LOG.warn("preprocessor: invalid include file directory '{}'", path.toString());
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error("preprocessor: invalid include file directory '{}'", path.toString());
+        LOG.error("preprocessor: {} '{}'", e.getMessage(), path.toString());
       }
     }
   }
@@ -105,29 +108,35 @@ public class PPInclude {
   /**
    * Included files have to be scanned with the (only) goal of gathering macros. Process include files using a special
    * lexer, which calls back only if it finds relevant preprocessor directives (#...).
+   *
+   * @param ast AST node to handle
+   * @param token current token
    */
   public void handleFile(AstNode ast, Token token) {
-    File includeFile = PPInclude.this.searchFile(ast);
+    File includeFile = searchFile(ast);
     if (includeFile == null) {
       missingFileCounter++;
-      String rootFilePath = State().getFileUnderAnalysisPath();
+      String rootFilePath = state().getFileUnderAnalysisPath();
       LOG.debug("[" + rootFilePath + ":" + token.getLine() + "]: preprocessor cannot find include file '"
                   + token.getValue() + "'");
     } else if (analysedFiles.add(includeFile.getAbsoluteFile())) {
-      State().pushFileState(includeFile);
+      state().pushFileState(includeFile);
       try {
         LOG.debug("process include file '{}'", includeFile.getAbsoluteFile());
         fileLexer.lex(getSourceCode(includeFile, pp.getCharset()));
       } catch (IOException e) {
-        LOG.error("[{}: preprocessor cannot read include file]: {}", includeFile.getAbsoluteFile(), e.getMessage());
+        LOG.error("preprocessor: {} '{}'", e.getMessage(), includeFile.getAbsoluteFile());
       } finally {
-        State().popFileState();
+        state().popFileState();
       }
     }
   }
 
   /**
    * Searches for a header and returns the file containing the contents of the header (from AST).
+   *
+   * @param ast AST node with include body to search for filename
+   * @return file containing the contents of the header
    */
   @CheckForNull
   public File searchFile(AstNode ast) {
@@ -175,6 +184,10 @@ public class PPInclude {
    * - Absolute path names are used without modification. Only the specified path is searched.
    * - if quoted, search quoted (fallback bracketed form)
    * - search bracketed form
+   *
+   * @param filename filename to search for
+   * @param quoted true if quoted include filename (else bracketed filename)
+   * @return file containing the contents of the header
    */
   @CheckForNull
   public File searchFile(String filename, boolean quoted) {
@@ -190,7 +203,7 @@ public class PPInclude {
         result = searchQuoted(file);
       }
       if (result == null) {
-        result = searchBracketed(filename, result);
+        result = searchBracketed(filename);
       }
     }
 
@@ -198,7 +211,7 @@ public class PPInclude {
       try {
         result = result.getCanonicalFile();
       } catch (java.io.IOException e) {
-        LOG.error("preprocessor: cannot get canonical form of: '{}'", result);
+        LOG.error("preprocessor: {} '{}'", e.getMessage(), result);
       }
     }
 
@@ -206,19 +219,44 @@ public class PPInclude {
   }
 
   /**
+   * Returns the contents of the source file.
+   *
+   * @param file file to read the contents
+   * @param defaultCharset character set to use if file has no BOM
+   * @return returns the contents of the file
+   */
+  public String getSourceCode(File file, Charset defaultCharset) throws IOException {
+    try (var bomInputStream = new BOMInputStream(new FileInputStream(file),
+                                             ByteOrderMark.UTF_8,
+                                             ByteOrderMark.UTF_16LE,
+                                             ByteOrderMark.UTF_16BE,
+                                             ByteOrderMark.UTF_32LE,
+                                             ByteOrderMark.UTF_32BE)) {
+      var bom = bomInputStream.getBOM();
+      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
+      byte[] bytes = bomInputStream.readAllBytes();
+      return new String(bytes, charset);
+    }
+  }
+
+  public int getMissingFilesCounter() {
+    return missingFileCounter;
+  }
+
+  /**
    * (1) Search bracketed filename.
    *
    * Search The named source file in the standard include directories in the defined order.
    */
-  private File searchBracketed(String filename, File result) {
+  @CheckForNull
+  private File searchBracketed(String filename) {
     for (var path : standardIncludeDirs) {
       var abspath = path.resolve(filename);
       if (Files.isRegularFile(abspath)) {
-        result = abspath.toFile();
-        break;
+        return abspath.toFile();
       }
     }
-    return result;
+    return null;
   }
 
   /**
@@ -235,60 +273,33 @@ public class PPInclude {
    * grandparent include files.
    * 3. Fallback to use standard include directories of bracketed form (1).
    */
+  @CheckForNull
   private File searchQuoted(File file) {
-    File result;
-    String cwd = State().getFileUnderAnalysis().getParent();
+    String cwd = state().getFileUnderAnalysis().getParent();
     if (cwd == null) {
       cwd = ".";
     }
-    var abspath = new File(new File(cwd), file.getPath());
-    if (abspath.isFile()) {
-      result = abspath;
-    } else {
-      result = null;
+    var absPath = new File(new File(cwd), file.getPath());
+    if (absPath.isFile()) {
+      return absPath;
+    }
 
-      for (var parent : State().getStack()) {
-        if (parent.getFile() != State().getContextFile()) {
-          abspath = new File(parent.getFile().getParentFile(), file.getPath());
-          if (abspath.exists()) {
-            result = abspath;
-            break;
-          }
+    for (var include : state().getStack()) {
+      if (!include.getFile().equals(state().getContextFile())) {
+        absPath = new File(include.getFile().getParentFile(), file.getPath());
+        if (absPath.exists()) {
+          return absPath;
         }
       }
     }
-    return result;
-  }
 
-  /**
-   * Returns the contents of the source file.
-   */
-  public String getSourceCode(File file, Charset defaultCharset) throws IOException {
-    try (var bomInputStream = new BOMInputStream(new FileInputStream(file),
-                                             ByteOrderMark.UTF_8,
-                                             ByteOrderMark.UTF_16LE,
-                                             ByteOrderMark.UTF_16BE,
-                                             ByteOrderMark.UTF_32LE,
-                                             ByteOrderMark.UTF_32BE)) {
-      ByteOrderMark bom = bomInputStream.getBOM();
-      Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
-      byte[] bytes = bomInputStream.readAllBytes();
-      return new String(bytes, charset);
-    }
-  }
-
-  public static int getMissingFilesCounter() {
-    return missingFileCounter;
-  }
-
-  public static void resetMissingFilesCounter() {
-    missingFileCounter = 0;
+    return null;
   }
 
   /**
    * (1) Bracketed: get filename.
    */
-  private String includeBodyBracketed(AstNode includeBody) {
+  private static String includeBodyBracketed(AstNode includeBody) {
     var next = includeBody.getFirstDescendant(PPPunctuator.LT).getNextSibling();
     var sb = new StringBuilder(256);
     while (true) {
@@ -306,7 +317,7 @@ public class PPInclude {
   /**
    * (2) Quoted: get filename.
    */
-  private String includeBodyQuoted(AstNode includeBody) {
+  private static String includeBodyQuoted(AstNode includeBody) {
     String value = includeBody.getFirstChild().getTokenValue();
     return value.substring(1, value.length() - 1);
   }

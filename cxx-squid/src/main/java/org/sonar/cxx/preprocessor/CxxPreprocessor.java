@@ -80,6 +80,8 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
 
+  private static int missingFileCounter = 0;
+
   private final SquidAstVisitorContext<Grammar> context;
   private final CxxSquidConfiguration squidConfig;
 
@@ -206,7 +208,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public PPState State() {
-    return Include().State();
+    return Include().state();
   }
 
   @CheckForNull
@@ -288,14 +290,13 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public static void finalReport() {
-    int missing = PPInclude.getMissingFilesCounter();
-    if (missing != 0) {
-      LOG.warn(MISSING_INCLUDE_MSG, missing);
+    if (missingFileCounter != 0) {
+      LOG.warn(MISSING_INCLUDE_MSG, missingFileCounter);
     }
   }
 
   public static void resetReport() {
-    PPInclude.resetMissingFilesCounter();
+    missingFileCounter = 0;
   }
 
   private static String getIdentifierName(AstNode node) {
@@ -310,6 +311,7 @@ public class CxxPreprocessor extends Preprocessor {
     // or (if none is encountered) until the end of the translation unit.
 
     unitMacros = null;
+    missingFileCounter += include.getMissingFilesCounter();
     include = null;
     currentContextFile = null;
   }

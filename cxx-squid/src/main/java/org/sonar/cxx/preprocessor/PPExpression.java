@@ -35,7 +35,71 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.parser.CxxTokenType;
 
 /**
- * Helper class to evaluate expressions of conditional preprocessor directives.
+ * Helper class to evaluate expressions of conditional expression preprocessor directives.
+ *
+ * <pre>{@code
+ * if-group:
+ *   # if constant-expression new-line groupopt
+ *
+ * constant-expression:
+ *   conditional-expression
+ *
+ * multiplicative-expression:
+ *   pm-expression
+ *   multiplicative-expression * pm-expression
+ *   multiplicative-expression / pm-expression
+ *   multiplicative-expression % pm-expression
+ *
+ * additive-expression:
+ *   multiplicative-expression
+ *   additive-expression + multiplicative-expression
+ *   additive-expression - multiplicative-expression
+ *
+ * shift-expression:
+ *   additive-expression
+ *   shift-expression << additive-expression
+ *   shift-expression >> additive-expression
+ *
+ * compare-expression:
+ *   shift-expression
+ *   compare-expression <=> shift-expression
+ *
+ * relational-expression:
+ *   compare-expression
+ *   relational-expression < compare-expression
+ *   relational-expression > compare-expression
+ *   relational-expression <= compare-expression
+ *   relational-expression >= compare-expression
+ *
+ * equality-expression:
+ *   relational-expression
+ *   equality-expression == relational-expression
+ *   equality-expression != relational-expression
+ *
+ * and-expression:
+ *   equality-expression
+ *   and-expression & equality-expression
+ *
+ * exclusive-or-expression:
+ *   and-expression
+ *   exclusive-or-expression ^ and-expression
+ *
+ * inclusive-or-expression:
+ *   exclusive-or-expression
+ *   inclusive-or-expression | exclusive-or-expression
+ *
+ * logical-and-expression:
+ *   inclusive-or-expression
+ *   logical-and-expression && inclusive-or-expression
+ *
+ * logical-or-expression:
+ *   logical-and-expression
+ *   logical-or-expression || logical-and-expression
+ *
+ * conditional-expression:
+ *   logical-or-expression
+ *   logical-or-expression ? expression : assignment-expression
+ * }</pre>
  */
 final class PPExpression {
 
@@ -62,7 +126,7 @@ final class PPExpression {
 
   // ///////////////// Primitives //////////////////////
   private static BigInteger evalBool(String boolValue) {
-    return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
+    return booleanToBigInteger("true".equalsIgnoreCase(boolValue));
   }
 
   private static BigInteger evalNumber(String intValue) {
@@ -81,7 +145,7 @@ final class PPExpression {
 
   private static BigInteger evalCharacter(String charValue) {
     // TODO: replace this simplification by something more sane
-    return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
+    return booleanToBigInteger(!"'\0'".equals(charValue));
   }
 
   @CheckForNull
@@ -114,14 +178,14 @@ final class PPExpression {
   }
 
   private BigInteger evalToInt(AstNode exprAst) {
-    int noChildren = exprAst.getNumberOfChildren();
-    if (noChildren == 0) {
-      return evalLeaf(exprAst);
-    } else if (noChildren == 1) {
-      return evalOneChildAst(exprAst);
+    switch (exprAst.getNumberOfChildren()) {
+      case 0:
+        return evalLeaf(exprAst);
+      case 1:
+        return evalOneChildAst(exprAst);
+      default:
+        return evalComplexAst(exprAst);
     }
-
-    return evalComplexAst(exprAst);
   }
 
   private boolean evalToBoolean(AstNode exprAst) {
@@ -132,37 +196,41 @@ final class PPExpression {
     return !BigInteger.ZERO.equals(evalToInt(constExpr, exprAst));
   }
 
+  private static BigInteger booleanToBigInteger(boolean value) {
+    return value ? BigInteger.ONE : BigInteger.ZERO;
+  }
+
   private BigInteger evalLeaf(AstNode exprAst) {
     // Evaluation of leafs
     //
-    var nodeType = exprAst.getType();
+    BigInteger result = BigInteger.ZERO;
+    var type = exprAst.getType();
 
-    if (nodeType.equals(CxxTokenType.NUMBER)) {
-      return evalNumber(exprAst.getTokenValue());
-    } else if (nodeType.equals(CxxTokenType.CHARACTER)) {
-      return evalCharacter(exprAst.getTokenValue());
-    } else if (nodeType.equals(GenericTokenType.IDENTIFIER)) {
+    if (CxxTokenType.NUMBER.equals(type)) {
+      result = evalNumber(exprAst.getTokenValue());
+    } else if (CxxTokenType.CHARACTER.equals(type)) {
+      result = evalCharacter(exprAst.getTokenValue());
+    } else if (GenericTokenType.IDENTIFIER.equals(type)) {
 
       String id = exprAst.getTokenValue();
-      if (macroEvaluationStack.contains(id)) {
+      if (!macroEvaluationStack.contains(id)) {
+        String value = pp.valueOf(id);
+        if (value != null) {
+          macroEvaluationStack.push(id);
+          result = evalToInt(value, exprAst);
+          macroEvaluationStack.pop();
+        }
+      } else {
         LOG.debug("preprocessor: self-referential macro '{}' detected;"
                     + " assume true; evaluation stack = ['{} <- {}']",
                   id, id, String.join(" <- ", macroEvaluationStack));
-        return BigInteger.ONE;
+        result = BigInteger.ONE;
       }
-      String value = pp.valueOf(id);
-      if (value == null) {
-        return BigInteger.ZERO;
-      }
-
-      macroEvaluationStack.push(id);
-      BigInteger expansion = evalToInt(value, exprAst);
-      macroEvaluationStack.pop();
-      return expansion;
-
     } else {
-      throw new EvaluationException("Unknown expression type '" + nodeType + "'");
+      throw new EvaluationException("Unknown expression type '" + type + "'");
     }
+
+    return result;
   }
 
   private BigInteger evalOneChildAst(AstNode exprAst) {
@@ -175,6 +243,7 @@ final class PPExpression {
     return evalToInt(exprAst.getFirstChild());
   }
 
+  @SuppressWarnings({"java:S131"})
   private BigInteger evalComplexAst(AstNode exprAst) {
 
     // More complex expressions with more than one child
@@ -231,7 +300,7 @@ final class PPExpression {
       result = evalToBoolean(operand);
     }
 
-    return result ? BigInteger.ONE : BigInteger.ZERO;
+    return booleanToBigInteger(result);
   }
 
   private BigInteger evalLogicalAndExpression(AstNode exprAst) {
@@ -242,78 +311,82 @@ final class PPExpression {
       result = evalToBoolean(operand);
     }
 
-    return result ? BigInteger.ONE : BigInteger.ZERO;
+    return booleanToBigInteger(result);
+  }
+
+  private BigInteger evalEqualityExpression(BigInteger lhs, PPPunctuator type, BigInteger rhs) {
+    boolean result;
+    switch ((PPPunctuator) type) {
+      case EQ:
+        result = lhs.compareTo(rhs) == 0;
+        break;
+      case NOT_EQ:
+        result = lhs.compareTo(rhs) != 0;
+        break;
+      default:
+        throw new EvaluationException("Unknown equality operator '" + type + "'");
+    }
+
+    return booleanToBigInteger(result);
   }
 
   private BigInteger evalEqualityExpression(AstNode exprAst) {
     var lhs = exprAst.getFirstChild();
-    var operator = lhs.getNextSibling();
-    var rhs = operator.getNextSibling();
-    var operatorType = operator.getType();
+    var next = lhs.getNextSibling();
+    var rhs = next.getNextSibling();
 
+    BigInteger result = evalEqualityExpression(evalToInt(lhs),
+                                               (PPPunctuator) next.getType(),
+                                               evalToInt(rhs));
+
+    while ((next = rhs.getNextSibling()) != null) {
+      rhs = next.getNextSibling();
+      result = evalEqualityExpression(result,
+                                      (PPPunctuator) next.getType(),
+                                      booleanToBigInteger(evalToBoolean(rhs)));
+    }
+
+    return result;
+  }
+
+  private BigInteger evalRelationalExpression(BigInteger lhs, PPPunctuator type, BigInteger rhs) {
     boolean result;
-    if (operatorType.equals(PPPunctuator.EQ)) {
-      result = evalToInt(lhs).compareTo(evalToInt(rhs)) == 0;
-    } else if (operatorType.equals(PPPunctuator.NOT_EQ)) {
-      result = evalToInt(lhs).compareTo(evalToInt(rhs)) != 0;
-    } else {
-      throw new EvaluationException("Unknown equality operator '" + operatorType + "'");
+    switch (type) {
+      case LT:
+        result = lhs.compareTo(rhs) < 0;
+        break;
+      case GT:
+        result = lhs.compareTo(rhs) > 0;
+        break;
+      case LT_EQ:
+        result = lhs.compareTo(rhs) <= 0;
+        break;
+      case GT_EQ:
+        result = lhs.compareTo(rhs) >= 0;
+        break;
+      default:
+        throw new EvaluationException("Unknown relational operator '" + type + "'");
     }
-
-    while ((operator = rhs.getNextSibling()) != null) {
-      operatorType = operator.getType();
-      rhs = operator.getNextSibling();
-      if (operatorType.equals(PPPunctuator.EQ)) {
-        result = result == evalToBoolean(rhs);
-      } else if (operatorType.equals(PPPunctuator.NOT_EQ)) {
-        result = result != evalToBoolean(rhs);
-      } else {
-        throw new EvaluationException("Unknown equality operator '" + operatorType + "'");
-      }
-    }
-
-    return result ? BigInteger.ONE : BigInteger.ZERO;
+    return booleanToBigInteger(result);
   }
 
   private BigInteger evalRelationalExpression(AstNode exprAst) {
     var lhs = exprAst.getFirstChild();
-    var operator = lhs.getNextSibling();
-    var rhs = operator.getNextSibling();
-    var operatorType = operator.getType();
+    var next = lhs.getNextSibling();
+    var rhs = next.getNextSibling();
 
-    boolean result;
-    if (operatorType.equals(PPPunctuator.LT)) {
-      result = evalToInt(lhs).compareTo(evalToInt(rhs)) < 0;
-    } else if (operatorType.equals(PPPunctuator.GT)) {
-      result = evalToInt(lhs).compareTo(evalToInt(rhs)) > 0;
-    } else if (operatorType.equals(PPPunctuator.LT_EQ)) {
-      result = evalToInt(lhs).compareTo(evalToInt(rhs)) <= 0;
-    } else if (operatorType.equals(PPPunctuator.GT_EQ)) {
-      result = evalToInt(lhs).compareTo(evalToInt(rhs)) >= 0;
-    } else {
-      throw new EvaluationException("Unknown relational operator '" + operatorType + "'");
+    BigInteger result = evalRelationalExpression(evalToInt(lhs),
+                                                 (PPPunctuator) next.getType(),
+                                                 evalToInt(rhs));
+
+    while ((next = rhs.getNextSibling()) != null) {
+      rhs = next.getNextSibling();
+      result = evalRelationalExpression(result,
+                                        (PPPunctuator) next.getType(),
+                                        evalToInt(rhs));
     }
 
-    BigInteger resultAsInt;
-    while ((operator = rhs.getNextSibling()) != null) {
-      operatorType = operator.getType();
-      rhs = operator.getNextSibling();
-
-      resultAsInt = result ? BigInteger.ONE : BigInteger.ZERO;
-      if (operatorType.equals(PPPunctuator.LT)) {
-        result = resultAsInt.compareTo(evalToInt(rhs)) < 0;
-      } else if (operatorType.equals(PPPunctuator.GT)) {
-        result = resultAsInt.compareTo(evalToInt(rhs)) > 0;
-      } else if (operatorType.equals(PPPunctuator.LT_EQ)) {
-        result = resultAsInt.compareTo(evalToInt(rhs)) <= 0;
-      } else if (operatorType.equals(PPPunctuator.GT_EQ)) {
-        result = resultAsInt.compareTo(evalToInt(rhs)) >= 0;
-      } else {
-        throw new EvaluationException("Unknown relational operator '" + operatorType + "'");
-      }
-    }
-
-    return result ? BigInteger.ONE : BigInteger.ZERO;
+    return result;
   }
 
   // ///////////////// bitwise expressions ///////////////////////
@@ -352,42 +425,45 @@ final class PPExpression {
 
   // ///////////////// other ... ///////////////////
   private BigInteger evalUnaryExpression(AstNode exprAst) {
-    // only 'unary-operator cast-expression' production is allowed in #if-context
+    // only 'unary-next cast-expression' production is allowed in #if-context
 
     var operator = exprAst.getFirstChild();
     var operand = operator.getNextSibling();
-    var operatorType = operator.getFirstChild().getType();
+    var type = operator.getFirstChild().getType();
 
-    if (operatorType.equals(PPPunctuator.PLUS)) {
-      return evalToInt(operand);
-    } else if (operatorType.equals(PPPunctuator.MINUS)) {
-      return evalToInt(operand).negate();
-    } else if (operatorType.equals(PPPunctuator.NOT)) {
-      boolean result = !evalToBoolean(operand);
-      return result ? BigInteger.ONE : BigInteger.ZERO;
-    } else if (operatorType.equals(PPPunctuator.BW_NOT)) {
-      //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
-      return evalToInt(operand).not().and(UINT64_MAX);
-    } else {
-      throw new EvaluationException("Unknown unary operator  '" + operatorType + "'");
+    switch ((PPPunctuator) type) {
+      case PLUS:
+        return evalToInt(operand);
+      case MINUS:
+        return evalToInt(operand).negate();
+      case NOT:
+        return evalToBoolean(operand) ? BigInteger.ZERO : BigInteger.ONE;
+      case BW_NOT:
+        // need more information (signed/unsigned, data type length) to invert bits in all cases correct
+        return evalToInt(operand).not().and(UINT64_MAX);
+      default:
+        throw new EvaluationException("Unknown unary operator  '" + type + "'");
     }
   }
 
   private BigInteger evalShiftExpression(AstNode exprAst) {
     var rhs = exprAst.getFirstChild();
-    AstNode operator;
     BigInteger result = evalToInt(rhs);
+    AstNode operator;
 
     while ((operator = rhs.getNextSibling()) != null) {
-      var operatorType = operator.getType();
+      var type = operator.getType();
       rhs = operator.getNextSibling();
 
-      if (operatorType.equals(PPPunctuator.BW_LSHIFT)) {
-        result = result.shiftLeft(evalToInt(rhs).intValue()).and(UINT64_MAX);
-      } else if (operatorType.equals(PPPunctuator.BW_RSHIFT)) {
-        result = result.shiftRight(evalToInt(rhs).intValue());
-      } else {
-        throw new EvaluationException("Unknown shift operator '" + operatorType + "'");
+      switch ((PPPunctuator) type) {
+        case BW_LSHIFT:
+          result = result.shiftLeft(evalToInt(rhs).intValue()).and(UINT64_MAX);
+          break;
+        case BW_RSHIFT:
+          result = result.shiftRight(evalToInt(rhs).intValue());
+          break;
+        default:
+          throw new EvaluationException("Unknown shift operator '" + type + "'");
       }
     }
 
@@ -396,19 +472,22 @@ final class PPExpression {
 
   private BigInteger evalAdditiveExpression(AstNode exprAst) {
     var rhs = exprAst.getFirstChild();
-    AstNode operator;
     BigInteger result = evalToInt(rhs);
+    AstNode operator;
 
     while ((operator = rhs.getNextSibling()) != null) {
-      var operatorType = operator.getType();
+      var type = operator.getType();
       rhs = operator.getNextSibling();
 
-      if (operatorType.equals(PPPunctuator.PLUS)) {
-        result = result.add(evalToInt(rhs));
-      } else if (operatorType.equals(PPPunctuator.MINUS)) {
-        result = result.subtract(evalToInt(rhs));
-      } else {
-        throw new EvaluationException("Unknown additive operator '" + operatorType + "'");
+      switch ((PPPunctuator) type) {
+        case PLUS:
+          result = result.add(evalToInt(rhs));
+          break;
+        case MINUS:
+          result = result.subtract(evalToInt(rhs));
+          break;
+        default:
+          throw new EvaluationException("Unknown additive operator '" + type + "'");
       }
     }
 
@@ -417,21 +496,25 @@ final class PPExpression {
 
   private BigInteger evalMultiplicativeExpression(AstNode exprAst) {
     var rhs = exprAst.getFirstChild();
-    AstNode operator;
     BigInteger result = evalToInt(rhs);
+    AstNode operator;
 
     while ((operator = rhs.getNextSibling()) != null) {
-      var operatorType = operator.getType();
+      var type = operator.getType();
       rhs = operator.getNextSibling();
 
-      if (operatorType.equals(PPPunctuator.MUL)) {
-        result = result.multiply(evalToInt(rhs));
-      } else if (operatorType.equals(PPPunctuator.DIV)) {
-        result = result.divide(evalToInt(rhs));
-      } else if (operatorType.equals(PPPunctuator.MODULO)) {
-        result = result.mod(evalToInt(rhs));
-      } else {
-        throw new EvaluationException("Unknown multiplicative operator '" + operatorType + "'");
+      switch ((PPPunctuator) type) {
+        case MUL:
+          result = result.multiply(evalToInt(rhs));
+          break;
+        case DIV:
+          result = result.divide(evalToInt(rhs));
+          break;
+        case MODULO:
+          result = result.mod(evalToInt(rhs));
+          break;
+        default:
+          throw new EvaluationException("Unknown multiplicative operator '" + type + "'");
       }
     }
 
@@ -471,7 +554,8 @@ final class PPExpression {
 
     String macroName = child.getNextSibling().getTokenValue();
     String value = pp.valueOf(macroName);
-    return value == null ? BigInteger.ZERO : BigInteger.ONE;
+
+    return booleanToBigInteger(value != null);
   }
 
   private BigInteger evalFunctionlikeMacro(AstNode exprAst) {
