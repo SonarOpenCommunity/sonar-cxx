@@ -437,7 +437,7 @@ class CxxLexerWithPreprocessingTest {
     var include = spy(new PPInclude(pp, file));
     when(include.searchFile(anyString(), eq(false))).thenReturn(new File("file"));
     doReturn("#define A B\n").when(include).getSourceCode(any(), any());
-    when(pp.Include()).thenReturn(include);
+    when(pp.include()).thenReturn(include);
 
     lexer = CxxLexerPool.create(pp, new JoinStringsPreprocessor()).getLexer();
     List<Token> tokens = lexer.lex("#include <file>\n"
@@ -750,7 +750,7 @@ class CxxLexerWithPreprocessingTest {
     var include = spy(new PPInclude(pp, forceIncludeFile));
     when(include.searchFile(anyString(), anyBoolean())).thenReturn(forceIncludeFile);
     doReturn("#define __LINE__ 345\n").when(include).getSourceCode(any(), any());
-    when(pp.Include()).thenReturn(include);
+    when(pp.include()).thenReturn(include);
 
     lexer = CxxLexerPool.create(squidConfig.getCharset(), pp).getLexer();
     List<Token> tokens = lexer.lex("__LINE__\n");

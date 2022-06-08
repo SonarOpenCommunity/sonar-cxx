@@ -21,14 +21,13 @@ package org.sonar.cxx.preprocessor;
 
 import java.io.File;
 import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public final class PPState {
 
-  private final Deque<StateItem> stack = new ArrayDeque<>();
+  private final ArrayDeque<StateItem> stack = new ArrayDeque<>();
 
   private PPState() {
 
@@ -45,8 +44,8 @@ public final class PPState {
     return stack.peekLast().getFile();
   }
 
-  public Deque<StateItem> getStack() {
-    return stack;
+  public ArrayDeque<StateItem> getStack() {
+    return stack.clone();
   }
 
   public void pushFileState(@Nonnull File currentFile) {
@@ -90,7 +89,7 @@ public final class PPState {
     return stack.peek().getFile().getAbsolutePath();
   }
 
-  public final static class StateItem {
+  public static final class StateItem {
 
     private boolean skipToken;
     private boolean condition;

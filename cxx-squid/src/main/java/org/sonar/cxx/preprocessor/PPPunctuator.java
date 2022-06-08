@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 /**
  * C++ Standard, 2.13 Operators and punctuators
  */
-@SuppressWarnings({"common-java:DuplicatedBlocks"})
 public enum PPPunctuator implements TokenType {
 
   // Basic arithmetic operators

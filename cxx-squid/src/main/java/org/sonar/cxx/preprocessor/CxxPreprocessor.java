@@ -80,6 +80,11 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
 
+  private static final String MISSING_INCLUDE_MSG = "Preprocessor: {} include directive error(s). "
+                                                      + "This is only relevant if parser creates syntax errors."
+                                                      + " The preprocessor searches for include files in the with "
+                                                      + "'sonar.cxx.includeDirectories' defined directories and order.";
+
   private static int missingFileCounter = 0;
 
   private final SquidAstVisitorContext<Grammar> context;
@@ -96,11 +101,6 @@ public class CxxPreprocessor extends Preprocessor {
   private CxxLexerPool lineLexerwithPP = null;
   private PPReplace replace = null;
   private PPInclude include = null;
-
-  private static final String MISSING_INCLUDE_MSG = "Preprocessor: {} include directive error(s). "
-                                                      + "This is only relevant if parser creates syntax errors."
-                                                      + " The preprocessor searches for include files in the with "
-                                                      + "'sonar.cxx.includeDirectories' defined directories and order.";
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
     this(context, new CxxSquidConfiguration());
@@ -131,7 +131,7 @@ public class CxxPreprocessor extends Preprocessor {
   @Override
   public void init() {
     // make sure, that the following code is executed for a new file only
-    if (currentContextFile != context.getFile()) {
+    if (!context.getFile().equals(currentContextFile)) {
       currentContextFile = context.getFile();
 
       include = new PPInclude(this, currentContextFile);
@@ -152,7 +152,7 @@ public class CxxPreprocessor extends Preprocessor {
         globalMacros.putAll(unitMacros);
 
         if (LOG.isDebugEnabled()) {
-          LOG.debug("global include directories: {}", Include().getStandardIncludeDirs());
+          LOG.debug("global include directories: {}", include().getStandardIncludeDirs());
           LOG.debug("global macros: {}", globalMacros);
         }
       }
@@ -165,7 +165,7 @@ public class CxxPreprocessor extends Preprocessor {
         // add unit specific stuff
         boolean changes = addUnitIncludeDirectories(path);
         if (changes && LOG.isDebugEnabled()) {
-          LOG.debug("unit include directories: {}", Include().getStandardIncludeDirs());
+          LOG.debug("unit include directories: {}", include().getStandardIncludeDirs());
         }
         changes = addUnitMacros(path);
         changes |= addUnitForcedIncludes(path);
@@ -173,8 +173,8 @@ public class CxxPreprocessor extends Preprocessor {
           LOG.debug("unit macros: {}", unitMacros);
         }
       } else {
-        // use global include directories only
-        Include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
+        // use global file directories only
+        include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
       }
     }
   }
@@ -185,6 +185,7 @@ public class CxxPreprocessor extends Preprocessor {
    * Tokens with type PREPROCESSOR are preprocessor directives.
    *
    */
+  @SuppressWarnings({"java:S1142"})
   @Override
   public PreprocessorAction process(List<Token> tokens) {
     var token = tokens.get(0);
@@ -192,23 +193,25 @@ public class CxxPreprocessor extends Preprocessor {
 
     if (CxxTokenType.PREPROCESSOR.equals(type)) {
       return handlePreprocessorDirective(token);
-    } else if (State().skipTokens() && !GenericTokenType.EOF.equals(type)) {
+    } else if (state().skipTokens() && !GenericTokenType.EOF.equals(type)) {
       return oneConsumedToken(token);
-    } else if (GenericTokenType.IDENTIFIER.equals(type)) {
-      return handleMacroReplacement(tokens, token);
-    } else if (type instanceof CxxKeyword) {
-      return handleMacroReplacement(tokens, token);
+    } else if (GenericTokenType.IDENTIFIER.equals(type) || (type instanceof CxxKeyword)) {
+      return handleMacroReplacement(tokens);
     }
 
     return PreprocessorAction.NO_OPERATION;
   }
 
-  public PPInclude Include() {
+  public PPInclude include() {
     return include;
   }
 
-  public PPState State() {
-    return Include().state();
+  public PPState state() {
+    return include().state();
+  }
+
+  public PPReplace replace() {
+    return replace;
   }
 
   @CheckForNull
@@ -255,6 +258,7 @@ public class CxxPreprocessor extends Preprocessor {
     return unitMacros.get(macroName);
   }
 
+  @SuppressWarnings({"java:S1541", "java:S1142"})
   private PreprocessorAction handlePreprocessorDirective(Token token) {
     AstNode lineAst = lineParser(token.getValue());
     if (lineAst == null) {
@@ -299,6 +303,10 @@ public class CxxPreprocessor extends Preprocessor {
     missingFileCounter = 0;
   }
 
+  private static void addMissingFiles(int number) {
+    missingFileCounter += number;
+  }
+
   private static String getIdentifierName(AstNode node) {
     return Optional.ofNullable(node.getFirstDescendant(GenericTokenType.IDENTIFIER))
       .map(AstNode::getTokenValue)
@@ -310,33 +318,11 @@ public class CxxPreprocessor extends Preprocessor {
     // A macro definition lasts (independent of block structure) until a corresponding #undef directive is encountered
     // or (if none is encountered) until the end of the translation unit.
 
+    addMissingFiles(include.getMissingFilesCounter());
+
     unitMacros = null;
-    missingFileCounter += include.getMissingFilesCounter();
     include = null;
     currentContextFile = null;
-  }
-
-  public String valueOf(String macroname) {
-    String result = null;
-    PPMacro macro = getMacro(macroname);
-    if (macro != null) {
-      result = TokenUtils.merge(macro.replacementList);
-    }
-    return result;
-  }
-
-  public String expandFunctionLikeMacro(String macroName, List<Token> restTokens) {
-    var expansion = new LinkedList<Token>();
-    PPMacro macro = getMacro(macroName);
-    if (macro != null) {
-      replace.replaceFunctionLikeMacro(macro, restTokens, expansion);
-      return TokenUtils.merge(expansion);
-    }
-    return "";
-  }
-
-  public Boolean expandHasIncludeExpression(AstNode exprAst) {
-    return Include().searchFile(exprAst) != null;
   }
 
   private void addPredefinedMacros() {
@@ -365,22 +351,22 @@ public class CxxPreprocessor extends Preprocessor {
   private void addGlobalIncludeDirectories() {
     globalIncludeDirectories = squidConfig.getValues(CxxSquidConfiguration.GLOBAL,
                                                      CxxSquidConfiguration.INCLUDE_DIRECTORIES);
-    Include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
+    include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
   }
 
   private boolean addUnitIncludeDirectories(String level) {
     List<String> unitIncludeDirectories = squidConfig.getLevelValues(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
     boolean hasUnitIncludes = !unitIncludeDirectories.isEmpty();
     unitIncludeDirectories.addAll(globalIncludeDirectories);
-    Include().setStandardIncludeDirs(unitIncludeDirectories, squidConfig.getBaseDir());
+    include().setStandardIncludeDirs(unitIncludeDirectories, squidConfig.getBaseDir());
     return hasUnitIncludes;
   }
 
   private void addGlobalForcedIncludes() {
-    for (var include : squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.FORCE_INCLUDES)) {
-      if (!include.isEmpty()) {
-        LOG.debug("parsing force include: '{}'", include);
-        parseIncludeLine("#include \"" + include + "\"");
+    for (var file : squidConfig.getValues(CxxSquidConfiguration.GLOBAL, CxxSquidConfiguration.FORCE_INCLUDES)) {
+      if (!file.isEmpty()) {
+        LOG.debug("parsing force include: '{}'", file);
+        parseIncludeLine("#include \"" + file + "\"");
       }
     }
   }
@@ -390,10 +376,10 @@ public class CxxPreprocessor extends Preprocessor {
    */
   private boolean addUnitForcedIncludes(String level) {
     int oldHash = unitMacros.hashCode();
-    for (var include : squidConfig.getLevelValues(level, CxxSquidConfiguration.FORCE_INCLUDES)) {
-      if (!include.isEmpty()) {
-        LOG.debug("parsing force include: '{}'", include);
-        parseIncludeLine("#include \"" + include + "\"");
+    for (var file : squidConfig.getLevelValues(level, CxxSquidConfiguration.FORCE_INCLUDES)) {
+      if (!file.isEmpty()) {
+        LOG.debug("parsing force include: '{}'", file);
+        parseIncludeLine("#include \"" + file + "\"");
       }
     }
     return oldHash != unitMacros.hashCode();
@@ -434,37 +420,37 @@ public class CxxPreprocessor extends Preprocessor {
   //
   private void handleConstantExpression(AstNode ast, Token token) {
     try {
-      State().setSkipTokens(false);
+      state().setSkipTokens(false);
       boolean result = constantExpression.evaluate(ast.getFirstDescendant(PPGrammarImpl.constantExpression));
-      State().setConditionValue(result);
-      State().setSkipTokens(!result);
+      state().setConditionValue(result);
+      state().setSkipTokens(!result);
     } catch (EvaluationException e) {
-      String rootFilePath = State().getFileUnderAnalysisPath();
+      String rootFilePath = state().getFileUnderAnalysisPath();
       LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                 rootFilePath, token.getLine(), token.getValue());
-      State().setConditionValue(true);
-      State().setSkipTokens(false);
+      state().setConditionValue(true);
+      state().setSkipTokens(false);
     }
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token) {
-    if (State().skipTokens()) {
-      State().changeNestingDepth(+1);
+    if (state().skipTokens()) {
+      state().changeNestingDepth(+1);
     } else {
       PPMacro macro = getMacro(getIdentifierName(ast));
       var tokType = ast.getToken().getType();
       boolean result = (tokType.equals(PPKeyword.IFDEF) && macro != null)
                          || (tokType.equals(PPKeyword.IFNDEF) && macro == null);
-      State().setConditionValue(result);
-      State().setSkipTokens(!result);
+      state().setConditionValue(result);
+      state().setSkipTokens(!result);
     }
 
     return oneConsumedToken(token);
   }
 
   private PreprocessorAction handleIfLine(AstNode ast, Token token) {
-    if (State().skipTokens()) {
-      State().changeNestingDepth(+1);
+    if (state().skipTokens()) {
+      state().changeNestingDepth(+1);
     } else {
       handleConstantExpression(ast, token);
     }
@@ -474,13 +460,13 @@ public class CxxPreprocessor extends Preprocessor {
 
   private PreprocessorAction handleElIfLine(AstNode ast, Token token) {
     // handling of an #elif line is similar to handling of an #if line but doesn't increase the nesting level
-    if (!State().isInsideNestedBlock()) {
-      if (State().skipTokens() && State().ifLastConditionWasFalse()) {
+    if (!state().isInsideNestedBlock()) {
+      if (state().skipTokens() && state().ifLastConditionWasFalse()) {
         // the preceding expression had been evaluated to false
         handleConstantExpression(ast, token);
       } else {
         // other block was already true: skipping tokens inside this #elif
-        State().setSkipTokens(true);
+        state().setSkipTokens(true);
       }
     }
 
@@ -488,14 +474,14 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleElseLine(Token token) {
-    if (!State().isInsideNestedBlock()) {
-      if (State().skipTokens() && State().ifLastConditionWasFalse()) {
+    if (!state().isInsideNestedBlock()) {
+      if (state().skipTokens() && state().ifLastConditionWasFalse()) {
         // other block(s) were false: #else returning to non-skipping mode
-        State().setConditionValue(true);
-        State().setSkipTokens(false);
+        state().setConditionValue(true);
+        state().setSkipTokens(false);
       } else {
         // other block was true: skipping tokens inside the #else
-        State().setSkipTokens(true);
+        state().setSkipTokens(true);
       }
     }
 
@@ -503,20 +489,20 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleEndifLine(Token token) {
-    if (State().isInsideNestedBlock()) {
+    if (state().isInsideNestedBlock()) {
       // nested #endif
-      State().changeNestingDepth(-1);
+      state().changeNestingDepth(-1);
     } else {
       // after last #endif, switching to non-skipping mode
-      State().setSkipTokens(false);
-      State().setConditionValue(false);
+      state().setSkipTokens(false);
+      state().setConditionValue(false);
     }
 
     return oneConsumedToken(token);
   }
 
   private PreprocessorAction handleDefineLine(AstNode ast, Token token) {
-    if (!State().skipTokens()) {
+    if (!state().skipTokens()) {
       // Here we have a define directive. Parse it and store the macro in a dictionary.
       PPMacro macro = PPMacro.create(ast);
       unitMacros.put(macro.identifier, macro);
@@ -526,7 +512,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleUndefLine(AstNode ast, Token token) {
-    if (!State().skipTokens()) {
+    if (!state().skipTokens()) {
       String macroName = ast.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue();
       unitMacros.remove(macroName);
     }
@@ -534,15 +520,15 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleIncludeLine(AstNode ast, Token token) {
-    if (!State().skipTokens()) {
-      Include().handleFile(ast, token);
+    if (!state().skipTokens()) {
+      include().handleFile(ast, token);
     }
 
     return oneConsumedToken(token);
   }
 
   private PreprocessorAction handleImportLine(AstNode ast, Token token) {
-    if (!State().skipTokens()) {
+    if (!state().skipTokens()) {
       if (ast.getFirstDescendant(PPGrammarImpl.expandedIncludeBody) != null) {
         // import <file>
         return handleIncludeLine(ast, token);
@@ -556,7 +542,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleModuleLine(AstNode ast, Token token) {
-    if (!State().skipTokens()) {
+    if (!state().skipTokens()) {
       // forward to parser: ...  module ...
       var result = TokenList.transformToCxx(ast.getTokens(), token);
       return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), result);
@@ -571,70 +557,78 @@ public class CxxPreprocessor extends Preprocessor {
    * Every identifier and every keyword can be a macro instance. Pipe the resulting string through a lexer to create
    * proper tokens and to expand recursively all macros which may be in there.
    */
-  private PreprocessorAction handleMacroReplacement(List<Token> tokens, Token curr) {
-    PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION;
-    PPMacro macro = getMacro(curr.getValue());
+  private PreprocessorAction handleMacroReplacement(List<Token> tokens) {
+    var action = PreprocessorAction.NO_OPERATION;
+    var firstToken = tokens.get(0);
+    var macro = getMacro(firstToken.getValue());
     if (macro != null) {
-      List<Token> replTokens = new LinkedList<>();
-      var tokensConsumed = 0;
+      var totalTokensConsumed = 0;
+      List<Token> result;
 
       if (macro.parameterList == null) {
-        tokensConsumed = 1;
-        replTokens = new LinkedList<>(replace.replaceObjectLikeMacro(macro, TokenUtils.merge(PPConcatenation
-                                                                     .concatenate(macro.replacementList)))
+        totalTokensConsumed = 1;
+        result = new LinkedList<>(replace.replaceObjectLikeMacro(
+          macro, TokenUtils.merge(PPConcatenation.concatenate(macro.replacementList)))
         );
       } else {
-        int tokensConsumedMatchingArgs = replace.replaceFunctionLikeMacro(macro, tokens.subList(1, tokens.size()),
-                                                                          replTokens
-        );
-        if (tokensConsumedMatchingArgs > 0) {
-          tokensConsumed = 1 + tokensConsumedMatchingArgs;
+        result = new LinkedList<>();
+        int argsTokensConsumed = replace.replaceFunctionLikeMacro(
+          macro, tokens.subList(1, tokens.size()), result);
+        if (argsTokensConsumed > 0) {
+          totalTokensConsumed = 1 + argsTokensConsumed;
         }
       }
 
-      if (tokensConsumed > 0) {
-
+      if (totalTokensConsumed > 0) {
         // Rescanning to expand function like macros, in case it requires consuming more tokens
-        List<Token> outTokens = new LinkedList<>();
         unitMacros.pushDisable(macro.identifier);
-        while (!replTokens.isEmpty()) {
-          var c = replTokens.get(0);
-          PreprocessorAction action = PreprocessorAction.NO_OPERATION;
-          if (c.getType().equals(GenericTokenType.IDENTIFIER)) {
-            List<Token> rest = new ArrayList<>(replTokens);
-            rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
-            action = handleMacroReplacement(rest, c);
-          }
-          if (action.equals(PreprocessorAction.NO_OPERATION)) {
-            replTokens.remove(0);
-            outTokens.add(c);
-          } else {
-            outTokens.addAll(action.getTokensToInject());
-            int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
-            if (tokensConsumedRescanning >= replTokens.size()) {
-              tokensConsumed += tokensConsumedRescanning - replTokens.size();
-              replTokens.clear();
-            } else {
-              replTokens.subList(0, tokensConsumedRescanning).clear();
-            }
-          }
-        }
-        replTokens = outTokens;
+        List<Token> rescanningResult = new LinkedList<>();
+        totalTokensConsumed = rescanning(result, tokens, totalTokensConsumed, rescanningResult);
         unitMacros.popDisable();
-        replTokens = TokenList.adjustPosition(replTokens, curr);
 
-        ppaction = new PreprocessorAction(
-          tokensConsumed,
-          Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
-          replTokens);
+        result = TokenList.adjustPosition(rescanningResult, firstToken);
+        action = new PreprocessorAction(
+          totalTokensConsumed,
+          Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, totalTokensConsumed))),
+          result);
       }
     }
 
-    return ppaction;
+    return action;
   }
 
-  private PreprocessorAction oneConsumedToken(Token token) {
-    return new PreprocessorAction(1, Collections.singletonList(Trivia.createSkippedText(token)), Collections.emptyList());
+  private int rescanning(List<Token> input, List<Token> tokens, int tokensConsumed, List<Token> output) {
+    while (!input.isEmpty()) {
+      var firstToken = input.get(0);
+      var action = PreprocessorAction.NO_OPERATION;
+      if (firstToken.getType().equals(GenericTokenType.IDENTIFIER)) {
+        List<Token> rest = new ArrayList<>(input);
+        rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
+        action = handleMacroReplacement(rest);
+      }
+      if (action.equals(PreprocessorAction.NO_OPERATION)) {
+        input.remove(0);
+        output.add(firstToken);
+      } else {
+        output.addAll(action.getTokensToInject());
+        int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
+        if (tokensConsumedRescanning >= input.size()) {
+          tokensConsumed += tokensConsumedRescanning - input.size();
+          input.clear();
+        } else {
+          input.subList(0, tokensConsumedRescanning).clear();
+        }
+      }
+    }
+    return tokensConsumed;
+  }
+
+  private static PreprocessorAction oneConsumedToken(Token token) {
+    return new PreprocessorAction(
+      1,
+      Collections.singletonList(Trivia.createSkippedText(token)),
+      Collections.emptyList()
+    );
   }
 
 }

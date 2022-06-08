@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.impl.Parser;
 import java.nio.charset.Charset;
@@ -44,4 +45,11 @@ final class PPParser {
     return parser;
   }
 
+  /**
+   * Convert string to AST (for UnitTest).
+   */
+  static AstNode lineParser(String source) {
+    Parser<Grammar> lineParser = PPParser.create(Charset.defaultCharset());
+    return lineParser.parse(source);
+  }
 }

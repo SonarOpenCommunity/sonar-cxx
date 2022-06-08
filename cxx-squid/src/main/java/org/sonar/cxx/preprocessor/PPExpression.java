@@ -24,8 +24,10 @@ import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Parser;
+import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import javax.annotation.CheckForNull;
@@ -103,8 +105,10 @@ import org.sonar.cxx.parser.CxxTokenType;
  */
 final class PPExpression {
 
-  private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
   private static final Logger LOG = Loggers.get(PPExpression.class);
+
+  private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
+
   private final Parser<Grammar> parser;
   private final CxxPreprocessor pp;
   private final Deque<String> macroEvaluationStack;
@@ -133,7 +137,7 @@ final class PPExpression {
     // the if expressions aren't allowed to contain floats
     BigInteger number;
     try {
-      number = PPNumber.decode(intValue);
+      number = PPNumber.decodeString(intValue);
     } catch (java.lang.NumberFormatException e) {
       LOG.warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead",
                intValue, BigInteger.ONE);
@@ -144,8 +148,8 @@ final class PPExpression {
   }
 
   private static BigInteger evalCharacter(String charValue) {
-    // TODO: replace this simplification by something more sane
-    return booleanToBigInteger(!"'\0'".equals(charValue));
+    charValue = charValue.substring(1, charValue.length() - 1); // remove '
+    return PPNumber.decodeCharacter(charValue);
   }
 
   @CheckForNull
@@ -214,10 +218,10 @@ final class PPExpression {
 
       String id = exprAst.getTokenValue();
       if (!macroEvaluationStack.contains(id)) {
-        String value = pp.valueOf(id);
-        if (value != null) {
+        PPMacro macro = pp.getMacro(id);
+        if (macro != null) {
           macroEvaluationStack.push(id);
-          result = evalToInt(value, exprAst);
+          result = evalToInt(TokenUtils.merge(macro.replacementList), exprAst);
           macroEvaluationStack.pop();
         }
       } else {
@@ -243,7 +247,7 @@ final class PPExpression {
     return evalToInt(exprAst.getFirstChild());
   }
 
-  @SuppressWarnings({"java:S131"})
+  @SuppressWarnings({"java:S131", "java:S1541", "java:S1142"})
   private BigInteger evalComplexAst(AstNode exprAst) {
 
     // More complex expressions with more than one child
@@ -314,9 +318,9 @@ final class PPExpression {
     return booleanToBigInteger(result);
   }
 
-  private BigInteger evalEqualityExpression(BigInteger lhs, PPPunctuator type, BigInteger rhs) {
+  private static BigInteger evalEqualityExpression(BigInteger lhs, PPPunctuator type, BigInteger rhs) {
     boolean result;
-    switch ((PPPunctuator) type) {
+    switch (type) {
       case EQ:
         result = lhs.compareTo(rhs) == 0;
         break;
@@ -349,7 +353,7 @@ final class PPExpression {
     return result;
   }
 
-  private BigInteger evalRelationalExpression(BigInteger lhs, PPPunctuator type, BigInteger rhs) {
+  private static BigInteger evalRelationalExpression(BigInteger lhs, PPPunctuator type, BigInteger rhs) {
     boolean result;
     switch (type) {
       case LT:
@@ -424,6 +428,7 @@ final class PPExpression {
   }
 
   // ///////////////// other ... ///////////////////
+  @SuppressWarnings({"java:S1142"})
   private BigInteger evalUnaryExpression(AstNode exprAst) {
     // only 'unary-next cast-expression' production is allowed in #if-context
 
@@ -553,18 +558,28 @@ final class PPExpression {
     }
 
     String macroName = child.getNextSibling().getTokenValue();
-    String value = pp.valueOf(macroName);
+    PPMacro macro = pp.getMacro(macroName);
+    if (macro != null) {
+      return BigInteger.ONE;
+    }
 
-    return booleanToBigInteger(value != null);
+    return BigInteger.ZERO;
   }
 
   private BigInteger evalFunctionlikeMacro(AstNode exprAst) {
     String macroName = exprAst.getFirstChild().getTokenValue();
     List<Token> tokens = exprAst.getTokens();
     List<Token> restTokens = tokens.subList(1, tokens.size());
-    String value = pp.expandFunctionLikeMacro(macroName, restTokens);
+    String value = "";
 
-    if (value == null || "".equals(value)) {
+    PPMacro macro = pp.getMacro(macroName);
+    if (macro != null) {
+      var expansion = new ArrayList<Token>();
+      pp.replace().replaceFunctionLikeMacro(macro, restTokens, expansion); // todo, remove replace()
+      value = TokenUtils.merge(expansion);
+    }
+
+    if ("".equals(value)) {
       LOG.error("preprocessor: undefined function-like macro '{}' assuming 0", macroName);
       return BigInteger.ZERO;
     }
@@ -573,7 +588,7 @@ final class PPExpression {
   }
 
   private BigInteger evalHasIncludeExpression(AstNode exprAst) {
-    return pp.expandHasIncludeExpression(exprAst) ? BigInteger.ONE : BigInteger.ZERO;
+    return pp.include().searchFile(exprAst) != null ? BigInteger.ONE : BigInteger.ZERO; // todo remove include()
   }
 
 }

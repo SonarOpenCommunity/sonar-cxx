@@ -26,29 +26,55 @@ import org.junit.jupiter.api.Test;
 class PPNumberTest {
 
   @Test
-  void decode_numbers() {
-    assertThat(PPNumber.decode("1")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("067")).isEqualTo(new BigInteger("67", 8));
-    assertThat(PPNumber.decode("0b11")).isEqualTo(new BigInteger("11", 2));
-    assertThat(PPNumber.decode("0xab")).isEqualTo(new BigInteger("ab", 16));
+  void decode_strings() {
+    assertThat(PPNumber.decodeString("1")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("067")).isEqualTo(new BigInteger("67", 8));
+    assertThat(PPNumber.decodeString("0b11")).isEqualTo(new BigInteger("11", 2));
+    assertThat(PPNumber.decodeString("0xab")).isEqualTo(new BigInteger("ab", 16));
 
-    assertThat(PPNumber.decode("1L")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("1l")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("1U")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("1u")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1L")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1l")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1U")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1u")).isEqualTo(new BigInteger("1", 10));
 
-    assertThat(PPNumber.decode("1ul")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("1ll")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("1i64")).isEqualTo(new BigInteger("1", 10));
-    assertThat(PPNumber.decode("1ui64")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1ul")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1ll")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1i64")).isEqualTo(new BigInteger("1", 10));
+    assertThat(PPNumber.decodeString("1ui64")).isEqualTo(new BigInteger("1", 10));
 
-    assertThat(PPNumber.decode("067ll")).isEqualTo(new BigInteger("67", 8));
-    assertThat(PPNumber.decode("0b11ul")).isEqualTo(new BigInteger("11", 2));
-    assertThat(PPNumber.decode("0xabui64")).isEqualTo(new BigInteger("ab", 16));
+    assertThat(PPNumber.decodeString("067ll")).isEqualTo(new BigInteger("67", 8));
+    assertThat(PPNumber.decodeString("0b11ul")).isEqualTo(new BigInteger("11", 2));
+    assertThat(PPNumber.decodeString("0xabui64")).isEqualTo(new BigInteger("ab", 16));
 
-    assertThat(PPNumber.decode("1'234")).isEqualTo(new BigInteger("1234", 10));
-    assertThat(PPNumber.decode("0b1111'0000'1111")).isEqualTo(new BigInteger("111100001111", 2));
-    assertThat(PPNumber.decode("0xAAAA'bbbb")).isEqualTo(new BigInteger("AAAAbbbb", 16));
+    assertThat(PPNumber.decodeString("1'234")).isEqualTo(new BigInteger("1234", 10));
+    assertThat(PPNumber.decodeString("0b1111'0000'1111")).isEqualTo(new BigInteger("111100001111", 2));
+    assertThat(PPNumber.decodeString("0xAAAA'bbbb")).isEqualTo(new BigInteger("AAAAbbbb", 16));
+  }
+
+  @Test
+  void decode_charcters() {
+    assertThat(PPNumber.decodeCharacter("")).isEqualTo(BigInteger.valueOf(0));
+    assertThat(PPNumber.decodeCharacter("\0")).isEqualTo(BigInteger.valueOf(0));
+
+    assertThat(PPNumber.decodeCharacter("1")).isEqualTo(BigInteger.valueOf('1'));
+    assertThat(PPNumber.decodeCharacter("A")).isEqualTo(BigInteger.valueOf('A'));
+
+    assertThat(PPNumber.decodeCharacter("\t")).isEqualTo(BigInteger.valueOf('\t'));
+    assertThat(PPNumber.decodeCharacter("\b")).isEqualTo(BigInteger.valueOf('\b'));
+    assertThat(PPNumber.decodeCharacter("\n")).isEqualTo(BigInteger.valueOf('\n'));
+    assertThat(PPNumber.decodeCharacter("\r")).isEqualTo(BigInteger.valueOf('\r'));
+    assertThat(PPNumber.decodeCharacter("\f")).isEqualTo(BigInteger.valueOf('\f'));
+    assertThat(PPNumber.decodeCharacter("\'")).isEqualTo(BigInteger.valueOf('\''));
+    assertThat(PPNumber.decodeCharacter("\"")).isEqualTo(BigInteger.valueOf('\"'));
+    assertThat(PPNumber.decodeCharacter("\\")).isEqualTo(BigInteger.valueOf('\\'));
+
+    assertThat(PPNumber.decodeCharacter("\\0")).isEqualTo(BigInteger.valueOf(0));
+    assertThat(PPNumber.decodeCharacter("\\1")).isEqualTo(BigInteger.valueOf(1));
+
+    assertThat(PPNumber.decodeCharacter("\\x00")).isEqualTo(BigInteger.valueOf(0));
+    assertThat(PPNumber.decodeCharacter("\\x01")).isEqualTo(BigInteger.valueOf(1));
+    assertThat(PPNumber.decodeCharacter("\\X00")).isEqualTo(BigInteger.valueOf(0));
+    assertThat(PPNumber.decodeCharacter("\\X01")).isEqualTo(BigInteger.valueOf(1));
   }
 
 }
