@@ -19,27 +19,14 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.cxx.sslr.api.AstNode;
-import com.sonar.cxx.sslr.api.Grammar;
-import com.sonar.cxx.sslr.impl.Parser;
-import java.nio.charset.Charset;
 import static org.assertj.core.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PPMacroTest {
 
-  private Parser<Grammar> lineParser;
-
-  @BeforeEach
-  void setUp() {
-    lineParser = PPParser.create(Charset.defaultCharset());
-  }
-
   @Test
   void testCreateMacro() {
-    AstNode lineAst = lineParser.parse("#define MACRO(P1, P2) REPLACEMENT_LIST");
-    PPMacro result = PPMacro.create(lineAst);
+    PPMacro result = PPMacro.create("#define MACRO(P1, P2) REPLACEMENT_LIST");
 
     assertThat(result.identifier).isEqualTo("MACRO");
     assertThat(result.parameterList)
@@ -56,8 +43,7 @@ class PPMacroTest {
 
   @Test
   void testCreateVariadicMacro() {
-    AstNode lineAst = lineParser.parse("#define MACRO(...) REPLACEMENT_LIST");
-    PPMacro result = PPMacro.create(lineAst);
+    PPMacro result = PPMacro.create("#define MACRO(...) REPLACEMENT_LIST");
 
     assertThat(result.identifier).isEqualTo("MACRO");
     assertThat(result.parameterList)
@@ -69,6 +55,14 @@ class PPMacroTest {
     assertThat(result.isVariadic).isTrue();
     assertThat(result.checkArgumentsCount(10)).isTrue();
     assertThat(result.toString()).isEqualTo("{MACRO(__VA_ARGS__...):REPLACEMENT_LIST}");
+  }
+
+  @Test
+  void testGetParameterIndex() {
+    PPMacro result = PPMacro.create("#define MACRO(P1, P2) REPLACEMENT_LIST");
+
+    assertThat(result.getParameterIndex("P1")).isEqualTo(0);
+    assertThat(result.getParameterIndex("P2")).isEqualTo(1);
   }
 
 }

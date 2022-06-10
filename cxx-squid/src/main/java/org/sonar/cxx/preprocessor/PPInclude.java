@@ -32,6 +32,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +54,7 @@ import org.sonar.api.utils.log.Loggers;
 public class PPInclude {
 
   private static final Logger LOG = Loggers.get(PPInclude.class);
+  private static final String LOGMSG = "preprocessor: {} '{}'";
 
   private final CxxPreprocessor pp;
   private final Lexer fileLexer;
@@ -96,13 +98,13 @@ public class PPInclude {
           LOG.warn("preprocessor: invalid include file directory '{}'", path.toString());
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error("preprocessor: {} '{}'", e.getMessage(), path.toString());
+        LOG.error(LOGMSG, e.getMessage(), path.toString());
       }
     }
   }
 
   public List<Path> getStandardIncludeDirs() {
-    return standardIncludeDirs;
+    return Collections.unmodifiableList(standardIncludeDirs);
   }
 
   /**
@@ -125,7 +127,7 @@ public class PPInclude {
         LOG.debug("process include file '{}'", includeFile.getAbsoluteFile());
         fileLexer.lex(getSourceCode(includeFile, pp.getCharset()));
       } catch (IOException e) {
-        LOG.error("preprocessor: {} '{}'", e.getMessage(), includeFile.getAbsoluteFile());
+        LOG.error(LOGMSG, e.getMessage(), includeFile.getAbsoluteFile());
       } finally {
         state().popFileState();
       }
@@ -211,7 +213,7 @@ public class PPInclude {
       try {
         result = result.getCanonicalFile();
       } catch (java.io.IOException e) {
-        LOG.error("preprocessor: {} '{}'", e.getMessage(), result);
+        LOG.error(LOGMSG, e.getMessage(), result);
       }
     }
 

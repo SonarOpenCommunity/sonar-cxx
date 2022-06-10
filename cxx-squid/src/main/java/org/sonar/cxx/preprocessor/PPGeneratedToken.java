@@ -75,6 +75,7 @@ final class PPGeneratedToken {
   /**
    * Create new token and mark it "generated".
    */
+  @SuppressWarnings({"java:S1075", "java:S112"})
   static Token build(TokenType type, String valueAndOriginalValue, int line, int column) {
     try {
       return Token.builder()

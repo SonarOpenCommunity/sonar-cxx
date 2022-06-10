@@ -19,33 +19,35 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 class PPExpressionTest {
 
-  private static PPExpression constantExpression;
-
-  private static boolean evaluate(String constExpr, CxxPreprocessor preprocessor) {
-    return new PPExpression(preprocessor).evaluate(constExpr);
-  }
+  private CxxPreprocessor pp;
+  private PPExpression constantExpression;
 
   private boolean evaluate(String constExpr) {
     return constantExpression.evaluate(constExpr);
   }
 
-  @BeforeAll
-  public static void init() {
-    var pp = mock(CxxPreprocessor.class);
+  @BeforeEach
+  void setUp() {
+    var context = mock(SquidAstVisitorContext.class);
+    var file = new File("dummy"); // necessary for init()
+    when(context.getFile()).thenReturn(file);
+    pp = spy(new CxxPreprocessor(context, new CxxSquidConfiguration()));
+    pp.init();
     constantExpression = new PPExpression(pp);
   }
 
@@ -80,10 +82,14 @@ class PPExpressionTest {
 
   @Test
   void characters() {
+    assertThat(evaluate("")).isFalse();
+    assertThat(evaluate("'\0'")).isFalse();
+    assertThat(evaluate("'\\x00'")).isFalse();
+
     assertThat(evaluate("'1'")).isTrue();
     assertThat(evaluate("'a'")).isTrue();
-
-    assertThat(evaluate("'\0'")).isFalse();
+    assertThat(evaluate("'\\1'")).isTrue();
+    assertThat(evaluate("'\\x01'")).isTrue();
   }
 
   @Test
@@ -253,64 +259,58 @@ class PPExpressionTest {
 
   @Test
   void identifier_defined() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf(anyString())).thenReturn("1");
-    assertThat(evaluate("LALA", pp)).isTrue();
+    doReturn(PPMacro.create("#define LALA 1")).when(pp).getMacro("LALA");
+    assertThat(evaluate("LALA")).isTrue();
   }
 
   @Test
   void self_referential_identifier0() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf("A")).thenReturn("A");
+    doReturn(PPMacro.create("#define A A")).when(pp).getMacro("A");
 
     var softly = new SoftAssertions();
-    softly.assertThat(evaluate("A", pp)).isTrue();
-    softly.assertThat(evaluate("A && A", pp)).isTrue();
-    softly.assertThat(evaluate("A && !A", pp)).isFalse();
+    softly.assertThat(evaluate("A")).isTrue();
+    softly.assertThat(evaluate("A && A")).isTrue();
+    softly.assertThat(evaluate("A && !A")).isFalse();
     softly.assertAll();
   }
 
   @Test
   void self_referential_identifier1() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf("A")).thenReturn("B");
-    when(pp.valueOf("B")).thenReturn("A");
+    doReturn(PPMacro.create("#define A B")).when(pp).getMacro("A");
+    doReturn(PPMacro.create("#define B A")).when(pp).getMacro("B");
 
-    assertThat(evaluate("A", pp)).isTrue();
+    assertThat(evaluate("A")).isTrue();
   }
 
   @Test
   void self_referential_identifier2() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf("C")).thenReturn("B");
-    when(pp.valueOf("B")).thenReturn("C");
-    when(pp.valueOf("A")).thenReturn("B");
+    doReturn(PPMacro.create("#define C B")).when(pp).getMacro("C");
+    doReturn(PPMacro.create("#define B C")).when(pp).getMacro("B");
+    doReturn(PPMacro.create("#define A B")).when(pp).getMacro("A");
 
-    assertThat(evaluate("A", pp)).isTrue();
+    assertThat(evaluate("A")).isTrue();
   }
 
   @Test
   void self_referential_identifier3() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf("C")).thenReturn("B");
-    when(pp.valueOf("B")).thenReturn("C");
-    when(pp.valueOf("A1")).thenReturn("1");
-    when(pp.valueOf("A0")).thenReturn("0");
-    when(pp.valueOf("A")).thenReturn("A0 + A1 + B");
+    doReturn(PPMacro.create("#define C B")).when(pp).getMacro("C");
+    doReturn(PPMacro.create("#define B C")).when(pp).getMacro("B");
+    doReturn(PPMacro.create("#define A1 1")).when(pp).getMacro("A1");
+    doReturn(PPMacro.create("#define A0 0")).when(pp).getMacro("A0");
+    doReturn(PPMacro.create("#define A A0 + A1 + B")).when(pp).getMacro("A");
 
-    assertThat(evaluate("A", pp)).isTrue();
+    assertThat(evaluate("A")).isTrue();
   }
 
   @Test
   void self_referential_identifier4() {
     // https://gcc.gnu.org/onlinedocs/gcc-3.0.1/cpp_3.html#SEC31
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf("x")).thenReturn("(4 + y)");
-    when(pp.valueOf("y")).thenReturn("(2 * x)");
+    doReturn(PPMacro.create("#define x (4 + y)")).when(pp).getMacro("x");
+    doReturn(PPMacro.create("#define y (2 * x)")).when(pp).getMacro("y");
 
     var softly = new SoftAssertions();
-    softly.assertThat(evaluate("x", pp)).isTrue();
-    softly.assertThat(evaluate("y", pp)).isTrue();
+    softly.assertThat(evaluate("x")).isTrue();
+    softly.assertThat(evaluate("y")).isTrue();
     softly.assertAll();
   }
 
@@ -321,31 +321,27 @@ class PPExpressionTest {
 
   @Test
   void functionlike_macro_defined_true() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.expandFunctionLikeMacro(anyString(), anyList())).thenReturn("1");
-    assertThat(evaluate("has_feature(URG)", pp)).isTrue();
+    doReturn(PPMacro.create("#define has_feature(a) 1")).when(pp).getMacro(any());
+    assertThat(evaluate("has_feature(URG)")).isTrue();
   }
 
   @Test
   void functionlike_macro_defined_false() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf(anyString())).thenReturn("0");
-    assertThat(evaluate("has_feature(URG)", pp)).isFalse();
+    doReturn(PPMacro.create("#define has_feature(a) 0")).when(pp).getMacro(any());
+    assertThat(evaluate("has_feature(URG)")).isFalse();
   }
 
   @Test
   void functionlike_macro_undefined() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf(anyString())).thenReturn(null);
-    assertThat(evaluate("has_feature(URG)", pp)).isFalse();
+    doReturn(null).when(pp).getMacro(any());
+    assertThat(evaluate("has_feature(URG)")).isFalse();
   }
 
   @Test
   void defined_true_without_parantheses() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
     var macro = "LALA";
-    when(pp.valueOf(macro)).thenReturn("1");
-    assertThat(evaluate("defined " + macro, pp)).isTrue();
+    doReturn(PPMacro.create("#define " + macro + " 1")).when(pp).getMacro(any());
+    assertThat(evaluate("defined " + macro)).isTrue();
   }
 
   @Test
@@ -355,11 +351,10 @@ class PPExpressionTest {
 
   @Test
   void defined_true_with_parantheses() {
-    CxxPreprocessor pp = mock(CxxPreprocessor.class);
     var macro = "LALA";
-    when(pp.valueOf(macro)).thenReturn("1");
-    assertThat(evaluate("defined (" + macro + ")", pp)).isTrue();
-    assertThat(evaluate("defined(" + macro + ")", pp)).isTrue();
+    doReturn(PPMacro.create("#define " + macro + " 1")).when(pp).getMacro(any());
+    assertThat(evaluate("defined (" + macro + ")")).isTrue();
+    assertThat(evaluate("defined(" + macro + ")")).isTrue();
   }
 
   @Test
@@ -378,22 +373,15 @@ class PPExpressionTest {
 
   @Test
   void std_macro_evaluated_as_expected() {
-    var file = new File("dummy.cpp");
-    SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
-    when(context.getFile()).thenReturn(file);
-
-    var pp = new CxxPreprocessor(context);
-    pp.init();
-
     // evaluate numbers only, constantExpression can't be a string
-    // assertThat(evaluate("__FILE__", pp)).isTrue(); => STRING
-    assertThat(evaluate("__LINE__", pp)).isTrue();
-    // assertThat(evaluate("__DATE__", pp)).isTrue(); => STRING
-    // assertThat(evaluate("__TIME__", pp)).isTrue(); => STRING
-    assertThat(evaluate("__STDC__", pp)).isTrue();
-    assertThat(evaluate("__STDC_HOSTED__", pp)).isTrue();
-    assertThat(evaluate("__cplusplus", pp)).isTrue();
-    assertThat(evaluate("__has_include", pp)).isTrue();
+    // assertThat(evaluate("__FILE__")).isTrue(); => STRING
+    assertThat(evaluate("__LINE__")).isTrue();
+    // assertThat(evaluate("__DATE__")).isTrue(); => STRING
+    // assertThat(evaluate("__TIME__")).isTrue(); => STRING
+    assertThat(evaluate("__STDC__")).isTrue();
+    assertThat(evaluate("__STDC_HOSTED__")).isTrue();
+    assertThat(evaluate("__cplusplus")).isTrue();
+    assertThat(evaluate("__has_include")).isTrue();
   }
 
 }

@@ -264,20 +264,23 @@ enum PPGrammarImpl implements GrammarRuleKey {
   }
 
   private static void moduleLineGrammar(LexerfulGrammarBuilder b) {
+    final String MODULE = PPSpecialIdentifier.MODULE.getValue();
+    final String IMPORT = PPSpecialIdentifier.IMPORT.getValue();
+    final String EXPORT = PPSpecialIdentifier.EXPORT.getValue();
 
     // control-line, ppImport
     b.rule(ppImport).is(
       b.firstOf(
-        b.sequence("import", b.zeroOrMore(WS), expandedIncludeBody, b.zeroOrMore(WS)),
-        b.sequence(b.optional("export"), b.zeroOrMore(WS), "import", b.zeroOrMore(WS), b.oneOrMore(ppToken))
+        b.sequence(IMPORT, b.zeroOrMore(WS), expandedIncludeBody, b.zeroOrMore(WS)),
+        b.sequence(b.optional(EXPORT), b.zeroOrMore(WS), IMPORT, b.zeroOrMore(WS), b.oneOrMore(ppToken))
       )
     );
 
     // ... module ...
     b.rule(ppModule).is(
       b.firstOf(
-        b.sequence(b.optional("export"), b.zeroOrMore(WS), "module", b.oneOrMore(ppToken)),
-        b.sequence("export", b.oneOrMore(ppToken))
+        b.sequence(b.optional(EXPORT), b.zeroOrMore(WS), MODULE, b.oneOrMore(ppToken)),
+        b.sequence(EXPORT, b.oneOrMore(ppToken))
       )
     );
   }

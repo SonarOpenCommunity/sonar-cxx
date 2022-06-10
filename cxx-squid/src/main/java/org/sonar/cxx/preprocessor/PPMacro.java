@@ -78,6 +78,13 @@ final class PPMacro {
   }
 
   /**
+   * Create a macro from a string (#define ...)
+   */
+  static PPMacro create(String source) {
+    return PPMacro.create(PPParser.lineParser(source));
+  }
+
+  /**
    * For version (2), the number of arguments must be the same as the number of parameters in macro definition. For
    * versions (3,4), the number of arguments must not be less than the number of parameters (not counting
    * ...). Otherwise the program is ill-formed.
@@ -87,6 +94,17 @@ final class PPMacro {
       return isVariadic ? count >= parameterList.size() - 1 : count == parameterList.size();
     }
     return false;
+  }
+
+  int getParameterIndex(String parameterName) {
+    if (parameterList != null) {
+      for (int i = 0; i < parameterList.size(); i++) {
+        if (parameterList.get(i).getValue().equals(parameterName)) {
+          return i;
+        }
+      }
+    }
+    return -1;
   }
 
   @Override

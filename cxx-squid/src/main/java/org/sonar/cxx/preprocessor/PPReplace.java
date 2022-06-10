@@ -23,7 +23,6 @@ import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -82,7 +81,7 @@ class PPReplace {
           .setType(CxxTokenType.STRING)
           .build());
       }
-      List<Token> replTokens = replaceParams(macro.replacementList, macro.parameterList, arguments);
+      List<Token> replTokens = replaceParams(macro, arguments);
       replTokens = PPConcatenation.concatenate(replTokens);
       expansion.addAll(replaceObjectLikeMacro(macro, TokenUtils.merge(replTokens)));
     }
@@ -153,26 +152,22 @@ class PPReplace {
     return PPGeneratedToken.markAllAsGenerated(tokens);
   }
 
-  private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
+  private List<Token> replaceParams(PPMacro macro, List<Token> arguments) {
     // replace all parameters by according arguments "Stringify" the argument if the according parameter is
     // preceded by an #
 
     var newTokens = new ArrayList<Token>();
+    var body = macro.replacementList;
+    var parameters = macro.parameterList;
     if (!body.isEmpty()) {
       var tokenPastingLeftOp = false;
       var tokenPastingRightOp = false;
-
-      // container to search parameter by name
-      var paramterIndex = new HashMap<String, Integer>();
-      for (var index = 0; index < parameters.size(); index++) {
-        paramterIndex.put(parameters.get(index).getValue(), index);
-      }
 
       for (var i = 0; i < body.size(); ++i) {
         var curr = body.get(i);
         int index = -1;
         if (curr.getType().equals(GenericTokenType.IDENTIFIER)) {
-          index = paramterIndex.getOrDefault(curr.getValue(), -1);
+          index = macro.getParameterIndex(curr.getValue());
         }
         if (index == -1) {
           if (curr.getValue().equals("__VA_OPT__")) {
@@ -256,17 +251,15 @@ class PPReplace {
       }
     }
 
-    // replace # with "" if sequence HASH BR occurs for replacementList HASH __VA_ARGS__
-    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(PPPunctuator.HASH)
+    // handle empty #__VA_ARGS__ => "", e.g. puts(#__VA_ARGS__) => puts("")
+    if (newTokens.size() > 3
+          && newTokens.get(newTokens.size() - 2).getType().equals(PPPunctuator.HASH)
           && newTokens.get(newTokens.size() - 1).getType().equals(PPPunctuator.BR_RIGHT)) {
       for (var n = newTokens.size() - 2; n != 0; n--) {
         if (newTokens.get(n).getType().equals(CxxTokenType.WS)) {
           newTokens.remove(n);
         } else if (newTokens.get(n).getType().equals(PPPunctuator.HASH)) {
-          newTokens.remove(n);
-          newTokens.add(n, PPGeneratedToken.build(newTokens.get(n), CxxTokenType.STRING, "\"\""));
-          // TODO use set
-          //newTokens.set(n, generatedToken(newTokens.get(n), CxxTokenType.STRING, "\"\""));
+          newTokens.set(n, PPGeneratedToken.build(newTokens.get(n), CxxTokenType.STRING, "\"\""));
           break;
         } else {
           break;

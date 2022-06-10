@@ -25,7 +25,6 @@ import java.util.HashMap;
 /**
  * Helper class to evaluate preprocessor numbers.
  */
-@SuppressWarnings({"common-java:DuplicatedBlocks"})
 final class PPNumber {
 
   private static final HashMap<String, BigInteger> numberCache = new HashMap<>();
@@ -34,7 +33,8 @@ final class PPNumber {
 
   }
 
-  static BigInteger decode(String number) {
+  @SuppressWarnings({"java:S1541"})
+  static BigInteger decodeString(String number) {
 
     // search first in already cached results
     BigInteger result = numberCache.get(number);
@@ -113,4 +113,41 @@ final class PPNumber {
     return result;
   }
 
+  static BigInteger decodeCharacter(String charValue) {
+    switch (charValue.length()) {
+      case 0:
+        return BigInteger.ZERO;
+      case 1:
+        return BigInteger.valueOf(charValue.charAt(0));
+      default:
+        if ('\\' != charValue.charAt(0)) {
+          return BigInteger.ZERO;
+        }
+        break;
+    }
+
+    switch (charValue.charAt(1)) {
+      case 't':
+        return BigInteger.valueOf('\t');
+      case 'b':
+        return BigInteger.valueOf('\b');
+      case 'n':
+        return BigInteger.valueOf('\n');
+      case 'r':
+        return BigInteger.valueOf('\r');
+      case 'f':
+        return BigInteger.valueOf('\f');
+      case '\'':
+        return BigInteger.valueOf('\'');
+      case '"':
+        return BigInteger.valueOf('\"');
+      case '\\':
+        return BigInteger.valueOf('\\');
+      case 'x':
+      case 'X':
+        return new BigInteger(charValue.substring(2), 16);
+      default:
+        return new BigInteger(charValue.substring(1), 10);
+    }
+  }
 }
