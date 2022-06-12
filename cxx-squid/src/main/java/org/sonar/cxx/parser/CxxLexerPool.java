@@ -79,7 +79,7 @@ public final class CxxLexerPool {
     lexer.builder = Lexer.builder()
       .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(new BlackHoleChannel("\\s"))
+      .withChannel(new BlackHoleChannel("\\s++"))
       // C++ Standard, Section 2.8 "Comments"
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))

@@ -27,9 +27,13 @@ import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.commentRegexp
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 
-final class IncludeDirectiveLexer {
+/**
+ * Included files have to be scanned with the (only) goal of gathering macros. Process include files using
+ * a special lexer, which calls back only if it finds relevant preprocessor directives (#...).
+ */
+final class IncludeFileLexer {
 
-  private IncludeDirectiveLexer() {
+  private IncludeFileLexer() {
   }
 
   static Lexer create(Preprocessor... preprocessors) {
@@ -40,10 +44,10 @@ final class IncludeDirectiveLexer {
     var builder = Lexer.builder()
       .withCharset(squidConfig.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(new BlackHoleChannel("\\s"))
+      .withChannel(new BlackHoleChannel("\\s++"))
       .withChannel(new PreprocessorChannel())
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
-      .withChannel(new BlackHoleChannel(".*"));
+      .withChannel(new BlackHoleChannel(".*+"));
 
     for (var preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);

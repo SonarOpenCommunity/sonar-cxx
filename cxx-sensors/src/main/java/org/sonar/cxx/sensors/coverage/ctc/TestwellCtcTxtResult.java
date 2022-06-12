@@ -50,7 +50,7 @@ public enum TestwellCtcTxtResult {
                                                   Pattern.MULTILINE);
   public static final Pattern SECTION_SEP = Pattern.compile("^(-{77}|={77})$", Pattern.MULTILINE);
   public static final Pattern LINE_RESULT = Pattern.compile(
-    "^(?: {10}| *([0-9Ee]+)) (?: {10}| *([0-9Ee]+)) -? *([0-9Ee]+) *(?:}([+-]+))?(.*)$",
+    "^(?:[ ]{10}|[ ]{0,9}([0-9Ee]{1,9}))[ ](?:[ ]{10}|[ ]{0,9}([0-9Ee]{1,9}))[ ]-?[ ]{0,9}([0-9Ee]{1,9})[ ]{0,256}(?:}([+-]+))?(.{0,256})$",
     Pattern.MULTILINE);
   public static final Pattern FILE_RESULT = Pattern.compile(
     String.join("\\s+", FILE_COND.patternString, FILE_STMT.patternString),

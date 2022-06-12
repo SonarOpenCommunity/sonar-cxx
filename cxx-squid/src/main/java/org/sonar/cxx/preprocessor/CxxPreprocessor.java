@@ -32,7 +32,6 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
@@ -196,7 +195,10 @@ public class CxxPreprocessor extends Preprocessor {
     } else if (state().skipTokens() && !GenericTokenType.EOF.equals(type)) {
       return oneConsumedToken(token);
     } else if (GenericTokenType.IDENTIFIER.equals(type) || (type instanceof CxxKeyword)) {
-      return handleMacroReplacement(tokens);
+      PPMacro macro = getMacro(token.getValue());
+      if (macro != null) {
+        return macroReplacement(macro, tokens);
+      }
     }
 
     return PreprocessorAction.NO_OPERATION;
@@ -557,70 +559,71 @@ public class CxxPreprocessor extends Preprocessor {
    * Every identifier and every keyword can be a macro instance. Pipe the resulting string through a lexer to create
    * proper tokens and to expand recursively all macros which may be in there.
    */
-  private PreprocessorAction handleMacroReplacement(List<Token> tokens) {
+  private PreprocessorAction macroReplacement(PPMacro macro, List<Token> tokens) {
     var action = PreprocessorAction.NO_OPERATION;
     var firstToken = tokens.get(0);
-    var macro = getMacro(firstToken.getValue());
-    if (macro != null) {
-      var totalTokensConsumed = 0;
-      List<Token> result;
+    var consumedTokens = 0;
+    List<Token> result;
 
-      if (macro.parameterList == null) {
-        totalTokensConsumed = 1;
-        result = new LinkedList<>(replace.replaceObjectLikeMacro(
-          macro, TokenUtils.merge(PPConcatenation.concatenate(macro.replacementList)))
-        );
-      } else {
-        result = new LinkedList<>();
-        int argsTokensConsumed = replace.replaceFunctionLikeMacro(
-          macro, tokens.subList(1, tokens.size()), result);
-        if (argsTokensConsumed > 0) {
-          totalTokensConsumed = 1 + argsTokensConsumed;
-        }
+    if (macro.isFunctionLikeMacro()) {
+      result = new ArrayList<>();
+      int consumedArgTokens = replace.replaceFunctionLikeMacro(
+        macro, tokens.subList(1, tokens.size()), result);
+      if (consumedArgTokens > 0) {
+        consumedTokens = 1 + consumedArgTokens;
       }
+    } else {
+      consumedTokens = 1;
+      result = replace.replaceObjectLikeMacro(
+        macro, TokenUtils.merge(PPConcatenation.concatenate(macro.replacementList))
+      );
+    }
 
-      if (totalTokensConsumed > 0) {
-        // Rescanning to expand function like macros, in case it requires consuming more tokens
-        unitMacros.pushDisable(macro.identifier);
-        List<Token> rescanningResult = new LinkedList<>();
-        totalTokensConsumed = rescanning(result, tokens, totalTokensConsumed, rescanningResult);
-        unitMacros.popDisable();
+    if (consumedTokens > 0) {
+      // Rescanning to expand function like macros, in case it requires consuming more tokens
+      unitMacros.pushDisable(macro.identifier);
+      List<Token> rescanningResult = new ArrayList<>();
+      consumedTokens = macroRescanning(result, tokens, consumedTokens, rescanningResult);
+      unitMacros.popDisable();
 
-        result = TokenList.adjustPosition(rescanningResult, firstToken);
-        action = new PreprocessorAction(
-          totalTokensConsumed,
-          Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, totalTokensConsumed))),
-          result);
-      }
+      result = TokenList.adjustPosition(rescanningResult, firstToken);
+      action = new PreprocessorAction(
+        consumedTokens,
+        Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, consumedTokens))),
+        result);
     }
 
     return action;
   }
 
-  private int rescanning(List<Token> input, List<Token> tokens, int tokensConsumed, List<Token> output) {
-    while (!input.isEmpty()) {
-      var firstToken = input.get(0);
+  private int macroRescanning(List<Token> input, List<Token> tokens, int consumedTokens, List<Token> output) {
+    List<Token> view = input;
+    while (!view.isEmpty()) {
+      var firstToken = view.get(0);
       var action = PreprocessorAction.NO_OPERATION;
-      if (firstToken.getType().equals(GenericTokenType.IDENTIFIER)) {
-        List<Token> rest = new ArrayList<>(input);
-        rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
-        action = handleMacroReplacement(rest);
+      if (GenericTokenType.IDENTIFIER.equals(firstToken.getType())) {
+        PPMacro macro = getMacro(firstToken.getValue());
+        if (macro != null) {
+          List<Token> rest = new ArrayList<>(view);
+          rest.addAll(tokens.subList(consumedTokens, tokens.size()));
+          action = macroReplacement(macro, rest);
+        }
       }
-      if (action.equals(PreprocessorAction.NO_OPERATION)) {
-        input.remove(0);
+      if (PreprocessorAction.NO_OPERATION.equals(action)) {
+        view = view.subList(1, view.size()); // next tokens
         output.add(firstToken);
       } else {
         output.addAll(action.getTokensToInject());
-        int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
-        if (tokensConsumedRescanning >= input.size()) {
-          tokensConsumed += tokensConsumedRescanning - input.size();
-          input.clear();
+        int consumedRescanningTokens = action.getNumberOfConsumedTokens();
+        if (consumedRescanningTokens >= view.size()) {
+          consumedTokens += consumedRescanningTokens - view.size();
+          view = view.subList(view.size(), view.size()); // was last token
         } else {
-          input.subList(0, tokensConsumedRescanning).clear();
+          view = view.subList(consumedRescanningTokens, view.size()); // next tokens
         }
       }
     }
-    return tokensConsumed;
+    return consumedTokens;
   }
 
   private static PreprocessorAction oneConsumedToken(Token token) {

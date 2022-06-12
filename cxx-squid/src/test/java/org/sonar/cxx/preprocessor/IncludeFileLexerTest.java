@@ -28,9 +28,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.parser.CxxTokenType;
 
-class IncludeDirectiveLexerTest {
+class IncludeFileLexerTest {
 
-  private final static Lexer LEXER = IncludeDirectiveLexer.create();
+  private final static Lexer LEXER = IncludeFileLexer.create();
 
   @Test
   void proper_preprocessor_directives_are_created() {

@@ -90,14 +90,18 @@ final class PPMacro {
    * ...). Otherwise the program is ill-formed.
    */
   boolean checkArgumentsCount(int count) {
-    if (parameterList != null) {
+    if (isFunctionLikeMacro()) {
       return isVariadic ? count >= parameterList.size() - 1 : count == parameterList.size();
     }
     return false;
   }
 
+  boolean isFunctionLikeMacro() {
+    return parameterList != null;
+  }
+
   int getParameterIndex(String parameterName) {
-    if (parameterList != null) {
+    if (isFunctionLikeMacro()) {
       for (int i = 0; i < parameterList.size(); i++) {
         if (parameterList.get(i).getValue().equals(parameterName)) {
           return i;
@@ -112,7 +116,7 @@ final class PPMacro {
     StringBuilder ab = new StringBuilder(64);
     ab.append("{");
     ab.append(identifier);
-    if (parameterList != null) {
+    if (isFunctionLikeMacro()) {
       ab.append("(");
       ab.append(parameterList.stream().map(Token::getValue).collect(Collectors.joining(", ")));
       if (isVariadic) {
