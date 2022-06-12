@@ -46,7 +46,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
       for (var keyword : keywords) {
         regexp.append("|");
         regexp.append(keyword.getValue());
-        regexp.append("\\s");
+        regexp.append("\\s++");
       }
     }
     matcher = Pattern.compile(regexp.toString()).matcher("");

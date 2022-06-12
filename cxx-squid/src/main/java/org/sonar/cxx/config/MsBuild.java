@@ -167,7 +167,7 @@ public class MsBuild {
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
         if (PATH_TO_CL_PATTERN.matcher(line).matches()) {
           detectedPlatform = setPlatformToolsetFromLine(line);
-          String[] allElems = line.split("\\s+");
+          String[] allElems = line.split("\\s++");
           String data = allElems[allElems.length - 1];
           parseCLParameters(line, currentProjectPath, data);
           LOG.debug("build log parser cl.exe line='{}'", line);

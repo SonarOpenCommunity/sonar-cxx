@@ -66,7 +66,7 @@ public class PPInclude {
 
   public PPInclude(CxxPreprocessor pp, @Nonnull File contextFile) {
     this.pp = pp;
-    fileLexer = IncludeDirectiveLexer.create(pp);
+    fileLexer = IncludeFileLexer.create(pp);
     state = PPState.build(contextFile);
   }
 
