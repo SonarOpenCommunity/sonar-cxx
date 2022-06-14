@@ -58,19 +58,41 @@ final class PPMacro {
     var root = defineLineAst.getFirstChild();
 
     var identifier = getIdentifier(root);
-    var replacementList = getReplacementList(root);
     List<Token> parameterList;
+    List<Token> replacementList;
     boolean isVariadic;
     if (PPGrammarImpl.objectlikeMacroDefinition.equals(root.getType())) {
       parameterList = null;
       isVariadic = false;
-    } else { // functionlikeMacroDefinition
-      var variadicParameter = root.getFirstDescendant(PPGrammarImpl.variadicParameter);
-      isVariadic = variadicParameter != null;
-      if (isVariadic) {
-        parameterList = getParameterList(root, variadicParameter);
+      replacementList = getReplacementList(root);
+    } else {
+      // a macro is identified as 'functionlike' if and only if the parentheses aren't separated from the identifier
+      // by whitespaces. Otherwise, the parentheses belong to the replacement string (objectlikeMacro).
+      int whitespaces = 0;
+      var children = root.getChildren();
+      if (children.size() > 2) {
+        whitespaces = children.get(2).getToken().getColumn()
+                        - children.get(1).getToken().getColumn()
+                        - identifier.length();
+      }
+
+      if (whitespaces > 0) {
+        // special case: objectlikeMacroDefinition #define identifier (...
+        parameterList = null;
+        isVariadic = false;
+        var tokens = root.getTokens();
+        // starting after #define identifier ... without EOF
+        replacementList = tokens.subList(2, tokens.size() - 1);
       } else {
-        parameterList = getParameterList(root);
+        // functionlikeMacroDefinition
+        var variadicParameter = root.getFirstDescendant(PPGrammarImpl.variadicParameter);
+        isVariadic = variadicParameter != null;
+        if (isVariadic) {
+          parameterList = getParameterList(root, variadicParameter);
+        } else {
+          parameterList = getParameterList(root);
+        }
+        replacementList = getReplacementList(root);
       }
     }
 
@@ -81,7 +103,10 @@ final class PPMacro {
    * Create a macro from a string (#define ...)
    */
   static PPMacro create(String source) {
-    return PPMacro.create(PPParser.lineParser(source));
+    if (!source.startsWith("#define")) {
+      throw new RuntimeException("String for macro creation must start with '#define ...'");
+    }
+    return PPMacro.create(PPParser.lineParser(source).getFirstChild(PPGrammarImpl.defineLine));
   }
 
   /**
@@ -133,7 +158,7 @@ final class PPMacro {
   }
 
   private static String getIdentifier(AstNode root) {
-    var token = root.getFirstDescendant(PPGrammarImpl.ppToken);
+    var token = root.getFirstDescendant(GenericTokenType.IDENTIFIER);
     return token.getTokenValue();
   }
 

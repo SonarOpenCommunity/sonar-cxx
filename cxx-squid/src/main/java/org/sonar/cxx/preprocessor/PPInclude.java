@@ -302,14 +302,24 @@ public class PPInclude {
    * (1) Bracketed: get filename.
    */
   private static String includeBodyBracketed(AstNode includeBody) {
-    var next = includeBody.getFirstDescendant(PPPunctuator.LT).getNextSibling();
     var sb = new StringBuilder(256);
+    var next = includeBody.getFirstDescendant(PPPunctuator.LT).getNextSibling(); // start after <
+    int lastPos = next.getToken().getColumn();
     while (true) {
+      // in case there where blanks between the tokens: restore them
+      int currentPos = next.getToken().getColumn();
+      int diff = currentPos - lastPos;
+      if (diff > 0) {
+        sb.append(" ".repeat(diff));
+      }
+      // closing bracket?
       String value = next.getTokenValue();
       if (">".equals(value)) {
         break;
       }
+      // add token value
       sb.append(value);
+      lastPos = currentPos + value.length();
       next = next.getNextSibling();
     }
 

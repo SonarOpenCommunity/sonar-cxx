@@ -80,11 +80,10 @@ class PPGeneratedTokenTest {
     List<Token> result = PPGeneratedToken.markAllAsGenerated(tokens);
 
     assertThat(result)
-      .hasSize(4)
+      .hasSize(3)
       .matches(t -> t.get(0).isGeneratedCode())
       .matches(t -> t.get(1).isGeneratedCode())
-      .matches(t -> t.get(2).isGeneratedCode())
-      .matches(t -> t.get(3).isGeneratedCode());
+      .matches(t -> t.get(2).isGeneratedCode());
   }
 
 }
