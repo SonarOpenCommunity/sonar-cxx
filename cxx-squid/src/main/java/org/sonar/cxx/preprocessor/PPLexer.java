@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.cxx.sslr.impl.Lexer;
+import com.sonar.cxx.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.cxx.sslr.impl.channel.BomCharacterChannel;
 import com.sonar.cxx.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.cxx.sslr.impl.channel.PunctuatorChannel;
@@ -29,7 +30,6 @@ import java.nio.charset.Charset;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.KeywordChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
-import org.sonar.cxx.channels.WhitespaceChannel;
 import org.sonar.cxx.parser.CxxTokenType;
 
 final class PPLexer {
@@ -60,7 +60,7 @@ final class PPLexer {
     var builder = Lexer.builder()
       .withCharset(charset)
       .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(new WhitespaceChannel())
+      .withChannel(new BlackHoleChannel("\\s++"))
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new CharacterLiteralsChannel())

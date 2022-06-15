@@ -59,14 +59,14 @@ class PPNumberTest {
     assertThat(PPNumber.decodeCharacter("1")).isEqualTo(BigInteger.valueOf('1'));
     assertThat(PPNumber.decodeCharacter("A")).isEqualTo(BigInteger.valueOf('A'));
 
-    assertThat(PPNumber.decodeCharacter("\t")).isEqualTo(BigInteger.valueOf('\t'));
-    assertThat(PPNumber.decodeCharacter("\b")).isEqualTo(BigInteger.valueOf('\b'));
-    assertThat(PPNumber.decodeCharacter("\n")).isEqualTo(BigInteger.valueOf('\n'));
-    assertThat(PPNumber.decodeCharacter("\r")).isEqualTo(BigInteger.valueOf('\r'));
-    assertThat(PPNumber.decodeCharacter("\f")).isEqualTo(BigInteger.valueOf('\f'));
-    assertThat(PPNumber.decodeCharacter("\'")).isEqualTo(BigInteger.valueOf('\''));
-    assertThat(PPNumber.decodeCharacter("\"")).isEqualTo(BigInteger.valueOf('\"'));
-    assertThat(PPNumber.decodeCharacter("\\")).isEqualTo(BigInteger.valueOf('\\'));
+    assertThat(PPNumber.decodeCharacter("\\t")).isEqualTo(BigInteger.valueOf('\t'));
+    assertThat(PPNumber.decodeCharacter("\\b")).isEqualTo(BigInteger.valueOf('\b'));
+    assertThat(PPNumber.decodeCharacter("\\n")).isEqualTo(BigInteger.valueOf('\n'));
+    assertThat(PPNumber.decodeCharacter("\\r")).isEqualTo(BigInteger.valueOf('\r'));
+    assertThat(PPNumber.decodeCharacter("\\f")).isEqualTo(BigInteger.valueOf('\f'));
+    assertThat(PPNumber.decodeCharacter("\\'")).isEqualTo(BigInteger.valueOf('\''));
+    assertThat(PPNumber.decodeCharacter("\\\"")).isEqualTo(BigInteger.valueOf('\"'));
+    assertThat(PPNumber.decodeCharacter("\\\\")).isEqualTo(BigInteger.valueOf('\\'));
 
     assertThat(PPNumber.decodeCharacter("\\0")).isEqualTo(BigInteger.valueOf(0));
     assertThat(PPNumber.decodeCharacter("\\1")).isEqualTo(BigInteger.valueOf(1));

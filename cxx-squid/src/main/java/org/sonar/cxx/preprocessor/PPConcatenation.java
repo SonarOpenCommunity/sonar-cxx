@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.cxx.parser.CxxTokenType;
 
 /**
  * A ## operator between any two successive identifiers in the replacement-list runs parameter replacement on the two
@@ -136,10 +135,7 @@ final class PPConcatenation {
 
   private static boolean isToken(Token token) {
     TokenType type = token.getType();
-    boolean notToken = CxxTokenType.WS.equals(type)
-                         || GenericTokenType.EOF.equals(type)
-                         || PPPunctuator.HASHHASH.equals(type); // a ## ## ## b => ab
-    return !notToken;
+    return !(GenericTokenType.EOF.equals(type) || PPPunctuator.HASHHASH.equals(type)); // a ## ## ## b => ab
   }
 
 }

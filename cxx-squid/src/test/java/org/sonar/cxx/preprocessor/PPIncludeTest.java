@@ -42,7 +42,8 @@ class PPIncludeTest {
   private CxxPreprocessor pp;
   private PPInclude include;
   private Parser<Grammar> lineParser;
-  private Path foo;
+  private Path file1;
+  private Path file2;
 
   private final File expected1 = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
   private final File expected2 = new File(new File("src/test/resources/codeprovider/source").getAbsolutePath());
@@ -62,22 +63,37 @@ class PPIncludeTest {
     lineParser = PPParser.create(Charset.defaultCharset());
 
     // create include file
-    Path root = tempDir.toPath();
-    foo = Files.createFile(root.resolve("foo.h"));
+    Path path = tempDir.toPath();
+    file1 = Files.createFile(path.resolve("foo.h"));
+    file2 = Files.createFile(path.resolve("f o  o   .h")); // file with blanks
   }
 
   @Test
   void testFindIncludedFileQuoted() {
-    AstNode ast = lineParser.parse("#include " + "\"" + foo.toAbsolutePath().toString() + "\"");
+    AstNode ast = lineParser.parse("#include " + "\"" + file1.toAbsolutePath().toString() + "\"");
     File result = include.searchFile(ast);
-    assertThat(result).isEqualTo(foo.toFile());
+    assertThat(result).isEqualTo(file1.toFile());
+  }
+
+  @Test
+  void testFindIncludedFileWithBlanksQuoted() {
+    AstNode ast = lineParser.parse("#include " + "\"" + file2.toAbsolutePath().toString() + "\"");
+    File result = include.searchFile(ast);
+    assertThat(result).isEqualTo(file2.toFile());
   }
 
   @Test
   void testFindIncludedFileBracketed() {
-    AstNode ast = lineParser.parse("#include " + "<" + foo.toAbsolutePath().toString() + ">");
+    AstNode ast = lineParser.parse("#include " + "<" + file1.toAbsolutePath().toString() + ">");
     File result = include.searchFile(ast);
-    assertThat(result).isEqualTo(foo.toFile());
+    assertThat(result).isEqualTo(file1.toFile());
+  }
+
+  @Test
+  void testFindIncludedFileWithBlanksBracketed() {
+    AstNode ast = lineParser.parse("#include " + "<" + file2.toAbsolutePath().toString() + ">");
+    File result = include.searchFile(ast);
+    assertThat(result).isEqualTo(file2.toFile());
   }
 
   // ////////////////////////////////////////////////////////////////////////////
@@ -99,7 +115,7 @@ class PPIncludeTest {
   // ////////////////////////////////////////////////////////////////////////////
   // Relpathes, standard behavior: equal for quoted and angle cases
   // We have following cases here:
-  // Include string form | Include root form |
+  // Include string form | Include path form |
   //           | absolute | relative |
   // simple    | 1        | 2        |
   // -------------------------------------------

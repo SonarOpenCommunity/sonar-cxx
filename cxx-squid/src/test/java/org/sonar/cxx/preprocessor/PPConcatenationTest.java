@@ -40,7 +40,7 @@ class PPConcatenationTest {
     List<Token> tokens = lexer.lex(" x y z ");
     List<Token> result = PPConcatenation.concatenate(tokens);
     assertThat(result)
-      .hasSize(8);
+      .hasSize(4);
   }
 
   @Test

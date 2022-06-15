@@ -22,7 +22,6 @@ package org.sonar.cxx.preprocessor;
 import static com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER;
 import com.sonar.cxx.sslr.api.Grammar;
 import org.sonar.cxx.parser.CxxTokenType;
-import static org.sonar.cxx.parser.CxxTokenType.WS;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder;
 
@@ -145,25 +144,22 @@ enum PPGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(functionlikeMacroDefinition).is(b.firstOf(b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b
-                   .zeroOrMore(WS),
-                   ")", b.optional(b.sequence(b.zeroOrMore(WS), replacementList))),
-        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicParameter, b
-                   .zeroOrMore(WS), ")", b
-                   .optional(b.sequence(b.zeroOrMore(WS), replacementList))),
-        b.sequence(PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS),
-                   ",", b
-                     .zeroOrMore(WS), variadicParameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS),
-                                                                                                      replacementList)))
-      )
+    b.rule(functionlikeMacroDefinition).is(b.firstOf(
+      b.sequence(PPKeyword.DEFINE, IDENTIFIER, "(", b.optional(parameterList), ")",
+                 b.optional(replacementList)),
+      b.sequence(PPKeyword.DEFINE, IDENTIFIER, "(", variadicParameter, ")",
+                 b.optional(replacementList)),
+      b.sequence(PPKeyword.DEFINE, IDENTIFIER, "(", parameterList, ",", variadicParameter, ")",
+                 b.optional(replacementList))
+    )
     );
 
     b.rule(variadicParameter).is(
-      b.optional(IDENTIFIER), b.zeroOrMore(WS), "..."
+      b.optional(IDENTIFIER), "..."
     );
 
     b.rule(objectlikeMacroDefinition).is(
-      PPKeyword.DEFINE, b.oneOrMore(WS), ppToken, b.optional(b.sequence(b.oneOrMore(WS), replacementList))
+      PPKeyword.DEFINE, IDENTIFIER, b.optional(replacementList)
     );
 
     b.rule(replacementList).is(
@@ -177,11 +173,10 @@ enum PPGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(parameterList).is(
-      IDENTIFIER, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), IDENTIFIER,
-                               b.nextNot(b.sequence(b.zeroOrMore(WS), "...")))
+      IDENTIFIER, b.zeroOrMore(",", IDENTIFIER, b.nextNot("..."))
     );
     b.rule(argumentList).is(
-      argument, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), argument)
+      argument, b.zeroOrMore(",", argument)
     );
     b.rule(stringPrefix).is(
       b.firstOf("L", "u8", "u", "U")
@@ -234,9 +229,7 @@ enum PPGrammarImpl implements GrammarRuleKey {
         PPKeyword.INCLUDE,
         PPKeyword.INCLUDE_NEXT
       ),
-      b.zeroOrMore(WS),
-      includeBody,
-      b.zeroOrMore(WS)
+      includeBody
     );
     b.rule(includeBody).is(
       b.firstOf(
@@ -271,15 +264,15 @@ enum PPGrammarImpl implements GrammarRuleKey {
     // control-line, ppImport
     b.rule(ppImport).is(
       b.firstOf(
-        b.sequence(IMPORT, b.zeroOrMore(WS), expandedIncludeBody, b.zeroOrMore(WS)),
-        b.sequence(b.optional(EXPORT), b.zeroOrMore(WS), IMPORT, b.zeroOrMore(WS), b.oneOrMore(ppToken))
+        b.sequence(IMPORT, expandedIncludeBody),
+        b.sequence(b.optional(EXPORT), IMPORT, b.oneOrMore(ppToken))
       )
     );
 
     // ... module ...
     b.rule(ppModule).is(
       b.firstOf(
-        b.sequence(b.optional(EXPORT), b.zeroOrMore(WS), MODULE, b.oneOrMore(ppToken)),
+        b.sequence(b.optional(EXPORT), MODULE, b.oneOrMore(ppToken)),
         b.sequence(EXPORT, b.oneOrMore(ppToken))
       )
     );
@@ -291,42 +284,42 @@ enum PPGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         PPKeyword.IFDEF,
         PPKeyword.IFNDEF
-      ), b.oneOrMore(WS), IDENTIFIER, b.zeroOrMore(WS)
+      ), IDENTIFIER
     );
 
     // if-section, else-group, #else
     b.rule(elseLine).is(
-      PPKeyword.ELSE, b.zeroOrMore(WS)
+      PPKeyword.ELSE
     );
 
     // if-section, endif-line, #endif
     b.rule(endifLine).is(
-      PPKeyword.ENDIF, b.zeroOrMore(WS)
+      PPKeyword.ENDIF
     );
 
     // control-line, # undef
     b.rule(undefLine).is(
-      PPKeyword.UNDEF, b.oneOrMore(WS), IDENTIFIER
+      PPKeyword.UNDEF, IDENTIFIER
     );
 
     // control-line, # line
     b.rule(lineLine).is(
-      PPKeyword.LINE, b.oneOrMore(WS), b.oneOrMore(ppToken)
+      PPKeyword.LINE, b.oneOrMore(ppToken)
     );
 
     // control-line, # error
     b.rule(errorLine).is(
-      PPKeyword.ERROR, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
+      PPKeyword.ERROR, b.zeroOrMore(ppToken)
     );
 
     // control-line, # pragma
     b.rule(pragmaLine).is(
-      PPKeyword.PRAGMA, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
+      PPKeyword.PRAGMA, b.zeroOrMore(ppToken)
     );
 
     // control-line, # warning
     b.rule(warningLine).is(
-      PPKeyword.WARNING, b.zeroOrMore(WS), b.zeroOrMore(ppToken)
+      PPKeyword.WARNING, b.zeroOrMore(ppToken)
     );
 
     b.rule(miscLine).is(
@@ -337,12 +330,12 @@ enum PPGrammarImpl implements GrammarRuleKey {
   private static void ifLineGrammar(LexerfulGrammarBuilder b) {
     // if-section, if-group, # if
     b.rule(ifLine).is(
-      PPKeyword.IF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS)
+      PPKeyword.IF, constantExpression
     );
 
     // if-section, elif-group, #elif
     b.rule(elifLine).is(
-      PPKeyword.ELIF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS)
+      PPKeyword.ELIF, constantExpression
     );
 
     b.rule(constantExpression).is(
@@ -351,65 +344,54 @@ enum PPGrammarImpl implements GrammarRuleKey {
 
     b.rule(conditionalExpression).is(
       b.firstOf(
-        b.sequence(logicalOrExpression, b.zeroOrMore(WS), "?", b.zeroOrMore(WS), b.optional(expression), b
-                   .zeroOrMore(WS), ":", b.zeroOrMore(WS), conditionalExpression),
+        b.sequence(logicalOrExpression, "?", b.optional(expression), ":", conditionalExpression),
         logicalOrExpression
       )
     ).skipIfOneChild();
 
     b.rule(logicalOrExpression).is(
-      logicalAndExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                         "||", b.zeroOrMore(WS), logicalAndExpression)
+      logicalAndExpression, b.zeroOrMore("||", logicalAndExpression)
     ).skipIfOneChild();
 
     b.rule(logicalAndExpression).is(
-      inclusiveOrExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                          "&&", b.zeroOrMore(WS), inclusiveOrExpression)
+      inclusiveOrExpression, b.zeroOrMore("&&", inclusiveOrExpression)
     ).skipIfOneChild();
 
     b.rule(inclusiveOrExpression).is(
-      exclusiveOrExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                          "|", b.zeroOrMore(WS), exclusiveOrExpression)
+      exclusiveOrExpression, b.zeroOrMore("|", exclusiveOrExpression)
     ).skipIfOneChild();
 
     b.rule(exclusiveOrExpression)
-      .is(andExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                      "^", b.zeroOrMore(WS), andExpression)
+      .is(andExpression, b.zeroOrMore("^", andExpression)
       ).skipIfOneChild();
 
     b.rule(andExpression).is(
-      equalityExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                       "&", b.zeroOrMore(WS), equalityExpression)
+      equalityExpression, b.zeroOrMore("&", equalityExpression)
     ).skipIfOneChild();
 
     b.rule(equalityExpression).is(
-      relationalExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                         b.firstOf("==", "!="), b.zeroOrMore(WS), relationalExpression)
+      relationalExpression, b.zeroOrMore(b.firstOf("==", "!="), relationalExpression)
     ).skipIfOneChild();
 
     b.rule(relationalExpression).is(
-      shiftExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                    b.firstOf("<", ">", "<=", ">="), b.zeroOrMore(WS), shiftExpression)
+      shiftExpression, b.zeroOrMore(b.firstOf("<", ">", "<=", ">="), shiftExpression)
     ).skipIfOneChild();
 
     b.rule(shiftExpression).is(
-      additiveExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                       b.firstOf("<<", ">>"), b.zeroOrMore(WS), additiveExpression)
+      additiveExpression, b.zeroOrMore(b.firstOf("<<", ">>"), additiveExpression)
     ).skipIfOneChild();
 
     b.rule(additiveExpression).is(
-      multiplicativeExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                             b.firstOf("+", "-"), b.zeroOrMore(WS), multiplicativeExpression)
+      multiplicativeExpression, b.zeroOrMore(b.firstOf("+", "-"), multiplicativeExpression)
     ).skipIfOneChild();
 
     b.rule(multiplicativeExpression).is(
-      unaryExpression, b.zeroOrMore(b.zeroOrMore(WS),
-                                    b.firstOf("*", "/", "%"), b.zeroOrMore(WS), unaryExpression)
+      unaryExpression, b.zeroOrMore(b.firstOf("*", "/", "%"), unaryExpression)
     ).skipIfOneChild();
 
     b.rule(unaryExpression).is(
       b.firstOf(
-        b.sequence(unaryOperator, b.zeroOrMore(WS), multiplicativeExpression),
+        b.sequence(unaryOperator, multiplicativeExpression),
         primaryExpression
       )
     ).skipIfOneChild();
@@ -421,7 +403,7 @@ enum PPGrammarImpl implements GrammarRuleKey {
     b.rule(primaryExpression).is(
       b.firstOf(
         literal,
-        b.sequence("(", b.zeroOrMore(WS), expression, b.zeroOrMore(WS), ")"),
+        b.sequence("(", expression, ")"),
         hasIncludeExpression,
         definedExpression,
         functionlikeMacro,
@@ -446,25 +428,23 @@ enum PPGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(expression).is(
-      conditionalExpression, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS),
-                                          conditionalExpression)
+      conditionalExpression, b.zeroOrMore(",", conditionalExpression)
     );
 
     b.rule(definedExpression).is(
       "defined",
       b.firstOf(
-        b.sequence(b.zeroOrMore(WS), "(", b.zeroOrMore(WS), IDENTIFIER, b.zeroOrMore(WS), ")"),
-        b.sequence(b.oneOrMore(WS), IDENTIFIER)
+        b.sequence("(", IDENTIFIER, ")"),
+        IDENTIFIER
       )
     );
 
     b.rule(functionlikeMacro).is(
-      IDENTIFIER, b.zeroOrMore(WS), "(", b.zeroOrMore(WS), b.optional(b.nextNot(")"), argumentList),
-      b.zeroOrMore(WS), ")"
+      IDENTIFIER, "(", b.optional(b.nextNot(")"), argumentList), ")"
     );
 
     b.rule(hasIncludeExpression).is(
-      "__has_include", b.zeroOrMore(WS), "(", b.zeroOrMore(WS), includeBody, b.zeroOrMore(WS), ")"
+      "__has_include", "(", includeBody, ")"
     );
   }
 

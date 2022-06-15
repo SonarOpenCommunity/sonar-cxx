@@ -28,8 +28,7 @@ public enum CxxTokenType implements TokenType {
   NUMBER,
   STRING,
   CHARACTER,
-  PREPROCESSOR,
-  WS; // whitespace
+  PREPROCESSOR;
 
   @Override
   public String getName() {
@@ -43,7 +42,7 @@ public enum CxxTokenType implements TokenType {
 
   @Override
   public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
-    return this == WS;
+    return false;
   }
 
 }

@@ -174,8 +174,7 @@ class PPReplace {
             boolean keep = parameters.size() == arguments.size();
             replaceVaOpt(body.subList(i, body.size()), keep);
           } else {
-            if (tokenPastingRightOp && !curr.getType().equals(CxxTokenType.WS) && !curr.getType().equals(
-              PPPunctuator.HASHHASH)) {
+            if (tokenPastingRightOp && !curr.getType().equals(PPPunctuator.HASHHASH)) {
               tokenPastingRightOp = false;
             }
             newTokens.add(curr);
@@ -184,18 +183,8 @@ class PPReplace {
           // EXTENSION: GCC's special meaning of token paste operator:
           // If variable argument is left out then the comma before the paste operator will be deleted.
           int j = i;
-          while (j > 0 && body.get(j - 1).getType().equals(CxxTokenType.WS)) {
-            j--;
-          }
-          if (j > 0 && "##".equals(body.get(j - 1).getValue())) {
-            int k = --j;
-            while (j > 0 && body.get(j - 1).getType().equals(CxxTokenType.WS)) {
-              j--;
-            }
-            if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
-              newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
-              newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste operator
-            }
+          if (j > 0 && "##".equals(body.get(j - 1).getValue()) && ",".equals(body.get(j - 2).getValue())) {
+            newTokens.subList(newTokens.size() - 2, newTokens.size()).clear(); // remove , ##
           } else if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
             // Got empty variadic args, remove comma
             newTokens.remove(newTokens.size() - 1 + j - i);
@@ -203,9 +192,6 @@ class PPReplace {
         } else if (index < arguments.size()) {
           // token pasting operator?
           int j = i + 1;
-          while (j < body.size() && body.get(j).getType().equals(CxxTokenType.WS)) {
-            j++;
-          }
           if (j < body.size() && "##".equals(body.get(j).getValue())) {
             tokenPastingLeftOp = true;
           }
@@ -235,9 +221,7 @@ class PPReplace {
           if (newValue.isEmpty() && "__VA_ARGS__".equals(curr.getValue())) {
             // the Visual C++ implementation will suppress a trailing comma if no arguments are passed to the ellipsis
             for (var n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
-              if (newTokens.get(n).getType().equals(CxxTokenType.WS)) {
-                newTokens.remove(n);
-              } else if (newTokens.get(n).getType().equals(PPPunctuator.COMMA)) {
+              if (newTokens.get(n).getType().equals(PPPunctuator.COMMA)) {
                 newTokens.remove(n);
                 break;
               } else {
@@ -256,9 +240,7 @@ class PPReplace {
           && newTokens.get(newTokens.size() - 2).getType().equals(PPPunctuator.HASH)
           && newTokens.get(newTokens.size() - 1).getType().equals(PPPunctuator.BR_RIGHT)) {
       for (var n = newTokens.size() - 2; n != 0; n--) {
-        if (newTokens.get(n).getType().equals(CxxTokenType.WS)) {
-          newTokens.remove(n);
-        } else if (newTokens.get(n).getType().equals(PPPunctuator.HASH)) {
+        if (newTokens.get(n).getType().equals(PPPunctuator.HASH)) {
           newTokens.set(n, PPGeneratedToken.build(newTokens.get(n), CxxTokenType.STRING, "\"\""));
           break;
         } else {
