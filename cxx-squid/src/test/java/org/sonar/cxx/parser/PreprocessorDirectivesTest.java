@@ -235,7 +235,6 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       "#define showlist(...) puts(#__VA_ARGS__)\n"
         + "showlist(1, \"x\", int);"))
       .isEqualTo("puts ( \"1,\\\"x\\\",int\" ) ; EOF");
-
   }
 
   @Test
@@ -266,6 +265,72 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       "#define SDEF(sname, ...) S sname __VA_OPT__(= { __VA_ARGS__ })\n"
         + "SDEF(bar, 1, 2);"))
       .isEqualTo("S bar = { 1 , 2 } ; EOF");
+
+    // https://marc.info/?l=gcc-patches&m=151047200615291&w=2
+    assertThat(parse(
+      "#define CALL(F, ...) F(7 __VA_OPT__(,) __VA_ARGS__)\n"
+        + "CALL(f1);"))
+      .isEqualTo("f1 ( 7 ) ; EOF");
+
+    assertThat(parse(
+      "#define CALL(F, ...) F(7 __VA_OPT__(,) __VA_ARGS__)\n"
+        + "CALL(f1, );"))
+      .isEqualTo("f1 ( 7 ) ; EOF");
+
+    assertThat(parse(
+      "#define CALL(F, ...) F(7 __VA_OPT__(,) __VA_ARGS__)\n"
+        + "CALL(f1, 1);"))
+      .isEqualTo("f1 ( 7 , 1 ) ; EOF");
+
+    assertThat(parse(
+      "#define CP(F, X, Y, ...) F(__VA_OPT__(X ## Y,) __VA_ARGS__)\n"
+        + "CP(f0, one, two);"))
+      .isEqualTo("f0 ( ) ; EOF");
+
+    assertThat(parse(
+      "#define CP(F, X, Y, ...) F(__VA_OPT__(X ## Y,) __VA_ARGS__)\n"
+        + "CP(f0, one, two, );"))
+      .isEqualTo("f0 ( ) ; EOF");
+
+    assertThat(parse(
+      "#define CP(F, X, Y, ...) F(__VA_OPT__(X ## Y,) __VA_ARGS__)\n"
+        + "CP(f0, one, two, 3);"))
+      .isEqualTo("f0 ( onetwo , 3 ) ; EOF");
+
+    assertThat(parse(
+      "#define CS(F, ...) F(__VA_OPT__(s(# __VA_ARGS__)))\n"
+        + "CS(f0);"))
+      .isEqualTo("f0 ( ) ; EOF");
+
+    assertThat(parse(
+      "#define CS(F, ...) F(__VA_OPT__(s(# __VA_ARGS__)))\n"
+        + "CS(f1, 1, 2, 3, 4);"))
+      .isEqualTo("f1 ( s ( \"1,2,3,4\" ) ) ; EOF");
+
+    assertThat(parse(
+      "#define D(F, ...) F(__VA_OPT__(__VA_ARGS__) __VA_OPT__(,) __VA_ARGS__)\n"
+        + "D(f0);"))
+      .isEqualTo("f0 ( ) ; EOF");
+
+    assertThat(parse(
+      "#define D(F, ...) F(__VA_OPT__(__VA_ARGS__) __VA_OPT__(,) __VA_ARGS__)\n"
+        + "D(f2, 1);"))
+      .isEqualTo("f2 ( 1 , 1 ) ; EOF");
+
+    assertThat(parse(
+      "#define D(F, ...) F(__VA_OPT__(__VA_ARGS__) __VA_OPT__(,) __VA_ARGS__)\n"
+        + "D(f2, 1, 2);"))
+      .isEqualTo("f2 ( 1 , 2 , 1 , 2 ) ; EOF");
+
+    assertThat(parse(
+      "#define CALL0(...) __VA_OPT__(f2)(0 __VA_OPT__(,)__VA_ARGS__)\n"
+        + "int* ptr = CALL0();"))
+      .isEqualTo("int * ptr = ( 0 ) ; EOF");
+
+    assertThat(parse(
+      "#define CALL0(...) __VA_OPT__(f2)(0 __VA_OPT__(,)__VA_ARGS__)\n"
+        + "CALL0(23);"))
+      .isEqualTo("f2 ( 0 , 23 ) ; EOF");
   }
 
   @Test

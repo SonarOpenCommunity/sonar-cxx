@@ -125,6 +125,16 @@ final class PPMacro {
     return parameterList != null;
   }
 
+  ArrayList<String> getParameterNames() {
+    var parameterNames = new ArrayList<String>(parameterList.size());
+    if (isFunctionLikeMacro()) {
+      for (int i = 0; i < parameterList.size(); i++) {
+        parameterNames.add(parameterList.get(i).getValue());
+      }
+    }
+    return parameterNames;
+  }
+
   int getParameterIndex(String parameterName) {
     if (isFunctionLikeMacro()) {
       for (int i = 0; i < parameterList.size(); i++) {

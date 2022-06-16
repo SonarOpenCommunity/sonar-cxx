@@ -59,10 +59,13 @@ class PPMacroTest {
 
   @Test
   void testGetParameterIndex() {
-    PPMacro result = PPMacro.create("#define MACRO(P1, P2) REPLACEMENT_LIST");
+    PPMacro macro = PPMacro.create("#define MACRO(P1, P2) REPLACEMENT_LIST");
+    assertThat(macro.getParameterIndex("P1")).isEqualTo(0);
+    assertThat(macro.getParameterIndex("P2")).isEqualTo(1);
 
-    assertThat(result.getParameterIndex("P1")).isEqualTo(0);
-    assertThat(result.getParameterIndex("P2")).isEqualTo(1);
+    var parameterNames = macro.getParameterNames();
+    assertThat(parameterNames.indexOf("P1")).isEqualTo(0);
+    assertThat(parameterNames.indexOf("P2")).isEqualTo(1);
   }
 
 }
