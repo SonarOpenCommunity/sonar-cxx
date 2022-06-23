@@ -192,7 +192,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     if (CxxTokenType.PREPROCESSOR.equals(type)) {
       return handlePreprocessorDirective(token);
-    } else if (state().skipTokens() && !GenericTokenType.EOF.equals(type)) {
+    } else if (include().state().skipTokens() && !GenericTokenType.EOF.equals(type)) {
       return oneConsumedToken(token);
     } else if (GenericTokenType.IDENTIFIER.equals(type) || (type instanceof CxxKeyword)) {
       PPMacro macro = getMacro(token.getValue());
@@ -206,10 +206,6 @@ public class CxxPreprocessor extends Preprocessor {
 
   public PPInclude include() {
     return include;
-  }
-
-  public PPState state() {
-    return include().state();
   }
 
   public PPReplace replace() {
@@ -422,37 +418,37 @@ public class CxxPreprocessor extends Preprocessor {
   //
   private void handleConstantExpression(AstNode ast, Token token) {
     try {
-      state().setSkipTokens(false);
+      include().state().setSkipTokens(false);
       boolean result = constantExpression.evaluate(ast.getFirstDescendant(PPGrammarImpl.constantExpression));
-      state().setConditionValue(result);
-      state().setSkipTokens(!result);
+      include().state().setConditionValue(result);
+      include().state().setSkipTokens(!result);
     } catch (EvaluationException e) {
-      String rootFilePath = state().getFileUnderAnalysisPath();
+      String rootFilePath = include().state().getFileUnderAnalysisPath();
       LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                 rootFilePath, token.getLine(), token.getValue());
-      state().setConditionValue(true);
-      state().setSkipTokens(false);
+      include().state().setConditionValue(true);
+      include().state().setSkipTokens(false);
     }
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token) {
-    if (state().skipTokens()) {
-      state().changeNestingDepth(+1);
+    if (include().state().skipTokens()) {
+      include().state().changeNestingDepth(+1);
     } else {
       PPMacro macro = getMacro(getIdentifierName(ast));
       var tokType = ast.getToken().getType();
       boolean result = (tokType.equals(PPKeyword.IFDEF) && macro != null)
                          || (tokType.equals(PPKeyword.IFNDEF) && macro == null);
-      state().setConditionValue(result);
-      state().setSkipTokens(!result);
+      include().state().setConditionValue(result);
+      include().state().setSkipTokens(!result);
     }
 
     return oneConsumedToken(token);
   }
 
   private PreprocessorAction handleIfLine(AstNode ast, Token token) {
-    if (state().skipTokens()) {
-      state().changeNestingDepth(+1);
+    if (include().state().skipTokens()) {
+      include().state().changeNestingDepth(+1);
     } else {
       handleConstantExpression(ast, token);
     }
@@ -462,13 +458,13 @@ public class CxxPreprocessor extends Preprocessor {
 
   private PreprocessorAction handleElIfLine(AstNode ast, Token token) {
     // handling of an #elif line is similar to handling of an #if line but doesn't increase the nesting level
-    if (!state().isInsideNestedBlock()) {
-      if (state().skipTokens() && state().ifLastConditionWasFalse()) {
+    if (!include().state().isInsideNestedBlock()) {
+      if (include().state().skipTokens() && include().state().ifLastConditionWasFalse()) {
         // the preceding expression had been evaluated to false
         handleConstantExpression(ast, token);
       } else {
         // other block was already true: skipping tokens inside this #elif
-        state().setSkipTokens(true);
+        include().state().setSkipTokens(true);
       }
     }
 
@@ -476,14 +472,14 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleElseLine(Token token) {
-    if (!state().isInsideNestedBlock()) {
-      if (state().skipTokens() && state().ifLastConditionWasFalse()) {
+    if (!include().state().isInsideNestedBlock()) {
+      if (include().state().skipTokens() && include().state().ifLastConditionWasFalse()) {
         // other block(s) were false: #else returning to non-skipping mode
-        state().setConditionValue(true);
-        state().setSkipTokens(false);
+        include().state().setConditionValue(true);
+        include().state().setSkipTokens(false);
       } else {
         // other block was true: skipping tokens inside the #else
-        state().setSkipTokens(true);
+        include().state().setSkipTokens(true);
       }
     }
 
@@ -491,20 +487,20 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleEndifLine(Token token) {
-    if (state().isInsideNestedBlock()) {
+    if (include().state().isInsideNestedBlock()) {
       // nested #endif
-      state().changeNestingDepth(-1);
+      include().state().changeNestingDepth(-1);
     } else {
       // after last #endif, switching to non-skipping mode
-      state().setSkipTokens(false);
-      state().setConditionValue(false);
+      include().state().setSkipTokens(false);
+      include().state().setConditionValue(false);
     }
 
     return oneConsumedToken(token);
   }
 
   private PreprocessorAction handleDefineLine(AstNode ast, Token token) {
-    if (!state().skipTokens()) {
+    if (!include().state().skipTokens()) {
       // Here we have a define directive. Parse it and store the macro in a dictionary.
       PPMacro macro = PPMacro.create(ast);
       unitMacros.put(macro.identifier, macro);
@@ -514,7 +510,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleUndefLine(AstNode ast, Token token) {
-    if (!state().skipTokens()) {
+    if (!include().state().skipTokens()) {
       String macroName = ast.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue();
       unitMacros.remove(macroName);
     }
@@ -522,7 +518,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleIncludeLine(AstNode ast, Token token) {
-    if (!state().skipTokens()) {
+    if (!include().state().skipTokens()) {
       include().handleFile(ast, token);
     }
 
@@ -530,7 +526,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleImportLine(AstNode ast, Token token) {
-    if (!state().skipTokens()) {
+    if (!include().state().skipTokens()) {
       if (ast.getFirstDescendant(PPGrammarImpl.expandedIncludeBody) != null) {
         // import <file>
         return handleIncludeLine(ast, token);
@@ -544,7 +540,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private PreprocessorAction handleModuleLine(AstNode ast, Token token) {
-    if (!state().skipTokens()) {
+    if (!include().state().skipTokens()) {
       // forward to parser: ...  module ...
       var result = TokenList.transformToCxx(ast.getTokens(), token);
       return new PreprocessorAction(1, Collections.singletonList(Trivia.createPreprocessingToken(token)), result);

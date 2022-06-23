@@ -21,6 +21,7 @@ package org.sonar.cxx.preprocessor;
 
 import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.TokenType;
 import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,6 @@ class PPReplace {
    * directive behaves exactly like that.
    */
   List<Token> replaceObjectLikeMacro(PPMacro macro, String macroExpression) {
-    // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further argument
     List<Token> tokens = pp.tokenizeMacro(macro, macroExpression);
 
     // make sure that all expanded Tokens are marked as generated it will prevent
@@ -65,7 +65,7 @@ class PPReplace {
    */
   int replaceFunctionLikeMacro(PPMacro macro, List<Token> restTokens, List<Token> expansion) {
     List<Token> arguments = new ArrayList<>();
-    int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
+    int tokensConsumedMatchingArgs = extractArguments(restTokens, arguments);
 
     if (macro.checkArgumentsCount(arguments.size())) {
       if (arguments.size() > macro.parameterList.size()) {
@@ -89,14 +89,20 @@ class PPReplace {
     return tokensConsumedMatchingArgs;
   }
 
-  private static int matchArguments(List<Token> tokens, List<Token> arguments) {
+  /**
+   * The syntax of a function-like macro invocation is similar to the syntax of a function call: each instance of the
+   * macro name followed by a ( as the next preprocessing token introduces the sequence of tokens that is replaced by
+   * the replacement-list. The sequence is terminated by the matching ) token, skipping intervening matched pairs of
+   * left and right parentheses.
+   */
+  private static int extractArguments(List<Token> tokens, List<Token> arguments) {
     // argument list must start with '('
     int size = tokens.size();
     if ((size < 1) || !"(".equals(tokens.get(0).getValue())) {
       return 0;
     }
     // split arguments: ( a, b, c ) => a b c
-    var endOfArgument = false;
+    var addArgument = false;
     var nestingLevel = -1;
     var fromIndex = 0;
     for (var i = 0; i < size; i++) {
@@ -106,12 +112,12 @@ class PPReplace {
           break;
         case ",":
           if (nestingLevel == 0) {
-            endOfArgument = true;
+            addArgument = true;
           }
           break;
         case ")":
           if (nestingLevel == 0) {
-            endOfArgument = true;
+            addArgument = true;
           }
           nestingLevel--;
           break;
@@ -120,7 +126,7 @@ class PPReplace {
       }
 
       // add argument to list
-      if (endOfArgument) {
+      if (addArgument) {
         if ((i - fromIndex) > 1) {
           var matchedTokens = tokens.subList(fromIndex + 1, i);
           var firstToken = matchedTokens.get(0);
@@ -138,7 +144,7 @@ class PPReplace {
           return i + 1;
         }
 
-        endOfArgument = false;
+        addArgument = false;
         fromIndex = i;
       }
     }
@@ -147,102 +153,182 @@ class PPReplace {
     return 0;
   }
 
-  private String expand(String replacementString) {
-    return TokenUtils.merge(pp.tokenize(replacementString));
+  private String expand(String expression) {
+    return TokenUtils.merge(pp.tokenize(expression));
   }
 
-  private List<Token> replaceParams(PPMacro macro, List<Token> argumentList) {
-    // replace all parameterList by according argumentList "Stringify" the argument if the according parameter is
-    // preceded by an #
-
+  /**
+   * Taking a number of arguments, which then replace corresponding occurrences of any of the parameters in the
+   * replacement-list.
+   */
+  private List<Token> replaceParams(PPMacro macro, List<Token> arguments) {
     var result = new ArrayList<Token>(macro.replacementList.size());
-    replaceParams(macro.replacementList, macro.getParameterNames(), argumentList, result);
+    handleOperators(macro.replacementList, macro.getParameterNames(), arguments, result);
     return result;
   }
 
-  private void replaceParams(List<Token> replacementList, List<String> parameterList, List<Token> argumentList,
-                             List<Token> result) {
-    // replace all parameterList by according argumentList "Stringify" the argument if the according parameter is
-    // preceded by an #
+  /**
+   * Handle # and ## operators.
+   *
+   * In function-like macros, a # operator before an identifier in the replacement-list runs the identifier through
+   * parameter replacement and encloses the result in quotes, effectively creating a string literal.
+   *
+   * A ## operator between any two successive identifiers in the replacement-list runs parameter replacement on the two
+   * identifiers (which are not macro-expanded first) and then concatenates the result.
+   *
+   */
+  private void handleOperators(List<Token> replacementList, List<String> parameters, List<Token> arguments,
+                               List<Token> result) {
 
-    var tokenPastingLeftOp = false;
-    var tokenPastingRightOp = false;
+    int tokensConsumed = 0;
 
-    for (var i = 0; i < replacementList.size(); ++i) {
-      var token = replacementList.get(i);
-      var tokenValue = token.getValue();
-      var tokenType = token.getType();
+    while (tokensConsumed < replacementList.size()) {
+
+      var view = replacementList.subList(tokensConsumed, replacementList.size());
+      var token = view.get(0);
+      var i = 0;
+
+      Token argument = token;
       String newValue = "";
 
-      int parameterIndex = -1;
-      if (GenericTokenType.IDENTIFIER.equals(tokenType) || (tokenType instanceof CxxKeyword)) {
-        parameterIndex = parameterList.indexOf(tokenValue);
-      }
-
+      int parameterIndex = getParameterIndex(token, parameters);
       if (parameterIndex == -1) {
-        if ("__VA_OPT__".equals(tokenValue)) {
-          boolean keep = parameterList.size() == argumentList.size();
-          i += replaceVaOpt(replacementList.subList(i, replacementList.size()), parameterList, argumentList, keep,
-                            result);
-        } else {
-          if (tokenPastingRightOp && !PPPunctuator.HASHHASH.equals(tokenType)) {
-            tokenPastingRightOp = false;
-          }
-          result.add(token);
-        }
-      } else if (parameterIndex == argumentList.size()) {
-        // EXTENSION: GCC's special meaning of token paste operator:
-        // If variable argument is left out then the comma before the paste operator will be deleted.
-        if (i > 0
-              && PPPunctuator.HASHHASH.equals(replacementList.get(i - 1).getType())
-              && PPPunctuator.COMMA.equals(replacementList.get(i - 2).getType())) {
-          result.subList(result.size() - 2, result.size()).clear(); // remove , ##
-        } else if (i > 0 && ",".equals(replacementList.get(i - 1).getValue())) {
-          // Got empty variadic args, remove comma
-          result.remove(result.size() - 1);
-        }
-      } else if (parameterIndex < argumentList.size()) {
-        // token pasting operator?
-        int j = i + 1;
-        if (j < replacementList.size() && PPPunctuator.HASHHASH.equals(replacementList.get(j).getType())) {
-          tokenPastingLeftOp = true;
-        }
-        // in case of token pasting operator do not fully expand
-        var argument = argumentList.get(parameterIndex);
-        newValue = argument.getValue();
-        if (tokenPastingLeftOp) {
-          tokenPastingLeftOp = false;
-          tokenPastingRightOp = true;
-        } else if (tokenPastingRightOp) {
-          tokenPastingLeftOp = false;
-          tokenPastingRightOp = false;
-        } else {
-          if (i > 0 && PPPunctuator.HASH.equals(replacementList.get(i - 1).getType())) {
-            // In function-like macros, a # operator before an identifier in the argument-list runs the identifier
-            // through parameter argument and encloses the result in quotes, effectively creating a string literal.
-            result.remove(result.size() - 1);
-            newValue = PPStringification.stringify(newValue);
-          } else {
-            // otherwise the argumentList have to be fully expanded before expanding the replacementList of the macro
-            newValue = expand(newValue);
+        //
+        // not a token to be replaced by a macro argument
+        //
+        if ((i = handleVaOpt(view, parameters, arguments, result)) <= 0) {
+          if ((i = handleConcatenation(view, parameters, arguments, result)) <= 0) {
+            result.add(token);
           }
         }
+      } else if (parameterIndex < arguments.size()) {
+        //
+        // token to be replaced by a macro argument
+        //
+        argument = arguments.get(parameterIndex);
 
-        if (!newValue.isEmpty()) {
-          result.add(PPGeneratedToken.build(argument, argument.getType(), newValue));
+        if ((i = handleConcatenation(view, parameters, arguments, result)) <= 0) {
+          if (tokensConsumed < 1 || !handleStringification(
+            replacementList.subList(tokensConsumed - 1, replacementList.size()), argument, result)) {
+            newValue = expand(argument.getValue());
+          }
         }
       }
 
-      if (newValue.isEmpty() && "__VA_ARGS__".equals(tokenValue)) {
-        var n = result.size() - 1;
-        if (n >= 0) {
-          if (PPPunctuator.HASH.equals(result.get(n).getType())) {
-            // handle empty #__VA_ARGS__ => "", e.g. puts(#__VA_ARGS__) => puts("")
-            result.set(n, PPGeneratedToken.build(result.get(n), CxxTokenType.STRING, "\"\""));
-          } else if (PPPunctuator.COMMA.equals(result.get(n).getType())) {
-            // the Visual C++ implementation will suppress a trailing comma if no argumentList are passed to the ellipsis
-            result.remove(n);
-          }
+      if (newValue.isEmpty()) {
+        handleEmptyVaArgs(view, result);
+      } else {
+        result.add(PPGeneratedToken.build(argument, argument.getType(), newValue));
+      }
+
+      tokensConsumed += (i + 1);
+    }
+  }
+
+  private static boolean isIdentifier(TokenType type) {
+    return GenericTokenType.IDENTIFIER.equals(type) || (type instanceof CxxKeyword);
+  }
+
+  private static int getParameterIndex(Token token, List<String> parameters) {
+    int parameterIndex = -1;
+    var type = token.getType();
+    if (isIdentifier(type)) {
+      parameterIndex = parameters.indexOf(token.getValue());
+    }
+    return parameterIndex;
+  }
+
+  private static Token getReplacementToken(Token token, List<String> parameters, List<Token> arguments) {
+    int parameterIndex = getParameterIndex(token, parameters);
+    if (parameterIndex != -1 && parameterIndex < arguments.size()) {
+      var argument = arguments.get(parameterIndex);
+      return PPGeneratedToken.build(argument, argument.getType(), argument.getValue());
+    }
+
+    return token;
+  }
+
+  /**
+   * A ## operator between any two successive identifiers in the replacement-list runs parameter replacement on the two
+   * identifiers (which are not macro-expanded first) and then concatenates the result. This operation is called
+   * "concatenation" or "token pasting". Only tokens that form a valid token together may be pasted: identifiers that
+   * form a longer identifier, digits that form a number, or operators + and = that form a +=. A comment cannot be
+   * created by pasting / and * because comments are removed from text before macro substitution is considered.
+   *
+   * Special cases:
+   * (1) A ## ## B == A ## B
+   * (2) A ## B ## C ...
+   */
+  private int handleConcatenation(List<Token> replacementList, List<String> parameters, List<Token> arguments,
+                                  List<Token> result) {
+
+    int tokensConsumed = 0;
+
+    while ((tokensConsumed + 1) < replacementList.size()
+             && isIdentifier(replacementList.get(tokensConsumed).getType())
+             && PPPunctuator.HASHHASH.equals(replacementList.get(tokensConsumed + 1).getType())) {
+      if (tokensConsumed == 0) {
+        result.add(getReplacementToken(replacementList.get(0), parameters, arguments)); // A
+      }
+      tokensConsumed++;
+      result.add(replacementList.get(tokensConsumed)); // ##
+      tokensConsumed++;
+
+      while ((tokensConsumed + 1) < replacementList.size()
+               && PPPunctuator.HASHHASH.equals(replacementList.get(tokensConsumed).getType())) {
+        tokensConsumed++;  // handle special case A ## ## ... B
+      }
+      result.add(getReplacementToken(replacementList.get(tokensConsumed), parameters, arguments)); // B, C, ...
+    }
+
+    return tokensConsumed;
+  }
+
+  /**
+   * In function-like macros, a # operator before an identifier in the argument-list runs the identifier through
+   * parameter argument and encloses the result in quotes, effectively creating a string literal.
+   */
+  private boolean handleStringification(List<Token> replacementList, Token argument, List<Token> result) {
+    if (PPPunctuator.HASH.equals(replacementList.get(0).getType())) {
+      result.set(result.size() - 1,
+                 PPGeneratedToken.build(argument, argument.getType(),
+                                        PPStringification.stringify(argument.getValue()))
+      );
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Special handling for empty __VA_ARGS__.
+   *
+   * (1) Handle stringification of empty __VA_ARGS__: #__VA_ARGS__ => "", e.g. puts(#__VA_ARGS__) => puts("").
+   * (2) Some compilers offer an extension that allows ## to appear after a comma and before __VA_ARGS__, in which case
+   * the ## does nothing when the variable arguments are present, but removes the comma when the variable arguments are
+   * not present: this makes it possible to define macros such as fprintf (stderr, format, ##__VA_ARGS__).
+   */
+  private void handleEmptyVaArgs(List<Token> replacementList, List<Token> result) {
+    if (!"__VA_ARGS__".equals(replacementList.get(0).getValue())) {
+      return;
+    }
+
+    if (!result.isEmpty()) {
+      var lastIndex = result.size() - 1;
+      var type = result.get(lastIndex).getType();
+      if (type instanceof PPPunctuator) {
+        switch ((PPPunctuator) type) {
+          case HASH: // (1)
+            result.set(lastIndex, PPGeneratedToken.build(result.get(lastIndex), CxxTokenType.STRING, "\"\""));
+            break;
+          case HASHHASH: // (2)
+            lastIndex -= 1;
+            if (lastIndex > 0) {
+              result.subList(lastIndex, result.size()).clear();
+            }
+            break;
+          case COMMA: // (2)
+            result.remove(lastIndex);
+            break;
         }
       }
     }
@@ -253,20 +339,22 @@ class PPReplace {
    * appear in the definition of a variadic macro. If the variable argument has any tokens, then a __VA_OPT__ invocation
    * expands to its argument; but if the variable argument does not have any tokens, the __VA_OPT__ expands to nothing.
    *
-   * @param keep true means expand, false remove
-   *
    * <code>
    * va-opt-argument:
    * __VA_OPT__ ( pp-tokensopt )
    * </code>
    */
-  private int replaceVaOpt(List<Token> replacementList, List<String> parameterList, List<Token> argumentList,
-                           boolean keep, List<Token> result) {
+  private int handleVaOpt(List<Token> replacementList, List<String> parameters, List<Token> arguments,
+                          List<Token> result) {
     var firstIndex = -1;
     var lastIndex = -1;
     var brackets = 0;
 
-    for (int i = 0; i < replacementList.size(); i++) {
+    if (!"__VA_OPT__".equals(replacementList.get(0).getValue())) {
+      return 0;
+    }
+
+    for (int i = 1; i < replacementList.size(); i++) {
       var value = replacementList.get(i).getValue();
       if ("(".equals(value)) {
         brackets++;
@@ -282,17 +370,20 @@ class PPReplace {
       }
     }
 
-    if (firstIndex > 0 && lastIndex < replacementList.size()) {
-      if (keep) {
+    if (firstIndex != -1 && lastIndex != -1) {
+      if (parameters.size() == arguments.size()) {
         // __VA_OPT__ ( pp-tokensopt ), keep pp-tokensopt
         var ppTokens = replacementList.subList(firstIndex + 1, lastIndex);
-        replaceParams(ppTokens, parameterList, argumentList, result);
+        handleOperators(ppTokens, parameters, arguments, result);
         return 2 + ppTokens.size();
       } else {
         // remove __VA_OPT__ ( pp-tokensopt )
         return 1 + lastIndex - firstIndex;
       }
     }
+
+    LOG.error("preprocessor '__VA_OPT__* error: {}:{}",
+              replacementList.get(0).getLine(), replacementList.get(0).getColumn()); // todo
     return 0;
   }
 
