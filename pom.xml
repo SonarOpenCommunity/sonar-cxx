@@ -286,7 +286,7 @@
     <staxmate.version>2.4.0</staxmate.version>
     <stax2-api.version>4.2.1</stax2-api.version>
     <tag-expressions.version>3.0.1</tag-expressions.version>
-    <woodstox-core.version>6.2.8</woodstox-core.version>
+    <woodstox-core.version>6.3.0</woodstox-core.version>
 
     <!-- plugins -->
     <java.version>11</java.version>
