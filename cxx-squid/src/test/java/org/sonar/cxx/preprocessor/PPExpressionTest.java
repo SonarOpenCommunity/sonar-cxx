@@ -381,7 +381,17 @@ class PPExpressionTest {
     assertThat(evaluate("__STDC__")).isTrue();
     assertThat(evaluate("__STDC_HOSTED__")).isTrue();
     assertThat(evaluate("__cplusplus")).isTrue();
+    assertThat(evaluate("__has_builtin")).isFalse();
+    assertThat(evaluate("__has_feature")).isFalse();
+    assertThat(evaluate("__has_extension")).isFalse();
+    assertThat(evaluate("__has_cpp_attribute")).isFalse();
+    assertThat(evaluate("__has_c_attribute")).isFalse();
+    assertThat(evaluate("__has_attribute")).isFalse();
+    assertThat(evaluate("__has_declspec_attribute")).isFalse();
+    assertThat(evaluate("__is_identifier")).isTrue();
     assertThat(evaluate("__has_include")).isTrue();
+    assertThat(evaluate("__has_include_next")).isTrue();
+    assertThat(evaluate("__has_warning")).isFalse();
   }
 
 }
