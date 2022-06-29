@@ -220,9 +220,14 @@ final class PPExpression {
       if (!macroEvaluationStack.contains(id)) {
         PPMacro macro = pp.getMacro(id);
         if (macro != null) {
-          macroEvaluationStack.push(id);
-          result = evalToInt(TokenUtils.merge(macro.replacementList), exprAst);
-          macroEvaluationStack.pop();
+          if (macro.replacementList.size() == 1 && macro.replacementList.get(0).getValue().equals(macro.identifier)) {
+            // special case, self-referencing macro, e.g. __has_include=__has_include
+            result = BigInteger.ONE;
+          } else {
+            macroEvaluationStack.push(id);
+            result = evalToInt(TokenUtils.merge(macro.replacementList), exprAst);
+            macroEvaluationStack.pop();
+          }
         }
       } else {
         LOG.debug("preprocessor: self-referential macro '{}' detected;"

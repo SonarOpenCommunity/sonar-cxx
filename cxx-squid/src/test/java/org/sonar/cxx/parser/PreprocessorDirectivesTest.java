@@ -560,4 +560,127 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       .isEqualTo("r = 0 ; EOF");
   }
 
+  @Test
+  void featureCheckingMacros() {
+    //
+    // source: https://clang.llvm.org/docs/LanguageExtensions.html
+    //
+    assertThat(parse(
+      "#ifdef __has_builtin\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_feature\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_extension\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_cpp_attribute\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_c_attribute\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_attribute\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_attribute\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_declspec_attribute\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __is_identifier\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_attribute\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_include\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_include_next\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+
+    assertThat(parse(
+      "#ifdef __has_warning\n"
+        + "#   define OK 1\n"
+        + "#else\n"
+        + "#   define OK 0\n"
+        + "#endif\n"
+        + "r = OK;"))
+      .isEqualTo("r = 1 ; EOF");
+  }
+
 }
