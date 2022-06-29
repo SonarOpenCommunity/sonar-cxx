@@ -418,6 +418,22 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
       .isEqualTo("t = t1 ; EOF");
 
     assertThat(parse(
+      "#define A(p1,p2) p1 ## p2\n"
+        + "t = A(a,b);"))
+      .isEqualTo("t = ab ; EOF");
+
+    assertThat(parse(
+      "#define A(p1,p2) p1 ## ## p2\n"
+        + "t = A(a,b);"))
+      .isEqualTo("t = ab ; EOF");
+
+    assertThat(parse(
+      "#define ab 1\n"
+        + "#define A(p1,p2) p1 ## p2\n"
+        + "t = A(a,b);"))
+      .isEqualTo("t = 1 ; EOF");
+
+    assertThat(parse(
       "#define macro_start i ## n ##t m         ##ain(void);\n"
         + "macro_start"))
       .isEqualTo("int main ( void ) ; EOF");
