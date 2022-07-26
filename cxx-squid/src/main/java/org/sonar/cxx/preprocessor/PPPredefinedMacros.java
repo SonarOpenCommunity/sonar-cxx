@@ -27,6 +27,9 @@ package org.sonar.cxx.preprocessor;
 final class PPPredefinedMacros {
 
   private static final String[] predefinedMacros = {
+    //
+    // C++
+    //
     "__FILE__ \"file\"",
     "__LINE__ 1",
     // indicates 'date unknown'. should suffice
@@ -37,8 +40,23 @@ final class PPPredefinedMacros {
     "__STDC_HOSTED__ 1",
     // set C++14 as default
     "__cplusplus 201402L",
+    //
     // __has_include support (C++17)
-    "__has_include 1"
+    //
+    "__has_include __has_include", // define __has_include as macro, for e.g. #if __has_include
+    "__has_include_next __has_include_next", // define __has_include as macro, for e.g. #if __has_include
+    //
+    // source: https://clang.llvm.org/docs/LanguageExtensions.html
+    //
+    "__has_builtin(x) 0",
+    "__has_feature(x) 0",
+    "__has_extension(x) 0",
+    "__has_cpp_attribute(x) 0",
+    "__has_c_attribute(x) 0",
+    "__has_attribute(x) 0",
+    "__has_declspec_attribute(x) 0",
+    "__is_identifier(x) 1",
+    "__has_warning(x) 0"
   };
 
   private PPPredefinedMacros() {

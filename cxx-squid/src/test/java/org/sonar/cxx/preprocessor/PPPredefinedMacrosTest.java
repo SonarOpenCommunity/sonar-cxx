@@ -35,12 +35,24 @@ class PPPredefinedMacrosTest {
       "__STDC__",
       "__STDC_HOSTED__",
       "__cplusplus",
-      "__has_include"
+      // __has_include support (C++17)
+      "__has_include",
+      "__has_include_next",
+      // source: https://clang.llvm.org/docs/LanguageExtensions.html
+      "__has_builtin",
+      "__has_feature",
+      "__has_extension",
+      "__has_cpp_attribute",
+      "__has_c_attribute",
+      "__has_attribute",
+      "__has_declspec_attribute",
+      "__is_identifier",
+      "__has_warning"
     );
     String[] result = PPPredefinedMacros.predefinedMacroValues();
     assertThat(result)
-      .hasSize(8)
-      .allMatch(s -> expResult.contains(s.split(" ")[0]));
+      .hasSize(18)
+      .allMatch(s -> expResult.contains(s.split("[^a-zA-Z_]")[0]));
   }
 
 }
