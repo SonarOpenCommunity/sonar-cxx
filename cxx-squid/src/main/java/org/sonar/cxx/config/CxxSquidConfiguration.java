@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -66,14 +67,44 @@ import org.sonar.cxx.squidbridge.api.SquidConfiguration;
  * With {@code get} and {@code getValues} the information is read out again afterwards. {@code get} returns the first
  * found value for key, whereby the search starts on level. {@code getValues} collects all found values over all levels.
  * It starts with the given level and further found values are added to the end of the list.
+ *
+ * <code>
+ * CompilationDatabase
+ * |-- PredefinedMacros
+ * |-- SonarProjectProperties
+ * |-- Global
+ * |   |-- Defines
+ * |   |   |-- Value
+ * |   |   |-- ...
+ * |   |-- IncludeDirectories
+ * |       |-- Value
+ * |       |-- ...
+ * |-- Units
+ *     |-- File [path=...]
+ *     |    |-- Defines
+ *     |    |   |-- Value
+ *     |    |   |-- ...
+ *     |    |-- IncludeDirectories
+ *     |        |-- Value
+ *     |        |-- ...
+ *     | -- File [path=...]
+ *     | -- ...
+ * </code>
  */
 public class CxxSquidConfiguration extends SquidConfiguration {
+
+  // Root
+  public static final String ROOT = "CompilationDatabase";
 
   // Levels
   public static final String PREDEFINED_MACROS = "PredefinedMacros";
   public static final String SONAR_PROJECT_PROPERTIES = "SonarProjectProperties";
   public static final String GLOBAL = "Global";
   public static final String UNITS = "Units";
+
+  // name of 'File' elements
+  public static final String FILE = "File";
+  public static final String ATTR_PATH = "path";
 
   // name of 'Value' elements
   public static final String VALUE = "Value";
@@ -95,9 +126,13 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   private static final Logger LOG = Loggers.get(CxxSquidConfiguration.class);
 
   private final XPathFactory xFactory = XPathFactory.instance();
-  private final LinkedList<Element> parentList = new LinkedList<>();
   private Document document;
+  private HashMap<String, Element> index = new HashMap<>();
 
+  // defines order to search for key/value pairs: Units => Global => SonarProjectProperties => PredefinedMacros
+  private final LinkedList<Element> parentList = new LinkedList<>();
+
+  // base directory to resolve relative paths
   private String baseDir = "";
 
   public CxxSquidConfiguration() {
@@ -117,25 +152,29 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     super(encoding);
     this.baseDir = baseDir;
 
-    var root = new Element("CompilationDatabase");
+    var root = new Element(ROOT);
     root.setAttribute(new Attribute("version", "1.0"));
     document = new Document(root);
 
     var element = new Element(PREDEFINED_MACROS);
     root.addContent(element);
+    index.put(PREDEFINED_MACROS, element);
     parentList.addFirst(element);
 
     element = new Element(SONAR_PROJECT_PROPERTIES);
     root.addContent(element);
+    index.put(SONAR_PROJECT_PROPERTIES, element);
     parentList.addFirst(element);
 
     element = new Element(GLOBAL);
     root.addContent(element);
+    index.put(GLOBAL, element);
     parentList.addFirst(element);
 
     // UNITS must be first one in the list
     element = new Element(UNITS);
     root.addContent(element);
+    index.put(UNITS, element);
     parentList.addFirst(element);
   }
 
@@ -516,22 +555,26 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    */
   @CheckForNull
   private Element findLevel(String level, @Nullable Element defaultElement) {
+    Element element = index.getOrDefault(level, null);
+    if (element != null) {
+      return element;
+    }
     String xpath;
     if (Verifier.checkElementName(level) == null) {
-      xpath = "/CompilationDatabase/" + level;
+      xpath = "/" + ROOT + "/" + level;
     } else {
       // handle special case 'UNITS empty' no need to search in tree
       if (isUnitsEmpty()) {
         return defaultElement;
       }
-      xpath = "//" + UNITS + "/File[@path='" + unifyPath(level) + "']";
+      xpath = "/" + ROOT + "/" + UNITS + "/" + FILE + "[@" + ATTR_PATH + "='" + unifyPath(level) + "']";
     }
     XPathExpression<Element> expr = xFactory.compile(xpath, Filters.element());
-    List<Element> elements = expr.evaluate(document);
-    if (!elements.isEmpty()) {
-      return elements.get(0);
+    element = expr.evaluateFirst(document);
+    if (element == null) {
+      element = defaultElement;
     }
-    return defaultElement;
+    return element;
   }
 
   /**
@@ -548,10 +591,12 @@ public class CxxSquidConfiguration extends SquidConfiguration {
         eLevel = new Element(level);
         document.getRootElement().addContent(eLevel);
       } else {
-        eLevel = new Element("File");
-        eLevel.setAttribute(new Attribute("path", unifyPath(level)));
+        eLevel = new Element(FILE);
+        level = unifyPath(level);
+        eLevel.setAttribute(new Attribute(ATTR_PATH, level));
         parentList.getFirst().addContent(eLevel);
       }
+      index.put(level, eLevel);
     }
     Element eKey = eLevel.getChild(key);
     if (eKey == null) {

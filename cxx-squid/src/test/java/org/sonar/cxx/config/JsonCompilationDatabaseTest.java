@@ -25,7 +25,9 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.List;
 import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
+import org.sonar.api.internal.apachecommons.lang.SystemUtils;
 
 class JsonCompilationDatabaseTest {
 
@@ -102,6 +104,33 @@ class JsonCompilationDatabaseTest {
       .contains(unifyPath("/usr/local/include"))
       .contains(unifyPath("/another/include/dir"))
       .contains(unifyPath("/usr/include"));
+  }
+
+  @Test
+  void testVsCommandSettings() throws Exception {
+    Assumptions.assumeTrue(SystemUtils.IS_OS_WINDOWS);
+
+    var squidConfig = new CxxSquidConfiguration();
+
+    var file = new File("src/test/resources/jsondb/compile_commands.json");
+
+    var jsonDb = new JsonCompilationDatabase(squidConfig);
+    jsonDb.parse(file);
+
+    var filename = "C:/Sample/Project/source.cpp";
+
+    List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
+    List<String> includes = squidConfig.getValues(filename, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+
+    assertThat(defines)
+      .hasSize(14)
+      .contains("GLOBAL_DEFINE 1")
+      .contains("_DLL 1");
+
+    assertThat(includes)
+      .hasSize(24)
+      .contains(unifyPath("/usr/include"))
+      .contains(unifyPath("C:\\Access\\Module\\AcquisitionBuffer\\PublicInterface"));
   }
 
   @Test
