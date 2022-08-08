@@ -267,14 +267,16 @@ public class CxxPreprocessor extends Preprocessor {
     switch ((PPGrammarImpl) lineAst.getType()) {
       case ifLine:
         return handleIfLine(lineAst, token);
-      case elifLine:
-        return handleElIfLine(lineAst, token);
       case ifdefLine:
         return handleIfdefLine(lineAst, token);
-      case endifLine:
-        return handleEndifLine(token);
+      case elifLine:
+        return handleElIfLine(lineAst, token);
+      case elifdefLine:
+        return handleElIfdefLine(lineAst, token);
       case elseLine:
         return handleElseLine(token);
+      case endifLine:
+        return handleEndifLine(token);
       case includeLine:
         return handleIncludeLine(lineAst, token);
       case defineLine:
@@ -431,6 +433,16 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
+  private PreprocessorAction handleIfLine(AstNode ast, Token token) {
+    if (include().state().skipTokens()) {
+      include().state().changeNestingDepth(+1);
+    } else {
+      handleConstantExpression(ast, token);
+    }
+
+    return oneConsumedToken(token);
+  }
+
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token) {
     if (include().state().skipTokens()) {
       include().state().changeNestingDepth(+1);
@@ -446,22 +458,32 @@ public class CxxPreprocessor extends Preprocessor {
     return oneConsumedToken(token);
   }
 
-  private PreprocessorAction handleIfLine(AstNode ast, Token token) {
-    if (include().state().skipTokens()) {
-      include().state().changeNestingDepth(+1);
-    } else {
-      handleConstantExpression(ast, token);
-    }
-
-    return oneConsumedToken(token);
-  }
-
   private PreprocessorAction handleElIfLine(AstNode ast, Token token) {
     // handling of an #elif line is similar to handling of an #if line but doesn't increase the nesting level
     if (!include().state().isInsideNestedBlock()) {
       if (include().state().skipTokens() && include().state().ifLastConditionWasFalse()) {
         // the preceding expression had been evaluated to false
         handleConstantExpression(ast, token);
+      } else {
+        // other block was already true: skipping tokens inside this #elif
+        include().state().setSkipTokens(true);
+      }
+    }
+
+    return oneConsumedToken(token);
+  }
+
+  private PreprocessorAction handleElIfdefLine(AstNode ast, Token token) {
+    // handling of an #elif line is similar to handling of an #if line but doesn't increase the nesting level
+    if (!include().state().isInsideNestedBlock()) {
+      if (include().state().skipTokens() && include().state().ifLastConditionWasFalse()) {
+        // the preceding expression had been evaluated to false
+        PPMacro macro = getMacro(getIdentifierName(ast));
+        var tokType = ast.getToken().getType();
+        boolean result = (tokType.equals(PPKeyword.ELIFDEF) && macro != null)
+                           || (tokType.equals(PPKeyword.ELIFNDEF) && macro == null);
+        include().state().setConditionValue(result);
+        include().state().setSkipTokens(!result);
       } else {
         // other block was already true: skipping tokens inside this #elif
         include().state().setSkipTokens(true);
