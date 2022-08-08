@@ -27,7 +27,7 @@ class PPKeywordTest {
   @Test
   void test() {
     var softly = new SoftAssertions();
-    softly.assertThat(PPKeyword.values()).hasSize(14);
+    softly.assertThat(PPKeyword.values()).hasSize(16);
     softly.assertThat(PPKeyword.keywordValues()).hasSize(PPKeyword.values().length);
     softly.assertAll();
   }

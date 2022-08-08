@@ -886,8 +886,7 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void dont_look_at_subsequent_clauses_if_elif() {
-    // When a if clause has been evaluated to true, dont look at
-    // subsequent elif clauses
+    // When a if clause has been evaluated to true, dont look at subsequent elif clauses
     List<Token> tokens = lexer.lex("#define A 1\n"
                                      + "#if A\n"
                                      + "   ifbody\n"
@@ -916,6 +915,90 @@ class CxxLexerWithPreprocessingTest {
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // case2 + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("case2")
+      .hasType(GenericTokenType.IDENTIFIER));
+    softly.assertAll();
+  }
+
+  @Test
+  void test_ifdef() {
+    List<Token> tokens = lexer.lex("#define CPU\n"
+                                     + "#ifdef CPU\n"
+                                     + "   ifbody\n"
+                                     + "#elifdef GPU\n"
+                                     + "   elifdefbody\n"
+                                     + "#elifndef RAM\n"
+                                     + "   elifndefbody\n"
+                                     + "#else\n"
+                                     + "   elsebody\n"
+                                     + "#endif");
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // body + EOF
+    softly.assertThat(tokens)
+      .anySatisfy(token -> assertThat(token)
+      .isValue("ifbody")
+      .hasType(GenericTokenType.IDENTIFIER));
+    softly.assertAll();
+  }
+
+  @Test
+  void test_elifdef() {
+    List<Token> tokens = lexer.lex("#define GPU\n"
+                                     + "#ifdef CPU\n"
+                                     + "   ifbody\n"
+                                     + "#elifdef GPU\n"
+                                     + "   elifdefbody\n"
+                                     + "#elifndef RAM\n"
+                                     + "   elifndefbody\n"
+                                     + "#else\n"
+                                     + "   elsebody\n"
+                                     + "#endif");
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // body + EOF
+    softly.assertThat(tokens)
+      .anySatisfy(token -> assertThat(token)
+      .isValue("elifdefbody")
+      .hasType(GenericTokenType.IDENTIFIER));
+    softly.assertAll();
+  }
+
+  @Test
+  void test_elifndef() {
+    List<Token> tokens = lexer.lex("#define XXX\n"
+                                     + "#ifdef CPU\n"
+                                     + "   ifbody\n"
+                                     + "#elifdef GPU\n"
+                                     + "   elifdefbody\n"
+                                     + "#elifndef RAM\n"
+                                     + "   elifndefbody\n"
+                                     + "#else\n"
+                                     + "   elsebody\n"
+                                     + "#endif");
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // body + EOF
+    softly.assertThat(tokens)
+      .anySatisfy(token -> assertThat(token)
+      .isValue("elifndefbody")
+      .hasType(GenericTokenType.IDENTIFIER));
+    softly.assertAll();
+  }
+
+  @Test
+  void test_else() {
+    List<Token> tokens = lexer.lex("#define RAM\n"
+                                     + "#ifdef CPU\n"
+                                     + "   ifbody\n"
+                                     + "#elifdef GPU\n"
+                                     + "   elifdefbody\n"
+                                     + "#elifndef RAM\n"
+                                     + "   elifndefbody\n"
+                                     + "#else\n"
+                                     + "   elsebody\n"
+                                     + "#endif");
+    var softly = new SoftAssertions();
+    softly.assertThat(tokens).hasSize(2); // body + EOF
+    softly.assertThat(tokens)
+      .anySatisfy(token -> assertThat(token)
+      .isValue("elsebody")
       .hasType(GenericTokenType.IDENTIFIER));
     softly.assertAll();
   }

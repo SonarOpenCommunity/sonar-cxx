@@ -273,6 +273,16 @@ class PPGrammarImplTest {
   }
 
   @Test
+  void elifdefLine() {
+    p.setRootRule(g.rule(PPGrammarImpl.elifdefLine));
+
+    assertThat(p).matches("#elifdef foo");
+    assertThat(p).matches("#elifndef foo");
+    assertThat(p).matches("#elifdef __GNUC__ // aka CONST but following LLVM Conventions.");
+    assertThat(p).matches("#elifdef /**/ lala /**/ ");
+  }
+
+  @Test
   void elseLine() {
     p.setRootRule(g.rule(PPGrammarImpl.elseLine));
 

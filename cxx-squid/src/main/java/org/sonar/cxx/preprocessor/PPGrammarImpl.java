@@ -51,6 +51,7 @@ enum PPGrammarImpl implements GrammarRuleKey {
   ppToken,
   ifLine,
   elifLine,
+  elifdefLine,
   constantExpression,
   primaryExpression,
   unaryExpression,
@@ -126,6 +127,7 @@ enum PPGrammarImpl implements GrammarRuleKey {
         ifLine, // if-section, if-group, # if
         ifdefLine, // if-section, if-group, # ifdef/ifndef
         elifLine, // if-section, elif-group, #elif
+        elifdefLine, // if-section, elif-group, #elifdef/elifndef
         elseLine, // if-section, else-group, #else
         endifLine, // if-section, endif-line, #endif
         miscLine,
@@ -279,24 +281,6 @@ enum PPGrammarImpl implements GrammarRuleKey {
   }
 
   private static void allTheOtherLinesGrammar(LexerfulGrammarBuilder b) {
-    // if-section, if-group, # ifdef/ifndef
-    b.rule(ifdefLine).is(
-      b.firstOf(
-        PPKeyword.IFDEF,
-        PPKeyword.IFNDEF
-      ), IDENTIFIER
-    );
-
-    // if-section, else-group, #else
-    b.rule(elseLine).is(
-      PPKeyword.ELSE
-    );
-
-    // if-section, endif-line, #endif
-    b.rule(endifLine).is(
-      PPKeyword.ENDIF
-    );
-
     // control-line, # undef
     b.rule(undefLine).is(
       PPKeyword.UNDEF, IDENTIFIER
@@ -333,9 +317,35 @@ enum PPGrammarImpl implements GrammarRuleKey {
       PPKeyword.IF, constantExpression
     );
 
+    // if-section, if-group, # ifdef/ifndef
+    b.rule(ifdefLine).is(
+      b.firstOf(
+        PPKeyword.IFDEF,
+        PPKeyword.IFNDEF
+      ), IDENTIFIER
+    );
+
     // if-section, elif-group, #elif
     b.rule(elifLine).is(
       PPKeyword.ELIF, constantExpression
+    );
+
+    // if-section, elif-group, #elifdef/elifndef
+    b.rule(elifdefLine).is(
+      b.firstOf(
+        PPKeyword.ELIFDEF,
+        PPKeyword.ELIFNDEF
+      ), IDENTIFIER
+    );
+
+    // if-section, else-group, #else
+    b.rule(elseLine).is(
+      PPKeyword.ELSE
+    );
+
+    // if-section, endif-line, #endif
+    b.rule(endifLine).is(
+      PPKeyword.ENDIF
     );
 
     b.rule(constantExpression).is(

@@ -32,6 +32,8 @@ public enum PPKeyword implements TokenType {
   IFDEF("#ifdef"),
   IFNDEF("#ifndef"),
   ELIF("#elif"),
+  ELIFDEF("#elifdef"),
+  ELIFNDEF("#elifndef"),
   ELSE("#else"),
   ENDIF("#endif"),
   INCLUDE("#include"),
