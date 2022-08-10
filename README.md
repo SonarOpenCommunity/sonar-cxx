@@ -57,7 +57,9 @@ Sensors for **static and dynamic code analysis**:
 * **Google Test (gtest)** file format (https://github.com/google/googletest)
   - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths)
 * **Boost.Test** file format (https://www.boost.org/doc/libs/release/libs/test/)
-  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt) 
+* **ctest (cmake)** file format (https://cmake.org/cmake/help/latest/manual/ctest.1.html)
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with ctest option `--output-junit <file>`
 * **CppTest** file format (https://cpptest.sourceforge.io/)
   - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * **CppUnit** file format (https://sourceforge.net/projects/cppunit/)
@@ -76,8 +78,8 @@ Sensors for **static and dynamic code analysis**:
 * **BullseyeCoverage** reports (http://www.bullseye.com/)
   - [sonar.cxx.bullseye.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.bullseye.reportPaths)
 * **Cobertura** coverage reports (http://cobertura.github.io/cobertura/)
-   * **gcov / gcovr** coverage reports --xml https://gcovr.com/en/stable/guide.html
-   * **OpenCppCoverage** --export_type=cobertura (https://github.com/OpenCppCoverage/OpenCppCoverage/)
+   * **gcov / gcovr** coverage reports with option `--xml` https://gcovr.com/en/stable/guide.html
+   * **OpenCppCoverage** with option `--export_type=cobertura` (https://github.com/OpenCppCoverage/OpenCppCoverage/)
    * [sonar.cxx.cobertura.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.cobertura.reportPaths)
 * **Testwell CTC++** coverage reports (https://www.verifysoft.com/en_ctcpp.html)
   - [sonar.cxx.ctctxt.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.ctctxt.reportPaths)
