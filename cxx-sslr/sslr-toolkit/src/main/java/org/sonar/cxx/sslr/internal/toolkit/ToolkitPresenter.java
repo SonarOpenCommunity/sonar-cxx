@@ -24,8 +24,13 @@
 package org.sonar.cxx.sslr.internal.toolkit;
 
 import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.RecognitionException;
 import com.sonar.cxx.sslr.xpath.api.AstNodeXPathQuery;
-import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -97,6 +102,27 @@ public class ToolkitPresenter {
     view.run();
   }
 
+  public void onSourceCodePasteButtonClick() {
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    Transferable contents = clipboard.getContents(null);
+    if (contents != null) {
+      if (contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+        String txtToParse;
+        try {
+          txtToParse = (String) contents.getTransferData(DataFlavor.stringFlavor);
+        } catch (UnsupportedFlavorException | IOException e) {
+          throw new RuntimeException(e);
+        }
+        try {
+          model.setSourceCode(txtToParse);
+        } catch (RecognitionException e) {
+          // ignore parsing errors
+        }
+        view.displayHighlightedSourceCode(model.getHighlightedSourceCode());
+      }
+    }
+  }
+
   public void onSourceCodeOpenButtonClick() {
     var fileToParse = view.pickFileToParse();
     if (fileToParse != null) {
@@ -107,13 +133,12 @@ public class ToolkitPresenter {
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      model.setSourceCode(fileToParse, configurationModel.getCharset());
+      try {
+        model.setSourceCode(fileToParse, configurationModel.getCharset());
+      } catch (RecognitionException e) {
+        // ignore parsing errors
+      }
       view.displayHighlightedSourceCode(model.getHighlightedSourceCode());
-      view.displayAst(model.getAstNode());
-      view.displayXml(model.getXml());
-      view.scrollSourceCodeTo(new Point(0, 0));
-      view.setFocusOnAbstractSyntaxTreeView();
-      view.enableXPathEvaluateButton();
     }
   }
 

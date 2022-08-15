@@ -34,6 +34,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import static java.awt.event.KeyEvent.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -44,6 +45,7 @@ import java.util.Objects;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -56,6 +58,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import static javax.swing.KeyStroke.getKeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.DocumentEvent;
@@ -64,6 +67,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Keymap;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -98,6 +102,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   private final JLabel sourceCodeLabel = new JLabel(" Source Code");
   private final JEditorPane sourceCodeEditorPane = new JEditorPane();
   private final JScrollPane sourceCodeEditorScrollPane = new JScrollPane(sourceCodeEditorPane);
+  private final JButton sourceCodePasteButton = new JButton();
   private final JButton sourceCodeOpenButton = new JButton();
   private final JButton sourceCodeParseButton = new JButton();
   private final JPanel sourceCodeButtonsPanel = new JPanel();
@@ -181,6 +186,26 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       }
     });
 
+    Keymap keymap = JEditorPane.addKeymap(null, sourceCodeEditorPane.getKeymap());
+    keymap.addActionForKeyStroke(getKeyStroke(VK_V, CTRL_DOWN_MASK), new AbstractAction() {
+                                 @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                   presenter.onSourceCodePasteButtonClick();
+                                 }
+                               });
+    keymap.addActionForKeyStroke(getKeyStroke(VK_O, CTRL_DOWN_MASK), new AbstractAction() {
+                                 @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                   presenter.onSourceCodeOpenButtonClick();
+                                 }
+                               });
+    sourceCodeEditorPane.setKeymap(keymap);
+
+    sourceCodePasteButton.setText("Paste Clipboard");
+    sourceCodePasteButton.addActionListener((ActionEvent e) -> {
+      presenter.onSourceCodePasteButtonClick();
+    });
+
     sourceCodeOpenButton.setText("Open Source File");
     sourceCodeOpenButton.addActionListener((ActionEvent e) -> {
       presenter.onSourceCodeOpenButtonClick();
@@ -191,6 +216,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       presenter.onSourceCodeParseButtonClick();
     });
 
+    sourceCodeButtonsPanel.add(sourceCodePasteButton);
     sourceCodeButtonsPanel.add(sourceCodeOpenButton);
     sourceCodeButtonsPanel.add(sourceCodeParseButton);
 

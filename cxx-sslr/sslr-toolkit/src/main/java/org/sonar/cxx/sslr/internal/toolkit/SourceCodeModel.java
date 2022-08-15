@@ -52,18 +52,17 @@ public class SourceCodeModel {
   }
 
   public void setSourceCode(File source, Charset charset) {
-    this.astNode = configurationModel.getParser().parse(source);
-
     try {
       this.sourceCode = new String(Files.readAllBytes(Paths.get(source.getPath())), charset);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    this.astNode = configurationModel.getParser().parse(source);
   }
 
   public void setSourceCode(String sourceCode) {
-    this.astNode = configurationModel.getParser().parse(sourceCode);
     this.sourceCode = sourceCode;
+    this.astNode = configurationModel.getParser().parse(sourceCode);
   }
 
   public String getHighlightedSourceCode() {

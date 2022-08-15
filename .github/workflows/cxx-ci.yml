@@ -234,7 +234,7 @@ jobs:
         os: [ubuntu-latest]
         java: [ '11' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.7.52159', '9.4.0.54424' ]
+        sonarqube: [ '8.9.9.56886', '9.5.0.56709' ]
         sonarscanner: [ '4.7.0.2747' ]
 
     runs-on: ${{ matrix.os }}
@@ -374,7 +374,7 @@ jobs:
         os: [windows-latest]
         java: [ '11' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.7.52159', '9.4.0.54424' ]
+        sonarqube: [ '8.9.9.56886', '9.5.0.56709' ]
         sonarscanner: [ '4.7.0.2747' ]
 
     runs-on: ${{ matrix.os }}
