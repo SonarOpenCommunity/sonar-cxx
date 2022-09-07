@@ -19,14 +19,19 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class MacroContainerTest {
 
-  private final MacroContainer<String, String> mc;
+  private MacroContainer<String, String> mc;
 
-  MacroContainerTest() {
+  @BeforeEach
+  void setUp() {
     mc = new MacroContainer<>();
   }
 
@@ -68,6 +73,21 @@ class MacroContainerTest {
     mc.pushDisable("k");
     mc.popDisable();
     assertThat(mc.get("k")).isEqualTo("v");
+  }
+
+  @Test
+  void persistentStorage(@TempDir Path tempDir) throws IOException, ClassNotFoundException {
+    Path fileName = tempDir.resolve("container.test");
+
+    mc.put("key1", "value1");
+    mc.put("key2", "value3");
+    mc.pushDisable("key2");
+
+    mc.writeToFile(fileName.toString());
+    mc.readFromFile(fileName.toString());
+
+    assertThat(mc.get("key1")).isEqualTo("value1");
+    assertThat(mc.get("key2")).isNull();
   }
 
 }

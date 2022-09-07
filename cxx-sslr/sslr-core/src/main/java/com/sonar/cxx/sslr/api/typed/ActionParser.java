@@ -24,22 +24,21 @@
 package com.sonar.cxx.sslr.api.typed;
 
 import com.sonar.cxx.sslr.api.RecognitionException;
+import com.sonar.cxx.sslr.impl.typed.GrammarBuilderInterceptor;
 import com.sonar.cxx.sslr.impl.typed.Interceptor;
 import com.sonar.cxx.sslr.impl.typed.MethodInterceptor;
-import com.sonar.cxx.sslr.impl.typed.GrammarBuilderInterceptor;
 import com.sonar.cxx.sslr.impl.typed.ReflectionUtils;
 import com.sonar.cxx.sslr.impl.typed.SyntaxTreeCreator;
-import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
-import org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder;
-import org.sonar.cxx.sslr.parser.ParseErrorFormatter;
-import org.sonar.cxx.sslr.parser.ParseRunner;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
+import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
+import org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder;
+import org.sonar.cxx.sslr.parser.ParseErrorFormatter;
+import org.sonar.cxx.sslr.parser.ParseRunner;
 
 /**
  * @since 1.21
@@ -87,7 +86,7 @@ public class ActionParser<N> {
 
   public N parse(File file) {
     try {
-      var chars = new String(Files.readAllBytes(Paths.get(file.getPath())), charset).toCharArray();
+      var chars = new String(Files.readAllBytes(Path.of(file.getPath())), charset).toCharArray();
       return parse(new Input(chars, file.toURI()));
     } catch (IOException e) {
       throw new RuntimeException(e);

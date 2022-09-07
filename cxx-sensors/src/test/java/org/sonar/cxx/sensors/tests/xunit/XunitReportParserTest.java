@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.tests.xunit;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -88,13 +87,13 @@ class XunitReportParserTest {
       .stream()
       .map(TestFile::getFilename)
       .filter(p -> !Strings.isNullOrEmpty(p))
-      .map(s -> Paths.get(s))
+      .map(s -> Path.of(s))
       .collect(Collectors.toList());
 
     var expectPaths = Stream.of(
-      Paths.get("/test/file.cpp"),
-      Paths.get("/test/File.cpp"),
-      Paths.get("/TEST/file.cpp"))
+      Path.of("/test/file.cpp"),
+      Path.of("/test/File.cpp"),
+      Path.of("/TEST/file.cpp"))
       .distinct()
       .toArray(n -> new Path[n]);
 

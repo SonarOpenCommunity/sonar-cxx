@@ -22,7 +22,7 @@ package org.sonar.cxx.config;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Assumptions;
@@ -60,7 +60,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get(".");
+    var cwd = Path.of(".");
     var absPath = cwd.resolve("test-extension.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -86,7 +86,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get(".");
+    var cwd = Path.of(".");
     var absPath = cwd.resolve("test-with-command.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -142,7 +142,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get(".");
+    var cwd = Path.of(".");
     var absPath = cwd.resolve("test-argument-parser.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -179,7 +179,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get(".");
+    var cwd = Path.of(".");
     var absPath = cwd.resolve("test-with-arguments.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -208,7 +208,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get("src");
+    var cwd = Path.of("src");
     var absPath = cwd.resolve("test-with-relative-directory.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -231,7 +231,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get(".");
+    var cwd = Path.of(".");
     var absPath = cwd.resolve("test-with-arguments-as-list.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -260,7 +260,7 @@ class JsonCompilationDatabaseTest {
     var jsonDb = new JsonCompilationDatabase(squidConfig);
     jsonDb.parse(file);
 
-    var cwd = Paths.get(".");
+    var cwd = Path.of(".");
     var absPath = cwd.resolve("unknown.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
@@ -300,7 +300,7 @@ class JsonCompilationDatabaseTest {
   }
 
   static private String unifyPath(String path) {
-    return Paths.get(path).toString();
+    return Path.of(path).toString();
   }
 
 }

@@ -30,9 +30,12 @@ import com.sonar.cxx.sslr.impl.Parser;
 import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
 import org.sonar.api.utils.log.Logger;
@@ -101,6 +104,8 @@ public class CxxPreprocessor extends Preprocessor {
   private PPReplace replace = null;
   private PPInclude include = null;
 
+  private final Map<Path, Boolean> fileExists = new HashMap<>();
+
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
     this(context, new CxxSquidConfiguration());
   }
@@ -133,7 +138,7 @@ public class CxxPreprocessor extends Preprocessor {
     if (!context.getFile().equals(currentContextFile)) {
       currentContextFile = context.getFile();
 
-      include = new PPInclude(this, currentContextFile);
+      include = new PPInclude(this, currentContextFile.toPath());
       unitMacros = new MacroContainer<>();
       String path = currentContextFile.getAbsolutePath();
 
@@ -323,6 +328,20 @@ public class CxxPreprocessor extends Preprocessor {
     unitMacros = null;
     include = null;
     currentContextFile = null;
+  }
+
+  /**
+   * Tests whether a file exists.
+   *
+   * Uses a cache to speed up slow access times in the file system.
+   *
+   * @param fileName the path to the file to test
+   * @return {@code true} if the file exists; {@code false} if the file does not exist or
+   * its existence cannot be determined.
+   */
+  public boolean exists(Path fileName) {
+    // File.exists has better performance as Files.exists(path)
+    return fileExists.computeIfAbsent(fileName, f -> f.toFile().exists());
   }
 
   private void addPredefinedMacros() {

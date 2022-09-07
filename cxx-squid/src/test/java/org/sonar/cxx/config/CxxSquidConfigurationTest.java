@@ -20,8 +20,8 @@
 package org.sonar.cxx.config;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -30,6 +30,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 class CxxSquidConfigurationTest {
 
@@ -37,8 +38,8 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testEmptyDb() {
-    var db = new CxxSquidConfiguration();
-    Optional<String> value = db.get("level", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    Optional<String> value = squidConfig.get("level", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isEmpty();
@@ -47,9 +48,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void emptySingleValue() {
-    var db = new CxxSquidConfiguration();
-    db.add("a", "b", "c");
-    Optional<String> value = db.get("d", "e");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a", "b", "c");
+    Optional<String> value = squidConfig.get("d", "e");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isEmpty();
@@ -58,9 +59,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void identifierSingleValue() {
-    var db = new CxxSquidConfiguration();
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value");
-    Optional<String> value = db.get(CxxSquidConfiguration.GLOBAL, "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value");
+    Optional<String> value = squidConfig.get(CxxSquidConfiguration.GLOBAL, "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -70,11 +71,11 @@ class CxxSquidConfigurationTest {
 
   @Test
   void identifierMultiValue() {
-    var db = new CxxSquidConfiguration();
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value2");
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value3");
-    List<String> values = db.getValues(CxxSquidConfiguration.GLOBAL, "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value2");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value3");
+    List<String> values = squidConfig.getValues(CxxSquidConfiguration.GLOBAL, "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(3);
@@ -86,10 +87,10 @@ class CxxSquidConfigurationTest {
 
   @Test
   void identifierParentSingleValue() {
-    var db = new CxxSquidConfiguration();
-    db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
-    db.add("a/b/c", "key", "value2");
-    Optional<String> value = db.get(CxxSquidConfiguration.GLOBAL, "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
+    squidConfig.add("a/b/c", "key", "value2");
+    Optional<String> value = squidConfig.get(CxxSquidConfiguration.GLOBAL, "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -99,13 +100,13 @@ class CxxSquidConfigurationTest {
 
   @Test
   void fileSingleValue() {
-    var db = new CxxSquidConfiguration();
+    var squidConfig = new CxxSquidConfiguration();
     var softly = new SoftAssertions();
 
-    softly.assertThat(db.isUnitsEmpty()).isTrue();
-    db.add("a/b/c", "key", "value");
-    softly.assertThat(db.isUnitsEmpty()).isFalse();
-    Optional<String> value = db.get("a/b/c", "key");
+    softly.assertThat(squidConfig.isUnitsEmpty()).isTrue();
+    squidConfig.add("a/b/c", "key", "value");
+    softly.assertThat(squidConfig.isUnitsEmpty()).isFalse();
+    Optional<String> value = squidConfig.get("a/b/c", "key");
 
     softly.assertThat(value).isNotEmpty();
     softly.assertThat(value).isEqualTo(Optional.of("value"));
@@ -114,11 +115,11 @@ class CxxSquidConfigurationTest {
 
   @Test
   void fileMultiValue1() {
-    var db = new CxxSquidConfiguration();
-    db.add("a/b/c", "key", "value1");
-    db.add("a/b/c", "key", "value2");
-    db.add("a/b/c", "key", "value3");
-    List<String> values = db.getValues("a/b/c", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key", "value1");
+    squidConfig.add("a/b/c", "key", "value2");
+    squidConfig.add("a/b/c", "key", "value3");
+    List<String> values = squidConfig.getValues("a/b/c", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(3);
@@ -130,9 +131,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void fileMultiValue2() {
-    var db = new CxxSquidConfiguration();
-    db.add("a/b/c", "key", new String[]{"value1", "value2", "value3"});
-    List<String> values = db.getValues("a/b/c", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key", new String[]{"value1", "value2", "value3"});
+    List<String> values = squidConfig.getValues("a/b/c", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(3);
@@ -144,9 +145,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void fileMultiValue3() {
-    var db = new CxxSquidConfiguration();
-    db.add("a/b/c", "key", Arrays.asList("value1", "value2", "value3"));
-    List<String> values = db.getValues("a/b/c", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key", Arrays.asList("value1", "value2", "value3"));
+    List<String> values = squidConfig.getValues("a/b/c", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(3);
@@ -158,11 +159,11 @@ class CxxSquidConfigurationTest {
 
   @Test
   void fileParentSingleValue() {
-    var db = new CxxSquidConfiguration();
-    db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
-    db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value3");
-    Optional<String> value = db.get("a/b/c", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value3");
+    Optional<String> value = squidConfig.get("a/b/c", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -172,22 +173,22 @@ class CxxSquidConfigurationTest {
 
   @Test
   void fileParentMultiValue() {
-    var db = new CxxSquidConfiguration();
-    db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
-    db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value3");
-    db.add("a/b/c", "key", "value4");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value1");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value3");
+    squidConfig.add("a/b/c", "key", "value4");
 
     var softly = new SoftAssertions();
 
-    List<String> values = db.getValues("a/b/c", "key");
+    List<String> values = squidConfig.getValues("a/b/c", "key");
     softly.assertThat(values).hasSize(4);
     softly.assertThat(values.get(0)).isEqualTo("value4");
     softly.assertThat(values.get(1)).isEqualTo("value3");
     softly.assertThat(values.get(2)).isEqualTo("value2");
     softly.assertThat(values.get(3)).isEqualTo("value1");
 
-    values = db.getValues(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key");
+    values = squidConfig.getValues(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key");
     softly.assertThat(values).hasSize(2);
     softly.assertThat(values.get(0)).isEqualTo("value2");
     softly.assertThat(values.get(1)).isEqualTo("value1");
@@ -197,9 +198,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testSpecialCharInValue() {
-    var db = new CxxSquidConfiguration();
-    db.add("a/b/c", "key", "<>&'\"");
-    Optional<String> value = db.get("a/b/c", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key", "<>&'\"");
+    Optional<String> value = squidConfig.get("a/b/c", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -209,13 +210,13 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testKeys() {
-    var db = new CxxSquidConfiguration();
-    db.add("a/b/c", "key1", "value1");
-    db.add("a/b/c", "key2", "value2");
-    db.add("a/b/c", "key3", "value3");
-    Optional<String> value1 = db.get("a/b/c", "key1");
-    Optional<String> value2 = db.get("a/b/c", "key2");
-    Optional<String> value3 = db.get("a/b/c", "key3");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key1", "value1");
+    squidConfig.add("a/b/c", "key2", "value2");
+    squidConfig.add("a/b/c", "key3", "value3");
+    Optional<String> value1 = squidConfig.get("a/b/c", "key1");
+    Optional<String> value2 = squidConfig.get("a/b/c", "key2");
+    Optional<String> value3 = squidConfig.get("a/b/c", "key3");
 
     var softly = new SoftAssertions();
     softly.assertThat(value1).isNotEmpty();
@@ -229,14 +230,14 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testChildrenValues() {
-    var db = new CxxSquidConfiguration();
-    db.add("a/b/c", "key", "value1");
-    db.add("c/d/e", "key", "value2");
-    db.add("f/g/h", "key", "value3");
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value4");
-    db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value5");
-    db.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value6");
-    List<String> values = db.getChildrenValues(CxxSquidConfiguration.UNITS, "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key", "value1");
+    squidConfig.add("c/d/e", "key", "value2");
+    squidConfig.add("f/g/h", "key", "value3");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value4");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value5");
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "key", "value6");
+    List<String> values = squidConfig.getChildrenValues(CxxSquidConfiguration.UNITS, "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(6);
@@ -251,10 +252,10 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testLevelValues() {
-    var db = new CxxSquidConfiguration();
-    db.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
-    db.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
-    List<String> values = db.getLevelValues(CxxSquidConfiguration.GLOBAL, "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value1");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "key", "value2");
+    List<String> values = squidConfig.getLevelValues(CxxSquidConfiguration.GLOBAL, "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(values).hasSize(1);
@@ -264,15 +265,15 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testPathNames() {
-    var db = new CxxSquidConfiguration();
-    db.add("/a/b/c.cpp", "key1", "value1");
-    db.add("c:\\a\\b\\c.cpp", "key2", "value2");
-    db.add("/X/Y/Z.cpp", "key3", "value3");
-    db.add("C:\\X\\Y\\Z.cpp", "key4", "value4");
-    Optional<String> value1 = db.get("/a/b/c.cpp", "key1");
-    Optional<String> value2 = db.get("c:\\a\\b\\c.cpp", "key2");
-    Optional<String> value3 = db.get("/x/y/z.cpp", "key3");
-    Optional<String> value4 = db.get("c:/x/y/z.cpp", "key4");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("/a/b/c.cpp", "key1", "value1");
+    squidConfig.add("c:\\a\\b\\c.cpp", "key2", "value2");
+    squidConfig.add("/X/Y/Z.cpp", "key3", "value3");
+    squidConfig.add("C:\\X\\Y\\Z.cpp", "key4", "value4");
+    Optional<String> value1 = squidConfig.get("/a/b/c.cpp", "key1");
+    Optional<String> value2 = squidConfig.get("c:\\a\\b\\c.cpp", "key2");
+    Optional<String> value3 = squidConfig.get("/x/y/z.cpp", "key3");
+    Optional<String> value4 = squidConfig.get("c:/x/y/z.cpp", "key4");
 
     var softly = new SoftAssertions();
     softly.assertThat(value1).isNotEmpty();
@@ -288,12 +289,12 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testBoolean() {
-    var db = new CxxSquidConfiguration();
-    db.add("level", "key1", "True");
-    db.add("level", "key2", "False");
-    Optional<Boolean> value1 = db.getBoolean("level", "key1");
-    Optional<Boolean> value2 = db.getBoolean("level", "key2");
-    Optional<Boolean> value3 = db.getBoolean("level", "key3"); // does not exist
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("level", "key1", "True");
+    squidConfig.add("level", "key2", "False");
+    Optional<Boolean> value1 = squidConfig.getBoolean("level", "key1");
+    Optional<Boolean> value2 = squidConfig.getBoolean("level", "key2");
+    Optional<Boolean> value3 = squidConfig.getBoolean("level", "key3"); // does not exist
 
     var softly = new SoftAssertions();
     softly.assertThat(value1).isNotEmpty();
@@ -306,9 +307,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testInt() {
-    var db = new CxxSquidConfiguration();
-    db.add("level", "key", "1");
-    Optional<Integer> value = db.getInt("level", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("level", "key", "1");
+    Optional<Integer> value = squidConfig.getInt("level", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -318,9 +319,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testLong() {
-    var db = new CxxSquidConfiguration();
-    db.add("level", "key", String.valueOf(Long.MAX_VALUE));
-    Optional<Long> value = db.getLong("level", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("level", "key", String.valueOf(Long.MAX_VALUE));
+    Optional<Long> value = squidConfig.getLong("level", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -330,9 +331,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testFloat() {
-    var db = new CxxSquidConfiguration();
-    db.add("level", "key", String.valueOf(Float.MAX_VALUE));
-    Optional<Float> value = db.getFloat("level", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("level", "key", String.valueOf(Float.MAX_VALUE));
+    Optional<Float> value = squidConfig.getFloat("level", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -342,9 +343,9 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testDouble() {
-    var db = new CxxSquidConfiguration();
-    db.add("level", "key", String.valueOf(Double.MAX_VALUE));
-    Optional<Double> value = db.getDouble("level", "key");
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("level", "key", String.valueOf(Double.MAX_VALUE));
+    Optional<Double> value = squidConfig.getDouble("level", "key");
 
     var softly = new SoftAssertions();
     softly.assertThat(value).isNotEmpty();
@@ -354,16 +355,16 @@ class CxxSquidConfigurationTest {
 
   @Test
   void testToString() {
-    var db = new CxxSquidConfiguration();
-    db.add("global1", "key1", "value1");
-    db.add("global1", "key1", "value2");
-    db.add("global2", "key1", "value1");
-    db.add("a/b/c", "key1", "value1");
-    db.add("a/b/c", "key1", "value2");
-    db.add("a/b/c", "key2", "value1");
-    db.add("a/b/c", "key2", "value2");
-    db.add("d/e/f", "key1", "value1");
-    var xml = db.toString();
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("global1", "key1", "value1");
+    squidConfig.add("global1", "key1", "value2");
+    squidConfig.add("global2", "key1", "value1");
+    squidConfig.add("a/b/c", "key1", "value1");
+    squidConfig.add("a/b/c", "key1", "value2");
+    squidConfig.add("a/b/c", "key2", "value1");
+    squidConfig.add("a/b/c", "key2", "value2");
+    squidConfig.add("d/e/f", "key1", "value1");
+    var xml = squidConfig.toString();
 
     var softly = new SoftAssertions();
     softly.assertThat(xml).isNotEmpty();
@@ -659,6 +660,50 @@ class CxxSquidConfigurationTest {
     softly.assertAll();
   }
 
+  @Test
+  void testConfigFile(@TempDir Path tempDir) throws IOException {
+    Path fileName = tempDir.resolve("config.xml");
+
+    var squidConfig = new CxxSquidConfiguration(".");
+
+    // add a value on each level
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "PREDEFINED_MACROS", "PREDEFINED_MACROS");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "SONAR_PROJECT_PROPERTIES",
+                    "SONAR_PROJECT_PROPERTIES");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "GLOBAL", "GLOBAL");
+    squidConfig.add("a/b/c", "UNIT", "UNIT");
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "l1a", "l1a");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "l2a", "l2a");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "l3a", "l3a");
+    squidConfig.add("a/b/c", "l4a", "l4a");
+
+    var softly = new SoftAssertions();
+
+    softly.assertThat(squidConfig.writeToFile(fileName.toString())).isTrue();
+    softly.assertThat(squidConfig.readFromFile(fileName.toString())).isTrue();
+
+    // add new values after read (is it still working?)
+    squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "l1b", "l1b");
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "l2b", "l2b");
+    squidConfig.add(CxxSquidConfiguration.GLOBAL, "l3b", "l3b");
+    squidConfig.add("a/b/c", "l4b", "l4b");
+
+    softly.assertThat(squidConfig.get(CxxSquidConfiguration.PREDEFINED_MACROS, "PREDEFINED_MACROS"))
+      .contains("PREDEFINED_MACROS");
+    softly.assertThat(squidConfig.get(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "SONAR_PROJECT_PROPERTIES"))
+      .contains("SONAR_PROJECT_PROPERTIES");
+    softly.assertThat(squidConfig.get(CxxSquidConfiguration.GLOBAL, "GLOBAL"))
+      .contains("GLOBAL");
+    softly.assertThat(squidConfig.get("a/b/c", "UNIT"))
+      .contains("UNIT");
+    softly.assertThat(squidConfig.get("a/b/c", "l1a"))
+      .contains("l1a");
+    softly.assertThat(squidConfig.get("a/b/c", "l2b"))
+      .contains("l2b");
+
+    softly.assertAll();
+  }
+
   private void ValidateDefaultAsserts(SoftAssertions softly, List<String> defines) {
     softly.assertThat(defines).contains("_INTEGRAL_MAX_BITS 64");
     softly.assertThat(defines).contains("_MSC_BUILD 1");
@@ -685,7 +730,7 @@ class CxxSquidConfigurationTest {
     var allIncludes = new HashSet<Path>();
 
     for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.UNITS, CxxSquidConfiguration.INCLUDE_DIRECTORIES)) {
-      allIncludes.add(Paths.get(elem));
+      allIncludes.add(Path.of(elem));
     }
 
     return new ArrayList<>(allIncludes);

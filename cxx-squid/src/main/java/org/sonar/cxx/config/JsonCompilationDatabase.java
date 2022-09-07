@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,9 +127,9 @@ public class JsonCompilationDatabase {
 
     Path cwd;
     if (commandObject.getDirectory() != null) {
-      cwd = Paths.get(commandObject.getDirectory());
+      cwd = Path.of(commandObject.getDirectory());
     } else {
-      cwd = Paths.get(".");
+      cwd = Path.of(".");
     }
 
     String level;

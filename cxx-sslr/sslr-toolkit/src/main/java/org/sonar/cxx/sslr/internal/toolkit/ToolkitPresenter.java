@@ -36,7 +36,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Objects;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
@@ -128,7 +128,7 @@ public class ToolkitPresenter {
     if (fileToParse != null) {
       view.clearConsole();
       try {
-        view.displayHighlightedSourceCode(new String(Files.readAllBytes(Paths.get(fileToParse.getPath())),
+        view.displayHighlightedSourceCode(new String(Files.readAllBytes(Path.of(fileToParse.getPath())),
                                                      configurationModel.getCharset()));
       } catch (IOException e) {
         throw new RuntimeException(e);

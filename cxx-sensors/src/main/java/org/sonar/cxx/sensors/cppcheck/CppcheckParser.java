@@ -20,7 +20,7 @@
 package org.sonar.cxx.sensors.cppcheck;
 
 import java.io.File;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -165,7 +165,7 @@ public class CppcheckParser {
 
       private String makeRelativePath(String path, String basePath) {
         try {
-          return Paths.get(basePath).relativize(Paths.get(path)).toString();
+          return Path.of(basePath).relativize(Path.of(path)).toString();
         } catch (IllegalArgumentException e) {
           LOG.warn("Can't create relative path: basePath='{}', path='{}'", basePath, path);
           return path;

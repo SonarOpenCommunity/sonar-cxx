@@ -19,6 +19,11 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -35,8 +40,8 @@ import java.util.stream.Collectors;
  */
 public class MacroContainer<K, V> {
 
-  private final Map<K, V> values = new HashMap<>();
-  private final Deque<K> disabled = new ArrayDeque<>();
+  private Map<K, V> values = new HashMap<>();
+  private Deque<K> disabled = new ArrayDeque<>();
 
   /**
    * get value for key.
@@ -102,6 +107,35 @@ public class MacroContainer<K, V> {
    */
   public void popDisable() {
     disabled.pop();
+  }
+
+  /**
+   * Writes the MacroContainer to a file.
+   *
+   * @param fileName The system-dependent filename.
+   * @throws java.io.IOException file cannot be created, or cannot be written for any other reason
+   */
+  public void writeToFile(String fileName) throws IOException {
+    try (FileOutputStream fos = new FileOutputStream(fileName);
+         ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+      oos.writeObject(values);
+      oos.writeObject(disabled);
+    }
+  }
+
+  /**
+   * Reads the MacroContainer from a file.
+   *
+   * @param fileName The system-dependent filename.
+   * @throws java.io.IOException file cannot be opened, or cannot be read for any other reason
+   * @throws java.lang.ClassNotFoundException class of a serialized object cannot be found
+   */
+  public void readFromFile(String fileName) throws IOException, ClassNotFoundException {
+    try (FileInputStream fis = new FileInputStream(fileName);
+         ObjectInputStream ois = new ObjectInputStream(fis)) {
+      values = (Map) ois.readObject();
+      disabled = (Deque) ois.readObject();
+    }
   }
 
   /**
