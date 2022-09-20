@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import org.sonar.colorizer.HtmlOptions;
@@ -53,7 +53,7 @@ public class SourceCodeModel {
 
   public void setSourceCode(File source, Charset charset) {
     try {
-      this.sourceCode = new String(Files.readAllBytes(Paths.get(source.getPath())), charset);
+      this.sourceCode = new String(Files.readAllBytes(Path.of(source.getPath())), charset);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,9 +44,9 @@ class PPIncludeTest {
   private Path file1;
   private Path file2;
 
-  private final File expected1 = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
-  private final File expected2 = new File(new File("src/test/resources/codeprovider/source").getAbsolutePath());
-  private final File root = new File(new File("src/test/resources/codeprovider").getAbsolutePath());
+  private final Path expected1 = Path.of("src/test/resources/codeprovider/source.hh").toAbsolutePath();
+  private final Path expected2 = Path.of("src/test/resources/codeprovider/source").toAbsolutePath();
+  private final Path root = Path.of("src/test/resources/codeprovider").toAbsolutePath();
 
   @TempDir
   File tempDir;
@@ -59,7 +58,7 @@ class PPIncludeTest {
     when(context.getFile()).thenReturn(file); // necessary for init
     pp = new CxxPreprocessor(context);
     pp.init();
-    include = new PPInclude(pp, file);
+    include = new PPInclude(pp, file.toPath());
     lineParser = PPParser.create(Charset.defaultCharset());
 
     // create include file
@@ -71,29 +70,29 @@ class PPIncludeTest {
   @Test
   void testFindIncludedFileQuoted() {
     AstNode ast = lineParser.parse("#include " + "\"" + file1.toAbsolutePath().toString() + "\"");
-    File result = include.searchFile(ast);
-    assertThat(result).isEqualTo(file1.toFile());
+    Path result = include.searchFile(ast);
+    assertThat(result).isEqualTo(file1);
   }
 
   @Test
   void testFindIncludedFileWithBlanksQuoted() {
     AstNode ast = lineParser.parse("#include " + "\"" + file2.toAbsolutePath().toString() + "\"");
-    File result = include.searchFile(ast);
-    assertThat(result).isEqualTo(file2.toFile());
+    Path result = include.searchFile(ast);
+    assertThat(result).isEqualTo(file2);
   }
 
   @Test
   void testFindIncludedFileBracketed() {
     AstNode ast = lineParser.parse("#include " + "<" + file1.toAbsolutePath().toString() + ">");
-    File result = include.searchFile(ast);
-    assertThat(result).isEqualTo(file1.toFile());
+    Path result = include.searchFile(ast);
+    assertThat(result).isEqualTo(file1);
   }
 
   @Test
   void testFindIncludedFileWithBlanksBracketed() {
     AstNode ast = lineParser.parse("#include " + "<" + file2.toAbsolutePath().toString() + ">");
-    File result = include.searchFile(ast);
-    assertThat(result).isEqualTo(file2.toFile());
+    Path result = include.searchFile(ast);
+    assertThat(result).isEqualTo(file2);
   }
 
   // ////////////////////////////////////////////////////////////////////////////
@@ -103,8 +102,8 @@ class PPIncludeTest {
     // lookup with absolute paths should ignore the value of current
     // working directory and should work the same in the quoted and
     // unquoted case
-    include = new PPInclude(pp, new File("src/test/resources/codeprovider/dummy.cpp"));
-    String path = expected1.getAbsolutePath();
+    include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/dummy.cpp"));
+    String path = expected1.toString();
 
     assertThat(include.searchFile(path, true)).isEqualTo(expected1);
     assertThat(include.searchFile(path, false)).isEqualTo(expected1);
@@ -122,9 +121,9 @@ class PPIncludeTest {
   // rel. path | 3        | 4        |
   @Test
   void getting_file_relpath_case1() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
+    var includeRoot = Path.of("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -135,9 +134,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case1_without_extension() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("src/test/resources/codeprovider").toAbsolutePath().toString();
+    var includeRoot = Path.of("src/test/resources/codeprovider").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -148,9 +147,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case2() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("resources/codeprovider").toString();
+    var includeRoot = Path.of("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -161,9 +160,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case2_without_extension() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("resources/codeprovider").toString();
+    var includeRoot = Path.of("resources/codeprovider").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -174,9 +173,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case3() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
+    var includeRoot = Path.of("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -187,9 +186,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case3_without_extension() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("src/test/resources").toAbsolutePath().toString();
+    var includeRoot = Path.of("src/test/resources").toAbsolutePath().toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -200,9 +199,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case4() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("resources").toString();
+    var includeRoot = Path.of("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -213,9 +212,9 @@ class PPIncludeTest {
 
   @Test
   void getting_file_relpath_case4_without_extension() {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
 
-    var includeRoot = Paths.get("resources").toString();
+    var includeRoot = Path.of("resources").toString();
     String baseDir = new File("src/test").getAbsolutePath();
     include.setStandardIncludeDirs(Arrays.asList(includeRoot), baseDir);
 
@@ -229,7 +228,7 @@ class PPIncludeTest {
   // Lookup in the current directory. Has to fail for the angle case
   @Test
   void getting_file_with_filename_and_cwd() {
-    include = new PPInclude(pp, new File("src/test/resources/codeprovider/dummy.cpp"));
+    include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/dummy.cpp"));
 
     var path = "source.hh";
     assertThat(include.searchFile(path, true)).isEqualTo(expected1);
@@ -238,7 +237,7 @@ class PPIncludeTest {
 
   @Test
   void getting_file_with_relpath_and_cwd() {
-    include = new PPInclude(pp, new File("src/test/resources/dummy.cpp"));
+    include = new PPInclude(pp, Path.of("src/test/resources/dummy.cpp"));
 
     var path = "codeprovider/source.hh";
     assertThat(include.searchFile(path, true)).isEqualTo(expected1);
@@ -247,7 +246,7 @@ class PPIncludeTest {
 
   @Test
   void getting_file_with_relpath_containing_backsteps_and_cwd() {
-    include = new PPInclude(pp, new File("src/test/resources/codeprovider/folder/dummy.cpp"));
+    include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/folder/dummy.cpp"));
 
     var path = "../source.hh";
     assertThat(include.searchFile(path, true)).isEqualTo(expected1);
@@ -256,34 +255,34 @@ class PPIncludeTest {
 
   @Test
   void getting_source_code1() throws IOException {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(expected1, Charset.defaultCharset())).isEqualTo("source code");
   }
 
   @Test
   void getting_source_code2() throws IOException {
-    include = new PPInclude(pp, new File("dummy"));
+    include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(expected2, Charset.defaultCharset())).isEqualTo("source code");
   }
 
   @Test
   void getting_source_code_utf_8() throws IOException {
-    include = new PPInclude(pp, new File("dummy"));
-    assertThat(include.getSourceCode(new File(root, "./utf-8.hh"),
+    include = new PPInclude(pp, Path.of("dummy"));
+    assertThat(include.getSourceCode(root.resolve("./utf-8.hh"),
                                      Charset.defaultCharset())).isEqualTo("UTF-8");
   }
 
   @Test
   void getting_source_code_utf_8_bom() throws IOException {
-    include = new PPInclude(pp, new File("dummy"));
-    assertThat(include.getSourceCode(new File(root, "./utf-8-bom.hh"),
+    include = new PPInclude(pp, Path.of("dummy"));
+    assertThat(include.getSourceCode(root.resolve("./utf-8-bom.hh"),
                                      Charset.defaultCharset())).isEqualTo("UTF-8-BOM");
   }
 
   @Test
   void getting_source_code_utf_16_le_bom() throws IOException {
-    include = new PPInclude(pp, new File("dummy"));
-    assertThat(include.getSourceCode(new File(root, "./utf-16le-bom.hh"),
+    include = new PPInclude(pp, Path.of("dummy"));
+    assertThat(include.getSourceCode(root.resolve("./utf-16le-bom.hh"),
                                      Charset.defaultCharset())).isEqualTo("UTF-16LE-BOM");
   }
 

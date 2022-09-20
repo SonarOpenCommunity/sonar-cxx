@@ -20,16 +20,13 @@
 package org.sonar.cxx.sensors.tests.xunit;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -133,14 +130,14 @@ public class XunitReportParser implements XmlStreamHandler {
 
   private TestFile getTestFile(String filename) {
     var absolute = Optional.ofNullable(CxxUtils.resolveAntPath(baseDir, filename))
-      .map(p -> Paths.get(p));
+      .map(p -> Path.of(p));
 
     var file = testFiles.get(absolute.orElse(null));
     if (file == null) {
       file = new TestFile(absolute.map(Object::toString).orElse(null));
       testFiles.put(absolute.orElse(null), file);
     }
-    
+
     return file;
   }
 

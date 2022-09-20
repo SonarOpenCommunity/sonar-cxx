@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 import static org.assertj.core.api.Assertions.*;
@@ -79,8 +79,8 @@ class FinalReportTest {
     var fb = TestInputFileBuilder.create("", fileName);
 
     fb.setCharset(charset);
-    fb.setProjectBaseDir(Paths.get(basePath));
-    fb.setContents(getSourceCode(Paths.get(basePath, fileName).toFile(), charset));
+    fb.setProjectBaseDir(Path.of(basePath));
+    fb.setContents(getSourceCode(Path.of(basePath, fileName).toFile(), charset));
 
     return fb.build();
   }

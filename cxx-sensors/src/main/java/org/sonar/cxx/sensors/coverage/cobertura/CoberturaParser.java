@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.coverage.cobertura;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -44,7 +43,7 @@ public class CoberturaParser implements CoverageParser {
   private static final Logger LOG = Loggers.get(CoberturaParser.class);
   private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
 
-  private Path baseDir = Paths.get(".");
+  private Path baseDir = Path.of(".");
 
   /**
    * Join two paths
@@ -72,18 +71,18 @@ public class CoberturaParser implements CoverageParser {
     if (!path1.isAbsolute()) {
       var root = path1.getRoot();
       if (root != null && !root.toString().endsWith(File.separator)) { // special case drive letter only, e.g. c:
-        path1 = Paths.get(path1.toString(), File.separator);
+        path1 = Path.of(path1.toString(), File.separator);
       } else {
-        path1 = Paths.get(".", path1.toString());
+        path1 = Path.of(".", path1.toString());
       }
     }
     if (!path2.isAbsolute()) {
-      path2 = Paths.get(".", path2.toString());
+      path2 = Path.of(".", path2.toString());
     }
 
     var result = path1.resolve(path2).normalize();
     if (!result.isAbsolute()) {
-      result = Paths.get(".", result.toString());
+      result = Path.of(".", result.toString());
     }
 
     return result.toString();
@@ -121,7 +120,7 @@ public class CoberturaParser implements CoverageParser {
   public Map<String, CoverageMeasures> parse(File report) {
     var coverageData = new HashMap<String, CoverageMeasures>();
     try {
-      baseDir = Paths.get(".");
+      baseDir = Path.of(".");
 
       var sourceParser = new StaxParser((SMHierarchicCursor rootCursor) -> {
         try {
@@ -154,7 +153,7 @@ public class CoberturaParser implements CoverageParser {
       String sourceValue = source.getElemStringValue().trim();
       if (!sourceValue.isEmpty()) {
         // join with . to handle also special cases like drive letter only, e.g. C:
-        baseDir = Paths.get(sourceValue, ".").normalize();
+        baseDir = Path.of(sourceValue, ".").normalize();
         break;
       }
     }
@@ -170,7 +169,7 @@ public class CoberturaParser implements CoverageParser {
   private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = join(baseDir, Paths.get(clazz.getAttrValue("filename")));
+      String normalPath = join(baseDir, Path.of(clazz.getAttrValue("filename")));
       if (!normalPath.isEmpty()) {
         CoverageMeasures builder = coverageData.get(normalPath);
         if (builder == null) {

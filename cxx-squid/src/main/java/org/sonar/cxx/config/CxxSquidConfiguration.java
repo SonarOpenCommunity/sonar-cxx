@@ -21,8 +21,8 @@ package org.sonar.cxx.config;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -36,8 +36,10 @@ import javax.annotation.Nullable;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.Verifier;
 import org.jdom2.filter.Filters;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
@@ -127,7 +129,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
 
   private final XPathFactory xFactory = XPathFactory.instance();
   private Document document;
-  private HashMap<String, Element> index = new HashMap<>();
+
+  // index to speed up element access
+  private final HashMap<String, Element> index = new HashMap<>();
 
   // defines order to search for key/value pairs: Units => Global => SonarProjectProperties => PredefinedMacros
   private final LinkedList<Element> parentList = new LinkedList<>();
@@ -156,26 +160,60 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     root.setAttribute(new Attribute("version", "1.0"));
     document = new Document(root);
 
-    var element = new Element(PREDEFINED_MACROS);
-    root.addContent(element);
-    index.put(PREDEFINED_MACROS, element);
-    parentList.addFirst(element);
+    addLevelElement(root, PREDEFINED_MACROS);
+    addLevelElement(root, SONAR_PROJECT_PROPERTIES);
+    addLevelElement(root, GLOBAL);
+    // UNITS must be first one in the parentList
+    addLevelElement(root, UNITS);
+  }
 
-    element = new Element(SONAR_PROJECT_PROPERTIES);
-    root.addContent(element);
-    index.put(SONAR_PROJECT_PROPERTIES, element);
-    parentList.addFirst(element);
+  /**
+   * Reads the Squid configuration from a file.
+   *
+   * @param fileName The system-dependent filename.
+   * @return true, if data could be read from the file.
+   */
+  public boolean readFromFile(String fileName) {
+    SAXBuilder builder = new SAXBuilder();
+    try {
+      document = builder.build(fileName);
+    } catch (JDOMException | IOException e) {
+      LOG.debug("Can't read Squid configuration from file '{}': {}", fileName, e.getMessage());
+      return false;
+    }
 
-    element = new Element(GLOBAL);
-    root.addContent(element);
-    index.put(GLOBAL, element);
-    parentList.addFirst(element);
+    // clear old element caches
+    parentList.clear();
+    index.clear();
 
-    // UNITS must be first one in the list
-    element = new Element(UNITS);
-    root.addContent(element);
-    index.put(UNITS, element);
-    parentList.addFirst(element);
+    var root = document.getRootElement();
+    addLevelElement(root, PREDEFINED_MACROS);
+    addLevelElement(root, SONAR_PROJECT_PROPERTIES);
+    addLevelElement(root, GLOBAL);
+    // UNITS must be first one in the parentList
+    addLevelElement(root, UNITS);
+
+    return true;
+  }
+
+  /**
+   * Writes the Squid configuration to a file.
+   *
+   * @param fileName The system-dependent filename.
+   * @return true, if the data could be written to a file
+   */
+  public boolean writeToFile(String fileName) {
+    try {
+      try (FileWriter writer = new FileWriter(fileName)) {
+        XMLOutputter outputter = new XMLOutputter();
+        outputter.setFormat(Format.getPrettyFormat());
+        outputter.output(document, writer);
+      }
+    } catch (IOException e) {
+      LOG.debug("Can't write Squid configuration to file '{}': {}", fileName, e.getMessage());
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -446,22 +484,6 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   }
 
   /**
-   * Write object to a stream: XML/UTF-8 encoded.
-   *
-   * @param out OutputStream to use.
-   * @throws IllegalStateException in case of IOException
-   */
-  public void save(OutputStream out) {
-    try {
-      var xmlOutput = new XMLOutputter();
-      xmlOutput.setFormat(Format.getPrettyFormat());
-      xmlOutput.output(document, out);
-    } catch (IOException e) {
-      throw new IllegalStateException("Can't save XML document", e);
-    }
-  }
-
-  /**
    * Returns a string representation of the object: XML/UTF-8 encoded.
    *
    * @return object XML encoded
@@ -469,7 +491,13 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   @Override
   public String toString() {
     var stream = new ByteArrayOutputStream();
-    save(stream);
+    try {
+      var outputter = new XMLOutputter();
+      outputter.setFormat(Format.getPrettyFormat());
+      outputter.output(document, stream);
+    } catch (IOException e) {
+      throw new IllegalStateException("Can't create XML data", e);
+    }
     return stream.toString(StandardCharsets.UTF_8);
   }
 
@@ -604,6 +632,25 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       eLevel.addContent(eKey);
     }
     return eKey;
+  }
+
+  /**
+   * Add level element to Squid structure.
+   *
+   * If level already exists only the index and parentList will be updated,
+   * otherwise new element will be created and inserted.
+   *
+   * @param root root element to add new level below
+   * @param level level string
+   */
+  private void addLevelElement(Element root, String level) {
+    var element = findLevel(level, null);
+    if (element == null) {
+      element = new Element(level);
+      root.addContent(element);
+    }
+    index.put(level, element);
+    parentList.addFirst(element);
   }
 
   /**

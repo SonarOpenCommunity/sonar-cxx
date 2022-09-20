@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -128,7 +127,7 @@ public class MsBuild {
                                                        encodingName))) {
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
-      var currentProjectPath = Paths.get(baseDir);
+      var currentProjectPath = Path.of(baseDir);
 
       while ((line = br.readLine()) != null) {
         if (line.trim().startsWith("INCLUDE=")) { // handle environment includes
@@ -146,10 +145,10 @@ public class MsBuild {
         //         PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
         if (PATH_TO_VCXPROJ.matcher(line).matches()) {
           String pathProject = getMatches(PATH_TO_VCXPROJ, line).get(0);
-          currentProjectPath = Paths.get(pathProject).getParent();
+          currentProjectPath = Path.of(pathProject).getParent();
 
           if (currentProjectPath == null) {
-            currentProjectPath = Paths.get(baseDir);
+            currentProjectPath = Path.of(baseDir);
           }
 
           LOG.debug("build log parser currentProjectPath='{}'", currentProjectPath);
@@ -287,7 +286,7 @@ public class MsBuild {
   private void parseInclude(String element, String project, String fileElement) {
     try {
       var includeRoot = new File(element.replace("\"", ""));
-      var p = Paths.get(project);
+      var p = Path.of(project);
       if (!includeRoot.isAbsolute()) {
         // handle path without drive information but represent absolute path
         var pseudoAbsolute = new File(p.getRoot().toString(), includeRoot.toString());

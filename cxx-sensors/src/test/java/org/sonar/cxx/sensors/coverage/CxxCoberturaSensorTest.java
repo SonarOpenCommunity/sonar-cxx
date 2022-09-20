@@ -20,7 +20,7 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +57,7 @@ class CxxCoberturaSensorTest {
 
   @Test
   void testPathJoin() {
-    var empty = Paths.get("");
+    var empty = Path.of("");
     String result;
     /*
      * path1    | path2    | result
@@ -76,13 +76,13 @@ class CxxCoberturaSensorTest {
     if (TestUtils.isWindows()) {
 
       // Windows
-      var p1_abs1 = Paths.get("c:\\test1");
-      var p1_abs2 = Paths.get("c:");
-      var p1_abs3 = Paths.get("c:\\");
-      var p1_rel1 = Paths.get("\\test1");
-      var p2_abs1 = Paths.get("c:\\test2\\report.txt");
-      var p2_rel1 = Paths.get("\\test2\\report.txt");
-      var p2_rel2 = Paths.get("test2\\report.txt");
+      var p1_abs1 = Path.of("c:\\test1");
+      var p1_abs2 = Path.of("c:");
+      var p1_abs3 = Path.of("c:\\");
+      var p1_rel1 = Path.of("\\test1");
+      var p2_abs1 = Path.of("c:\\test2\\report.txt");
+      var p2_rel1 = Path.of("\\test2\\report.txt");
+      var p2_rel2 = Path.of("test2\\report.txt");
 
       result = CoberturaParser.join(empty, empty);
       assertThat(result).isEmpty();
@@ -119,10 +119,10 @@ class CxxCoberturaSensorTest {
     } else {
 
       // Linux
-      var p1_abs1 = Paths.get("/home/test1");
-      var p1_rel1 = Paths.get("test1");
-      var p2_abs1 = Paths.get("/home/test2/report.txt");
-      var p2_rel1 = Paths.get("test2/report.txt");
+      var p1_abs1 = Path.of("/home/test1");
+      var p1_rel1 = Path.of("test1");
+      var p2_abs1 = Path.of("/home/test2/report.txt");
+      var p2_rel1 = Path.of("test2/report.txt");
 
       result = CoberturaParser.join(empty, empty);
       assertThat(result).isEmpty();

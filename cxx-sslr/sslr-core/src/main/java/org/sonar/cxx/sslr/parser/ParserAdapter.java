@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
@@ -81,7 +81,7 @@ public class ParserAdapter<G extends LexerlessGrammar> extends Parser<G> {
 
   private static char[] fileToCharArray(File file, Charset charset) {
     try {
-      return new String(Files.readAllBytes(Paths.get(file.getPath())), charset).toCharArray();
+      return new String(Files.readAllBytes(Path.of(file.getPath())), charset).toCharArray();
     } catch (IOException e) {
       throw new RecognitionException(0, e.getMessage(), e);
     }

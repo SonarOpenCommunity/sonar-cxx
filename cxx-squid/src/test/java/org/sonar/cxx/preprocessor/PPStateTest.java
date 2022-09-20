@@ -20,7 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import com.google.common.collect.ImmutableList;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,22 +35,22 @@ class PPStateTest {
 
   @BeforeEach
   void setUp() {
-    var contextFile = new File(CONTEXT);
+    var contextFile = Path.of(CONTEXT);
     state = PPState.build(contextFile);
   }
 
   @Test
   void testInit() {
-    var contextFile = new File("init.cpp");
+    var contextFile = Path.of("init.cpp");
     state = PPState.build(contextFile);
     assertThat(state.getContextFile()).isEqualTo(contextFile);
-    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(contextFile.getAbsolutePath());
+    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(contextFile.toAbsolutePath().toString());
   }
 
   @Test
   void testGetContextFile() {
-    var contextFile = new File(CONTEXT);
-    state.pushFileState(new File("dummy"));
+    var contextFile = Path.of(CONTEXT);
+    state.pushFileState(Path.of("dummy"));
     assertThat(state.getContextFile()).isEqualTo(contextFile);
   }
 
@@ -58,11 +58,11 @@ class PPStateTest {
   void testGetStack() {
     List<String> filenames = ImmutableList.of("A", "B", "C");
     for (var filename : filenames) {
-      state.pushFileState(new File(filename));
+      state.pushFileState(Path.of(filename));
     }
     List<String> result = new ArrayList();
     for (var item : state.getStack()) {
-      result.add(item.getFile().getPath());
+      result.add(item.getFile().toString());
     }
     List<String> reverse = new ArrayList(filenames);
     Collections.reverse(reverse);
@@ -72,21 +72,21 @@ class PPStateTest {
 
   @Test
   void testPushFileState() {
-    var file = new File("A");
+    var file = Path.of("A");
     state.pushFileState(file);
     assertThat(state.getFileUnderAnalysis()).isEqualTo(file);
-    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(file.getAbsolutePath());
+    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(file.toAbsolutePath().toString());
   }
 
   @Test
   void testPopFileState() {
-    var fileA = new File("A");
+    var fileA = Path.of("A");
     state.pushFileState(fileA);
-    var fileB = new File("B");
+    var fileB = Path.of("B");
     state.pushFileState(fileB);
     state.popFileState();
     assertThat(state.getFileUnderAnalysis()).isEqualTo(fileA);
-    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(fileA.getAbsolutePath());
+    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(fileA.toAbsolutePath().toString());
   }
 
   @Test
@@ -118,14 +118,14 @@ class PPStateTest {
 
   @Test
   void testGetFileUnderAnalysis() {
-    var contextFile = new File(CONTEXT);
+    var contextFile = Path.of(CONTEXT);
     assertThat(state.getFileUnderAnalysis()).isEqualTo(contextFile);
   }
 
   @Test
   void testGetFileUnderAnalysisPath() {
-    var contextFile = new File(CONTEXT);
-    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(contextFile.getAbsolutePath());
+    var contextFile = Path.of(CONTEXT);
+    assertThat(state.getFileUnderAnalysisPath()).isEqualTo(contextFile.toAbsolutePath().toString());
   }
 
 }

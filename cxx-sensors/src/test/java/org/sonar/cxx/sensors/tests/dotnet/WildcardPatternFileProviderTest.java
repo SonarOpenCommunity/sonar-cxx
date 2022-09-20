@@ -26,7 +26,6 @@ package org.sonar.cxx.sensors.tests.dotnet;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,15 +56,15 @@ class WildcardPatternFileProviderTest {
     Files.createFile(root.resolve("foo.txt"));
     Files.createFile(root.resolve("bar.txt"));
 
-    Files.createDirectories(Paths.get(root.toString(), "a"));
+    Files.createDirectories(Path.of(root.toString(), "a"));
     Files.createFile(root.resolve("a/foo.txt"));
-    Files.createDirectories(Paths.get(root.toString(), "a", "a21"));
+    Files.createDirectories(Path.of(root.toString(), "a", "a21"));
 
-    Files.createDirectories(Paths.get(root.toString(), "b"));
+    Files.createDirectories(Path.of(root.toString(), "b"));
 
-    Files.createDirectories(Paths.get(root.toString(), "c", "c21"));
+    Files.createDirectories(Path.of(root.toString(), "c", "c21"));
     Files.createFile(root.resolve("c/c21/foo.txt"));
-    Files.createDirectories(Paths.get(root.toString(), "c", "c22", "c31"));
+    Files.createDirectories(Path.of(root.toString(), "c", "c22", "c31"));
     Files.createFile(root.resolve("c/c22/c31/foo.txt"));
     Files.createFile(root.resolve("c/c22/c31/bar.txt"));
   }

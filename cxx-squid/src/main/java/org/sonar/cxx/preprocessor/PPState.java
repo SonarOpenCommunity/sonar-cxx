@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayDeque;
 import java.util.Objects;
 import javax.annotation.Nonnull;
@@ -33,14 +33,14 @@ public final class PPState {
 
   }
 
-  public static PPState build(@Nonnull File contextFile) {
+  public static PPState build(@Nonnull Path contextFile) {
     Objects.requireNonNull(contextFile, "PPState must always be initialized with a contextFile");
     PPState state = new PPState();
     state.pushFileState(contextFile);
     return state;
   }
 
-  public File getContextFile() {
+  public Path getContextFile() {
     return stack.peekLast().getFile();
   }
 
@@ -48,7 +48,7 @@ public final class PPState {
     return stack.clone();
   }
 
-  public void pushFileState(@Nonnull File currentFile) {
+  public void pushFileState(@Nonnull Path currentFile) {
     Objects.requireNonNull(currentFile, "currentFile can' be null");
     stack.push(new StateItem(currentFile));
   }
@@ -81,12 +81,12 @@ public final class PPState {
     return stack.peek().nestingDepth > 0;
   }
 
-  public File getFileUnderAnalysis() {
+  public Path getFileUnderAnalysis() {
     return stack.peek().getFile();
   }
 
   public String getFileUnderAnalysisPath() {
-    return stack.peek().getFile().getAbsolutePath();
+    return getFileUnderAnalysis().toAbsolutePath().toString();
   }
 
   public static final class StateItem {
@@ -94,16 +94,16 @@ public final class PPState {
     private boolean skipToken;
     private boolean condition;
     private int nestingDepth;
-    private final File fileUnderAnalysis;
+    private final Path fileUnderAnalysis;
 
-    private StateItem(@Nullable File fileUnderAnalysis) {
+    private StateItem(@Nullable Path fileUnderAnalysis) {
       this.skipToken = false;
       this.condition = false;
       this.nestingDepth = 0;
       this.fileUnderAnalysis = fileUnderAnalysis;
     }
 
-    public File getFile() {
+    public Path getFile() {
       return fileUnderAnalysis;
     }
   }

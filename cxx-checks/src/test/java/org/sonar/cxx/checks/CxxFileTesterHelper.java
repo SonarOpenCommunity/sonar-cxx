@@ -24,7 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
@@ -57,8 +57,8 @@ public final class CxxFileTesterHelper {
     var fb = TestInputFileBuilder.create("", fileName);
 
     fb.setCharset(charset);
-    fb.setProjectBaseDir(Paths.get(basePath));
-    fb.setContents(getSourceCode(Paths.get(basePath, fileName).toFile(), charset));
+    fb.setProjectBaseDir(Path.of(basePath));
+    fb.setContents(getSourceCode(Path.of(basePath, fileName).toFile(), charset));
 
     return fb.build();
   }

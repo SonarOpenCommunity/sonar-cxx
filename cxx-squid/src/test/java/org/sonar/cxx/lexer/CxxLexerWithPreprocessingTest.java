@@ -25,6 +25,7 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Lexer;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -434,8 +435,8 @@ class CxxLexerWithPreprocessingTest {
     var file = new File("/home/joe/file.cc");
     when(context.getFile()).thenReturn(file);
     var pp = spy(new CxxPreprocessor(context, new CxxSquidConfiguration()));
-    var include = spy(new PPInclude(pp, file));
-    when(include.searchFile(anyString(), eq(false))).thenReturn(new File("file"));
+    var include = spy(new PPInclude(pp, file.toPath()));
+    when(include.searchFile(anyString(), eq(false))).thenReturn(Path.of("file"));
     doReturn("#define A B\n").when(include).getSourceCode(any(), any());
     when(pp.include()).thenReturn(include);
 
@@ -747,8 +748,8 @@ class CxxLexerWithPreprocessingTest {
                     "false");
 
     var pp = spy(new CxxPreprocessor(context, squidConfig));
-    var include = spy(new PPInclude(pp, forceIncludeFile));
-    when(include.searchFile(anyString(), anyBoolean())).thenReturn(forceIncludeFile);
+    var include = spy(new PPInclude(pp, forceIncludeFile.toPath()));
+    when(include.searchFile(anyString(), anyBoolean())).thenReturn(forceIncludeFile.toPath());
     doReturn("#define __LINE__ 345\n").when(include).getSourceCode(any(), any());
     when(pp.include()).thenReturn(include);
 
