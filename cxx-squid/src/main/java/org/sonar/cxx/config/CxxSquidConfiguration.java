@@ -25,6 +25,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -371,6 +372,22 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       }
       eLevel = getParentElement(eLevel);
     } while (eLevel != null);
+    return result;
+  }
+
+  /**
+   * Read all file items from the database.
+   *
+   * @return list of file items
+   */
+  public List<Path> getFiles() {
+    List<Path> result = new ArrayList<>();
+    Element eLevel = findLevel(UNITS, null);
+    if (eLevel != null) {
+      for (var file : eLevel.getChildren(FILE)) {
+        result.add(Path.of(file.getAttributeValue(ATTR_PATH)));
+      }
+    }
     return result;
   }
 

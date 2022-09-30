@@ -374,7 +374,7 @@ def _assert_measures(project, measures):
     assert diff == "", "\n" + diff
 
 def _run_command(context, command):
-    context.log = "_{context.project}_{context.scenariono}.log"
+    context.log = f"_{context.project}_{context.scenariono}.log"
 
     sonarhome = os.environ.get("SONARHOME", None)
     if sonarhome:

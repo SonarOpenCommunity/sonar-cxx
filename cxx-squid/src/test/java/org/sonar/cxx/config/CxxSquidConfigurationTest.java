@@ -251,6 +251,22 @@ class CxxSquidConfigurationTest {
   }
 
   @Test
+  void testGetFiles() {
+    var squidConfig = new CxxSquidConfiguration();
+    squidConfig.add("a/b/c", "key", "value1");
+    squidConfig.add("c/d/e", "key", "value2");
+    squidConfig.add("f/g/h", "key", "value3");
+    List<Path> values = squidConfig.getFiles();
+
+    var softly = new SoftAssertions();
+    softly.assertThat(values).hasSize(3);
+    softly.assertThat(values.get(0)).isEqualTo(Path.of("a/b/c"));
+    softly.assertThat(values.get(1)).isEqualTo(Path.of("c/d/e"));
+    softly.assertThat(values.get(2)).isEqualTo(Path.of("f/g/h"));
+    softly.assertAll();
+  }
+
+  @Test
   void testLevelValues() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.GLOBAL, "key", "value1");

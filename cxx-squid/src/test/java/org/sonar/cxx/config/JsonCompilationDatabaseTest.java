@@ -44,13 +44,18 @@ class JsonCompilationDatabaseTest {
                                                  CxxSquidConfiguration.DEFINES);
     List<String> includes = squidConfig.getValues(CxxSquidConfiguration.GLOBAL,
                                                   CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+    List<Path> files = squidConfig.getFiles();
 
-    assertThat(defines).isNotEmpty();
-    assertThat(defines).doesNotContain("UNIT_DEFINE 1");
-    assertThat(defines).contains("GLOBAL_DEFINE 1");
-    assertThat(includes).isNotEmpty();
-    assertThat(includes).doesNotContain(unifyPath("/usr/local/include"));
-    assertThat(includes).contains(unifyPath("/usr/include"));
+    assertThat(defines)
+      .isNotEmpty()
+      .doesNotContain("UNIT_DEFINE 1")
+      .contains("GLOBAL_DEFINE 1");
+    assertThat(includes)
+      .isNotEmpty()
+      .doesNotContain(unifyPath("/usr/local/include"))
+      .contains(unifyPath("/usr/include"));
+    assertThat(files)
+      .hasSize(7);
   }
 
   @Test
