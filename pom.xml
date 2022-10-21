@@ -261,7 +261,7 @@
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
-    <sonar.version>8.9.9.56886</sonar.version>
+    <sonar.version>8.9.10.61524</sonar.version>
     <sonarQubeMinVersion>8.9</sonarQubeMinVersion>
 
     <!-- dependencies -->
