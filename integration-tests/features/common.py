@@ -17,153 +17,121 @@
 
 # You should have received a copy of the GNU Lesser General Public
 # License along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
-
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02
 import re
 import os
-import sys
 import json
 import time
-import requests
-
-from requests.auth import HTTPBasicAuth
-
-SONAR_ERROR_RE = re.compile(".* ERROR .*")
-SONAR_WARN_RE = re.compile(".* WARN .*")
-SONAR_WARN_TO_IGNORE_RE = re.compile(".*H2 database should.*|.*Starting search|.*Starting web")
-SONAR_LOG_FOLDER = "logs"
-
-RED = ""
-YELLOW = ""
-GREEN = ""
-BRIGHT = ""
-RESET = ""
-RESET_ALL = ""
-try:
-    import colorama
-    colorama.init()
-    RED = colorama.Fore.RED
-    YELLOW = colorama.Fore.YELLOW
-    GREEN = colorama.Fore.GREEN
-    RESET = colorama.Fore.RESET
-    BRIGHT = colorama.Style.BRIGHT
-    RESET_ALL = colorama.Style.RESET_ALL
-except ImportError:
-    print("Can't init colorama!")
+from webapi import web_api_get
 
 
-INDENT = "    "
-SONAR_URL = "http://localhost:9000"
-SONAR_LOGIN = os.getenv('sonar.login', 'admin')
-SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
+SONAR_ERROR_RE = re.compile('.* ERROR .*')
+SONAR_WARN_RE = re.compile('.* WARN .*')
+SONAR_WARN_TO_IGNORE_RE = re.compile('.*H2 database should.*|.*Starting search|.*Starting web')
+SONAR_LOG_FOLDER = 'logs'
+
 
 def get_sonar_log_folder(sonarhome):
     return os.path.join(sonarhome, SONAR_LOG_FOLDER)
 
 def get_sonar_log_file(sonarhome):
-    if "sonarqube-7." in sonarhome:
-        sonar_log_file = "sonar.log"
+    matches = re.search(r'sonarqube-(\d+[.]\d+)', sonarhome)
+    if float(matches.group(1)) < 9.6:
+        sonar_log_file = 'sonar.' + time.strftime('%Y%m%d') + '.log'
     else:
-        sonar_log_file = "sonar." + time.strftime("%Y%m%d") + ".log"
+        sonar_log_file = 'sonar.log'
     return os.path.join(get_sonar_log_folder(sonarhome), sonar_log_file)
 
 def sonar_analysis_finished(logpath):
-    url = ""
+    url = ''
 
-    print(BRIGHT + "    Read Log : " + logpath + RESET_ALL)
+    print('    Read Log : ' + logpath, flush=True)
 
     try:
-        with open(logpath, "r", encoding="utf8") as log:
+        with open(logpath, 'r', encoding='utf8') as log:
             lines = log.readlines()
             url = get_url_from_log(lines)
     except IOError:
         pass
 
-    print(BRIGHT + "     Get Analysis In Background : " + url + RESET_ALL)
+    print('     Get Analysis In Background : ' + url, flush=True)
 
-    if url == "":
-        return ""
+    if url == '':
+        return ''
 
-    status = ""
+    start = time.time()
+    status = ''
     while True:
+        end = time.time()
+        if end - start > 10:
+            print('     CURRENT STATUS : timeout, abort', flush=True)
+            break
+
         time.sleep(1)
-        response = requests.get(url, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
+        response = web_api_get(url, log=False) # debug log=True
         if not response.text:
-            print(BRIGHT + "     CURRENT STATUS : no response" + RESET_ALL)
+            print('     CURRENT STATUS : no response', flush=True)
             continue
-        task = json.loads(response.text).get("task", None)
+        task = json.loads(response.text).get('task', None)
         if not task:
-            print(BRIGHT + "     CURRENT STATUS : ?" + RESET_ALL)
+            print('     CURRENT STATUS : ?', flush=True)
             continue
-        print(BRIGHT + "     CURRENT STATUS : " + task["status"] + RESET_ALL)
-        if task["status"] == "IN_PROGRESS" or task["status"] == "PENDING":
+        print('     CURRENT STATUS : ' + task['status'], flush=True)
+        if task['status'] == 'IN_PROGRESS' or task['status'] == 'PENDING':
             continue
 
-        if task["status"] == "SUCCESS":
+        if task['status'] == 'SUCCESS':
             break
-        if task["status"] == "FAILED":
-            status = "BACKGROUND TASK AS FAILED. CHECK SERVER : " + logpath + ".server"
+        if task['status'] == 'FAILED':
+            status = 'BACKGROUND TASK HAS FAILED. CHECK SERVER : ' + logpath + '.server'
             break
-
-    serverlogurl = url.replace("task?id", "logs?taskId")
-    request = requests.get(serverlogurl,
-                           auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD),
-                           timeout=10)
-
-    with open(logpath + ".server", "w", encoding="utf8") as serverlog:
-        serverlog.write(request.text)
-
-#    print(BRIGHT + " LOG: " + request.text + RESET_ALL)
 
     return status
 
 def cleanup_logs(sonarhome):
-    sys.stdout.write(INDENT + "cleaning logs ... ")
-    sys.stdout.flush()
+    print('\tcleaning logs ... ', end='', flush=True)
     try:
         logpath = get_sonar_log_folder(sonarhome)
-        filelist = [ f for f in os.listdir(logpath) if f.endswith(".log") ]
+        filelist = [ f for f in os.listdir(logpath) if f.endswith('.log') ]
         for filename in filelist:
             os.remove(os.path.join(logpath, filename))
     except OSError:
         pass
-    sys.stdout.write(GREEN + "OK\n" + RESET)
+    print('OK', flush=True)
 
 def print_logs(sonarhome):
-    sys.stdout.write(INDENT + "print logs ... \n")
-    sys.stdout.flush()
+    print('\tprint logs ...', flush=True)
     try:
         logpath = get_sonar_log_folder(sonarhome)
-        filelist = [ f for f in os.listdir(logpath) if f.endswith(".log") ]
+        filelist = [ f for f in os.listdir(logpath) if f.endswith('.log') ]
         for filename in filelist:
-            sys.stdout.write("\n--- " + filename + " ---\n")
-            with open(os.path.join(logpath, filename), "r", encoding="utf8") as file:
-                sys.stdout.write(file.read())
+            print('\n--- ' + filename + ' ---', flush=True)
+            with open(os.path.join(logpath, filename), 'r', encoding='utf8') as file:
+                print(file.read(), flush=True)
     except OSError:
         pass
-    sys.stdout.write("\n")
 
 def analyse_log(logpath, toignore=None):
     badlines = []
     errors = warnings = 0
 
     try:
-        with open(logpath, "r", encoding="utf8") as log:
+        with open(logpath, 'r', encoding='utf8') as log:
             lines = log.readlines()
             badlines, errors, warnings = analyse_log_lines(lines, toignore)
     except IOError as error:
-        badlines.append(str(error) + "\n")
+        badlines.append(str(error) + '\n')
 
     return badlines, errors, warnings
 
 def get_url_from_log(lines):
-    url = ""
+    url = ''
     for line in lines:
-        if "INFO: More about the report processing at" in line:
-            url = line.split("INFO: More about the report processing at")[1].strip()
+        if 'INFO: More about the report processing at' in line:
+            url = line.split('INFO: More about the report processing at')[1].strip()
 
-        if "INFO  - More about the report processing at" in line:
-            url = line.split("INFO  - More about the report processing at")[1].strip()
+        if 'INFO  - More about the report processing at' in line:
+            url = line.split('INFO  - More about the report processing at')[1].strip()
 
     return url
 
@@ -182,14 +150,11 @@ def analyse_log_lines(lines, toignore=None):
     return badlines, errors, warnings
 
 def is_sonar_error(line, toignore_re):
-    return (SONAR_ERROR_RE.match(line)
-            and (toignore_re is None or not toignore_re.match(line)))
+    return (SONAR_ERROR_RE.match(line) and (toignore_re is None or not toignore_re.match(line)))
 
 def is_sonar_warning(line, toignore_re):
-    return (SONAR_WARN_RE.match(line)
-            and not SONAR_WARN_TO_IGNORE_RE.match(line)
-            and (toignore_re is None or not toignore_re.match(line)))
+    return (SONAR_WARN_RE.match(line) and not SONAR_WARN_TO_IGNORE_RE.match(line) and (toignore_re is None or not toignore_re.match(line)))
 
 def build_regexp(multiline_str):
-    lines = [line for line in multiline_str.split("\n") if line != '']
-    return re.compile("|".join(lines))
+    lines = [line for line in multiline_str.split('\n') if line != '']
+    return re.compile('|'.join(lines))
