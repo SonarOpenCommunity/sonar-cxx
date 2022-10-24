@@ -111,7 +111,7 @@ jobs:
     #
     - name: get-pom-version
       id: pom-version
-      uses: andreacomo/maven-gav-extractor@v1
+      uses: andreacomo/maven-gav-extractor@v2
 
     # remove -SNAPSHOT from POM version (major.minor.patch-SNAPSHOT)
     #
