@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.annotation.Nullable;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.fs.InputFile;
@@ -306,15 +309,10 @@ public class CxxSquidSensor implements ProjectSensor {
       }
     }
 
-    var scanner = CxxAstScanner.create(
-      createConfiguration(),
-      visitors.toArray(new SquidAstVisitor[visitors.size()])
-    );
+    var squidConfig = createConfiguration();
+    var scanner = CxxAstScanner.create(squidConfig, visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
-      context.fileSystem().predicates().and(context.fileSystem().predicates().hasLanguage("cxx"),
-                                            context.fileSystem().predicates().hasType(InputFile.Type.MAIN))
-    );
+    Iterable<InputFile> inputFiles = getInputFiles(context, squidConfig);
     scanner.scanInputFiles(inputFiles);
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
@@ -370,6 +368,33 @@ public class CxxSquidSensor implements ProjectSensor {
     }
 
     return squidConfig;
+  }
+
+  private Iterable<InputFile> getInputFiles(SensorContext context, CxxSquidConfiguration squidConfig) {
+    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
+      context.fileSystem().predicates().and(
+        context.fileSystem().predicates().hasLanguage("cxx"),
+        context.fileSystem().predicates().hasType(InputFile.Type.MAIN)
+      )
+    );
+
+    if (context.config().hasKey(JSON_COMPILATION_DATABASE_KEY)) {
+      // if the source of the configuration is JSON Compilation Database, then analyze only the files contained in it.
+      var inputFilesInConfig = squidConfig.getFiles();
+      var result = StreamSupport.stream(inputFiles.spliterator(), false)
+        .filter(f -> inputFilesInConfig.contains(Path.of(f.uri())))
+        .collect(Collectors.toList());
+      inputFiles = result;
+
+      LOG.info("Analyze only files contained in 'JSON Compilation Database': {} files", result.size());
+      if (result.isEmpty()) {
+        LOG.error(
+          "No files are analyzed, check the settings of 'sonar.projectBaseDir' and 'sonar.cxx.jsonCompilationDatabase'."
+        );
+      }
+    }
+
+    return inputFiles;
   }
 
   private void save(Collection<SourceCode> sourceCodeFiles) {
