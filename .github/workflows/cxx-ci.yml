@@ -234,7 +234,7 @@ jobs:
         os: [ubuntu-latest]
         java: [ '11' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.9.56886', '9.5.0.56709' ]
+        sonarqube: [ '8.9.10.61524', '9.7.1.62043' ]
         sonarscanner: [ '4.7.0.2747' ]
 
     runs-on: ${{ matrix.os }}
@@ -328,6 +328,7 @@ jobs:
     #
     - name: Set test environment (Linux)
       run: |
+        echo "SONAR_JAVA_PATH=$JAVA_HOME/bin/java" >> $GITHUB_ENV
         echo "SONARHOME=$GITHUB_WORKSPACE/test/sonarqube-${{ matrix.sonarqube }}" >> $GITHUB_ENV
         echo "SONARLOG=$GITHUB_WORKSPACE/test/sonarqube-${{ matrix.sonarqube }}/logs" >> $GITHUB_ENV
         echo "$GITHUB_WORKSPACE/test/sonar-scanner-${{ matrix.sonarscanner }}/bin" >> $GITHUB_PATH
@@ -374,7 +375,7 @@ jobs:
         os: [windows-latest]
         java: [ '11' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.9.56886', '9.5.0.56709' ]
+        sonarqube: [ '8.9.10.61524', '9.7.1.62043' ]
         sonarscanner: [ '4.7.0.2747' ]
 
     runs-on: ${{ matrix.os }}
@@ -471,6 +472,7 @@ jobs:
     #
     - name: Set Up SonarQube environment (Windows)
       run: |
+        echo "SONAR_JAVA_PATH=$JAVA_HOME\bin\java.exe" >> $GITHUB_ENV
         echo "SONARHOME=$GITHUB_WORKSPACE\test\sonarqube-${{ matrix.sonarqube }}" >> $GITHUB_ENV
         echo "SONARLOG=$GITHUB_WORKSPACE\test\sonarqube-${{ matrix.sonarqube }}\logs" >> $GITHUB_ENV
         echo "$GITHUB_WORKSPACE\test\sonar-scanner-${{ matrix.sonarscanner }}\bin" >> $GITHUB_PATH
