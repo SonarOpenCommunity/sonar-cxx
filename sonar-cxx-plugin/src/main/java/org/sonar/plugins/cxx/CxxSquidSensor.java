@@ -81,6 +81,8 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDES_KEY = "sonar.cxx.forceIncludes";
   public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
+  public static final String JSON_COMPILATION_DATABASE_ONLY_CONTAINED_FILES_KEY
+                               = "sonar.cxx.jsonCompilationDatabase.analyzeOnlyContainedFiles";
 
   public static final String FUNCTION_COMPLEXITY_THRESHOLD_KEY = "sonar.cxx.metric.func.complexity.threshold";
   public static final String FUNCTION_SIZE_THRESHOLD_KEY = "sonar.cxx.metric.func.size.threshold";
@@ -185,7 +187,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(MsBuild.REPORT_PATH_KEY)
-        .name("(2.5) Path(s) to MSBuild Log(s)")
+        .name("(2.6) Path(s) to MSBuild Log(s)")
         .description(
           "Read one ore more MSBuild .LOG files to automatically extract the required macros `sonar.cxx.defines`"
             + " and include directories `sonar.cxx.includeDirectories`. The path may be either absolute or relative"
@@ -199,7 +201,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(MsBuild.REPORT_ENCODING_DEF)
         .defaultValue(MsBuild.DEFAULT_ENCODING_DEF)
-        .name("(2.6) MSBuild Log Encoding")
+        .name("(2.7) MSBuild Log Encoding")
         .description(
           "Defines the encoding to be used to read the files from `sonar.cxx.msbuild.reportPaths` (default is `UTF-8`)."
         )
@@ -217,6 +219,20 @@ public class CxxSquidSensor implements ProjectSensor {
             + " or relative to the project base directory."
         )
         .onQualifiers(Qualifiers.PROJECT)
+        .build(),
+      PropertyDefinition.builder(JSON_COMPILATION_DATABASE_ONLY_CONTAINED_FILES_KEY)
+        .defaultValue(Boolean.FALSE.toString())
+        .category("CXX")
+        .subCategory("(2) Preprocessor")
+        .name("(2.5) JSON Compilation Database analyze only contained files")
+        .description(
+          "If 'analyzeOnlyContainedFiles=True' is used, the analyzed files will be limited to the files contained"
+            + " in the 'JSON Compilation Database' file - the intersection of the files configured via"
+            + " 'sonar.projectBaseDir' and the files contained in the 'JSON Compilation Database' file"
+            + " (default is False)."
+        )
+        .onQualifiers(Qualifiers.PROJECT)
+        .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(CxxPublicApiVisitor.API_FILE_SUFFIXES_KEY)
         .defaultValue(CxxPublicApiVisitor.API_DEFAULT_FILE_SUFFIXES)
@@ -335,7 +351,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
   private CxxSquidConfiguration createConfiguration() {
     var squidConfig = new CxxSquidConfiguration(context.fileSystem().baseDir().getAbsolutePath(),
-                                            context.fileSystem().encoding());
+                                                context.fileSystem().encoding());
 
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     context.config().get(ERROR_RECOVERY_KEY));
@@ -378,8 +394,10 @@ public class CxxSquidSensor implements ProjectSensor {
       )
     );
 
-    if (context.config().hasKey(JSON_COMPILATION_DATABASE_KEY)) {
-      // if the source of the configuration is JSON Compilation Database, then analyze only the files contained in it.
+    if (context.config().hasKey(JSON_COMPILATION_DATABASE_KEY)
+          && context.config().getBoolean(JSON_COMPILATION_DATABASE_ONLY_CONTAINED_FILES_KEY).orElse(Boolean.FALSE)) {
+      // if the source of the configuration is JSON Compilation Database and analyzeOnlyContainedFiles=True,
+      // then analyze only the files contained in the db.
       var inputFilesInConfig = squidConfig.getFiles();
       var result = StreamSupport.stream(inputFiles.spliterator(), false)
         .filter(f -> inputFilesInConfig.contains(Path.of(f.uri())))
