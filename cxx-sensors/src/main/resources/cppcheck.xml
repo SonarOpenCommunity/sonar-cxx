@@ -2106,9 +2106,14 @@ Negative array index
     <name>Memory allocation size is negative</name>
     <description>
       <![CDATA[
-Memory allocation size is negative.Negative allocation size has no specified behaviour.
+      <p>
+Memory allocation size is negative.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -8487,7 +8492,7 @@ Variable 'x' can be declared with const
   </rule>
   <rule>
     <key>constParameter</key>
-    <name>Variable 'x' can be declared with const</name>
+    <name>Parameter 'x' can be declared with const</name>
     <description>
       <![CDATA[
 <p>
@@ -8987,8 +8992,8 @@ missing return statement
     <name>Member variable 'classname::varnamepriv' is not assigned in the copy constructor</name>
     <description><![CDATA[
       <p>
-Member variable 'classname::varnamepriv' is not assigned in the copy
-constructor. Should it be copied?
+Member variable 'classname::varnamepriv' is not assigned in the move
+constructor. Should it be moved?
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
@@ -8999,6 +9004,102 @@ constructor. Should it be copied?
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
+  <!-- ########### New in Cppcheck 2.90 ########### -->
+  <rule>
+    <key>constParameterCallback</key>
+    <name>Parameter 'x' can be declared with const, however it seems that 'f' is a callback function</name>
+    <description><![CDATA[
+      Parameter 'x' can be declared with const, however it seems that 'f' is a callback function.
+      ]]></description>
+    <severity>MINOR</severity>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    </rule>
+  <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->
+  <rule>
+    <key>internalAstError</key>
+    <name>Internal Error: AST</name>
+    <description>
+      Syntax Error: AST broken or maximum AST depth exceeded.
+    </description>
+    <internalKey>internalAstError</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>    
+    </rule>  
+   <rule>
+    <key>syntaxError</key>
+    <name>Internal Error: Syntax error</name>
+    <description>
+      Cppcheck cannot tokenize the code correctly: unsupported syntax or invalid code.
+    </description>
+    <internalKey>syntaxError</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>     
+    </rule>
+   <rule>
+    <key>"unknownMacro</key>
+    <name>Internal Error: Unkown macro</name>
+    <description>
+      There is an unknown macro here somewhere. Configuration is required. If 'token' is a macro then please configure it.
+    </description>
+    <internalKey>"unknownMacro</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>     
+    </rule>
+  <rule>
+    <key>cppcheckError</key>
+    <name>Internal Error</name>
+    <description>
+      Analysis failed. If the code is valid then please report this failure.
+    </description>
+    <internalKey>cppcheckError</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>     
+    </rule>
+  <rule>
+    <key>cppcheckLimit</key>
+    <name>Internal Error: Internal limit</name>
+    <description>
+      Internal limit: CheckLeakAutoVar::checkScope() Maximum recursive count of 1000 reached.
+    </description>
+    <internalKey>cppcheckLimit</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>     
+    </rule>
+  <rule>
+    <key>instantiationError</key>
+    <name>Internal Error: Instantiation error</name>
+    <description>
+      Instantiation error: Divide by zero in template instantiation.
+    </description>
+    <internalKey>instantiationError</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>     
+    </rule>
+  <rule>
+    <key>unmatchedSuppression</key>
+    <name>Internal Error: Unmatched suppression</name>
+    <description>
+      Unmatched suppression: unusedFunction.
+    </description>
+    <internalKey>unmatchedSuppression</internalKey>
+    <severity>INFO</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>     
+    </rule>    
   <!-- ########### Misra Rules ########### -->
   <rule>
     <key>misra-c2012-1.1</key>
