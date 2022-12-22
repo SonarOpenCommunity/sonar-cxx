@@ -30,7 +30,7 @@ from utils_createrules import get_cdata_capable_xml_etree
 
 SEVERITY_MAP = {
 
-    # last update: llvmorg-14-init-8123-ga875e6e1225a (git describe)
+    # last update: llvmorg-16-init-15404-g61be26154924 (git describe)
     # rule keys are in alphabetical order
 
     "abseil-no-namespace": {"type": "CODE_SMELL", "severity": "INFO"},
@@ -317,10 +317,11 @@ def rstfile_to_rule(path, fix_urls):
 
     filename_with_extension = os.path.basename(path)
     filename = os.path.splitext(filename_with_extension)[0]
+    containing_folder = os.path.basename(os.path.dirname(path))
 
-    key = filename
-    name = filename
-    description = rstfile_to_description(path, filename, fix_urls)
+    key = containing_folder + '-' + filename
+    name = key
+    description = rstfile_to_description(path, containing_folder + '/' + filename, fix_urls)
 
     default_issue_type = "CODE_SMELL"
     default_issue_severity = "INFO"
