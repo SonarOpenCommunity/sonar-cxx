@@ -43,7 +43,7 @@ REM GENERATION OF RULES FROM CLANG-TIDY DOCUMENTATION (RST FILES)
 ECHO [INFO] generate the new version of the rules file...
 "%PYTHON_DIR%python.exe" "%SCRIPT_DIR%clangtidy_createrules.py" rules "%LLVM_DIR%clang-tools-extra\docs\clang-tidy\checks" > "%SCRIPT_DIR%clangtidy_new.xml"
 ECHO [INFO] compare the new version with the old one, extend the old XML...
-"%PYTHON_DIR%python.exe" "%SCRIPT_DIR%utils_createrules.py" comparerules "%SCRIPT_DIR%\..\main\resources\clangtidy.xml" "%SCRIPT_DIR%clangtidy_new.xml" > "%SCRIPT_DIR%clangtidy-comparison.md"
+"%PYTHON_DIR%python.exe" "%SCRIPT_DIR%utils_createrules.py" comparerules "%SCRIPT_DIR%..\main\resources\clangtidy.xml" "%SCRIPT_DIR%clangtidy_new.xml" > "%SCRIPT_DIR%clangtidy-comparison.md"
 
 REM GENERATION OF RULES FROM CLANG DIAGNOSTICS
 ECHO [INFO] generate the list of diagnostics...
@@ -53,7 +53,7 @@ POPD
 ECHO [INFO] generate the new version of the diagnostics file...
 "%PYTHON_DIR%python.exe" "%SCRIPT_DIR%clangtidy_createrules.py" diagnostics "%SCRIPT_DIR%diagnostic.json" > "%SCRIPT_DIR%diagnostic_new.xml"
 ECHO [INFO] compare the new version with the old one, extend the old XML...
-"%PYTHON_DIR%python.exe" "%SCRIPT_DIR%utils_createrules.py" comparerules "%SCRIPT_DIR%\..\main\resources\clangtidy.xml" "%SCRIPT_DIR%diagnostic_new.xml" > "%SCRIPT_DIR%diagnostic-comparison.md"
+"%PYTHON_DIR%python.exe" "%SCRIPT_DIR%utils_createrules.py" comparerules "%SCRIPT_DIR%..\main\resources\clangtidy.xml" "%SCRIPT_DIR%diagnostic_new.xml" > "%SCRIPT_DIR%diagnostic-comparison.md"
 
 REM exit
 GOTO END
