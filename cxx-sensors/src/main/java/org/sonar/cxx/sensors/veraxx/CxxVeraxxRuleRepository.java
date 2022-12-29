@@ -20,8 +20,8 @@
 package org.sonar.cxx.sensors.veraxx;
 
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.sensors.utils.RulesDefinitionXml;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 
 /**
  * {@inheritDoc}

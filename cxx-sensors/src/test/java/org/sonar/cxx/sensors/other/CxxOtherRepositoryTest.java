@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 
 class CxxOtherRepositoryTest {
 

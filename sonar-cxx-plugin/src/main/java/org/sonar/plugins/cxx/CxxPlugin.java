@@ -53,6 +53,7 @@ import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsAggregator;
 import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsImportSensor;
 import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
 import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
 import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
@@ -107,6 +108,7 @@ public final class CxxPlugin implements Plugin {
 
     // utility classes
     l.add(CxxUnitTestResultsAggregator.class);
+    l.add(RulesDefinitionXmlLoader.class);
 
     // metrics
     l.add(CxxMetricDefinition.class);

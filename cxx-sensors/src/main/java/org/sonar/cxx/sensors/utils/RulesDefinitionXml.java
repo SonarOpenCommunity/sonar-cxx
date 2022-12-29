@@ -29,7 +29,6 @@ import javax.annotation.Nullable;
 import org.apache.commons.io.FileUtils;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
@@ -77,7 +76,7 @@ public class RulesDefinitionXml implements RulesDefinition {
       xmlLoader.load(repository, xmlStream, encoding);
 
       for (var userExtensionXml : getExtensions(repositoryKey, "xml")) {
-        try ( var input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
+        try (var input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
           xmlRuleLoader.load(repository, input, encoding);
         } catch (IOException | IllegalStateException e) {
           LOG.error("Cannot load Rules Definions '{}'", e.getMessage());

@@ -23,9 +23,9 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 
 /**
  * Loads the external rules configuration file.
