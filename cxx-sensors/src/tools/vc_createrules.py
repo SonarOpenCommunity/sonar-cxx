@@ -388,8 +388,8 @@ def create_rules(warnings, rules):
     - default 'type' is 'CODE_SMELL'
     - default 'severity' is 'INFO'
     - if not 'INFO' / 'CODE_SMELL' set:
-      - 'remediationFunction' to 'LINEAR'
-    - - 'remediationFunctionGapMultiplier' to '5min'
+      - 'remediationFunction' to 'CONSTANT_ISSUE'
+    - - 'remediationFunctionBaseEffort' to '5min'
     """
     for _key, data in list(warnings.items()):
         rule = et.Element('rule')
@@ -409,23 +409,23 @@ def create_rules(warnings, rules):
             et.SubElement(rule, 'internalKey').text = data['internalKey']
 
         if 'severity' in data:
-            et.SubElement(rule, 'severity').text = data['severity']
+            if data['severity'] != 'MAJOR': # MAJOR is the default
+                et.SubElement(rule, 'severity').text = data['severity']
         else:
             et.SubElement(rule, 'severity').text = 'INFO'
 
         if 'type' in data:
-            et.SubElement(rule, 'type').text = data['type']
-        else:
-            et.SubElement(rule, 'type').text = 'CODE_SMELL'
+            if data['type'] != 'CODE_SMELL': # CODE_SMELL is the default
+                et.SubElement(rule, 'type').text = data['type']
 
-        if ('remediationFunction' in data) and ('remediationFunctionGapMultiplier' in data):
+        if ('remediationFunction' in data) and ('remediationFunctionBaseEffort' in data):
             et.SubElement(rule, 'remediationFunction').text = data['remediationFunction']
-            et.SubElement(rule, 'remediationFunctionGapMultiplier').text = data['remediationFunctionGapMultiplier']
+            et.SubElement(rule, 'remediationFunctionBaseEffort').text = data['remediationFunctionBaseEffort']
         else:
             if ('severity' in data) and ('type' in data) and not (
                     (data['severity'] == 'INFO') and (data['type'] == 'CODE_SMELL')):
-                et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
-                et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
+                et.SubElement(rule, 'remediationFunction').text = 'CONSTANT_ISSUE'
+                et.SubElement(rule, 'remediationFunctionBaseEffort').text = '5min'
 
         rules.append(rule)
 

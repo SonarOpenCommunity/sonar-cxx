@@ -28,8 +28,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>MismatchedFree</key>
@@ -44,8 +42,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -58,8 +54,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -73,8 +67,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -85,8 +77,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -100,8 +90,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -111,8 +99,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Invalid memory pool specified in client request.
     </description>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -124,8 +110,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -135,8 +119,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Other uses of undefined values (primarily memory addresses).
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -147,8 +129,6 @@ Follow these steps to make your custom rules available in SonarQube:
       either isn't fully addressable or hasn't been properly initialized.
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -158,8 +138,6 @@ Follow these steps to make your custom rules available in SonarQube:
       "Error" resulting from a client check request.
     </description>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -174,8 +152,6 @@ Follow these steps to make your custom rules available in SonarQube:
       the program. Such cases should be fixed by the programmer.
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -188,8 +164,6 @@ Follow these steps to make your custom rules available in SonarQube:
       node is lost, all its children nodes will be indirectly lost.
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -202,8 +176,6 @@ Follow these steps to make your custom rules available in SonarQube:
       happens to point into a block, and so you shouldn't consider this OK
       unless you know you have interior-pointers.
     </description>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -216,7 +188,5 @@ Follow these steps to make your custom rules available in SonarQube:
       the exit.
     </description>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 </rules>

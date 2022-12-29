@@ -25,8 +25,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1250?view=msvc-170" target="_blank">C1250</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1251</key>
@@ -38,8 +36,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1251?view=msvc-170" target="_blank">C1251</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1252</key>
@@ -51,8 +47,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1252?view=msvc-170" target="_blank">C1252</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1253</key>
@@ -64,8 +58,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1253?view=msvc-170" target="_blank">C1253</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1254</key>
@@ -77,8 +69,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1254?view=msvc-170" target="_blank">C1254</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1255</key>
@@ -90,8 +80,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1255?view=msvc-170" target="_blank">C1255</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1256</key>
@@ -103,8 +91,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1256?view=msvc-170" target="_blank">C1256</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C1257</key>
@@ -116,8 +102,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1257?view=msvc-170" target="_blank">C1257</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C1258</key>
@@ -129,8 +113,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1258?view=msvc-170" target="_blank">C1258</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C1259</key>
@@ -142,8 +124,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1259?view=msvc-170" target="_blank">C1259</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C1260</key>
@@ -156,8 +136,6 @@
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c1260?view=msvc-170" target="_blank">C1260</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4001</key>
@@ -302,8 +280,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4020?view=msvc-170" target="_blank">C4020</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4022</key>
@@ -447,8 +423,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4034?view=msvc-170" target="_blank">C4034</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4036</key>
@@ -592,8 +566,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4056?view=msvc-170" target="_blank">C4056</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4057</key>
@@ -627,8 +599,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4062?view=msvc-170" target="_blank">C4062</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4066</key>
@@ -1124,8 +1094,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4130?view=msvc-170" target="_blank">C4130</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4131</key>
@@ -1159,8 +1127,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4133?view=msvc-170" target="_blank">C4133</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4138</key>
@@ -1172,8 +1138,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4138?view=msvc-170" target="_blank">C4138</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4141</key>
@@ -1449,8 +1413,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4172?view=msvc-170" target="_blank">C4172</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4174</key>
@@ -2023,8 +1985,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4243?view=msvc-170" target="_blank">C4243</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4244</key>
@@ -2047,8 +2007,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4245?view=msvc-170" target="_blank">C4245</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4250</key>
@@ -2380,8 +2338,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4291?view=msvc-170" target="_blank">C4291</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4293</key>
@@ -2393,8 +2349,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4293?view=msvc-170" target="_blank">C4293</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4295</key>
@@ -2406,8 +2360,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4295?view=msvc-170" target="_blank">C4295</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4296</key>
@@ -2419,8 +2371,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4296?view=msvc-170" target="_blank">C4296</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4297</key>
@@ -2498,8 +2448,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4309?view=msvc-170" target="_blank">C4309</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4310</key>
@@ -2544,8 +2492,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4313?view=msvc-170" target="_blank">C4313</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4316</key>
@@ -2623,8 +2569,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4333?view=msvc-170" target="_blank">C4333</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4334</key>
@@ -2680,8 +2624,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4339?view=msvc-170" target="_blank">C4339</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4340</key>
@@ -2693,8 +2635,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4340?view=msvc-170" target="_blank">C4340</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4342</key>
@@ -2783,8 +2723,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-c4355?view=msvc-170" target="_blank">C4355</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4356</key>
@@ -2796,8 +2734,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4356?view=msvc-170" target="_blank">C4356</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4357</key>
@@ -2820,8 +2756,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4358?view=msvc-170" target="_blank">C4358</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4359</key>
@@ -2833,8 +2767,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4359?view=msvc-170" target="_blank">C4359</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4364</key>
@@ -2879,8 +2811,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-c4368?view=msvc-170" target="_blank">C4368</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4369</key>
@@ -3224,8 +3154,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4405?view=msvc-170" target="_blank">C4405</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4406</key>
@@ -3248,8 +3176,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4407?view=msvc-170" target="_blank">C4407</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4408</key>
@@ -3580,8 +3506,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4473?view=msvc-170" target="_blank">C4473</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4477</key>
@@ -3593,8 +3517,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/c4477?view=msvc-170" target="_blank">C4477</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4481</key>
@@ -3881,8 +3803,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4526?view=msvc-170" target="_blank">C4526</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4530</key>
@@ -3993,8 +3913,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4541?view=msvc-170" target="_blank">C4541</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4543</key>
@@ -5231,8 +5149,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4715?view=msvc-170" target="_blank">C4715</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4716</key>
@@ -5244,8 +5160,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4716?view=msvc-170" target="_blank">C4716</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4717</key>
@@ -5257,8 +5171,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4717?view=msvc-170" target="_blank">C4717</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4718</key>
@@ -5490,8 +5402,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4756?view=msvc-170" target="_blank">C4756</a></p>]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C4764</key>
@@ -6627,8 +6537,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6011</key>
@@ -6641,8 +6549,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6014</key>
@@ -6655,8 +6561,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6029</key>
@@ -6668,8 +6572,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6029?view=msvc-170" target="_blank">C6029</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6031</key>
@@ -6681,8 +6583,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6031?view=msvc-170" target="_blank">C6031</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6053</key>
@@ -6694,8 +6594,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6053?view=msvc-170" target="_blank">C6053</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6054</key>
@@ -6707,8 +6605,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6054?view=msvc-170" target="_blank">C6054</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6059</key>
@@ -6720,8 +6616,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6059?view=msvc-170" target="_blank">C6059</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6063</key>
@@ -6734,8 +6628,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6064</key>
@@ -6748,8 +6640,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6066</key>
@@ -6762,8 +6652,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6067</key>
@@ -6775,8 +6663,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6067?view=msvc-170" target="_blank">C6067</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6101</key>
@@ -6789,8 +6675,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6102</key>
@@ -6803,8 +6687,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6103</key>
@@ -6817,8 +6699,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6200</key>
@@ -6831,8 +6711,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6201</key>
@@ -6845,8 +6723,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6211</key>
@@ -6858,8 +6734,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6211?view=msvc-170" target="_blank">C6211</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6214</key>
@@ -6871,8 +6745,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6214?view=msvc-170" target="_blank">C6214</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6215</key>
@@ -6884,8 +6756,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6215?view=msvc-170" target="_blank">C6215</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6216</key>
@@ -6897,8 +6767,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6216?view=msvc-170" target="_blank">C6216</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6217</key>
@@ -6910,8 +6778,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6217?view=msvc-170" target="_blank">C6217</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6219</key>
@@ -6923,8 +6789,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6219?view=msvc-170" target="_blank">C6219</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6220</key>
@@ -6936,8 +6800,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6220?view=msvc-170" target="_blank">C6220</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6221</key>
@@ -6949,8 +6811,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6221?view=msvc-170" target="_blank">C6221</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6225</key>
@@ -6962,8 +6822,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6225?view=msvc-170" target="_blank">C6225</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6226</key>
@@ -6975,8 +6833,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6226?view=msvc-170" target="_blank">C6226</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6230</key>
@@ -6988,8 +6844,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6230?view=msvc-170" target="_blank">C6230</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6235</key>
@@ -7002,8 +6856,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6236</key>
@@ -7016,8 +6868,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6237</key>
@@ -7031,8 +6881,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6239</key>
@@ -7045,8 +6893,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6240</key>
@@ -7059,8 +6905,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6242</key>
@@ -7072,8 +6916,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6242?view=msvc-170" target="_blank">C6242</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6244</key>
@@ -7085,8 +6927,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6244?view=msvc-170" target="_blank">C6244</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6246</key>
@@ -7098,8 +6938,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6246?view=msvc-170" target="_blank">C6246</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6248</key>
@@ -7111,8 +6949,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6248?view=msvc-170" target="_blank">C6248</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6250</key>
@@ -7124,8 +6960,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6250?view=msvc-170" target="_blank">C6250</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6255</key>
@@ -7137,8 +6971,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6255?view=msvc-170" target="_blank">C6255</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6258</key>
@@ -7150,8 +6982,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6258?view=msvc-170" target="_blank">C6258</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6259</key>
@@ -7163,8 +6993,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6259?view=msvc-170" target="_blank">C6259</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6260</key>
@@ -7177,8 +7005,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6262</key>
@@ -7190,8 +7016,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6262?view=msvc-170" target="_blank">C6262</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6263</key>
@@ -7203,8 +7027,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6263?view=msvc-170" target="_blank">C6263</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6268</key>
@@ -7217,8 +7039,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6268?view=msvc-170" target="_blank">C6268</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6269</key>
@@ -7230,8 +7050,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6269?view=msvc-170" target="_blank">C6269</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6270</key>
@@ -7243,8 +7061,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6270?view=msvc-170" target="_blank">C6270</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6271</key>
@@ -7256,8 +7072,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6271?view=msvc-170" target="_blank">C6271</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6272</key>
@@ -7270,8 +7084,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6273</key>
@@ -7284,8 +7096,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6273?view=msvc-170" target="_blank">C6273</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6274</key>
@@ -7297,8 +7107,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6274?view=msvc-170" target="_blank">C6274</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6276</key>
@@ -7310,8 +7118,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6276?view=msvc-170" target="_blank">C6276</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6277</key>
@@ -7324,8 +7130,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>VULNERABILITY</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6278</key>
@@ -7338,8 +7142,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6279</key>
@@ -7352,8 +7154,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6280</key>
@@ -7365,8 +7165,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6280?view=msvc-170" target="_blank">C6280</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6281</key>
@@ -7378,8 +7176,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6281?view=msvc-170" target="_blank">C6281</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6282</key>
@@ -7391,8 +7187,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6282?view=msvc-170" target="_blank">C6282</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6283</key>
@@ -7405,8 +7199,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6284</key>
@@ -7418,8 +7210,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6284?view=msvc-170" target="_blank">C6284</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6285</key>
@@ -7431,8 +7221,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6285?view=msvc-170" target="_blank">C6285</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6286</key>
@@ -7444,8 +7232,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6286?view=msvc-170" target="_blank">C6286</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6287</key>
@@ -7458,8 +7244,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6288</key>
@@ -7471,8 +7255,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6288?view=msvc-170" target="_blank">C6288</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6289</key>
@@ -7484,8 +7266,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6289?view=msvc-170" target="_blank">C6289</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6290</key>
@@ -7497,8 +7277,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6290?view=msvc-170" target="_blank">C6290</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6291</key>
@@ -7510,8 +7288,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6291?view=msvc-170" target="_blank">C6291</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6292</key>
@@ -7523,8 +7299,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6292?view=msvc-170" target="_blank">C6292</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6293</key>
@@ -7536,8 +7310,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6293?view=msvc-170" target="_blank">C6293</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6294</key>
@@ -7550,8 +7322,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6295</key>
@@ -7564,8 +7334,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6296</key>
@@ -7578,8 +7346,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6297</key>
@@ -7591,8 +7357,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6297?view=msvc-170" target="_blank">C6297</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6298</key>
@@ -7604,8 +7368,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6298?view=msvc-170" target="_blank">C6298</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6299</key>
@@ -7618,8 +7380,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6302</key>
@@ -7631,8 +7391,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6302?view=msvc-170" target="_blank">C6302</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6303</key>
@@ -7644,8 +7402,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6303?view=msvc-170" target="_blank">C6303</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6305</key>
@@ -7657,8 +7413,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6305?view=msvc-170" target="_blank">C6305</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6306</key>
@@ -7671,8 +7425,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6306?view=msvc-170" target="_blank">C6306</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6308</key>
@@ -7686,8 +7438,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6310</key>
@@ -7699,8 +7449,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6310?view=msvc-170" target="_blank">C6310</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6312</key>
@@ -7713,8 +7461,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6312?view=msvc-170" target="_blank">C6312</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6313</key>
@@ -7727,8 +7473,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6313?view=msvc-170" target="_blank">C6313</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6314</key>
@@ -7740,8 +7484,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6314?view=msvc-170" target="_blank">C6314</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6315</key>
@@ -7753,8 +7495,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6315?view=msvc-170" target="_blank">C6315</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6316</key>
@@ -7766,8 +7506,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6316?view=msvc-170" target="_blank">C6316</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6317</key>
@@ -7779,8 +7517,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6317?view=msvc-170" target="_blank">C6317</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6318</key>
@@ -7793,8 +7529,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6319</key>
@@ -7806,8 +7540,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6319?view=msvc-170" target="_blank">C6319</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6320</key>
@@ -7819,8 +7551,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6320?view=msvc-170" target="_blank">C6320</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6322</key>
@@ -7833,8 +7563,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6323</key>
@@ -7846,8 +7574,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6323?view=msvc-170" target="_blank">C6323</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6324</key>
@@ -7859,8 +7585,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6324?view=msvc-170" target="_blank">C6324</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6326</key>
@@ -7872,8 +7596,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6326?view=msvc-170" target="_blank">C6326</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6328</key>
@@ -7885,8 +7607,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6328?view=msvc-170" target="_blank">C6328</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6329</key>
@@ -7898,8 +7618,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6329?view=msvc-170" target="_blank">C6329</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6330</key>
@@ -7911,8 +7629,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6330?view=msvc-170" target="_blank">C6330</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6331</key>
@@ -7924,8 +7640,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6331?view=msvc-170" target="_blank">C6331</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6332</key>
@@ -7937,8 +7651,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6332?view=msvc-170" target="_blank">C6332</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6333</key>
@@ -7950,8 +7662,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6333?view=msvc-170" target="_blank">C6333</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6334</key>
@@ -7964,8 +7674,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6335</key>
@@ -7978,8 +7686,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6336</key>
@@ -7991,8 +7697,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6336?view=msvc-170" target="_blank">C6336</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6340</key>
@@ -8004,8 +7708,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6340?view=msvc-170" target="_blank">C6340</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6381</key>
@@ -8017,8 +7719,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6381?view=msvc-170" target="_blank">C6381</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6383</key>
@@ -8031,8 +7731,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6384</key>
@@ -8044,8 +7742,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6384?view=msvc-170" target="_blank">C6384</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6385</key>
@@ -8057,8 +7753,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6385?view=msvc-170" target="_blank">C6385</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6386</key>
@@ -8070,8 +7764,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6386?view=msvc-170" target="_blank">C6386</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6387</key>
@@ -8083,8 +7775,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6387?view=msvc-170" target="_blank">C6387</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6388</key>
@@ -8096,8 +7786,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6388?view=msvc-170" target="_blank">C6388</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6389</key>
@@ -8109,8 +7797,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6389?view=msvc-170" target="_blank">C6389</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C6390</key>
@@ -8122,8 +7808,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6390?view=msvc-170" target="_blank">C6390</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C6400</key>
@@ -8135,8 +7819,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6400?view=msvc-170" target="_blank">C6400</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6401</key>
@@ -8148,8 +7830,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6401?view=msvc-170" target="_blank">C6401</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6411</key>
@@ -8161,8 +7841,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6411?view=msvc-170" target="_blank">C6411</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6412</key>
@@ -8174,8 +7852,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6412?view=msvc-170" target="_blank">C6412</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6500</key>
@@ -8187,8 +7863,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6500?view=msvc-170" target="_blank">C6500</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6501</key>
@@ -8200,8 +7874,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6501?view=msvc-170" target="_blank">C6501</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6503</key>
@@ -8213,8 +7885,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6503?view=msvc-170" target="_blank">C6503</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6504</key>
@@ -8226,8 +7896,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6504?view=msvc-170" target="_blank">C6504</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6505</key>
@@ -8239,8 +7907,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6505?view=msvc-170" target="_blank">C6505</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6506</key>
@@ -8252,8 +7918,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6506?view=msvc-170" target="_blank">C6506</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6508</key>
@@ -8265,8 +7929,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6508?view=msvc-170" target="_blank">C6508</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6509</key>
@@ -8278,8 +7940,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6509?view=msvc-170" target="_blank">C6509</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6510</key>
@@ -8291,8 +7951,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6510?view=msvc-170" target="_blank">C6510</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6511</key>
@@ -8304,8 +7962,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6511?view=msvc-170" target="_blank">C6511</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6513</key>
@@ -8317,8 +7973,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6513?view=msvc-170" target="_blank">C6513</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6514</key>
@@ -8330,8 +7984,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6514?view=msvc-170" target="_blank">C6514</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6515</key>
@@ -8343,8 +7995,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6515?view=msvc-170" target="_blank">C6515</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6516</key>
@@ -8356,8 +8006,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6516?view=msvc-170" target="_blank">C6516</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6517</key>
@@ -8369,8 +8017,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6517?view=msvc-170" target="_blank">C6517</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6518</key>
@@ -8382,8 +8028,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6518?view=msvc-170" target="_blank">C6518</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6522</key>
@@ -8395,8 +8039,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6522?view=msvc-170" target="_blank">C6522</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6525</key>
@@ -8408,8 +8050,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6525?view=msvc-170" target="_blank">C6525</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6527</key>
@@ -8421,8 +8061,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6527?view=msvc-170" target="_blank">C6527</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6530</key>
@@ -8434,8 +8072,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6530?view=msvc-170" target="_blank">C6530</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6540</key>
@@ -8447,8 +8083,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6540?view=msvc-170" target="_blank">C6540</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6551</key>
@@ -8460,8 +8094,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6551?view=msvc-170" target="_blank">C6551</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6552</key>
@@ -8473,8 +8105,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6552?view=msvc-170" target="_blank">C6552</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6701</key>
@@ -8486,8 +8116,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6701?view=msvc-170" target="_blank">C6701</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6702</key>
@@ -8499,8 +8127,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6702?view=msvc-170" target="_blank">C6702</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6703</key>
@@ -8512,8 +8138,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6703?view=msvc-170" target="_blank">C6703</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6704</key>
@@ -8525,8 +8149,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6704?view=msvc-170" target="_blank">C6704</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6705</key>
@@ -8538,8 +8160,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6705?view=msvc-170" target="_blank">C6705</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6706</key>
@@ -8551,8 +8171,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6706?view=msvc-170" target="_blank">C6706</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6707</key>
@@ -8564,8 +8182,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6707?view=msvc-170" target="_blank">C6707</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6993</key>
@@ -8577,8 +8193,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6993?view=msvc-170" target="_blank">C6993</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6995</key>
@@ -8590,8 +8204,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6995?view=msvc-170" target="_blank">C6995</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C6997</key>
@@ -8603,8 +8215,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c6997?view=msvc-170" target="_blank">C6997</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26100</key>
@@ -8616,8 +8226,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26100?view=msvc-170" target="_blank">C26100</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26101</key>
@@ -8629,8 +8237,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26101?view=msvc-170" target="_blank">C26101</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26105</key>
@@ -8642,8 +8248,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26105?view=msvc-170" target="_blank">C26105</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26110</key>
@@ -8655,8 +8259,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26110?view=msvc-170" target="_blank">C26110</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26111</key>
@@ -8668,8 +8270,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26111?view=msvc-170" target="_blank">C26111</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26112</key>
@@ -8681,8 +8281,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26112?view=msvc-170" target="_blank">C26112</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26115</key>
@@ -8694,8 +8292,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26115?view=msvc-170" target="_blank">C26115</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26116</key>
@@ -8707,8 +8303,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26116?view=msvc-170" target="_blank">C26116</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26117</key>
@@ -8720,8 +8314,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26117?view=msvc-170" target="_blank">C26117</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26130</key>
@@ -8733,8 +8325,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26130?view=msvc-170" target="_blank">C26130</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26135</key>
@@ -8746,8 +8336,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26135?view=msvc-170" target="_blank">C26135</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26138</key>
@@ -8759,8 +8347,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26138?view=msvc-170" target="_blank">C26138</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26140</key>
@@ -8772,8 +8358,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26140?view=msvc-170" target="_blank">C26140</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26160</key>
@@ -8785,8 +8369,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26160?view=msvc-170" target="_blank">C26160</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26165</key>
@@ -8798,8 +8380,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26165?view=msvc-170" target="_blank">C26165</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26166</key>
@@ -8811,8 +8391,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26166?view=msvc-170" target="_blank">C26166</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26167</key>
@@ -8824,8 +8402,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26167?view=msvc-170" target="_blank">C26167</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26400</key>
@@ -8839,8 +8415,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26401</key>
@@ -8854,8 +8428,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26402</key>
@@ -8869,8 +8441,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26403</key>
@@ -8884,8 +8454,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26404</key>
@@ -8899,8 +8467,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26405</key>
@@ -8914,8 +8480,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26406</key>
@@ -8928,8 +8492,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26407</key>
@@ -8942,8 +8504,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26408</key>
@@ -8956,8 +8516,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26409</key>
@@ -8972,8 +8530,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26410</key>
@@ -8987,8 +8543,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26411</key>
@@ -9003,8 +8557,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26414</key>
@@ -9419,8 +8971,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26454</key>
@@ -9434,8 +8984,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26455</key>
@@ -9485,8 +9033,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26460?view=msvc-170" target="_blank">C26460</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26461</key>
@@ -9498,8 +9044,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26461?view=msvc-170" target="_blank">C26461</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26462</key>
@@ -9511,8 +9055,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26462?view=msvc-170" target="_blank">C26462</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26463</key>
@@ -9524,8 +9066,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26463?view=msvc-170" target="_blank">C26463</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26464</key>
@@ -9537,8 +9077,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26464?view=msvc-170" target="_blank">C26464</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26465</key>
@@ -9551,8 +9089,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26465?view=msvc-170" target="_blank">C26465</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26466</key>
@@ -9565,8 +9101,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26466?view=msvc-170" target="_blank">C26466</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26471</key>
@@ -9580,8 +9114,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26472</key>
@@ -9689,8 +9221,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26482</key>
@@ -9704,8 +9234,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26483</key>
@@ -9720,8 +9248,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26485</key>
@@ -9735,8 +9261,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26486</key>
@@ -9749,8 +9273,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26487</key>
@@ -9763,8 +9285,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26488</key>
@@ -9790,8 +9310,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     <tag>core-guideline</tag>
     <severity>BLOCKER</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26490</key>
@@ -9805,8 +9323,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26491</key>
@@ -9819,8 +9335,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26492</key>
@@ -9834,8 +9348,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26493</key>
@@ -9849,8 +9361,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26494</key>
@@ -9864,8 +9374,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26495</key>
@@ -9878,8 +9386,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <tag>core-guideline</tag>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26496</key>
@@ -9891,8 +9397,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26496?view=msvc-170" target="_blank">C26496</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26497</key>
@@ -9905,8 +9409,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26497?view=msvc-170" target="_blank">C26497</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26498</key>
@@ -9918,8 +9420,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26498?view=msvc-170" target="_blank">C26498</a></p>]]>
     </description>
     <tag>core-guideline</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26800</key>
@@ -9931,8 +9431,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26800?view=msvc-170" target="_blank">C26800</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26810</key>
@@ -9944,8 +9442,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26810?view=msvc-170" target="_blank">C26810</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26811</key>
@@ -9957,8 +9453,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26811?view=msvc-170" target="_blank">C26811</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26812</key>
@@ -9982,8 +9476,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26813?view=msvc-170" target="_blank">C26813</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26814</key>
@@ -10082,8 +9574,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26822?view=msvc-170" target="_blank">C26822</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26823</key>
@@ -10095,8 +9585,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26823?view=msvc-170" target="_blank">C26823</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26824</key>
@@ -10108,8 +9596,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26824?view=msvc-170" target="_blank">C26824</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26825</key>
@@ -10121,8 +9607,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26825?view=msvc-170" target="_blank">C26825</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26826</key>
@@ -10135,8 +9619,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26826?view=msvc-170" target="_blank">C26826</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26827</key>
@@ -10148,8 +9630,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26827?view=msvc-170" target="_blank">C26827</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26828</key>
@@ -10162,8 +9642,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26828?view=msvc-170" target="_blank">C26828</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26829</key>
@@ -10175,8 +9653,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26829?view=msvc-170" target="_blank">C26829</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26830</key>
@@ -10188,8 +9664,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26830?view=msvc-170" target="_blank">C26830</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26859</key>
@@ -10201,8 +9675,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26859?view=msvc-170" target="_blank">C26859</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C26860</key>
@@ -10214,8 +9686,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c26860?view=msvc-170" target="_blank">C26860</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     </rule>
   <rule>
     <key>C28020</key>
@@ -10227,8 +9697,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28020?view=msvc-170" target="_blank">C28020</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28021</key>
@@ -10240,8 +9708,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28021?view=msvc-170" target="_blank">C28021</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28022</key>
@@ -10253,8 +9719,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28022?view=msvc-170" target="_blank">C28022</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28023</key>
@@ -10266,8 +9730,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28023?view=msvc-170" target="_blank">C28023</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28024</key>
@@ -10279,8 +9741,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28024?view=msvc-170" target="_blank">C28024</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28039</key>
@@ -10292,8 +9752,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28039?view=msvc-170" target="_blank">C28039</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28103</key>
@@ -10306,8 +9764,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>INFO</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28104</key>
@@ -10319,8 +9775,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28104?view=msvc-170" target="_blank">C28104</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28105</key>
@@ -10333,8 +9787,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
     </description>
     <severity>INFO</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28106</key>
@@ -10346,8 +9798,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28106?view=msvc-170" target="_blank">C28106</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28107</key>
@@ -10359,8 +9809,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28107?view=msvc-170" target="_blank">C28107</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28108</key>
@@ -10372,8 +9820,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28108?view=msvc-170" target="_blank">C28108</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28109</key>
@@ -10385,8 +9831,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28109?view=msvc-170" target="_blank">C28109</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28112</key>
@@ -10399,8 +9843,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28112?view=msvc-170" target="_blank">C28112</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28113</key>
@@ -10412,8 +9854,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28113?view=msvc-170" target="_blank">C28113</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28125</key>
@@ -10425,8 +9865,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28125?view=msvc-170" target="_blank">C28125</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28137</key>
@@ -10438,8 +9876,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28137?view=msvc-170" target="_blank">C28137</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28138</key>
@@ -10451,8 +9887,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28138?view=msvc-170" target="_blank">C28138</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28159</key>
@@ -10464,8 +9898,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28159?view=msvc-170" target="_blank">C28159</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28160</key>
@@ -10477,8 +9909,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28160?view=msvc-170" target="_blank">C28160</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28163</key>
@@ -10490,8 +9920,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28163?view=msvc-170" target="_blank">C28163</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28164</key>
@@ -10503,8 +9931,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28164?view=msvc-170" target="_blank">C28164</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28182</key>
@@ -10516,8 +9942,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28182?view=msvc-170" target="_blank">C28182</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28183</key>
@@ -10529,8 +9953,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28183?view=msvc-170" target="_blank">C28183</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28193</key>
@@ -10542,8 +9964,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28193?view=msvc-170" target="_blank">C28193</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28194</key>
@@ -10555,8 +9975,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28194?view=msvc-170" target="_blank">C28194</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28195</key>
@@ -10568,8 +9986,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28195?view=msvc-170" target="_blank">C28195</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28196</key>
@@ -10581,8 +9997,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28196?view=msvc-170" target="_blank">C28196</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28197</key>
@@ -10594,8 +10008,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28197?view=msvc-170" target="_blank">C28197</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28198</key>
@@ -10607,8 +10019,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28198?view=msvc-170" target="_blank">C28198</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28199</key>
@@ -10620,8 +10030,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28199?view=msvc-170" target="_blank">C28199</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28202</key>
@@ -10633,8 +10041,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28202?view=msvc-170" target="_blank">C28202</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28203</key>
@@ -10647,8 +10053,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28203?view=msvc-170" target="_blank">C28203</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28204</key>
@@ -10660,8 +10064,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28204?view=msvc-170" target="_blank">C28204</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28205</key>
@@ -10673,8 +10075,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28205?view=msvc-170" target="_blank">C28205</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28206</key>
@@ -10686,8 +10086,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28206?view=msvc-170" target="_blank">C28206</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28207</key>
@@ -10699,8 +10097,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28207?view=msvc-170" target="_blank">C28207</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28208</key>
@@ -10712,8 +10108,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28208?view=msvc-170" target="_blank">C28208</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28209</key>
@@ -10725,8 +10119,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28209?view=msvc-170" target="_blank">C28209</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28210</key>
@@ -10738,8 +10130,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28210?view=msvc-170" target="_blank">C28210</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28211</key>
@@ -10751,8 +10141,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28211?view=msvc-170" target="_blank">C28211</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28212</key>
@@ -10764,8 +10152,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28212?view=msvc-170" target="_blank">C28212</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28213</key>
@@ -10777,8 +10163,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28213?view=msvc-170" target="_blank">C28213</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28214</key>
@@ -10790,8 +10174,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28214?view=msvc-170" target="_blank">C28214</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28215</key>
@@ -10803,8 +10185,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28215?view=msvc-170" target="_blank">C28215</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28216</key>
@@ -10816,8 +10196,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28216?view=msvc-170" target="_blank">C28216</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28217</key>
@@ -10829,8 +10207,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28217?view=msvc-170" target="_blank">C28217</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28218</key>
@@ -10842,8 +10218,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28218?view=msvc-170" target="_blank">C28218</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28219</key>
@@ -10855,8 +10229,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28219?view=msvc-170" target="_blank">C28219</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28220</key>
@@ -10868,8 +10240,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28220?view=msvc-170" target="_blank">C28220</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28221</key>
@@ -10881,8 +10251,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28221?view=msvc-170" target="_blank">C28221</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28222</key>
@@ -10894,8 +10262,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28222?view=msvc-170" target="_blank">C28222</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28223</key>
@@ -10907,8 +10273,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28223?view=msvc-170" target="_blank">C28223</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28224</key>
@@ -10920,8 +10284,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28224?view=msvc-170" target="_blank">C28224</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28225</key>
@@ -10933,8 +10295,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28225?view=msvc-170" target="_blank">C28225</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28226</key>
@@ -10946,8 +10306,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28226?view=msvc-170" target="_blank">C28226</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28227</key>
@@ -10959,8 +10317,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28227?view=msvc-170" target="_blank">C28227</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28228</key>
@@ -10972,8 +10328,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28228?view=msvc-170" target="_blank">C28228</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28229</key>
@@ -10985,8 +10339,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28229?view=msvc-170" target="_blank">C28229</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28230</key>
@@ -10998,8 +10350,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28230?view=msvc-170" target="_blank">C28230</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28231</key>
@@ -11011,8 +10361,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28231?view=msvc-170" target="_blank">C28231</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28232</key>
@@ -11024,8 +10372,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28232?view=msvc-170" target="_blank">C28232</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28233</key>
@@ -11037,8 +10383,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28233?view=msvc-170" target="_blank">C28233</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28234</key>
@@ -11050,8 +10394,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28234?view=msvc-170" target="_blank">C28234</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28235</key>
@@ -11063,8 +10405,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28235?view=msvc-170" target="_blank">C28235</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28236</key>
@@ -11076,8 +10416,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28236?view=msvc-170" target="_blank">C28236</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28237</key>
@@ -11089,8 +10427,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28237?view=msvc-170" target="_blank">C28237</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28238</key>
@@ -11102,8 +10438,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28238?view=msvc-170" target="_blank">C28238</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28239</key>
@@ -11115,8 +10449,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28239?view=msvc-170" target="_blank">C28239</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28240</key>
@@ -11128,8 +10460,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28240?view=msvc-170" target="_blank">C28240</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28241</key>
@@ -11141,8 +10471,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28241?view=msvc-170" target="_blank">C28241</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28243</key>
@@ -11154,8 +10482,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28243?view=msvc-170" target="_blank">C28243</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28244</key>
@@ -11167,8 +10493,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28244?view=msvc-170" target="_blank">C28244</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28245</key>
@@ -11180,8 +10504,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28245?view=msvc-170" target="_blank">C28245</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28246</key>
@@ -11193,8 +10515,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28246?view=msvc-170" target="_blank">C28246</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28250</key>
@@ -11206,8 +10526,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28250?view=msvc-170" target="_blank">C28250</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28251</key>
@@ -11219,8 +10537,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28251?view=msvc-170" target="_blank">C28251</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28252</key>
@@ -11232,8 +10548,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28252?view=msvc-170" target="_blank">C28252</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28253</key>
@@ -11245,8 +10559,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28253?view=msvc-170" target="_blank">C28253</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28254</key>
@@ -11258,8 +10570,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28254?view=msvc-170" target="_blank">C28254</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28262</key>
@@ -11271,8 +10581,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28262?view=msvc-170" target="_blank">C28262</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28263</key>
@@ -11284,8 +10592,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28263?view=msvc-170" target="_blank">C28263</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28267</key>
@@ -11297,8 +10603,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28267?view=msvc-170" target="_blank">C28267</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28272</key>
@@ -11310,8 +10614,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28272?view=msvc-170" target="_blank">C28272</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28273</key>
@@ -11323,8 +10625,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28273?view=msvc-170" target="_blank">C28273</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28275</key>
@@ -11336,8 +10636,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28275?view=msvc-170" target="_blank">C28275</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28278</key>
@@ -11349,8 +10647,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28278?view=msvc-170" target="_blank">C28278</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28279</key>
@@ -11362,8 +10658,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28279?view=msvc-170" target="_blank">C28279</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28280</key>
@@ -11375,8 +10669,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28280?view=msvc-170" target="_blank">C28280</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28282</key>
@@ -11388,8 +10680,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28282?view=msvc-170" target="_blank">C28282</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28283</key>
@@ -11401,8 +10691,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28283?view=msvc-170" target="_blank">C28283</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28284</key>
@@ -11414,8 +10702,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28284?view=msvc-170" target="_blank">C28284</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28285</key>
@@ -11427,8 +10713,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28285?view=msvc-170" target="_blank">C28285</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28286</key>
@@ -11440,8 +10724,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28286?view=msvc-170" target="_blank">C28286</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28287</key>
@@ -11453,8 +10735,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28287?view=msvc-170" target="_blank">C28287</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28288</key>
@@ -11466,8 +10746,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28288?view=msvc-170" target="_blank">C28288</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28289</key>
@@ -11479,8 +10757,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28289?view=msvc-170" target="_blank">C28289</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28290</key>
@@ -11492,8 +10768,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28290?view=msvc-170" target="_blank">C28290</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28291</key>
@@ -11505,8 +10779,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28291?view=msvc-170" target="_blank">C28291</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28300</key>
@@ -11518,8 +10790,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28300?view=msvc-170" target="_blank">C28300</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28301</key>
@@ -11531,8 +10801,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28301?view=msvc-170" target="_blank">C28301</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28302</key>
@@ -11544,8 +10812,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28302?view=msvc-170" target="_blank">C28302</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28303</key>
@@ -11557,8 +10823,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28303?view=msvc-170" target="_blank">C28303</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28304</key>
@@ -11570,8 +10834,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28304?view=msvc-170" target="_blank">C28304</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28305</key>
@@ -11583,8 +10845,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28305?view=msvc-170" target="_blank">C28305</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28306</key>
@@ -11596,8 +10856,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28306?view=msvc-170" target="_blank">C28306</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28307</key>
@@ -11609,8 +10867,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28307?view=msvc-170" target="_blank">C28307</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28308</key>
@@ -11622,8 +10878,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28308?view=msvc-170" target="_blank">C28308</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28309</key>
@@ -11635,8 +10889,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28309?view=msvc-170" target="_blank">C28309</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28310</key>
@@ -11648,8 +10900,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28310?view=msvc-170" target="_blank">C28310</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28311</key>
@@ -11661,8 +10911,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28311?view=msvc-170" target="_blank">C28311</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28312</key>
@@ -11674,8 +10922,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28312?view=msvc-170" target="_blank">C28312</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28350</key>
@@ -11687,8 +10933,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28350?view=msvc-170" target="_blank">C28350</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28351</key>
@@ -11700,8 +10944,6 @@ Under strict ANSI compatibility (<a data-linktype="relative-path" href="https://
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c28351?view=msvc-170" target="_blank">C28351</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33001</key>
@@ -11714,8 +10956,6 @@ that expects an initialized <code>VARIANT</code>.</p>
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33001?view=msvc-170" target="_blank">C33001</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33004</key>
@@ -11728,8 +10968,6 @@ initialized on input, and is then passed to an API such as <code>VariantClear</c
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33004?view=msvc-170" target="_blank">C33004</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33005</key>
@@ -11741,8 +10979,6 @@ initialized on input, and is then passed to an API such as <code>VariantClear</c
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33005?view=msvc-170" target="_blank">C33005</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33010</key>
@@ -11754,8 +10990,6 @@ initialized on input, and is then passed to an API such as <code>VariantClear</c
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33010?view=msvc-170" target="_blank">C33010</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33011</key>
@@ -11768,8 +11002,6 @@ if the lower bound is checked for its value, but not the upper bound.</p>
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33011?view=msvc-170" target="_blank">C33011</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33020</key>
@@ -11781,8 +11013,6 @@ if the lower bound is checked for its value, but not the upper bound.</p>
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33020?view=msvc-170" target="_blank">C33020</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C33022</key>
@@ -11794,7 +11024,5 @@ if the lower bound is checked for its value, but not the upper bound.</p>
 <p><a href="https://learn.microsoft.com/en-us/cpp/code-quality/c33022?view=msvc-170" target="_blank">C33022</a></p>]]>
     </description>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 </rules>

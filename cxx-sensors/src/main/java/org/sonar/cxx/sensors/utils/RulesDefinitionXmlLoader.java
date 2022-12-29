@@ -153,6 +153,7 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *
  *     &lt;!-- Quality Model - type of debt remediation function --&gt;
  *     &lt;!-- See enum {@link org.sonar.api.server.debt.DebtRemediationFunction.Type} for supported values --&gt;
+ *     &lt;!-- Default value is 'CONSTANT_ISSUE' for all severities except 'INFO' --&gt;
  *     &lt;!-- It was previously named 'debtRemediationFunction'. --&gt;
  *     &lt;!-- Since 5.5 --&gt;
  *     &lt;remediationFunction&gt;LINEAR_OFFSET&lt;/remediationFunction&gt;
@@ -171,6 +172,7 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *
  *     &lt;!-- Quality Model - base effort of debt remediation function. Must be defined only for some function types. --&gt;
  *     &lt;!-- See {@link org.sonar.api.server.rule.RulesDefinition.DebtRemediationFunctions} --&gt;
+ *     &lt;!-- Default value is '5min' for 'CONSTANT_ISSUE' --&gt;
  *     &lt;!-- It was previously named 'debtRemediationFunctionOffset'. --&gt;
  *     &lt;!-- Since 5.5 --&gt;
  *     &lt;remediationFunctionBaseEffort&gt;2min&lt;/remediationFunctionBaseEffort&gt;
@@ -196,7 +198,7 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *     &lt;tag&gt;security&lt;/tag&gt;
  *     &lt;tag&gt;user-experience&lt;/tag&gt;
  *     &lt;debtRemediationFunction&gt;CONSTANT_ISSUE&lt;/debtRemediationFunction&gt;
- *     &lt;debtRemediationFunctionBaseOffset&gt;10min&lt;/debtRemediationFunctionBaseOffset&gt;
+ *     &lt;remediationFunctionBaseEffort&gt;5min&lt;/remediationFunctionBaseEffort&gt;
  *   &lt;/rule&gt;
  *
  *   &lt;!-- another rules... --&gt;
@@ -301,8 +303,8 @@ public class RulesDefinitionXmlLoader {
     boolean template = false;
     String gapDescription = null;
     String debtRemediationFunction = null;
-    String debtRemediationFunctionGapMultiplier = null;
-    String debtRemediationFunctionBaseEffort = null;
+    String remediationFunctionBaseEffort = null;
+    String remediationFunctionGapMultiplier = null;
     List<ParamStruct> params = new ArrayList<>();
     List<String> tags = new ArrayList<>();
 
@@ -319,9 +321,17 @@ public class RulesDefinitionXmlLoader {
     while (reader.hasNext()) {
       final XMLEvent event = reader.nextEvent();
       if (event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(ELEMENT_RULE)) {
+        if (!"INFO".equals(severity)) {
+          if (debtRemediationFunction == null) {
+            debtRemediationFunction = "CONSTANT_ISSUE";
+            if (remediationFunctionBaseEffort == null) {
+              remediationFunctionBaseEffort = "5min";
+            }
+          }
+        }
         buildRule(repo, key, name, description, descriptionFormat, internalKey, severity, type, status, template,
-                  gapDescription, debtRemediationFunction, debtRemediationFunctionGapMultiplier,
-                  debtRemediationFunctionBaseEffort, params, tags);
+                  gapDescription, debtRemediationFunction, remediationFunctionBaseEffort,
+                  remediationFunctionGapMultiplier, params, tags);
         return;
       }
       if (event.isStartElement()) {
@@ -355,10 +365,10 @@ public class RulesDefinitionXmlLoader {
           debtRemediationFunction = StringUtils.trim(reader.getElementText());
         } else if ("remediationFunctionBaseEffort".equalsIgnoreCase(elementName) || "debtRemediationFunctionOffset"
           .equalsIgnoreCase(elementName)) {
-          debtRemediationFunctionGapMultiplier = StringUtils.trim(reader.getElementText());
+          remediationFunctionBaseEffort = StringUtils.trim(reader.getElementText());
         } else if ("remediationFunctionGapMultiplier".equalsIgnoreCase(elementName)
                      || "debtRemediationFunctionCoefficient".equalsIgnoreCase(elementName)) {
-          debtRemediationFunctionBaseEffort = StringUtils.trim(reader.getElementText());
+          remediationFunctionGapMultiplier = StringUtils.trim(reader.getElementText());
         } else if ("status".equalsIgnoreCase(elementName)) {
           String s = StringUtils.trim(reader.getElementText());
           if (s != null) {
@@ -379,8 +389,8 @@ public class RulesDefinitionXmlLoader {
                                 @Nullable String type, RuleStatus status,
                                 boolean template, @Nullable String gapDescription,
                                 @Nullable String debtRemediationFunction,
-                                @Nullable String debtRemediationFunctionGapMultiplier,
-                                @Nullable String debtRemediationFunctionBaseEffort, List<ParamStruct> params,
+                                @Nullable String debtRemediationFunctionBaseEffort,
+                                @Nullable String debtRemediationFunctionGapMultiplier, List<ParamStruct> params,
                                 List<String> tags) {
     try {
       RulesDefinition.NewRule rule = repo.createRule(key)
@@ -420,7 +430,7 @@ public class RulesDefinitionXmlLoader {
   }
 
   private static void fillRemediationFunction(RulesDefinition.NewRule rule, @Nullable String debtRemediationFunction,
-                                              @Nullable String functionOffset, @Nullable String functionCoeff) {
+                                              @Nullable String functionCoeff, @Nullable String functionOffset) {
     if (isNotBlank(debtRemediationFunction)) {
       DebtRemediationFunction.Type functionType = DebtRemediationFunction.Type.valueOf(debtRemediationFunction);
       rule.setDebtRemediationFunction(rule.debtRemediationFunctions()

@@ -5,7 +5,7 @@
     <cardinality>MULTIPLE</cardinality>
     <name>Rule template for Dr. Memory custom rules</name>
     <description>
-     <![CDATA[   
+     <![CDATA[
 <p>
 Follow these steps to make your custom rules available in SonarQube:
 </p>
@@ -17,7 +17,7 @@ Follow these steps to make your custom rules available in SonarQube:
   </ol>
   <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
 </ol>
-    ]]>    
+    ]]>
     </description>
   </rule>
   <rule>
@@ -42,8 +42,7 @@ An unaddressable access is an access to an invalid memory address. Examples incl
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -65,8 +64,7 @@ In order to avoid false positives, Dr. Memory does not report the use of uniniti
     </description>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -83,8 +81,7 @@ Whenever a pointer that does not refer to a valid malloc region is passed to fre
      ]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -101,8 +98,7 @@ On Windows, Dr. Memory identifies common errors in using the Windows GDI API
      ]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>20min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>20min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -120,8 +116,7 @@ The type of handle (kernel, user, or GDI) is listed along with the callstack whe
      ]]>
     </description>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -138,8 +133,7 @@ Dr. Memory reports warnings about unusual memory-related conditions that an appl
      ]]>
     </description>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -156,8 +150,7 @@ Dr. Memory detects a possible memory leak
      ]]>
     </description>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -173,8 +166,7 @@ Dr. Memory detects a memory leak
 </p>
      ]]>
     </description>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
     <gapDescription></gapDescription>
   </rule>
  </rules>

@@ -228,8 +228,8 @@ TEMPLATE_RULE = """
     <internalKey>%s</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
   </rule>"""
 
 

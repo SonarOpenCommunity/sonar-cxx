@@ -28,8 +28,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -42,8 +40,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -56,8 +52,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -70,8 +64,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -84,8 +76,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -98,8 +88,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -112,8 +100,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -126,8 +112,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -140,8 +124,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -154,8 +136,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -168,8 +148,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -182,8 +160,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -196,8 +172,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -210,8 +184,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -224,8 +196,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -238,8 +208,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -252,8 +220,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sufficient entropy should be used.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -267,8 +233,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -281,8 +245,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -296,8 +258,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -312,8 +272,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -324,9 +282,6 @@ Follow these steps to make your custom rules available in SonarQube:
       calling chroot()!
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -338,8 +293,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -351,8 +304,6 @@ Follow these steps to make your custom rules available in SonarQube:
       that it contains nothing dangerous.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -364,8 +315,6 @@ Follow these steps to make your custom rules available in SonarQube:
       that it contains nothing dangerous.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -379,8 +328,6 @@ Follow these steps to make your custom rules available in SonarQube:
       length.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -393,8 +340,6 @@ Follow these steps to make your custom rules available in SonarQube:
       not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -408,8 +353,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -423,8 +366,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -438,8 +379,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -453,8 +392,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -467,8 +404,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -482,8 +417,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -497,8 +430,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -512,8 +443,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -527,8 +456,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -542,8 +469,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -557,8 +482,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -572,8 +495,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -587,8 +508,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -602,8 +521,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -617,8 +534,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -632,8 +547,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -647,8 +560,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -662,8 +573,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -677,8 +586,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -692,8 +599,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -707,8 +612,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -722,8 +625,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -736,8 +637,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -750,8 +649,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -764,8 +661,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -779,8 +674,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -793,8 +686,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -807,8 +698,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -821,8 +710,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -835,8 +722,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -849,8 +734,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -863,8 +746,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -877,8 +758,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -891,8 +770,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -905,8 +782,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -919,8 +794,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -933,8 +806,6 @@ Follow these steps to make your custom rules available in SonarQube:
       forget about NULL termination.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -947,8 +818,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -961,8 +830,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -975,8 +842,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -989,8 +854,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1003,8 +866,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1017,8 +878,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1031,8 +890,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1045,8 +902,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1059,8 +914,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1073,8 +926,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1087,8 +938,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1101,8 +950,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1115,8 +962,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1129,8 +974,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1143,8 +986,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1157,8 +998,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1171,8 +1010,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1185,8 +1022,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1199,8 +1034,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1213,8 +1046,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1227,8 +1058,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1241,8 +1070,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1255,8 +1082,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1269,8 +1094,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1283,8 +1106,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1297,8 +1118,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1311,8 +1130,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1323,8 +1140,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1335,8 +1150,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1347,8 +1160,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1359,8 +1170,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1371,8 +1180,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1383,8 +1190,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1395,8 +1200,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1407,8 +1210,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1419,8 +1220,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1431,8 +1230,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1443,8 +1240,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1455,8 +1250,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1467,8 +1260,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1479,8 +1270,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1491,8 +1280,6 @@ Follow these steps to make your custom rules available in SonarQube:
       be safe.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1505,8 +1292,6 @@ Follow these steps to make your custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1519,8 +1304,6 @@ Follow these steps to make your custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1533,8 +1316,6 @@ Follow these steps to make your custom rules available in SonarQube:
       specify the full path.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1548,8 +1329,6 @@ Follow these steps to make your custom rules available in SonarQube:
       context if possible?
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1563,8 +1342,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1578,8 +1355,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1593,8 +1368,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1607,8 +1380,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1621,8 +1392,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1635,8 +1404,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1650,8 +1417,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1665,8 +1430,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1680,8 +1443,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1694,8 +1455,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1708,8 +1467,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1722,8 +1479,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1737,8 +1492,6 @@ Follow these steps to make your custom rules available in SonarQube:
       given by GetTempPath().
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1752,8 +1505,6 @@ Follow these steps to make your custom rules available in SonarQube:
       given by GetTempPath().
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1767,8 +1518,6 @@ Follow these steps to make your custom rules available in SonarQube:
       given by GetTempPath().
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1781,8 +1530,6 @@ Follow these steps to make your custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1795,8 +1542,6 @@ Follow these steps to make your custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1809,8 +1554,6 @@ Follow these steps to make your custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1825,8 +1568,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1841,8 +1582,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1857,8 +1596,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1873,8 +1610,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1889,8 +1624,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1905,8 +1638,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1921,8 +1652,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1934,8 +1663,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1947,8 +1674,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1960,8 +1685,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1973,8 +1696,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1986,8 +1707,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -1999,8 +1718,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2015,8 +1732,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2031,8 +1746,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2047,8 +1760,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2063,8 +1774,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2079,8 +1788,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2095,8 +1802,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2108,8 +1813,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2121,8 +1824,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2134,8 +1835,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2147,8 +1846,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2160,8 +1857,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2173,8 +1868,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2189,8 +1882,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2205,8 +1896,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2221,8 +1910,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
 
@@ -2238,8 +1925,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2254,8 +1939,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2270,8 +1953,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2283,8 +1964,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2296,8 +1975,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2309,8 +1986,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2322,8 +1997,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2335,8 +2008,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2351,8 +2022,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2367,8 +2036,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2383,8 +2050,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2399,8 +2064,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2415,8 +2078,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2431,8 +2092,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2444,8 +2103,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2457,8 +2114,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2470,8 +2125,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2483,8 +2136,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2496,8 +2147,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2509,8 +2158,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2522,8 +2169,6 @@ Follow these steps to make your custom rules available in SonarQube:
       sure to specify a file extension.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2538,8 +2183,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2554,8 +2197,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2570,8 +2211,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2586,8 +2225,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2602,8 +2239,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2618,8 +2253,6 @@ Follow these steps to make your custom rules available in SonarQube:
       trojans.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2633,8 +2266,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2648,8 +2279,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2663,8 +2292,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2678,8 +2305,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2693,8 +2318,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2708,8 +2331,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2723,8 +2344,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2738,8 +2357,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2753,8 +2370,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2768,8 +2383,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2783,8 +2396,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2797,8 +2408,6 @@ Follow these steps to make your custom rules available in SonarQube:
       longer than MAXPATHLEN.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2809,8 +2418,6 @@ Follow these steps to make your custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2821,8 +2428,6 @@ Follow these steps to make your custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2833,8 +2438,6 @@ Follow these steps to make your custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2845,8 +2448,6 @@ Follow these steps to make your custom rules available in SonarQube:
       them to this function.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2857,8 +2458,6 @@ Follow these steps to make your custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2869,8 +2468,6 @@ Follow these steps to make your custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2881,8 +2478,6 @@ Follow these steps to make your custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2893,8 +2488,6 @@ Follow these steps to make your custom rules available in SonarQube:
       make sure you are not in danger of writing past the allocated space.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2907,8 +2500,6 @@ Follow these steps to make your custom rules available in SonarQube:
       NULL-terminate the string.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2922,8 +2513,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2935,8 +2524,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2950,8 +2537,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2965,8 +2550,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2980,8 +2563,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -2995,8 +2576,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3009,8 +2588,6 @@ Follow these steps to make your custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3023,8 +2600,6 @@ Follow these steps to make your custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3037,8 +2612,6 @@ Follow these steps to make your custom rules available in SonarQube:
       64 encoding it and using that as a file suffix.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3048,8 +2621,6 @@ Follow these steps to make your custom rules available in SonarQube:
       The results of this call are easy to forge.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3060,8 +2631,6 @@ Follow these steps to make your custom rules available in SonarQube:
       recommends against using this.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3071,8 +2640,6 @@ Follow these steps to make your custom rules available in SonarQube:
       The results are easy for an attacker to forge, and not reliable.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3088,8 +2655,6 @@ Follow these steps to make your custom rules available in SonarQube:
       and performs the appropriate action(s) when it is set.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3101,8 +2666,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3114,8 +2677,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3126,8 +2687,6 @@ Follow these steps to make your custom rules available in SonarQube:
       structure will not be zeroed out.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3140,8 +2699,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3154,8 +2711,6 @@ Follow these steps to make your custom rules available in SonarQube:
       start outputting identical number streams. Use fork() instead.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3169,8 +2724,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3184,8 +2737,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3198,8 +2749,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3212,8 +2761,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3226,8 +2773,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3240,8 +2785,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3257,8 +2800,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3274,8 +2815,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3291,8 +2830,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3308,8 +2845,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3321,8 +2856,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3334,8 +2867,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3347,8 +2878,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3360,8 +2889,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3373,8 +2900,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3386,8 +2911,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3399,8 +2922,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3412,8 +2933,6 @@ Follow these steps to make your custom rules available in SonarQube:
       extra privileges when an impersonation has failed.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3425,8 +2944,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Everyone ACE on such an object.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3440,8 +2957,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3455,8 +2970,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3468,8 +2981,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3481,8 +2992,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3497,8 +3006,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3513,8 +3020,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3526,8 +3031,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3539,8 +3042,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>CRITICAL</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3553,8 +3054,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3567,8 +3066,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3582,8 +3079,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3598,8 +3093,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3614,8 +3107,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3630,8 +3121,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3647,8 +3136,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3663,8 +3150,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3679,8 +3164,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3695,8 +3178,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3709,8 +3190,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3723,8 +3202,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3737,8 +3214,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3752,8 +3227,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3767,8 +3240,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3781,8 +3252,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3795,8 +3264,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3809,8 +3276,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3823,8 +3288,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3837,8 +3300,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3851,8 +3312,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3865,8 +3324,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3879,8 +3336,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3893,8 +3348,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3907,8 +3360,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3921,8 +3372,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3935,8 +3384,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3949,8 +3396,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3963,8 +3408,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3977,8 +3420,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -3991,8 +3432,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4005,8 +3444,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4019,8 +3456,6 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
     <tag>security</tag>
     <severity>MINOR</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4032,8 +3467,6 @@ Follow these steps to make your custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4045,8 +3478,6 @@ Follow these steps to make your custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4058,8 +3489,6 @@ Follow these steps to make your custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- added from RATS 2.3 rats-c.xml -->
   <rule>
@@ -4071,8 +3500,6 @@ Follow these steps to make your custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_stscanf</key>
@@ -4085,8 +3512,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>swprintf</key>
@@ -4099,8 +3524,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_stprintf</key>
@@ -4113,8 +3536,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_tprintf</key>
@@ -4125,8 +3546,6 @@ Follow these steps to make your custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>wprintf</key>
@@ -4137,8 +3556,6 @@ Follow these steps to make your custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4150,8 +3567,6 @@ Follow these steps to make your custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_cscanf</key>
@@ -4164,8 +3579,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_ftscanf</key>
@@ -4178,8 +3591,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_vsnwprintf</key>
@@ -4190,8 +3601,6 @@ Follow these steps to make your custom rules available in SonarQube:
       dest buffer size = n it may not NULL-terminate the string."
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>fwprintf</key>
@@ -4202,8 +3611,6 @@ Follow these steps to make your custom rules available in SonarQube:
       formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>fwscanf</key>
@@ -4216,8 +3623,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>getwd</key>
@@ -4229,8 +3634,6 @@ Follow these steps to make your custom rules available in SonarQube:
       string could contain `%s' without precision that could result in a buffer overflow
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>vfwprintf</key>
@@ -4241,8 +3644,6 @@ Follow these steps to make your custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>vswprintf</key>
@@ -4254,8 +3655,6 @@ Follow these steps to make your custom rules available in SonarQube:
       string could contain `%s' without precision that could result in a buffer overflow
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>vwprintf</key>
@@ -4266,8 +3665,6 @@ Follow these steps to make your custom rules available in SonarQube:
       have added formatting characters that the code is not prepared to handle.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>wscanf</key>
@@ -4279,8 +3676,6 @@ Follow these steps to make your custom rules available in SonarQube:
       string could contain `%s' without precision that could result in a buffer overflow
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- end of update from RATS 2.3 rats-c.xml -->
 
@@ -4296,8 +3691,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>strcat</key>
@@ -4310,8 +3703,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>recvmsg</key>
@@ -4320,9 +3711,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>recvfrom</key>
@@ -4331,9 +3719,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>recv</key>
@@ -4342,9 +3727,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>readv</key>
@@ -4353,9 +3735,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>readlink</key>
@@ -4364,9 +3743,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>readdir</key>
@@ -4375,9 +3751,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>fread</key>
@@ -4386,9 +3759,6 @@ Follow these steps to make your custom rules available in SonarQube:
       Functions that is known input source, but not otherwise problem.
     </description>
     <tag>security</tag>
-    <severity>INFO</severity>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>_tscanf</key>
@@ -4401,8 +3771,6 @@ Follow these steps to make your custom rules available in SonarQube:
       precision that could result in a buffer overflow.
     </description>
     <tag>security</tag>
-    <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- end of update from RATS 2.4 rats-c.xml -->
 
