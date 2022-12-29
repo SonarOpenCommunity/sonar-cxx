@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 
 class CxxCppCheckRuleRepositoryTest {
 
