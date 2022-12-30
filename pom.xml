@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>64.0.211</version>
+    <version>65.0.218</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -261,7 +261,8 @@
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
-    <sonar.version>8.9.10.61524</sonar.version>
+    <sonar.version>9.8.0.63668</sonar.version>
+    <sonar.plugin.api.version>9.13.0.360</sonar.plugin.api.version>
     <sonarQubeMinVersion>8.9</sonarQubeMinVersion>
 
     <!-- dependencies -->
@@ -308,9 +309,9 @@
     <dependencies>
 
       <dependency>
-        <groupId>org.sonarsource.sonarqube</groupId>
+        <groupId>org.sonarsource.api.plugin</groupId>
         <artifactId>sonar-plugin-api</artifactId>
-        <version>${sonar.version}</version>
+        <version>${sonar.plugin.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>

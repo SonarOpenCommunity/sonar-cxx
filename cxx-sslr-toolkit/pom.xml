@@ -39,7 +39,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
+      <groupId>org.sonarsource.api.plugin</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <scope>compile</scope>
     </dependency>
