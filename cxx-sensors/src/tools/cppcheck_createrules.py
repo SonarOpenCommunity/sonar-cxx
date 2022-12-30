@@ -90,8 +90,8 @@ def error_to_rule(error):
     if sonarQubeIssueType != 'CODE_SMELL': # CODE_SMELL is the default
         et.SubElement(rule, 'type').text = sonarQubeIssueType
     if sonarQubeIssueSeverity != 'INFO': # INFO has no effort
-        et.SubElement(rule, 'remediationFunction').text = "LINEAR"
-        et.SubElement(rule, 'remediationFunctionGapMultiplier').text = "5min"
+        et.SubElement(rule, 'remediationFunction').text = "CONSTANT_ISSUE"
+        et.SubElement(rule, 'remediationFunctionBaseEffort').text = "5min"
 
     return rule
 

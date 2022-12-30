@@ -175,8 +175,8 @@ def main():
         c_type.text = "BUG"
 
         if sev.text != 'INFO':
-            ET.SubElement(rule, 'remediationFunction').text = 'LINEAR'
-            ET.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
+            ET.SubElement(rule, 'remediationFunction').text = 'CONSTANT_ISSUE'
+            ET.SubElement(rule, 'remediationFunctionBaseEffort').text = '5min'
 
         auto_tag = checker_name.split('.')[0]
         tag = ET.SubElement(rule, "tag")

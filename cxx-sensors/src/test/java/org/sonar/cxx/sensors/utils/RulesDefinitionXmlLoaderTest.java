@@ -171,6 +171,34 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
+  public void test_default_values() {
+    String xml = "" + "<rules>" + "  <rule>"
+                   + "    <key>1</key>" + "    <name>One</name>" + "    <description>Desc</description>"
+                   + "  </rule>" + "</rules>";
+    RulesDefinition.Rule rule = load(xml).rule("1");
+    assertThat(rule.severity()).isEqualTo("MAJOR");
+    assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
+    DebtRemediationFunction function = rule.debtRemediationFunction();
+    assertThat(function).isNotNull();
+    assertThat(function.type()).isEqualTo(DebtRemediationFunction.Type.CONSTANT_ISSUE);
+    assertThat(function.gapMultiplier()).isNull();
+    assertThat(function.baseEffort()).isEqualTo("5min");
+  }
+
+  @Test
+  public void test_default_info_values() {
+    String xml = "" + "<rules>" + "  <rule>"
+                   + "    <key>1</key>" + "    <name>One</name>" + "    <description>Desc</description>"
+                   + "    <severity>INFO</severity>"
+                   + "  </rule>" + "</rules>";
+    RulesDefinition.Rule rule = load(xml).rule("1");
+    assertThat(rule.severity()).isEqualTo("INFO");
+    assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
+    DebtRemediationFunction function = rule.debtRemediationFunction();
+    assertThat(function).isNull();
+  }
+
+  @Test
   public void test_linear_remediation_function() {
     String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
                    + "    <description>Desc</description>" + "    <gapDescription>lines</gapDescription>"

@@ -17,6 +17,5 @@ Follow these steps to make your custom rules available in SonarQube:
 </ol>
       ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
 </rules>

@@ -340,8 +340,8 @@ def rstfile_to_rule(path, fix_urls):
     et.SubElement(rule, 'severity').text = default_issue_severity
     et.SubElement(rule, 'type').text = default_issue_type
     if default_issue_severity != 'INFO':
-        et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
-        et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
+        et.SubElement(rule, 'remediationFunction').text = 'CONSTANT_ISSUE'
+        et.SubElement(rule, 'remediationFunctionBaseEffort').text = '5min'
 
     return rule
 
@@ -556,11 +556,13 @@ def diagnostics_to_rules_xml(json_file):
             et.SubElement(rule, 'key').text = rule_key
             et.SubElement(rule, 'name').text = rule_name
             et.SubElement(rule, 'description').append(CDATA(rule_description))
-            et.SubElement(rule, 'severity').text = rule_severity
-            et.SubElement(rule, 'type').text = rule_type
+            if rule_severity != 'MAJOR': # MAJOR is the default
+                et.SubElement(rule, 'severity').text = rule_severity
+            if rule_type != 'CODE_SMELL': # CODE_SMELL is the default
+                et.SubElement(rule, 'type').text = rule_type
             if rule_severity != 'INFO':
-                et.SubElement(rule, 'remediationFunction').text = 'LINEAR'
-                et.SubElement(rule, 'remediationFunctionGapMultiplier').text = '5min'
+                et.SubElement(rule, 'remediationFunction').text = 'CONSTANT_ISSUE'
+                et.SubElement(rule, 'remediationFunctionBaseEffort').text = '5min'
 
             rules.append(rule)
 
