@@ -265,7 +265,7 @@
     <sonarQubeMinVersion>8.9</sonarQubeMinVersion>
 
     <!-- dependencies -->
-    <ant.version>1.10.12</ant.version>
+    <ant.version>1.10.13</ant.version>
     <asm.version>9.4</asm.version>
     <assertj-core.version>3.24.1</assertj-core.version>
     <commons-io.version>2.11.0</commons-io.version>
