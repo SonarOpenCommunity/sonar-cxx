@@ -162,21 +162,29 @@ def main():
 
     for checker_name, description in checker_data.items():
 
-        rule = ET.SubElement(rules, "rule")
-        key = ET.SubElement(rule, "key")
-        name = ET.SubElement(rule, "name")
-        desc = ET.SubElement(rule, "description")
-        sev = ET.SubElement(rule, "severity")
-        c_type = ET.SubElement(rule, "type")
+        rule = ET.SubElement(rules, 'rule')
+        key = ET.SubElement(rule, 'key')
+        name = ET.SubElement(rule, 'name')
+        desc = ET.SubElement(rule, 'description')
 
         key.text = checker_name
         name.text = checker_name
-        sev.text = "MAJOR"
-        c_type.text = "BUG"
+        rule_severity = 'MAJOR'
+        rule_type = 'BUG'
+        remediationFunction = 'CONSTANT_ISSUE'
+        remediationFunctionBaseEffort = '5min'
 
-        if sev.text != 'INFO':
-            ET.SubElement(rule, 'remediationFunction').text = 'CONSTANT_ISSUE'
-            ET.SubElement(rule, 'remediationFunctionBaseEffort').text = '5min'
+        if rule_severity != 'MAJOR': # MAJOR is the default
+            ET.SubElement(rule, "severity").text = rule_severity
+        
+        if rule_type != 'CODE_SMELL': # CODE_SMELL is the default
+            ET.SubElement(rule, "type").text = rule_type
+        
+        if rule_severity != 'INFO':
+            if remediationFunction != 'CONSTANT_ISSUE':
+                ET.SubElement(rule, 'remediationFunction').text = remediationFunction
+            if remediationFunctionBaseEffort != '5min':
+                ET.SubElement(rule, 'remediationFunctionBaseEffort').text = remediationFunctionBaseEffort
 
         auto_tag = checker_name.split('.')[0]
         tag = ET.SubElement(rule, "tag")
@@ -184,8 +192,8 @@ def main():
 
         cdata = CDATA('\n<p>' + description.strip() +
                       '\n</p>\n <h2>References</h2>'
-                      ' <p><a href="https://clang-analyzer.llvm.org/"'
-                      ' target="_blank">clang-analyzer.llvm.org</a></p> \n')
+                      ' <p><a href="https://clang-analyzer.llvm.org/available_checks.html"'
+                      ' target="_blank">Available Checkers</a></p> \n')
         desc.append(cdata)
 
     xmlstr = minidom.parseString(
