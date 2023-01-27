@@ -48,7 +48,9 @@ Sensors for **static and dynamic code analysis**:
 * **Dr. Memory** warnings support (http://drmemory.org/)
   - [sonar.cxx.drmemory.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.drmemory.reportPaths)
 * [Generic Issue Import Format](https://docs.sonarqube.org/latest/analysis/generic-issue/) support
-* any other tool can be integrated
+* any other tool can be integrated:
+  - [Generic issue import format](https://docs.sonarqube.org/latest/analyzing-source-code/importing-external-issues/generic-issue-import-format/) support
+  - [Importing issues from SARIF reports](https://docs.sonarqube.org/latest/analyzing-source-code/importing-external-issues/importing-issues-from-sarif-reports/)
   - [sonar.cxx.other.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.other.reportPaths)
 
 **Test framework** sensors for:
@@ -57,7 +59,7 @@ Sensors for **static and dynamic code analysis**:
 * **Google Test (gtest)** file format (https://github.com/google/googletest)
   - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths)
 * **Boost.Test** file format (https://www.boost.org/doc/libs/release/libs/test/)
-  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt) 
+  - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 * **ctest (cmake)** file format (https://cmake.org/cmake/help/latest/manual/ctest.1.html)
   - [sonar.cxx.xunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xunit.reportPaths) with ctest option `--output-junit <file>`
 * **CppTest** file format (https://cpptest.sourceforge.io/)
@@ -68,9 +70,9 @@ Sensors for **static and dynamic code analysis**:
   - [sonar.cxx.vstest.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.vstest.reportPaths)
 * **NUnit** file format (https://nunit.org/)
   - [sonar.cxx.nunit.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.nunit.reportPaths)
-* [Generic Test Data](https://docs.sonarqube.org/latest/analysis/generic-test/) support
-* extensions over XSLT possible
-  - [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
+* any other tool can be integrated:
+  - [Generic test execution report format](https://docs.sonarqube.org/latest/analysis/generic-test/) support
+  - adaptations possible via XLST: [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 
 **Coverage** sensors for:
 * **Visual Studio** coverage reports (https://www.visualstudio.com/)
@@ -83,7 +85,9 @@ Sensors for **static and dynamic code analysis**:
    * [sonar.cxx.cobertura.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.cobertura.reportPaths)
 * **Testwell CTC++** coverage reports (https://www.verifysoft.com/en_ctcpp.html)
   - [sonar.cxx.ctctxt.reportPaths](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.ctctxt.reportPaths)
-* [Generic Coverage](https://docs.sonarqube.org/latest/analysis/generic-test/) support
+* any other tool can be integrated:
+  - [Generic test coverage report format](https://docs.sonarqube.org/latest/analysis/generic-test/) support
+  - adaptations possible via XLST: [sonar.cxx.xslt](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/sonar.cxx.xslt)
 
 Simple to **customize**
 * custom rules by [regular expression template](https://github.com/SonarOpenCommunity/sonar-cxx/wiki/CXX-Custom-Regex-Rules) possible
