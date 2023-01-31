@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
+import javax.xml.XMLConstants;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -41,6 +42,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Verifier;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
@@ -175,7 +177,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @return true, if data could be read from the file.
    */
   public boolean readFromFile(String fileName) {
-    SAXBuilder builder = new SAXBuilder();
+    SAXBuilder builder = new SAXBuilder(XMLReaders.NONVALIDATING);
+    builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+    builder.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
     try {
       document = builder.build(fileName);
     } catch (JDOMException | IOException e) {
