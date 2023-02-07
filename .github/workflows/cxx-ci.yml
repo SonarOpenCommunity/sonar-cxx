@@ -232,10 +232,15 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '11' ]
+        java: [ '11', '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.8.0.63668' ]
-        sonarscanner: [ '4.7.0.2747' ]
+        sonarqube: [ '8.9.10.61524', '9.9.0.65466' ]
+        sonarscanner: [ '4.8.0.2856' ]
+        exclude:
+        - sonarqube: '8.9.10.61524'
+          java: '17'
+        - sonarqube: '9.9.0.65466'
+          java: '11'
 
     runs-on: ${{ matrix.os }}
     needs: [build-linux, verify-rules]
@@ -361,7 +366,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: "LOG_sonarqube_${{ matrix.sonarqube }}_${{ matrix.os }}"
+        name: "LOG_sonarqube_${{ matrix.sonarqube }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
         path: "${{ env.SONARLOG }}"
 
 
@@ -373,10 +378,15 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        java: [ '11' ]
+        java: [ '11', '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.8.0.63668' ]
-        sonarscanner: [ '4.7.0.2747' ]
+        sonarqube: [ '8.9.10.61524', '9.9.0.65466' ]
+        sonarscanner: [ '4.8.0.2856' ]
+        exclude:
+        - sonarqube: '8.9.10.61524'
+          java: '17'
+        - sonarqube: '9.9.0.65466'
+          java: '11'
 
     runs-on: ${{ matrix.os }}
     # needs build-linux because of JAR artifacts
@@ -508,7 +518,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: "LOG_sonarqube_${{ matrix.sonarqube }}_${{ matrix.os }}"
+        name: "LOG_sonarqube_${{ matrix.sonarqube }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
         path: "${{ env.SONARLOG }}"
 
 
