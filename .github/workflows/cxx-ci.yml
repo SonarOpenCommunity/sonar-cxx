@@ -234,12 +234,12 @@ jobs:
         os: [ubuntu-latest]
         java: [ '11', '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.9.0.65466' ]
+        sonarqube: [ '8.9.10.61524', '9.9.1.69595' ]
         sonarscanner: [ '4.8.0.2856' ]
         exclude:
         - sonarqube: '8.9.10.61524'
           java: '17'
-        - sonarqube: '9.9.0.65466'
+        - sonarqube: '9.9.1.69595'
           java: '11'
 
     runs-on: ${{ matrix.os }}
@@ -380,12 +380,12 @@ jobs:
         os: [windows-latest]
         java: [ '11', '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.9.0.65466' ]
+        sonarqube: [ '8.9.10.61524', '9.9.1.69595' ]
         sonarscanner: [ '4.8.0.2856' ]
         exclude:
         - sonarqube: '8.9.10.61524'
           java: '17'
-        - sonarqube: '9.9.0.65466'
+        - sonarqube: '9.9.1.69595'
           java: '11'
 
     runs-on: ${{ matrix.os }}
