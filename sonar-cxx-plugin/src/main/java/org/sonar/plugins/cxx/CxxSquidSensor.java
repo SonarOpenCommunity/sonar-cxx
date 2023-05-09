@@ -302,7 +302,7 @@ public class CxxSquidSensor implements ProjectSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor
       .name("CXX")
-      .onlyOnLanguage("cxx")
+      .onlyOnLanguage(CxxLanguage.KEY)
       .onlyOnFileType(InputFile.Type.MAIN)
       .onlyWhenConfiguration(conf -> !conf.getBoolean(SQUID_DISABLED_KEY).orElse(false));
   }
@@ -351,7 +351,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
   private CxxSquidConfiguration createConfiguration() {
     var squidConfig = new CxxSquidConfiguration(context.fileSystem().baseDir().getAbsolutePath(),
-                                                context.fileSystem().encoding());
+                                            context.fileSystem().encoding());
 
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
                     context.config().get(ERROR_RECOVERY_KEY));
@@ -389,7 +389,7 @@ public class CxxSquidSensor implements ProjectSensor {
   private Iterable<InputFile> getInputFiles(SensorContext context, CxxSquidConfiguration squidConfig) {
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
       context.fileSystem().predicates().and(
-        context.fileSystem().predicates().hasLanguage("cxx"),
+        context.fileSystem().predicates().hasLanguage(CxxLanguage.KEY),
         context.fileSystem().predicates().hasType(InputFile.Type.MAIN)
       )
     );
@@ -419,9 +419,9 @@ public class CxxSquidSensor implements ProjectSensor {
     for (var sourceCodeFile : sourceCodeFiles) {
       try {
         var sourceFile = (SourceFile) sourceCodeFile;
-        var ioFile = new File(sourceFile.getKey());
-        InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
-
+        InputFile inputFile = context.fileSystem().inputFile(
+          context.fileSystem().predicates().hasPath(sourceFile.getKey())
+        );
         saveMeasures(inputFile, sourceFile);
         saveViolations(inputFile, sourceFile);
         saveFileLinesContext(inputFile, sourceFile);
