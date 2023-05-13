@@ -67,7 +67,7 @@ public class MsBuild {
   private static final Pattern PATH_TO_VCXPROJ = Pattern.compile(
     "^\\S+\\s\\\"ClCompile\\\".+\\\"((?>[^\\\\]{1,260}\\\\)*[^\\\\]{1,260}\\.vcxproj)\\\".*$");
 
-  private String platformToolset = "V142";
+  private String platformToolset = "V143";
   private String platform = "Win32";
 
   private final CxxSquidConfiguration squidConfig;
@@ -123,8 +123,8 @@ public class MsBuild {
     LOG.info("Processing MsBuild log '{}', Encoding= '{}'", buildLog.getName(), encodingName);
 
     var detectedPlatform = false;
-    try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
-                                                       encodingName))) {
+    try ( var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
+                                                        encodingName))) {
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
       var currentProjectPath = Path.of(baseDir);
@@ -277,6 +277,9 @@ public class MsBuild {
         break;
       case "V142":
         parseV142CompilerOptions(line, fileElement);
+        break;
+      case "V143":
+        parseV143CompilerOptions(line, fileElement);
         break;
       default:
       // do nothing
@@ -615,6 +618,19 @@ public class MsBuild {
     }
     addMacro("_MSC_VER=1920", fileElement);
     addMacro("_MSC_FULL_VER=192829913", fileElement);
+    addMacro("_MFC_VER=0x0E00", fileElement);
+    addMacro("_ATL_VER=0x0E00", fileElement);
+  }
+
+  void parseV143CompilerOptions(String line, String fileElement) {
+    // Visual Studio 2022 RTW (17.5)
+    addMacro("__cplusplus=201402L", fileElement); // C++14
+    // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
+    if (line.contains("/ZW ")) {
+      addMacro("__cplusplus_winrt=201009", fileElement);
+    }
+    addMacro("_MSC_VER=1935", fileElement);
+    addMacro("_MSC_FULL_VER=193532215", fileElement);
     addMacro("_MFC_VER=0x0E00", fileElement);
     addMacro("_ATL_VER=0x0E00", fileElement);
   }

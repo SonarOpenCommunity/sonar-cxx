@@ -664,6 +664,48 @@ class CxxSquidConfigurationTest {
   }
 
   @Test
+  void shouldHandleSpecificV143x86OptionsCorrectly() {
+    var squidConfig = new CxxSquidConfiguration(".");
+    var files = new ArrayList<File>();
+    files.add(new File("src/test/resources/msbuild/platformToolsetv143x86.txt"));
+    squidConfig.readMsBuildFiles(files, VC_CHARSET);
+
+    var softly = new SoftAssertions();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
+    List<String> defines = getDefines(squidConfig);
+    assertThat(defines).hasSize(15 + 12);
+    ValidateDefaultAsserts(softly, defines);
+    softly.assertThat(defines).contains("_M_IX86 600");
+    softly.assertThat(defines).contains("__cplusplus 201402L");
+    softly.assertThat(defines).contains("_MSC_VER 1935");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 193532215");
+    // check atldef.h for _ATL_VER
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
+    softly.assertAll();
+  }
+
+  @Test
+  void shouldHandleSpecificV143x64OptionsCorrectly() {
+    var squidConfig = new CxxSquidConfiguration(".");
+    var files = new ArrayList<File>();
+    files.add(new File("src/test/resources/msbuild/platformToolsetv143x64.txt"));
+    squidConfig.readMsBuildFiles(files, VC_CHARSET);
+
+    var softly = new SoftAssertions();
+    softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
+    List<String> defines = getDefines(squidConfig);
+    assertThat(defines).hasSize(15 + 14);
+    ValidateDefaultAsserts(softly, defines);
+    softly.assertThat(defines.contains("_M_IX86 600")).isFalse();
+    softly.assertThat(defines).contains("__cplusplus 201402L");
+    softly.assertThat(defines).contains("_MSC_VER 1935");
+    softly.assertThat(defines).contains("_MSC_FULL_VER 193532215");
+    // check atldef.h for _ATL_VER
+    softly.assertThat(defines).contains("_ATL_VER 0x0E00");
+    softly.assertAll();
+  }
+
+  @Test
   void shouldHandleBuildLog() {
     var squidConfig = new CxxSquidConfiguration(".");
     var files = new ArrayList<File>();
