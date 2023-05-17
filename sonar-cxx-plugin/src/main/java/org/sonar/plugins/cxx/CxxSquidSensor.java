@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -64,7 +63,6 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
-import org.sonar.cxx.squidbridge.indexer.QueryByType;
 import org.sonar.cxx.visitors.CxxCpdVisitor;
 import org.sonar.cxx.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
@@ -331,8 +329,13 @@ public class CxxSquidSensor implements ProjectSensor {
     Iterable<InputFile> inputFiles = getInputFiles(context, squidConfig);
     scanner.scanInputFiles(inputFiles);
 
-    Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
-    save(squidSourceFiles);
+    for (var inputFile : inputFiles) {
+      var file = new File(inputFile.uri().getPath());
+      var sourceCode = scanner.getIndex().search(file.getAbsolutePath());
+      if (sourceCode != null) {
+        save(inputFile, sourceCode);
+      }
+    }
   }
 
   @Override
@@ -415,22 +418,17 @@ public class CxxSquidSensor implements ProjectSensor {
     return inputFiles;
   }
 
-  private void save(Collection<SourceCode> sourceCodeFiles) {
-    for (var sourceCodeFile : sourceCodeFiles) {
-      try {
-        var sourceFile = (SourceFile) sourceCodeFile;
-        InputFile inputFile = context.fileSystem().inputFile(
-          context.fileSystem().predicates().hasPath(sourceFile.getKey())
-        );
-        saveMeasures(inputFile, sourceFile);
-        saveViolations(inputFile, sourceFile);
-        saveFileLinesContext(inputFile, sourceFile);
-        saveCpdTokens(inputFile, sourceFile);
-        saveHighlighting(inputFile, sourceFile);
-      } catch (IllegalStateException e) {
-        var msg = "Cannot save all measures for file '" + sourceCodeFile.getKey() + "'";
-        CxxUtils.validateRecovery(msg, e, context.config());
-      }
+  private void save(InputFile inputFile, SourceCode sourceCode) {
+    try {
+      var sourceFile = (SourceFile) sourceCode;
+      saveMeasures(inputFile, sourceFile);
+      saveViolations(inputFile, sourceFile);
+      saveFileLinesContext(inputFile, sourceFile);
+      saveCpdTokens(inputFile, sourceFile);
+      saveHighlighting(inputFile, sourceFile);
+    } catch (IllegalStateException e) {
+      var msg = "Cannot save all measures for file '" + sourceCode.getKey() + "'";
+      CxxUtils.validateRecovery(msg, e, context.config());
     }
   }
 
