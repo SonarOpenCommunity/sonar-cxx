@@ -269,7 +269,7 @@
     <ant.version>1.10.13</ant.version>
     <asm.version>9.5</asm.version>
     <assertj-core.version>3.24.2</assertj-core.version>
-    <commons-io.version>2.11.0</commons-io.version>
+    <commons-io.version>2.12.0</commons-io.version>
     <commons-lang.version>2.6</commons-lang.version>
     <cucumber.version>2.0.1</cucumber.version>
     <dd-plist.version>1.27</dd-plist.version>
