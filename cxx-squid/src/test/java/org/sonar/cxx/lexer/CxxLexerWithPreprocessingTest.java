@@ -1030,4 +1030,21 @@ class CxxLexerWithPreprocessingTest {
     softly.assertAll();
   }
 
+  @Test
+  void undefined_macro_with_hash_parameter() {
+    List<Token> tokens = lexer.lex("BOOST_PP_EXPAND(#) define BOOST_FT_config_valid 1");
+    assertThat(tokens).hasSize(8);
+  }
+
+  @Test
+  void defined_macro_with_hash_parameter() {
+    List<Token> tokens = lexer.lex("#define BOOST_PP_EXPAND(p) p\n"
+                                     + "BOOST_PP_EXPAND(#) define BOOST_FT_config_valid 1\n"
+                                     + "BOOST_FT_config_valid");
+
+    assertThat(tokens).anySatisfy(token -> assertThat(token)
+      .isValue("1")
+      .hasType(CxxTokenType.NUMBER));
+  }
+
 }

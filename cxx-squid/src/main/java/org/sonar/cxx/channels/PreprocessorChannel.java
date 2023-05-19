@@ -57,6 +57,14 @@ public class PreprocessorChannel extends Channel<Lexer> {
     int line = code.getLinePosition();
     int column = code.getColumnPosition();
 
+    // if there was already a token in the line it's not a preprocessor command
+    var previousTokens = output.getTokens();
+    if (!previousTokens.isEmpty()) {
+      if (previousTokens.get(previousTokens.size() - 1).getLine() == line) {
+        return false;
+      }
+    }
+
     if (code.popTo(matcher, sb) <= 0) {
       return false;
     }

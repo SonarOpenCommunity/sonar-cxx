@@ -40,6 +40,9 @@ class CxxLexerWithoutPreprocessorTest {
   @Test
   void preprocessor_directives() {
     var softly = new SoftAssertions();
+
+    softly.assertThat(lexer.lex("#")).anySatisfy(token -> assertThat(token).isValue(
+      "#").hasType(CxxTokenType.PREPROCESSOR));
     softly.assertThat(lexer.lex("#include <iostream>")).anySatisfy(token -> assertThat(token).isValue(
       "#include <iostream>").hasType(CxxTokenType.PREPROCESSOR));
     softly.assertThat(lexer.lex("# include <iostream>")).anySatisfy(token -> assertThat(token).isValue(
