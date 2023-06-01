@@ -76,8 +76,8 @@ pp-number:
    . digit
    pp-number digit
    pp-number identifier-nondigit
-   pp-number ’ digit
-   pp-number ’ nondigit
+   pp-number â€™ digit
+   pp-number â€™ nondigit
    pp-number e sign
    pp-number E sign
    pp-number p sign
@@ -130,15 +130,15 @@ integer-literal:
 binary-literal:
    0b binary-digit
    0B binary-digit
-   binary-literal ’opt binary-digit
+   binary-literal â€™opt binary-digit
 
 octal-literal:
    0
-   octal-literal ’opt octal-digit
+   octal-literal â€™opt octal-digit
 
 decimal-literal:
    nonzero-digit
-   decimal-literal ’opt digit
+   decimal-literal â€™opt digit
 
 hexadecimal-literal:
    hexadecimal-prefix hexadecimal-digit-sequence
@@ -158,7 +158,7 @@ hexadecimal-prefix: one of
 
 hexadecimal-digit-sequence:
    hexadecimal-digit
-   hexadecimal-digit-sequence ’opt hexadecimal-digit
+   hexadecimal-digit-sequence â€™opt hexadecimal-digit
 
 hexadecimal-digit: one of
    0 1 2 3 4 5 6 7 8 9
@@ -181,7 +181,7 @@ long-long-suffix: one of
    ll LL
 
 character-literal:
-   encoding-prefixopt ’ c-char-sequence ’
+   encoding-prefixopt â€™ c-char-sequence â€™
 
 encoding-prefix: one of
    u8 u U L
@@ -192,7 +192,7 @@ c-char-sequence:
 
 c-char:
    any member of the source character set except
-   the single-quote ’, backslash \, or new-line character
+   the single-quote â€™, backslash \, or new-line character
    escape-sequence
    universal-character-name
 
@@ -202,7 +202,7 @@ escape-sequence:
    hexadecimal-escape-sequence
 
 simple-escape-sequence: one of
-   \’ \" \? \\
+   \â€™ \" \? \\
    \a \b \f \n \r \t \v
 
 octal-escape-sequence:
@@ -247,7 +247,7 @@ sign: one of
 
 digit-sequence:
    digit
-   digit-sequence ’opt digit
+   digit-sequence â€™opt digit
 
 floating-suffix: one of
    f l F L
