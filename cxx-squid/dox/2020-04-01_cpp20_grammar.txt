@@ -1,4 +1,4 @@
-﻿Annex A (informative)
+Annex A (informative)
 
 **A.1 Keywords [gram.key]**
 
@@ -47,7 +47,7 @@ preprocessing-token:
    string-literal
    user-defined-string-literal
    preprocessing-op-or-punc
-   each non-white-space character that cannot be one of the above
+   each non-whitespace character that cannot be one of the above
 
 token:
    identifier
@@ -115,18 +115,18 @@ preprocessing-op-or-punc:
    operator-or-punctuator
 
 preprocessing-operator: one of
- # ## %: %:%:
+   # ## %: %:%:
 
-operator-or-punctuator: one of:
- { } [ ] ( )
- <: :> <% %> ; : ...
- ? :: . .* -> ->* ~
- ! + - * / % ^ & |
- = += -= *= /= %= ^= &= |=
- == != < > <= >= <=> && ||
- << >> <<= >>= ++ -- ,
- and or xor not bitand bitor compl
- and_eq or_eq xor_eq not_eq
+operator-or-punctuator: one of
+   { } [ ] ( )
+   <: :> <% %> ; : ...
+   ? :: . .* -> ->* ~
+   ! + - * / % ^ & |
+   = += -= *= /= %= ^= &= |=
+   == != < > <= >= <=> && ||
+   << >> <<= >>= ++ -- ,
+   and or xor not bitand bitor compl
+   and_eq or_eq xor_eq not_eq
 
 literal:
    integer-literal
@@ -333,7 +333,7 @@ user-defined-string-literal:
    string-literal ud-suffix
 
 user-defined-character-literal:
-character-literal ud-suffix
+   character-literal ud-suffix
 
 ud-suffix:
    identifier
@@ -503,7 +503,7 @@ await-expression:
    co_await cast-expression
 
 noexcept-expression:
-   noexcept( expression )
+   noexcept ( expression )
 
 new-expression:
    ::opt new new-placementopt new-type-id new-initializeropt
@@ -764,7 +764,7 @@ function-specifier:
    explicit-specifier
 
 explicit-specifier:
-   explicit( constant-expression )
+   explicit ( constant-expression )
    explicit
 
 typedef-name:
@@ -826,11 +826,11 @@ elaborated-enum-specifier:
    enum nested-name-specifieropt identifier
 
 decltype-specifier:
-   decltype( expression )
+   decltype ( expression )
 
 placeholder-type-specifier:
    type-constraintopt auto
-   type-constraintopt decltype(auto)
+   type-constraintopt decltype ( auto )
 
 init-declarator-list:
    init-declarator
@@ -856,7 +856,7 @@ noptr-declarator:
 
 parameters-and-qualifiers:
    ( parameter-declaration-clause ) cv-qualifier-seqopt
-        ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
+   ref-qualifieropt noexcept-specifieropt attribute-specifier-seqopt
 
 trailing-return-type:
    -> type-id
@@ -939,7 +939,7 @@ initializer-clause:
 braced-init-list:
    { initializer-list ,opt }
    { designated-initializer-list ,opt }
-   {}
+   { }
 
 initializer-list:
    initializer-clause ...opt
@@ -966,15 +966,15 @@ function-definition:
 function-body:
    ctor-initializeropt compound-statement
    function-try-block
-   =default;
-   =delete;
+   = default ;
+   = delete ;
 
 enum-name:
    identifier
 
 enum-specifier:
    enum-head { enumerator-listopt }
-   enum-head { enumerator-list ,}
+   enum-head { enumerator-list , }
 
 enum-head:
    enum-key attribute-specifier-seqopt enum-head-nameopt enum-baseopt
@@ -987,8 +987,8 @@ opaque-enum-declaration:
 
 enum-key:
    enum
-   enumclass
-   enumstruct
+   enum class
+   enum struct
 
 enum-base:
    : type-specifier-seq
@@ -1023,11 +1023,11 @@ unnamed-namespace-definition:
    inlineopt namespace attribute-specifier-seqopt { namespace-body }
 
 nested-namespace-definition:
-   namespace enclosing-namespace-specifier ::inlineopt identifier { namespace-body }
+   namespace enclosing-namespace-specifier :: inlineopt identifier { namespace-body }
 
 enclosing-namespace-specifier:
    identifier
-   enclosing-namespace-specifier ::inlineopt identifier
+   enclosing-namespace-specifier :: inlineopt identifier
 
 namespace-body:
    declaration-seqopt
@@ -1055,7 +1055,7 @@ using-declarator:
    typenameopt nested-name-specifier unqualified-id
 
 asm-declaration:
-   attribute-specifier-seqopt asm( string-literal );
+   attribute-specifier-seqopt asm ( string-literal ) ;
 
 linkage-specification:
    extern string-literal { declaration-seqopt }
@@ -1065,12 +1065,12 @@ attribute-specifier-seq:
    attribute-specifier-seqopt attribute-specifier
 
 attribute-specifier:
-   [[ attribute-using-prefixopt attribute-list ]]
+   [ [ attribute-using-prefixopt attribute-list ] ]
    alignment-specifier
 
 alignment-specifier:
-   alignas( type-id ...opt )
-   alignas( constant-expression ...opt )
+   alignas ( type-id ...opt )
+   alignas ( constant-expression ...opt )
 
 attribute-using-prefix:
    using attribute-namespace :
@@ -1104,7 +1104,8 @@ balanced-token-seq:
 balanced-token:
    ( balanced-token-seqopt )
    [ balanced-token-seqopt ]
-   { balanced-token-seqopt } any token other than a parenthesis, a bracket, or a brace
+   { balanced-token-seqopt }
+   any token other than a parenthesis, a bracket, or a brace
 
 **A.7 Modules [gram.module]**
 
@@ -1123,7 +1124,7 @@ module-name-qualifier:
 
 export-declaration:
    export declaration
-   export{ declaration-seqopt }
+   export { declaration-seqopt }
    export-keyword module-import-declaration
 
 module-import-declaration:
@@ -1135,7 +1136,7 @@ global-module-fragment:
    module-keyword ; declaration-seqopt
 
 private-module-fragment:
-   module-keyword :private; declaration-seqopt
+   module-keyword : private ; declaration-seqopt
 
 **A.8 Classes [gram.class]**
 
@@ -1197,7 +1198,7 @@ virt-specifier:
    final
 
 pure-specifier:
-   =0
+   = 0
 
 conversion-function-id:
    operator conversion-type-id
@@ -1251,11 +1252,11 @@ operator-function-id:
    operator operator
 
 operator: one of
-  new delete new[] delete[] co_await () [] -> ->*
-  ~ ! + - * / % ^ &
-  | = += -= *= /= %= ^= &=
-  |= == != < > <= >= <=> &&
-  || << >> <<= >>= ++ -- ,
+   new delete new[] delete[] co_await ( ) [ ] -> ->*
+   ~ ! + - * / % ^ &
+   | = += -= *= /= %= ^= &=
+   |= == != < > <= >= <=> &&
+   || << >> <<= >>= ++ -- ,
 
 literal-operator-id:
    operator string-literal identifier
@@ -1329,7 +1330,7 @@ constraint-expression:
    logical-or-expression
 
 deduction-guide:
-   explicit-specifieropt template-name ( parameter-declaration-clause )-> simple-template-id ;
+   explicit-specifieropt template-name ( parameter-declaration-clause ) -> simple-template-id ;
 
 concept-definition:
    concept concept-name = constraint-expression ;
@@ -1380,7 +1381,7 @@ module-file:
    pp-global-module-fragmentopt pp-module groupopt pp-private-module-fragmentopt
 
 pp-global-module-fragment:
-   module; new-line groupopt
+   module ; new-line groupopt
 
 pp-private-module-fragment:
    module : private ; new-line groupopt
@@ -1423,6 +1424,7 @@ elif-groups:
 elif-group:
    # elif constant-expression new-line groupopt
 
+
 else-group:
    # else new-line groupopt
 
@@ -1436,7 +1438,7 @@ conditionally-supported-directive:
    pp-tokens new-line
 
 lparen:
-   a ( character not immediately preceded by white-space
+   a ( character not immediately preceded by whitespace
 
 identifier-list:
    identifier
@@ -1468,8 +1470,8 @@ header-name-tokens:
    < h-pp-tokens >
 
 has-include-expression:
-   __has_include( header-name )
-   __has_include( header-name-tokens )
+   __has_include ( header-name )
+   __has_include ( header-name-tokens )
 
 has-attribute-expression:
    __has_cpp_attribute ( pp-tokens )
