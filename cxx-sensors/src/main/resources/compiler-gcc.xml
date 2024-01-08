@@ -28,6 +28,14 @@ Follow these steps to make your custom rules available in SonarQube:
     <severity>CRITICAL</severity>
   </rule>
   <rule>
+    <key>unknown</key>
+    <name>Unknown compiler warnings</name>
+    <description>
+      Unknown compiler warnings.
+    </description>
+    <severity>CRITICAL</severity>
+  </rule>
+  <rule>
     <key>-Wabi</key>
     <name>Warn about things that will change when compiling with an ABI-compliant compiler</name>
     <description>

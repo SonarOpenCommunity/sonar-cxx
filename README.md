@@ -23,6 +23,9 @@ This plugin is free software; you can redistribute it and/or modify it under the
   * GNU extensions
   * `CUDA` extensions
 * Microsoft Windows and Linux for runtime environment
+* Handling of unknown / new errors and warnings (e.g. new compiler warnings)
+  * unknown warnings/errors (that are not defined in sonar) will now be mapped to the rule id="unknown"
+  * the rule id can be customized with the property sonar.cxx.unknown.rule.id and is valid for all sensors
 
 Sensors for **static and dynamic code analysis**:
 * **Cppcheck** warnings support (http://cppcheck.sourceforge.net/)
