@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.sonar.api.testfixtures.log.LogTesterJUnit5;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.slf4j.event.Level;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 
@@ -34,11 +34,11 @@ class CxxParseErrorLoggerVisitorTest {
 
   @Test
   void handleParseErrorTest() throws Exception {
-    logTester.setLevel(LoggerLevel.DEBUG);
+    logTester.setLevel(Level.DEBUG);
     var tester = CxxFileTesterHelper.create("src/test/resources/visitors/syntaxerror.cc", ".", "");
     CxxAstScanner.scanSingleInputFile(tester.asInputFile());
 
-    var log = String.join("\n", logTester.logs(LoggerLevel.DEBUG));
+    var log = String.join("\n", logTester.logs(Level.DEBUG));
 
     assertThat(log)
       .isNotEmpty()
