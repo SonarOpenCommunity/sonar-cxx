@@ -36,7 +36,7 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
-import org.sonar.api.utils.log.LogTesterJUnit5;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
 import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;

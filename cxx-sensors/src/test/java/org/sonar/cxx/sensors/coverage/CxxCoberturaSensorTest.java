@@ -35,7 +35,7 @@ import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.log.LogTesterJUnit5;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
 import org.sonar.cxx.sensors.coverage.cobertura.CoberturaParser;
 import org.sonar.cxx.sensors.coverage.cobertura.CxxCoverageCoberturaSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
