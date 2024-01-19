@@ -64,14 +64,14 @@ jobs:
 
   # -----------------------------------------------------------------------------------------------------------
   # Going through the Maven cycles 'validate', 'compile', 'test', 'package' in all combinations to be supported
-  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 11 Temurin
+  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 17 Temurin
   # -----------------------------------------------------------------------------------------------------------
   build-linux:
 
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '11' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
 
     runs-on: ${{ matrix.os }}
@@ -144,10 +144,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    # create artifacts from Linux, Java 11 Temurin
+    # create artifacts from Linux, Java 17 Temurin
     #
     - name: Collect JAR files
-      if: matrix.os == 'ubuntu-latest' && matrix.java == '11' && matrix.distribution == 'temurin'
+      if: matrix.os == 'ubuntu-latest' && matrix.java == '17' && matrix.distribution == 'temurin'
       run: |
         mkdir staging
         cp sonar-cxx-plugin/target/*.jar staging
@@ -167,14 +167,14 @@ jobs:
 
   # -----------------------------------------------------------------------------------------------------------
   # Going through the Maven cycles 'validate', 'compile', 'test', 'package' in all combinations to be supported
-  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 11 Temurin
+  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 17 Temurin
   # -----------------------------------------------------------------------------------------------------------
   build-windows:
 
     strategy:
       matrix:
         os: [windows-latest]
-        java: [ '11' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
 
     runs-on: ${{ matrix.os }}
@@ -232,15 +232,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '11', '17' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.9.1.69595' ]
-        sonarscanner: [ '4.8.0.2856' ]
-        exclude:
-        - sonarqube: '8.9.10.61524'
-          java: '17'
-        - sonarqube: '9.9.1.69595'
-          java: '11'
+        sonarqube: [ '9.9.1.69595', '10.3.0.82913' ]
+        sonarscanner: [ '5.0.1.3006' ]
 
     runs-on: ${{ matrix.os }}
     needs: [build-linux, verify-rules]
@@ -378,15 +373,10 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        java: [ '11', '17' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.9.1.69595' ]
-        sonarscanner: [ '4.8.0.2856' ]
-        exclude:
-        - sonarqube: '8.9.10.61524'
-          java: '17'
-        - sonarqube: '9.9.1.69595'
-          java: '11'
+        sonarqube: [ '9.9.1.69595', '10.3.0.82913' ]
+        sonarscanner: [ '5.0.1.3006' ]
 
     runs-on: ${{ matrix.os }}
     # needs build-linux because of JAR artifacts
