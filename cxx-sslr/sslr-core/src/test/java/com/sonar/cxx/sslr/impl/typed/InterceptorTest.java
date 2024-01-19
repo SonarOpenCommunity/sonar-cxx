@@ -170,7 +170,7 @@ class InterceptorTest {
     var thrown = catchThrowableOfType(() -> Interceptor.create(PublicFinalMethod.class, new Class[]{},
                                                            new Object[]{},
                                                            methodInterceptor),
-                                  VerifyError.class);
+            IncompatibleClassChangeError.class);
     assertThat(thrown)
       // Note that details of the message are different between JDK versions
       .hasMessageStartingWith("class GeneratedBySSLR overrides final method");
