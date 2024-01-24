@@ -132,7 +132,7 @@ jobs:
     # - use phase 'install' to resolve dependencies (necessary for sonar-scanner)
     #
     - name: Build and test with Maven
-      run: mvn -B -e -V install --file pom.xml
+      run: mvn -B -e -V verify --file pom.xml
 
     # create artifacts from Linux, Java 11 Temurin
     #
@@ -209,6 +209,7 @@ jobs:
 
     # Build and test with with Maven
     # - use phase 'verify' to aggregate coverage results (part of integration-tests)
+    # - use phase 'install' to resolve dependencies (necessary for sonar-scanner)
     #
     - name: Build and test with with Maven
       run: mvn -B -e -V verify --file pom.xml
@@ -279,6 +280,13 @@ jobs:
 
     - name: Dump environment variables
       run: env
+
+    # Build and test with with Maven
+    # - use phase 'verify' to aggregate coverage results (part of integration-tests)
+    # - use phase 'install' to resolve dependencies (necessary for sonar-scanner)
+    #
+    - name: Build and test with Maven
+      run: mvn -B -e -V install --file pom.xml
 
     # Update SonarCloud results
     # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
