@@ -146,7 +146,7 @@ def step_impl(context, rule):
 def step_impl(context, rule, templaterule, repository):
     assert context.profile_key != '', f"PROFILE KEY NOT FOUND: {str(context.profile_key)}"
     url = ('/api/rules/create')
-    payload = {'custom_key': rule, 'html_description': 'nodesc', 'name': rule, 'severity': 'MAJOR', 'template_key': templaterule, 'markdown_description': 'nodesc'}
+    payload = {'customKey': rule, 'html_description': 'nodesc', 'name': rule, 'severity': 'MAJOR', 'templateKey': templaterule, 'markdownDescription': 'nodesc'}
     web_api_set(url, payload)
     url = ('/api/qualityprofiles/activate_rule')
     payload = {'key': context.profile_key, 'rule': repository + ':' + rule, 'severity': 'MAJOR'}
