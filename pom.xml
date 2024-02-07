@@ -261,8 +261,8 @@
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
-    <sonar.version>9.9.0.65466</sonar.version>
-    <sonar.plugin.api.version>9.14.0.375</sonar.plugin.api.version>
+    <sonar.version>10.3.0.82913</sonar.version>
+    <sonar.plugin.api.version>10.3.0.1951</sonar.plugin.api.version>
     <sonarQubeMinVersion>8.9</sonarQubeMinVersion>
 
     <!-- dependencies -->
@@ -290,7 +290,7 @@
     <woodstox-core.version>6.6.0</woodstox-core.version>
 
     <!-- plugins -->
-    <java.version>11</java.version>
+    <java.version>17</java.version>
     <jython-standalone.version>2.7.3</jython-standalone.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-compiler.version>3.12.1</maven-compiler.version>
@@ -314,6 +314,11 @@
         <version>${sonar.plugin.api.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.sonarsource.api.plugin</groupId>
+        <artifactId>sonar-plugin-api-test-fixtures</artifactId>
+        <version>${sonar.plugin.api.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-plugin-api-impl</artifactId>
         <version>${sonar.version}</version>
@@ -322,6 +327,12 @@
         <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-testing-harness</artifactId>
         <version>${sonar.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.30</version>
       </dependency>
 
       <dependency>
@@ -458,7 +469,18 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-    </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <argLine>
+            @{argLine}
+            --add-opens=java.base/java.lang=ALL-UNNAMED
+            --add-opens=java.base/java.util=ALL-UNNAMED
+          </argLine>
+        </configuration>
+      </plugin>    </plugins>
   </build>
   <!-- BEGIN: Specific to mapping unit tests and covered code -->
   <profiles>

@@ -22,11 +22,11 @@ package org.sonar.cxx;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.ce.measure.Component.Type;
-import org.sonar.api.ce.measure.test.TestComponent;
-import org.sonar.api.ce.measure.test.TestComponent.FileAttributesImpl;
-import org.sonar.api.ce.measure.test.TestMeasureComputerContext;
-import org.sonar.api.ce.measure.test.TestMeasureComputerDefinition.MeasureComputerDefinitionBuilderImpl;
-import org.sonar.api.ce.measure.test.TestSettings;
+import org.sonar.api.testfixtures.measure.TestComponent;
+import org.sonar.api.testfixtures.measure.TestComponent.FileAttributesImpl;
+import org.sonar.api.testfixtures.measure.TestMeasureComputerContext;
+import org.sonar.api.testfixtures.measure.TestMeasureComputerDefinition.MeasureComputerDefinitionBuilderImpl;
+import org.sonar.api.testfixtures.measure.TestSettings;
 
 class DensityMeasureComputerTest {
 

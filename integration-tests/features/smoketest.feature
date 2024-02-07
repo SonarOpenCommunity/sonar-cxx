@@ -30,7 +30,6 @@ Feature: Smoketests
       | statements                     | 36    |
       | classes                        | 1     |
       | files                          | 8     |
-      | directories                    | None  |
       | functions                      | 5     |
       | comment_lines_density          | 30    |
       | comment_lines                  | 24    |
@@ -95,7 +94,6 @@ Feature: Smoketests
       | statements                     | 36    |
       | classes                        | 1     |
       | files                          | 8     |
-      | directories                    | None  |
       | functions                      | 5     |
       | comment_lines_density          | 30    |
       | comment_lines                  | 24    |
@@ -160,7 +158,6 @@ Feature: Smoketests
       | statements                     | 36    |
       | classes                        | 1     |
       | files                          | 8     |
-      | directories                    | None  |
       | functions                      | 5     |
       | comment_lines_density          | 30    |
       | comment_lines                  | 24    |
