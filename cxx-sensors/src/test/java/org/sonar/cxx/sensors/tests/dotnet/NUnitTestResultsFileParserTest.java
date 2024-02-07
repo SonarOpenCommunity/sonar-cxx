@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import static org.mockito.Mockito.mock;
-import org.sonar.api.utils.log.LogTesterJUnit5;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
+import org.slf4j.event.Level;
 
 class NUnitTestResultsFileParserTest {
 
@@ -96,7 +96,7 @@ class NUnitTestResultsFileParserTest {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "empty.xml"), results);
 
-    assertThat(logTester.logs(LoggerLevel.WARN))
+    assertThat(logTester.logs(Level.WARN))
       .contains("One of the assemblies contains no test result, please make sure this is expected.");
     assertThat(results.tests()).isZero();
     assertThat(results.passedPercentage()).isZero();
