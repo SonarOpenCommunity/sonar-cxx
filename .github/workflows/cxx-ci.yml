@@ -6,9 +6,9 @@ name: cxx plugin CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ SQ-10 ]
   pull_request:
-    branches: [ master ]
+    branches: [ SQ-10 ]
 
 defaults:
   run:
@@ -308,7 +308,7 @@ jobs:
         os: [ubuntu-latest]
         java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '9.9.1.69595', '10.3.0.82913' ]
+        sonarqube: [ '9.9.4.87374', '10.4.0.87286' ]
         sonarscanner: [ '5.0.1.3006' ]
 
     runs-on: ${{ matrix.os }}
@@ -449,7 +449,7 @@ jobs:
         os: [windows-latest]
         java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '9.9.1.69595', '10.3.0.82913' ]
+        sonarqube: [ '9.9.4.87374', '10.4.0.87286' ]
         sonarscanner: [ '5.0.1.3006' ]
 
     runs-on: ${{ matrix.os }}
