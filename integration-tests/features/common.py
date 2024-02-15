@@ -63,7 +63,7 @@ def sonar_analysis_finished(logpath):
     status = ''
     while True:
         end = time.time()
-        if end - start > 10:
+        if end - start > 30:
             print('     CURRENT STATUS : timeout, abort', flush=True)
             break
 
