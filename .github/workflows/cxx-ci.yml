@@ -224,7 +224,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '17' ]
+        java: [ '11' ]
         distribution: [ 'temurin' ]
 
     if: github.event_name == 'push'
@@ -287,6 +287,19 @@ jobs:
     #
     - name: Build and test with Maven
       run: mvn -B -e -V install --file pom.xml
+
+    # Java 11 is no longer supported as scanner runtime environment.
+    # The minimum required version of Java is now Java 17.
+    #
+    - name: Set up JDK Java 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Dump environment variables
+      run: env
 
     # Update SonarCloud results
     # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
