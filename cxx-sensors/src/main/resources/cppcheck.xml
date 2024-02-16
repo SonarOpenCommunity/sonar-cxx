@@ -20,6 +20,18 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>unknown</key>
+    <name>Unknown rule id was returned by cppcheck</name>
+    <description>
+      <![CDATA[
+      <p> This code is returned, if the rule for the returned cppcheck message was not yet defined in sonar</p>
+
+]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+  </rule>  <rule>
     <key>AssignmentAddressToInteger</key>
     <name>Assigning a pointer to an integer is not portable</name>
     <description>

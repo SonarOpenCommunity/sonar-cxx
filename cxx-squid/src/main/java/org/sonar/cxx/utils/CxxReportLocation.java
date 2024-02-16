@@ -31,7 +31,7 @@ public class CxxReportLocation {
   private final String file;
   private final String line;
   private final String column;
-  private final String info;
+  private String info;
 
   public CxxReportLocation(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
     super();
@@ -58,6 +58,10 @@ public class CxxReportLocation {
     return info;
   }
 
+  public void prefixInfo(String prefix) {
+	  info=prefix+info;
+  }
+  
   @Override
   public String toString() {
     return "CxxReportLocation ["

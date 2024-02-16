@@ -17,28 +17,33 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.compiler.gcc;
+package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.mock;
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-class CxxCompilerGccRuleRepositoryTest {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Rule {
+	
+	String key;
+	
+	String type;
 
-  @Test
-  void createGccRulesTest() {
-    var def = new CxxCompilerGccRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader());
+	public String getKey() {
+		return key;
+	}
 
-    var context = new RulesDefinition.Context();
-    def.define(context);
+	public void setKey(String key) {
+		this.key = key;
+	}
 
-    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(231);
-  }
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 
 }

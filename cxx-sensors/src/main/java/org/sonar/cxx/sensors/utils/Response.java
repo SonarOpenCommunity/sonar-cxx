@@ -17,28 +17,52 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.compiler.gcc;
+package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.mock;
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
+import java.util.List;
 
-class CxxCompilerGccRuleRepositoryTest {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-  @Test
-  void createGccRulesTest() {
-    var def = new CxxCompilerGccRuleRepository(
-      mock(ServerFileSystem.class),
-      new RulesDefinitionXmlLoader());
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Response {
 
-    var context = new RulesDefinition.Context();
-    def.define(context);
+	int total;
+	int p;
+	int ps;
+	
+	List<Rule> rules;
 
-    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(231);
-  }
+	public int getTotal() {
+		return total;
+	}
 
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public int getP() {
+		return p;
+	}
+
+	public void setP(int p) {
+		this.p = p;
+	}
+
+	public int getPs() {
+		return ps;
+	}
+
+	public void setPs(int ps) {
+		this.ps = ps;
+	}
+
+	public List<Rule> getRules() {
+		return rules;
+	}
+
+	public void setRules(List<Rule> rules) {
+		this.rules = rules;
+	}
+	
+	
 }

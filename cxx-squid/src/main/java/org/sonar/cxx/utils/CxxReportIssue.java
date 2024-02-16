@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  */
 public class CxxReportIssue {
 
-  private final String ruleId;
+  private String ruleId;
   private final List<String> aliasRuleIds = new ArrayList<>();
   private final List<CxxReportLocation> locations = new ArrayList<>();
   private final List<CxxReportLocation> flow = new ArrayList<>();
@@ -40,6 +40,10 @@ public class CxxReportIssue {
                         String info) {
     this.ruleId = ruleId;
     addLocation(file, line, column, info);
+  }
+  
+  public final void overRideRuleId(String ruleId) {
+	  this.ruleId=ruleId;
   }
 
   public final void addLocation(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
