@@ -103,7 +103,7 @@
         <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
         <artifactId>sonar-packaging-maven-plugin</artifactId>
         <configuration>
-          <sonarQubeMinVersion>${sonarQubeMinVersion}</sonarQubeMinVersion>
+          <pluginApiMinVersion>${pluginApiMinVersion}</pluginApiMinVersion>
         </configuration>
       </plugin>
     </plugins>
