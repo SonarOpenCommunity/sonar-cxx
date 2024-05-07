@@ -8056,6 +8056,61 @@ Pointer arithmetic overflow.
     </description>
     <severity>MINOR</severity>
     </rule>
+  <!-- ########### New in Cppcheck 2.14.0 ########### -->
+  <rule>
+    <key>eraseIteratorOutOfBounds</key>
+    <name>Calling function 'erase()' on the iterator 'iter' which is out of bounds</name>
+    <description><![CDATA[
+        <p>
+  Calling function 'erase()' on the iterator 'iter' which is out of
+  bounds.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>eraseIteratorOutOfBoundsCond</key>
+    <name>Either the condition 'x' is redundant or function 'erase()' is called on the iterator 'iter' which is out of bounds</name>
+    <description><![CDATA[
+        <p>
+  Either the condition 'x' is redundant or function 'erase()' is called
+  on the iterator 'iter' which is out of bounds.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>returnByReference</key>
+    <name>Function 'func()' should return member 'var' by const reference</name>
+    <description><![CDATA[
+        Function 'func()' should return member 'var' by const reference.
+        ]]></description>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>uselessOverride</key>
+    <name>The function '' overrides a function in a base class but just delegates back to the base class</name>
+    <description><![CDATA[
+        The function '' overrides a function in a base class but just delegates back to the base class.
+        ]]></description>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>  
   <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->
   <rule>
     <key>internalAstError</key>
