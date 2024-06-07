@@ -23,6 +23,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -400,7 +401,7 @@ public class CxxSquidSensor implements ProjectSensor {
       // then analyze only the files contained in the db.
       var inputFilesInConfig = squidConfig.getFiles();
       var result = StreamSupport.stream(inputFiles.spliterator(), false)
-        .filter(f -> inputFilesInConfig.contains(Path.of(f.uri())))
+        .filter(f -> inputFilesInConfig.contains(Paths.get((Path.of(f.uri()).toString()).toLowerCase(Locale.getDefault()))))
         .collect(Collectors.toList());
       inputFiles = result;
 
