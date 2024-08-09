@@ -4538,7 +4538,7 @@ Dangerous usage of c_str(). The string is destroyed after the c_str() call so th
     </description>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 1.69 ########### -->
+  <!-- ########### New in Cppcheck 1.6.9 ########### -->
   <rule>
     <key>duplicateExpressionTernary</key>
     <name>Same expression in both branches of ternary operator</name>
@@ -4660,7 +4660,7 @@ appropriate C library function.
     </description>
     <tag>cwe</tag>
   </rule>
-  <!-- ########### New in Cppcheck 1.70 ########### -->
+  <!-- ########### New in Cppcheck 1.7.0 ########### -->
   <rule>
     <key>negativeArraySize</key>
     <name>Declaration of array with negative size is undefined behaviour</name>
@@ -4834,7 +4834,7 @@ example 'return a*b;' => 'return (long)a*b'.
     <tag>cwe</tag>
     <severity>MINOR</severity>
   </rule>
-  <!-- ########### New in Cppcheck 1.72 ########### -->
+  <!-- ########### New in Cppcheck 1.7.2 ########### -->
   <rule>
     <key>assignBoolToFloat</key>
     <name>Boolean value assigned to floating point variable</name>
@@ -4883,7 +4883,7 @@ Expression 'x = x++;' depends on order of evaluation of side effects
     <tag>cwe</tag>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 1.73 ########### -->
+  <!-- ########### New in Cppcheck 1.7.3 ########### -->
   <rule>
     <key>signedCharArrayIndex</key>
     <name>Signed 'char' type used as array index</name>
@@ -4936,7 +4936,7 @@ switch()?
     <severity>MINOR</severity>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 1.76 ########### -->
+  <!-- ########### New in Cppcheck 1.7.6 ########### -->
   <!-- this warnings is not reported by "cppcheck -errorlist" -->
   <rule>
     <key>leakUnsafeArgAlloc</key>
@@ -5021,7 +5021,7 @@ Reading from empty STL container 'var'
     <tag>cwe</tag>
     <severity>MINOR</severity>
   </rule>
-  <!-- ########### New in Cppcheck 1.77 ########### -->
+  <!-- ########### New in Cppcheck 1.7.7 ########### -->
   <rule>
     <key>nullPointerArithmetic</key>
     <name>Pointer arithmetic with NULL pointer</name>
@@ -5100,7 +5100,7 @@ Undefined behaviour: float (1e+100) to integer conversion overflow.
     <tag>cwe</tag>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 1.78 ########### -->
+  <!-- ########### New in Cppcheck 1.7.8 ########### -->
   <rule>
     <key>funcArgNamesDifferent</key>
     <name>Function 'function' argument 2 names different: declaration 'A' definition 'B'</name>
@@ -5145,7 +5145,7 @@ The class 'class' has 'operator=' but lack of 'copy constructor'.
     <severity>MINOR</severity>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 1.82 ########### -->
+  <!-- ########### New in Cppcheck 1.8.2 ########### -->
   <rule>
     <key>unsafeClassDivZero</key>
     <name>Public interface of Class is not safe</name>
@@ -7506,7 +7506,7 @@ constructor.
     <severity>MINOR</severity>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 1.90 ########### -->
+  <!-- ########### New in Cppcheck 1.9.0 ########### -->
   <rule>
     <key>constVariable</key>
     <name>Variable 'x' can be declared with const</name>
@@ -7624,7 +7624,7 @@ Unsafe class checking: The const reference member 'UnsafeClass::var' is initiali
     <severity>MINOR</severity>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 2.10 ########### -->
+  <!-- ########### New in Cppcheck 2.1.0 ########### -->
   <rule>
     <key>invalidContainerLoop</key>
     <name>Calling 'erase' while iterating the container is invalid</name>
@@ -7691,7 +7691,7 @@ Iterator 'it' from different container 'v1' are used together.
     <severity>MINOR</severity>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 2.41 ########### -->
+  <!-- ########### New in Cppcheck 2.4.1 ########### -->
   <rule>
     <key>danglingTempReference</key>
     <name>Using reference to dangling temporary</name>
@@ -7837,7 +7837,7 @@ be used in code that is removed by the preprocessor. Should this be a
     <severity>MINOR</severity>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 2.50 ########### -->
+  <!-- ########### New in Cppcheck 2.5.0 ########### -->
   <rule>
     <key>assignmentInCondition</key>
     <name>Suspicious assignment in condition. Condition 'x=y' is always true</name>
@@ -7867,7 +7867,7 @@ https://isocpp.org/wiki/faq/exceptions#throw-without-an-object
     <tag>cwe</tag>
     <type>BUG</type>
   </rule>
-  <!-- ########### New in Cppcheck 2.60 ########### -->
+  <!-- ########### New in Cppcheck 2.6.0 ########### -->
   <rule>
     <key>compareValueOutOfTypeRangeError</key>
     <name>Comparing expression of type 'unsigned char' against value 256</name>
@@ -7954,7 +7954,7 @@ missing return statement
     <severity>MINOR</severity>
     <type>BUG</type>
     </rule>
-  <!-- ########### New in Cppcheck 2.70 ########### -->
+  <!-- ########### New in Cppcheck 2.7.0 ########### -->
   <rule>
     <key>missingMemberCopy</key>
     <name>Member variable 'classname::varnamepriv' is not assigned in the copy constructor</name>
@@ -7970,13 +7970,90 @@ constructor. Should it be moved?
     <severity>MINOR</severity>
     <type>BUG</type>
     </rule>
-  <!-- ########### New in Cppcheck 2.90 ########### -->
+  <!-- ########### New in Cppcheck 2.9.0 ########### -->
   <rule>
     <key>constParameterCallback</key>
     <name>Parameter 'x' can be declared with const, however it seems that 'f' is a callback function</name>
     <description><![CDATA[
       Parameter 'x' can be declared with const, however it seems that 'f' is a callback function.
       ]]></description>
+    <severity>MINOR</severity>
+    </rule>
+  <!-- ########### New in Cppcheck 2.13.0 ########### -->
+  <rule>
+    <key>constParameterPointer</key>
+    <name>Parameter 'x' can be declared with const</name>
+    <description>
+      <![CDATA[
+      Parameter 'x' can be declared with const
+      ]]>
+    </description>
+    <severity>MINOR</severity>
+    </rule>
+  <rule>
+    <key>constParameterReference</key>
+    <name>Parameter 'x' can be declared with const</name>
+    <description>
+      <![CDATA[
+      Parameter 'x' can be declared with const
+      ]]>
+    </description>
+    <severity>MINOR</severity>
+    </rule>
+  <rule>
+    <key>constVariablePointer</key>
+    <name>Variable 'x' can be declared with const</name>
+    <description>
+      <![CDATA[
+      Variable 'x' can be declared with const
+      ]]>
+    </description>
+    <severity>MINOR</severity>
+    </rule>
+  <rule>
+    <key>constVariableReference</key>
+    <name>Variable 'x' can be declared with const</name>
+    <description>
+      <![CDATA[
+      Variable 'x' can be declared with const
+      ]]>
+    </description>
+    <severity>MINOR</severity>
+    </rule>
+  <rule>
+    <key>knownPointerToBool</key>
+    <name>Pointer expression 'p' converted to bool is always true</name>
+    <description>
+      <![CDATA[
+      Pointer expression 'p' converted to bool is always true.
+      ]]>
+    </description>
+    <severity>MINOR</severity>
+    </rule>
+  <rule>
+    <key>pointerOutOfBoundsCond</key>
+    <name>Pointer arithmetic overflow</name>
+    <description>
+      <![CDATA[
+      <p>
+Pointer arithmetic overflow.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758</a></p>
+      ]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    </rule>
+  <rule>
+    <key>useStandardLibrary</key>
+    <name>Consider using memcpy instead of loop</name>
+    <description>
+      <![CDATA[
+      Consider using memcpy instead of loop.
+      ]]>
+    </description>
     <severity>MINOR</severity>
     </rule>
   <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->

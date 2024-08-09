@@ -361,7 +361,7 @@ def rstfiles_to_rules_xml(directory, fix_urls):
 
 def contains_required_fields(entry_value):
     FIELDS = ["!name", "!anonymous", "!superclasses",
-              "Class", "DefaultSeverity", "Text"]
+              "Class", "DefaultSeverity", "Summary"]
     for field in FIELDS:
         if field not in entry_value:
             return False
@@ -502,11 +502,11 @@ def calculate_rule_type_and_severity(diagnostics):
 def generate_description(diag_group_name, diagnostics):
     html_lines = ["<p>Diagnostic text:</p>", "<ul>"]
     all_diagnostics_are_remarks = True
-    for diagnostic in sorted(diagnostics, key=lambda k: k['Text']):
+    for diagnostic in sorted(diagnostics, key=lambda k: k['Summary']):
         diag_class = diagnostic["Class"]["def"]
         all_diagnostics_are_remarks = all_diagnostics_are_remarks and (
             diag_class == "CLASS_REMARK")
-        diag_text = diagnostic["Text"]
+        diag_text = diagnostic["Summary"]
         diag_class_printable = DIAG_CLASS[diag_class]["printable"]
         diag_text_escaped = html.escape(diag_text, quote=False)
         html_lines.append("<li>%s: %s</li>" %
