@@ -69,6 +69,14 @@ URLS = {
         'severity': 'INFO',
         'type': 'CODE_SMELL',
         },
+    'https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c5000-through-c5199' : {
+        'severity': 'INFO',
+        'type': 'CODE_SMELL',
+        },
+    'https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c5200-through-c5399' : {
+        'severity': 'INFO',
+        'type': 'CODE_SMELL',
+        },
     'https://learn.microsoft.com/en-us/cpp/code-quality/code-analysis-for-c-cpp-warnings' : {
         'severity': 'CRITICAL',
         'type': 'CODE_SMELL',
@@ -308,6 +316,9 @@ def parse_warning_page(page_source, warning):
     # parse HTML page
     soup = BeautifulSoup(page_source, 'html.parser')
     content = soup.find("div", class_="content")
+
+    if not content:
+        return warning
 
     # use header, sometimes only message ID
     key = warning['key']
