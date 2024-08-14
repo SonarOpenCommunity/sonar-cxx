@@ -28,10 +28,10 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
-import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 
 public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocatitionSquidCheck<G> {
@@ -74,7 +74,8 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
   private static final Set<AstNodeType> SUBSCRIPTION_NODES = new HashSet<>();
 
   static {
-    SUBSCRIPTION_NODES.add(CxxGrammarImpl.functionDefinition);
+    SUBSCRIPTION_NODES.add(CxxGrammarImpl.functionBody); // root node for Cognitive Complexity
+
     SUBSCRIPTION_NODES.addAll(Arrays.asList(DESCENDANT_TYPES));
     SUBSCRIPTION_NODES.addAll(Arrays.asList(INCREMENT_TYPES));
     SUBSCRIPTION_NODES.addAll(Arrays.asList(NESTING_LEVEL_TYPES));
@@ -102,11 +103,16 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
       return;
     }
 
-    if (node.is(CxxGrammarImpl.functionDefinition)) {
+    if (node.is(CxxGrammarImpl.functionBody) && node.hasDirectChildren(CxxGrammarImpl.compoundStatement)) {
       complexityScopes.addFirst(new CxxComplexityScope(node.getTokenLine()));
+      return;
     }
 
-    if (complexityScopes.isEmpty() || isElseIf(node)) {
+    if (complexityScopes.isEmpty()) {
+      return;
+    }
+
+    if (isElseIf(node)) {
       return;
     }
 
@@ -125,21 +131,27 @@ public class CxxCognitiveComplexityVisitor<G extends Grammar> extends MultiLocat
 
   @Override
   public void leaveNode(AstNode node) {
-    if (node.getToken().isGeneratedCode()) {
-      return;
-    }
+    if (!complexityScopes.isEmpty()) {
+      if (node.getToken().isGeneratedCode()) {
+        return;
+      }
 
-    if (node.is(CxxGrammarImpl.functionDefinition)) {
-      analyzeComplexity(complexityScopes.removeFirst());
-    }
+      if (node.is(CxxGrammarImpl.functionBody)) {
+        analyzeComplexity(complexityScopes.removeFirst());
+      }
 
-    if (complexityScopes.isEmpty() || isElseIf(node)) {
-      return;
-    }
+      if (complexityScopes.isEmpty()) {
+        return;
+      }
 
-    if (node.is(NESTING_LEVEL_TYPES)) {
-      for (var scope : complexityScopes) {
-        scope.decreaseNesting();
+      if (isElseIf(node)) {
+        return;
+      }
+
+      if (node.is(NESTING_LEVEL_TYPES)) {
+        for (var scope : complexityScopes) {
+          scope.decreaseNesting();
+        }
       }
     }
   }

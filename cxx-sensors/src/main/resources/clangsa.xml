@@ -22,6 +22,18 @@ Follow these steps to make your custom rules available in SonarQube:
   <!-- C and C++ rules for Clang Static Analyzer. https://clang-analyzer.llvm.org/
 Rules list was generated based on clang version 16.0.0 (https://github.com/llvm/llvm-project.git 61be261549243deed84b1fae11195f76f1769584) -->
   <rule>
+    <key>core.BitwiseShift</key>
+    <name>core.BitwiseShift</name>
+    <description>
+<![CDATA[
+<p>Finds cases where bitwise shift operation causes undefined behaviour.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]>    </description>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
     <key>core.CallAndMessage</key>
     <name>core.CallAndMessage</name>
     <description>
@@ -344,6 +356,18 @@ Rules list was generated based on clang version 16.0.0 (https://github.com/llvm/
 ]]>    </description>
     <type>BUG</type>
     <tag>nullability</tag>
+  </rule>
+  <rule>
+    <key>optin.core.EnumCastOutOfRange</key>
+    <name>optin.core.EnumCastOutOfRange</name>
+    <description>
+<![CDATA[
+<p>Check integer to enumeration casts for out of range values
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]>    </description>
+    <type>BUG</type>
+    <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.cplusplus.UninitializedObject</key>
@@ -814,6 +838,18 @@ Rules list was generated based on clang version 16.0.0 (https://github.com/llvm/
     <tag>security</tag>
   </rule>
   <rule>
+    <key>security.cert.env.InvalidPtr</key>
+    <name>security.cert.env.InvalidPtr</name>
+    <description>
+<![CDATA[
+<p>Finds usages of possibly invalidated pointers
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]>    </description>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
     <key>security.insecureAPI.DeprecatedOrUnsafeBufferHandling</key>
     <name>security.insecureAPI.DeprecatedOrUnsafeBufferHandling</name>
     <description>
@@ -982,6 +1018,18 @@ Rules list was generated based on clang version 16.0.0 (https://github.com/llvm/
     <tag>unix</tag>
   </rule>
   <rule>
+    <key>unix.Errno</key>
+    <name>unix.Errno</name>
+    <description>
+<![CDATA[
+<p>Check for improper use of 'errno'
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]>    </description>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
     <key>unix.Malloc</key>
     <name>unix.Malloc</name>
     <description>
@@ -1011,6 +1059,18 @@ Rules list was generated based on clang version 16.0.0 (https://github.com/llvm/
     <description>
 <![CDATA[
 <p>Check for mismatched deallocators.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]>    </description>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.StdCLibraryFunctions</key>
+    <name>unix.StdCLibraryFunctions</name>
+    <description>
+<![CDATA[
+<p>Check for invalid arguments of C standard library functions, and apply relations between arguments and return value
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
 ]]>    </description>
