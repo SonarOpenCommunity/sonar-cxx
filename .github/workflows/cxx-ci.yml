@@ -322,7 +322,7 @@ jobs:
         java: [ '11', '17' ]
         distribution: [ 'temurin' ]
         sonarqube: [ '8.9.10.61524', '9.9.6.92038' ]
-        sonarscanner: [ '4.8.0.2856' ]
+        sonarscanner: [ '6.1.0.4477' ]
         exclude:
         - sonarqube: '8.9.10.61524'
           java: '17'
@@ -468,7 +468,7 @@ jobs:
         java: [ '11', '17' ]
         distribution: [ 'temurin' ]
         sonarqube: [ '8.9.10.61524', '9.9.6.92038' ]
-        sonarscanner: [ '4.8.0.2856' ]
+        sonarscanner: [ '6.1.0.4477' ]
         exclude:
         - sonarqube: '8.9.10.61524'
           java: '17'
