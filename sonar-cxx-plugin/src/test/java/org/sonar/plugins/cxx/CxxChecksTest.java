@@ -29,8 +29,6 @@ import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
-import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.resources.Language;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
@@ -131,8 +129,6 @@ class CxxChecksTest {
 
   public static class MyCustomPlSqlRulesDefinition extends CustomCxxRulesDefinition {
 
-    private static final Language LANGUAGE = new CxxLanguage(new MapSettings().asConfig());
-
     @Override
     public String repositoryName() {
       return "Custom Rule Repository";
@@ -149,10 +145,6 @@ class CxxChecksTest {
       return new Class[]{MyCustomRule.class};
     }
 
-    @Override
-    public Language getLanguage() {
-      return LANGUAGE;
-    }
   }
 
 }

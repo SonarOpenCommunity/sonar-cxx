@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import java.util.Arrays;
-import org.sonar.api.resources.Language;
 import org.sonar.api.scanner.ScannerSide;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.squidbridge.annotations.AnnotationBasedRulesDefinition;
@@ -34,22 +33,15 @@ public abstract class CustomCxxRulesDefinition implements RulesDefinition {
 
   @Override
   public void define(RulesDefinition.Context context) {
-    var repo = context.createRepository(repositoryKey(), getLanguage().getKey())
+    var repo = context.createRepository(repositoryKey(), CxxLanguage.KEY)
       .setName(repositoryName());
 
     // Load metadata from check classes' annotations
-    new AnnotationBasedRulesDefinition(repo, getLanguage().getKey()).addRuleClasses(false,
-                                                                                    Arrays.asList(checkClasses()));
+    new AnnotationBasedRulesDefinition(repo, CxxLanguage.KEY).addRuleClasses(false,
+                                                                             Arrays.asList(checkClasses()));
 
     repo.done();
   }
-
-  /**
-   * Name of the custom rule repository.
-   *
-   * @return
-   */
-  public abstract Language getLanguage();
 
   /**
    * Name of the custom rule repository.

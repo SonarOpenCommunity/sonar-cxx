@@ -150,6 +150,16 @@ class CxxCognitiveComplexityVisitorTest {
     assertThat(testFile("src/test/resources/visitors/to_regexp.cc")).isEqualTo(20);
   }
 
+  @Test
+  void template() throws UnsupportedEncodingException, IOException {
+    assertThat(testFile("src/test/resources/visitors/template.cc")).isEqualTo(0);
+  }
+
+  @Test
+  void inline() throws UnsupportedEncodingException, IOException {
+    assertThat(testFile("src/test/resources/visitors/inline.cc")).isEqualTo(5);
+  }
+
   private int testFile(String fileName) throws UnsupportedEncodingException, IOException {
     var tester = CxxFileTesterHelper.create(fileName, ".", "");
     SourceFile sourceFile = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
