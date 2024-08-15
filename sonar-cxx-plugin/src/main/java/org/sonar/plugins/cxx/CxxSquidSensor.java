@@ -477,7 +477,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
         RuleKey ruleKey = checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck());
         if (ruleKey != null) {
-          var newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, ruleKey.rule()));
+          var newIssue = context.newIssue().forRule(RuleKey.of(ruleKey.repository(), ruleKey.rule()));
           var location = newIssue.newLocation()
             .on(inputFile)
             .at(inputFile.selectLine(line))

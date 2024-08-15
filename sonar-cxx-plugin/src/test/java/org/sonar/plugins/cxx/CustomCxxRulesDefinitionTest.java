@@ -22,17 +22,14 @@ package org.sonar.plugins.cxx;
 import com.sonar.cxx.sslr.api.Grammar;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.resources.Language;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 class CustomCxxRulesDefinitionTest {
 
-  private static final Language LANGUAGE = new CxxLanguage(new MapSettings().asConfig());
   private static final String REPOSITORY_NAME = "Custom Rule Repository";
   private static final String REPOSITORY_KEY = "CustomRuleRepository";
 
@@ -47,7 +44,6 @@ class CustomCxxRulesDefinitionTest {
     RulesDefinition.Repository repository = context.repository(REPOSITORY_KEY);
 
     assertThat(repository.name()).isEqualTo(REPOSITORY_NAME);
-    assertThat(repository.language()).isEqualTo(LANGUAGE.getKey());
     assertThat(repository.rules()).hasSize(1);
 
     RulesDefinition.Rule alertUseRule = repository.rule(RULE_KEY);
@@ -80,10 +76,6 @@ class CustomCxxRulesDefinitionTest {
       return new Class[]{MyCustomRule.class};
     }
 
-    @Override
-    public Language getLanguage() {
-      return LANGUAGE;
-    }
   }
 
   @Rule(
