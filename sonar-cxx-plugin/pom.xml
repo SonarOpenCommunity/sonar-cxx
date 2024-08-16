@@ -114,6 +114,7 @@
         <artifactId>sonar-packaging-maven-plugin</artifactId>
         <configuration>
           <pluginApiMinVersion>${pluginApiMinVersion}</pluginApiMinVersion>
+          <requiredForLanguages>cxx,cpp,c++,c</requiredForLanguages>
         </configuration>
       </plugin>
     </plugins>
