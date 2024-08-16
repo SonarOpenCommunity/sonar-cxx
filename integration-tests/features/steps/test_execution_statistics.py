@@ -27,8 +27,6 @@ from behave import given, when, then, model # pylint: disable=no-name-in-module
 from common import analyse_log, build_regexp, get_sonar_log_file, analyse_log_lines, sonar_analysis_finished
 from webapi import web_api_get, web_api_set
 
-SONAR_LOGIN = os.getenv('sonar.login', 'admin')
-SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
 TESTDATADIR = os.path.normpath(os.path.join(os.path.realpath(__file__),
                                             '..', '..', '..', 'testdata'))
 TEST_METRICS_ORDER = ['tests',
@@ -122,7 +120,7 @@ def step_impl(context, rule, params):
     payload = {'key': context.profile_key, 'rule': rule}
     web_api_set(url, payload)
     url = ('/api/qualityprofiles/activate_rule')
-    payload = {'key': context.profile_key, 'rule': rule, 'severity': 'MAJOR', 'params': params}
+    payload = {'key': context.profile_key, 'rule': rule, 'params': params}
     web_api_set(url, payload)
 
 
@@ -130,7 +128,7 @@ def step_impl(context, rule, params):
 def step_impl(context, rule):
     assert context.profile_key != '', f"PROFILE KEY NOT FOUND: {str(context.profile_key)}"
     url = ('/api/qualityprofiles/activate_rule')
-    payload = {'key': context.profile_key, 'rule': rule, 'severity': 'MAJOR'}
+    payload = {'key': context.profile_key, 'rule': rule}
     web_api_set(url, payload)
 
 
@@ -146,10 +144,10 @@ def step_impl(context, rule):
 def step_impl(context, rule, templaterule, repository):
     assert context.profile_key != '', f"PROFILE KEY NOT FOUND: {str(context.profile_key)}"
     url = ('/api/rules/create')
-    payload = {'customKey': rule, 'html_description': 'nodesc', 'name': rule, 'severity': 'MAJOR', 'templateKey': templaterule, 'markdownDescription': 'nodesc'}
+    payload = {'customKey': rule, 'html_description': 'nodesc', 'name': rule, 'templateKey': templaterule, 'markdownDescription': 'nodesc'}
     web_api_set(url, payload)
     url = ('/api/qualityprofiles/activate_rule')
-    payload = {'key': context.profile_key, 'rule': repository + ':' + rule, 'severity': 'MAJOR'}
+    payload = {'key': context.profile_key, 'rule': repository + ':' + rule}
     web_api_set(url, payload)
 
 
@@ -184,7 +182,7 @@ def step_impl(context):
     badlines, _errors, _warnings = analyse_log(context.log, ignore_re)
 
     assert len(badlines) == 0,\
-        ('Found following errors and/or warnings lines in the logfile:\n' + ''.join(badlines) + '\nFor details see ' + context.log)
+        ('Found additonal errors and/or warnings lines in the logfile:\n' + ''.join(badlines) + '\nFor details see ' + context.log)
 
 
 @then('the analysis log contains no error/warning messages')
@@ -231,7 +229,7 @@ def step_impl(context):
 
 @then('the analysis log contains a line matching')
 def step_impl(context):
-    assert _contains_line_matching(context.log, context.text)
+    assert _contains_line_matching(context.log, context.text), f"The analysis log does not contain a line matching '{context.text}'"
 
 
 @when('I run "{command}"')
@@ -241,13 +239,13 @@ def step_impl(context, command):
 
 @when('I run sonar-scanner with "{params}"')
 def step_impl(context, params):
-    _run_command(context, 'sonar-scanner -Dsonar.login=' + SONAR_LOGIN + ' -Dsonar.password=' + SONAR_PASSWORD + ' ' + params)
+    _run_command(context, 'sonar-scanner -Dsonar.host.url=http://localhost:9000 ' + params) # use token from SONAR_TOKEN
 
 
 @when('I run sonar-scanner with following options')
 def step_impl(context):
     arguments = [line for line in context.text.split('\n') if line != '']
-    command = 'sonar-scanner -Dsonar.login=' + SONAR_LOGIN + ' -Dsonar.password=' + SONAR_PASSWORD + ' ' + ' '.join(arguments)
+    command = 'sonar-scanner -Dsonar.host.url=http://localhost:9000 ' + ' '.join(arguments) # use token from SONAR_TOKEN
     _run_command(context, command)
 
 
@@ -344,7 +342,7 @@ def _run_command(context, command):
         print('cmd: ' + command, flush=True)
         with open(context.log, 'r', encoding='utf8') as log:
             for line in log:
-                if  'WARN:' in line or 'ERROR:' in line:
+                if  'WARN' in line or 'ERROR' in line:
                     print(line, flush=True)
 
     context.rc = proc.returncode
