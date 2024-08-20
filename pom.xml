@@ -291,7 +291,7 @@
 
     <!-- plugins -->
     <java.version>11</java.version>
-    <jython-standalone.version>2.7.3</jython-standalone.version>
+    <jython-standalone.version>2.7.4</jython-standalone.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-compiler.version>3.13.0</maven-compiler.version>
     <maven-dependency.version>3.7.1</maven-dependency.version>
