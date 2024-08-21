@@ -9,10 +9,7 @@ Feature: Regex
     When I run sonar-scanner with "-X -Dsonar.exclusions=**/*-BOM-*.cc"
     Then the analysis finishes successfully
     And the analysis in server has completed
-    And the analysis log contains no error/warning messages except those matching:
-      """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      """
+    And the analysis log contains no error/warning messages
     And the following metrics have following values:
       | metric     | value |
       | ncloc      | 3     |
@@ -26,10 +23,7 @@ Feature: Regex
     When I run sonar-scanner with "-X -Dsonar.inclusions=**/utf8-BOM-*.cc"
     Then the analysis finishes successfully
     And the analysis in server has completed
-    And the analysis log contains no error/warning messages except those matching:
-      """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      """
+    And the analysis log contains no error/warning messages
     And the following metrics have following values:
       | metric     | value |
       | ncloc      | 3     |
@@ -43,10 +37,7 @@ Feature: Regex
     When I run sonar-scanner with "-X -Dsonar.inclusions=**/utf16-BOM-*.cc"
     Then the analysis finishes successfully
     And the analysis in server has completed
-    And the analysis log contains no error/warning messages except those matching:
-      """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      """
+    And the analysis log contains no error/warning messages
     And the following metrics have following values:
       | metric     | value |
       | ncloc      | 3     |

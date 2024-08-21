@@ -34,7 +34,7 @@ def web_api_get(url, log=False):
             url = SONAR_URL + url
         response = None
         if log:
-            print(f"\n'{url}' response:", flush=True)        
+            print(f"\n'{url}' response:", flush=True)
         response = requests.get(url, timeout=60, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
         response.raise_for_status()
         if not response.text:

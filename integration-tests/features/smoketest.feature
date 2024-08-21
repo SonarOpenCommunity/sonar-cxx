@@ -17,11 +17,11 @@ Feature: Smoketests
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
       .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
       .*WARN.*cannot find the sources for '#include <iostream>'
-      .*WARN.*Cannot find the file '.*component_XXX.cc', skipping
+      .*WARN.*Cannot find the file '.*component_XXX\.cc'.*skipping
       .*WARN.*Cannot find a report for '.*'
+      .*WARN.*Preprocessor:.*
       """
     And the following metrics have following values:
       | metric                         | value |
@@ -81,11 +81,11 @@ Feature: Smoketests
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
       .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
       .*WARN.*cannot find the sources for '#include <iostream>'
-      .*WARN.*Cannot find the file '.*component_XXX.cc', skipping
+      .*WARN.*Cannot find the file '.*component_XXX\.cc'.*skipping
       .*WARN.*Cannot find a report for '.*'
+      .*WARN.*Preprocessor:.*
       """
     And the following metrics have following values:
       | metric                         | value |
@@ -145,11 +145,11 @@ Feature: Smoketests
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
       .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
       .*WARN.*cannot find the sources for '#include <iostream>'
-      .*WARN.*Cannot find the file '.*component_XXX.cc', skipping
+      .*WARN.*Cannot find the file '.*component_XXX\.cc'.*skipping
       .*WARN.*Cannot find a report for '.*'
+      .*WARN.*Preprocessor:.*
       """
     And the following metrics have following values:
       | metric                         | value |
@@ -218,12 +218,14 @@ Feature: Smoketests
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      .*WARN.*to create a dependency with 'PathHandling/PathHandle.h'
+      .*WARN.*to create a dependency with 'PathHandling/PathHandle\.h'
       .*WARN.*cannot find the sources for '#include <unistd\.h>'
-      .*WARN.*Cannot find the file '.*gtestmock.1.7.2.*', ignoring coverage measures
+      .*WARN.*Cannot find the file '.*gtestmock\.1\.7\.2.*', ignoring coverage measures
       .*WARN.*Cannot find a report for '.*'
       .*WARN.*cannot find the sources for '#include.*
+      .*WARN.*Preprocessor:.*
+      .*WARN.*Using absolute path pattern is deprecated.*
+      .*WARN.*Cannot sanitize file path.*
       """
     And the following metrics have following values:
       | metric                   | value |

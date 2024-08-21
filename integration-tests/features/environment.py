@@ -29,7 +29,7 @@ from shutil import copyfile
 from shutil import move
 from tempfile import mkstemp
 from common import analyse_log, get_sonar_log_file, cleanup_logs, print_logs
-from webapi import web_api_get
+from webapi import web_api_get, web_api_set
 
 
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
@@ -50,7 +50,7 @@ def before_all(context):
     global SONAR_STARTED
 
     print('\n\n' + 80 * '-', flush=True)
-    print('starting SonarQube ...', flush=True)
+    print('setup SonarQube ...', flush=True)
     print(80 * '-', flush=True)
 
     print('\nSonarQube already running? ', flush=True)
@@ -58,7 +58,7 @@ def before_all(context):
         print('\n\tusing already running SonarQube\n\n', flush=True)
         return
 
-    print('\nSetting up the test environment', flush=True)
+    print('\nSetting up the test environment ...', flush=True)
 
     sonarhome = os.environ.get('SONARHOME', None)
     if sonarhome is None:
@@ -84,6 +84,17 @@ def before_all(context):
 
     SONAR_STARTED = True
     check_logs(sonarhome)
+
+    try:
+        print(f"\nCreate 'SONAR_TOKEN' for SonarScanner ...\n", flush=True)
+        url = ('/api/user_tokens/generate')
+        payload = {'login': 'admin', 'name': 'SonarScanner', 'type': 'GLOBAL_ANALYSIS_TOKEN'}
+        response = web_api_set(url, payload)
+        token = response.json()['token']
+        os.environ['SONAR_TOKEN'] = token
+    except:
+        print(f"\tCannot create 'SONAR_TOKEN' for SonarScanner.\n", flush=True)
+        sys.exit(1)
 
     print('\n\n' + 80 * '-', flush=True)
     print('starting tests ...', flush=True)

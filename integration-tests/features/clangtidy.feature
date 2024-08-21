@@ -9,10 +9,7 @@ Feature: Importing Clang-Tidy reports
     Then the analysis finishes successfully
     And the analysis in server has completed
     And the server log (if locatable) contains no error/warning messages
-    And the analysis log contains no error/warning messages except those matching:
-      """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      """
+    And the analysis log contains no error/warning messages
     And the number of violations fed is <violations>
     Examples:
       | reportpaths | violations |
