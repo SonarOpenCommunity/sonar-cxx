@@ -30,6 +30,7 @@ import com.sonar.cxx.sslr.impl.Parser;
 import com.sonar.cxx.sslr.impl.token.TokenUtils;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -340,7 +341,7 @@ public class CxxPreprocessor extends Preprocessor {
    * its existence cannot be determined.
    */
   public boolean exists(Path fileName) {
-    return fileExists.computeIfAbsent(fileName, f -> f.toFile().isFile());
+    return fileExists.computeIfAbsent(fileName, f -> Files.isRegularFile(f));
   }
 
   private void addPredefinedMacros() {
