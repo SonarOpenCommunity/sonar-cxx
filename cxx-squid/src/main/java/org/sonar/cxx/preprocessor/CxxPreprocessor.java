@@ -340,8 +340,7 @@ public class CxxPreprocessor extends Preprocessor {
    * its existence cannot be determined.
    */
   public boolean exists(Path fileName) {
-    // File.exists has better performance as Files.exists(path)
-    return fileExists.computeIfAbsent(fileName, f -> f.toFile().exists());
+    return fileExists.computeIfAbsent(fileName, f -> f.toFile().isFile());
   }
 
   private void addPredefinedMacros() {
