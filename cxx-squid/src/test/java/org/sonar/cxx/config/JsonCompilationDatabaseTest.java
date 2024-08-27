@@ -46,6 +46,10 @@ class JsonCompilationDatabaseTest {
                                                   CxxSquidConfiguration.INCLUDE_DIRECTORIES);
     List<Path> files = squidConfig.getFiles();
 
+    var cwd = Path.of(".");
+    var absPath = cwd.resolve("TEST-argument-parser.cpp");
+    var filename = absPath.toAbsolutePath().normalize();
+
     assertThat(defines)
       .isNotEmpty()
       .doesNotContain("UNIT_DEFINE 1")
@@ -56,6 +60,8 @@ class JsonCompilationDatabaseTest {
       .contains(unifyPath("/usr/include"));
     assertThat(files)
       .hasSize(7);
+    assertThat(files)
+      .contains(filename);
   }
 
   @Test
@@ -148,7 +154,7 @@ class JsonCompilationDatabaseTest {
     jsonDb.parse(file);
 
     var cwd = Path.of(".");
-    var absPath = cwd.resolve("test-argument-parser.cpp");
+    var absPath = cwd.resolve("TEST-argument-parser.cpp");
     var filename = absPath.toAbsolutePath().normalize().toString();
 
     List<String> defines = squidConfig.getValues(filename, CxxSquidConfiguration.DEFINES);
