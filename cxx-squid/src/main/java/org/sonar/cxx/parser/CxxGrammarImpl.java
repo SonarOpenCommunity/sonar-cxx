@@ -969,7 +969,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(CxxKeyword.IF, b.optional(CxxKeyword.CONSTEXPR), "(", b.optional(initStatement), condition, ")",
                    statement, b.optional(CxxKeyword.ELSE, statement)), // C++
-        b.sequence(CxxKeyword.SWITCH, "(", b.optional(initStatement), condition, ")", statement)
+        b.sequence(CxxKeyword.IF, b.optional("!"), CxxKeyword.CONSTEVAL,
+                   compoundStatement, b.optional(CxxKeyword.ELSE, statement)), // C++23
+        b.sequence(CxxKeyword.SWITCH, "(", b.optional(initStatement), condition, ")", statement) // C++
       )
     );
 
