@@ -316,7 +316,9 @@ class PPGrammarImplTest {
   void errorLine() {
     p.setRootRule(g.rule(PPGrammarImpl.errorLine));
 
-    assertThat(p).matches("#error foo");
+    assertThat(p).matches("#error token");
+    assertThat(p).matches("#error token token");
+    assertThat(p).matches("#error \"txt\"");
     assertThat(p).matches("#error");
   }
 
@@ -331,7 +333,10 @@ class PPGrammarImplTest {
   void warningLine() {
     p.setRootRule(g.rule(PPGrammarImpl.warningLine));
 
-    assertThat(p).matches("#warning foo");
+    assertThat(p).matches("#warning token");
+    assertThat(p).matches("#warning token token");
+    assertThat(p).matches("#warning \"txt\"");
+    assertThat(p).matches("#warning");
   }
 
   @Test

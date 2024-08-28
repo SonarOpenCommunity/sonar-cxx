@@ -268,24 +268,3 @@ export-declaration:
 
 concept-definition:
    concept concept-name attribute-specifier-seqopt = constraint-expression ;
-
-**A.13 Preprocessing directives [gram.cpp]**
-
-control-line:
-   # include pp-tokens new-line
-   pp-import
-   # define identifier replacement-list new-line
-   # define identifier lparen identifier-listopt ) replacement-list new-line
-   # define identifier lparen ... ) replacement-list new-line
-   # define identifier lparen identifier-list , ... ) replacement-list new-line
-   # undef identifier new-line
-   # line pp-tokens new-line
-   # error pp-tokensopt new-line
-   # warning pp-tokensopt new-line
-   # pragma pp-tokensopt new-line
-   # new-line
-
-elif-group:
-   # elif constant-expression new-line groupopt
-   # elifdef identifier new-line groupopt
-   # elifndef identifier new-line groupopt
