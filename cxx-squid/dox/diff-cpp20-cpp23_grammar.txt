@@ -240,12 +240,6 @@ elaborated-type-specifier:
    class-key nested-name-specifier templateopt simple-template-id
    enum nested-name-specifieropt identifier
 
-parameter-declaration:
-   attribute-specifier-seqopt thisopt decl-specifier-seq declarator
-   attribute-specifier-seqopt decl-specifier-seq declarator = initializer-clause
-   attribute-specifier-seqopt thisopt decl-specifier-seq abstract-declaratoropt
-   attribute-specifier-seqopt decl-specifier-seq abstract-declaratoropt = initializer-clause
-
 using-enum-declaration:
    using enum using-enum-declarator ;
 
