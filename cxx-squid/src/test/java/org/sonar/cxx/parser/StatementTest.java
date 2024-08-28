@@ -90,7 +90,10 @@ class StatementTest extends ParserBaseTestHelper {
       // fix #2286
       .matches("if(a() < 0 || c >= 1) {}")
       .matches("if(a() < 0 || c > 1) {}")
-      .matches("if(a() < 0 || c >> 1) {}");
+      .matches("if(a() < 0 || c >> 1) {}")
+      // C++23
+      .matches("if !consteval {}")
+      .matches("if !consteval {} else ;");
   }
 
   @Test
@@ -131,6 +134,7 @@ class StatementTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.statement);
     mockRule(CxxGrammarImpl.condition);
     mockRule(CxxGrammarImpl.initStatement);
+    mockRule(CxxGrammarImpl.compoundStatement);
 
     assertThatParser()
       .matches("if ( condition ) statement")
@@ -141,6 +145,10 @@ class StatementTest extends ParserBaseTestHelper {
       .matches("if constexpr ( condition ) statement else statement")
       .matches("if ( initStatement condition ) statement else statement")
       .matches("if constexpr ( initStatement condition ) statement else statement")
+      .matches("if consteval compoundStatement")
+      .matches("if ! consteval compoundStatement")
+      .matches("if consteval compoundStatement else statement")
+      .matches("if ! consteval compoundStatement else statement")
       .matches("switch ( condition ) statement")
       .matches("switch ( initStatement condition ) statement");
   }

@@ -204,13 +204,6 @@ label-seq:
    label
    label-seq label
 
-selection-statement:
-   if constexpropt ( init-statementopt condition ) statement
-   if constexpropt ( init-statementopt condition ) statement else statement
-   if !opt consteval compound-statement
-   if !opt consteval compound-statement else statement
-   switch ( init-statementopt condition ) statement
-
 **A.7 Declarations [gram.dcl]**
 
 declaration:
