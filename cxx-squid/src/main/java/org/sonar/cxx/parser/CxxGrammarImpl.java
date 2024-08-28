@@ -1430,10 +1430,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         // sample: template<bool x=false> string f();
         b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, declarator,
                    "=", LITERAL), // syntax sugar
-        b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator,
-                   b.optional("=", initializerClause)), // C++
-        b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator),
-                   b.optional("=", initializerClause))) // C++
+        b.sequence(b.optional(attributeSpecifierSeq), b.optional(CxxKeyword.THIS), b.optional(vcAtlAttribute),
+                   parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)), // C++
+        b.sequence(b.optional(attributeSpecifierSeq), b.optional(CxxKeyword.THIS), parameterDeclSpecifierSeq,
+                   b.optional(abstractDeclarator), b.optional("=", initializerClause))) // C++
     );
 
     b.rule(parameterDeclSpecifierSeq).is( // is decl-specifier-seq
