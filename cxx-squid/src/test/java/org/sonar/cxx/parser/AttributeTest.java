@@ -46,7 +46,9 @@ class AttributeTest extends ParserBaseTestHelper {
       .matches("[[fallthrough]]")
       .matches("[[nodiscard]]")
       .matches("[[maybe_unused]]")
-      .matches("[[attr1]] [[attr2]] [[attr3]]");
+      .matches("[[attr1]] [[attr2]] [[attr3]]")
+      //C++23
+      .matches("[[assume((x - 1) * 3 == 12)]]");
   }
 
 }
