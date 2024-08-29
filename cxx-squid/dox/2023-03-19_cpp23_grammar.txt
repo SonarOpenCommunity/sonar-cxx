@@ -436,8 +436,7 @@ nested-name-specifier:
 
 lambda-expression:
    lambda-introducer attribute-specifier-seqopt lambda-declarator compound-statement
-   lambda-introducer < template-parameter-list > requires-clauseopt attribute-specifier-seqopt
-   lambda-declarator compound-statement
+   lambda-introducer < template-parameter-list > requires-clauseopt attribute-specifier-seqopt lambda-declarator compound-statement
 
 lambda-introducer:
    [ lambda-captureopt ]
@@ -446,8 +445,7 @@ lambda-declarator:
    lambda-specifier-seq noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt
    noexcept-specifier attribute-specifier-seqopt trailing-return-typeopt
    trailing-return-typeopt
-   ( parameter-declaration-clause ) lambda-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt
-   trailing-return-typeopt requires-clauseopt
+   ( parameter-declaration-clause ) lambda-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt requires-clauseopt
 
 lambda-specifier:
    consteval

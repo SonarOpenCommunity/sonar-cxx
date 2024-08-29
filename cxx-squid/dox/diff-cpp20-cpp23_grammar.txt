@@ -136,15 +136,16 @@ d-char:
 
 lambda-expression:
    lambda-introducer attribute-specifier-seqopt lambda-declarator compound-statement
-   lambda-introducer < template-parameter-list > requires-clauseopt attribute-specifier-seqopt
-   lambda-declarator compound-statement
+   lambda-introducer < template-parameter-list > requires-clauseopt attribute-specifier-seqopt lambda-declarator compound-statement
+
+lambda-introducer:
+   [ lambda-captureopt ]
 
 lambda-declarator:
    lambda-specifier-seq noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt
    noexcept-specifier attribute-specifier-seqopt trailing-return-typeopt
    trailing-return-typeopt
-   ( parameter-declaration-clause ) lambda-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt
-   trailing-return-typeopt requires-clauseopt
+   ( parameter-declaration-clause ) lambda-specifier-seqopt noexcept-specifieropt attribute-specifier-seqopt trailing-return-typeopt requires-clauseopt
 
 lambda-specifier:
    consteval
@@ -162,25 +163,6 @@ requirement-parameter-list:
 requirement-seq:
    requirement
    requirement requirement-seq
-
-postfix-expression:
-   primary-expression
-   postfix-expression [ expression-listopt ]
-   postfix-expression ( expression-listopt )
-   simple-type-specifier ( expression-listopt )
-   typename-specifier ( expression-listopt )
-   simple-type-specifier braced-init-list
-   typename-specifier braced-init-list
-   postfix-expression . templateopt id-expression
-   postfix-expression -> templateopt id-expression
-   postfix-expression ++
-   postfix-expression --
-   dynamic_cast < type-id > ( expression )
-   static_cast < type-id > ( expression )
-   reinterpret_cast < type-id > ( expression )
-   const_cast < type-id > ( expression )
-   typeid ( expression )
-   typeid ( type-id )
 
 **A.6 Statements [gram.stmt]**
 
