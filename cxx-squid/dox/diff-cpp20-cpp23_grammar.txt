@@ -184,11 +184,6 @@ postfix-expression:
 
 **A.6 Statements [gram.stmt]**
 
-init-statement:
-   expression-statement
-   simple-declaration
-   alias-declaration
-
 label:
    attribute-specifier-seqopt identifier :
    attribute-specifier-seqopt case constant-expression :

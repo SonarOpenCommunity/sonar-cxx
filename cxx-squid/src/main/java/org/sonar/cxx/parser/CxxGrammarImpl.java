@@ -928,7 +928,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(initStatement).is(
       b.firstOf(
         expressionStatement, // C++
-        simpleDeclaration // C++
+        simpleDeclaration, // C++
+        aliasDeclaration // C++23
       )
     );
 
