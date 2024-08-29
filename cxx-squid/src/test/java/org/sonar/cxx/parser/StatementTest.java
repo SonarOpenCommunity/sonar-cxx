@@ -251,7 +251,9 @@ class StatementTest extends ParserBaseTestHelper {
       // CLI extension
       .matches("for each(String^% s in arr) { s = i++.ToString(); }")
       // C++17 structered bindings
-      .matches("for (const auto&[key, val] : mymap) { std::cout << key << \": \" << val << std::endl; }");
+      .matches("for (const auto&[key, val] : mymap) { std::cout << key << \": \" << val << std::endl; }")
+      // C++23
+      .matches("for (using T = int; T e : v) ;");
   }
 
   @Test
@@ -259,7 +261,8 @@ class StatementTest extends ParserBaseTestHelper {
     setRootRule(CxxGrammarImpl.initStatement);
 
     assertThatParser()
-      .matches("int i=1;");
+      .matches("int i=1;")
+      .matches("using T = int;"); // C++23
   }
 
   @Test
