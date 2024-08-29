@@ -697,7 +697,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       ),
       b.zeroOrMore(
         b.firstOf(
-          b.sequence("[", exprOrBracedInitList, "]"), // C++
+          b.sequence("[", b.optional(expressionList), "]"), // C++23
           b.sequence("(", b.optional(expressionList), ")"), // C++
           b.sequence(
             b.firstOf(
