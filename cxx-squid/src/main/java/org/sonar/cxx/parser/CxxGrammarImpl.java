@@ -60,6 +60,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   nestedNameSpecifier,
   lambdaExpression,
   lambdaIntroducer,
+  lambdaSpecifier,
+  lambdaSpecifierSeq,
   lambdaCapture,
   captureDefault,
   captureList,
@@ -538,12 +540,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(lambdaExpression).is(
-      lambdaIntroducer, // C++
-      b.optional(
-        b.sequence("<", templateParameterList, ">", b.optional(requiresClause)) // C++
-      ),
-      b.optional(lambdaDeclarator), // C++
-      compoundStatement // C++
+      b.firstOf(
+        b.sequence(lambdaIntroducer, b.optional(attributeSpecifierSeq), lambdaDeclarator, compoundStatement), // C++
+        b.sequence(lambdaIntroducer, "<", templateParameterList, ">", b.optional(requiresClause),
+                   b.optional(attributeSpecifierSeq), lambdaDeclarator, compoundStatement // C++
+        )
+      )
     );
 
     b.rule(lambdaIntroducer).is(
@@ -551,8 +553,29 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(lambdaDeclarator).is(
-      "(", parameterDeclarationClause, ")", b.optional(declSpecifierSeq), b.optional(noexceptSpecifier),
-      b.optional(attributeSpecifierSeq), b.optional(trailingReturnType), b.optional(requiresClause) // C++
+      b.firstOf(
+        b.sequence(lambdaSpecifierSeq, b.optional(noexceptSpecifier), b.optional(attributeSpecifierSeq),
+                   b.optional(trailingReturnType)), // C++
+        b.sequence(noexceptSpecifier, b.optional(attributeSpecifierSeq),
+                   b.optional(trailingReturnType)), // C++
+        b.sequence("(", parameterDeclarationClause, ")", b.optional(lambdaSpecifierSeq),
+                   b.optional(noexceptSpecifier), b.optional(attributeSpecifierSeq), b.optional(trailingReturnType),
+                   b.optional(requiresClause)), // C++
+        b.optional(trailingReturnType) // C++
+      )
+    );
+
+    b.rule(lambdaSpecifier).is(
+      b.firstOf(
+        CxxKeyword.CONSTEVAL, // C++
+        CxxKeyword.CONSTEXPR, // C++
+        CxxKeyword.MUTABLE, // C++
+        CxxKeyword.STATIC // C++
+      )
+    );
+
+    b.rule(lambdaSpecifierSeq).is(
+      b.oneOrMore(lambdaSpecifier) // C++
     );
 
     b.rule(lambdaCapture).is(

@@ -35,12 +35,16 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.compoundStatement);
     mockRule(CxxGrammarImpl.templateParameterList);
     mockRule(CxxGrammarImpl.requiresClause);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
 
     assertThatParser()
-      .matches("lambdaIntroducer compoundStatement")
-      .matches("lambdaIntroducer < templateParameterList > compoundStatement")
-      .matches("lambdaIntroducer < templateParameterList > requiresClause compoundStatement")
-      .matches("lambdaIntroducer lambdaDeclarator compoundStatement");
+      .matches("lambdaIntroducer lambdaDeclarator compoundStatement")
+      .matches("lambdaIntroducer attributeSpecifierSeq lambdaDeclarator compoundStatement")
+      .matches("lambdaIntroducer < templateParameterList > lambdaDeclarator compoundStatement")
+      .matches("lambdaIntroducer < templateParameterList > requiresClause lambdaDeclarator compoundStatement")
+      .matches("lambdaIntroducer < templateParameterList > attributeSpecifierSeq lambdaDeclarator compoundStatement")
+      .matches(
+        "lambdaIntroducer < templateParameterList > requiresClause attributeSpecifierSeq lambdaDeclarator compoundStatement");
   }
 
   @Test
@@ -74,7 +78,12 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
       .matches("[](const auto& m) { return m.size(); }")
       .matches("[value = 1] { return value; }")
       .matches("[value = std::move(ptr)] { return *value; }")
-      .matches("[&r = x, y = x+1] { r += 2; return y+2; }");
+      .matches("[&r = x, y = x+1] { r += 2; return y+2; }")
+      // C++23
+      .matches("[] mutable { }")
+      .matches("[] static { }")
+      .matches("[][[noreturn]]() { throw; }")
+      .matches("[][[nodiscard, vendor::attr]]()->int { return 42; }");
   }
 
   @Test
@@ -185,6 +194,7 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
   void lambdaDeclarator() {
     setRootRule(CxxGrammarImpl.lambdaDeclarator);
 
+    mockRule(CxxGrammarImpl.lambdaSpecifierSeq);
     mockRule(CxxGrammarImpl.parameterDeclarationClause);
     mockRule(CxxGrammarImpl.noexceptSpecifier);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
@@ -192,32 +202,28 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.requiresClause);
 
     assertThatParser()
-      .matches("( parameterDeclarationClause ) ") // all opt out
-
-      .matches("( parameterDeclarationClause ) mutable") // mutable in
-
-      .matches("( parameterDeclarationClause ) noexceptSpecifier") // noexceptSpecifier in
-
-      .matches("( parameterDeclarationClause ) attributeSpecifierSeq") // attributeSpecifierSeq in
-
-      .matches("( parameterDeclarationClause ) trailingReturnType") // trailingReturnType in
-
-      .matches("( parameterDeclarationClause ) mutable noexceptSpecifier") // complex 1
-
-      .matches("( parameterDeclarationClause ) mutable noexceptSpecifier attributeSpecifierSeq") // complex 2
-
+      .matches("lambdaSpecifierSeq")
+      .matches("lambdaSpecifierSeq noexceptSpecifier")
+      .matches("lambdaSpecifierSeq attributeSpecifierSeq")
+      .matches("lambdaSpecifierSeq trailingReturnType")
+      .matches("lambdaSpecifierSeq noexceptSpecifier attributeSpecifierSeq")
+      .matches("lambdaSpecifierSeq noexceptSpecifier trailingReturnType")
+      .matches("lambdaSpecifierSeq attributeSpecifierSeq trailingReturnType")
+      .matches("lambdaSpecifierSeq noexceptSpecifier attributeSpecifierSeq trailingReturnType")
+      .matches("lambdaSpecifierSeq noexceptSpecifier attributeSpecifierSeq trailingReturnType")
+      .matches("noexceptSpecifier")
+      .matches("noexceptSpecifier attributeSpecifierSeq")
+      .matches("noexceptSpecifier trailingReturnType")
+      .matches("noexceptSpecifier attributeSpecifierSeq trailingReturnType")
+      .matches("( parameterDeclarationClause )")
+      .matches("( parameterDeclarationClause ) lambdaSpecifierSeq")
+      .matches("( parameterDeclarationClause ) lambdaSpecifierSeq noexceptSpecifier")
+      .matches("( parameterDeclarationClause ) lambdaSpecifierSeq noexceptSpecifier attributeSpecifierSeq")
       .matches(
-        "( parameterDeclarationClause ) mutable noexceptSpecifier attributeSpecifierSeq trailingReturnType") // complex
-      // 3
-
-      .matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq") // complex 4
-
-      .matches("( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq trailingReturnType") // complex 5
-
-      .matches("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType") // complex 6
-
+        "( parameterDeclarationClause ) lambdaSpecifierSeq noexceptSpecifier attributeSpecifierSeq trailingReturnType")
       .matches(
-        "( parameterDeclarationClause ) noexceptSpecifier attributeSpecifierSeq trailingReturnType requiresClause");
+        "( parameterDeclarationClause ) lambdaSpecifierSeq noexceptSpecifier attributeSpecifierSeq trailingReturnType requiresClause")
+      .matches("trailingReturnType");
   }
 
 }
