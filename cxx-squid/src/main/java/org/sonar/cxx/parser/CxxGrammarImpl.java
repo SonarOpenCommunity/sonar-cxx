@@ -119,7 +119,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   expressionStatement,
   compoundStatement,
   statementSeq,
+  labelSeq,
   condition,
+  label,
   selectionStatement,
   iterationStatement,
   initStatement,
@@ -963,18 +965,22 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(labeledStatement).is(
+    b.rule(label).is(
       b.firstOf(
-        b.sequence(b.optional(attributeSpecifierSeq), IDENTIFIER, ":", statement), // C++
+        b.sequence(b.optional(attributeSpecifierSeq), IDENTIFIER, ":"), // C++
         b.sequence(
           b.optional(attributeSpecifierSeq), CxxKeyword.CASE, constantExpression,
           b.firstOf(
-            b.sequence(":", statement), // C++
-            b.sequence("...", constantExpression, ":", statement) // EXTENSION: gcc's case range
+            ":", // C++
+            b.sequence("...", constantExpression, ":") // EXTENSION: gcc's case range
           )
         ),
-        b.sequence(b.optional(attributeSpecifierSeq), CxxKeyword.DEFAULT, ":", statement) // C++
+        b.sequence(b.optional(attributeSpecifierSeq), CxxKeyword.DEFAULT, ":") // C++
       )
+    );
+
+    b.rule(labeledStatement).is(
+      label, statement
     );
 
     b.rule(expressionStatement).is(
@@ -982,11 +988,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(compoundStatement).is(
-      "{", b.optional(statementSeq), "}" // C++
+      "{", b.optional(statementSeq), b.optional(labelSeq), "}" // C++
     );
 
     b.rule(statementSeq).is(
       b.oneOrMore(statement) // C++
+    );
+
+    b.rule(labelSeq).is(
+      b.oneOrMore(label) // C++
     );
 
     b.rule(selectionStatement).is(

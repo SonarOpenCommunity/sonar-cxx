@@ -141,23 +141,6 @@ requirement-seq:
    requirement
    requirement requirement-seq
 
-**A.6 Statements [gram.stmt]**
-
-label:
-   attribute-specifier-seqopt identifier :
-   attribute-specifier-seqopt case constant-expression :
-   attribute-specifier-seqopt default :
-
-labeled-statement:
-   label statement
-
-compound-statement:
-   { statement-seqopt label-seqopt }
-
-label-seq:
-   label
-   label-seq label
-
 **A.7 Declarations [gram.dcl]**
 
 declaration:
