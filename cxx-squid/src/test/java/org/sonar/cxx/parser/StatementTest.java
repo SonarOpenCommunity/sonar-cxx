@@ -97,23 +97,23 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void labeledStatement() {
-    setRootRule(CxxGrammarImpl.labeledStatement);
+  void label() {
+    setRootRule(CxxGrammarImpl.label);
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.statement);
     mockRule(CxxGrammarImpl.constantExpression);
 
     assertThatParser()
-      .matches("foo : statement")
-      .matches("attributeSpecifierSeq foo : statement")
-      .matches("case constantExpression : statement")
-      .matches("attributeSpecifierSeq case constantExpression : statement")
-      .matches("default : statement")
-      .matches("attributeSpecifierSeq default : statement")
+      .matches("foo :")
+      .matches("attributeSpecifierSeq foo :")
+      .matches("case constantExpression :")
+      .matches("attributeSpecifierSeq case constantExpression :")
+      .matches("default :")
+      .matches("attributeSpecifierSeq default :")
       // EXTENSION: gcc's case range
-      .matches("case constantExpression ... constantExpression : statement")
-      .matches("attributeSpecifierSeq case constantExpression ... constantExpression : statement");
+      .matches("case constantExpression ... constantExpression :")
+      .matches("attributeSpecifierSeq case constantExpression ... constantExpression :");
   }
 
   @Test
@@ -125,6 +125,17 @@ class StatementTest extends ParserBaseTestHelper {
     assertThatParser()
       .matches("statement")
       .matches("statement statement");
+  }
+
+  @Test
+  void labelSeq() {
+    setRootRule(CxxGrammarImpl.labelSeq);
+
+    mockRule(CxxGrammarImpl.label);
+
+    assertThatParser()
+      .matches("label")
+      .matches("label label");
   }
 
   @Test
