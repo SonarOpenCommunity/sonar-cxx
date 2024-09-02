@@ -433,7 +433,6 @@ class DeclarationsTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
-    mockRule(CxxGrammarImpl.elaboratedEnumSpecifier);
 
     assertThatParser()
       .matches("classKey foo")
@@ -443,7 +442,8 @@ class DeclarationsTest extends ParserBaseTestHelper {
       .matches("classKey simpleTemplateId")
       .matches("classKey nestedNameSpecifier simpleTemplateId")
       .matches("classKey nestedNameSpecifier template simpleTemplateId")
-      .matches("elaboratedEnumSpecifier");
+      .matches("enum foo")
+      .matches("enum nestedNameSpecifier foo");
   }
 
   @Test

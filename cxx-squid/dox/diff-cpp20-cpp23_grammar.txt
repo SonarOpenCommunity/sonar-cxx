@@ -131,32 +131,3 @@ d-char:
    any member of the basic character set except:
    u+0020 space, u+0028 left parenthesis, u+0029 right parenthesis, u+005c reverse solidus,
    u+0009 character tabulation, u+000b line tabulation, u+000c form feed, and new-line
-
-**A.5 Expressions [gram.expr]**
-
-requirement-parameter-list:
-   ( parameter-declaration-clause )
-
-requirement-seq:
-   requirement
-   requirement requirement-seq
-
-**A.7 Declarations [gram.dcl]**
-
-elaborated-type-specifier:
-   class-key attribute-specifier-seqopt nested-name-specifieropt identifier
-   class-key simple-template-id
-   class-key nested-name-specifier templateopt simple-template-id
-   enum nested-name-specifieropt identifier
-
-using-enum-declaration:
-   using enum using-enum-declarator ;
-
-using-enum-declarator:
-   nested-name-specifieropt identifier
-   nested-name-specifieropt simple-template-id
-
-**A.11 Templates [gram.temp]**
-
-concept-definition:
-   concept concept-name attribute-specifier-seqopt = constraint-expression ;
