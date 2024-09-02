@@ -87,7 +87,6 @@ class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.parameterDeclarationClause);
 
     assertThatParser()
-      .matches("( )")
       .matches("( parameterDeclarationClause )");
   }
 

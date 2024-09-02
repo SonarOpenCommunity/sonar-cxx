@@ -164,7 +164,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   decltypeSpecifier,
   placeholderTypeSpecifier,
   elaboratedTypeSpecifier,
-  elaboratedEnumSpecifier,
   enumName,
   enumSpecifier,
   enumHead,
@@ -176,6 +175,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   enumeratorDefinition,
   enumerator,
   usingEnumDeclaration,
+  usingEnumDeclarator,
   namespaceName,
   namespaceDefinition,
   namedNamespaceDefinition,
@@ -649,7 +649,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(requirementParameterList).is(
-      "(", b.optional(parameterDeclarationClause), ")" // C++
+      "(", parameterDeclarationClause, ")" // C++
     );
 
     b.rule(requirementBody).is(
@@ -1290,12 +1290,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(b.optional(attributeSpecifierSeq), b.optional(nestedNameSpecifier), IDENTIFIER) // C++
           )
         ),
-        elaboratedEnumSpecifier // C++
+        b.sequence(CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER) // C++
       )
-    );
-
-    b.rule(elaboratedEnumSpecifier).is(
-      CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER // C++
     );
 
     b.rule(decltypeSpecifier).is(
@@ -1632,7 +1628,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(usingEnumDeclaration).is(
-      CxxKeyword.USING, elaboratedEnumSpecifier, ";"
+      CxxKeyword.USING, CxxKeyword.ENUM, usingEnumDeclarator, ";"
+    );
+
+    b.rule(usingEnumDeclarator).is(
+      b.optional(nestedNameSpecifier),
+      b.firstOf(
+        IDENTIFIER,
+        simpleTemplateId
+      )
     );
 
     b.rule(namespaceName).is(
@@ -2306,7 +2310,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(conceptDefinition).is(
-      CxxKeyword.CONCEPT, conceptName, "=", constraintExpression, ";" // C++
+      CxxKeyword.CONCEPT, conceptName, b.optional(attributeSpecifierSeq), "=", constraintExpression, ";" // C++
     );
 
     b.rule(conceptName).is(
