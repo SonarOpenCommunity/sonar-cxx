@@ -117,12 +117,12 @@ class ModuleTest extends ParserBaseTestHelper {
   void exportDeclaration() {
     setRootRule(CxxGrammarImpl.exportDeclaration);
 
-    mockRule(CxxGrammarImpl.declaration);
+    mockRule(CxxGrammarImpl.nameDeclaration);
     mockRule(CxxGrammarImpl.declarationSeq);
     mockRule(CxxGrammarImpl.moduleImportDeclaration);
 
     assertThatParser()
-      .matches("export declaration")
+      .matches("export nameDeclaration")
       .matches("export { }")
       .matches("export { declarationSeq }")
       .matches("export moduleImportDeclaration");

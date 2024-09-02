@@ -38,19 +38,27 @@ class DeclarationsTest extends ParserBaseTestHelper {
   void declaration() {
     setRootRule(CxxGrammarImpl.declaration);
 
+    mockRule(CxxGrammarImpl.nameDeclaration);
+    mockRule(CxxGrammarImpl.specialDeclaration);
+
+    assertThatParser()
+      .matches("nameDeclaration")
+      .matches("specialDeclaration");
+  }
+
+  @Test
+  void nameDeclaration() {
+    setRootRule(CxxGrammarImpl.nameDeclaration);
+
     mockRule(CxxGrammarImpl.blockDeclaration);
     mockRule(CxxGrammarImpl.nodeclspecFunctionDeclaration);
     mockRule(CxxGrammarImpl.functionDefinition);
     mockRule(CxxGrammarImpl.templateDeclaration);
     mockRule(CxxGrammarImpl.deductionGuide);
-    mockRule(CxxGrammarImpl.cliGenericDeclaration);
-    mockRule(CxxGrammarImpl.explicitInstantiation);
-    mockRule(CxxGrammarImpl.explicitSpecialization);
     mockRule(CxxGrammarImpl.linkageSpecification);
     mockRule(CxxGrammarImpl.namespaceDefinition);
     mockRule(CxxGrammarImpl.emptyDeclaration);
     mockRule(CxxGrammarImpl.attributeDeclaration);
-    mockRule(CxxGrammarImpl.vcAtlDeclaration);
 
     assertThatParser()
       .matches("blockDeclaration")
@@ -58,13 +66,27 @@ class DeclarationsTest extends ParserBaseTestHelper {
       .matches("functionDefinition")
       .matches("templateDeclaration")
       .matches("deductionGuide")
-      .matches("cliGenericDeclaration")
-      .matches("explicitInstantiation")
-      .matches("explicitSpecialization")
       .matches("linkageSpecification")
       .matches("namespaceDefinition")
       .matches("emptyDeclaration")
-      .matches("attributeDeclaration")
+      .matches("attributeDeclaration");
+  }
+
+  @Test
+  void specialDeclaration() {
+    setRootRule(CxxGrammarImpl.specialDeclaration);
+
+    mockRule(CxxGrammarImpl.cliGenericDeclaration);
+    mockRule(CxxGrammarImpl.explicitInstantiation);
+    mockRule(CxxGrammarImpl.explicitSpecialization);
+    mockRule(CxxGrammarImpl.exportDeclaration);
+    mockRule(CxxGrammarImpl.vcAtlDeclaration);
+
+    assertThatParser()
+      .matches("cliGenericDeclaration")
+      .matches("explicitInstantiation")
+      .matches("explicitSpecialization")
+      .matches("exportDeclaration")
       .matches("vcAtlDeclaration");
   }
 
@@ -650,12 +672,12 @@ class DeclarationsTest extends ParserBaseTestHelper {
   void linkageSpecification() {
     setRootRule(CxxGrammarImpl.linkageSpecification);
 
-    mockRule(CxxGrammarImpl.declaration);
+    mockRule(CxxGrammarImpl.nameDeclaration);
     mockRule(CxxGrammarImpl.declarationSeq);
 
     assertThatParser()
       .matches("extern \"foo\" { declarationSeq }")
-      .matches("extern \"foo\" declaration");
+      .matches("extern \"foo\" nameDeclaration");
   }
 
   @Test

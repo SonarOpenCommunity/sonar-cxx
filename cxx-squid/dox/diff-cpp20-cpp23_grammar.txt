@@ -143,27 +143,6 @@ requirement-seq:
 
 **A.7 Declarations [gram.dcl]**
 
-declaration:
-   name-declaration
-   special-declaration
-
-name-declaration:
-   block-declaration
-   nodeclspec-function-declaration
-   function-definition
-   template-declaration
-   deduction-guide
-   linkage-specification
-   namespace-definition
-   empty-declaration
-   attribute-declaration
-   module-import-declaration
-
-special-declaration:
-   explicit-instantiation
-   explicit-specialization
-   export-declaration
-
 elaborated-type-specifier:
    class-key attribute-specifier-seqopt nested-name-specifieropt identifier
    class-key simple-template-id
@@ -176,17 +155,6 @@ using-enum-declaration:
 using-enum-declarator:
    nested-name-specifieropt identifier
    nested-name-specifieropt simple-template-id
-
-linkage-specification:
-   extern string-literal { declaration-seqopt }
-   extern string-literal name-declaration
-
-**A.8 Modules [gram.module]**
-
-export-declaration:
-   export name-declaration
-   export { declaration-seqopt }
-   export-keyword module-import-declaration
 
 **A.11 Templates [gram.temp]**
 

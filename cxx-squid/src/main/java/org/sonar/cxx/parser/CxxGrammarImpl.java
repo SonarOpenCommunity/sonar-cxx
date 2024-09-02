@@ -133,6 +133,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   // Declarations
   declarationSeq,
   declaration,
+  nameDeclaration,
+  specialDeclaration,
   blockDeclaration,
   nodeclspecFunctionDeclaration,
   aliasDeclaration,
@@ -1080,6 +1082,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(declaration).is(
       b.firstOf(
+        nameDeclaration,
+        specialDeclaration
+      )
+    );
+
+    b.rule(nameDeclaration).is(
+      b.firstOf(
         // identifiers with special meaning: import and module => must be placed before rules that start with an identifier!
         moduleImportDeclaration, // C++ import ...
 
@@ -1088,15 +1097,19 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         functionDefinition, // C++
         templateDeclaration, // C++
         deductionGuide, // C++
+        linkageSpecification, // C++
+        namespaceDefinition, // C++
+        emptyDeclaration, // C++
+        attributeDeclaration // C++
+      )
+    );
+
+    b.rule(specialDeclaration).is(
+      b.firstOf(
         cliGenericDeclaration, // C++/CLI
         explicitInstantiation, // C++
         explicitSpecialization, // C++
         exportDeclaration, // C++
-        linkageSpecification, // C++
-        namespaceDefinition, // C++
-        emptyDeclaration, // C++
-        attributeDeclaration, // C++
-
         vcAtlDeclaration // Attributted-ATL
       )
     );
@@ -1713,7 +1726,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       CxxKeyword.EXTERN, STRING,
       b.firstOf(
         b.sequence("{", b.optional(declarationSeq), "}"), // C++
-        declaration // C++
+        nameDeclaration // C++
       )
     );
 
@@ -1807,7 +1820,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(exportDeclaration).is( // C++
       "export",
       b.firstOf(
-        declaration,
+        nameDeclaration,
         b.sequence("{", b.optional(declarationSeq), "}"),
         moduleImportDeclaration
       )
