@@ -54,17 +54,6 @@ identifier-continue:
    nondigit
    an element of the translation character set with the Unicode property XID_Continue
 
-integer-suffix:
-   unsigned-suffix long-suffixopt
-   unsigned-suffix long-long-suffixopt
-   unsigned-suffix size-suffixopt
-   long-suffix unsigned-suffixopt
-   long-long-suffix unsigned-suffixopt
-   size-suffix unsigned-suffixopt
-
-size-suffix: one of
-   z Z
-
 c-char:
    basic-c-char
    escape-sequence

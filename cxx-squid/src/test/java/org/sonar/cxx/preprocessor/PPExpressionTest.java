@@ -75,9 +75,22 @@ class PPExpressionTest {
     assertThat(evaluate("0xffffffffffffffffui64")).isTrue();
     assertThat(evaluate("0xffffffffffffffffi64")).isTrue();
     assertThat(evaluate("0x7FFFFFL")).isTrue();
+    assertThat(evaluate("1z")).isTrue();
+    assertThat(evaluate("1ZU")).isTrue();
+    assertThat(evaluate("0x1z")).isTrue();
+    assertThat(evaluate("0x1ZU")).isTrue();
+    assertThat(evaluate("0b1z")).isTrue();
+    assertThat(evaluate("0b1ZU")).isTrue();
 
     assertThat(evaluate("0")).isFalse();
     assertThat(evaluate("0x0")).isFalse();
+    assertThat(evaluate("0b0")).isFalse();
+    assertThat(evaluate("0z")).isFalse();
+    assertThat(evaluate("0ZU")).isFalse();
+    assertThat(evaluate("0x0z")).isFalse();
+    assertThat(evaluate("0x0ZU")).isFalse();
+    assertThat(evaluate("0b0z")).isFalse();
+    assertThat(evaluate("0b0ZU")).isFalse();
   }
 
   @Test
