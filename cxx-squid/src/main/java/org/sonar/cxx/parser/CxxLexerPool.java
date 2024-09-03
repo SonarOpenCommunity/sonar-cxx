@@ -50,7 +50,7 @@ public final class CxxLexerPool {
   private static final String BIN_PREFIX = "0[bB]";
   private static final String EXPONENT = "[Ee][+-]?+[0-9_]([']?+[0-9_]++)*+";
   private static final String BINARY_EXPONENT = "[pP][+-]?+\\d([']?+\\d++)*+"; // since C++17
-  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";
+  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?)|((z|Z)(u|U)))";
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String UD_SUFFIX = "[_a-zA-Z]\\w*+";

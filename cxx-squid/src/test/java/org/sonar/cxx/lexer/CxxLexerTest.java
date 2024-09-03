@@ -132,7 +132,14 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("7LLU").tokenValue("7LLU").tokenType(CxxTokenType.NUMBER).build(),
       // With Microsoft specific 64-bit integer-suffix: i64
       LiteralValuesBuilder.builder("7i64").tokenValue("7i64").tokenType(CxxTokenType.NUMBER).build(),
-      LiteralValuesBuilder.builder("7ui64").tokenValue("7ui64").tokenType(CxxTokenType.NUMBER).build()
+      LiteralValuesBuilder.builder("7ui64").tokenValue("7ui64").tokenType(CxxTokenType.NUMBER).build(),
+      // C++23
+      LiteralValuesBuilder.builder("7z").tokenValue("7z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7uz").tokenValue("7uz").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7zu").tokenValue("7zu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7Z").tokenValue("7Z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7UZ").tokenValue("7UZ").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("7ZU").tokenValue("7ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
     values.forEach(value
@@ -179,7 +186,14 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("07LLU").tokenValue("07LLU").tokenType(CxxTokenType.NUMBER).build(),
       // With Microsoft specific 64-bit integer-suffix: i64
       LiteralValuesBuilder.builder("07i64").tokenValue("07i64").tokenType(CxxTokenType.NUMBER).build(),
-      LiteralValuesBuilder.builder("07ui64").tokenValue("07ui64").tokenType(CxxTokenType.NUMBER).build()
+      LiteralValuesBuilder.builder("07ui64").tokenValue("07ui64").tokenType(CxxTokenType.NUMBER).build(),
+      // C++23
+      LiteralValuesBuilder.builder("07z").tokenValue("07z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07uz").tokenValue("07uz").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07zu").tokenValue("07zu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07Z").tokenValue("07Z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07UZ").tokenValue("07UZ").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("07ZU").tokenValue("07ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
     values.forEach(value
@@ -226,7 +240,14 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("0x7LLU").tokenValue("0x7LLU").tokenType(CxxTokenType.NUMBER).build(),
       // With Microsoft specific 64-bit integer-suffix: i64
       LiteralValuesBuilder.builder("0x7i64").tokenValue("0x7i64").tokenType(CxxTokenType.NUMBER).build(),
-      LiteralValuesBuilder.builder("0x7ui64").tokenValue("0x7ui64").tokenType(CxxTokenType.NUMBER).build()
+      LiteralValuesBuilder.builder("0x7ui64").tokenValue("0x7ui64").tokenType(CxxTokenType.NUMBER).build(),
+      // C++23
+      LiteralValuesBuilder.builder("0x7z").tokenValue("0x7z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7uz").tokenValue("0x7uz").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7zu").tokenValue("0x7zu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7Z").tokenValue("0x7Z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7UZ").tokenValue("0x7UZ").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0x7ZU").tokenValue("0x7ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
     values.forEach(value
@@ -243,7 +264,14 @@ class CxxLexerTest {
       // bin integer
       LiteralValuesBuilder.builder("0b0").tokenValue("0b0").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0B1").tokenValue("0B1").tokenType(CxxTokenType.NUMBER).build(),
-      LiteralValuesBuilder.builder("0b10101001").tokenValue("0b10101001").tokenType(CxxTokenType.NUMBER).build()
+      LiteralValuesBuilder.builder("0b10101001").tokenValue("0b10101001").tokenType(CxxTokenType.NUMBER).build(),
+      // C++23
+      LiteralValuesBuilder.builder("0b1z").tokenValue("0b1z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0b1uz").tokenValue("0b1uz").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0b1zu").tokenValue("0b1zu").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0b1Z").tokenValue("0b1Z").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0b1UZ").tokenValue("0b1UZ").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("0b1ZU").tokenValue("0b1ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
     values.forEach(value
