@@ -81,6 +81,21 @@ class PPExpressionTest {
     assertThat(evaluate("0x1ZU")).isTrue();
     assertThat(evaluate("0b1z")).isTrue();
     assertThat(evaluate("0b1ZU")).isTrue();
+    assertThat(evaluate("1.")).isTrue();
+    assertThat(evaluate("1.f")).isTrue();
+    assertThat(evaluate("1.F")).isTrue();
+    assertThat(evaluate("1.l")).isTrue();
+    assertThat(evaluate("1.L")).isTrue();
+    assertThat(evaluate("1.f16")).isTrue();
+    assertThat(evaluate("1.f32")).isTrue();
+    assertThat(evaluate("1.f64")).isTrue();
+    assertThat(evaluate("1.f128")).isTrue();
+    assertThat(evaluate("1.bf16")).isTrue();
+    assertThat(evaluate("1.F16")).isTrue();
+    assertThat(evaluate("1.F32")).isTrue();
+    assertThat(evaluate("1.F64")).isTrue();
+    assertThat(evaluate("1.F128")).isTrue();
+    assertThat(evaluate("1.BF16")).isTrue();
 
     assertThat(evaluate("0")).isFalse();
     assertThat(evaluate("0x0")).isFalse();
@@ -91,6 +106,21 @@ class PPExpressionTest {
     assertThat(evaluate("0x0ZU")).isFalse();
     assertThat(evaluate("0b0z")).isFalse();
     assertThat(evaluate("0b0ZU")).isFalse();
+    assertThat(evaluate("0.")).isFalse();
+    assertThat(evaluate("0.f")).isFalse();
+    assertThat(evaluate("0.F")).isFalse();
+    assertThat(evaluate("0.l")).isFalse();
+    assertThat(evaluate("0.L")).isFalse();
+    assertThat(evaluate("0.f16")).isFalse();
+    assertThat(evaluate("0.f32")).isFalse();
+    assertThat(evaluate("0.f64")).isFalse();
+    assertThat(evaluate("0.f128")).isFalse();
+    assertThat(evaluate("0.bf16")).isFalse();
+    assertThat(evaluate("0.F16")).isFalse();
+    assertThat(evaluate("0.F32")).isFalse();
+    assertThat(evaluate("0.F64")).isFalse();
+    assertThat(evaluate("0.F128")).isFalse();
+    assertThat(evaluate("0.BF16")).isFalse();
   }
 
   @Test

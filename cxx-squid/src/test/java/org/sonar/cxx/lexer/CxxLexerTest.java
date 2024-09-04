@@ -414,13 +414,24 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("3.14e-10L").tokenValue("3.14e-10L").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("3.14E-10L").tokenValue("3.14E-10L").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0e0L").tokenValue("0e0L").tokenType(CxxTokenType.NUMBER).build(),
-      // c++17: hexadecimal floating literals
+      // C++17: hexadecimal floating literals
       LiteralValuesBuilder.builder("0x1ffp10").tokenValue("0x1ffp10").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0X0p-1").tokenValue("0X0p-1").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0x1.p0").tokenValue("0x1.p0").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0xf.p-1").tokenValue("0xf.p-1").tokenType(CxxTokenType.NUMBER).build(),
       LiteralValuesBuilder.builder("0x0.123p-1").tokenValue("0x0.123p-1").tokenType(CxxTokenType.NUMBER).build(),
-      LiteralValuesBuilder.builder("0xa.bp10l").tokenValue("0xa.bp10l").tokenType(CxxTokenType.NUMBER).build()
+      LiteralValuesBuilder.builder("0xa.bp10l").tokenValue("0xa.bp10l").tokenType(CxxTokenType.NUMBER).build(),
+      // C++23
+      LiteralValuesBuilder.builder("1.f16").tokenValue("1.f16").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.f32").tokenValue("1.f32").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.f64").tokenValue("1.f64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.f128").tokenValue("1.f128").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.bf16").tokenValue("1.bf16").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.F16").tokenValue("1.F16").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.F32").tokenValue("1.F32").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.F64").tokenValue("1.F64").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.F128").tokenValue("1.F128").tokenType(CxxTokenType.NUMBER).build(),
+      LiteralValuesBuilder.builder("1.BF16").tokenValue("1.BF16").tokenType(CxxTokenType.NUMBER).build()
     ));
 
     values.forEach(value
