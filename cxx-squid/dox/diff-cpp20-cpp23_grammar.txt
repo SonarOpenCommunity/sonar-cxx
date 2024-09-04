@@ -99,9 +99,6 @@ conditional-escape-sequence-char:
    any member of the basic character set that is not an octal-digit, a simple-escape-sequence-char, or the
    characters N, o, u, U, or x
 
-floating-point-suffix: one of
-   f l f16 f32 f64 f128 bf16 F L F16 F32 F64 F128 BF16
-
 s-char:
    basic-s-char
 
