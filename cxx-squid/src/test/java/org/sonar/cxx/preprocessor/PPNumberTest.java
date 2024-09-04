@@ -59,22 +59,34 @@ class PPNumberTest {
     assertThat(PPNumber.decodeCharacter("1")).isEqualTo(BigInteger.valueOf('1'));
     assertThat(PPNumber.decodeCharacter("A")).isEqualTo(BigInteger.valueOf('A'));
 
-    assertThat(PPNumber.decodeCharacter("\\t")).isEqualTo(BigInteger.valueOf('\t'));
-    assertThat(PPNumber.decodeCharacter("\\b")).isEqualTo(BigInteger.valueOf('\b'));
-    assertThat(PPNumber.decodeCharacter("\\n")).isEqualTo(BigInteger.valueOf('\n'));
-    assertThat(PPNumber.decodeCharacter("\\r")).isEqualTo(BigInteger.valueOf('\r'));
-    assertThat(PPNumber.decodeCharacter("\\f")).isEqualTo(BigInteger.valueOf('\f'));
+    // simple escape sequences
     assertThat(PPNumber.decodeCharacter("\\'")).isEqualTo(BigInteger.valueOf('\''));
     assertThat(PPNumber.decodeCharacter("\\\"")).isEqualTo(BigInteger.valueOf('\"'));
+    assertThat(PPNumber.decodeCharacter("\\?")).isEqualTo(BigInteger.valueOf(0x3f)); // \?
     assertThat(PPNumber.decodeCharacter("\\\\")).isEqualTo(BigInteger.valueOf('\\'));
+    assertThat(PPNumber.decodeCharacter("\\a")).isEqualTo(BigInteger.valueOf(0x07)); // \a
+    assertThat(PPNumber.decodeCharacter("\\b")).isEqualTo(BigInteger.valueOf('\b'));
+    assertThat(PPNumber.decodeCharacter("\\f")).isEqualTo(BigInteger.valueOf('\f'));
+    assertThat(PPNumber.decodeCharacter("\\n")).isEqualTo(BigInteger.valueOf('\n'));
+    assertThat(PPNumber.decodeCharacter("\\r")).isEqualTo(BigInteger.valueOf('\r'));
+    assertThat(PPNumber.decodeCharacter("\\t")).isEqualTo(BigInteger.valueOf('\t'));
+    assertThat(PPNumber.decodeCharacter("\\v")).isEqualTo(BigInteger.valueOf(0x0b)); // \v
 
+    // numeric escape sequences
     assertThat(PPNumber.decodeCharacter("\\0")).isEqualTo(BigInteger.valueOf(0));
-    assertThat(PPNumber.decodeCharacter("\\1")).isEqualTo(BigInteger.valueOf(1));
-
+    assertThat(PPNumber.decodeCharacter("\\123")).isEqualTo(BigInteger.valueOf(83));
+    assertThat(PPNumber.decodeCharacter("\\o{123}")).isEqualTo(BigInteger.valueOf(83));
     assertThat(PPNumber.decodeCharacter("\\x00")).isEqualTo(BigInteger.valueOf(0));
-    assertThat(PPNumber.decodeCharacter("\\x01")).isEqualTo(BigInteger.valueOf(1));
-    assertThat(PPNumber.decodeCharacter("\\X00")).isEqualTo(BigInteger.valueOf(0));
-    assertThat(PPNumber.decodeCharacter("\\X01")).isEqualTo(BigInteger.valueOf(1));
+    assertThat(PPNumber.decodeCharacter("\\x0f")).isEqualTo(BigInteger.valueOf(15));
+    assertThat(PPNumber.decodeCharacter("\\x{FF}")).isEqualTo(BigInteger.valueOf(255));
+
+    // universal character names
+    assertThat(PPNumber.decodeCharacter("\\u12345")).isEqualTo(BigInteger.valueOf(0x1234));
+    assertThat(PPNumber.decodeCharacter("\\U123456789")).isEqualTo(BigInteger.valueOf(0x12345678));
+    assertThat(PPNumber.decodeCharacter("\\u{1234}")).isEqualTo(BigInteger.valueOf(0x1234));
+    assertThat(PPNumber.decodeCharacter("\\N{NULL}")).isEqualTo(BigInteger.valueOf(0));
+    assertThat(PPNumber.decodeCharacter("\\N{NUL}")).isEqualTo(BigInteger.valueOf(0));
+    assertThat(PPNumber.decodeCharacter("\\N{NEW LINE}")).isEqualTo(BigInteger.valueOf(1));
   }
 
 }
