@@ -23,7 +23,6 @@ import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.impl.Lexer;
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,9 +55,76 @@ class CxxLexerTest {
   }
 
   /**
+   * C++ Standard, line splicing
+   */
+  @Test
+  void line_splicing() {
+    var softly = new SoftAssertions();
+
+    softly.assertThat(lexer.lex(""
+    )).as("empty file").allSatisfy(token
+      -> assertThat(token).isValue("EOF").isLine(1));
+    softly.assertThat(lexer.lex("\\\n"
+    )).as("empty file with line splicing").allSatisfy(token
+      -> assertThat(token).isValue("EOF").isLine(2));
+    softly.assertThat(lexer.lex("\\   \t   \n"
+    )).as("empty file with line splicing and whitespaces").allSatisfy(token
+      -> assertThat(token).isValue("EOF").isLine(2));
+
+    softly.assertThat(lexer.lex("//a\\\n"
+                                  + "b\n")).as("comment c++: line splicing").anySatisfy(token
+      -> assertThat(token).hasTrivia().isTrivia("//ab").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/\\\n"
+                                  + "/ab\n")).as("comment c++: line splicing").anySatisfy(token
+      -> assertThat(token).hasTrivia().isTrivia("//ab").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/\\   \t   \n"
+                                  + "/ab\n")).as("comment c++: line splicing").anySatisfy(token
+      -> assertThat(token).hasTrivia().isTrivia("//ab").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("int main() {\n"
+                                  + "int i = 1\n"
+                                  + "// \\\n" // line splicing
+                                  + "+ 42\n"
+                                  + ";\n"
+                                  + "return i;\n"
+                                  + "}\n")).as("comment c++: line splicing").anySatisfy(token
+      -> assertThat(token).hasTrivia().isTrivia("// + 42").isComment().isTriviaLine(3));
+    softly.assertThat(lexer.lex("int main() {\n"
+                                  + "int i = 1\n"
+                                  + "// \\   \t   \n" // line splicing with whitespaces
+                                  + "+ 42\n"
+                                  + ";\n"
+                                  + "return i;\n"
+                                  + "}\n")).as("comment c++: line splicing with whitespaces").anySatisfy(token
+      -> assertThat(token).hasTrivia().isTrivia("// + 42").isComment().isTriviaLine(3));
+
+    softly.assertThat(lexer.lex("/\\\n" // line splicing
+                                  + "**\\\n" // line splicing
+                                  + "/")).as("comment c: line splicing").anySatisfy(token
+      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
+    softly.assertThat(lexer.lex("/\\   \t   \n" // line splicing with whitespaces
+                                  + "**\\   \t   \n" // line splicing with whitespaces
+                                  + "/")).as("comment c: line splicing with whitespaces").anySatisfy(token
+      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
+
+    softly.assertThat(lexer.lex("/\\\n"
+                                  + "*\n"
+                                  + "*/ # /*\n"
+                                  + "*/ defi\\\n"
+                                  + "ne FO\\\n"
+                                  + "O 10\\\n"
+                                  + "20\n")).as("preprocessor directive with line splicing").anySatisfy(token
+      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("#  define FOO 1020").isTriviaLine(3));
+    softly.assertAll();
+
+    softly.assertThat(lexer.lex("\"str\\\n"
+                                  + "i\\\n"
+                                  + "ng\"")).as("string with line splicing").anySatisfy(token
+      -> assertThat(token).isValue("\"string\"").hasType(CxxTokenType.STRING).isLine(1));
+    softly.assertAll();
+  }
+
+  /**
    * C++ Standard, Section 2.8 "Comments"
-   *
-   * @throws URISyntaxException
    */
   @Test
   void comments_cxx() {
@@ -85,7 +151,7 @@ class CxxLexerTest {
     softly.assertThat(lexer.lex("/* My comment */")).as("comment c: simple").anySatisfy(token
       -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/* My comment */").isComment().isTriviaLine(1));
     softly.assertThat(lexer.lex("/*\\\n*/")).as("comment c: with newline").anySatisfy(token
-      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/*\\\n*/").isComment().isTriviaLine(1));
+      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
     softly.assertThat(lexer.lex("/*//*/")).as("comment c: nested").anySatisfy(token
       -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/*//*/").isComment().isTriviaLine(1));
     softly.assertThat(lexer.lex("/* /* */")).as("comment c: nested2").anySatisfy(token

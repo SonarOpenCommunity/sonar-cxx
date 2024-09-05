@@ -42,6 +42,13 @@ class CodeBufferTest {
   }
 
   @Test
+  void testSkip() {
+    var code = new CodeBuffer("1234", defaulConfiguration);
+    assertThat((char) code.skip(2)).isEqualTo('3');
+    assertThat(code.skip(2)).isEqualTo(-1);
+  }
+
+  @Test
   void testPeek() {
     var code = new CodeBuffer("pa", defaulConfiguration);
     assertThat((char) code.peek()).isEqualTo('p');

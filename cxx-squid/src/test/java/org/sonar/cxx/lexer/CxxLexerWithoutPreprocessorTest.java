@@ -66,7 +66,7 @@ class CxxLexerWithoutPreprocessorTest {
   @Test
   void preprocessor_continued_define() {
     assertThat(lexer.lex("#define M\\\n"
-                           + "0")).anySatisfy(token -> assertThat(token).isValue("#define M 0").hasType(
+                           + "0")).anySatisfy(token -> assertThat(token).isValue("#define M0").hasType(
       CxxTokenType.PREPROCESSOR));
   }
 
