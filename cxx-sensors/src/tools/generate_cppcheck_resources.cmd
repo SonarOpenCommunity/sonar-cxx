@@ -5,7 +5,13 @@ SET SCRIPT_DIR=%~dp0
 SET CPPCHECK_DIR=C:\Program Files\Cppcheck\
 SET PYTHON_DIR=C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_64\
 
-SET CPPCHECK_LIBRARY_ARGS=--library=avr.cfg --library=bento4.cfg --library=boost.cfg --library=bsd.cfg --library=cairo.cfg --library=cppcheck-lib.cfg --library=cppunit.cfg --library=dpdk.cfg --library=embedded_sql.cfg --library=emscripten.cfg --library=ginac.cfg --library=gnu.cfg --library=googletest.cfg --library=gtk.cfg --library=icu.cfg --library=kde.cfg --library=libcerror.cfg --library=libcurl.cfg --library=libsigc++.cfg --library=lua.cfg --library=mfc.cfg --library=microsoft_atl.cfg --library=microsoft_sal.cfg --library=microsoft_unittest.cfg --library=motif.cfg --library=nspr.cfg --library=ntl.cfg --library=opencv2.cfg --library=opengl.cfg --library=openmp.cfg --library=openssl.cfg --library=pcre.cfg --library=posix.cfg --library=python.cfg --library=qt.cfg --library=ruby.cfg --library=sdl.cfg --library=sfml.cfg --library=sqlite3.cfg --library=std.cfg --library=tinyxml2.cfg --library=vcl.cfg --library=windows.cfg --library=wxsqlite3.cfg --library=wxsvg.cfg --library=wxwidgets.cfg --library=zlib.cfg
+setlocal ENABLEDELAYEDEXPANSION
+
+SET CPPCHECK_LIBRARY_ARGS=
+
+for %%i in ("%CPPCHECK_DIR%cfg\*.cfg") do (
+     SET CPPCHECK_LIBRARY_ARGS=!CPPCHECK_LIBRARY_ARGS! "--library=%%~nxi"
+)
 
 rem download cwec_latest.xml.zip and extract it to unzip cwec_vx.y.xml
 rem wget https://cwe.mitre.org/data/xml/cwec_latest.xml.zip --output-document=cwec_latest.xml.zip && unzip -j -o cwec_latest.xml.zip
