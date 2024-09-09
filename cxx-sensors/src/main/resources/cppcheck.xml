@@ -8111,6 +8111,20 @@ Pointer arithmetic overflow.
     <remediationFunction>CONSTANT_ISSUE</remediationFunction>
     <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
     </rule>  
+  <!-- ########### New in Cppcheck 2.15.0 ########### -->
+  <rule>
+    <key>suspiciousFloatingPointCast</key>
+    <name>Floating-point cast causes loss of precision</name>
+    <description><![CDATA[
+        <p>
+  If this cast is not intentional, remove it to avoid loss of precision
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    </rule>
   <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->
   <rule>
     <key>internalAstError</key>
