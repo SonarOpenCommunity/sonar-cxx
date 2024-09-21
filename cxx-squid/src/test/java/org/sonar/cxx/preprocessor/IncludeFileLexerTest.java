@@ -44,8 +44,10 @@ class IncludeFileLexerTest {
 
   @Test
   void continued_lines_are_handled_correctly() {
-    List<Token> tokens = LEXER.lex("#define\\\nname");
-    assertThat(hasToken("#define name", CxxTokenType.PREPROCESSOR)
+    List<Token> tokens = LEXER.lex("#define \\\n"
+                                     + "name \\\n"
+                                     + "10");
+    assertThat(hasToken("#define name 10", CxxTokenType.PREPROCESSOR)
       .matches(tokens)).isTrue();
     assertThat(tokens).hasSize(2);
   }
