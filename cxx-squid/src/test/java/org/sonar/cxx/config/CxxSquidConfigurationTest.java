@@ -288,8 +288,8 @@ class CxxSquidConfigurationTest {
     squidConfig.add("C:\\X\\Y\\Z.cpp", "key4", "value4");
     Optional<String> value1 = squidConfig.get("/a/b/c.cpp", "key1");
     Optional<String> value2 = squidConfig.get("c:\\a\\b\\c.cpp", "key2");
-    Optional<String> value3 = squidConfig.get("/x/y/z.cpp", "key3");
-    Optional<String> value4 = squidConfig.get("c:/x/y/z.cpp", "key4");
+    Optional<String> value3 = squidConfig.get("/X/Y/Z.cpp", "key3");
+    Optional<String> value4 = squidConfig.get("C:/X/Y/Z.cpp", "key4");
 
     var softly = new SoftAssertions();
     softly.assertThat(value1).isNotEmpty();

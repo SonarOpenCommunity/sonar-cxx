@@ -20,7 +20,10 @@
 package org.sonar.cxx.preprocessor;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import org.sonar.api.internal.apachecommons.lang.StringUtils;
 
 /**
  * Helper class to evaluate preprocessor numbers.
@@ -28,6 +31,7 @@ import java.util.HashMap;
 final class PPNumber {
 
   private static final HashMap<String, BigInteger> numberCache = new HashMap<>();
+  private static final Map<String, Integer> namedUniversalCharacter = createNamedUniversalCharacter();
 
   private PPNumber() {
 
@@ -127,27 +131,79 @@ final class PPNumber {
     }
 
     switch (charValue.charAt(1)) {
-      case 't':
-        return BigInteger.valueOf('\t');
-      case 'b':
-        return BigInteger.valueOf('\b');
-      case 'n':
-        return BigInteger.valueOf('\n');
-      case 'r':
-        return BigInteger.valueOf('\r');
-      case 'f':
-        return BigInteger.valueOf('\f');
       case '\'':
         return BigInteger.valueOf('\'');
       case '"':
         return BigInteger.valueOf('\"');
+      case '?':
+        return BigInteger.valueOf(0x3f);
       case '\\':
         return BigInteger.valueOf('\\');
+      case 'a':
+        return BigInteger.valueOf(0x07);
+      case 'b':
+        return BigInteger.valueOf('\b');
+      case 'f':
+        return BigInteger.valueOf('\f');
+      case 'n':
+        return BigInteger.valueOf('\n');
+      case 'r':
+        return BigInteger.valueOf('\r');
+      case 't':
+        return BigInteger.valueOf('\t');
+      case 'v':
+        return BigInteger.valueOf(0x0b);
+
+      case 'u':
+        if (charValue.length() > 2 && charValue.charAt(2) == '{') {
+          return delimitedEscapeSequences(charValue, 16);
+        }
+        return new BigInteger(StringUtils.substring(charValue, 2, 2 + 4), 16); // 4 hexadecimal digits
+
+      case 'U':
+        return new BigInteger(StringUtils.substring(charValue, 2, 2 + 8), 16); // 8 hexadecimal digits
+
       case 'x':
-      case 'X':
+        if (charValue.length() > 2 && charValue.charAt(2) == '{') {
+          return delimitedEscapeSequences(charValue, 16);
+        }
         return new BigInteger(charValue.substring(2), 16);
+
+      case 'o':
+        if (charValue.length() > 2 && charValue.charAt(2) == '{') {
+          return delimitedEscapeSequences(charValue, 8);
+        }
+        return BigInteger.ZERO;
+
+      case 'N':
+        if (charValue.length() > 2 && charValue.charAt(2) == '{') {
+          return delimitedEscapeSequences(charValue, -1);
+        }
+        return BigInteger.ZERO;
+
       default:
-        return new BigInteger(charValue.substring(1), 10);
+        return new BigInteger(charValue.substring(1), 8);
     }
+  }
+
+  static BigInteger delimitedEscapeSequences(String charValue, int radix) {
+    int end = charValue.indexOf('}', 3);
+    if (end != -1) {
+      String value = charValue.substring(3, end);
+      if (radix != -1) {
+        return new BigInteger(value, radix);
+      } else { // character named by NAME
+        return BigInteger.valueOf(namedUniversalCharacter.getOrDefault(value, 1));
+      }
+    }
+    return BigInteger.ZERO;
+  }
+
+  // currently only NULL and NUL is supported, rest is mapped to 1
+  private static Map<String, Integer> createNamedUniversalCharacter() {
+    Map<String, Integer> result = new HashMap<>();
+    result.put("NULL", 0);
+    result.put("NUL", 0);
+    return Collections.unmodifiableMap(result);
   }
 }

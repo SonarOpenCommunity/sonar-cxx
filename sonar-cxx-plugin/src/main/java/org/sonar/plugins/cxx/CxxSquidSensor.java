@@ -21,7 +21,9 @@ package org.sonar.plugins.cxx;
 
 import com.sonar.cxx.sslr.api.Grammar;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -396,9 +398,18 @@ public class CxxSquidSensor implements ProjectSensor {
 
     if (context.config().hasKey(JSON_COMPILATION_DATABASE_KEY)
           && context.config().getBoolean(JSON_COMPILATION_DATABASE_ONLY_CONTAINED_FILES_KEY).orElse(Boolean.FALSE)) {
+
       // if the source of the configuration is JSON Compilation Database and analyzeOnlyContainedFiles=True,
       // then analyze only the files contained in the db.
-      var inputFilesInConfig = squidConfig.getFiles();
+      var inputFilesInConfig = new ArrayList<Path>();
+      for (var inputfile : squidConfig.getFiles()) {
+        try {
+          // resolution of symbolic links and case-sensitive paths: In Json DB the path/filenames are often lowercase
+          inputFilesInConfig.add(inputfile.toRealPath(LinkOption.NOFOLLOW_LINKS));
+        } catch (IOException | RuntimeException e) {
+          // ...
+        }
+      }
       var result = StreamSupport.stream(inputFiles.spliterator(), false)
         .filter(f -> inputFilesInConfig.contains(Path.of(f.uri())))
         .collect(Collectors.toList());

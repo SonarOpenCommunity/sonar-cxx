@@ -10,4 +10,4 @@ int c; /* NOSONAR */
 
 int d; // NOSONAR
 
-/* EOF '/
+/* EOF */

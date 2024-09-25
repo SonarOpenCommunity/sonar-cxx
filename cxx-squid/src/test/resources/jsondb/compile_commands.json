@@ -12,7 +12,7 @@
   {
     "_comment_": "test argument parser",
     "directory": ".",
-    "file": "test-argument-parser.cpp",
+    "file": "TEST-argument-parser.cpp",
     "arguments": [
       "-DMACRO1", "-DMACRO2=2",
       "-D", "MACRO3", "-D", "MACRO4=4",

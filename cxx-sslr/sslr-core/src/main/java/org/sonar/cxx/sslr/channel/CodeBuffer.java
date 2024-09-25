@@ -113,6 +113,20 @@ public class CodeBuffer implements CharSequence {
     return character;
   }
 
+  /**
+   * Read and consume the next characters
+   *
+   * @param number number of characters to consume
+   * @return the next character or -1 if the end of the stream is reached
+   */
+  public final int skip(int number) {
+    while (number != 0) {
+      pop();
+      number--;
+    }
+    return peek();
+  }
+
   private void updateCursorPosition(int character) {
     // see Java Language Specification : http://java.sun.com/docs/books/jls/third_edition/html/lexical.html#3.4
     if (character == LF || character == CR && peek() != LF) {

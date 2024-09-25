@@ -98,7 +98,6 @@ public class JsonCompilationDatabase {
   /**
    * Set up the given CxxSquidConfiguration from the JSON compilation database
    *
-   * @param squidConfig
    * @param compileCommandsFile
    * @throws IOException
    */

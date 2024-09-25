@@ -25,12 +25,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -130,6 +132,9 @@ public class CxxSquidConfiguration extends SquidConfiguration {
 
   private static final Logger LOG = Loggers.get(CxxSquidConfiguration.class);
 
+  // case-sensitive filesystem or not
+  private static boolean isCaseSensitive = true;
+
   private final XPathFactory xFactory = XPathFactory.instance();
   private Document document;
 
@@ -158,6 +163,12 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   public CxxSquidConfiguration(String baseDir, Charset encoding) {
     super(encoding);
     this.baseDir = baseDir;
+
+    try {
+      isCaseSensitive = fileSystemIsCaseSensitive();
+    } catch (IOException e) {
+      isCaseSensitive = true;
+    }
 
     var root = new Element(ROOT);
     root.setAttribute(new Attribute("version", "1.0"));
@@ -236,8 +247,8 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @param level The level parameter defines the level on which the data should be inserted. For level a predefined
    * name can be used or a new one can be defined. <br>
    * - If level is an identifier, the information is created in an element with the level-name directly under root.<br>
-   * - If level is a path, the information is stored on Units level. In that case the level-string is normalized and
-   * converted to lower case letters to simplify the following search.
+   * - If level is a path, the information is stored on Units level. In that case the level-string is normalized to
+   * simplify the following search.
    * @param key the key to be placed into the database.
    * @param value the value corresponding to key. Several values can be assigned to one key. Internally a value-list for
    * key is created. The method can be called several times for this, but more effective is the method
@@ -551,9 +562,33 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   }
 
   /**
+   * Check if file system is case sensitive
+   *
+   * @return true if running on a case sensitive filesystem
+   * @throws IOException
+   */
+  public static boolean fileSystemIsCaseSensitive() throws IOException {
+    Path a = null, b = null;
+    try {
+      Path tempDir = Files.createTempDirectory("test");
+      a = Files.createFile(tempDir.resolve(Paths.get("test.test")));
+      b = Files.createFile(tempDir.resolve(Paths.get("TEST.TEST")));
+    } catch (FileAlreadyExistsException e) {
+      return false;
+    } finally {
+      Files.deleteIfExists(a);
+      if (b != null) {
+        Files.deleteIfExists(b);
+      }
+    }
+    return true;
+  }
+
+  /**
    * Create uniform notation of path names.
    *
-   * Normalize path and replace file separators by forward slash. Resulting string is converted to lower case.
+   * Normalize path and replace file separators by forward slash.
+   * Use lowercase path on case insensitive file systems.
    *
    * @param path to unify
    * @return unified path
@@ -563,7 +598,11 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     if (result == null) {
       result = "unknown";
     }
-    return result.toLowerCase(Locale.getDefault());
+    if (isCaseSensitive) {
+      return result;
+    } else {
+      return result.toLowerCase();
+    }
   }
 
   /**

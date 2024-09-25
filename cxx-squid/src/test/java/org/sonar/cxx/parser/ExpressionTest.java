@@ -87,7 +87,6 @@ class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.parameterDeclarationClause);
 
     assertThatParser()
-      .matches("( )")
       .matches("( parameterDeclarationClause )");
   }
 
@@ -296,7 +295,6 @@ class ExpressionTest extends ParserBaseTestHelper {
     mockRule(CxxGrammarImpl.expression);
     mockRule(CxxGrammarImpl.idExpression);
     mockRule(CxxGrammarImpl.typeId);
-    mockRule(CxxGrammarImpl.exprOrBracedInitList);
     mockRule(CxxGrammarImpl.cudaKernel);
 
     assertThatParser()
@@ -313,7 +311,8 @@ class ExpressionTest extends ParserBaseTestHelper {
       .matches("const_cast < typeId > ( expression )")
       .matches("typeid ( expression )")
       .matches("typeid ( typeId )")
-      .matches("primaryExpression [ exprOrBracedInitList ]")
+      .matches("primaryExpression [ ]") // C++23
+      .matches("primaryExpression [ expressionList ]") // C++23
       .matches("primaryExpression ( )")
       .matches("primaryExpression ( expressionList )")
       .matches("primaryExpression . idExpression")
@@ -342,7 +341,9 @@ class ExpressionTest extends ParserBaseTestHelper {
       .matches("G::typeid")
       .matches("int::typeid")
       // CUDA
-      .matches("kernel<<<gridDim,blockDim,0>>>(d_data, height, width)");
+      .matches("kernel<<<gridDim,blockDim,0>>>(d_data, height, width)")
+      // C++23
+      .matches("array[a, b]");
   }
 
   @Test
