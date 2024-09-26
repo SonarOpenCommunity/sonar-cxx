@@ -6,9 +6,9 @@ name: cxx plugin CI
 
 on:
   push:
-    branches: [ SQ-10 ]
+    branches: [ master ]
   pull_request:
-    branches: [ SQ-10 ]
+    branches: [ master ]
 
 defaults:
   run:
