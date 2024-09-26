@@ -51,6 +51,15 @@ public class LexerAssert extends AbstractAssert<LexerAssert, Token> {
     return this;
   }
 
+  public LexerAssert isLine(int line) {
+    isNotNull();
+    int tokenLine = actual.getLine();
+    if (tokenLine != line) {
+      failWithMessage("Expected the Token line to be <%s> but was <%s>", line, tokenLine);
+    }
+    return this;
+  }
+
   public LexerAssert hasTrivia() {
     isNotNull();
     boolean exists = actual.hasTrivia();

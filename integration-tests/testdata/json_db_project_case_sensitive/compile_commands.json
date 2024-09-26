@@ -1,0 +1,33 @@
+[
+  {
+    "_comment_": "example extension to define global defines and includes for headers and for files which are not compiled",
+    "file": "__global__",
+    "defines": {
+      "GLOBAL_DEFINE": "1"
+    },
+    "includes": [
+      "/usr/include"
+    ]
+  },
+  {
+    "_comment_": "source file to use",
+    "directory": "./src",
+    "file": "file1.cc",
+    "command": "gcc -o output1 -I/usr/local/include -I /another/include/dir -DSIMPLE1 -DCOMMAND_DEFINE=1 file1.cpp",
+    "output": "output1"
+  },
+  {
+    "_comment_": "source file to use",
+    "directory": "./src",
+    "file": "FILE2.cc",
+    "command": "gcc -o output2 -I/usr/local/include -I /another/include/dir -DSIMPLE2 -DCOMMAND_DEFINE=2 FILE2.cpp",
+    "output": "output2"
+  },
+  {
+    "_comment_": "source file to use",
+    "directory": "./src",
+    "file": "File3.cc",
+    "command": "gcc -o output3 -I/usr/local/include -I /another/include/dir -DSIMPLE3 -DCOMMAND_DEFINE=3 File3.cpp",
+    "output": "output3"
+  }
+]

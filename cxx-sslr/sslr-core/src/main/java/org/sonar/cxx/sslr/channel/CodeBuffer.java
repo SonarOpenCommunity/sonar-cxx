@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2022 SonarOpenCommunity
+ * Copyright (C) 2022-2024 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -111,6 +111,20 @@ public class CodeBuffer implements CharSequence {
     }
     lastChar = character;
     return character;
+  }
+
+  /**
+   * Read and consume the next characters
+   *
+   * @param number number of characters to consume
+   * @return the next character or -1 if the end of the stream is reached
+   */
+  public final int skip(int number) {
+    while (number != 0) {
+      pop();
+      number--;
+    }
+    return peek();
   }
 
   private void updateCursorPosition(int character) {

@@ -25,21 +25,23 @@ import org.sonar.cxx.sslr.channel.CodeReader;
 
 public class BackslashChannel extends Channel<Lexer> {
 
-  private static boolean isNewLine(char ch) {
-    return (ch == '\n') || (ch == '\r');
-  }
+  private final StringBuilder sb = new StringBuilder(256);
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
-    var ch = (char) code.peek();
-
-    if ((ch == '\\') && isNewLine(code.charAt(1))) {
-      // just throw away the backslash
-      code.pop();
-      return true;
+    if (code.charAt(0) != '\\') {
+      return false;
     }
 
-    return false;
+    var lineSplicing = read(code, sb);
+    sb.delete(0, sb.length());
+    return lineSplicing != 0;
+  }
+
+  public static int read(CodeReader code, StringBuilder sb) {
+    var end = ChannelUtils.handleLineSplicing(code, 0);
+    code.skip(end); // remove line splicing
+    return end;
   }
 
 }

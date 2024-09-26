@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2022 SonarOpenCommunity
+ * Copyright (C) 2022-2024 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -39,6 +39,13 @@ class CodeBufferTest {
     assertThat((char) code.pop()).isEqualTo('p');
     assertThat((char) code.pop()).isEqualTo('a');
     assertThat(code.pop()).isEqualTo(-1);
+  }
+
+  @Test
+  void testSkip() {
+    var code = new CodeBuffer("1234", defaulConfiguration);
+    assertThat((char) code.skip(2)).isEqualTo('3');
+    assertThat(code.skip(2)).isEqualTo(-1);
   }
 
   @Test

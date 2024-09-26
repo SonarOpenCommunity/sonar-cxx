@@ -279,8 +279,11 @@ class TemplatesTest extends ParserBaseTestHelper {
 
     mockRule(CxxGrammarImpl.conceptName);
     mockRule(CxxGrammarImpl.constraintExpression);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
 
-    assertThatParser().matches("concept conceptName = constraintExpression ;");
+    assertThatParser()
+      .matches("concept conceptName = constraintExpression ;")
+      .matches("concept conceptName attributeSpecifierSeq = constraintExpression ;");
   }
 
   @Test

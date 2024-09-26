@@ -30,8 +30,6 @@ import org.sonar.cxx.sslr.channel.CodeReader;
  */
 public class CharacterLiteralsChannel extends Channel<Lexer> {
 
-  private static final char EOF = (char) -1;
-
   private final StringBuilder sb = new StringBuilder(256);
 
   private int index = 0;
@@ -67,7 +65,7 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
   private boolean read(CodeReader code) {
     index++;
     while (code.charAt(index) != ch) {
-      if (code.charAt(index) == EOF) {
+      if (code.charAt(index) == ChannelUtils.EOF) {
         return false;
       }
       if (code.charAt(index) == '\\') {
@@ -95,10 +93,10 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
     int len = 0;
     for (int start_index = index;; index++) {
       var charAt = code.charAt(index);
-      if (charAt == EOF) {
+      if (charAt == ChannelUtils.EOF) {
         return;
       }
-      if (isSuffix(charAt)) {
+      if (ChannelUtils.isSuffix(charAt)) {
         len++;
       } else if (Character.isDigit(charAt)) {
         if (len > 0) {
@@ -111,10 +109,6 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
         return;
       }
     }
-  }
-
-  private static boolean isSuffix(char c) {
-    return Character.isLowerCase(c) || Character.isUpperCase(c) || (c == '_');
   }
 
 }

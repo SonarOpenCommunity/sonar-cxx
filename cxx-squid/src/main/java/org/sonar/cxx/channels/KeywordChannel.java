@@ -38,8 +38,7 @@ public class KeywordChannel extends Channel<Lexer> {
   private final Matcher matcher;
   private final Token.Builder tokenBuilder = Token.builder();
 
-  public KeywordChannel(String regexp, TokenType[]
-    ... keywordSets) {
+  public KeywordChannel(String regexp, TokenType[]... keywordSets) {
     for (var keywords : keywordSets) {
       for (var keyword : keywords) {
         keywordsMap.put(keyword.getValue(), keyword);

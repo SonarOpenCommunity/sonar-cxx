@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <license.years>2022</license.years>
+    <license.years>2022-2024</license.years>
   </properties>
 
   <licenses>

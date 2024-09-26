@@ -30,8 +30,6 @@ import org.sonar.cxx.sslr.channel.CodeReader;
  */
 public class StringLiteralsChannel extends Channel<Lexer> {
 
-  private static final char EOF = (char) -1;
-
   private final StringBuilder csb = new StringBuilder(256);
   private int index = 0;
   private char ch = ' ';
@@ -72,6 +70,14 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     }
     readUdSuffix(code);
     for (var i = 0; i < index; i++) {
+      if (code.charAt(0) == '\\') {
+        var len = ChannelUtils.handleLineSplicing(code, 0);
+        if (len > 1) {
+          code.skip(len); // remove line splicing
+          i += (len - 1);
+          continue;
+        }
+      }
       sb.append((char) code.pop());
     }
     return true;
@@ -102,7 +108,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     char charAt;
     index++;
     while ((charAt = code.charAt(index)) != '(') { // delimiter in front of (
-      if (charAt == EOF) {
+      if (charAt == ChannelUtils.EOF) {
         return false;
       }
       sb.append(charAt);
@@ -114,14 +120,14 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       index -= sb.length();
       sb.delete(0, sb.length());
       while ((charAt = code.charAt(index)) != ')') { // raw_character*
-        if (charAt == EOF) {
+        if (charAt == ChannelUtils.EOF) {
           return false;
         }
         index++;
       }
       index++;
       while ((charAt = code.charAt(index)) != '"') { // delimiter after )
-        if (charAt == EOF) {
+        if (charAt == ChannelUtils.EOF) {
           return false;
         }
         sb.append(charAt);
@@ -141,7 +147,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     index++;
     char charAt;
     while ((charAt = code.charAt(index)) != ch) {
-      if (charAt == EOF) {
+      if (charAt == ChannelUtils.EOF) {
         return false;
       }
       if (charAt == '\\') {
@@ -158,10 +164,10 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     int len = 0;
     for (int start_index = index;; index++) {
       var charAt = code.charAt(index);
-      if (charAt == EOF) {
+      if (charAt == ChannelUtils.EOF) {
         return;
       }
-      if (isSuffix(charAt)) {
+      if (ChannelUtils.isSuffix(charAt)) {
         len++;
       } else if (Character.isDigit(charAt)) {
         if (len > 0) {
@@ -174,10 +180,6 @@ public class StringLiteralsChannel extends Channel<Lexer> {
         return;
       }
     }
-  }
-
-  private static boolean isSuffix(char c) {
-    return Character.isLowerCase(c) || Character.isUpperCase(c) || (c == '_');
   }
 
 }

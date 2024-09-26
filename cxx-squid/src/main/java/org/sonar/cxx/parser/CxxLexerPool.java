@@ -25,9 +25,7 @@ import com.sonar.cxx.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.cxx.sslr.impl.channel.BomCharacterChannel;
 import com.sonar.cxx.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.cxx.sslr.impl.channel.PunctuatorChannel;
-import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
 import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.and;
-import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
 import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.g;
 import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.o2n;
 import static com.sonar.cxx.sslr.impl.channel.RegexpChannelBuilder.opt;
@@ -39,8 +37,10 @@ import java.util.HashSet;
 import java.util.Set;
 import org.sonar.cxx.channels.BackslashChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
+import org.sonar.cxx.channels.MultiLineCommentChannel;
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.channels.RightAngleBracketsChannel;
+import org.sonar.cxx.channels.SingleLineCommentChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
 import org.sonar.cxx.preprocessor.PPSpecialIdentifier;
 
@@ -50,8 +50,8 @@ public final class CxxLexerPool {
   private static final String BIN_PREFIX = "0[bB]";
   private static final String EXPONENT = "[Ee][+-]?+[0-9_]([']?+[0-9_]++)*+";
   private static final String BINARY_EXPONENT = "[pP][+-]?+\\d([']?+\\d++)*+"; // since C++17
-  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";
-  //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
+  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?)|((z|Z)(u|U)))";
+  //private static final String FLOAT_SUFFIX = "(f|l|F|L|f16|f32|f64|f128|bf16|F16|F32|F64|F128|BF16)";
   // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String UD_SUFFIX = "[_a-zA-Z]\\w*+";
   private static final String DECDIGIT_SEQUENCE = "\\d([']?+\\d++)*+";
@@ -81,8 +81,8 @@ public final class CxxLexerPool {
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new BlackHoleChannel("\\s++"))
       // C++ Standard, Section 2.8 "Comments"
-      .withChannel(commentRegexp("//[^\\n\\r]*+"))
-      .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
+      .withChannel(new SingleLineCommentChannel())
+      .withChannel(new MultiLineCommentChannel())
       // backslash at the end of the line: just throw away
       .withChannel(new BackslashChannel())
       // detects preprocessor directives:

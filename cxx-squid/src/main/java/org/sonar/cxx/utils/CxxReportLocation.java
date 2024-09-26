@@ -21,6 +21,7 @@ package org.sonar.cxx.utils;
 
 import java.util.Objects;
 import javax.annotation.Nullable;
+import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.utils.PathUtils;
 
 /**
@@ -35,8 +36,22 @@ public class CxxReportLocation {
 
   public CxxReportLocation(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
     super();
-    // normalize file, removing double and single dot path steps => avoids duplicates
-    this.file = PathUtils.sanitize(file);
+
+    // Normalize file using separators in UNIX format, removing double and single dot path steps. This is to avoid
+    // duplicates in the issue containers because they are using the file as key. PathUtils.sanitize uses
+    // FilenameUtils.normalize internally, relative paths starting with a double dot will cause that path segment
+    // and the one before to be removed. If the double dot has no parent path segment to work with, null is returned.
+    // null would mean 'project issue' which is wrong in this context. To avoid this we extract the filename to
+    // generate at least a meningful error message (#2747).
+    var normalized = PathUtils.sanitize(file);
+    if (normalized == null && (file != null && !file.isBlank())) {
+
+      // use FilenameUtils.getName because this works on Windows and Linux also if
+      // report is generated on the one and consumed on the other
+      normalized = FilenameUtils.getName(file);
+    }
+
+    this.file = normalized;
     this.line = line;
     this.column = column;
     this.info = info;

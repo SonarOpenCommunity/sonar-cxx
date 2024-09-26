@@ -410,12 +410,18 @@ class DeclaratorsTest extends ParserBaseTestHelper {
 
     assertThatParser()
       .matches("parameterDeclSpecifierSeq declarator")
+      .matches("this parameterDeclSpecifierSeq declarator")
       .matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator")
+      .matches("attributeSpecifierSeq this parameterDeclSpecifierSeq declarator")
       .matches("parameterDeclSpecifierSeq declarator = initializerClause")
       .matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator = initializerClause")
       .matches("parameterDeclSpecifierSeq")
+      .matches("this parameterDeclSpecifierSeq")
+      .matches("attributeSpecifierSeq this parameterDeclSpecifierSeq")
       .matches("parameterDeclSpecifierSeq abstractDeclarator")
+      .matches("this parameterDeclSpecifierSeq abstractDeclarator")
       .matches("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator")
+      .matches("attributeSpecifierSeq this parameterDeclSpecifierSeq abstractDeclarator")
       .matches("parameterDeclSpecifierSeq = initializerClause")
       .matches("parameterDeclSpecifierSeq abstractDeclarator = initializerClause")
       .matches("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator = initializerClause");
@@ -433,6 +439,9 @@ class DeclaratorsTest extends ParserBaseTestHelper {
       .matches("string")
       .matches("::P& c")
       .matches("bool (A::*bar)(void)")
+      // C++23
+      .matches("this Self&& self")
+      .matches("this Y const&")
       // CLI extension
       .matches("const int^ i")
       .matches("const int% i")

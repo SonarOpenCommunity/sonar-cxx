@@ -34,9 +34,9 @@ import org.sonar.cxx.sslr.channel.CodeReader;
 //
 public class PreprocessorChannel extends Channel<Lexer> {
 
-  private static final char EOF = (char) -1;
   private final StringLiteralsChannel stringLiteralsChannel = new StringLiteralsChannel();
   private final StringBuilder sb = new StringBuilder(256);
+  private final StringBuilder dummy = new StringBuilder(256);
   private final Matcher matcher;
 
   public PreprocessorChannel(TokenType[]... keywordSets) {
@@ -84,67 +84,46 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private void read(CodeReader code) {
     while (true) {
-      var ch = code.charAt(0);
-      if (isNewline(ch) || ch == EOF) {
+      var charAt = code.charAt(0);
+      if (ChannelUtils.isNewLine(charAt) || charAt == ChannelUtils.EOF) {
         code.pop();
         break;
-      } else if (stringLiteralsChannel.read(code, sb)) {
+      } else if (stringLiteralsChannel.read(code, sb)) { // string literal
         continue;
       }
-      ch = (char) code.pop();
-      if (ch == '/' && code.charAt(0) == '/') {
-        consumeSingleLineComment(code);
-      } else if (ch == '/' && code.charAt(0) == '*') {
-        consumeMultiLineComment(code);
-      } else if (ch == '\\' && isNewline((char) code.peek())) {
-        // the newline is escaped: we have a the multi line preprocessor directive
-        // consume both the backslash and the newline, insert a space instead
-        consumeNewline(code);
-        sb.append(' ');
-      } else {
-        sb.append(ch);
+
+      var len = 0;
+      switch (charAt) {
+        case '/': // comment?
+          len = SingleLineCommentChannel.isComment(code);
+          if (len != 0) {
+            // single line comment
+            code.skip(len);
+            SingleLineCommentChannel.read(code, dummy);
+            dummy.delete(0, dummy.length());
+          } else {
+            len = MultiLineCommentChannel.isComment(code);
+            if (len != 0) {
+              // multi line comment
+              code.skip(len);
+              MultiLineCommentChannel.read(code, dummy);
+              dummy.delete(0, dummy.length());
+            }
+          }
+          break;
+        case '\\':
+          len = BackslashChannel.read(code, dummy);
+          if (len != 0) {
+            // consume backslash and the newline
+            dummy.delete(0, dummy.length());
+          }
+          break;
+      }
+
+      if (len == 0) {
+        sb.append((char) code.pop());
       }
     }
-  }
-
-  private static void consumeNewline(CodeReader code) {
-    if ((code.charAt(0) == '\r') && (code.charAt(1) == '\n')) {
-      // \r\n
-      code.pop();
-      code.pop();
-    } else {
-      // \r or \n
-      code.pop();
-    }
-  }
-
-  private static void consumeSingleLineComment(CodeReader code) {
-    code.pop(); // initial '/'
-    while (true) {
-      var charAt = code.charAt(0);
-      if (isNewline(charAt) || charAt == EOF) {
-        break;
-      }
-      code.pop();
-    }
-  }
-
-  private static void consumeMultiLineComment(CodeReader code) {
-    code.pop(); // initial '*'
-    while (true) {
-      var ch = (char) code.pop();
-      if (ch == EOF) {
-        return;
-      }
-      if (ch == '*' && code.charAt(0) == '/') {
-        code.pop();
-        return;
-      }
-    }
-  }
-
-  private static boolean isNewline(char ch) {
-    return (ch == '\n') || (ch == '\r');
   }
 
 }
