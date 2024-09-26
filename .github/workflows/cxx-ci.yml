@@ -6,9 +6,9 @@ name: cxx plugin CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ SQ-10 ]
   pull_request:
-    branches: [ master ]
+    branches: [ SQ-10 ]
 
 defaults:
   run:
@@ -64,14 +64,14 @@ jobs:
 
   # -----------------------------------------------------------------------------------------------------------
   # Going through the Maven cycles 'validate', 'compile', 'test', 'package' in all combinations to be supported
-  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 11 Temurin
+  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 17 Temurin
   # -----------------------------------------------------------------------------------------------------------
   build-linux:
 
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '11' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
 
     runs-on: ${{ matrix.os }}
@@ -134,10 +134,10 @@ jobs:
     - name: Build and test with Maven
       run: mvn -B -e -V verify --file pom.xml
 
-    # create artifacts from Linux, Java 11 Temurin
+    # create artifacts from Linux, Java 17 Temurin
     #
     - name: Collect JAR files
-      if: matrix.os == 'ubuntu-latest' && matrix.java == '11' && matrix.distribution == 'temurin'
+      if: matrix.os == 'ubuntu-latest' && matrix.java == '17' && matrix.distribution == 'temurin'
       run: |
         mkdir staging
         cp sonar-cxx-plugin/target/*.jar staging
@@ -157,14 +157,14 @@ jobs:
 
   # -----------------------------------------------------------------------------------------------------------
   # Going through the Maven cycles 'validate', 'compile', 'test', 'package' in all combinations to be supported
-  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 11 Temurin
+  # The result of 'package' is uploaded as artifact for Ubuntu Linux Java 17 Temurin
   # -----------------------------------------------------------------------------------------------------------
   build-windows:
 
     strategy:
       matrix:
         os: [windows-latest]
-        java: [ '11' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
 
     runs-on: ${{ matrix.os }}
@@ -224,7 +224,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '11' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
 
     if: github.event_name == 'push'
@@ -288,19 +288,6 @@ jobs:
     - name: Build and test with Maven
       run: mvn -B -e -V install --file pom.xml
 
-    # Java 11 is no longer supported as scanner runtime environment.
-    # The minimum required version of Java is now Java 17.
-    #
-    - name: Set up JDK Java 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-
-    - name: Dump environment variables
-      run: env
-
     # Update SonarCloud results
     # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
     #
@@ -319,15 +306,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [ '11', '17' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.9.6.92038' ]
-        sonarscanner: [ '4.8.0.2856' ]
-        exclude:
-        - sonarqube: '8.9.10.61524'
-          java: '17'
-        - sonarqube: '9.9.6.92038'
-          java: '11'
+        sonarqube: [ '9.9.6.92038', '10.6.0.92116' ]
+        sonarscanner: [ '6.1.0.4477' ]
 
     runs-on: ${{ matrix.os }}
     needs: [build-linux, verify-rules]
@@ -465,15 +447,10 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        java: [ '11', '17' ]
+        java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '8.9.10.61524', '9.9.6.92038' ]
-        sonarscanner: [ '4.8.0.2856' ]
-        exclude:
-        - sonarqube: '8.9.10.61524'
-          java: '17'
-        - sonarqube: '9.9.6.92038'
-          java: '11'
+        sonarqube: [ '9.9.6.92038', '10.6.0.92116' ]
+        sonarscanner: [ '6.1.0.4477' ]
 
     runs-on: ${{ matrix.os }}
     # needs build-linux because of JAR artifacts

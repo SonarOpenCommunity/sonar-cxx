@@ -11,7 +11,7 @@ Feature: JSON Compilation Database support
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
+      .*ERROR.*preprocessor:.*
       """
     And the following metrics have following values:
       | metric     | value |
@@ -28,7 +28,7 @@ Feature: JSON Compilation Database support
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
+      .*ERROR.*preprocessor:.*
       """
     And the following metrics have following values:
       | metric     | value |

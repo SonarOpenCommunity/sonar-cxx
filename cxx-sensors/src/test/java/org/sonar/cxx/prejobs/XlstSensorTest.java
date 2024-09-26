@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2010-2023 SonarOpenCommunity
+ * Copyright (C) 2010-2024 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -29,8 +29,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.LogTesterJUnit5;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
+import org.slf4j.event.Level;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -60,9 +60,9 @@ class XlstSensorTest {
     logTester.clear();
     sensor.execute(context);
 
-    assertThat(logTester.logs(LoggerLevel.ERROR)).isEmpty();
-    assertThat(logTester.logs(LoggerLevel.WARN)).isEmpty();
-    assertThat(logTester.logs(LoggerLevel.INFO)).isEmpty();
+    assertThat(logTester.logs(Level.ERROR)).isEmpty();
+    assertThat(logTester.logs(Level.WARN)).isEmpty();
+    assertThat(logTester.logs(Level.INFO)).isEmpty();
   }
 
   @Test
@@ -108,7 +108,7 @@ class XlstSensorTest {
     logTester.clear();
     sensor.execute(context);
 
-    List<String> log = logTester.logs(LoggerLevel.ERROR);
+    List<String> log = logTester.logs(Level.ERROR);
     assertThat(log).contains("XLST: 'sonar.cxx.xslt.1.stylesheet' value is not defined.");
   }
 
@@ -124,7 +124,7 @@ class XlstSensorTest {
     logTester.clear();
     sensor.execute(context);
 
-    List<String> log = logTester.logs(LoggerLevel.ERROR);
+    List<String> log = logTester.logs(Level.ERROR);
     assertThat(log).contains("XLST: 'sonar.cxx.xslt.1.inputs' value is not defined.");
   }
 
@@ -141,7 +141,7 @@ class XlstSensorTest {
     logTester.clear();
     sensor.execute(context);
 
-    List<String> log = logTester.logs(LoggerLevel.ERROR);
+    List<String> log = logTester.logs(Level.ERROR);
     assertThat(log).contains("XLST: 'sonar.cxx.xslt.1.outputs' value is not defined.");
   }
 

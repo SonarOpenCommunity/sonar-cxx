@@ -7,12 +7,12 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>65.0.218</version>
+    <version>75.0.0.1943</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>2.1.3-SNAPSHOT</version>
+  <version>2.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -259,30 +259,31 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-
+    <license.years>2010-2024</license.years>
+    
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
-    <sonar.version>9.9.6.92038</sonar.version>
-    <sonar.plugin.api.version>9.14.0.375</sonar.plugin.api.version>
-    <sonarQubeMinVersion>8.9</sonarQubeMinVersion>
+    <sonar.version>10.4.0.87286</sonar.version>
+    <sonar.plugin.api.version>10.6.0.2114</sonar.plugin.api.version>
+    <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
 
     <!-- dependencies -->
-    <ant.version>1.10.15</ant.version>
+    <ant.version>1.10.14</ant.version>
     <asm.version>9.7</asm.version>
     <assertj-core.version>3.26.3</assertj-core.version>
-    <commons-io.version>2.17.0</commons-io.version>
+    <commons-io.version>2.16.1</commons-io.version>
     <commons-lang.version>2.6</commons-lang.version>
     <cucumber.version>2.0.1</cucumber.version>
     <dd-plist.version>1.28</dd-plist.version>
     <gherkin.version>29.0.0</gherkin.version>
     <gson.version>2.11.0</gson.version>
-    <guava.version>33.3.0-jre</guava.version>
+    <guava.version>33.2.1-jre</guava.version>
     <jackson-databind.version>2.17.2</jackson-databind.version>
     <jaxen.version>2.0.0</jaxen.version>
     <jdom2.version>2.0.6.1</jdom2.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <junit-jupiter.version>5.11.0</junit-jupiter.version>
+    <junit-jupiter.version>5.10.3</junit-jupiter.version>
     <mockito-all.version>1.10.19</mockito-all.version>
-    <mockito-core.version>5.13.0</mockito-core.version>
+    <mockito-core.version>5.12.0</mockito-core.version>
     <sonar-colorizer.version>5.1</sonar-colorizer.version>
     <staxmate.version>2.4.1</staxmate.version>
     <stax2-api.version>4.2.2</stax2-api.version>
@@ -290,11 +291,11 @@
     <woodstox-core.version>7.0.0</woodstox-core.version>
 
     <!-- plugins -->
-    <java.version>11</java.version>
-    <jython-standalone.version>2.7.4</jython-standalone.version>
+    <java.version>17</java.version>
+    <jython-standalone.version>2.7.3</jython-standalone.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-compiler.version>3.13.0</maven-compiler.version>
-    <maven-dependency.version>3.8.0</maven-dependency.version>
+    <maven-dependency.version>3.7.1</maven-dependency.version>
     <maven-jacoco.version>0.8.12</maven-jacoco.version>
     <maven-jar.version>3.4.2</maven-jar.version>
     <maven-license.version>4.5</maven-license.version>
@@ -315,6 +316,11 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
+        <groupId>org.sonarsource.api.plugin</groupId>
+        <artifactId>sonar-plugin-api-test-fixtures</artifactId>
+        <version>${sonar.plugin.api.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-plugin-api-impl</artifactId>
         <version>${sonar.version}</version>
@@ -325,6 +331,12 @@
         <artifactId>sonar-testing-harness</artifactId>
         <version>${sonar.version}</version>
         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.30</version>
       </dependency>
 
       <dependency>
@@ -341,13 +353,13 @@
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
         <version>${junit-jupiter.version}</version>
-        <scope>test</scope>        
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
         <version>${junit-jupiter.version}</version>
-        <scope>test</scope>        
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
@@ -465,7 +477,18 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-    </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <argLine>
+            @{argLine}
+            --add-opens=java.base/java.lang=ALL-UNNAMED
+            --add-opens=java.base/java.util=ALL-UNNAMED
+          </argLine>
+        </configuration>
+      </plugin>    </plugins>
   </build>
   <!-- BEGIN: Specific to mapping unit tests and covered code -->
   <profiles>

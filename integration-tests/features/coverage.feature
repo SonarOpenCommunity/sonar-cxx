@@ -12,8 +12,8 @@ Feature: Importing coverage data
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
       .*WARN.*cannot find the sources for '#include <iostream>'
+      .*WARN.*Preprocessor:.*
       """
     And the following metrics have following values:
       | metric                  | value |
@@ -27,10 +27,7 @@ Feature: Importing coverage data
     When I run sonar-scanner with "-X"
     Then the analysis finishes successfully
     And the analysis in server has completed
-    And the analysis log contains no error/warning messages except those matching:
-      """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
-      """
+    And the analysis log contains no error/warning messages
     And the following metrics have following values:
       | metric                  | value |
       | coverage                | 94.4  |
@@ -51,9 +48,9 @@ Feature: Importing coverage data
     And the analysis in server has completed
     And the analysis log contains no error/warning messages except those matching:
       """
-      .*WARN.*Unable to get a valid mac address, will use a dummy address
       .*WARN.*cannot find the sources for '#include <iostream>'
-      .*WARN.*Cannot find a report for '.*'
+      .*WARN.*Property 'sonar.cxx.cobertura.reportPaths': cannot find any files.*
+      .*WARN.*Preprocessor:.*
       """
     And the following metrics have following values:
       | metric                  | value |

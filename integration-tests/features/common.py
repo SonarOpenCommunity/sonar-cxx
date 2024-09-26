@@ -3,6 +3,7 @@
 
 # C++ Community Plugin (cxx plugin)
 # Copyright (C) Waleri Enns
+# Copyright (C) 2010-2024 SonarOpenCommunity
 # dev@sonar.codehaus.org
 
 # This program is free software; you can redistribute it and/or
@@ -63,7 +64,7 @@ def sonar_analysis_finished(logpath):
     status = ''
     while True:
         end = time.time()
-        if end - start > 10:
+        if end - start > 30:
             print('     CURRENT STATUS : timeout, abort', flush=True)
             break
 
@@ -125,26 +126,23 @@ def analyse_log(logpath, toignore=None):
     return badlines, errors, warnings
 
 def get_url_from_log(lines):
-    url = ''
     for line in lines:
-        if 'INFO: More about the report processing at' in line:
-            url = line.split('INFO: More about the report processing at')[1].strip()
+        if 'More about the report processing at' in line:
+            return line.split('at ')[1].strip()
 
-        if 'INFO  - More about the report processing at' in line:
-            url = line.split('INFO  - More about the report processing at')[1].strip()
-
-    return url
+    return ''
 
 def analyse_log_lines(lines, toignore=None):
     badlines = []
     errors = warnings = 0
     toingore_re = None if toignore is None else re.compile(toignore)
     for line in lines:
+        line = line.strip()
         if is_sonar_error(line, toingore_re):
-            badlines.append(line)
+            badlines.append(line + '\n')
             errors += 1
         elif is_sonar_warning(line, toingore_re):
-            badlines.append(line)
+            badlines.append(line + '\n')
             warnings += 1
 
     return badlines, errors, warnings
@@ -156,5 +154,5 @@ def is_sonar_warning(line, toignore_re):
     return (SONAR_WARN_RE.match(line) and not SONAR_WARN_TO_IGNORE_RE.match(line) and (toignore_re is None or not toignore_re.match(line)))
 
 def build_regexp(multiline_str):
-    lines = [line for line in multiline_str.split('\n') if line != '']
+    lines = [line.strip() for line in multiline_str.split('\n') if line != '']
     return re.compile('|'.join(lines))

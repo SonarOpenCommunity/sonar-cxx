@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2010-2023 SonarOpenCommunity
+ * Copyright (C) 2010-2024 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -23,11 +23,11 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.ce.measure.Component;
 import org.sonar.api.ce.measure.Component.Type;
-import org.sonar.api.ce.measure.test.TestComponent;
-import org.sonar.api.ce.measure.test.TestComponent.FileAttributesImpl;
-import org.sonar.api.ce.measure.test.TestMeasureComputerContext;
-import org.sonar.api.ce.measure.test.TestMeasureComputerDefinition.MeasureComputerDefinitionBuilderImpl;
-import org.sonar.api.ce.measure.test.TestSettings;
+import org.sonar.api.testfixtures.measure.TestComponent;
+import org.sonar.api.testfixtures.measure.TestComponent.FileAttributesImpl;
+import org.sonar.api.testfixtures.measure.TestMeasureComputerContext;
+import org.sonar.api.testfixtures.measure.TestMeasureComputerDefinition.MeasureComputerDefinitionBuilderImpl;
+import org.sonar.api.testfixtures.measure.TestSettings;
 
 class AggregateMeasureComputerTest {
 

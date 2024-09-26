@@ -1,6 +1,6 @@
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2010-2023 SonarOpenCommunity
+ * Copyright (C) 2010-2024 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -28,8 +28,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.LogTesterJUnit5;
-import org.sonar.api.utils.log.LoggerLevel;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
+import org.slf4j.event.Level;
 
 class DroppedPropertiesSensorTest {
 
@@ -48,7 +48,7 @@ class DroppedPropertiesSensorTest {
     var sensor = new DroppedPropertiesSensor(analysisWarnings::add);
     sensor.execute(contextTester);
 
-    assertThat(logTester.logs(LoggerLevel.WARN)).isEmpty();
+    assertThat(logTester.logs(Level.WARN)).isEmpty();
     assertThat(analysisWarnings).isEmpty();
   }
 
@@ -62,7 +62,7 @@ class DroppedPropertiesSensorTest {
     sensor.execute(contextTester);
 
     var msg = "CXX property 'sonar.cxx.cppncss.reportPaths' is no longer supported.";
-    assertThat(logTester.logs(LoggerLevel.WARN)).contains(msg);
+    assertThat(logTester.logs(Level.WARN)).contains(msg);
     assertThat(analysisWarnings).containsExactly(msg);
   }
 
@@ -77,7 +77,7 @@ class DroppedPropertiesSensorTest {
 
     var msg = "CXX property 'sonar.cxx.suffixes.sources' is no longer supported."
             + " Use key 'sonar.cxx.file.suffixes' instead.";
-    assertThat(logTester.logs(LoggerLevel.WARN)).contains(msg);
+    assertThat(logTester.logs(Level.WARN)).contains(msg);
     assertThat(analysisWarnings).containsExactly(msg);
   }
 
