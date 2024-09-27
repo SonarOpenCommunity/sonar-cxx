@@ -277,7 +277,7 @@
     <gherkin.version>29.0.0</gherkin.version>
     <gson.version>2.11.0</gson.version>
     <guava.version>33.3.1-jre</guava.version>
-    <jackson-databind.version>2.17.2</jackson-databind.version>
+    <jackson-databind.version>2.18.0</jackson-databind.version>
     <jaxen.version>2.0.0</jaxen.version>
     <jdom2.version>2.0.6.1</jdom2.version>
     <jsr305.version>3.0.2</jsr305.version>
