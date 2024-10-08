@@ -308,8 +308,8 @@ jobs:
         os: [ubuntu-latest]
         java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '9.9.6.92038', '10.6.0.92116' ]
-        sonarscanner: [ '6.1.0.4477' ]
+        sonarqube: [ '9.9.7.96285', '10.7.0.96327' ]
+        sonarscanner: [ '6.2.1.4610' ]
 
     runs-on: ${{ matrix.os }}
     needs: [build-linux, verify-rules]
@@ -449,8 +449,8 @@ jobs:
         os: [windows-latest]
         java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '9.9.6.92038', '10.6.0.92116' ]
-        sonarscanner: [ '6.1.0.4477' ]
+        sonarqube: [ '9.9.7.96285', '10.7.0.96327' ]
+        sonarscanner: [ '6.2.1.4610' ]
 
     runs-on: ${{ matrix.os }}
     # needs build-linux because of JAR artifacts
