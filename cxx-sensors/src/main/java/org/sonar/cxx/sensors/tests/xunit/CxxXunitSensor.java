@@ -34,8 +34,8 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -47,7 +47,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class CxxXunitSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPaths";
-  private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxXunitSensor.class);
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(

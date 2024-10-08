@@ -43,9 +43,9 @@ class RuleRefExpressionTest {
 
   @Test
   void can_not_be_executed() {
-    var thrown = catchThrowableOfType(
-      () -> expression.execute(machine),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> expression.execute(machine)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 

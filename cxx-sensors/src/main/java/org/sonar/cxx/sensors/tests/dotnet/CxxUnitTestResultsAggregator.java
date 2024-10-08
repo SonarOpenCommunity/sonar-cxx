@@ -24,8 +24,8 @@ package org.sonar.cxx.sensors.tests.dotnet;
 // Copyright (C) 2014-2017 SonarSource SA
 // mailto:info AT sonarsource DOT com
 import org.sonar.api.scanner.ScannerSide;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CxxUnitTestResultsAggregator (from .Net test library)
@@ -33,7 +33,7 @@ import org.sonar.api.utils.log.Loggers;
 @ScannerSide
 public class CxxUnitTestResultsAggregator {
 
-  private static final Logger LOG = Loggers.get(CxxUnitTestResultsAggregator.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxUnitTestResultsAggregator.class);
 
   private final VisualStudioTestResultsFileParser visualStudioTestResultsFileParser;
   private final NUnitTestResultsFileParser nunitTestResultsFileParser;

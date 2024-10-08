@@ -27,13 +27,13 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.notifications.AnalysisWarnings;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Phase(name = Phase.Name.PRE)
 public class DroppedPropertiesSensor implements ProjectSensor {
 
-  private static final Logger LOG = Loggers.get(DroppedPropertiesSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DroppedPropertiesSensor.class);
 
   private static final String MSG_COMPILER = "Use 'sonar.cxx.vc' or 'sonar.cxx.gcc' instead."
                                                + " Use 'sonar.cxx.msbuild' to read includes and defines from MSBuild log file.";

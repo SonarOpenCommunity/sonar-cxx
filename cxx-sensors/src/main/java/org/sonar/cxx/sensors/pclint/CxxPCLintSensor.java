@@ -32,8 +32,8 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -54,7 +54,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   public static final Pattern MISRA_RULE_PATTERN = Pattern.compile(
     // Rule nn.nn -or- Rule nn-nn-nn
     "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
-  private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxPCLintSensor.class);
 
   private static final String SUPPLEMENTAL_TYPE_ISSUE = "supplemental";
 

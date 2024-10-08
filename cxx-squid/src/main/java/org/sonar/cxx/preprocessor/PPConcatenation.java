@@ -24,8 +24,8 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.api.TokenType;
 import java.util.ArrayList;
 import java.util.List;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A ## operator between any two successive identifiers in the replacement-list runs parameter replacement on the two
@@ -36,7 +36,7 @@ import org.sonar.api.utils.log.Loggers;
  */
 final class PPConcatenation {
 
-  private static final Logger LOG = Loggers.get(PPConcatenation.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PPConcatenation.class);
 
   private PPConcatenation() {
 

@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
@@ -68,7 +68,7 @@ import org.sonar.cxx.squidbridge.checks.SquidCheck;
  */
 public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends SquidCheck<G> {
 
-  private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractCxxPublicApiVisitor.class);
 
   /**
    * Dump the AST of the file if true.

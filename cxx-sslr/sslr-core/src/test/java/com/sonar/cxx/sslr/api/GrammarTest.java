@@ -48,9 +48,7 @@ class GrammarTest {
 
   @Test
   void method_rule_should_throw_exception_by_default() {
-    var thrown = catchThrowableOfType(
-      () -> new MyGrammar().rule(mock(GrammarRuleKey.class)),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class, () -> new MyGrammar().rule(mock(GrammarRuleKey.class)));
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
@@ -78,7 +76,7 @@ class GrammarTest {
 
   @Test
   void should_throw_exception() {
-    var thrown = catchThrowableOfType(IllegalGrammar::new, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, IllegalGrammar::new);
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }
 

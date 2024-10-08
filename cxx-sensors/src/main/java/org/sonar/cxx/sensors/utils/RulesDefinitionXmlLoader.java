@@ -114,7 +114,7 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *     &lt;description&gt;
  *       &lt;![CDATA[The description]]&gt;
  *     &lt;/description&gt;
- *     &lt;!-- Optional format of description. Supported values are HTML (default) and MARKDOWN. --&gt;
+ *     &lt;!-- Optional format of description. Supported values are HTML (default). --&gt;
  *     &lt;descriptionFormat&gt;HTML&lt;/descriptionFormat&gt;
  *
  *     &lt;!-- Optional key for configuration of some rule engines --&gt;
@@ -218,12 +218,12 @@ public class RulesDefinitionXmlLoader {
   private static final String ELEMENT_PARAM = "param";
 
   private enum DescriptionFormat {
-    HTML, MARKDOWN
+    HTML
   }
 
   /**
-   * Loads rules by reading the XML input stream. The input stream is not always closed by the method, so it
-   * should be handled by the caller.
+   * Loads rules by reading the XML input stream. The input stream is not always closed by the method, so it should be
+   * handled by the caller.
    *
    * @since 4.3
    */
@@ -235,11 +235,18 @@ public class RulesDefinitionXmlLoader {
    * @since 5.1
    */
   public void load(RulesDefinition.NewRepository repo, InputStream input, Charset charset) {
-    try (Reader reader = new InputStreamReader(new BOMInputStream(input,
-                                                                  ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE,
-                                                                  ByteOrderMark.UTF_16BE,
-                                                                  ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE),
-                                               charset)) {
+    try (Reader reader = new InputStreamReader(
+      BOMInputStream.builder()
+        .setInputStream(input)
+        .setInclude(false)
+        .setByteOrderMarks(
+          ByteOrderMark.UTF_8,
+          ByteOrderMark.UTF_16LE,
+          ByteOrderMark.UTF_16BE,
+          ByteOrderMark.UTF_32LE,
+          ByteOrderMark.UTF_32BE
+        ).get(),
+      charset)) {
       load(repo, reader);
     } catch (IOException e) {
       throw new IllegalStateException("Error while reading XML rules definition for repository " + repo.key(), e);
@@ -247,8 +254,8 @@ public class RulesDefinitionXmlLoader {
   }
 
   /**
-   * Loads rules by reading the XML input stream. The reader is not closed by the method, so it
-   * should be handled by the caller.
+   * Loads rules by reading the XML input stream. The reader is not closed by the method, so it should be handled by the
+   * caller.
    *
    * @since 4.3
    */
@@ -330,8 +337,8 @@ public class RulesDefinitionXmlLoader {
           }
         }
         buildRule(repo, key, name, description, descriptionFormat, internalKey, severity, type, status, template,
-                  gapDescription, debtRemediationFunction, remediationFunctionBaseEffort,
-                  remediationFunctionGapMultiplier, params, tags);
+          gapDescription, debtRemediationFunction, remediationFunctionBaseEffort,
+          remediationFunctionGapMultiplier, params, tags);
         return;
       }
       if (event.isStartElement()) {
@@ -367,7 +374,7 @@ public class RulesDefinitionXmlLoader {
           .equalsIgnoreCase(elementName)) {
           remediationFunctionBaseEffort = StringUtils.trim(reader.getElementText());
         } else if ("remediationFunctionGapMultiplier".equalsIgnoreCase(elementName)
-                     || "debtRemediationFunctionCoefficient".equalsIgnoreCase(elementName)) {
+          || "debtRemediationFunctionCoefficient".equalsIgnoreCase(elementName)) {
           remediationFunctionGapMultiplier = StringUtils.trim(reader.getElementText());
         } else if ("status".equalsIgnoreCase(elementName)) {
           String s = StringUtils.trim(reader.getElementText());
@@ -384,14 +391,14 @@ public class RulesDefinitionXmlLoader {
   }
 
   private static void buildRule(RulesDefinition.NewRepository repo, String key, String name,
-                                @Nullable String description,
-                                String descriptionFormat, @Nullable String internalKey, String severity,
-                                @Nullable String type, RuleStatus status,
-                                boolean template, @Nullable String gapDescription,
-                                @Nullable String debtRemediationFunction,
-                                @Nullable String debtRemediationFunctionBaseEffort,
-                                @Nullable String debtRemediationFunctionGapMultiplier, List<ParamStruct> params,
-                                List<String> tags) {
+    @Nullable String description,
+    String descriptionFormat, @Nullable String internalKey, String severity,
+    @Nullable String type, RuleStatus status,
+    boolean template, @Nullable String gapDescription,
+    @Nullable String debtRemediationFunction,
+    @Nullable String debtRemediationFunctionBaseEffort,
+    @Nullable String debtRemediationFunctionGapMultiplier, List<ParamStruct> params,
+    List<String> tags) {
     try {
       RulesDefinition.NewRule rule = repo.createRule(key)
         .setSeverity(severity)
@@ -406,7 +413,7 @@ public class RulesDefinitionXmlLoader {
       }
       fillDescription(rule, descriptionFormat, description);
       fillRemediationFunction(rule, debtRemediationFunction, debtRemediationFunctionGapMultiplier,
-                              debtRemediationFunctionBaseEffort);
+        debtRemediationFunctionBaseEffort);
       fillParams(rule, params);
     } catch (Exception e) {
       throw new IllegalStateException(format("Fail to load the rule with key [%s:%s]", repo.key(), key), e);
@@ -414,14 +421,11 @@ public class RulesDefinitionXmlLoader {
   }
 
   private static void fillDescription(RulesDefinition.NewRule rule, String descriptionFormat,
-                                      @Nullable String description) {
+    @Nullable String description) {
     if (isNotBlank(description)) {
       switch (DescriptionFormat.valueOf(descriptionFormat)) {
         case HTML:
           rule.setHtmlDescription(description);
-          break;
-        case MARKDOWN:
-          rule.setMarkdownDescription(description);
           break;
         default:
           throw new IllegalArgumentException("Value of descriptionFormat is not supported: " + descriptionFormat);
@@ -430,7 +434,7 @@ public class RulesDefinitionXmlLoader {
   }
 
   private static void fillRemediationFunction(RulesDefinition.NewRule rule, @Nullable String debtRemediationFunction,
-                                              @Nullable String functionCoeff, @Nullable String functionOffset) {
+    @Nullable String functionCoeff, @Nullable String functionOffset) {
     if (isNotBlank(debtRemediationFunction)) {
       DebtRemediationFunction.Type functionType = DebtRemediationFunction.Type.valueOf(debtRemediationFunction);
       rule.setDebtRemediationFunction(rule.debtRemediationFunctions()

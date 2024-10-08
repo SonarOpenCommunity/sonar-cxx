@@ -131,9 +131,8 @@ class InterceptorTest {
   }
 
   /**
-   * Can not intercept non-public methods,
-   * but should not fail in their presence,
-   * because SonarTSQL uses private helper methods.
+   * Can not intercept non-public methods, but should not fail in their presence, because SonarTSQL uses private helper
+   * methods.
    */
   @Test
   void can_not_intercept_non_public_methods() {
@@ -150,9 +149,9 @@ class InterceptorTest {
 
   @Test
   void requires_class_to_be_public() {
-    var thrown = catchThrowableOfType(() -> Interceptor.create(NonPublicClass.class, new Class<?>[]{},
-                                                           new Object[]{}, methodInterceptor),
-                                  IllegalAccessError.class);
+    var thrown = catchThrowableOfType(IllegalAccessError.class,
+      () -> Interceptor.create(NonPublicClass.class, new Class<?>[]{}, new Object[]{}, methodInterceptor)
+    );
     assertThat(thrown)
       // Note that details of the message are different between JDK versions
       .hasMessageStartingWith(
@@ -167,10 +166,9 @@ class InterceptorTest {
    */
   @Test
   void requires_final_methods_to_be_non_public() {
-    var thrown = catchThrowableOfType(() -> Interceptor.create(PublicFinalMethod.class, new Class[]{},
-                                                           new Object[]{},
-                                                           methodInterceptor),
-            IncompatibleClassChangeError.class);
+    var thrown = catchThrowableOfType(IncompatibleClassChangeError.class,
+      () -> Interceptor.create(PublicFinalMethod.class, new Class[]{}, new Object[]{}, methodInterceptor)
+    );
     assertThat(thrown)
       // Note that details of the message are different between JDK versions
       .hasMessageStartingWith("class GeneratedBySSLR overrides final method");
@@ -187,10 +185,9 @@ class InterceptorTest {
 
   @Test
   void requires_non_primitive_return_types() {
-    var thrown = catchThrowableOfType(() -> Interceptor.create(PrimitiveReturnType.class,
-                                                           new Class[]{}, new Object[]{},
-                                                           methodInterceptor),
-                                  UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> Interceptor.create(PrimitiveReturnType.class, new Class[]{}, new Object[]{}, methodInterceptor)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 

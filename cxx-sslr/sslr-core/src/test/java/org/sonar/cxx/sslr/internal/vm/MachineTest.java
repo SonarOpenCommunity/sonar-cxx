@@ -35,9 +35,9 @@ class MachineTest {
   @Test
   void subSequence_not_supported() {
     var machine = new Machine("", new Instruction[0]);
-    var thrown = catchThrowableOfType(
-      () -> machine.subSequence(0, 0),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> machine.subSequence(0, 0)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
@@ -111,9 +111,9 @@ class MachineTest {
     assertThat(machine.peek().leftRecursion()).isEqualTo(1);
 
     // same rule and index of input sequence
-    var thrown = catchThrowableOfType(
-      () -> machine.pushReturn(0, matcher, 0),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> machine.pushReturn(0, matcher, 0)
+    );
     assertThat(thrown).hasMessage("Left recursion has been detected, involved rule: " + matcher.toString());
   }
 

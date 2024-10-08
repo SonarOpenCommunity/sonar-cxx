@@ -24,7 +24,6 @@
 package com.sonar.cxx.sslr.impl.matcher;
 
 import com.sonar.cxx.sslr.api.TokenType;
-import org.sonar.cxx.sslr.internal.vm.FirstOfExpression;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.SequenceExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypeClassExpression;
@@ -37,26 +36,6 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokenValueExpression;
 final class GrammarFunctions {
 
   private GrammarFunctions() {
-  }
-
-  public static final class Standard {
-
-    private Standard() {
-    }
-
-    /**
-     * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder#firstOf(Object, Object)}
-     * instead.
-     */
-    @Deprecated(since = "1.19")
-    public static Matcher firstOf(Object... e) {
-      checkSize(e);
-      if (e.length == 1) {
-        return convertToExpression(e[0]);
-      } else {
-        return new FirstOfExpression(convertToExpressions(e));
-      }
-    }
   }
 
   static ParsingExpression convertToSingleExpression(Object[] e) {
@@ -79,17 +58,16 @@ final class GrammarFunctions {
 
   private static ParsingExpression convertToExpression(Object e) {
     ParsingExpression expression;
-    if (e instanceof String) {
-      expression = new TokenValueExpression((String) e);
-    } else if (e instanceof TokenType) {
-      var tokenType = (TokenType) e;
+    if (e instanceof String string) {
+      expression = new TokenValueExpression(string);
+    } else if (e instanceof TokenType tokenType) {
       expression = new TokenTypeExpression(tokenType);
-    } else if (e instanceof RuleDefinition) {
-      expression = (RuleDefinition) e;
-    } else if (e instanceof Class) {
-      expression = new TokenTypeClassExpression((Class) e);
-    } else if (e instanceof ParsingExpression) {
-      expression = (ParsingExpression) e;
+    } else if (e instanceof RuleDefinition ruleDefinition) {
+      expression = ruleDefinition;
+    } else if (e instanceof Class aClass) {
+      expression = new TokenTypeClassExpression(aClass);
+    } else if (e instanceof ParsingExpression parsingExpression) {
+      expression = parsingExpression;
     } else {
       throw new IllegalArgumentException(
         "The matcher object can't be anything else than a Rule, Matcher, String, TokenType or Class. Object = " + e);

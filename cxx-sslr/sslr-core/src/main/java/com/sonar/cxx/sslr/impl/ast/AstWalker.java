@@ -75,14 +75,6 @@ public final class AstWalker {
     }
   }
 
-  /**
-   * @deprecated in 1.18, use {@link #walkAndVisit(AstNode)} instead
-   */
-  @Deprecated(since = "1.18")
-  public void walkVisitAndListen(AstNode ast, Object output) {
-    walkAndVisit(ast);
-  }
-
   private void visit(AstNode ast) {
     var nodeVisitors = getNodeVisitors(ast);
     visitNode(ast, nodeVisitors);

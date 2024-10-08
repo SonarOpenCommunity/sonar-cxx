@@ -93,13 +93,12 @@ class LexerfulGrammarBuilderTest {
     assertThat(b.anyTokenButNot(e1)).hasToString("Sequence[NextNot[" + e1 + "], AnyToken]");
 
     assertThat(b.till(e1)).hasToString("Sequence[ZeroOrMore[Sequence[NextNot[" + e1 + "], AnyToken]], " + e1
-                                                  + "]");
+      + "]");
 
     assertThat(b.exclusiveTill(e1)).hasToString("ZeroOrMore[Sequence[NextNot[" + e1 + "], AnyToken]]");
     assertThat(b.exclusiveTill(e1, e2)).hasToString("ZeroOrMore[Sequence[NextNot[FirstOf[" + e1 + ", " + e2
-                                                               + "]], AnyToken]]");
+      + "]], AnyToken]]");
 
-    assertThat(b.everything()).as("singleton").isSameAs(AnyTokenExpression.INSTANCE);
     assertThat(b.anyToken()).as("singleton").isSameAs(AnyTokenExpression.INSTANCE);
     assertThat(b.tillNewLine()).as("singleton").isSameAs(TillNewLineExpression.INSTANCE);
   }
@@ -128,7 +127,7 @@ class LexerfulGrammarBuilderTest {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.setRootRule(ruleKey);
-    var thrown = catchThrowableOfType(b::build, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, b::build);
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' hasn't been defined.");
   }
 
@@ -137,7 +136,7 @@ class LexerfulGrammarBuilderTest {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey);
-    var thrown = catchThrowableOfType(b::build, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, b::build);
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' hasn't been defined.");
   }
 
@@ -147,23 +146,23 @@ class LexerfulGrammarBuilderTest {
     var ruleKey1 = mock(GrammarRuleKey.class);
     var ruleKey2 = mock(GrammarRuleKey.class);
     b.rule(ruleKey1).is(ruleKey2);
-    var thrown = catchThrowableOfType(b::build, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, b::build);
     assertThat(thrown).hasMessage("The rule '" + ruleKey2 + "' hasn't been defined.");
   }
 
   @Test
   void test_incorrect_type_of_parsing_expression() {
-    var thrown = catchThrowableOfType(
-      () -> LexerfulGrammarBuilder.create().convertToExpression(new Object()),
-      IllegalArgumentException.class);
+    var thrown = catchThrowableOfType(IllegalArgumentException.class,
+      () -> LexerfulGrammarBuilder.create().convertToExpression(new Object())
+    );
     assertThat(thrown).hasMessage("Incorrect type of parsing expression: class java.lang.Object");
   }
 
   @Test
   void test_null_parsing_expression() {
-    var thrown = catchThrowableOfType(
-      () -> LexerfulGrammarBuilder.create().convertToExpression(null),
-      NullPointerException.class);
+    var thrown = catchThrowableOfType(NullPointerException.class,
+      () -> LexerfulGrammarBuilder.create().convertToExpression(null)
+    );
     assertThat(thrown).hasMessage("Parsing expression can't be null");
   }
 
@@ -172,9 +171,9 @@ class LexerfulGrammarBuilderTest {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo");
-    var thrown = catchThrowableOfType(
-      () -> b.rule(ruleKey).is("foo"),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> b.rule(ruleKey).is("foo")
+    );
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' has already been defined somewhere in the grammar.");
   }
 
@@ -183,7 +182,9 @@ class LexerfulGrammarBuilderTest {
     var b = LexerfulGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo", "bar");
-    var thrown = catchThrowableOfType(() -> b.rule(ruleKey).is("foo"), GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> b.rule(ruleKey).is("foo")
+    );
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' has already been defined somewhere in the grammar.");
   }
 

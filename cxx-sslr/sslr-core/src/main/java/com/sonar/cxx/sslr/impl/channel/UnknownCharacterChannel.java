@@ -42,14 +42,6 @@ public class UnknownCharacterChannel extends Channel<Lexer> {
   public UnknownCharacterChannel() {
   }
 
-  /**
-   * @deprecated logging removed in 1.20, use {@link #UnknownCharacterChannel()} or implement your own Channel with
-   * logging
-   */
-  @Deprecated
-  public UnknownCharacterChannel(boolean shouldLogWarning) {
-  }
-
   @Override
   public boolean consume(CodeReader code, Lexer lexer) {
     if (code.peek() != -1) {

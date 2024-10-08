@@ -44,9 +44,7 @@ class ActionParserTest {
 
   @Test
   void not_matching() throws Exception {
-    var thrown = catchThrowableOfType(
-      () -> parse(MyGrammarKeys.NUMERIC, "x"),
-      RecognitionException.class);
+    var thrown = catchThrowableOfType(RecognitionException.class, () -> parse(MyGrammarKeys.NUMERIC, "x"));
     assertThat(thrown).isExactlyInstanceOf(RecognitionException.class);
   }
 
@@ -110,8 +108,9 @@ class ActionParserTest {
 
   @Test
   void unknown_trivia() throws Exception {
-    var thrown = catchThrowableOfType(() -> parse(MyGrammarKeys.NUMERIC, "#preprocessor 42",
-                                              Numeric.class), IllegalStateException.class);
+    var thrown = catchThrowableOfType(IllegalStateException.class, ()
+      -> parse(MyGrammarKeys.NUMERIC, "#preprocessor 42", Numeric.class)
+    );
     assertThat(thrown).hasMessage("Unexpected trivia kind: PREPROCESSOR");
   }
 
@@ -166,7 +165,7 @@ class ActionParserTest {
       b.regexp("[0-9]+"));
     b.rule(MyGrammarKeys.EOF).is(b.token(GenericTokenType.EOF, b.endOfInput())).skip();
     return new ActionParser<>(StandardCharsets.UTF_8, b, MyGrammar.class, new MyTreeFactory(), new AstNodeBuilder(),
-                              ruleKey);
+      ruleKey);
   }
 
   private void assertNotParse(GrammarRuleKey ruleKey, String toParse) {

@@ -34,22 +34,22 @@ class VisualStudioTestResultsFileParserTest {
 
   @Test
   void no_counters() {
-    IllegalArgumentException thrown = catchThrowableOfType(() -> {
+    IllegalArgumentException thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.trx"),
-                                                     mock(UnitTestResults.class));
-    }, IllegalArgumentException.class);
+        mock(UnitTestResults.class));
+    });
     assertThat(thrown).hasMessageContaining("The mandatory <Counters> tag is missing in "
-                                              + new File(REPORT_PATH + "no_counters.trx").getAbsolutePath());
+      + new File(REPORT_PATH + "no_counters.trx").getAbsolutePath());
   }
 
   @Test
   void wrong_passed_number() {
-    ParseErrorException thrown = catchThrowableOfType(() -> {
+    ParseErrorException thrown = catchThrowableOfType(ParseErrorException.class, () -> {
       new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "wrong_passed_number.trx"),
-                                                     mock(UnitTestResults.class));
-    }, ParseErrorException.class);
+        mock(UnitTestResults.class));
+    });
     assertThat(thrown).hasMessageContaining("Expected an integer instead of \"foo\" for the attribute \"passed\" in "
-                                              + new File(REPORT_PATH + "wrong_passed_number.trx").getAbsolutePath());
+      + new File(REPORT_PATH + "wrong_passed_number.trx").getAbsolutePath());
   }
 
   @Test

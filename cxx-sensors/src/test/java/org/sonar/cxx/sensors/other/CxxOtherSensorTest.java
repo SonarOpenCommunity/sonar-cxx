@@ -68,7 +68,7 @@ class CxxOtherSensorTest {
   void shouldReportFileLevelViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY,
-                         "externalrules-reports/externalrules-result-filelevelviolation.xml");
+      "externalrules-reports/externalrules-result-filelevelviolation.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
@@ -84,7 +84,7 @@ class CxxOtherSensorTest {
   void shouldReportProjectLevelViolations() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY,
-                         "externalrules-reports/externalrules-result-projectlevelviolation.xml");
+      "externalrules-reports/externalrules-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
     sensor = new CxxOtherSensor();
@@ -101,9 +101,9 @@ class CxxOtherSensorTest {
     context.setSettings(settings);
     sensor = new CxxOtherSensor();
 
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
     assertThat(context.allIssues()).isEmpty();
   }
@@ -128,9 +128,9 @@ class CxxOtherSensorTest {
     context.setSettings(settings);
     sensor = new CxxOtherSensor();
 
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 

@@ -65,9 +65,9 @@ class RuleBuilderTest {
     when(delegate.getExpression()).thenReturn(e);
     var ruleKey = mock(GrammarRuleKey.class);
     when(delegate.getRuleKey()).thenReturn(ruleKey);
-    var thrown = catchThrowableOfType(
-      () -> ruleBuilder.is(e),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> ruleBuilder.is(e)
+    );
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' has already been defined somewhere in the grammar.");
   }
 

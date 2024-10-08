@@ -29,8 +29,8 @@ import javax.annotation.CheckForNull;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports.
@@ -38,7 +38,7 @@ import org.sonar.api.utils.log.Loggers;
 public abstract class CxxReportSensor implements ProjectSensor {
 
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
-  private static final Logger LOG = Loggers.get(CxxReportSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxReportSensor.class);
 
   private final Set<String> notFoundFiles = new HashSet<>();
 

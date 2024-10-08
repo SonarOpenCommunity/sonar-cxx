@@ -30,8 +30,8 @@ import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
@@ -41,7 +41,7 @@ import org.sonar.cxx.utils.CxxReportLocation;
  */
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxIssuesReportSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxIssuesReportSensor.class);
 
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private int savedNewIssues = 0;

@@ -64,12 +64,17 @@ public final class CxxFileTesterHelper {
   }
 
   private static String getSourceCode(File filename, Charset defaultCharset) throws IOException {
-    try (var bomInputStream = new BOMInputStream(new FileInputStream(filename),
-                                             ByteOrderMark.UTF_8,
-                                             ByteOrderMark.UTF_16LE,
-                                             ByteOrderMark.UTF_16BE,
-                                             ByteOrderMark.UTF_32LE,
-                                             ByteOrderMark.UTF_32BE)) {
+    try (var bomInputStream = BOMInputStream.builder()
+      .setInputStream(new FileInputStream(filename))
+      .setInclude(false)
+      .setByteOrderMarks(
+        ByteOrderMark.UTF_8,
+        ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_16BE,
+        ByteOrderMark.UTF_32LE,
+        ByteOrderMark.UTF_32BE
+      )
+      .get()) {
       ByteOrderMark bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();

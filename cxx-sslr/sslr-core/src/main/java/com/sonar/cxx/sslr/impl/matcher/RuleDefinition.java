@@ -30,7 +30,6 @@ import com.sonar.cxx.sslr.api.Rule;
 import com.sonar.cxx.sslr.impl.ast.AlwaysSkipFromAst;
 import com.sonar.cxx.sslr.impl.ast.NeverSkipFromAst;
 import com.sonar.cxx.sslr.impl.ast.SkipFromAstIfOnlyOneChild;
-import com.sonar.cxx.sslr.impl.matcher.GrammarFunctions.Standard;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
@@ -40,7 +39,7 @@ import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.RuleRefExpression;
 
 /**
- * <p>This class is not intended to be instantiated or subclassed by clients.</p>
+ * This class is not intended to be instantiated or subclassed by clients.
  */
 public class RuleDefinition implements Rule, AstNodeSkippingPolicy, GrammarRuleKey, CompilableGrammarRule, MemoParsingExpression {
 
@@ -77,11 +76,6 @@ public class RuleDefinition implements Rule, AstNodeSkippingPolicy, GrammarRuleK
     throwExceptionIfEmptyListOfMatchers(e);
     setExpression(GrammarFunctions.convertToSingleExpression(e));
     return this;
-  }
-
-  @Override
-  public void mock() {
-    setExpression((ParsingExpression) Standard.firstOf(getName(), getName().toUpperCase()));
   }
 
   @Override

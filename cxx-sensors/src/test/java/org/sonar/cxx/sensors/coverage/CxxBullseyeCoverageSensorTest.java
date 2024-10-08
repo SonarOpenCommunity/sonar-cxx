@@ -26,15 +26,15 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.coverage.bullseye.CxxCoverageBullseyeSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 class CxxBullseyeCoverageSensorTest {
 
-  private static final Logger LOG = Loggers.get(CxxBullseyeCoverageSensorTest.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxBullseyeCoverageSensorTest.class);
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 

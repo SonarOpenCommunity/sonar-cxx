@@ -75,14 +75,4 @@ public interface Rule extends AstNodeType {
   @Deprecated(since = "1.19")
   void skipIfOneChild();
 
-  /**
-   * Utility method used for unit testing in order to dynamically replace the definition of the rule to match as soon as
-   * a token whose value
-   * equals the name of the rule is encountered.
-   *
-   * @deprecated in 1.18, use {@link #override(Object...)} instead.
-   */
-  @Deprecated(since = "1.18")
-  void mock();
-
 }

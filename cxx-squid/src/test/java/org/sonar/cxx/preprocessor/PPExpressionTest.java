@@ -408,9 +408,9 @@ class PPExpressionTest {
 
   @Test
   void throw_on_invalid_expressions() {
-    EvaluationException thrown = catchThrowableOfType(() -> {
+    EvaluationException thrown = catchThrowableOfType(EvaluationException.class, () -> {
       evaluate("\"\"");
-    }, EvaluationException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(EvaluationException.class);
   }
 

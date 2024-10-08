@@ -38,20 +38,17 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Includes other source file into current source file at the line immediately after the directive.
- * <code>
- * #include < h-char-sequence > new-line (1)
- * #include " q-char-sequence " new-line (2)
- * #include pp-tokens new-line (3)
+ * Includes other source file into current source file at the line immediately after the directive.  <code>
+ * #include < h-char-sequence > new-line (1) #include " q-char-sequence " new-line (2) #include pp-tokens new-line (3)
  * </code>
  */
 public class PPInclude {
 
-  private static final Logger LOG = Loggers.get(PPInclude.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PPInclude.class);
   private static final String LOGMSG = "preprocessor: {} '{}'";
 
   private final CxxPreprocessor pp;
@@ -75,8 +72,7 @@ public class PPInclude {
   /**
    * Define the standard include directories for form (1).
    *
-   * Hints:
-   * - directories that do not exist are not included in the list to optimize the subsequent search
+   * Hints: - directories that do not exist are not included in the list to optimize the subsequent search
    *
    * @param includeDirs standard include directories
    * @param baseDir in case directories are relative, they are made absolute to baseDir
@@ -120,7 +116,7 @@ public class PPInclude {
       missingFileCounter++;
       String rootFilePath = state().getFileUnderAnalysisPath();
       LOG.debug("[" + rootFilePath + ":" + token.getLine() + "]: preprocessor cannot find include file '"
-                  + token.getValue() + "'");
+        + token.getValue() + "'");
     } else if (analysedFiles.add(fileName)) {
       state().pushFileState(fileName);
       try {
@@ -182,10 +178,8 @@ public class PPInclude {
    * The intent of syntax (2) is to search for the files that are not controlled by the implementation. Typical
    * implementations first search the directory where the current file resides then falls back to (1).
    *
-   * search order:
-   * - Absolute path names are used without modification. Only the specified path is searched.
-   * - if quoted, search quoted (fallback bracketed form)
-   * - search bracketed form
+   * search order: - Absolute path names are used without modification. Only the specified path is searched. - if
+   * quoted, search quoted (fallback bracketed form) - search bracketed form
    *
    * @param fileName filename to search for
    * @param quoted true if quoted include filename (else bracketed filename)
@@ -224,12 +218,17 @@ public class PPInclude {
    * @return returns the contents of the file
    */
   public String getSourceCode(Path fileName, Charset defaultCharset) throws IOException {
-    try (var bomInputStream = new BOMInputStream(new FileInputStream(fileName.toFile()),
-                                             ByteOrderMark.UTF_8,
-                                             ByteOrderMark.UTF_16LE,
-                                             ByteOrderMark.UTF_16BE,
-                                             ByteOrderMark.UTF_32LE,
-                                             ByteOrderMark.UTF_32BE)) {
+    try (var bomInputStream = BOMInputStream.builder()
+      .setInputStream(new FileInputStream(fileName.toFile()))
+      .setInclude(false)
+      .setByteOrderMarks(
+        ByteOrderMark.UTF_8,
+        ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_16BE,
+        ByteOrderMark.UTF_32LE,
+        ByteOrderMark.UTF_32BE
+      )
+      .get()) {
       var bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();
@@ -264,12 +263,10 @@ public class PPInclude {
    * the search fails, the directive is reprocessed as if it reads syntax (1) with the identical contained sequence
    * (including > characters, if any) from the original directive.
    *
-   * Searches for include files in this order:
-   * 1. In the same directory as the file that contains the #include statement.
-   * 2. In the directories of the currently opened include files, in the reverse order in which they were opened. The
-   * search begins in the directory of the parent include file and continues upward through the directories of any
-   * grandparent include files.
-   * 3. Fallback to use standard include directories of bracketed form (1).
+   * Searches for include files in this order: 1. In the same directory as the file that contains the #include
+   * statement. 2. In the directories of the currently opened include files, in the reverse order in which they were
+   * opened. The search begins in the directory of the parent include file and continues upward through the directories
+   * of any grandparent include files. 3. Fallback to use standard include directories of bracketed form (1).
    */
   @CheckForNull
   private Path searchQuoted(Path fileName) {
@@ -350,8 +347,8 @@ public class PPInclude {
    * Tests whether a file exists.
    *
    * @param fileName the path to the file to test
-   * @return {@code true} if the file exists; {@code false} if the file does not exist or
-   * its existence cannot be determined.
+   * @return {@code true} if the file exists; {@code false} if the file does not exist or its existence cannot be
+   * determined.
    */
   private boolean exists(Path fileName) {
     return pp.exists(fileName);

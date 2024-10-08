@@ -174,9 +174,9 @@ class InstructionTest {
     stack.setIndex(13);
     when(machine.peek()).thenReturn(stack);
     when(machine.getIndex()).thenReturn(13);
-    var thrown = catchThrowableOfType(
-      () -> instruction.execute(machine),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> instruction.execute(machine)
+    );
     assertThat(thrown).hasMessage("The inner part of ZeroOrMore and OneOrMore must not allow empty matches");
   }
 

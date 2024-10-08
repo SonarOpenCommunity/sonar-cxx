@@ -29,15 +29,15 @@ import javax.annotation.Nullable;
 import org.apache.commons.io.FileUtils;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@inheritDoc}
  */
 public class RulesDefinitionXml implements RulesDefinition {
 
-  private static final Logger LOG = Loggers.get(RulesDefinitionXml.class);
+  private static final Logger LOG = LoggerFactory.getLogger(RulesDefinitionXml.class);
 
   private final ServerFileSystem fileSystem;
   private final RulesDefinitionXmlLoader xmlRuleLoader;

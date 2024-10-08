@@ -54,8 +54,8 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxMetrics;
 import org.sonar.cxx.api.CxxMetric;
@@ -92,7 +92,7 @@ public class CxxSquidSensor implements ProjectSensor {
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.metric.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.metric.cpd.ignoreIdentifiers";
 
-  private static final Logger LOG = Loggers.get(CxxSquidSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxSquidSensor.class);
 
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;

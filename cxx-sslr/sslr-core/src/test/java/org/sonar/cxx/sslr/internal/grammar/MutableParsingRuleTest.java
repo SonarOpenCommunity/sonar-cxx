@@ -40,9 +40,9 @@ class MutableParsingRuleTest {
     var ruleKey = mock(GrammarRuleKey.class);
     var rule = new MutableParsingRule(ruleKey);
     rule.is(mock(ParsingExpression.class));
-    var thrown = catchThrowableOfType(
-      () -> rule.is(mock(ParsingExpression.class)),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> rule.is(mock(ParsingExpression.class))
+    );
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' has already been defined somewhere in the grammar.");
   }
 

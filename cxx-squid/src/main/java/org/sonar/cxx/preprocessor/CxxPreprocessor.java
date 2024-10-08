@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.annotation.CheckForNull;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxLexerPool;
@@ -81,7 +81,7 @@ import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
  */
 public class CxxPreprocessor extends Preprocessor {
 
-  private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxPreprocessor.class);
 
   private static final String MISSING_INCLUDE_MSG = "Preprocessor: {} include directive error(s). "
                                                       + "This is only relevant if parser creates syntax errors."

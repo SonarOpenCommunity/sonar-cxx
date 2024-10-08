@@ -52,9 +52,9 @@ class ToolkitPresenterTest {
   void checkInitializedBad() {
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
 
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       presenter.checkInitialized();
-    }, IllegalStateException.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalStateException.class)
       .hasMessage("the view must be set before the presenter can be ran");
@@ -157,9 +157,9 @@ class ToolkitPresenterTest {
 
   @Test
   void runFailsWithoutView() {
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class)).run("foo");
-    }, IllegalStateException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
@@ -199,7 +199,7 @@ class ToolkitPresenterTest {
     when(view.pickFileToParse()).thenReturn(file);
     var model = mock(SourceCodeModel.class);
     Mockito.doThrow(new RuntimeException("Parse error")).when(model).setSourceCode(Mockito.any(File.class), Mockito.any(
-                                                                                   Charset.class));
+      Charset.class));
 
     var presenter = new ToolkitPresenter((ConfigurationModel) when(mock(ConfigurationModel.class)
       .getCharset()).thenReturn(StandardCharsets.UTF_8).getMock(), model);
@@ -448,10 +448,10 @@ class ToolkitPresenterTest {
     var view = mock(ToolkitView.class);
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
 
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       presenter.setView(view);
       presenter.onConfigurationPropertyFocusLost("name");
-    }, IllegalArgumentException.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalArgumentException.class)
       .hasMessage("No such configuration property: name");

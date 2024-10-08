@@ -38,10 +38,10 @@ class CheckMessagesVerifierTest {
 
   @Test
   void next() {
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       CheckMessagesVerifier.verify(Collections.EMPTY_LIST)
         .next();
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .hasMessage("\nExpected violation");
@@ -51,10 +51,10 @@ class CheckMessagesVerifierTest {
   void noMore() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .noMore();
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .hasMessage("\nNo more violations expected\ngot: at line 1");
@@ -64,10 +64,10 @@ class CheckMessagesVerifierTest {
   void line() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .next().atLine(2);
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .hasMessage("\nExpected: 2\ngot: 1");
@@ -77,10 +77,10 @@ class CheckMessagesVerifierTest {
   void line_withoutHasNext() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .atLine(2);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalStateException.class)
       .hasMessage("Prior to this method you should call next()");
@@ -90,10 +90,10 @@ class CheckMessagesVerifierTest {
   void withMessage() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .next().atLine(1).withMessage("bar");
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .asString().contains("Expected: \"bar\"", "got: \"foo\"");
@@ -103,10 +103,10 @@ class CheckMessagesVerifierTest {
   void withMessage_withoutHasNext() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .withMessage("foo");
-    }, IllegalStateException.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalStateException.class)
       .hasMessage("Prior to this method you should call next()");
@@ -116,10 +116,10 @@ class CheckMessagesVerifierTest {
   void withMessageContaining() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .next().atLine(1).withMessageContaining("bar");
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .hasMessage("\nExpected: a string containing \"bar\"\ngot: \"foo\"");
@@ -129,10 +129,10 @@ class CheckMessagesVerifierTest {
   void withCost() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo", 0d));
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       CheckMessagesVerifier.verify(messages)
         .next().withCost(1d);
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .asString().contains("Expected: 1.0", "got: 0.0");

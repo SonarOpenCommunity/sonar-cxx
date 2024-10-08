@@ -640,7 +640,7 @@ class PPGrammarImplTest {
   }
 
   private void mockRule(GrammarRuleKey key) {
-    g.rule(key).mock();
+    g.rule(key).override(key.toString());
   }
 
 }

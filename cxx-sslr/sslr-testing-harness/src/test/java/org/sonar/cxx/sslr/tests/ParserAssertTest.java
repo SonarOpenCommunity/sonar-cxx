@@ -67,60 +67,59 @@ class ParserAssertTest {
 
   @Test
   void test_matches_failure() {
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert(parser).matches("bar"),
-      ParsingResultComparisonFailure.class
+    var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
+      () -> new ParserAssert(parser).matches("bar")
     );
     assertThat(thrown).hasMessageContaining("Rule 'ruleName' should match:\nbar");
   }
 
   @Test
   void test2_matches_failure() {
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert(parser).matches("foo bar"),
-      ParsingResultComparisonFailure.class);
+    var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
+      () -> new ParserAssert(parser).matches("foo bar")
+    );
     assertThat(thrown).hasMessageContaining("Rule 'ruleName' should match:\nfoo bar");
   }
 
   @Test
   void test_notMatches_failure() {
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert(parser).notMatches("foo"),
-      AssertionError.class);
+    var thrown = catchThrowableOfType(AssertionError.class,
+      () -> new ParserAssert(parser).notMatches("foo")
+    );
     assertThat(thrown.getMessage()).isEqualTo("Rule 'ruleName' should not match:\nfoo");
   }
 
   @Test
   void test_notMatches_failure2() {
     rule.override("foo", GenericTokenType.EOF);
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert(parser).notMatches("foo"),
-      AssertionError.class);
+    var thrown = catchThrowableOfType(AssertionError.class,
+      () -> new ParserAssert(parser).notMatches("foo")
+    );
     assertThat(thrown).hasMessage("Rule 'ruleName' should not match:\nfoo");
   }
 
   @Test
   void should_not_accept_null() {
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert((Parser) null).matches(""),
-      AssertionError.class);
+    var thrown = catchThrowableOfType(AssertionError.class,
+      () -> new ParserAssert((Parser) null).matches("")
+    );
     assertThat(thrown).hasMessageContaining("Expecting actual not to be null");
   }
 
   @Test
   void should_not_accept_null_root_rule() {
     parser.setRootRule(null);
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert(parser).matches(""),
-      AssertionError.class);
+    var thrown = catchThrowableOfType(AssertionError.class,
+      () -> new ParserAssert(parser).matches("")
+    );
     assertThat(thrown).hasMessage("Root rule of the parser should not be null");
   }
 
   @Test
   void test_lexer_failure() {
-    var thrown = catchThrowableOfType(
-      () -> new ParserAssert(parser).matches("_"),
-      ParsingResultComparisonFailure.class);
+    var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
+      () -> new ParserAssert(parser).matches("_")
+    );
     var expectedMessage = new StringBuilder()
       .append("Rule 'ruleName' should match:\n")
       .append("_\n")

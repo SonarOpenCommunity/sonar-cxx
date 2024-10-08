@@ -163,8 +163,8 @@ class FileHeaderCheckTest {
 
     check = new FileHeaderCheck();
     check.headerFormat = "//\\s*<copyright>\\s*"
-                           + "//\\s*Copyright \\(c\\) (AAA BBB|CCC DDD) GmbH. All rights reserved.\\s*"
-                           + "//\\s*</copyright>\\s*";
+      + "//\\s*Copyright \\(c\\) (AAA BBB|CCC DDD) GmbH. All rights reserved.\\s*"
+      + "//\\s*</copyright>\\s*";
     check.isRegularExpression = true;
 
     tester = CxxFileTesterHelper.create("src/test/resources/checks/FileHeaderCheck/Regex7.cc", ".");
@@ -179,7 +179,7 @@ class FileHeaderCheckTest {
     check.headerFormat = "[";
     check.isRegularExpression = true;
 
-    IllegalStateException thrown = catchThrowableOfType(check::init, IllegalStateException.class);
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, check::init);
     assertThat(thrown).hasMessage("Unable to compile the regular expression: \"^[\"");
   }
 

@@ -27,8 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.colorizer.CDocTokenizer;
 import org.sonar.colorizer.CppDocTokenizer;
 import org.sonar.colorizer.JavadocTokenizer;
@@ -47,7 +47,7 @@ import org.sonar.cxx.sslr.toolkit.Validators;
 
 public class CxxConfigurationModel extends AbstractConfigurationModel {
 
-  private static final Logger LOG = Loggers.get(CxxConfigurationModel.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxConfigurationModel.class);
 
   private static final String CHARSET_PROPERTY_KEY = "sonar.sourceEncoding";
   private static final String ERROR_RECOVERY_PROPERTY_KEY = "sonar.cxx.errorRecoveryEnabled";

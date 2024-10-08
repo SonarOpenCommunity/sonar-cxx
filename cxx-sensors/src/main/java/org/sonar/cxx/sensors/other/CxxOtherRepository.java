@@ -23,8 +23,8 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 
 /**
@@ -35,7 +35,7 @@ public class CxxOtherRepository implements RulesDefinition {
   public static final String KEY = "other";
   private static final String NAME = "Other";
 
-  private static final Logger LOG = Loggers.get(CxxOtherRepository.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxOtherRepository.class);
 
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private final Configuration config;
