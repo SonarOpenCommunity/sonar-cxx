@@ -23,7 +23,7 @@ import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.sonar.api.internal.apachecommons.lang.StringUtils;
+import org.sonar.api.internal.apachecommons.lang3.StringUtils;
 
 /**
  * Helper class to evaluate preprocessor numbers.

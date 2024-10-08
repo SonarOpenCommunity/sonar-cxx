@@ -25,7 +25,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.internal.apachecommons.lang.SystemUtils;
+import org.sonar.api.internal.apachecommons.lang3.SystemUtils;
 
 /**
  * These tests ensure that the relative paths in the INCLUDES are correctly converted to absolute paths. The project
