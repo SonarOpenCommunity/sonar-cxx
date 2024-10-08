@@ -27,7 +27,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.internal.apachecommons.lang.SystemUtils;
+import org.sonar.api.internal.apachecommons.lang3.SystemUtils;
 
 class JsonCompilationDatabaseTest {
 
