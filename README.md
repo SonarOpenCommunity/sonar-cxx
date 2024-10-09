@@ -18,7 +18,7 @@ This plugin is free software; you can redistribute it and/or modify it under the
 
 ## Features
 * parser supporting
-  * `C++03`, `C++11`, `C++14`,`C++17`, `C++20`
+  * `C++03`, `C++11`, `C++14`,`C++17`, `C++20`, `C++23`
   * `C89`, `C99`, `C11`, `C17`
 * compiler specific extensions
   * Microsoft extensions: `C++/CLI`, `Attributed ATL`
