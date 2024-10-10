@@ -30,12 +30,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VisualStudioTestResultsFileParser implements UnitTestResultsParser {
 
-  private static final Logger LOG = Loggers.get(VisualStudioTestResultsFileParser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(VisualStudioTestResultsFileParser.class);
 
   @Override
   public void accept(File file, UnitTestResults unitTestResults) {

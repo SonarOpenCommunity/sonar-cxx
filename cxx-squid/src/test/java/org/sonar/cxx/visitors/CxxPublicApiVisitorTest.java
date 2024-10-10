@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.groups.Tuple;
 import static org.assertj.core.groups.Tuple.tuple;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
@@ -40,7 +40,7 @@ import org.sonar.cxx.squidbridge.api.SourceFile;
 
 class CxxPublicApiVisitorTest {
 
-  private static final org.sonar.api.utils.log.Logger LOG = Loggers.get(CxxPublicApiVisitorTest.class);
+  private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(CxxPublicApiVisitorTest.class);
 
   private static String getFileExtension(String fileName) {
     int lastIndexOf = fileName.lastIndexOf('.');

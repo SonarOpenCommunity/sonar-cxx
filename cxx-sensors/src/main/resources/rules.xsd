@@ -24,13 +24,12 @@
                             <xs:element name="name" type="xs:string" />
                             <xs:element name="description" type="xs:string" />
                             <!--
-                            Optional format of description. Supported values are HTML (default) and MARKDOWN.
+                            Optional format of description. Supported values are HTML.
                             -->
                             <xs:element name="descriptionFormat" minOccurs="0" maxOccurs="1">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:enumeration value="HTML" />
-                                        <xs:enumeration value="MARKDOWN"/>
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>

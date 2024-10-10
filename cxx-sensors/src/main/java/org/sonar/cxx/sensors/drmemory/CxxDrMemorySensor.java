@@ -28,8 +28,8 @@ import javax.annotation.CheckForNull;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -48,7 +48,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPaths";
   public static final String REPORT_ENCODING_DEF = "sonar.cxx.drmemory.encoding";
   private static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
-  private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxDrMemorySensor.class);
 
   public static List<PropertyDefinition> properties() {
     var category = "CXX External Analyzers";

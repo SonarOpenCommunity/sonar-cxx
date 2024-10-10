@@ -35,15 +35,10 @@ import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.matchers.Matcher;
 import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
-import org.sonar.cxx.sslr.internal.vm.EndOfInputExpression;
-import org.sonar.cxx.sslr.internal.vm.FirstOfExpression;
 import org.sonar.cxx.sslr.internal.vm.Instruction;
 import org.sonar.cxx.sslr.internal.vm.MemoParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
-import org.sonar.cxx.sslr.internal.vm.PatternExpression;
 import org.sonar.cxx.sslr.internal.vm.RuleRefExpression;
-import org.sonar.cxx.sslr.internal.vm.SequenceExpression;
-import org.sonar.cxx.sslr.internal.vm.StringExpression;
 import org.sonar.cxx.sslr.parser.GrammarOperators;
 
 public class MutableParsingRule implements CompilableGrammarRule, Matcher, Rule, AstNodeSkippingPolicy, MemoParsingExpression, GrammarRuleKey {
@@ -94,15 +89,6 @@ public class MutableParsingRule implements CompilableGrammarRule, Matcher, Rule,
   public Rule override(Object... e) {
     setExpression((ParsingExpression) GrammarOperators.sequence(e));
     return this;
-  }
-
-  @Override
-  public void mock() {
-    setExpression(new SequenceExpression(
-        new StringExpression(getName()),
-        new FirstOfExpression(
-            new PatternExpression("\\s++"),
-            EndOfInputExpression.INSTANCE)));
   }
 
   @Override

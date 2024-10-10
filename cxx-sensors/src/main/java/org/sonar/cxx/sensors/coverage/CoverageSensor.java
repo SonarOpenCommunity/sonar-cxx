@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -37,7 +37,7 @@ import org.sonar.cxx.sensors.utils.ReportException;
  */
 public abstract class CoverageSensor extends CxxReportSensor {
 
-  private static final Logger LOG = Loggers.get(CoverageSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoverageSensor.class);
 
   private final CoverageParser parser;
   private final String reportPathsKey;

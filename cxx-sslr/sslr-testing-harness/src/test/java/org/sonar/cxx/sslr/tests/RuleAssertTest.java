@@ -47,25 +47,25 @@ class RuleAssertTest {
 
   @Test
   void test_matches_failure() {
-    var thrown = catchThrowableOfType(
-      () -> new RuleAssert(rule).matches("bar"),
-      ParsingResultComparisonFailure.class);
+    var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
+      () -> new RuleAssert(rule).matches("bar")
+    );
     assertThat(thrown).hasMessageContaining("Rule 'ruleName' should match:\nbar");
   }
 
   @Test
   void test_notMatches_failure() {
-    var thrown = catchThrowableOfType(
-      () -> new RuleAssert(rule).notMatches("foo"),
-      AssertionError.class);
+    var thrown = catchThrowableOfType(AssertionError.class,
+      () -> new RuleAssert(rule).notMatches("foo")
+    );
     assertThat(thrown).hasMessage("Rule 'ruleName' should not match:\nfoo");
   }
 
   @Test
   void should_not_accept_null() {
-    var thrown = catchThrowableOfType(
-      () -> new RuleAssert((Rule) null).matches(""),
-      AssertionError.class);
+    var thrown = catchThrowableOfType(AssertionError.class,
+      () -> new RuleAssert((Rule) null).matches("")
+    );
     assertThat(thrown).hasMessageContaining("Expecting actual not to be null");
   }
 
@@ -83,18 +83,16 @@ class RuleAssertTest {
 
   @Test
   void matchesPrefix_full_mistmatch() {
-    var thrown = catchThrowableOfType(
-      () -> new RuleAssert(rule).matchesPrefix("bar", " baz"),
-      ParsingResultComparisonFailure.class
+    var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
+      () -> new RuleAssert(rule).matchesPrefix("bar", " baz")
     );
     assertThat(thrown).hasMessageContaining("Rule 'ruleName' should match:\nbar\nwhen followed by:\n baz");
   }
 
   @Test
   void matchesPrefix_wrong_prefix() {
-    var thrown = catchThrowableOfType(
-      () -> new RuleAssert(rule).matchesPrefix("foo bar", " baz"),
-      ParsingResultComparisonFailure.class
+    var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
+      () -> new RuleAssert(rule).matchesPrefix("foo bar", " baz")
     );
     assertThat(thrown).hasMessage("Rule 'ruleName' should match:\nfoo bar\nwhen followed by:\n baz\nbut matched:\nfoo");
   }

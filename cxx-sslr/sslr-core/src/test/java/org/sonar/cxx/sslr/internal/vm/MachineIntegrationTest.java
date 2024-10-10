@@ -112,7 +112,7 @@ class MachineIntegrationTest {
       new FirstOfExpression(
         new StringExpression("foo"),
         new StringExpression(""))).compile(new CompilationHandler());
-    var thrown = catchThrowableOfType(() -> Machine.execute("foo", instructions), GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, () -> Machine.execute("foo", instructions));
     assertThat(thrown).hasMessage("The inner part of ZeroOrMore and OneOrMore must not allow empty matches");
   }
 
@@ -132,7 +132,7 @@ class MachineIntegrationTest {
       new FirstOfExpression(
         new StringExpression("foo"),
         new StringExpression(""))).compile(new CompilationHandler());
-    var thrown = catchThrowableOfType(() -> Machine.execute("foo", instructions), GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, () -> Machine.execute("foo", instructions));
     assertThat(thrown).hasMessage("The inner part of ZeroOrMore and OneOrMore must not allow empty matches");
   }
 

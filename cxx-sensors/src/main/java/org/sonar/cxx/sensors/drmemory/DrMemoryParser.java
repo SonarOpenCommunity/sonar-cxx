@@ -27,14 +27,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
 public final class DrMemoryParser {
 
-  private static final Logger LOG = Loggers.get(DrMemoryParser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DrMemoryParser.class);
   private static final Pattern RX_MESSAGE_FINDER = Pattern.compile("^Error #\\d{1,6}:(.*)");
   private static final Pattern RX_FILE_FINDER = Pattern.compile(
     "\\s*+#[^\\[]++\\[((?>[a-zA-Z]:[\\\\/])??[^:]++):(\\d{1,5})\\]");

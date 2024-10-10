@@ -40,7 +40,7 @@ class ChannelDispatcherTest {
   @Test
   void shouldAddChannels() {
     var dispatcher = ChannelDispatcher.builder().addChannels(new SpaceDeletionChannel(),
-                                                         new FakeChannel()).build();
+      new FakeChannel()).build();
     assertThat(dispatcher.getChannels()).hasSize(2);
     assertThat(dispatcher.getChannels()[0]).isInstanceOf(SpaceDeletionChannel.class);
     assertThat(dispatcher.getChannels()[1]).isInstanceOf(FakeChannel.class);
@@ -50,9 +50,9 @@ class ChannelDispatcherTest {
   void shouldThrowExceptionWhenNoChannelToConsumeNextCharacter() {
     var dispatcher = ChannelDispatcher.builder().failIfNoChannelToConsumeOneCharacter().build();
 
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       dispatcher.consume(new CodeReader("two words"), new StringBuilder());
-    }, IllegalStateException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 

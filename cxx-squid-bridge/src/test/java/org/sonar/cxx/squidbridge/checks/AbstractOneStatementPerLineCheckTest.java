@@ -43,7 +43,7 @@ class AbstractOneStatementPerLineCheckTest {
 
     @Override
     public boolean isExcluded(AstNode statementNode) {
-      return statementNode.getChild(0).is(MiniCGrammar.COMPOUND_STATEMENT);
+      return statementNode.getFirstChild().is(MiniCGrammar.COMPOUND_STATEMENT);
     }
 
   }

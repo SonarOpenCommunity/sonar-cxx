@@ -65,7 +65,7 @@ class DelayedRuleInvocationExpressionTest {
     when(grammarBuilderInterceptor.ruleKeyForMethod(method)).thenReturn(ruleKey);
 
     var expression = new DelayedRuleInvocationExpression(b, grammarBuilderInterceptor,
-                                                     method);
+      method);
 
     var compiler = mock(CompilationHandler.class);
     expression.compile(compiler);
@@ -82,12 +82,9 @@ class DelayedRuleInvocationExpressionTest {
   void should_fail_when_method_is_not_mapped() throws Exception {
     var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
 
-    var thrown = catchThrowableOfType(() -> {
-      new DelayedRuleInvocationExpression(LexerlessGrammarBuilder.create(),
-                                          mock(GrammarBuilderInterceptor.class),
-                                          method).compile(mock(
-        CompilationHandler.class));
-    }, IllegalStateException.class);
+    var thrown = catchThrowableOfType(IllegalStateException.class, () -> {
+      new DelayedRuleInvocationExpression(LexerlessGrammarBuilder.create(), mock(GrammarBuilderInterceptor.class), method).compile(mock(CompilationHandler.class));
+    });
     assertThat(thrown).hasMessage("Cannot find the rule key corresponding to the invoked method: FOO()");
   }
 
@@ -100,7 +97,7 @@ class DelayedRuleInvocationExpressionTest {
 
     var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
     assertThat(new DelayedRuleInvocationExpression(mock(LexerlessGrammarBuilder.class), mock(
-                                                   GrammarBuilderInterceptor.class), method)).hasToString(
+      GrammarBuilderInterceptor.class), method)).hasToString(
       "FOO()");
   }
 

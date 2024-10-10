@@ -40,7 +40,7 @@ class AssertionsTest {
   @Test
   void private_constructor() throws Exception {
     Constructor constructor = Assertions.class.getDeclaredConstructor();
-    assertThat(constructor.isAccessible()).isFalse();
+    assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);
     constructor.newInstance();
   }

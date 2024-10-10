@@ -26,8 +26,8 @@ import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import java.util.Arrays;
 import java.util.List;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -74,7 +74,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
    */
   public static final String API_DEFAULT_FILE_SUFFIXES = ".hxx,.hpp,.hh,.h";
 
-  private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxPublicApiVisitor.class);
 
   private int publicApiCounter;
   private int undocumentedApiCounter;

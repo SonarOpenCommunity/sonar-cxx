@@ -41,7 +41,7 @@ class LexerlessGrammarTest {
 
   @Test
   void should_throw_exception() {
-    var thrown = catchThrowableOfType(IllegalGrammar::new, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, IllegalGrammar::new);
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }
 

@@ -33,8 +33,8 @@ import org.sonar.api.batch.Phase;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
 @Phase(name = Phase.Name.PRE)
@@ -46,7 +46,7 @@ public class XlstSensor implements ProjectSensor {
   public static final String OUTPUT_KEY = ".outputs";
   private static final String MISSING_VALUE = "XLST: '{}' value is not defined.";
 
-  private static final Logger LOG = Loggers.get(XlstSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(XlstSensor.class);
   private static final int MAX_STYLESHEETS = 10;
 
   private SensorContext context;

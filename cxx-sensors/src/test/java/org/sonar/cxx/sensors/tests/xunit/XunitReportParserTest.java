@@ -70,9 +70,9 @@ class XunitReportParserTest {
     parser = new StaxParser(parserHandler, false);
     File report = TestUtils.loadResource(pathPrefix + "invalid-time-xunit-report.xml");
 
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
       parser.parse(report);
-    }, javax.xml.stream.XMLStreamException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
   }
 

@@ -34,8 +34,8 @@ import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class holding various, well, utilities
@@ -43,7 +43,7 @@ import org.sonar.api.utils.log.Loggers;
 public final class CxxUtils {
 
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
-  private static final Logger LOG = Loggers.get(CxxUtils.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxUtils.class);
 
   private CxxUtils() {
     // only static methods

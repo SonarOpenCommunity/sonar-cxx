@@ -33,8 +33,8 @@ import org.jdom2.input.sax.XMLReaders;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -46,7 +46,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPaths";
 
-  private static final Logger LOG = Loggers.get(CxxRatsSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
 
   public static List<PropertyDefinition> properties() {

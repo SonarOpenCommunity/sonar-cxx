@@ -185,14 +185,6 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * @deprecated in 1.19, use {@link #anyToken()} instead.
-   */
-  @Deprecated(since = "1.19")
-  public Object everything() {
-    return AnyTokenExpression.INSTANCE;
-  }
-
-  /**
    * Creates parsing expression - "any token".
    * During execution of this expression parser will unconditionally consume following token.
    * This expression fails, if end of input reached.

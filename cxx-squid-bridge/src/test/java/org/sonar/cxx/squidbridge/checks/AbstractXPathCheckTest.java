@@ -96,9 +96,9 @@ class AbstractXPathCheckTest {
   @Test
   void wrong_xpath() {
     check.xpath = "//";
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       scanFile("/checks/xpath.mc", check);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalStateException.class)
       .hasMessage("Unable to initialize the XPath engine, perhaps because of an invalid query: //");

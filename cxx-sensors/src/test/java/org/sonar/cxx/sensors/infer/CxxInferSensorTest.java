@@ -107,9 +107,9 @@ class CxxInferSensorTest {
     context.setSettings(settings);
     var sensor = new CxxInferSensor();
 
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 

@@ -36,7 +36,7 @@ class RuleDefinitionTest {
   @Test
   void testEmptyIs() {
     var javaClassDefinition = new RuleDefinition("JavaClassDefinition");
-    var thrown = catchThrowableOfType(javaClassDefinition::is, IllegalStateException.class);
+    var thrown = catchThrowableOfType(IllegalStateException.class, javaClassDefinition::is);
     assertThat(thrown.getMessage()).isEqualTo("The rule 'JavaClassDefinition' should at least contains one matcher.");
   }
 
@@ -44,9 +44,8 @@ class RuleDefinitionTest {
   void testMoreThanOneDefinitionForASigleRuleWithIs() {
     var javaClassDefinition = new RuleDefinition("JavaClassDefinition");
     javaClassDefinition.is("option1");
-    var thrown = catchThrowableOfType(
-      () -> javaClassDefinition.is("option2"),
-      IllegalStateException.class
+    var thrown = catchThrowableOfType(IllegalStateException.class,
+      () -> javaClassDefinition.is("option2")
     );
     assertThat(thrown)
       .hasMessage("The rule 'JavaClassDefinition' has already been defined somewhere in the grammar.");

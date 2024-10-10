@@ -169,9 +169,9 @@ class LineOffsetsTest {
   void getOffsetBadLine() {
     var lineOffsets = new LineOffsets("");
 
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       lineOffsets.getOffset(0, 0);
-    }, IllegalArgumentException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
@@ -179,9 +179,9 @@ class LineOffsetsTest {
   void getOffsetBadColumn() {
     var lineOffsets = new LineOffsets("");
 
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       lineOffsets.getOffset(1, -1);
-    }, IllegalArgumentException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalArgumentException.class);
   }
 

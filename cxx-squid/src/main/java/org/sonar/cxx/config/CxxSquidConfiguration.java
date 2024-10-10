@@ -50,8 +50,8 @@ import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.squidbridge.api.SquidConfiguration;
 
 /**
@@ -130,7 +130,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   public static final String INCLUDE_DIRECTORIES = "IncludeDirectories";
   public static final String FORCE_INCLUDES = "ForceIncludes";
 
-  private static final Logger LOG = Loggers.get(CxxSquidConfiguration.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxSquidConfiguration.class);
 
   // case-sensitive filesystem or not
   private static boolean isCaseSensitive = true;

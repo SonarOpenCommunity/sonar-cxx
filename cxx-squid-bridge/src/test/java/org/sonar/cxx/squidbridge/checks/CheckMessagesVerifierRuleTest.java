@@ -52,11 +52,11 @@ class CheckMessagesVerifierRuleTest {
     Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
     var rule = new CheckMessagesVerifierRule();
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       rule.verify(messages);
       rule.verify(Collections.EMPTY_LIST);
       rule.verify();
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .hasMessageContaining("\nNo more violations expected\ngot:");
@@ -67,11 +67,11 @@ class CheckMessagesVerifierRuleTest {
     Collection<CheckMessage> messages = Arrays.asList(mock(CheckMessage.class));
     var rule = new CheckMessagesVerifierRule();
 
-    AssertionError thrown = catchThrowableOfType(() -> {
+    AssertionError thrown = catchThrowableOfType(AssertionError.class, () -> {
       rule.verify(Collections.EMPTY_LIST);
       rule.verify(messages);
       rule.verify();
-    }, AssertionError.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(AssertionError.class)
       .hasMessageContaining("\nNo more violations expected\ngot:");

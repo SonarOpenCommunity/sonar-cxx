@@ -28,15 +28,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JsonCompilationDatabase
  */
 public class JsonCompilationDatabase {
 
-  private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
+  private static final Logger LOG = LoggerFactory.getLogger(JsonCompilationDatabase.class);
 
   private final CxxSquidConfiguration squidConfig;
 

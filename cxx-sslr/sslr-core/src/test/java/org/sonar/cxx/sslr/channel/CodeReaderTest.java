@@ -101,13 +101,13 @@ class CodeReaderTest {
     reader.pop();
     reader.pop();
 
-    var thrown = catchThrowableOfType(
-      () -> reader.popTo(Pattern.compile("([a-fA-F]|\\d)+").matcher(""), new StringBuilder()),
-      ChannelException.class);
+    var thrown = catchThrowableOfType(ChannelException.class,
+      () -> reader.popTo(Pattern.compile("([a-fA-F]|\\d)+").matcher(""), new StringBuilder())
+    );
     assertThat(thrown)
       .hasMessage("Unable to apply regular expression '([a-fA-F]|\\d)+' at line 2 and column 1,"
-                    + " because it led to a stack overflow error."
-                    + " This error may be due to an inefficient use of alternations - see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507");
+        + " because it led to a stack overflow error."
+        + " This error may be due to an inefficient use of alternations - see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507");
   }
 
   @Test

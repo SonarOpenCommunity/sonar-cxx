@@ -64,19 +64,19 @@ class OptionalTest {
 
     assertThat(absent.hashCode()).isEqualTo(0x598df91c);
 
-    var thrown = catchThrowableOfType(absent::get, IllegalStateException.class);
+    var thrown = catchThrowableOfType(IllegalStateException.class, absent::get);
     assertThat(thrown).hasMessage("value is absent");
   }
 
   @Test
   void present_or_null() {
-    var thrown = catchThrowableOfType(() -> present.or(null), NullPointerException.class);
+    var thrown = catchThrowableOfType(NullPointerException.class, () -> present.or(null));
     assertThat(thrown).hasMessage("use orNull() instead of or(null)");
   }
 
   @Test
   void absent_or_null() {
-    var thrown = catchThrowableOfType(() -> absent.or(null), NullPointerException.class);
+    var thrown = catchThrowableOfType(NullPointerException.class, () -> absent.or(null));
     assertThat(thrown).hasMessage("use orNull() instead of or(null)");
   }
 

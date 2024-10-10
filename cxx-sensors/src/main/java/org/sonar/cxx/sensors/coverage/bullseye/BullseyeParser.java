@@ -30,8 +30,8 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.coverage.CoverageMeasures;
 import org.sonar.cxx.sensors.coverage.CoverageParser;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -43,7 +43,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  */
 public class BullseyeParser implements CoverageParser {
 
-  private static final Logger LOG = Loggers.get(BullseyeParser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BullseyeParser.class);
 
   private String prevLine;
   private int totalconditions;

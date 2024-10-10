@@ -82,10 +82,10 @@ class ValgrindReportParserTest {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
 
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
       // error contains no kind-tag
       parser.parse(absReportFile);
-    }, javax.xml.stream.XMLStreamException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
   }
 
@@ -94,10 +94,10 @@ class ValgrindReportParserTest {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
 
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
       // error contains no what- or xwhat-tag
       parser.parse(absReportFile);
-    }, javax.xml.stream.XMLStreamException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
   }
 
@@ -106,10 +106,10 @@ class ValgrindReportParserTest {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
 
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(() -> {
+    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
       // error contains no stack-tag
       parser.parse(absReportFile);
-    }, javax.xml.stream.XMLStreamException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
   }
 

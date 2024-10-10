@@ -94,24 +94,25 @@ public class RulesDefinitionXmlLoaderTest {
 
   @Test
   public void fail_if_missing_rule_key() {
-    assertThatThrownBy(() -> load(IOUtils.toInputStream("<rules><rule><name>Foo</name></rule></rules>"),
-                                  StandardCharsets.UTF_8.name()))
+    assertThatThrownBy(() -> load(IOUtils.toInputStream(
+      "<rules><rule><name>Foo</name></rule></rules>", StandardCharsets.UTF_8),
+      StandardCharsets.UTF_8.name()))
       .isInstanceOf(IllegalStateException.class);
   }
 
   @Test
   public void fail_if_missing_property_key() {
     assertThatThrownBy(() -> load(IOUtils.toInputStream(
-      "<rules><rule><key>foo</key><name>Foo</name><param></param></rule></rules>"),
-                                  StandardCharsets.UTF_8.name()))
+      "<rules><rule><key>foo</key><name>Foo</name><param></param></rule></rules>", StandardCharsets.UTF_8),
+      StandardCharsets.UTF_8.name()))
       .isInstanceOf(IllegalStateException.class);
   }
 
   @Test
   public void fail_on_invalid_rule_parameter_type() {
     assertThatThrownBy(() -> load(IOUtils.toInputStream(
-      "<rules><rule><key>foo</key><name>Foo</name><param><key>key</key><type>INVALID</type></param></rule></rules>"),
-                                  StandardCharsets.UTF_8.name()))
+      "<rules><rule><key>foo</key><name>Foo</name><param><key>key</key><type>INVALID</type></param></rule></rules>", StandardCharsets.UTF_8),
+      StandardCharsets.UTF_8.name()))
       .isInstanceOf(IllegalStateException.class);
   }
 
@@ -173,8 +174,8 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void test_default_values() {
     String xml = "" + "<rules>" + "  <rule>"
-                   + "    <key>1</key>" + "    <name>One</name>" + "    <description>Desc</description>"
-                   + "  </rule>" + "</rules>";
+      + "    <key>1</key>" + "    <name>One</name>" + "    <description>Desc</description>"
+      + "  </rule>" + "</rules>";
     RulesDefinition.Rule rule = load(xml).rule("1");
     assertThat(rule.severity()).isEqualTo("MAJOR");
     assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
@@ -188,9 +189,9 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void test_default_info_values() {
     String xml = "" + "<rules>" + "  <rule>"
-                   + "    <key>1</key>" + "    <name>One</name>" + "    <description>Desc</description>"
-                   + "    <severity>INFO</severity>"
-                   + "  </rule>" + "</rules>";
+      + "    <key>1</key>" + "    <name>One</name>" + "    <description>Desc</description>"
+      + "    <severity>INFO</severity>"
+      + "  </rule>" + "</rules>";
     RulesDefinition.Rule rule = load(xml).rule("1");
     assertThat(rule.severity()).isEqualTo("INFO");
     assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
@@ -201,10 +202,10 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void test_linear_remediation_function() {
     String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                   + "    <description>Desc</description>" + "    <gapDescription>lines</gapDescription>"
-                   + "    <remediationFunction>LINEAR</remediationFunction>"
-                   + "    <remediationFunctionGapMultiplier>2d 3h</remediationFunctionGapMultiplier>" + "  </rule>"
-                   + "</rules>";
+      + "    <description>Desc</description>" + "    <gapDescription>lines</gapDescription>"
+      + "    <remediationFunction>LINEAR</remediationFunction>"
+      + "    <remediationFunctionGapMultiplier>2d 3h</remediationFunctionGapMultiplier>" + "  </rule>"
+      + "</rules>";
     RulesDefinition.Rule rule = load(xml).rule("1");
     assertThat(rule.gapDescription()).isEqualTo("lines");
     DebtRemediationFunction function = rule.debtRemediationFunction();
@@ -217,12 +218,12 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void test_linear_with_offset_remediation_function() {
     String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                   + "    <description>Desc</description>"
-                   + "    <effortToFixDescription>lines</effortToFixDescription>"
-                   + "    <remediationFunction>LINEAR_OFFSET</remediationFunction>"
-                   + "    <remediationFunctionGapMultiplier>2d 3h</remediationFunctionGapMultiplier>"
-                   + "    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>" + "  </rule>"
-                   + "</rules>";
+      + "    <description>Desc</description>"
+      + "    <effortToFixDescription>lines</effortToFixDescription>"
+      + "    <remediationFunction>LINEAR_OFFSET</remediationFunction>"
+      + "    <remediationFunctionGapMultiplier>2d 3h</remediationFunctionGapMultiplier>"
+      + "    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>" + "  </rule>"
+      + "</rules>";
     RulesDefinition.Rule rule = load(xml).rule("1");
     assertThat(rule.gapDescription()).isEqualTo("lines");
     DebtRemediationFunction function = rule.debtRemediationFunction();
@@ -235,10 +236,10 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void test_constant_remediation_function() {
     String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                   + "    <description>Desc</description>"
-                   + "    <remediationFunction>CONSTANT_ISSUE</remediationFunction>"
-                   + "    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>" + "  </rule>"
-                   + "</rules>";
+      + "    <description>Desc</description>"
+      + "    <remediationFunction>CONSTANT_ISSUE</remediationFunction>"
+      + "    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>" + "  </rule>"
+      + "</rules>";
     RulesDefinition.Rule rule = load(xml).rule("1");
     DebtRemediationFunction function = rule.debtRemediationFunction();
     assertThat(function).isNotNull();
@@ -250,9 +251,9 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void fail_if_invalid_remediation_function() {
     assertThatThrownBy(() -> load("" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                                    + "    <description>Desc</description>"
-                                    + "    <remediationFunction>UNKNOWN</remediationFunction>" + "  </rule>"
-                                    + "</rules>"))
+      + "    <description>Desc</description>"
+      + "    <remediationFunction>UNKNOWN</remediationFunction>" + "  </rule>"
+      + "</rules>"))
       .isInstanceOf(IllegalStateException.class)
       .hasMessage("Fail to load the rule with key [squid:1]")
       .hasCauseInstanceOf(IllegalArgumentException.class)
@@ -260,20 +261,10 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void markdown_description() {
-    String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                   + "    <description>Desc</description>" + "    <descriptionFormat>MARKDOWN</descriptionFormat>"
-                   + "  </rule>" + "</rules>";
-    RulesDefinition.Rule rule = load(xml).rule("1");
-    assertThat(rule.markdownDescription()).isEqualTo("Desc");
-    assertThat(rule.htmlDescription()).isNull();
-  }
-
-  @Test
   public void fail_if_unsupported_description_format() {
     String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                   + "    <description>Desc</description>" + "    <descriptionFormat>UNKNOWN</descriptionFormat>"
-                   + "  </rule>" + "</rules>";
+      + "    <description>Desc</description>" + "    <descriptionFormat>UNKNOWN</descriptionFormat>"
+      + "  </rule>" + "</rules>";
 
     assertThatThrownBy(() -> load(xml).rule("1"))
       .isInstanceOf(IllegalStateException.class)
@@ -286,12 +277,12 @@ public class RulesDefinitionXmlLoaderTest {
   @Test
   public void test_deprecated_remediation_function() {
     String xml = "" + "<rules>" + "  <rule>" + "    <key>1</key>" + "    <name>One</name>"
-                   + "    <description>Desc</description>"
-                   + "    <effortToFixDescription>lines</effortToFixDescription>"
-                   + "    <debtRemediationFunction>LINEAR_OFFSET</debtRemediationFunction>"
-                   + "    <debtRemediationFunctionCoefficient>2d 3h</debtRemediationFunctionCoefficient>"
-                   + "    <debtRemediationFunctionOffset>5min</debtRemediationFunctionOffset>" + "  </rule>"
-                   + "</rules>";
+      + "    <description>Desc</description>"
+      + "    <effortToFixDescription>lines</effortToFixDescription>"
+      + "    <debtRemediationFunction>LINEAR_OFFSET</debtRemediationFunction>"
+      + "    <debtRemediationFunctionCoefficient>2d 3h</debtRemediationFunctionCoefficient>"
+      + "    <debtRemediationFunctionOffset>5min</debtRemediationFunctionOffset>" + "  </rule>"
+      + "</rules>";
     RulesDefinition.Rule rule = load(xml).rule("1");
     assertThat(rule.gapDescription()).isEqualTo("lines");
     DebtRemediationFunction function = rule.debtRemediationFunction();

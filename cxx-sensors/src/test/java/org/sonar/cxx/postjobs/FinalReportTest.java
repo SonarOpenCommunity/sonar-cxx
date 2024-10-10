@@ -31,13 +31,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mockito;
+import org.slf4j.event.Level;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.postjob.PostJobContext;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.testfixtures.log.LogTesterJUnit5;
-import org.slf4j.event.Level;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
@@ -86,12 +86,17 @@ class FinalReportTest {
   }
 
   private static String getSourceCode(File filename, Charset defaultCharset) throws IOException {
-    try (var bomInputStream = new BOMInputStream(new FileInputStream(filename),
-                                             ByteOrderMark.UTF_8,
-                                             ByteOrderMark.UTF_16LE,
-                                             ByteOrderMark.UTF_16BE,
-                                             ByteOrderMark.UTF_32LE,
-                                             ByteOrderMark.UTF_32BE)) {
+    try (var bomInputStream = BOMInputStream.builder()
+      .setInputStream(new FileInputStream(filename))
+      .setInclude(false)
+      .setByteOrderMarks(
+        ByteOrderMark.UTF_8,
+        ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_16BE,
+        ByteOrderMark.UTF_32LE,
+        ByteOrderMark.UTF_32BE
+      )
+      .get()) {
       ByteOrderMark bom = bomInputStream.getBOM();
       Charset charset = bom != null ? Charset.forName(bom.getCharsetName()) : defaultCharset;
       byte[] bytes = bomInputStream.readAllBytes();

@@ -27,8 +27,8 @@ import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.coverage.CoverageMeasures;
 import org.sonar.cxx.sensors.coverage.CoverageParser;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -40,7 +40,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  */
 public class CoberturaParser implements CoverageParser {
 
-  private static final Logger LOG = Loggers.get(CoberturaParser.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CoberturaParser.class);
   private static final Pattern CONDITION_PATTERN = Pattern.compile("\\((.*?)\\)");
 
   private Path baseDir = Path.of(".");

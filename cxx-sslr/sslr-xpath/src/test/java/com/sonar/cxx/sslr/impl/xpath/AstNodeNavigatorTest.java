@@ -45,17 +45,17 @@ class AstNodeNavigatorTest {
 
   @Test
   void getTextStringValue() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getTextStringValue(null),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getTextStringValue(null)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void getCommentStringValue() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getCommentStringValue(null),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getCommentStringValue(null)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
@@ -77,17 +77,17 @@ class AstNodeNavigatorTest {
   void getAttributeStringValue2() {
     var attribute = mock(Attribute.class);
     when(attribute.getName()).thenReturn("foo");
-    var thrown = catchThrowableOfType(
-      () -> navigator.getAttributeStringValue(attribute),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getAttributeStringValue(attribute)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void getElementStringValue() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getElementStringValue(null),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getElementStringValue(null)
+    );
     assertThat(thrown)
       .hasMessage("Implicit nodes to string conversion is not supported. Use the tokenValue attribute instead.");
   }
@@ -95,17 +95,17 @@ class AstNodeNavigatorTest {
   /* Namespaces */
   @Test
   void getNamespacePrefix() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getNamespacePrefix(null),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getNamespacePrefix(null)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void getNamespaceStringValue() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getNamespaceStringValue(null),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getNamespaceStringValue(null)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
@@ -217,9 +217,9 @@ class AstNodeNavigatorTest {
 
   @Test
   void getChildAxisIterator2() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getChildAxisIterator(new Object()),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getChildAxisIterator(new Object())
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
@@ -236,25 +236,25 @@ class AstNodeNavigatorTest {
 
   @Test
   void getParentNode2() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getParentNode(new Object()),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getParentNode(new Object())
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void getParentAxisIterator() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getParentAxisIterator(new Object()),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getParentAxisIterator(new Object())
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void getAttributeAxisIterator() {
-    var thrown = catchThrowableOfType(
-      () -> navigator.getAttributeAxisIterator(new Object()),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> navigator.getAttributeAxisIterator(new Object())
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 

@@ -81,9 +81,9 @@ class AbstractCommentRegularExpressionCheckTest {
   @Test
   void wrong_regular_expression() {
     check.regularExpression = "*";
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       scanFile("/checks/commentRegularExpression.mc", check);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalStateException.class)
       .hasMessage("Unable to compile regular expression: *");

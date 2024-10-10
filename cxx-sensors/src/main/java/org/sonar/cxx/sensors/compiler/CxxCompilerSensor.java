@@ -26,8 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.sensors.utils.TextScanner;
@@ -38,7 +38,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
  */
 public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
 
-  private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxCompilerSensor.class);
   private final Set<String> notExistingGroupName = new HashSet<>();
 
   @Override

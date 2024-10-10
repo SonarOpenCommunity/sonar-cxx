@@ -83,18 +83,6 @@ class AstNodeTest {
   }
 
   @Test
-  void testGetChild() {
-    var parent = new AstNode(new NodeType(), "parent", null);
-    var child1 = new AstNode(new NodeType(), "child1", null);
-    var child2 = new AstNode(new NodeType(), "child2", null);
-    parent.addChild(child1);
-    parent.addChild(child2);
-
-    assertThat(parent.getChild(0)).isSameAs(child1);
-    assertThat(parent.getChild(1)).isSameAs(child2);
-  }
-
-  @Test
   void testGetLastToken() {
     var lastToken = mock(Token.class);
     when(lastToken.getType()).thenReturn(GenericTokenType.IDENTIFIER);
@@ -126,21 +114,6 @@ class AstNodeTest {
     assertThat(parent.getTokens()).hasSize(2);
     assertThat(parent.getTokens().get(0)).isSameAs(child1Token);
     assertThat(parent.getTokens().get(1)).isSameAs(child2Token);
-  }
-
-  @Test
-  void testGetChildWithBadIndex() {
-    var token = mock(Token.class);
-    when(token.getType()).thenReturn(GenericTokenType.IDENTIFIER);
-    when(token.getValue()).thenReturn("PI");
-    var parent = new AstNode(new NodeType(), "parent", token);
-    var child1 = new AstNode(new NodeType(), "child1", null);
-
-    var thrown = catchThrowableOfType(() -> {
-      parent.addChild(child1);
-      parent.getChild(1);
-    }, IllegalStateException.class);
-    assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 
   @Test

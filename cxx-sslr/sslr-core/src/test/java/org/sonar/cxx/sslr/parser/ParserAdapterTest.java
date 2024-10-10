@@ -65,9 +65,9 @@ class ParserAdapterTest {
 
   @Test
   void should_not_parse_invalid_string() {
-    var thrown = catchThrowableOfType(
-      () -> parser.parse(""),
-      RecognitionException.class);
+    var thrown = catchThrowableOfType(RecognitionException.class,
+      () -> parser.parse("")
+    );
     assertThat(thrown).hasMessage("Parse error at line 1 column 1:\n" + "\n" + "1: \n" + "   ^\n");
   }
 
@@ -75,8 +75,7 @@ class ParserAdapterTest {
   void should_parse_file() throws Exception {
     var file = new File(tempDir, "file.txt");
     try (
-      var fileOutputStream = new FileOutputStream(file);
-      var writer = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);) {
+      var fileOutputStream = new FileOutputStream(file); var writer = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);) {
       writer.write("1+1");
     }
     parser.parse(file);
@@ -85,9 +84,9 @@ class ParserAdapterTest {
   @Test
   void should_not_parse_invalid_file() {
     var file = new File("notfound");
-    var thrown = catchThrowableOfType(
-      () -> parser.parse(file),
-      RecognitionException.class);
+    var thrown = catchThrowableOfType(RecognitionException.class,
+      () -> parser.parse(file)
+    );
     assertThat(thrown).isExactlyInstanceOf(RecognitionException.class);
   }
 
@@ -99,17 +98,17 @@ class ParserAdapterTest {
   @Test
   void parse_tokens_unsupported() {
     List<Token> tokens = Collections.emptyList();
-    var thrown = catchThrowableOfType(
-      () -> parser.parse(tokens),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> parser.parse(tokens)
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void getRootRule_unsupported() {
-    var thrown = catchThrowableOfType(
-      () -> parser.getRootRule(),
-      UnsupportedOperationException.class);
+    var thrown = catchThrowableOfType(UnsupportedOperationException.class,
+      () -> parser.getRootRule()
+    );
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 

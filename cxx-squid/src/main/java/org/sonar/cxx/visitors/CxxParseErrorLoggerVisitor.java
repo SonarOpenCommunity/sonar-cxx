@@ -23,8 +23,8 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Grammar;
 import java.util.List;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
@@ -36,7 +36,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
                                     + "Syntax errors could cause invalid software metric values."
                                     + " Root cause are typically missing includes, "
                                     + "missing macros or compiler specific extensions.";
-  private static final Logger LOG = Loggers.get(CxxParseErrorLoggerVisitor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxParseErrorLoggerVisitor.class);
   private static int errors = 0;
 
   public static void finalReport() {

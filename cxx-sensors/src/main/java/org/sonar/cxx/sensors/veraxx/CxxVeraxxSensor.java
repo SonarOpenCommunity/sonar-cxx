@@ -29,8 +29,8 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
@@ -43,7 +43,7 @@ import org.sonar.cxx.utils.CxxReportIssue;
 public class CxxVeraxxSensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPaths";
-  private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CxxVeraxxSensor.class);
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(

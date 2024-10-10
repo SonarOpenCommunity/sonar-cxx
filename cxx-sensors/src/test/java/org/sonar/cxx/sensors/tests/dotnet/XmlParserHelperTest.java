@@ -34,13 +34,13 @@ class XmlParserHelperTest {
 
   @Test
   void invalid_prolog() throws IOException {
-    IllegalStateException e = catchThrowableOfType(() -> {
+    IllegalStateException e = catchThrowableOfType(IllegalStateException.class, () -> {
       try (var helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
         helper.nextStartTag();
       }
-    }, IllegalStateException.class);
+    });
     assertThat(e).hasMessageContaining("Error while parsing the XML file: "
-                                         + new File(REPORT_PATH + "invalid_prolog.txt").getAbsolutePath());
+      + new File(REPORT_PATH + "invalid_prolog.txt").getAbsolutePath());
   }
 
   @Test
@@ -67,11 +67,11 @@ class XmlParserHelperTest {
     assertThat(xml.getDoubleAttribute("myCommaDouble")).isEqualTo(1.234);
     assertThat(xml.getDoubleAttribute("nonExisting")).isNull();
 
-    ParseErrorException e = catchThrowableOfType(() -> {
+    ParseErrorException e = catchThrowableOfType(ParseErrorException.class, () -> {
       xml.getDoubleAttribute("myString");
-    }, ParseErrorException.class);
+    });
     assertThat(e).hasMessageContaining("Expected an double instead of \"hello\" for the attribute \"myString\" in "
-                                         + new File(REPORT_PATH + "valid.xml").getAbsolutePath());
+      + new File(REPORT_PATH + "valid.xml").getAbsolutePath());
   }
 
 }

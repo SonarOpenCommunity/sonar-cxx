@@ -132,7 +132,7 @@ class LexerlessGrammarBuilderTest {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.setRootRule(ruleKey);
-    var thrown = catchThrowableOfType(b::build, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, b::build);
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' hasn't been defined.");
   }
 
@@ -141,7 +141,7 @@ class LexerlessGrammarBuilderTest {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey);
-    var thrown = catchThrowableOfType(b::build, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, b::build);
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' hasn't been defined.");
   }
 
@@ -151,30 +151,30 @@ class LexerlessGrammarBuilderTest {
     var ruleKey1 = mock(GrammarRuleKey.class);
     var ruleKey2 = mock(GrammarRuleKey.class);
     b.rule(ruleKey1).is(ruleKey2);
-    var thrown = catchThrowableOfType(b::build, GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class, b::build);
     assertThat(thrown).hasMessage("The rule '" + ruleKey2 + "' hasn't been defined.");
   }
 
   @Test
   void test_wrong_regexp() {
     var b = LexerlessGrammarBuilder.create();
-    var thrown = catchThrowableOfType(() -> b.regexp("["), PatternSyntaxException.class);
+    var thrown = catchThrowableOfType(PatternSyntaxException.class, () -> b.regexp("["));
     assertThat(thrown).isExactlyInstanceOf(PatternSyntaxException.class);
   }
 
   @Test
   void test_incorrect_type_of_parsing_expression() {
-    var thrown = catchThrowableOfType(
-      () -> LexerlessGrammarBuilder.create().convertToExpression(new Object()),
-      IllegalArgumentException.class);
+    var thrown = catchThrowableOfType(IllegalArgumentException.class,
+      () -> LexerlessGrammarBuilder.create().convertToExpression(new Object())
+    );
     assertThat(thrown).hasMessage("Incorrect type of parsing expression: class java.lang.Object");
   }
 
   @Test
   void test_null_parsing_expression() {
-    var thrown = catchThrowableOfType(
-      () -> LexerlessGrammarBuilder.create().convertToExpression(null),
-      NullPointerException.class);
+    var thrown = catchThrowableOfType(NullPointerException.class,
+      () -> LexerlessGrammarBuilder.create().convertToExpression(null)
+    );
     assertThat(thrown).hasMessage("Parsing expression can't be null");
   }
 
@@ -183,9 +183,9 @@ class LexerlessGrammarBuilderTest {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo");
-    var thrown = catchThrowableOfType(
-      () -> b.rule(ruleKey).is("foo"),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> b.rule(ruleKey).is("foo")
+    );
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' has already been defined somewhere in the grammar.");
   }
 
@@ -194,9 +194,9 @@ class LexerlessGrammarBuilderTest {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo", "bar");
-    var thrown = catchThrowableOfType(
-      () -> b.rule(ruleKey).is("foo", "bar"),
-      GrammarException.class);
+    var thrown = catchThrowableOfType(GrammarException.class,
+      () -> b.rule(ruleKey).is("foo", "bar")
+    );
     assertThat(thrown).hasMessage("The rule '" + ruleKey + "' has already been defined somewhere in the grammar.");
   }
 

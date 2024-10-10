@@ -73,20 +73,6 @@ class ExpressionGrammarTest {
   }
 
   @Test
-  void should_mock() {
-    var inputString = "term plus term";
-    var input = inputString.toCharArray();
-    grammar.term.mock();
-    grammar.plus.mock();
-    var parseRunner = new ParseRunner(grammar.root);
-    var result = parseRunner.parse(input);
-    assertThat(result.isMatched()).isTrue();
-    ParseTreePrinter.print(result.getParseTreeRoot(), input);
-    assertThat(ParseTreePrinter.leafsToString(result.getParseTreeRoot(), input)).as("full-fidelity").isEqualTo(
-      inputString);
-  }
-
-  @Test
   void should_create_ast() throws Exception {
     var inputString = "20 * 2 + 2 - var";
     var grammar = new ExpressionGrammar();

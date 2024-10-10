@@ -109,18 +109,6 @@ public class AstNode {
   }
 
   /**
-   * @deprecated in 1.19.2, use {@link #getFirstChild(AstNodeType...)} instead
-   */
-  @Deprecated(since = "1.19.2")
-  public AstNode getChild(int index) {
-    if (index >= getNumberOfChildren()) {
-      throw new IllegalStateException("The AstNode '" + this + "' has only " + getNumberOfChildren()
-                                        + " children. Requested child index is wrong : " + index);
-    }
-    return children.get(index);
-  }
-
-  /**
    * Get the next sibling AstNode in the tree and if this node doesn't exist try to get the next AST Node of the parent.
    *
    * @since 1.17

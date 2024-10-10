@@ -34,17 +34,17 @@ class ParserTest {
 
   @Test
   void lexerErrorStringWrappedInRecognitionException() {
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(RecognitionException.class, () -> {
       parseString(".");
-    }, RecognitionException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(RecognitionException.class);
   }
 
   @Test
   void lexerErrorFileWrappedInRecognitionException() {
-    var thrown = catchThrowableOfType(() -> {
+    var thrown = catchThrowableOfType(RecognitionException.class, () -> {
       parseFile("/OwnExamples/lexererror.mc");
-    }, RecognitionException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(RecognitionException.class);
   }
 

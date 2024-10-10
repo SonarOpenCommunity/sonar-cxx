@@ -63,7 +63,7 @@ class CxxCppCheckSensorTest {
   void shouldReportProjectLevelViolationsV2() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-                         "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+      "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
     var sensor = new CxxCppCheckSensor();
@@ -112,9 +112,9 @@ class CxxCppCheckSensorTest {
     context.setSettings(settings);
 
     var sensor = new CxxCppCheckSensor();
-    IllegalStateException thrown = catchThrowableOfType(() -> {
+    IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
-    }, IllegalStateException.class);
+    });
     assertThat(thrown).isExactlyInstanceOf(IllegalStateException.class);
   }
 

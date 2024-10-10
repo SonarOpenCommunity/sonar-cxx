@@ -32,8 +32,8 @@ import java.util.Deque;
 import java.util.List;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.cxx.parser.CxxTokenType;
 
 /**
@@ -105,7 +105,7 @@ import org.sonar.cxx.parser.CxxTokenType;
  */
 final class PPExpression {
 
-  private static final Logger LOG = Loggers.get(PPExpression.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PPExpression.class);
 
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
 

@@ -31,7 +31,7 @@ class ChecksHelperTest {
   @Test
   void private_constructor() throws Exception {
     var constructor = ChecksHelper.class.getDeclaredConstructor();
-    assertThat(constructor.isAccessible()).isFalse();
+    assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);
     constructor.newInstance();
   }

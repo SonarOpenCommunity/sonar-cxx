@@ -29,8 +29,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.Loggers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * MsBuild
@@ -44,7 +44,7 @@ public class MsBuild {
   public static final String REPORT_ENCODING_DEF = "sonar.cxx.msbuild.encoding";
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
-  private static final Logger LOG = Loggers.get(MsBuild.class);
+  private static final Logger LOG = LoggerFactory.getLogger(MsBuild.class);
 
   private static final String MSC_IX86_600 = "_M_IX86 600";
   private static final String MSC_X64_100 = "_M_X64 100";
