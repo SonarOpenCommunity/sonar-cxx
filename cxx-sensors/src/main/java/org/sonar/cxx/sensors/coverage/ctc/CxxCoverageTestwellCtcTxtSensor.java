@@ -40,10 +40,10 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Testwell CTC++ Coverage Report(s)")
-        .description(
-          "Comma-separated list of paths pointing to coverage reports (absolute or relative to the project base directory)."
-          + " Ant patterns are accepted for relative path. The reports have to conform to the `Testwell CTC++ textural format`."
-        )
+        .description("""
+          Comma-separated list of paths pointing to coverage reports (absolute or relative to the project \
+          base directory). Ant patterns are accepted for relative path. The reports have to conform to the \
+          `Testwell CTC++ textural format`.""")
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)

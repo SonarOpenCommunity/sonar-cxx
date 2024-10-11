@@ -70,13 +70,13 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
 
   private SourceFile getSourceFile() {
     SquidAstVisitorContext<G> c = getContext();
-    if (c.peekSourceCode() instanceof SourceFile) {
-      return (SourceFile) c.peekSourceCode();
+    if (c.peekSourceCode() instanceof SourceFile sourceFile) {
+      return sourceFile;
     } else if (c.peekSourceCode().getParent(SourceFile.class) != null) {
       return c.peekSourceCode().getParent(SourceFile.class);
     } else {
       throw new IllegalStateException("Unable to get SourceFile on source code '"
-                                        + (c.peekSourceCode() == null ? "[NULL]" : c.peekSourceCode().getKey()) + "'");
+        + (c.peekSourceCode() == null ? "[NULL]" : c.peekSourceCode().getKey()) + "'");
     }
   }
 

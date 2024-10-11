@@ -35,11 +35,10 @@ public class CxxCoverageBullseyeSensor extends CoverageSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("BullseyeCoverage Report(s)")
-        .description(
-          "Comma-separated list of paths pointing to coverage reports (absolute or relative to the project"
-            + " base directory). Ant patterns are accepted for relative path. The reports have to conform to the"
-            + " `BullseyeCoverage XML format`."
-        )
+        .description("""
+          Comma-separated list of paths pointing to coverage reports (absolute or relative to the project \
+          base directory). Ant patterns are accepted for relative path. The reports have to conform to the \
+          `BullseyeCoverage XML format`.""")
         .category("CXX External Analyzers")
         .subCategory("BullseyeCoverage")
         .onQualifiers(Qualifiers.PROJECT)

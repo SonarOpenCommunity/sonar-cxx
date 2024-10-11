@@ -84,7 +84,7 @@ public final class CxxAstScanner {
    * @return file checked with measures and issues
    */
   public static SourceFile scanSingleInputFileConfig(InputFile inputFile, CxxSquidConfiguration squidConfig,
-                                                     SquidAstVisitor<Grammar>... visitors) {
+    SquidAstVisitor<Grammar>... visitors) {
     if (!inputFile.isFile()) {
       throw new IllegalArgumentException("File '" + inputFile.toString() + "' not found.");
     }
@@ -93,7 +93,7 @@ public final class CxxAstScanner {
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
       throw new IllegalStateException("Only one SourceFile was expected whereas "
-                                        + sources.size() + " has been returned.");
+        + sources.size() + " has been returned.");
     }
     return (SourceFile) sources.iterator().next();
   }
@@ -134,8 +134,8 @@ public final class CxxAstScanner {
       public String getContents(String comment) {
         var HEADER_LEN = 2;
         return "/*".equals(comment.substring(0, HEADER_LEN))
-                 ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
-                 : comment.substring(HEADER_LEN);
+          ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
+          : comment.substring(HEADER_LEN);
       }
     });
 
@@ -159,7 +159,7 @@ public final class CxxAstScanner {
       }
       var namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
       var function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
-                                      + ":" + astNode.getToken().getLine());
+        + ":" + astNode.getToken().getLine());
       function.setStartAtLine(astNode.getTokenLine());
       return function;
     }, CxxGrammarImpl.functionDefinition));
@@ -226,8 +226,8 @@ public final class CxxAstScanner {
 
     /* External visitors (typically Check ones) */
     for (var visitor : visitors) {
-      if (visitor instanceof CxxCharsetAwareVisitor) {
-        ((CxxCharsetAwareVisitor) visitor).setCharset(squidConfig.getCharset());
+      if (visitor instanceof CxxCharsetAwareVisitor charsetAwareVisitor) {
+        charsetAwareVisitor.setCharset(squidConfig.getCharset());
       }
       builder.withSquidAstVisitor(visitor);
     }

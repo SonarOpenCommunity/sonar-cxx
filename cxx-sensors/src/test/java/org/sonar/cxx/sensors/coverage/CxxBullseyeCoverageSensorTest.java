@@ -22,12 +22,12 @@ package org.sonar.cxx.sensors.coverage;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.coverage.bullseye.CxxCoverageBullseyeSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
@@ -135,19 +135,19 @@ class CxxBullseyeCoverageSensorTest {
       context.setSettings(settings);
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-                                                           "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
+        "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
         .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-                                                           "randomfoldernamethatihopeknowmachinehas/test/test.c")
+        "randomfoldernamethatihopeknowmachinehas/test/test.c")
         .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-                                                           "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
+        "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
         .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-                                                           "randomfoldernamethatihopeknowmachinehas/main.c")
+        "randomfoldernamethatihopeknowmachinehas/main.c")
         .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         .build());
 
@@ -246,15 +246,15 @@ class CxxBullseyeCoverageSensorTest {
 
       context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "root/folder/test.cpp")
         .setLanguage("cxx")
-        .initMetadata(
-          "namespace Core {\n"
-            + "    class TokenHandler {\n"
-            + "    public:\n"
-            + "        virtual ~TokenHandler() {}\n"
-            + "        virtual void OnHandle() = 0;\n"
-            + "    };\n"
-            + "}\n"
-        )
+        .initMetadata("""
+                            namespace Core {
+                                class TokenHandler {
+                                public:
+                                    virtual ~TokenHandler() {}
+                                    virtual void OnHandle() = 0;
+                                };
+                            }
+                            """)
         .build()
       );
 

@@ -246,10 +246,10 @@ public class AstNode {
     }
     // For LexerlessGrammarBuilder and LexerfulGrammarBuilder
     // unwrap AstNodeType to get a real one, i.e. detach node from tree of matchers:
-    if (type instanceof MutableParsingRule) {
-      type = ((MutableParsingRule) type).getRealAstNodeType();
-    } else if (type instanceof RuleDefinition) {
-      type = ((RuleDefinition) type).getRealAstNodeType();
+    if (type instanceof MutableParsingRule mutableParsingRule) {
+      type = mutableParsingRule.getRealAstNodeType();
+    } else if (type instanceof RuleDefinition ruleDefinition) {
+      type = ruleDefinition.getRealAstNodeType();
     }
     return result;
   }
@@ -337,16 +337,11 @@ public class AstNode {
   }
 
   /**
-   * Returns children of specified types.
-   * In the following case, {@code getChildren("B")} would return "B2" and "B3":
+   * Returns children of specified types. In the following case, {@code getChildren("B")} would return "B2" and "B3":
    * <p>
    * <
    * pre>
-   * A1
-   * |__ C1
-   * | |__ B1
-   * |__ B2
-   * |__ B3
+   * A1 |__ C1 | |__ B1 |__ B2 |__ B3
    * </pre>
    *
    * @return children of specified types, never null
@@ -365,9 +360,8 @@ public class AstNode {
   }
 
   /**
-   * Returns descendants of specified types.
-   * Be careful, this method searches among all descendants whatever is their depth, so favor
-   * {@link #getChildren(AstNodeType...)} when possible.
+   * Returns descendants of specified types. Be careful, this method searches among all descendants whatever is their
+   * depth, so favor {@link #getChildren(AstNodeType...)} when possible.
    * <p>
    * In the following case, {@code getDescendants("B", "C")} would return "C1", "B1", "B2" and "B3":
    * <pre>

@@ -58,9 +58,9 @@ public final class AstWalker {
       visitorsByType.add(visitor);
       putAstVisitors(type, visitorsByType);
     }
-    if (visitor instanceof AstAndTokenVisitor) {
+    if (visitor instanceof AstAndTokenVisitor astAndTokenVisitor) {
       List<AstAndTokenVisitor> tokenVisitorsList = new ArrayList<>(Arrays.asList(astAndTokenVisitors));
-      tokenVisitorsList.add((AstAndTokenVisitor) visitor);
+      tokenVisitorsList.add(astAndTokenVisitor);
       astAndTokenVisitors = tokenVisitorsList.toArray(new AstAndTokenVisitor[tokenVisitorsList.size()]);
     }
   }

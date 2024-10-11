@@ -35,10 +35,10 @@ public class CxxCoverageCoberturaSensor extends CoverageSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Cobertura Coverage Report(s)")
-        .description(
-          "Comma-separated list of paths pointing to coverage reports (absolute or relative to the project base directory)."
-          + " Ant patterns are accepted for relative path. The reports have to conform to the `Cobertura XML format`."
-        )
+        .description("""
+          Comma-separated list of paths pointing to coverage reports (absolute or relative to the project \
+          base directory). Ant patterns are accepted for relative path. The reports have to conform to \
+          the `Cobertura XML format`.""")
         .category("CXX External Analyzers")
         .subCategory("Cobertura")
         .onQualifiers(Qualifiers.PROJECT)

@@ -29,52 +29,59 @@ class CxxOtherRepositoryTest {
 
   private final MapSettings settings = new MapSettings();
 
-  private final String profile1 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-                                    + "<rules>\n"
-                                    + "    <rule key=\"cpplint.readability/nolint-0\">\n"
-                                    + "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n"
-                                  + "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n"
-                                    + "        <category name=\"readability\" />\n"
-                                    + "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n"
-                                  + "    </rule>\n"
-                                    + "    <rule key=\"cpplint.readability/fn_size-0\">\n"
-                                    + "        <name>name</name>\n"
-                                    + "        <configKey>key</configKey>\n"
-                                    + "        <category name=\"readability\" />\n"
-                                    + "        <description>descr</description>\n"
-                                    + "    </rule></rules>";
+  private final String profile1 = """
+                                  <?xml version="1.0" encoding="ASCII"?>
+                                  <rules>
+                                      <rule key="cpplint.readability/nolint-0">
+                                          <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>
+                                          <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>
+                                          <category name="readability" />
+                                          <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>
+                                      </rule>
+                                      <rule key="cpplint.readability/fn_size-0">
+                                          <name>name</name>
+                                          <configKey>key</configKey>
+                                          <category name="readability" />
+                                          <description>descr</description>
+                                      </rule>
+                                  </rules>
+                                  """;
 
-  private final String profile2 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-                                    + "<rules>\n"
-                                    + "    <rule key=\"key1\">\n"
-                                    + "        <name><![CDATA[name1]]></name>\n"
-                                    + "        <configKey><![CDATA[configKey1]]></configKey>\n"
-                                    + "        <category name=\"category1\" />\n"
-                                    + "        <description><![CDATA[description1]]></description>\n"
-                                    + "    </rule>\n"
-                                    + "    <rule key=\"key2\">\n"
-                                    + "        <name><![CDATA[name2]]></name>\n"
-                                    + "        <configKey><![CDATA[configKey2]]></configKey>\n"
-                                    + "        <category name=\"category2\" />\n"
-                                    + "        <description><![CDATA[description2]]></description>\n"
-                                    + "    </rule>\n"
-                                    + "</rules>";
+  private final String profile2 = """
+                                  <?xml version="1.0" encoding="ASCII"?>
+                                  <rules>
+                                      <rule key="key1">
+                                          <name><![CDATA[name1]]></name>
+                                          <configKey><![CDATA[configKey1]]></configKey>
+                                          <category name="category1" />
+                                          <description><![CDATA[description1]]></description>
+                                      </rule>
+                                      <rule key="key2">
+                                          <name><![CDATA[name2]]></name>
+                                          <configKey><![CDATA[configKey2]]></configKey>
+                                          <category name="category2" />
+                                          <description><![CDATA[description2]]></description>
+                                      </rule>
+                                  </rules>
+                                  """;
 
-  private final String profile3 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
-                                    + "<rules>\n"
-                                    + "    <rule key=\"key1\">\n"
-                                    + "        <name><![CDATA[name1]]></name>\n"
-                                    + "        <configKey><![CDATA[configKey1]]></configKey>\n"
-                                    + "        <category name=\"category1\" />\n"
-                                    + "        <description><![CDATA[description1]]></description>\n"
-                                    + "    </rule>\n"
-                                    + "    <rule key=\"key3\">\n"
-                                    + "        <name><![CDATA[name3]]></name>\n"
-                                    + "        <configKey><![CDATA[configKey3]]></configKey>\n"
-                                    + "        <category name=\"category3\" />\n"
-                                    + "        <description><![CDATA[description3]]></description>\n"
-                                    + "    </rule>\n"
-                                    + "</rules>";
+  private final String profile3 = """
+                                  <?xml version="1.0" encoding="ASCII"?>
+                                  <rules>
+                                      <rule key="key1">
+                                          <name><![CDATA[name1]]></name>
+                                          <configKey><![CDATA[configKey1]]></configKey>
+                                          <category name="category1" />
+                                          <description><![CDATA[description1]]></description>
+                                      </rule>
+                                      <rule key="key3">
+                                          <name><![CDATA[name3]]></name>
+                                          <configKey><![CDATA[configKey3]]></configKey>
+                                          <category name="category3" />
+                                          <description><![CDATA[description3]]></description>
+                                      </rule>
+                                  </rules>
+                                  """;
 
   @Test
   void verifyTemplateRuleIsFound() {

@@ -35,8 +35,7 @@ public final class TextUtils {
   private static final String[] ESCAPED = {"\\r", "\\n", "\\f", "\\t", "\\\""};
 
   /**
-   * Replaces carriage returns, line feeds, form feeds, tabs and double quotes
-   * with their respective escape sequences.
+   * Replaces carriage returns, line feeds, form feeds, tabs and double quotes with their respective escape sequences.
    */
   public static String escape(char ch) {
     for (int i = 0; i < ESCAPE.length; i++) {

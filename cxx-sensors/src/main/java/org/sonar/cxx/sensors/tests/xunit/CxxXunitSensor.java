@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -34,8 +36,6 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -53,13 +53,11 @@ public class CxxXunitSensor extends CxxReportSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("xUnit Report(s)")
-        .description(
-          "Comma-separated list of paths to the various directories containing the *.xml xUnit report files."
-            + " Each path may be absolute or relative to the project base directory. Ant patterns are accepted for"
-            + " relative paths. Note that while measures such as the number of tests are displayed at project level,"
-            + " no drilldown is available."
-            + " In the SonarQube UI, enter one entry per field."
-        )
+        .description("""
+          Comma-separated list of paths to the various directories containing the *.xml xUnit report files. \
+          Each path may be absolute or relative to the project base directory. Ant patterns are accepted for \
+          relative paths. Note that while measures such as the number of tests are displayed at project level, \
+          no drilldown is available. In the SonarQube UI, enter one entry per field.""")
         .category("CXX External Analyzers")
         .subCategory("xUnit")
         .onQualifiers(Qualifiers.PROJECT)
@@ -127,8 +125,8 @@ public class CxxXunitSensor extends CxxReportSensor {
         if (inputFile != null) {
           if (inputFile.language() != null && inputFile.type() == Type.TEST) {
             LOG.debug("Saving xUnit data for '{}': tests={} | errors:{} | failure:{} | skipped:{} | time:{}",
-                      tf.getFilename(), tf.getTests(), tf.getErrors(), tf.getFailures(), tf.getSkipped(),
-                      tf.getExecutionTime());
+              tf.getFilename(), tf.getTests(), tf.getErrors(), tf.getFailures(), tf.getSkipped(),
+              tf.getExecutionTime());
             saveMetric(inputFile, CoreMetrics.TESTS, tf.getTests());
             saveMetric(inputFile, CoreMetrics.TEST_ERRORS, tf.getErrors());
             saveMetric(inputFile, CoreMetrics.TEST_FAILURES, tf.getFailures());
@@ -146,7 +144,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     if (testsCount > 0) {
       LOG.debug("Saving xUnit report data: tests={}, errors={}, failure={}, skipped={}, time={}",
-                testsCount, testsErrors, testsFailures, testsSkipped, testsTime);
+        testsCount, testsErrors, testsFailures, testsSkipped, testsTime);
       saveMetric(CoreMetrics.TESTS, testsCount);
       saveMetric(CoreMetrics.TEST_ERRORS, testsErrors);
       saveMetric(CoreMetrics.TEST_FAILURES, testsFailures);

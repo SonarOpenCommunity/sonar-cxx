@@ -44,9 +44,11 @@ class IncludeFileLexerTest {
 
   @Test
   void continued_lines_are_handled_correctly() {
-    List<Token> tokens = LEXER.lex("#define \\\n"
-                                     + "name \\\n"
-                                     + "10");
+    List<Token> tokens = LEXER.lex("""
+                                   #define \\
+                                   name \\
+                                   10
+                                   """);
     assertThat(hasToken("#define name 10", CxxTokenType.PREPROCESSOR)
       .matches(tokens)).isTrue();
     assertThat(tokens).hasSize(2);
@@ -54,7 +56,11 @@ class IncludeFileLexerTest {
 
   @Test
   void multiline_comment_with_Include_is_swallowed() {
-    List<Token> tokens = LEXER.lex("/* This is a multiline comment\n   #include should be swallowed\n */");
+    List<Token> tokens = LEXER.lex("""
+                                   /* This is a multiline comment
+                                      #include should be swallowed
+                                    */
+                                   """);
     assertThat(tokens).hasSize(1);
     assertThat(hasToken("EOF", EOF)
       .matches(tokens)).isTrue();

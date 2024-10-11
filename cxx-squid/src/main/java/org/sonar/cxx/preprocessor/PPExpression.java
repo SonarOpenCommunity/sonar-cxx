@@ -140,7 +140,7 @@ final class PPExpression {
       number = PPNumber.decodeString(intValue);
     } catch (java.lang.NumberFormatException e) {
       LOG.warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead",
-               intValue, BigInteger.ONE);
+        intValue, BigInteger.ONE);
       number = BigInteger.ONE;
     }
 
@@ -171,7 +171,7 @@ final class PPExpression {
     } catch (com.sonar.cxx.sslr.api.RecognitionException e) {
       if (exprAst != null) {
         LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0",
-                 constExpr, exprAst.getToken());
+          constExpr, exprAst.getToken());
       } else {
         LOG.warn("preprocessor error evaluating expression '{}', assuming 0", constExpr);
       }
@@ -231,8 +231,8 @@ final class PPExpression {
         }
       } else {
         LOG.debug("preprocessor: self-referential macro '{}' detected;"
-                    + " assume true; evaluation stack = ['{} <- {}']",
-                  id, id, String.join(" <- ", macroEvaluationStack));
+          + " assume true; evaluation stack = ['{} <- {}']",
+          id, id, String.join(" <- ", macroEvaluationStack));
         result = BigInteger.ONE;
       }
     } else {
@@ -258,8 +258,8 @@ final class PPExpression {
     // More complex expressions with more than one child
     //
     var type = exprAst.getType();
-    if (type instanceof PPGrammarImpl) {
-      switch ((PPGrammarImpl) type) {
+    if (type instanceof PPGrammarImpl astNodeType) {
+      switch (astNodeType) {
         case unaryExpression:
           return evalUnaryExpression(exprAst);
         case conditionalExpression:
@@ -296,7 +296,7 @@ final class PPExpression {
     }
 
     LOG.error("preprocessor: unknown expression type '" + type + "' for token '" + exprAst.getToken()
-                + "', assuming 0");
+      + "', assuming 0");
     return BigInteger.ZERO;
   }
 
@@ -345,14 +345,14 @@ final class PPExpression {
     var rhs = next.getNextSibling();
 
     BigInteger result = evalEqualityExpression(evalToInt(lhs),
-                                               (PPPunctuator) next.getType(),
-                                               evalToInt(rhs));
+      (PPPunctuator) next.getType(),
+      evalToInt(rhs));
 
     while ((next = rhs.getNextSibling()) != null) {
       rhs = next.getNextSibling();
       result = evalEqualityExpression(result,
-                                      (PPPunctuator) next.getType(),
-                                      booleanToBigInteger(evalToBoolean(rhs)));
+        (PPPunctuator) next.getType(),
+        booleanToBigInteger(evalToBoolean(rhs)));
     }
 
     return result;
@@ -385,14 +385,14 @@ final class PPExpression {
     var rhs = next.getNextSibling();
 
     BigInteger result = evalRelationalExpression(evalToInt(lhs),
-                                                 (PPPunctuator) next.getType(),
-                                                 evalToInt(rhs));
+      (PPPunctuator) next.getType(),
+      evalToInt(rhs));
 
     while ((next = rhs.getNextSibling()) != null) {
       rhs = next.getNextSibling();
       result = evalRelationalExpression(result,
-                                        (PPPunctuator) next.getType(),
-                                        evalToInt(rhs));
+        (PPPunctuator) next.getType(),
+        evalToInt(rhs));
     }
 
     return result;

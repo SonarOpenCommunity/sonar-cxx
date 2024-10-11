@@ -35,10 +35,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
   public static final String REPORT_REGEX_DEF = "sonar.cxx.vc.regex";
   public static final String REPORT_ENCODING_DEF = "sonar.cxx.vc.encoding";
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
-  public static final String DEFAULT_REGEX_DEF
-                               = "(?>[^>]*+>)?(?<file>(?>[^\\\\]{1,260}\\\\)*[^\\\\]{1,260})"
-                                   + "\\((?<line>\\d{1,5})\\)\\x20?:\\x20warning\\x20(?<id>C\\d{4,5}):"
-                                   + "\\x20?(?<message>.*)";
+  public static final String DEFAULT_REGEX_DEF = """
+    (?>[^>]*+>)?(?<file>(?>[^\\\\]{1,260}\\\\)*[^\\\\]{1,260})\\((?<line>\\d{1,5})\\)\\x20?:\
+    \\x20warning\\x20(?<id>C\\d{4,5}):\\x20?(?<message>.*)""";
 
   public static List<PropertyDefinition> properties() {
     var category = "CXX External Analyzers";
@@ -46,10 +45,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Visual C++ Compiler Report(s)")
-        .description(
-          "Comma-separated paths (absolute or relative to the project base directory) to `*.log` files with"
-            + " `Visual Studio` warnings. Ant patterns are accepted for relative paths."
-        )
+        .description("""
+                     Comma-separated paths (absolute or relative to the project base directory) to `*.log` files with \
+                     `Visual Studio` warnings. Ant patterns are accepted for relative paths.""")
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -67,10 +65,9 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("VC Regular Expression")
-        .description(
-          "Java regular expressions to parse the `Visual Studio` warnings. You can use the named-capturing groups"
-            + " `<file>`, `<line>`, `<column>`, `<id>` and `<message>`."
-        )
+        .description("""
+                     Java regular expressions to parse the `Visual Studio` warnings. You can use the named-capturing \
+                     groups `<file>`, `<line>`, `<column>`, `<id>` and `<message>`.""")
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)

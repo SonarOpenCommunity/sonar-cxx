@@ -107,7 +107,7 @@ public class SyntaxTreeCreator<T> {
         result = convertedChildren.isEmpty() ? Optional.absent() : Optional.of(convertedChildren);
       } else if (method == null) {
         result = nodeBuilder.createNonTerminal(ruleKey, rule, convertedChildren, node.getStartIndex(), node
-                                               .getEndIndex());
+          .getEndIndex());
       } else {
         result = ReflectionUtils.invokeMethod(method, treeFactory, convertedChildren.toArray(new Object[0]));
       }
@@ -118,8 +118,7 @@ public class SyntaxTreeCreator<T> {
   @CheckForNull
   private Object visitTerminal(ParseNode node) {
     TokenType type = null;
-    if (node.getMatcher() instanceof TriviaExpression) {
-      var ruleMatcher = (TriviaExpression) node.getMatcher();
+    if (node.getMatcher() instanceof TriviaExpression ruleMatcher) {
       switch (ruleMatcher.getTriviaKind()) {
         case SKIPPED_TEXT:
           return null;
@@ -129,8 +128,7 @@ public class SyntaxTreeCreator<T> {
         default:
           throw new IllegalStateException("Unexpected trivia kind: " + ruleMatcher.getTriviaKind());
       }
-    } else if (node.getMatcher() instanceof TokenExpression) {
-      var ruleMatcher = (TokenExpression) node.getMatcher();
+    } else if (node.getMatcher() instanceof TokenExpression ruleMatcher) {
       type = ruleMatcher.getTokenType();
       if (GenericTokenType.COMMENT.equals(ruleMatcher.getTokenType())) {
         addComment(node);

@@ -57,8 +57,10 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
   public void leaveFile(AstNode astNode) {
     var linesOfCode = ChecksHelper.getRecursiveMeasureInt(getContext().peekSourceCode(), CxxMetric.LINES_OF_CODE);
     if (linesOfCode > max) {
-      getContext().createFileViolation(this, "This file has {0} lines of code, which is greater than {1} authorized. "
-                                               + "Split it into smaller files.", linesOfCode, max);
+      getContext().createFileViolation(this,
+        """
+        This file has {0} lines of code, which is greater than {1} authorized. Split it into smaller files.""",
+         linesOfCode, max);
     }
   }
 

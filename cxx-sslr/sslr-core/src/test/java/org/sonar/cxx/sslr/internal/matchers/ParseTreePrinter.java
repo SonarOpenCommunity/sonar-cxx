@@ -59,20 +59,20 @@ public class ParseTreePrinter {
       sb.append(input[i]);
     }
     System.out.println(matcherToString(node.getMatcher())
-                         + " (start=" + node.getStartIndex()
-                         + ", end=" + node.getEndIndex()
-                         + ", matches=" + sb.toString()
-                         + ")");
+      + " (start=" + node.getStartIndex()
+      + ", end=" + node.getEndIndex()
+      + ", matches=" + sb.toString()
+      + ")");
     for (var child : node.getChildren()) {
       print(child, level + 1, input);
     }
   }
 
   private static String matcherToString(Matcher matcher) {
-    if (matcher instanceof MutableParsingRule) {
-      return ((MutableParsingRule) matcher).getName();
-    } else if (matcher instanceof TokenExpression) {
-      return ((TokenExpression) matcher).getTokenType().getName();
+    if (matcher instanceof MutableParsingRule mutableParsingRule) {
+      return mutableParsingRule.getName();
+    } else if (matcher instanceof TokenExpression tokenExpression) {
+      return tokenExpression.getTokenType().getName();
     } else {
       return matcher.toString();
     }

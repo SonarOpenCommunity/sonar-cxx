@@ -129,7 +129,7 @@ public class ToolkitPresenter {
       view.clearConsole();
       try {
         view.displayHighlightedSourceCode(new String(Files.readAllBytes(Path.of(fileToParse.getPath())),
-                                                     configurationModel.getCharset()));
+          configurationModel.getCharset()));
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -165,9 +165,7 @@ public class ToolkitPresenter {
 
     AstNode firstAstNode = null;
     for (var resultObject : xpathQuery.selectNodes(model.getAstNode())) {
-      if (resultObject instanceof AstNode) {
-        var resultAstNode = (AstNode) resultObject;
-
+      if (resultObject instanceof AstNode resultAstNode) {
         if (firstAstNode == null) {
           firstAstNode = resultAstNode;
         }

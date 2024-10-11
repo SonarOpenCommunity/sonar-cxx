@@ -191,12 +191,12 @@ public final class GrammarOperators {
   private static ParsingExpression convertToExpression(@Nonnull Object e) {
     Objects.requireNonNull(e);
 
-    if (e instanceof ParsingExpression) {
-      return (ParsingExpression) e;
-    } else if (e instanceof String) {
-      return new StringExpression((String) e);
-    } else if (e instanceof Character) {
-      return new StringExpression(((Character) e).toString());
+    if (e instanceof ParsingExpression parsingExpression) {
+      return parsingExpression;
+    } else if (e instanceof String string) {
+      return new StringExpression(string);
+    } else if (e instanceof Character character) {
+      return new StringExpression(character.toString());
     } else {
       throw new IllegalArgumentException("Incorrect type of parsing expression: " + e.getClass().toString());
     }

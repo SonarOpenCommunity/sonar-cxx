@@ -162,9 +162,10 @@ class FileHeaderCheckTest {
       "Add or update the header of this file.");
 
     check = new FileHeaderCheck();
-    check.headerFormat = "//\\s*<copyright>\\s*"
-      + "//\\s*Copyright \\(c\\) (AAA BBB|CCC DDD) GmbH. All rights reserved.\\s*"
-      + "//\\s*</copyright>\\s*";
+    check.headerFormat = """
+       //\\s*<copyright>\\s*//\\s*Copyright \\(c\\) (AAA BBB|CCC DDD) GmbH. \
+       All rights reserved.\\s*//\\s*</copyright>\\s*
+       """;
     check.isRegularExpression = true;
 
     tester = CxxFileTesterHelper.create("src/test/resources/checks/FileHeaderCheck/Regex7.cc", ".");

@@ -123,7 +123,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
 
   private transient LineOffsets lineOffsets = null;
   private final transient DefaultHighlighter.DefaultHighlightPainter highlighter
-                                                                       = new DefaultHighlighter.DefaultHighlightPainter(
+    = new DefaultHighlighter.DefaultHighlightPainter(
       Color.LIGHT_GRAY);
 
   private boolean sourceCodeTextCursorMovedEventDisabled = false;
@@ -188,17 +188,17 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
 
     Keymap keymap = JEditorPane.addKeymap(null, sourceCodeEditorPane.getKeymap());
     keymap.addActionForKeyStroke(getKeyStroke(VK_V, CTRL_DOWN_MASK), new AbstractAction() {
-                                 @Override
-                                 public void actionPerformed(ActionEvent e) {
-                                   presenter.onSourceCodePasteButtonClick();
-                                 }
-                               });
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        presenter.onSourceCodePasteButtonClick();
+      }
+    });
     keymap.addActionForKeyStroke(getKeyStroke(VK_O, CTRL_DOWN_MASK), new AbstractAction() {
-                                 @Override
-                                 public void actionPerformed(ActionEvent e) {
-                                   presenter.onSourceCodeOpenButtonClick();
-                                 }
-                               });
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        presenter.onSourceCodeOpenButtonClick();
+      }
+    });
     sourceCodeEditorPane.setKeymap(keymap);
 
     sourceCodePasteButton.setText("Paste Clipboard");
@@ -392,7 +392,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     } else {
       for (int i = 0; i < treeNode.getChildCount(); i++) {
         var treeNodeWithUserObject = getAstTreeNodeWithGivenUserObject((DefaultMutableTreeNode) treeNode.getChildAt(i),
-                                                                   userObject);
+          userObject);
         if (treeNodeWithUserObject != null) {
           return treeNodeWithUserObject;
         }
@@ -466,11 +466,11 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       try {
         var rect = sourceCodeEditorPane.modelToView2D(0);
         sourceCodeEditorPane.scrollRectToVisible(new Rectangle((int) rect.getX(), (int) rect.getY(),
-                                                               (int) rect.getWidth(), (int) rect.getHeight()));
+          (int) rect.getWidth(), (int) rect.getHeight()));
 
         rect = sourceCodeEditorPane.modelToView2D(lineOffsets.getOffset(line, 0));
         sourceCodeEditorPane.scrollRectToVisible(new Rectangle((int) rect.getX(), (int) rect.getY(),
-                                                               (int) rect.getWidth(), (int) rect.getHeight()));
+          (int) rect.getWidth(), (int) rect.getHeight()));
       } catch (BadLocationException e) {
         throw new RuntimeException(e);
       }
@@ -504,9 +504,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       int nearestOffsetSoFar = Integer.MAX_VALUE;
       while (enumeration.hasMoreElements()) {
         var childTreeNode = (DefaultMutableTreeNode) enumeration.nextElement();
-        if (childTreeNode.getUserObject() instanceof AstNode) {
-          var astNode = (AstNode) childTreeNode.getUserObject();
-
+        if (childTreeNode.getUserObject() instanceof AstNode astNode) {
           if (astNode.hasToken()) {
             var token = astNode.getToken();
             int tokenOffset = lineOffsets.getStartOffset(token);
@@ -533,8 +531,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
         var treeNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
 
         var userObject = treeNode.getUserObject();
-        if (userObject instanceof AstNode) {
-          var astNode = (AstNode) userObject;
+        if (userObject instanceof AstNode astNode) {
           acc.add(astNode);
         }
       }

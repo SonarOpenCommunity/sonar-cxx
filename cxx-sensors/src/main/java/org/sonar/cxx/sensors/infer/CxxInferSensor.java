@@ -21,11 +21,11 @@ package org.sonar.cxx.sensors.infer;
 
 import java.io.File;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 
 /**
@@ -41,10 +41,9 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
   public static List<PropertyDefinition> properties() {
     return List.of(PropertyDefinition.builder(REPORT_PATH_KEY)
       .name("Infer Report(s)")
-      .description(
-        "Comma-separated paths (absolute or relative to the project base directory) to `*.json` files with"
-          + " `Infer` issues. Ant patterns are accepted for relative paths."
-      )
+      .description("""
+        Comma-separated paths (absolute or relative to the project base directory) to `*.json` files with \
+        `Infer` issues. Ant patterns are accepted for relative paths.""")
       .category("CXX External Analyzers")
       .subCategory("Infer")
       .onQualifiers(Qualifiers.PROJECT)
