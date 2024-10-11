@@ -29,8 +29,8 @@ import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxTokenType;
 
 /**
- * Replace text macros while possibly concatenating or quoting identifiers
- * (controlled by directives #define and #undef, and operators # and ##).
+ * Replace text macros while possibly concatenating or quoting identifiers (controlled by directives #define and #undef,
+ * and operators # and ##).
  */
 class PPReplace {
 
@@ -176,7 +176,7 @@ class PPReplace {
    */
   @SuppressWarnings({"java:S3776"})
   private void handleOperators(List<Token> replacementList, List<String> parameters, List<Token> arguments,
-                               List<Token> result) {
+    List<Token> result) {
 
     int tokensConsumed = 0;
 
@@ -195,7 +195,7 @@ class PPReplace {
         // not a token to be replaced by a macro argument
         //
         if (((i = handleVaOpt(view, parameters, arguments, result)) <= 0)
-              && ((i = handleConcatenation(view, parameters, arguments, result)) <= 0)) {
+          && ((i = handleConcatenation(view, parameters, arguments, result)) <= 0)) {
           result.add(token);
         }
       } else if (parameterIndex < arguments.size()) {
@@ -205,8 +205,8 @@ class PPReplace {
         argument = arguments.get(parameterIndex);
 
         if (((i = handleConcatenation(view, parameters, arguments, result)) <= 0)
-              && (tokensConsumed < 1 || !handleStringification(
-                  replacementList.subList(tokensConsumed - 1, replacementList.size()), argument, result))) {
+          && (tokensConsumed < 1 || !handleStringification(
+            replacementList.subList(tokensConsumed - 1, replacementList.size()), argument, result))) {
           newValue = expand(argument.getValue());
         }
       }
@@ -251,18 +251,16 @@ class PPReplace {
    * form a longer identifier, digits that form a number, or operators + and = that form a +=. A comment cannot be
    * created by pasting / and * because comments are removed from text before macro substitution is considered.
    *
-   * Special cases:
-   * (1) A ## ## B == A ## B
-   * (2) A ## B ## C ...
+   * Special cases: (1) A ## ## B == A ## B (2) A ## B ## C ...
    */
   private static int handleConcatenation(List<Token> replacementList, List<String> parameters, List<Token> arguments,
-                                         List<Token> result) {
+    List<Token> result) {
 
     int tokensConsumed = 0;
 
     while ((tokensConsumed + 1) < replacementList.size()
-             && isIdentifier(replacementList.get(tokensConsumed).getType())
-             && PPPunctuator.HASHHASH.equals(replacementList.get(tokensConsumed + 1).getType())) {
+      && isIdentifier(replacementList.get(tokensConsumed).getType())
+      && PPPunctuator.HASHHASH.equals(replacementList.get(tokensConsumed + 1).getType())) {
       if (tokensConsumed == 0) {
         result.add(getReplacementToken(replacementList.get(0), parameters, arguments)); // A
       }
@@ -271,7 +269,7 @@ class PPReplace {
       tokensConsumed++;
 
       while ((tokensConsumed + 1) < replacementList.size()
-               && PPPunctuator.HASHHASH.equals(replacementList.get(tokensConsumed).getType())) {
+        && PPPunctuator.HASHHASH.equals(replacementList.get(tokensConsumed).getType())) {
         tokensConsumed++;  // handle special case A ## ## ... B
       }
       result.add(getReplacementToken(replacementList.get(tokensConsumed), parameters, arguments)); // B, C, ...
@@ -287,8 +285,8 @@ class PPReplace {
   private static boolean handleStringification(List<Token> replacementList, Token argument, List<Token> result) {
     if (PPPunctuator.HASH.equals(replacementList.get(0).getType())) {
       result.set(result.size() - 1,
-                 PPGeneratedToken.build(argument, argument.getType(),
-                                        PPStringification.stringify(argument.getValue()))
+        PPGeneratedToken.build(argument, argument.getType(),
+          PPStringification.stringify(argument.getValue()))
       );
       return true;
     }
@@ -298,10 +296,10 @@ class PPReplace {
   /**
    * Special handling for empty __VA_ARGS__.
    *
-   * (1) Handle stringification of empty __VA_ARGS__: #__VA_ARGS__ => "", e.g. puts(#__VA_ARGS__) => puts("").
-   * (2) Some compilers offer an extension that allows ## to appear after a comma and before __VA_ARGS__, in which case
-   * the ## does nothing when the variable arguments are present, but removes the comma when the variable arguments are
-   * not present: this makes it possible to define macros such as fprintf (stderr, format, ##__VA_ARGS__).
+   * (1) Handle stringification of empty __VA_ARGS__: #__VA_ARGS__ => "", e.g. puts(#__VA_ARGS__) => puts(""). (2) Some
+   * compilers offer an extension that allows ## to appear after a comma and before __VA_ARGS__, in which case the ##
+   * does nothing when the variable arguments are present, but removes the comma when the variable arguments are not
+   * present: this makes it possible to define macros such as fprintf (stderr, format, ##__VA_ARGS__).
    */
   private static void handleEmptyVaArgs(List<Token> replacementList, List<Token> result) {
     if (!"__VA_ARGS__".equals(replacementList.get(0).getValue())) {
@@ -311,8 +309,8 @@ class PPReplace {
     if (!result.isEmpty()) {
       var lastIndex = result.size() - 1;
       var type = result.get(lastIndex).getType();
-      if (type instanceof PPPunctuator) {
-        switch ((PPPunctuator) type) {
+      if (type instanceof PPPunctuator tokenType) {
+        switch (tokenType) {
           case HASH: // (1)
             result.set(lastIndex, PPGeneratedToken.build(result.get(lastIndex), CxxTokenType.STRING, "\"\""));
             break;
@@ -344,7 +342,7 @@ class PPReplace {
    */
   @SuppressWarnings({"java:S3776", "java:S1142"})
   private int handleVaOpt(List<Token> replacementList, List<String> parameters, List<Token> arguments,
-                          List<Token> result) {
+    List<Token> result) {
     var firstIndex = -1;
     var lastIndex = -1;
     var brackets = 0;

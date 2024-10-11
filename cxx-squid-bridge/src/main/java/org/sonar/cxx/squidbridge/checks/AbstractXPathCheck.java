@@ -47,8 +47,8 @@ public abstract class AbstractXPathCheck<G extends Grammar> extends SquidCheck<G
         query = AstNodeXPathQuery.create(getXPathQuery());
       } catch (RuntimeException e) {
         throw new IllegalStateException("Unable to initialize the XPath engine, perhaps because of an invalid query: "
-                                        + xpath,
-                                        e);
+          + xpath,
+          e);
       }
     }
   }
@@ -59,8 +59,7 @@ public abstract class AbstractXPathCheck<G extends Grammar> extends SquidCheck<G
       List<Object> objects = query.selectNodes(fileNode);
 
       for (var object : objects) {
-        if (object instanceof AstNode) {
-          var astNode = (AstNode) object;
+        if (object instanceof AstNode astNode) {
           getContext().createLineViolation(this, getMessage(), astNode.getTokenLine());
         } else if (object instanceof Boolean && (Boolean) object) {
           getContext().createFileViolation(this, getMessage());

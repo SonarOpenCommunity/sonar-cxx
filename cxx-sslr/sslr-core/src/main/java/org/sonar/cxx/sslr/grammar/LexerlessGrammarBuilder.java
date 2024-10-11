@@ -113,8 +113,7 @@ public class LexerlessGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "end of input".
-   * This expression succeeds only if parser reached end of input.
+   * Creates parsing expression - "end of input". This expression succeeds only if parser reached end of input.
    */
   public Object endOfInput() {
     return EndOfInputExpression.INSTANCE;
@@ -154,16 +153,15 @@ public class LexerlessGrammarBuilder extends GrammarBuilder {
   protected ParsingExpression convertToExpression(@Nonnull Object e) {
     Objects.requireNonNull(e, "Parsing expression can't be null");
     ParsingExpression result;
-    if (e instanceof ParsingExpression) {
-      result = (ParsingExpression) e;
-    } else if (e instanceof GrammarRuleKey) {
-      var ruleKey = (GrammarRuleKey) e;
+    if (e instanceof ParsingExpression parsingExpression) {
+      result = parsingExpression;
+    } else if (e instanceof GrammarRuleKey ruleKey) {
       rule(ruleKey);
       result = definitions.get(ruleKey);
-    } else if (e instanceof String) {
-      result = new StringExpression((String) e);
-    } else if (e instanceof Character) {
-      result = new StringExpression(((Character) e).toString());
+    } else if (e instanceof String string) {
+      result = new StringExpression(string);
+    } else if (e instanceof Character character) {
+      result = new StringExpression(character.toString());
     } else {
       throw new IllegalArgumentException("Incorrect type of parsing expression: " + e.getClass().toString());
     }

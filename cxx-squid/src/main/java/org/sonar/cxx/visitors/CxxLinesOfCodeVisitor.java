@@ -87,8 +87,8 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
     for (var commentLine : commentLines) {
       if (commentLine.contains("NOSONAR")) {
         SourceCode sourceCode = getContext().peekSourceCode();
-        if (sourceCode instanceof SourceFile) {
-          ((SourceFile) sourceCode).hasNoSonarTagAtLine(line);
+        if (sourceCode instanceof SourceFile sourceFile) {
+          sourceFile.hasNoSonarTagAtLine(line);
         }
       }
       line++;

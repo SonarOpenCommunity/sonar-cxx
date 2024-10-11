@@ -30,11 +30,11 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -53,11 +53,10 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("RATS Report(s)")
-        .description(
-          "Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with"
-            + " `RATS` issues. Ant patterns are accepted for relative paths."
-            + " In the SonarQube UI, enter one entry per field."
-        )
+        .description("""
+          Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with \
+          `RATS` issues. Ant patterns are accepted for relative paths. In the SonarQube UI, enter one \
+          entry per field.""")
         .category("CXX External Analyzers")
         .subCategory("RATS")
         .onQualifiers(Qualifiers.PROJECT)

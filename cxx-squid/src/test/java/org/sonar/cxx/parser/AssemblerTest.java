@@ -69,20 +69,20 @@ class AssemblerTest extends ParserBaseTestHelper {
   void asmVcAssemblyInstructionList3() {
     setRootRule(CxxGrammarImpl.asmDeclaration);
     assertThatParser()
-      .matches(
-        "__asm {\n"
-          + "mov eax, num    ; Get first argument\n"
-          + "mov ecx, power  ; Get second argument\n"
-          + "shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )\n"
-          + "}"
-      )
-      .matches(
-        "asm {\n"
-          + "mov eax, num    ; Get first argument\n"
-          + "mov ecx, power  ; Get second argument\n"
-          + "shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )\n"
-          + "}"
-      );
+      .matches("""
+               __asm {
+               mov eax, num    ; Get first argument
+               mov ecx, power  ; Get second argument
+               shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )
+               }
+               """)
+      .matches("""
+               asm {
+               mov eax, num    ; Get first argument
+               mov ecx, power  ; Get second argument
+               shl eax, cl     ; EAX = EAX * ( 2 to the power of CL )
+               }
+               """);
   }
 
   @Test

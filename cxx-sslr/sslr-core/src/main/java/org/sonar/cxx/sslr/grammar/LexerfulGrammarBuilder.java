@@ -47,8 +47,7 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokensBridgeExpression;
 
 /**
  * A builder for creating <a href="http://en.wikipedia.org/wiki/Parsing_expression_grammar">Parsing Expression
- * Grammars</a> for lexerful parsing.
- * {@link com.sonar.cxx.sslr.impl.Lexer} is required for parsers of such grammars.
+ * Grammars</a> for lexerful parsing. {@link com.sonar.cxx.sslr.impl.Lexer} is required for parsers of such grammars.
  * <p>
  * Objects of following types can be used as an atomic parsing expressions:
  * <ul>
@@ -125,9 +124,8 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "adjacent".
-   * During execution of this expression parser will execute sub-expression only if there is no space between next and
-   * previous tokens.
+   * Creates parsing expression - "adjacent". During execution of this expression parser will execute sub-expression
+   * only if there is no space between next and previous tokens.
    *
    * @param e sub-expression
    * @throws IllegalArgumentException if given argument is not a parsing expression
@@ -137,8 +135,7 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "any token but not".
-   * Equivalent of expression {@code sequence(nextNot(e), anyToken())}
+   * Creates parsing expression - "any token but not". Equivalent of expression {@code sequence(nextNot(e), anyToken())}
    * Do not overuse this method.
    *
    * @param e sub-expression
@@ -149,11 +146,9 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "is one of them".
-   * During execution of this expression parser will consume following token only if its type belongs to the provided
-   * list.
-   * Equivalent of expression {@code firstOf(t1, rest)}.
-   * Do not overuse this method.
+   * Creates parsing expression - "is one of them". During execution of this expression parser will consume following
+   * token only if its type belongs to the provided list. Equivalent of expression {@code firstOf(t1, rest)}. Do not
+   * overuse this method.
    *
    * @param t1 first type of token
    * @param rest rest of types
@@ -166,8 +161,7 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "bridge".
-   * Equivalent of:
+   * Creates parsing expression - "bridge". Equivalent of:
    * <pre>
    *   rule(bridge).is(
    *     from,
@@ -177,36 +171,31 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
    *     )),
    *     to
    *   ).skip()
-   * </pre>
-   * Do not overuse this expression.
+   * </pre> Do not overuse this expression.
    */
   public Object bridge(TokenType from, TokenType to) {
     return new TokensBridgeExpression(from, to);
   }
 
   /**
-   * Creates parsing expression - "any token".
-   * During execution of this expression parser will unconditionally consume following token.
-   * This expression fails, if end of input reached.
+   * Creates parsing expression - "any token". During execution of this expression parser will unconditionally consume
+   * following token. This expression fails, if end of input reached.
    */
   public Object anyToken() {
     return AnyTokenExpression.INSTANCE;
   }
 
   /**
-   * Creates parsing expression - "till new line".
-   * During execution of this expression parser will consume all following tokens, which are on the current line.
-   * This expression always succeeds.
-   * Do not overuse this expression.
+   * Creates parsing expression - "till new line". During execution of this expression parser will consume all following
+   * tokens, which are on the current line. This expression always succeeds. Do not overuse this expression.
    */
   public Object tillNewLine() {
     return TillNewLineExpression.INSTANCE;
   }
 
   /**
-   * Creates parsing expression - "till".
-   * Equivalent of expression {@code sequence(zeroOrMore(nextNot(e), anyToken()), e)}.
-   * Do not overuse this method.
+   * Creates parsing expression - "till". Equivalent of expression
+   * {@code sequence(zeroOrMore(nextNot(e), anyToken()), e)}. Do not overuse this method.
    *
    * @param e sub-expression
    * @throws IllegalArgumentException if given argument is not a parsing expression
@@ -223,8 +212,7 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "exclusive till".
-   * Equivalent of expression {@code zeroOrMore(nextNot(e), anyToken())}.
+   * Creates parsing expression - "exclusive till". Equivalent of expression {@code zeroOrMore(nextNot(e), anyToken())}.
    * Do not overuse this method.
    *
    * @param e sub-expression
@@ -238,9 +226,8 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "exclusive till".
-   * Equivalent of expression {@code zeroOrMore(nextNot(firstOf(e, rest)), anyToken())}.
-   * Do not overuse this method.
+   * Creates parsing expression - "exclusive till". Equivalent of expression
+   * {@code zeroOrMore(nextNot(firstOf(e, rest)), anyToken())}. Do not overuse this method.
    *
    * @param e1 first sub-expression
    * @param rest rest of sub-expressions
@@ -254,18 +241,17 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   protected ParsingExpression convertToExpression(@Nonnull Object e) {
     Objects.requireNonNull(e, "Parsing expression can't be null");
     final ParsingExpression result;
-    if (e instanceof ParsingExpression) {
-      result = (ParsingExpression) e;
-    } else if (e instanceof GrammarRuleKey) {
-      var ruleKey = (GrammarRuleKey) e;
+    if (e instanceof ParsingExpression parsingExpression) {
+      result = parsingExpression;
+    } else if (e instanceof GrammarRuleKey ruleKey) {
       rule(ruleKey);
       result = definitions.get(ruleKey);
-    } else if (e instanceof TokenType) {
-      result = new TokenTypeExpression((TokenType) e);
-    } else if (e instanceof String) {
-      result = new TokenValueExpression((String) e);
-    } else if (e instanceof Class) {
-      result = new TokenTypeClassExpression((Class) e);
+    } else if (e instanceof TokenType tokenType) {
+      result = new TokenTypeExpression(tokenType);
+    } else if (e instanceof String string) {
+      result = new TokenValueExpression(string);
+    } else if (e instanceof Class aClass) {
+      result = new TokenTypeClassExpression(aClass);
     } else {
       throw new IllegalArgumentException("Incorrect type of parsing expression: " + e.getClass().toString());
     }

@@ -73,7 +73,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdasdfghtzsdfghjuio\nasda\n")
+      .initMetadata("""
+                    asd
+                    asdasdfghtzsdfghjuio
+                    asda
+                    """)
       .build()
     );
 
@@ -100,10 +104,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata(
-        "asd\n"
-          + "    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];\n"
-          + "asda\n")
+      .initMetadata("""
+                    asd
+                        output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                    asda
+                    """)
       .build()
     );
 
@@ -134,11 +139,12 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata(
-        "asd\n"
-          + "                               _identityFunction,\n"
-          + "                               _identityFunction) {\n"
-          + "asda\n")
+      .initMetadata("""
+                    asd
+                                                   _identityFunction,
+                                                   _identityFunction) {
+                    asda
+                    """)
       .build()
     );
 
@@ -163,10 +169,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata(
-        "asd\n"
-          + "X\n" // line too short for column in message
-          + "asda\n")
+      .initMetadata("""
+                    asd
+                    X
+                    asda
+                    """)
       .build()
     );
 
@@ -217,10 +224,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata(
-        "asd\n"
-          + "    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];\n"
-          + "asda\n")
+      .initMetadata("""
+                    asd
+                        output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                    asda
+                    """)
       .build()
     );
 

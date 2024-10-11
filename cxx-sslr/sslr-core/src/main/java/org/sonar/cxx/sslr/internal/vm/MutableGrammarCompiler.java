@@ -61,8 +61,7 @@ public class MutableGrammarCompiler extends CompilationHandler {
     var result = instructions.toArray(new Instruction[instructions.size()]);
     for (int i = 0; i < result.length; i++) {
       var instruction = result[i];
-      if (instruction instanceof RuleRefExpression) {
-        var expression = (RuleRefExpression) instruction;
+      if (instruction instanceof RuleRefExpression expression) {
         var ruleKey = expression.getRuleKey();
         int offset = offsets.get(ruleKey);
         result[i] = Instruction.call(offset - i, matchers.get(ruleKey));
@@ -74,8 +73,7 @@ public class MutableGrammarCompiler extends CompilationHandler {
 
   @Override
   public Instruction[] compile(ParsingExpression expression) {
-    if (expression instanceof CompilableGrammarRule) {
-      var rule = (CompilableGrammarRule) expression;
+    if (expression instanceof CompilableGrammarRule rule) {
       if (!matchers.containsKey(rule.getRuleKey())) {
         compilationQueue.add(rule);
         matchers.put(rule.getRuleKey(), rule);

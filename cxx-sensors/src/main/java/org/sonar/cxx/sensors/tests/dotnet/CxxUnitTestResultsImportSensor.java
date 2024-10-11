@@ -39,7 +39,7 @@ import org.sonar.api.scanner.sensor.ProjectSensor;
 public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   private final WildcardPatternFileProvider wildcardPatternFileProvider
-                                              = new WildcardPatternFileProvider(new File("."), File.separator);
+    = new WildcardPatternFileProvider(new File("."), File.separator);
   private final CxxUnitTestResultsAggregator unitTestResultsAggregator;
   private SensorContext context;
 
@@ -53,12 +53,10 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("VSTest Report(s)")
-        .description(
-          "Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + " Note that while measures such as the number of tests are displayed at project level, no drilldown"
-            + " is available."
-            + " In the SonarQube UI, enter one entry per field."
-        )
+        .description("""
+          Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards. \
+          Note that while measures such as the number of tests are displayed at project level, no drilldown \
+          is available. In the SonarQube UI, enter one entry per field.""")
         .category(category)
         .subCategory("Visual C++")
         .onQualifiers(Qualifiers.PROJECT)
@@ -66,12 +64,10 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
         .name("NUnit Report(s)")
-        .description(
-          "Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards."
-            + " Note that while measures such as the number of tests are displayed at project level, no drilldown"
-            + " is available."
-            + " In the SonarQube UI, enter one entry per field."
-        )
+        .description("""
+          Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards. \
+          Note that while measures such as the number of tests are displayed at project level, no drilldown \
+          is available. In the SonarQube UI, enter one entry per field.""")
         .category(category)
         .subCategory("NUnit")
         .onQualifiers(Qualifiers.PROJECT)
@@ -95,7 +91,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
   public void analyze(UnitTestResults unitTestResults, UnitTestConfiguration unitTestConf) {
     var aggregatedResults = unitTestResultsAggregator.aggregate(wildcardPatternFileProvider,
-                                                            unitTestResults, unitTestConf);
+      unitTestResults, unitTestConf);
     if (aggregatedResults != null) {
       saveMetric(CoreMetrics.TESTS, aggregatedResults.tests());
       saveMetric(CoreMetrics.TEST_ERRORS, aggregatedResults.errors());

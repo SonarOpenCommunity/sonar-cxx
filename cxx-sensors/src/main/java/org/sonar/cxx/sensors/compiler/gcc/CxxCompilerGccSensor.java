@@ -41,9 +41,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
    * Default id used for gcc warnings not associated with any activation switch.
    */
   public static final String DEFAULT_ID = "default";
-  public static final String DEFAULT_REGEX_DEF
-                               = "(?<file>[^:]*+):(?<line>\\d{1,5}):\\d{1,5}:\\x20warning:\\x20"
-                                   + "(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
+  public static final String DEFAULT_REGEX_DEF = """
+     (?<file>[^:]*+):(?<line>\\d{1,5}):\\d{1,5}:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$""";
 
   public static List<PropertyDefinition> properties() {
     var subcateg = "GCC";
@@ -51,9 +50,9 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")
-        .description(
-          "Comma-separated paths (absolute or relative to the project base directory) to `*.log` files with"
-            + " `GCC` warnings. Ant patterns are accepted for relative paths."
+        .description("""
+          Comma-separated paths (absolute or relative to the project base directory) to \
+          `*.log` files with `GCC` warnings. Ant patterns are accepted for relative paths."""
         )
         .category(category)
         .subCategory(subcateg)
@@ -72,9 +71,9 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
-        .description(
-          "Java regular expressions to parse the `GCC` warnings. You can use the named-capturing groups"
-            + " `<file>`, `<line>`, `<column>`, `<id>` and `<message>`."
+        .description("""
+           Java regular expressions to parse the `GCC` warnings. You can use the named-capturing groups \
+           `<file>`, `<line>`, `<column>`, `<id>` and `<message>`."""
         )
         .category(category)
         .subCategory(subcateg)

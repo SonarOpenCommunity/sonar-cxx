@@ -25,11 +25,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -56,10 +56,9 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("Dr. Memory Report(s)")
-        .description(
-          "Comma-separated paths (absolute or relative to the project base directory) to `*.txt` files with"
-            + " `Dr. Memory` issues. Ant patterns are accepted for relative paths."
-        )
+        .description("""
+          Comma-separated paths (absolute or relative to the project base directory) to `*.txt` files with \
+          `Dr. Memory` issues. Ant patterns are accepted for relative paths.""")
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
@@ -123,8 +122,8 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
           continue;
         }
         var fileIssue = new CxxReportIssue(error.getType().getId(),
-                                       lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), null,
-                                       error.getMessage());
+          lastOwnFrame.getFile(), lastOwnFrame.getLine().toString(), null,
+          error.getMessage());
 
         // add all frames as secondary locations
         var frameNr = 0;

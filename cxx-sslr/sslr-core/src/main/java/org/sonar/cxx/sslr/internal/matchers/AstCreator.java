@@ -60,8 +60,8 @@ public final class AstCreator {
     var astNode = new AstCreator(input).visit(parsingResult.getParseTreeRoot());
     if (astNode == null) {
       throw new IllegalStateException("create ParsingResult: "
-                                        + parsingResult.toString()
-                                        + " LocatedText: " + input.toString());
+        + parsingResult.toString()
+        + " LocatedText: " + input.toString());
     }
     // Unwrap AstNodeType for root node:
     astNode.hasToBeSkippedFromAst();
@@ -82,8 +82,7 @@ public final class AstCreator {
 
   @CheckForNull
   private AstNode visitTerminal(ParseNode node) {
-    if (node.getMatcher() instanceof TriviaExpression) {
-      var ruleMatcher = (TriviaExpression) node.getMatcher();
+    if (node.getMatcher() instanceof TriviaExpression ruleMatcher) {
       switch (ruleMatcher.getTriviaKind()) {
         case SKIPPED_TEXT:
           return null;
@@ -96,9 +95,9 @@ public final class AstCreator {
         default:
           throw new IllegalStateException("Unexpected trivia kind: " + ruleMatcher.getTriviaKind());
       }
-    } else if (node.getMatcher() instanceof TokenExpression) {
+    } else if (node.getMatcher() instanceof TokenExpression tokenExpression) {
       updateTokenPositionAndValue(node);
-      var ruleMatcher = (TokenExpression) node.getMatcher();
+      var ruleMatcher = tokenExpression;
       tokenBuilder.setType(ruleMatcher.getTokenType());
       if (ruleMatcher.getTokenType() == GenericTokenType.COMMENT) {
         tokenBuilder.setTrivia(Collections.<Trivia>emptyList());

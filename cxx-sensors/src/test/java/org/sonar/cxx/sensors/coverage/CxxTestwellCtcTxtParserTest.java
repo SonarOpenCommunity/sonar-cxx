@@ -46,13 +46,14 @@ class CxxTestwellCtcTxtParserTest {
   void shouldReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_small_v8.txt");
+      "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata(
+      "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      + "\n\n\n\n\n\n\n").build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -67,13 +68,14 @@ class CxxTestwellCtcTxtParserTest {
   void shouldReportCoveredConditionsOne() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_small_v8.txt");
+      "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata(
+      "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      + "\n\n\n\n\n\n\n").build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -88,13 +90,11 @@ class CxxTestwellCtcTxtParserTest {
   void shouldReportCoveredConditionsTwo() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_small_v8.txt");
+      "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -109,17 +109,13 @@ class CxxTestwellCtcTxtParserTest {
   void shouldConsumeLargeReportCoveredLines() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_big.txt");
+      "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -134,17 +130,13 @@ class CxxTestwellCtcTxtParserTest {
   void shouldConsumeLargeReportCoveredConditions() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_big.txt");
+      "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -159,17 +151,13 @@ class CxxTestwellCtcTxtParserTest {
   void shouldConsumeLargeReportConditions() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_big.txt");
+      "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -184,13 +172,11 @@ class CxxTestwellCtcTxtParserTest {
   void shouldConsumeEmptyReport() {
     context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageTestwellCtcTxtSensor.REPORT_PATH_KEY,
-                         "coverage-reports/TestwellCTC/report_empty.txt");
+      "coverage-reports/TestwellCTC/report_empty.txt");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                                       + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);

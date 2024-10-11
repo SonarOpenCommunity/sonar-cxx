@@ -88,7 +88,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_objectlike_macros() {
-    List<Token> tokens = lexer.lex("#define lala \"haha\"\nlala");
+    List<Token> tokens = lexer.lex("""
+                                   #define lala "haha"
+                                   lala
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"haha\"").hasType(CxxTokenType.STRING));
@@ -97,7 +100,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void recursive_objectlike_macros() {
-    List<Token> tokens = lexer.lex("#define RECURSIVE RECURSIVE\nRECURSIVE");
+    List<Token> tokens = lexer.lex("""
+                                   #define RECURSIVE RECURSIVE
+                                   RECURSIVE
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
     softly.assertThat(tokens).anySatisfy(
@@ -108,7 +114,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_functionlike_macros() {
-    List<Token> tokens = lexer.lex("#define plus(a, b) a + b\n plus(1, 2)");
+    List<Token> tokens = lexer.lex("""
+                                   #define plus(a, b) a + b
+                                   plus(1, 2)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
@@ -117,7 +126,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void recursive_functionlike_macros() {
-    List<Token> tokens = lexer.lex("#define RECURSIVE(a) RECURSIVE(a)\nRECURSIVE(1)");
+    List<Token> tokens = lexer.lex("""
+                                   #define RECURSIVE(a) RECURSIVE(a)
+                                   RECURSIVE(1)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
     softly.assertThat(tokens).anySatisfy(
@@ -131,7 +143,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_functionlike_macros_with_varargs() {
-    List<Token> tokens = lexer.lex("#define wrapper(...) __VA_ARGS__\n wrapper(1, 2)");
+    List<Token> tokens = lexer.lex("""
+                                   #define wrapper(...) __VA_ARGS__
+                                   wrapper(1, 2)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
@@ -141,7 +156,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_functionlike_macros_withnamed_varargs() {
-    List<Token> tokens = lexer.lex("#define wrapper(args...) args\n wrapper(1, 2)");
+    List<Token> tokens = lexer.lex("""
+                                   #define wrapper(args...) args
+                                   wrapper(1, 2)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(4);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("1").hasType(CxxTokenType.NUMBER));
@@ -151,7 +169,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_functionlike_macros_with_empty_varargs() {
-    List<Token> tokens = lexer.lex("#define wrapper(...) (__VA_ARGS__)\n wrapper()");
+    List<Token> tokens = lexer.lex("""
+                                   #define wrapper(...) (__VA_ARGS__)
+                                   wrapper()
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(3);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
@@ -161,7 +182,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_macro_with_empty_parameter_list() {
-    List<Token> tokens = lexer.lex("#define M() 0\n M()");
+    List<Token> tokens = lexer.lex("""
+                                   #define M() 0
+                                   M()
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("0").hasType(CxxTokenType.NUMBER));
@@ -170,7 +194,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_functionlike_macros_withextraparantheses() {
-    List<Token> tokens = lexer.lex("#define neg(a) -a\n neg((1))");
+    List<Token> tokens = lexer.lex("""
+                                   #define neg(a) -a
+                                   neg((1))
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
@@ -179,7 +206,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_hashoperator() {
-    List<Token> tokens = lexer.lex("#define str(a) # a\n str(x)");
+    List<Token> tokens = lexer.lex("""
+                                   #define str(a) # a
+                                   str(x)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"x\"").hasType(CxxTokenType.STRING));
@@ -188,7 +218,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_hashhash_operator() {
-    List<Token> tokens = lexer.lex("#define concat(a,b) a ## b\n concat(x,y)");
+    List<Token> tokens = lexer.lex("""
+                                   #define concat(a,b) a ## b
+                                   concat(x,y)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // xy + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("xy").hasType(GenericTokenType.IDENTIFIER));
@@ -197,7 +230,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_hashhash_operator_withoutparams() {
-    List<Token> tokens = lexer.lex("#define hashhash c ## c\n hashhash");
+    List<Token> tokens = lexer.lex("""
+                                   #define hashhash c ## c
+                                   hashhash
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // cc + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("cc").hasType(GenericTokenType.IDENTIFIER));
@@ -206,7 +242,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_sequenceof_hashhash_operators() {
-    List<Token> tokens = lexer.lex("#define concat(a,b) a ## ## ## b\n concat(x,y)");
+    List<Token> tokens = lexer.lex("""
+                                   #define concat(a,b) a ## ## ## b
+                                   concat(x,y)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // xy + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("xy").hasType(GenericTokenType.IDENTIFIER));
@@ -215,7 +254,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_many_hashhash_operators() {
-    List<Token> tokens = lexer.lex("#define concat(a,b) c ## c ## c ## c\n concat(x,y)");
+    List<Token> tokens = lexer.lex("""
+                                   #define concat(a,b) c ## c ## c ## c
+                                   concat(x,y)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // cccc + EOF
     softly.assertThat(tokens)
@@ -230,11 +272,13 @@ class CxxLexerWithPreprocessingTest {
     // Problem: cannot find defined behaviour in the C++ Standard for
     // such cases.
     // Corresponds to the Jira issue SONARPLUGINS-3060
-    List<Token> tokens = lexer.lex("#define FOOBAR 1\n"
-                                     + "#define CHECK(a, b) (( a ## b + 1 == 2))\n"
-                                     + "#if CHECK(FOO , BAR)\n"
-                                     + "yes\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define FOOBAR 1
+                                   #define CHECK(a, b) (( a ## b + 1 == 2))
+                                   #if CHECK(FOO , BAR)
+                                   yes
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // yes + EOF
@@ -248,11 +292,13 @@ class CxxLexerWithPreprocessingTest {
     // not working yet. Because the current implementation throws away all 'irrelevant'
     // preprocessor directives too early, I guess.
 
-    List<Token> tokens = lexer.lex("#define hash_hash(x) # ## #\n"
-                                     + "#define mkstr(a) # a\n"
-                                     + "#define in_between(a) mkstr(a)\n"
-                                     + "#define join(c, d) in_between(c hash_hash(x) d)\n"
-                                     + "join(x,y)");
+    List<Token> tokens = lexer.lex("""
+                                   #define hash_hash(x) # ## #
+                                   #define mkstr(a) # a
+                                   #define in_between(a) mkstr(a)
+                                   #define join(c, d) in_between(c hash_hash(x) d)
+                                   join(x,y)
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); //"x ## y" + EOF
@@ -263,7 +309,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_hashoperator_quoting1() {
-    List<Token> tokens = lexer.lex("#define str(a) # a\n str(\"x\")");
+    List<Token> tokens = lexer.lex("""
+                                   #define str(a) # a
+                                   str("x")
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"\\\"x\\\"\"")
@@ -273,9 +322,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_chained_macros() {
-    List<Token> tokens = lexer.lex("#define M1 \"a\"\n"
-                                     + "#define M2 M1\n"
-                                     + "M2");
+    List<Token> tokens = lexer.lex("""
+                                   #define M1 "a"
+                                   #define M2 M1
+                                   M2
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"a\"").hasType(CxxTokenType.STRING));
@@ -284,9 +335,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_chained_macros2() {
-    List<Token> tokens = lexer.lex("#define M1 \"a\"\n"
-                                     + "#define M2 foo(M1)\n"
-                                     + "M2");
+    List<Token> tokens = lexer.lex("""
+                                   #define M1 "a"
+                                   #define M2 foo(M1)
+                                   M2
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"a\"").hasType(CxxTokenType.STRING));
@@ -296,9 +349,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void expanding_chained_macros3() {
-    List<Token> tokens = lexer.lex("#define M1(a) \"a\"\n"
-                                     + "#define M2 foo(M1)\n"
-                                     + "M2");
+    List<Token> tokens = lexer.lex("""
+                                   #define M1(a) "a"
+                                   #define M2 foo(M1)
+                                   M2
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("M1").hasType(GenericTokenType.IDENTIFIER));
@@ -308,9 +363,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void joining_strings_after_macro_expansion() {
-    List<Token> tokens = lexer.lex("#define Y \"hello, \" \n"
-                                     + "#define X Y \"world\" \n"
-                                     + "X");
+    List<Token> tokens = lexer.lex("""
+                                   #define Y "hello, "
+                                   #define X Y "world"
+                                   X
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // string + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"hello, world\"").hasType(
@@ -320,9 +377,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void joining_strings_after_macro_expansion2() {
-    List<Token> tokens = lexer.lex("#define M \"A\" \"B\" \"C\" \n"
-                                     + "#define N M \n"
-                                     + "N");
+    List<Token> tokens = lexer.lex("""
+                                   #define M "A" "B" "C"
+                                   #define N M
+                                   N
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // string + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"ABC\"").hasType(CxxTokenType.STRING));
@@ -331,8 +390,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void joining_strings_after_macro_expansion3() {
-    List<Token> tokens = lexer.lex("#define M \"B\" \n"
-                                     + "\"A\" M");
+    List<Token> tokens = lexer.lex("""
+                                   #define M "B"
+                                   "A" M
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // string + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("\"AB\"").hasType(CxxTokenType.STRING));
@@ -341,8 +402,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void preserving_whitespace() {
-    List<Token> tokens = lexer.lex("#define CODE(x) x\n"
-                                     + "CODE(new B())");
+    List<Token> tokens = lexer.lex("""
+                                   #define CODE(x) x
+                                   CODE(new B())
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(5);
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
@@ -352,7 +415,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void bodyless_defines() {
-    assertThat(lexer.lex("#define M\n" + "M")).noneMatch(token -> token.getValue().contentEquals("M"))
+    assertThat(lexer.lex("""
+                         #define M
+                         M
+                         """)).noneMatch(token -> token.getValue().contentEquals("M"))
       .noneMatch(token -> token.getType().equals(GenericTokenType.IDENTIFIER));
   }
 
@@ -360,7 +426,7 @@ class CxxLexerWithPreprocessingTest {
   void external_define() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
-                    "M body");
+      "M body");
     var pp = new CxxPreprocessor(context, squidConfig);
     lexer = CxxLexerPool.create(squidConfig.getCharset(), pp, new JoinStringsPreprocessor()).getLexer();
 
@@ -376,7 +442,7 @@ class CxxLexerWithPreprocessingTest {
   void external_defines_with_params() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
-                    "minus(a, b) a - b");
+      "minus(a, b) a - b");
     var pp = new CxxPreprocessor(context, squidConfig);
     lexer = CxxLexerPool.create(squidConfig.getCharset(), pp, new JoinStringsPreprocessor()).getLexer();
 
@@ -389,8 +455,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void using_keyword_as_macro_name() {
-    List<Token> tokens = lexer.lex("#define new new_debug\n"
-                                     + "new");
+    List<Token> tokens = lexer.lex("""
+                                   #define new new_debug
+                                   new
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // identifier + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new_debug").hasType(
@@ -400,8 +468,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void using_keyword_as_macro_parameter() {
-    List<Token> tokens = lexer.lex("#define macro(new) new\n"
-                                     + "macro(a)");
+    List<Token> tokens = lexer.lex("""
+                                   #define macro(new) new
+                                   macro(a)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // identifier + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
@@ -410,8 +480,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void using_macro_name_as_macro_identifier() {
-    List<Token> tokens = lexer.lex("#define X(a) a X(a)\n"
-                                     + "X(new)");
+    List<Token> tokens = lexer.lex("""
+                                   #define X(a) a X(a)
+                                   X(new)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(6); // new + X + ( + new + ) + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
@@ -421,8 +493,10 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void using_keyword_as_macro_argument() {
-    List<Token> tokens = lexer.lex("#define X(a) a\n"
-                                     + "X(new)");
+    List<Token> tokens = lexer.lex("""
+                                   #define X(a) a
+                                   X(new)
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // kw + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("new").hasType(CxxKeyword.NEW));
@@ -441,8 +515,10 @@ class CxxLexerWithPreprocessingTest {
     when(pp.include()).thenReturn(include);
 
     lexer = CxxLexerPool.create(pp, new JoinStringsPreprocessor()).getLexer();
-    List<Token> tokens = lexer.lex("#include <file>\n"
-                                     + "A");
+    List<Token> tokens = lexer.lex("""
+                                   #include <file>
+                                   A
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // B + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("B").hasType(GenericTokenType.IDENTIFIER));
@@ -451,18 +527,22 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void macro_replacement_in_includes_is_working() {
-    List<Token> tokens = lexer.lex("#define A \"B\"\n"
-                                     + "#include A\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define A "B"
+                                   #include A
+                                   """);
     assertThat(tokens).hasSize(1); // EOF
   }
 
   @Test
   void conditional_compilation_ifdef_undefined() {
-    List<Token> tokens = lexer.lex("#ifdef LALA\n"
-                                     + "111\n"
-                                     + "#else\n"
-                                     + "222\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #ifdef LALA
+                                   111
+                                   #else
+                                   222
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).noneMatch(token -> token.getValue().contentEquals("111") && token.getType().equals(
@@ -473,12 +553,14 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_ifdef_defined() {
-    List<Token> tokens = lexer.lex("#define LALA\n"
-                                     + "#ifdef LALA\n"
-                                     + "  111\n"
-                                     + "#else\n"
-                                     + "  222\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define LALA
+                                   #ifdef LALA
+                                     111
+                                   #else
+                                     222
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).noneMatch(token -> token.getValue().contentEquals("222") && token.getType().equals(
@@ -489,11 +571,13 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_ifndef_undefined() {
-    List<Token> tokens = lexer.lex("#ifndef LALA\n"
-                                     + "111\n"
-                                     + "#else\n"
-                                     + "222\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #ifndef LALA
+                                   111
+                                   #else
+                                   222
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // 111 + EOF
@@ -503,12 +587,14 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_ifndef_defined() {
-    List<Token> tokens = lexer.lex("#define X\n"
-                                     + "#ifndef X\n"
-                                     + "  111\n"
-                                     + "#else\n"
-                                     + "  222\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define X
+                                   #ifndef X
+                                     111
+                                   #else
+                                     222
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // 222 + EOF
@@ -518,18 +604,20 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_ifdef_nested1() {
-    List<Token> tokens = lexer.lex("#define B\n"
-                                     + "#ifdef A\n"
-                                     + "  a\n"
-                                     + "  #ifdef B\n"
-                                     + "    b\n"
-                                     + "  #else\n"
-                                     + "    notb\n"
-                                     + "  #endif\n"
-                                     + "  a1\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define B
+                                   #ifdef A
+                                     a
+                                     #ifdef B
+                                       b
+                                     #else
+                                       notb
+                                     #endif
+                                     a1
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // nota + EOF
@@ -540,14 +628,16 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_ifdef_nested2() {
-    List<Token> tokens = lexer.lex("#if !defined A\n"
-                                     + "#define A\n"
-                                     + "#ifdef B\n"
-                                     + "  b\n"
-                                     + "#else\n"
-                                     + "  notb\n"
-                                     + "#endif\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if !defined A
+                                   #define A
+                                   #ifdef B
+                                     b
+                                   #else
+                                     notb
+                                   #endif
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // notb + EOF
@@ -558,11 +648,13 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_if_false() {
-    List<Token> tokens = lexer.lex("#if 0\n"
-                                     + "  a\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if 0
+                                     a
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // nota + EOF
@@ -573,11 +665,13 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_if_true() {
-    List<Token> tokens = lexer.lex("#if 1\n"
-                                     + "  a\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if 1
+                                     a
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
@@ -587,12 +681,14 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_if_identifier_true() {
-    List<Token> tokens = lexer.lex("#define LALA 1\n"
-                                     + "#if LALA\n"
-                                     + "  a\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define LALA 1
+                                   #if LALA
+                                     a
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
@@ -602,11 +698,13 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void conditional_compilation_if_identifier_false() {
-    List<Token> tokens = lexer.lex("#if LALA\n"
-                                     + "  a\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if LALA
+                                     a
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     assertThat(tokens).hasSize(2); // nota + EOF
@@ -617,15 +715,17 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void nested_ifs() {
-    List<Token> tokens = lexer.lex("#if 0\n"
-                                     + "  #if 1\n"
-                                     + "    b\n"
-                                     + "  #else\n"
-                                     + "    notb\n"
-                                     + "  #endif\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if 0
+                                     #if 1
+                                       b
+                                     #else
+                                       notb
+                                     #endif
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     assertThat(tokens).hasSize(2); // nota + EOF
@@ -641,18 +741,22 @@ class CxxLexerWithPreprocessingTest {
     // a macro is identified as 'functionlike' if and only if the parentheses
     // aren't separated from the identifier by whitespace. Otherwise, the parentheses
     // belong to the replacement string
-    List<Token> tokens = lexer.lex("#define macro ()\n"
-                                     + "macro\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define macro ()
+                                   macro
+                                   """);
     assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("(").hasType(CxxPunctuator.BR_LEFT));
   }
 
   @Test
   void assume_true_if_cannot_evaluate_if_expression() {
-    List<Token> tokens = lexer.lex("#if (\"\")\n"
-                                     + "  a\n"
-                                     + "#else\n"
-                                     + "  nota\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if ("")
+                                     a
+                                   #else
+                                     nota
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
@@ -672,8 +776,10 @@ class CxxLexerWithPreprocessingTest {
     var pp = new CxxPreprocessor(context, squidConfig);
     lexer = CxxLexerPool.create(squidConfig.getCharset(), pp).getLexer();
 
-    List<Token> tokens = lexer.lex("#define macro overriden\n"
-                                     + "macro");
+    List<Token> tokens = lexer.lex("""
+                                   #define macro overriden
+                                   macro
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // goodvalue + EOF
@@ -741,11 +847,11 @@ class CxxLexerWithPreprocessingTest {
 
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FORCE_INCLUDES,
-                    Collections.singletonList(forceIncludePath));
+      Collections.singletonList(forceIncludePath));
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
-                    "__LINE__ 123");
+      "__LINE__ 123");
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    "false");
+      "false");
 
     var pp = spy(new CxxPreprocessor(context, squidConfig));
     var include = spy(new PPInclude(pp, forceIncludeFile.toPath()));
@@ -764,11 +870,13 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void elif_expression() {
-    List<Token> tokens = lexer.lex("#if 0\n"
-                                     + "  if\n"
-                                     + "#elif 1\n"
-                                     + "  elif\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #if 0
+                                     if
+                                   #elif 1
+                                     elif
+                                   #endif
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // elif + EOF
@@ -780,9 +888,10 @@ class CxxLexerWithPreprocessingTest {
   @Test
   void continued_preprocessor_directive() {
     // continuations mask only one succeeding newline
-    List<Token> tokens = lexer.lex("#define M macrobody\\\n"
-                                     + "\n"
-                                     + "external");
+    List<Token> tokens = lexer.lex("""
+                                   #define M macrobody\\
+
+                                   external""");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // external + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("external").hasType(
@@ -804,9 +913,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void undef_works() {
-    List<Token> tokens = lexer.lex("#define a b\n"
-                                     + "#undef a\n"
-                                     + "a\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define a b
+                                   #undef a
+                                   a
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // a + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("a").hasType(GenericTokenType.IDENTIFIER));
@@ -815,13 +926,15 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void function_like_macros_in_if_expressions() {
-    List<Token> tokens = lexer.lex("#define A() 0\n"
-                                     + "#define B() 0\n"
-                                     + "#if A() & B()\n"
-                                     + "truecase\n"
-                                     + "#else\n"
-                                     + "falsecase\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define A() 0
+                                   #define B() 0
+                                   #if A() & B()
+                                   truecase
+                                   #else
+                                   falsecase
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // falsecase + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("falsecase").hasType(
@@ -831,12 +944,14 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void proper_expansion_of_function_like_macros_in_if_expressions() {
-    List<Token> tokens = lexer.lex("#define A() 0 ## 1\n"
-                                     + "#if A()\n"
-                                     + "truecase\n"
-                                     + "#else\n"
-                                     + "falsecase\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define A() 0 ## 1
+                                   #if A()
+                                   truecase
+                                   #else
+                                   falsecase
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // falsecase + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("truecase").hasType(
@@ -846,12 +961,14 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void problem_with_chained_defined_expressions() {
-    List<Token> tokens = lexer.lex("#define _C_\n"
-                                     + "#if !defined(_A_) && !defined(_B_) && !defined(_C_)\n"
-                                     + "truecase\n"
-                                     + "#else\n"
-                                     + "falsecase\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define _C_
+                                   #if !defined(_A_) && !defined(_B_) && !defined(_C_)
+                                   truecase
+                                   #else
+                                   falsecase
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // falsecase + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("falsecase").hasType(
@@ -861,14 +978,16 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void problem_evaluating_elif_expressions() {
-    List<Token> tokens = lexer.lex("#define foo(a) 1\n"
-                                     + "#if 0\n"
-                                     + "body\n"
-                                     + "#elif foo(10)\n"
-                                     + "truecase\n"
-                                     + "#else\n"
-                                     + "falsecase\n"
-                                     + "endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define foo(a) 1
+                                   #if 0
+                                   body
+                                   #elif foo(10)
+                                   truecase
+                                   #else
+                                   falsecase
+                                   endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // truecase + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("truecase").hasType(
@@ -888,12 +1007,14 @@ class CxxLexerWithPreprocessingTest {
   @Test
   void dont_look_at_subsequent_clauses_if_elif() {
     // When a if clause has been evaluated to true, dont look at subsequent elif clauses
-    List<Token> tokens = lexer.lex("#define A 1\n"
-                                     + "#if A\n"
-                                     + "   ifbody\n"
-                                     + "#elif A\n"
-                                     + "   elifbody\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define A 1
+                                   #if A
+                                      ifbody
+                                   #elif A
+                                      elifbody
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // ifbody + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("ifbody").hasType(
@@ -903,16 +1024,18 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void dont_look_at_subsequent_clauses_elif_elif() {
-    List<Token> tokens = lexer.lex("#define SDS_ARCH_darwin_15_i86\n"
-                                     + "#ifdef SDS_ARCH_freebsd_61_i86\n"
-                                     + "   case1\n"
-                                     + "#elif defined(SDS_ARCH_darwin_15_i86)\n"
-                                     + "   case2\n"
-                                     + "#elif defined(SDS_ARCH_winxp) || defined(SDS_ARCH_Interix)\n"
-                                     + "   case3\n"
-                                     + "#else\n"
-                                     + "   case4\n"
-                                     + "#endif\n");
+    List<Token> tokens = lexer.lex("""
+                                   #define SDS_ARCH_darwin_15_i86
+                                   #ifdef SDS_ARCH_freebsd_61_i86
+                                      case1
+                                   #elif defined(SDS_ARCH_darwin_15_i86)
+                                      case2
+                                   #elif defined(SDS_ARCH_winxp) || defined(SDS_ARCH_Interix)
+                                      case3
+                                   #else
+                                      case4
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // case2 + EOF
     softly.assertThat(tokens).anySatisfy(token -> assertThat(token).isValue("case2")
@@ -922,16 +1045,17 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void test_ifdef() {
-    List<Token> tokens = lexer.lex("#define CPU\n"
-                                     + "#ifdef CPU\n"
-                                     + "   ifbody\n"
-                                     + "#elifdef GPU\n"
-                                     + "   elifdefbody\n"
-                                     + "#elifndef RAM\n"
-                                     + "   elifndefbody\n"
-                                     + "#else\n"
-                                     + "   elsebody\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define CPU
+                                   #ifdef CPU
+                                      ifbody
+                                   #elifdef GPU
+                                      elifdefbody
+                                   #elifndef RAM
+                                      elifndefbody
+                                   #else
+                                      elsebody
+                                   #endif""");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // body + EOF
     softly.assertThat(tokens)
@@ -943,16 +1067,17 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void test_elifdef() {
-    List<Token> tokens = lexer.lex("#define GPU\n"
-                                     + "#ifdef CPU\n"
-                                     + "   ifbody\n"
-                                     + "#elifdef GPU\n"
-                                     + "   elifdefbody\n"
-                                     + "#elifndef RAM\n"
-                                     + "   elifndefbody\n"
-                                     + "#else\n"
-                                     + "   elsebody\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define GPU
+                                   #ifdef CPU
+                                      ifbody
+                                   #elifdef GPU
+                                      elifdefbody
+                                   #elifndef RAM
+                                      elifndefbody
+                                   #else
+                                      elsebody
+                                   #endif""");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // body + EOF
     softly.assertThat(tokens)
@@ -964,16 +1089,18 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void test_elifndef() {
-    List<Token> tokens = lexer.lex("#define XXX\n"
-                                     + "#ifdef CPU\n"
-                                     + "   ifbody\n"
-                                     + "#elifdef GPU\n"
-                                     + "   elifdefbody\n"
-                                     + "#elifndef RAM\n"
-                                     + "   elifndefbody\n"
-                                     + "#else\n"
-                                     + "   elsebody\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define XXX
+                                   #ifdef CPU
+                                      ifbody
+                                   #elifdef GPU
+                                      elifdefbody
+                                   #elifndef RAM
+                                      elifndefbody
+                                   #else
+                                      elsebody
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // body + EOF
     softly.assertThat(tokens)
@@ -985,16 +1112,18 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void test_else() {
-    List<Token> tokens = lexer.lex("#define RAM\n"
-                                     + "#ifdef CPU\n"
-                                     + "   ifbody\n"
-                                     + "#elifdef GPU\n"
-                                     + "   elifdefbody\n"
-                                     + "#elifndef RAM\n"
-                                     + "   elifndefbody\n"
-                                     + "#else\n"
-                                     + "   elsebody\n"
-                                     + "#endif");
+    List<Token> tokens = lexer.lex("""
+                                   #define RAM
+                                   #ifdef CPU
+                                      ifbody
+                                   #elifdef GPU
+                                      elifdefbody
+                                   #elifndef RAM
+                                      elifndefbody
+                                   #else
+                                      elsebody
+                                   #endif
+                                   """);
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // body + EOF
     softly.assertThat(tokens)
@@ -1011,9 +1140,11 @@ class CxxLexerWithPreprocessingTest {
     // [0, x, ##, n] sequence of tokens by the initial parsing routine.
     // After this, 0 and the rest of the number get never concatenated again.
 
-    List<Token> tokens = lexer.lex("#define A B(cf)\n"
-                                     + "#define B(n) 0x##n\n"
-                                     + "A");
+    List<Token> tokens = lexer.lex("""
+                                   #define A B(cf)
+                                   #define B(n) 0x##n
+                                   A
+                                   """);
     assertThat(tokens).anySatisfy(token -> assertThat(token)
       .isValue("0xcf")
       .hasType(CxxTokenType.NUMBER));
@@ -1021,9 +1152,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void string_problem_1903() {
-    List<Token> tokens = lexer.lex("void f1() {}\n"
-                                     + "#define BROKEN_DEFINE \" /a/path/*\"\n"
-                                     + "void f2() {}");
+    List<Token> tokens = lexer.lex("""
+                                   void f1() {}
+                                   #define BROKEN_DEFINE " /a/path/*"
+                                   void f2() {}
+                                   """);
 
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(13);
@@ -1038,9 +1171,11 @@ class CxxLexerWithPreprocessingTest {
 
   @Test
   void defined_macro_with_hash_parameter() {
-    List<Token> tokens = lexer.lex("#define BOOST_PP_EXPAND(p) p\n"
-                                     + "BOOST_PP_EXPAND(#) define BOOST_FT_config_valid 1\n"
-                                     + "BOOST_FT_config_valid");
+    List<Token> tokens = lexer.lex("""
+                                   #define BOOST_PP_EXPAND(p) p
+                                   BOOST_PP_EXPAND(#) define BOOST_FT_config_valid 1
+                                   BOOST_FT_config_valid
+                                   """);
 
     assertThat(tokens).anySatisfy(token -> assertThat(token)
       .isValue("1")

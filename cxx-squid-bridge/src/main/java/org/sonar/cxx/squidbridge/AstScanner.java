@@ -37,9 +37,9 @@ import java.io.InterruptedIOException;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.sonar.api.batch.fs.InputFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.cxx.squidbridge.api.AnalysisException;
 import org.sonar.cxx.squidbridge.api.SourceCodeSearchEngine;
 import org.sonar.cxx.squidbridge.api.SourceCodeTreeDecorator;
@@ -159,12 +159,11 @@ public class AstScanner<G extends Grammar> {
         visitor.visitFile(ast);
       }
       for (var visitor : visitors) {
-        if (visitor instanceof AstScannerExceptionHandler) {
-          if (parseException instanceof RecognitionException) {
-            ((AstScannerExceptionHandler) visitor)
-              .processRecognitionException((RecognitionException) parseException);
+        if (visitor instanceof AstScannerExceptionHandler astScannerExceptionHandler) {
+          if (parseException instanceof RecognitionException recognitionException) {
+            astScannerExceptionHandler.processRecognitionException(recognitionException);
           } else {
-            ((AstScannerExceptionHandler) visitor).processException(parseException);
+            astScannerExceptionHandler.processException(parseException);
           }
         }
       }
@@ -188,8 +187,8 @@ public class AstScanner<G extends Grammar> {
   }
 
   /**
-   * Checks if the root cause of the thread is related to an interrupt.
-   * Note that when such an exception is thrown, the interrupt flag is reset.
+   * Checks if the root cause of the thread is related to an interrupt. Note that when such an exception is thrown, the
+   * interrupt flag is reset.
    */
   private static void checkInterrupted(Exception e) {
     Throwable cause = Throwables.getRootCause(e);

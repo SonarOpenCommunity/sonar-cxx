@@ -71,54 +71,78 @@ class CxxLexerTest {
     )).as("empty file with line splicing and whitespaces").allSatisfy(token
       -> assertThat(token).isValue("EOF").isLine(2));
 
-    softly.assertThat(lexer.lex("//a\\\n"
-                                  + "b\n")).as("comment c++: line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                //a\\
+                                b
+                                """)).as("comment c++: line splicing").anySatisfy(token
       -> assertThat(token).hasTrivia().isTrivia("//ab").isComment().isTriviaLine(1));
-    softly.assertThat(lexer.lex("/\\\n"
-                                  + "/ab\n")).as("comment c++: line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                /\\
+                                /ab
+                                """)).as("comment c++: line splicing").anySatisfy(token
       -> assertThat(token).hasTrivia().isTrivia("//ab").isComment().isTriviaLine(1));
-    softly.assertThat(lexer.lex("/\\   \t   \n"
-                                  + "/ab\n")).as("comment c++: line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                /\\   \t   \t
+                                /ab
+                                """)).as("comment c++: line splicing").anySatisfy(token
       -> assertThat(token).hasTrivia().isTrivia("//ab").isComment().isTriviaLine(1));
-    softly.assertThat(lexer.lex("int main() {\n"
-                                  + "int i = 1\n"
-                                  + "// \\\n" // line splicing
-                                  + "+ 42\n"
-                                  + ";\n"
-                                  + "return i;\n"
-                                  + "}\n")).as("comment c++: line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                int main() {
+                                int i = 1
+                                // \\
+                                + 42
+                                ;
+                                return i;
+                                }
+                                """ // line splicing
+    )).as("comment c++: line splicing").anySatisfy(token
       -> assertThat(token).hasTrivia().isTrivia("// + 42").isComment().isTriviaLine(3));
-    softly.assertThat(lexer.lex("int main() {\n"
-                                  + "int i = 1\n"
-                                  + "// \\   \t   \n" // line splicing with whitespaces
-                                  + "+ 42\n"
-                                  + ";\n"
-                                  + "return i;\n"
-                                  + "}\n")).as("comment c++: line splicing with whitespaces").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                int main() {
+                                int i = 1
+                                // \\   \t   \t
+                                + 42
+                                ;
+                                return i;
+                                }
+                                """ // line splicing with whitespaces
+    )).as("comment c++: line splicing with whitespaces").anySatisfy(token
       -> assertThat(token).hasTrivia().isTrivia("// + 42").isComment().isTriviaLine(3));
 
-    softly.assertThat(lexer.lex("/\\\n" // line splicing
-                                  + "**\\\n" // line splicing
-                                  + "/")).as("comment c: line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                /\\
+                                **\\
+                                /
+                                """ // line splicing
+    // line splicing
+    )).as("comment c: line splicing").anySatisfy(token
       -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
-    softly.assertThat(lexer.lex("/\\   \t   \n" // line splicing with whitespaces
-                                  + "**\\   \t   \n" // line splicing with whitespaces
-                                  + "/")).as("comment c: line splicing with whitespaces").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                /\\   \t   \t
+                                **\\   \t   \t
+                                /
+                                """ // line splicing with whitespaces
+    // line splicing with whitespaces
+    )).as("comment c: line splicing with whitespaces").anySatisfy(token
       -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("/**/").isComment().isTriviaLine(1));
 
-    softly.assertThat(lexer.lex("/\\\n"
-                                  + "*\n"
-                                  + "*/ # /*\n"
-                                  + "*/ defi\\\n"
-                                  + "ne FO\\\n"
-                                  + "O 10\\\n"
-                                  + "20\n")).as("preprocessor directive with line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                /\\
+                                *
+                                */ # /*
+                                */ defi\\
+                                ne FO\\
+                                O 10\\
+                                20
+                                """)).as("preprocessor directive with line splicing").anySatisfy(token
       -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("#  define FOO 1020").isTriviaLine(3));
     softly.assertAll();
 
-    softly.assertThat(lexer.lex("\"str\\\n"
-                                  + "i\\\n"
-                                  + "ng\"")).as("string with line splicing").anySatisfy(token
+    softly.assertThat(lexer.lex("""
+                                "str\\
+                                i\\
+                                ng"
+                                """)).as("string with line splicing").anySatisfy(token
       -> assertThat(token).isValue("\"string\"").hasType(CxxTokenType.STRING).isLine(1));
     softly.assertAll();
   }
