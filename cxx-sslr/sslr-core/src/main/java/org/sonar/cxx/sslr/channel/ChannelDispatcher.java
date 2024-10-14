@@ -50,8 +50,9 @@ public class ChannelDispatcher<O> extends Channel<O> {
       }
       if (!characterConsumed) {
         if (failIfNoChannelToConsumeOneCharacter) {
-          var message = "None of the channel has been able to handle character '" + (char) code.peek() + "' (decimal value "
-                      + code.peek() + ") at line " + code.getLinePosition() + ", column " + code.getColumnPosition();
+          var message = "None of the channel has been able to handle character '" + (char) code.peek()
+            + "' (decimal value " + code.peek() + ") at line " + code.getLinePosition()
+            + ", column " + code.getColumnPosition();
           throw new IllegalStateException(message);
         }
         code.pop();

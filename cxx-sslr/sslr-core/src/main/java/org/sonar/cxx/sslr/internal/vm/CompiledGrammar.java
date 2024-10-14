@@ -23,10 +23,9 @@
  */
 package org.sonar.cxx.sslr.internal.vm; // cxx: in use
 
+import java.util.Map;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.matchers.Matcher;
-
-import java.util.Map;
 
 public class CompiledGrammar {
 
@@ -35,7 +34,8 @@ public class CompiledGrammar {
   private final GrammarRuleKey rootRuleKey;
   private final int rootRuleOffset;
 
-  public CompiledGrammar(Instruction[] instructions, Map<GrammarRuleKey, CompilableGrammarRule> rules, GrammarRuleKey rootRuleKey, int rootRuleOffset) {
+  public CompiledGrammar(Instruction[] instructions, Map<GrammarRuleKey, CompilableGrammarRule> rules,
+    GrammarRuleKey rootRuleKey, int rootRuleOffset) {
     this.instructions = instructions;
     this.rules = rules;
     this.rootRuleKey = rootRuleKey;

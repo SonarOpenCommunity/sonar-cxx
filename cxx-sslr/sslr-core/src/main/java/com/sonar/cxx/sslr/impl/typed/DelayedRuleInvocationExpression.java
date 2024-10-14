@@ -23,16 +23,15 @@
  */
 package com.sonar.cxx.sslr.impl.typed;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
 import org.sonar.cxx.sslr.internal.vm.Instruction;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
 
 public class DelayedRuleInvocationExpression implements ParsingExpression {
 
@@ -50,7 +49,8 @@ public class DelayedRuleInvocationExpression implements ParsingExpression {
     this.ruleKey = ruleKey;
   }
 
-  public DelayedRuleInvocationExpression(LexerlessGrammarBuilder b, GrammarBuilderInterceptor grammarBuilderInterceptor, Method method) {
+  public DelayedRuleInvocationExpression(LexerlessGrammarBuilder b, GrammarBuilderInterceptor grammarBuilderInterceptor,
+    Method method) {
     this.b = b;
     this.grammarBuilderInterceptor = grammarBuilderInterceptor;
     this.method = method;

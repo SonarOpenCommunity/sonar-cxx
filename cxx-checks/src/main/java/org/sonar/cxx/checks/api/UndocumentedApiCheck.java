@@ -28,10 +28,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
-import org.sonar.cxx.tag.Tag;
-import org.sonar.cxx.visitors.AbstractCxxPublicApiVisitor;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.cxx.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.cxx.tag.Tag;
+import org.sonar.cxx.visitors.AbstractCxxPublicApiVisitor;
 
 /**
  * Check that generates issue for undocumented API items.<br>
@@ -75,6 +75,9 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
   private static final String[] DEFAULT_NAME_SUFFIX = new String[]{".h", ".hh", ".hpp", ".H"};
 
+  /**
+   * {@inheritDoc}
+   */
   public UndocumentedApiCheck() {
     super();
     withHeaderFileSuffixes(DEFAULT_NAME_SUFFIX);

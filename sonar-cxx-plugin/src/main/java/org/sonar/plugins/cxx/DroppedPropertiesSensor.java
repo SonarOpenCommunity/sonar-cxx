@@ -22,21 +22,22 @@ package org.sonar.plugins.cxx;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Phase;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.notifications.AnalysisWarnings;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Phase(name = Phase.Name.PRE)
 public class DroppedPropertiesSensor implements ProjectSensor {
 
   private static final Logger LOG = LoggerFactory.getLogger(DroppedPropertiesSensor.class);
 
-  private static final String MSG_COMPILER = "Use 'sonar.cxx.vc' or 'sonar.cxx.gcc' instead."
-                                               + " Use 'sonar.cxx.msbuild' to read includes and defines from MSBuild log file.";
+  private static final String MSG_COMPILER = """
+    Use 'sonar.cxx.vc' or 'sonar.cxx.gcc' instead. \
+    Use 'sonar.cxx.msbuild' to read includes and defines from MSBuild log file.""";
 
   private static final Map<String, String> ALL_REMOVED_PROPERTIES = initRemovedProperties();
   private final AnalysisWarnings analysisWarnings;
@@ -62,10 +63,11 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.compiler.charset", MSG_COMPILER); // V1.2.0
     map.put("sonar.cxx.missingIncludeWarnings", "Turn debug info on to get the information."); // V1.2.0
     map.put("sonar.cxx.cFilesPatterns",
-            "Define C++ keywords in an own header file and include it with 'sonar.cxx.forceIncludes' instead."); // V2.0.0
+      "Define C++ keywords in an own header file and include it with 'sonar.cxx.forceIncludes' instead."); // V2.0.0
     map.put("sonar.cxx.suffixes.sources", "Use key 'sonar.cxx.file.suffixes' instead."); // V2.0.0
-    map.put("sonar.cxx.suffixes.headers",
-            "Use key 'sonar.cxx.file.suffixes' instead. For API detection use 'sonar.cxx.metric.api.file.suffixes'."); // V2.0.0
+    map.put("sonar.cxx.suffixes.headers", """
+      Use key 'sonar.cxx.file.suffixes' instead. \
+      For API detection use 'sonar.cxx.metric.api.file.suffixes'."""); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.stylesheet", "Use 'sonar.cxx.xslt.1.stylesheet' instead."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.inputs", "Use 'sonar.cxx.xslt.1.inputs' instead."); // V2.0.0
     map.put("sonar.cxx.other.xslt.1.outputs", "Use 'sonar.cxx.xslt.1.outputs' instead."); // V2.0.0
@@ -82,11 +84,11 @@ public class DroppedPropertiesSensor implements ProjectSensor {
     map.put("sonar.cxx.valgrind.reportPath", "Use 'sonar.cxx.valgrind.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.vera.reportPath", "Use 'sonar.cxx.vera.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.msbuild.reportPath", "Use 'sonar.cxx.msbuild.reportPaths' instead."); // V2.0.0
-    map.put("sonar.cxx.coverage.reportPath", "Use 'sonar.cxx.bullseye.reportPaths'"
-                                               + ", 'sonar.cxx.cobertura.reportPaths', 'sonar.cxx.vscoveragexml.reportPaths' or 'sonar.cxx.ctctxt.reportPaths'"
-                                             + " instead."); // V2.0.0
+    map.put("sonar.cxx.coverage.reportPath", """
+      Use 'sonar.cxx.bullseye.reportPaths', 'sonar.cxx.cobertura.reportPaths', 'sonar.cxx.vscoveragexml.reportPaths' \
+      or 'sonar.cxx.ctctxt.reportPaths' instead."""); // V2.0.0
     map.put("sonar.cxx.funccomplexity.threshold",
-            "Use 'sonar.cxx.metric.func.complexity.threshold' instead."); // V2.0.0
+      "Use 'sonar.cxx.metric.func.complexity.threshold' instead."); // V2.0.0
     map.put("sonar.cxx.funcsize.threshold", "Use 'sonar.cxx.metric.func.size.threshold' instead."); // V2.0.0
     map.put("sonar.cxx.vstest.reportsPaths", "Use 'sonar.cxx.vstest.reportPaths' instead."); // V2.0.0
     map.put("sonar.cxx.xunit.reportsPaths", "Use 'sonar.cxx.xunit.reportPaths' instead."); // V2.0.0

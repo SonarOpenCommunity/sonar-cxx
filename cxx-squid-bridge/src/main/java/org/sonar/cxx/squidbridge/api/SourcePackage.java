@@ -23,8 +23,14 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
+/**
+ * {@inheritDoc}
+ */
 public class SourcePackage extends SourceCode {
 
+  /**
+   * {@inheritDoc}
+   */
   public SourcePackage(String key) {
     super(key);
   }

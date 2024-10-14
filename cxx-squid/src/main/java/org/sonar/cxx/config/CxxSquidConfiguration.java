@@ -49,9 +49,9 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-import org.sonar.api.utils.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.cxx.squidbridge.api.SquidConfiguration;
 
 /**
@@ -550,7 +550,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
 
   public void readJsonCompilationDb() {
     var jsonDbFile = get(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                     CxxSquidConfiguration.JSON_COMPILATION_DATABASE);
+      CxxSquidConfiguration.JSON_COMPILATION_DATABASE);
     if (jsonDbFile.isPresent()) {
       try {
         var jsonDb = new JsonCompilationDatabase(this);
@@ -568,7 +568,8 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @throws IOException
    */
   public static boolean fileSystemIsCaseSensitive() throws IOException {
-    Path a = null, b = null;
+    Path a = null;
+    Path b = null;
     try {
       Path tempDir = Files.createTempDirectory("test");
       a = Files.createFile(tempDir.resolve(Paths.get("test.test")));
@@ -587,8 +588,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   /**
    * Create uniform notation of path names.
    *
-   * Normalize path and replace file separators by forward slash.
-   * Use lowercase path on case insensitive file systems.
+   * Normalize path and replace file separators by forward slash. Use lowercase path on case insensitive file systems.
    *
    * @param path to unify
    * @return unified path
@@ -697,8 +697,8 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   /**
    * Add level element to Squid structure.
    *
-   * If level already exists only the index and parentList will be updated,
-   * otherwise new element will be created and inserted.
+   * If level already exists only the index and parentList will be updated, otherwise new element will be created and
+   * inserted.
    *
    * @param root root element to add new level below
    * @param level level string
@@ -719,7 +719,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @param key to add the value
    * @param value to add
    */
-  static private void setValue(Element key, String value) {
+  private static void setValue(Element key, String value) {
     var eValue = new Element(VALUE);
     eValue.setText(value);
     key.addContent(eValue);

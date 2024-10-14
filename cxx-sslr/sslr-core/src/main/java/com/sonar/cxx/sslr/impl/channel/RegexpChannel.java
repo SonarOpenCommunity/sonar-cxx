@@ -77,9 +77,10 @@ public class RegexpChannel extends Channel<Lexer> {
     } catch (StackOverflowError e) {
       throw new LexerException(
         "The regular expression "
-          + regexp
-          + " has led to a stack overflow error. "
-          + "This error is certainly due to an inefficient use of alternations. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507",
+        + regexp
+        + " has led to a stack overflow error. "
+        + "This error is certainly due to an inefficient use of alternations."
+        + " See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507",
         e);
     }
   }

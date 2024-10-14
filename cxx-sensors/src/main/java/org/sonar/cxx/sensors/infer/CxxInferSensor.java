@@ -21,8 +21,6 @@ package org.sonar.cxx.sensors.infer;
 
 import java.io.File;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -36,7 +34,6 @@ import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 public class CxxInferSensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.infer.reportPaths";
-  private static final Logger LOG = LoggerFactory.getLogger(CxxInferSensor.class);
 
   public static List<PropertyDefinition> properties() {
     return List.of(PropertyDefinition.builder(REPORT_PATH_KEY)

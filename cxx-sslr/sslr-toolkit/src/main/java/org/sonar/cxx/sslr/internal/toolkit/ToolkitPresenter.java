@@ -105,21 +105,19 @@ public class ToolkitPresenter {
   public void onSourceCodePasteButtonClick() {
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     Transferable contents = clipboard.getContents(null);
-    if (contents != null) {
-      if (contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-        String txtToParse;
-        try {
-          txtToParse = (String) contents.getTransferData(DataFlavor.stringFlavor);
-        } catch (UnsupportedFlavorException | IOException e) {
-          throw new RuntimeException(e);
-        }
-        try {
-          model.setSourceCode(txtToParse);
-        } catch (RecognitionException e) {
-          // ignore parsing errors
-        }
-        view.displayHighlightedSourceCode(model.getHighlightedSourceCode());
+    if ((contents != null) && (contents.isDataFlavorSupported(DataFlavor.stringFlavor))) {
+      String txtToParse;
+      try {
+        txtToParse = (String) contents.getTransferData(DataFlavor.stringFlavor);
+      } catch (UnsupportedFlavorException | IOException e) {
+        throw new RuntimeException(e);
       }
+      try {
+        model.setSourceCode(txtToParse);
+      } catch (RecognitionException e) {
+        // ignore parsing errors
+      }
+      view.displayHighlightedSourceCode(model.getHighlightedSourceCode());
     }
   }
 

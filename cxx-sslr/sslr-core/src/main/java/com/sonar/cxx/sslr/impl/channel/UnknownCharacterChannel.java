@@ -30,17 +30,14 @@ import org.sonar.cxx.sslr.channel.Channel;
 import org.sonar.cxx.sslr.channel.CodeReader;
 
 /**
- * Creates token with type {@link com.sonar.cxx.sslr.api.GenericTokenType#UNKNOWN_CHAR} for any character.
- * This channel, if present, should be the last one.
+ * Creates token with type {@link com.sonar.cxx.sslr.api.GenericTokenType#UNKNOWN_CHAR} for any character. This channel,
+ * if present, should be the last one.
  *
  * @since 1.2
  */
 public class UnknownCharacterChannel extends Channel<Lexer> {
 
   private final Token.Builder tokenBuilder = Token.builder();
-
-  public UnknownCharacterChannel() {
-  }
 
   @Override
   public boolean consume(CodeReader code, Lexer lexer) {

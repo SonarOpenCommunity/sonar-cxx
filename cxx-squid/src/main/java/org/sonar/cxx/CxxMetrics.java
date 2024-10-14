@@ -32,9 +32,10 @@ public final class CxxMetrics {
   // see https://jira.sonarsource.com/browse/SONAR-8328
   public static final String PUBLIC_API_KEY = "CXX-public_api";
   public static final Metric<Integer> PUBLIC_API
-                                        = new Metric.Builder(PUBLIC_API_KEY, "Public API", Metric.ValueType.INT)
-      .setDescription(
-        "Total number of publicly accessible Application Programming Interfaces (API). Files that are to be analyzed are defined via 'sonar.cxx.metric.api.file.suffixes'.")
+    = new Metric.Builder(PUBLIC_API_KEY, "Public API", Metric.ValueType.INT)
+      .setDescription("""
+                      Total number of publicly accessible Application Programming Interfaces (API). \
+                      Files that are to be analyzed are defined via 'sonar.cxx.metric.api.file.suffixes'.""")
       .setDirection(Metric.DIRECTION_WORST)
       .setQualitative(Boolean.FALSE)
       .setDomain("CXX")
@@ -42,11 +43,12 @@ public final class CxxMetrics {
 
   public static final String PUBLIC_DOCUMENTED_API_DENSITY_KEY = "CXX-public_documented_api_density";
   public static final Metric<Double> PUBLIC_DOCUMENTED_API_DENSITY
-                                       = new Metric.Builder(PUBLIC_DOCUMENTED_API_DENSITY_KEY,
-                                                            "Public Documented API (%)",
-                                                            Metric.ValueType.PERCENT)
-      .setDescription(
-        "Percentage of documented publicly accessible Application Programming Interfaces (API). 'Percentage = (Public API - Public Undocumented API) / Public API'")
+    = new Metric.Builder(PUBLIC_DOCUMENTED_API_DENSITY_KEY,
+      "Public Documented API (%)",
+      Metric.ValueType.PERCENT)
+      .setDescription("""
+                      Percentage of documented publicly accessible Application Programming Interfaces (API). \
+                      'Percentage = (Public API - Public Undocumented API) / Public API'""")
       .setDirection(Metric.DIRECTION_BETTER)
       .setQualitative(Boolean.TRUE)
       .setDomain("CXX")
@@ -57,10 +59,11 @@ public final class CxxMetrics {
 
   public static final String PUBLIC_UNDOCUMENTED_API_KEY = "CXX-public_undocumented_api";
   public static final Metric<Integer> PUBLIC_UNDOCUMENTED_API = new Metric.Builder(PUBLIC_UNDOCUMENTED_API_KEY,
-                                                                                   "Public Undocumented API",
-                                                                                   Metric.ValueType.INT)
-    .setDescription(
-      "Total number of undocumented publicly available Application Programming Interfaces (API). Files that are to be analyzed are defined via 'sonar.cxx.metric.api.file.suffixes'.")
+    "Public Undocumented API",
+    Metric.ValueType.INT)
+    .setDescription("""
+                    Total number of undocumented publicly available Application Programming Interfaces (API). \
+                    Files that are to be analyzed are defined via 'sonar.cxx.metric.api.file.suffixes'.""")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.TRUE)
     .setDomain("CXX")
@@ -71,10 +74,11 @@ public final class CxxMetrics {
   // Introduce additional complexity metrics
   public static final String COMPLEX_FUNCTIONS_KEY = "CXX-complex_functions";
   public static final Metric<Integer> COMPLEX_FUNCTIONS = new Metric.Builder(COMPLEX_FUNCTIONS_KEY,
-                                                                             "Complex Functions",
-                                                                             Metric.ValueType.INT)
-    .setDescription(
-      "Number of functions with high cyclomatic complexity. You can define the threshold with 'sonar.cxx.metric.func.complexity.threshold'.")
+    "Complex Functions",
+    Metric.ValueType.INT)
+    .setDescription("""
+                    Number of functions with high cyclomatic complexity. \
+                    You can define the threshold with 'sonar.cxx.metric.func.complexity.threshold'.""")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -82,10 +86,10 @@ public final class CxxMetrics {
 
   public static final String COMPLEX_FUNCTIONS_PERC_KEY = "CXX-perc_complex_functions";
   public static final Metric<Double> COMPLEX_FUNCTIONS_PERC = new Metric.Builder(COMPLEX_FUNCTIONS_PERC_KEY,
-                                                                                 "Complex Functions (%)",
-                                                                                 Metric.ValueType.PERCENT)
+    "Complex Functions (%)",
+    Metric.ValueType.PERCENT)
     .setDescription("Percentage of functions with high cyclomatic complexity."
-                      + " 'Percentage = Complex Functions / Functions'")
+      + " 'Percentage = Complex Functions / Functions'")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -93,10 +97,10 @@ public final class CxxMetrics {
 
   public static final String COMPLEX_FUNCTIONS_LOC_KEY = "CXX-loc_in_complex_functions";
   public static final Metric<Integer> COMPLEX_FUNCTIONS_LOC = new Metric.Builder(COMPLEX_FUNCTIONS_LOC_KEY,
-                                                                                 "Complex Functions Lines of Code",
-                                                                                 Metric.ValueType.INT)
+    "Complex Functions Lines of Code",
+    Metric.ValueType.INT)
     .setDescription("Lines of code in functions with high cyclomatic complexity."
-                      + " You can define the threshold with 'sonar.cxx.metric.func.complexity.threshold'.")
+      + " You can define the threshold with 'sonar.cxx.metric.func.complexity.threshold'.")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -108,7 +112,7 @@ public final class CxxMetrics {
     "Complex Functions Lines of Code (%)",
     Metric.ValueType.PERCENT)
     .setDescription("Percentage of lines of code in functions with high cyclomatic complexity."
-                      + " 'Percentage = Complex Functions Lines of Code / Lines of Code in Functions'")
+      + " 'Percentage = Complex Functions Lines of Code / Lines of Code in Functions'")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -116,10 +120,10 @@ public final class CxxMetrics {
 
   public static final String BIG_FUNCTIONS_KEY = "CXX-big_functions";
   public static final Metric<Integer> BIG_FUNCTIONS = new Metric.Builder(BIG_FUNCTIONS_KEY,
-                                                                         "Big Functions",
-                                                                         Metric.ValueType.INT)
+    "Big Functions",
+    Metric.ValueType.INT)
     .setDescription("Number of functions with too many lines of code."
-                      + " You can define the threshold with 'sonar.cxx.metric.func.size.threshold'.")
+      + " You can define the threshold with 'sonar.cxx.metric.func.size.threshold'.")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -127,10 +131,10 @@ public final class CxxMetrics {
 
   public static final String BIG_FUNCTIONS_LOC_KEY = "CXX-loc_in_big_functions";
   public static final Metric<Integer> BIG_FUNCTIONS_LOC = new Metric.Builder(BIG_FUNCTIONS_LOC_KEY,
-                                                                             "Big Functions Lines of Code",
-                                                                             Metric.ValueType.INT)
+    "Big Functions Lines of Code",
+    Metric.ValueType.INT)
     .setDescription("Lines of code in big functions."
-                      + " You can define the threshold with 'sonar.cxx.metric.func.size.threshold'.")
+      + " You can define the threshold with 'sonar.cxx.metric.func.size.threshold'.")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -138,8 +142,8 @@ public final class CxxMetrics {
 
   public static final String BIG_FUNCTIONS_PERC_KEY = "CXX-perc_big_functions";
   public static final Metric<Double> BIG_FUNCTIONS_PERC = new Metric.Builder(BIG_FUNCTIONS_PERC_KEY,
-                                                                             "Big Functions (%)",
-                                                                             Metric.ValueType.PERCENT)
+    "Big Functions (%)",
+    Metric.ValueType.PERCENT)
     .setDescription("Percentage of functions with too many lines of codes. 'Percentage = Big Functions / Functions'")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
@@ -148,10 +152,10 @@ public final class CxxMetrics {
 
   public static final String BIG_FUNCTIONS_LOC_PERC_KEY = "CXX-perc_loc_in_big_functions";
   public static final Metric<Double> BIG_FUNCTIONS_LOC_PERC = new Metric.Builder(BIG_FUNCTIONS_LOC_PERC_KEY,
-                                                                                 "Big Functions Lines of Code (%)",
-                                                                                 Metric.ValueType.PERCENT)
+    "Big Functions Lines of Code (%)",
+    Metric.ValueType.PERCENT)
     .setDescription("Percentage of lines of code in big functions."
-                      + " 'Percentage = Big Functions Lines of Code / Lines of Code in Functions'")
+      + " 'Percentage = Big Functions Lines of Code / Lines of Code in Functions'")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)
     .setDomain("CXX")
@@ -159,8 +163,8 @@ public final class CxxMetrics {
 
   public static final String LOC_IN_FUNCTIONS_KEY = "CXX-loc_in_functions";
   public static final Metric<Integer> LOC_IN_FUNCTIONS = new Metric.Builder(LOC_IN_FUNCTIONS_KEY,
-                                                                            "Lines of Code in Functions",
-                                                                            Metric.ValueType.INT)
+    "Lines of Code in Functions",
+    Metric.ValueType.INT)
     .setDescription("Total number of lines of code within function bodies.")
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.FALSE)

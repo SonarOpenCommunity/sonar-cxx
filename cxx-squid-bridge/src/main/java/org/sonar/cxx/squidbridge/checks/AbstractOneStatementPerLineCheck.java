@@ -64,10 +64,12 @@ public abstract class AbstractOneStatementPerLineCheck<G extends Grammar> extend
   public void leaveFile(AstNode astNode) {
     for (var statementsAtLine : statementsPerLine.entrySet()) {
       if (statementsAtLine.getValue() > 1) {
-        getContext().createLineViolation(this,
-                                         "At most one statement is allowed per line, but {0} statements were found on this line.",
-                                         statementsAtLine.getKey(),
-                                         statementsAtLine.getValue());
+        getContext().createLineViolation(
+          this,
+          "At most one statement is allowed per line, but {0} statements were found on this line.",
+          statementsAtLine.getKey(),
+          statementsAtLine.getValue()
+        );
       }
     }
   }

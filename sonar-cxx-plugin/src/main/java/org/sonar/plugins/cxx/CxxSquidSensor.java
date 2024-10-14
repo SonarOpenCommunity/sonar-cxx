@@ -303,10 +303,8 @@ public class CxxSquidSensor implements ProjectSensor {
     var visitors = new ArrayList<SquidAstVisitor<Grammar>>();
     for (var check : checks.all()) {
       RuleKey key = checks.ruleKey(check);
-      if (key != null) {
-        if (context.activeRules().find(key) != null) {
-          visitors.add(check);
-        }
+      if ((key != null) && (context.activeRules().find(key) != null)) {
+        visitors.add(check);
       }
     }
 

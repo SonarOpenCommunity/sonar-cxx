@@ -41,8 +41,8 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
    * Default id used for gcc warnings not associated with any activation switch.
    */
   public static final String DEFAULT_ID = "default";
-  public static final String DEFAULT_REGEX_DEF = """
-     (?<file>[^:]*+):(?<line>\\d{1,5}):\\d{1,5}:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$""";
+  public static final String DEFAULT_REGEX_DEF
+    = "(?<file>[^:]*+):(?<line>\\d{1,5}):\\d{1,5}:\\x20warning:\\x20(?<message>.*?)(\\x20\\[(?<id>.*)\\])?\\s*$";
 
   public static List<PropertyDefinition> properties() {
     var subcateg = "GCC";

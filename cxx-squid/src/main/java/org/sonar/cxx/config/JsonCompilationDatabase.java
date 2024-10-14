@@ -111,8 +111,8 @@ public class JsonCompilationDatabase {
     mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
     JsonCompilationDatabaseCommandObject[] commandObjects
-                                             = mapper.readValue(compileCommandsFile,
-                                                                JsonCompilationDatabaseCommandObject[].class);
+      = mapper.readValue(compileCommandsFile,
+        JsonCompilationDatabaseCommandObject[].class);
 
     for (var commandObject : commandObjects) {
       parseCommandObject(commandObject);
@@ -191,6 +191,8 @@ public class JsonCompilationDatabase {
               break;
             case IDIRAFTER:
               iDirAfter.add(makeRelativeToCwd(cwd, arg));
+              break;
+            default:
               break;
           }
           next = ArgNext.NONE;

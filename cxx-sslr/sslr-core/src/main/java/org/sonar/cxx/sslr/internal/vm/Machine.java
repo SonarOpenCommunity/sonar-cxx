@@ -62,14 +62,15 @@ public class Machine implements CharSequence {
 
     var errorLocatingHandler = new ErrorLocatingHandler();
     var machine = new Machine(null, inputTokens, grammar.getInstructions(), errorLocatingHandler);
-    machine
-      .execute(grammar.getMatcher(grammar.getRootRuleKey()), grammar.getRootRuleOffset(), grammar.getInstructions());
+    machine.execute(grammar.getMatcher(grammar.getRootRuleKey()),
+      grammar.getRootRuleOffset(), grammar.getInstructions());
 
     if (machine.matched) {
       return machine.stack.subNodes().get(0);
     } else {
       if (tokens.isEmpty()) {
-        // Godin: weird situation - I expect that list of tokens contains at least EOF, but this is not the case in C Parser
+        // Godin: weird situation - I expect that list of tokens contains at least EOF,
+        // but this is not the case in C Parser
         throw new RecognitionException(1, "No tokens");
       } else {
         int errorIndex = errorLocatingHandler.getErrorIndex();
@@ -133,7 +134,8 @@ public class Machine implements CharSequence {
     this(input.toCharArray(), null, instructions, handler);
   }
 
-  private Machine(@Nullable char[] input, @Nullable Token[] tokens, Instruction[] instructions, MachineHandler handler) {
+  private Machine(@Nullable char[] input, @Nullable Token[] tokens, Instruction[] instructions,
+    MachineHandler handler) {
     this.input = input;
     this.tokens = tokens;
     if (input != null) {
@@ -235,7 +237,8 @@ public class Machine implements CharSequence {
     // pop any return addresses from the top of the stack
     while (stack.isReturn()) {
 
-      // TODO we must have this inside of loop, otherwise report won't be generated in case of input "foo" and rule "nextNot(foo)"
+      // TODO we must have this inside of loop, otherwise report won't be generated in case of
+      // input "foo" and rule "nextNot(foo)"
       ignoreErrors = stack.isIgnoreErrors();
       if (!ignoreErrors) {
         handler.onBacktrack(this);

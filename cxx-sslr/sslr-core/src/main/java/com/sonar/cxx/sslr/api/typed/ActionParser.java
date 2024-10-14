@@ -52,7 +52,7 @@ public class ActionParser<N> {
   private final ParseRunner parseRunner;
 
   public ActionParser(Charset charset, LexerlessGrammarBuilder b, Class grammarClass, Object treeFactory,
-                      NodeBuilder nodeBuilder, GrammarRuleKey rootRule) {
+    NodeBuilder nodeBuilder, GrammarRuleKey rootRule) {
     this.charset = charset;
 
     var grammarBuilderInterceptor = new GrammarBuilderInterceptor(b);

@@ -103,7 +103,7 @@ public final class CxxPlugin implements Plugin {
     context.addExtensions(l);
   }
 
-  static private List<Object> getSensorsImpl() {
+  private static List<Object> getSensorsImpl() {
     var l = new ArrayList<Object>();
 
     // utility classes

@@ -23,6 +23,9 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
+/**
+ * {@inheritDoc}
+ */
 public class AnalysisException extends RuntimeException {
 
   public AnalysisException(String arg0, Throwable arg1) {

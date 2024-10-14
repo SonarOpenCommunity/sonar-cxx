@@ -23,6 +23,9 @@
  */
 package com.sonar.cxx.sslr.api; // cxx: in use
 
+/**
+ * {@inheritDoc}
+ */
 public enum GenericTokenType implements TokenType {
   COMMENT, IDENTIFIER, LITERAL, CONSTANT, EOF, EOL, UNKNOWN_CHAR;
 

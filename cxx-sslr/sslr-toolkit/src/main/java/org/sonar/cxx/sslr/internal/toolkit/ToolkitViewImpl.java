@@ -375,7 +375,9 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     if (astNode != null) {
       try {
         astSelectionEventDisabled = true;
-        var treeNode = getAstTreeNodeWithGivenUserObject((DefaultMutableTreeNode) astTree.getModel().getRoot(), astNode);
+        var treeNode = getAstTreeNodeWithGivenUserObject(
+          (DefaultMutableTreeNode) astTree.getModel().getRoot(), astNode
+        );
         if (treeNode != null) {
           astTree.getSelectionModel().addSelectionPath(new TreePath(treeNode.getPath()));
         }
@@ -504,15 +506,13 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       int nearestOffsetSoFar = Integer.MAX_VALUE;
       while (enumeration.hasMoreElements()) {
         var childTreeNode = (DefaultMutableTreeNode) enumeration.nextElement();
-        if (childTreeNode.getUserObject() instanceof AstNode astNode) {
-          if (astNode.hasToken()) {
-            var token = astNode.getToken();
-            int tokenOffset = lineOffsets.getStartOffset(token);
+        if ((childTreeNode.getUserObject() instanceof AstNode astNode) && (astNode.hasToken())) {
+          var token = astNode.getToken();
+          int tokenOffset = lineOffsets.getStartOffset(token);
 
-            if (tokenOffset >= offset && tokenOffset < nearestOffsetSoFar) {
-              nearestOffsetSoFar = tokenOffset;
-              followingAstNode = astNode;
-            }
+          if (tokenOffset >= offset && tokenOffset < nearestOffsetSoFar) {
+            nearestOffsetSoFar = tokenOffset;
+            followingAstNode = astNode;
           }
         }
       }

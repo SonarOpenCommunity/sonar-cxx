@@ -23,6 +23,9 @@ import javax.annotation.CheckForNull;
 import org.sonar.cxx.squidbridge.measures.CalculatedMetricFormula;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 
+/**
+ * {@inheritDoc}
+ */
 public enum CxxMetric implements MetricDef {
 
   FILES,

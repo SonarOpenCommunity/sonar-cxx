@@ -69,8 +69,9 @@ public class ClassNameCheck extends SquidCheck<Grammar> {
       String className = nameNode.getTokenValue();
       if (!pattern.matcher(className).matches()) {
         getContext().createLineViolation(this,
-                                         "Rename class \"{0}\" to match the regular expression {1}.", astNode, className,
-                                         format);
+          "Rename class \"{0}\" to match the regular expression {1}.",
+          astNode, className,
+          format);
       }
     }
   }

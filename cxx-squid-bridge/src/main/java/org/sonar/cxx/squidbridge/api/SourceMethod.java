@@ -23,6 +23,9 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
+/**
+ * {@inheritDoc}
+ */
 public class SourceMethod extends SourceCode {
 
   /**
@@ -31,10 +34,16 @@ public class SourceMethod extends SourceCode {
    */
   private boolean suppressWarnings = false;
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceMethod(String key) {
     super(key);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceMethod(SourceClass peekParentClass, String methodSignature, int startAtLine) {
     super(peekParentClass.getKey() + "#" + methodSignature, methodSignature);
     setStartAtLine(startAtLine);

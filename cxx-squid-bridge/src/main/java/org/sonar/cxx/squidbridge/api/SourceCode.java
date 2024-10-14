@@ -33,6 +33,9 @@ import org.sonar.cxx.squidbridge.measures.Measurable;
 import org.sonar.cxx.squidbridge.measures.Measures;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 
+/**
+ * {@inheritDoc}
+ */
 public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
 
   private final String name;

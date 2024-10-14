@@ -25,8 +25,6 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.coverage.CoverageMeasures;
 import org.sonar.cxx.sensors.coverage.CoverageParser;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -37,8 +35,6 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class VisualStudioParser implements CoverageParser {
-
-  private static final Logger LOG = LoggerFactory.getLogger(VisualStudioParser.class);
 
   private static void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {

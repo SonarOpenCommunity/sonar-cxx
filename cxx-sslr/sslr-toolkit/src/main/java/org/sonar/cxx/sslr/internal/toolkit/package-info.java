@@ -21,6 +21,7 @@
  * fork of SonarSource Language Recognizer: https://github.com/SonarSource/sslr
  * Copyright (C) 2010-2021 SonarSource SA / mailto:info AT sonarsource DOT com / license: LGPL v3
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@ParametersAreNonnullByDefault
 package org.sonar.cxx.sslr.internal.toolkit;
 
+import javax.annotation.ParametersAreNonnullByDefault;

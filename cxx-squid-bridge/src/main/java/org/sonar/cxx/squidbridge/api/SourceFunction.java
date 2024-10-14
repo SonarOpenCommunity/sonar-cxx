@@ -23,12 +23,21 @@
  */
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
+/**
+ * {@inheritDoc}
+ */
 public class SourceFunction extends SourceCode {
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceFunction(String key) {
     super(key);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceFunction(SourceFile sourceFile, String functionSignature, int startAtLine) {
     super(sourceFile.getKey() + "#" + functionSignature, functionSignature);
     setStartAtLine(startAtLine);

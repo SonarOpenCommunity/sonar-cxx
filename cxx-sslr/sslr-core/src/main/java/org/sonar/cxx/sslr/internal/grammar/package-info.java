@@ -26,6 +26,7 @@
  *
  * <p>Members of this package must not be used from outside of SSLR.</p>
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@ParametersAreNonnullByDefault
 package org.sonar.cxx.sslr.internal.grammar;
 
+import javax.annotation.ParametersAreNonnullByDefault;

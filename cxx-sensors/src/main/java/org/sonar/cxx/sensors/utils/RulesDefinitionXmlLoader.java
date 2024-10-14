@@ -130,10 +130,12 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *     &lt;!-- Status displayed in rules console. Possible values are BETA, READY (default), DEPRECATED. --&gt;
  *     &lt;status&gt;BETA&lt;/status&gt;
  *
- *     &lt;!-- Type as defined by the SonarQube Quality Model. Possible values are CODE_SMELL (default), BUG and VULNERABILITY.--&gt;
+ *     &lt;!-- Type as defined by the SonarQube Quality Model. Possible values are CODE_SMELL (default),
+ *             BUG and VULNERABILITY.--&gt;
  *     &lt;type&gt;BUG&lt;/type&gt;
  *
- *     &lt;!-- Optional tags. See org.sonar.api.server.rule.RuleTagFormat. The maximal length of all tags is 4000 characters. --&gt;
+ *     &lt;!-- Optional tags. See org.sonar.api.server.rule.RuleTagFormat.
+ *             The maximal length of all tags is 4000 characters. --&gt;
  *     &lt;tag&gt;misra&lt;/tag&gt;
  *     &lt;tag&gt;multi-threading&lt;/tag&gt;
  *
@@ -144,7 +146,8 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *       &lt;description&gt;
  *         &lt;![CDATA[the optional description, in HTML format. Max length is 4000 characters.]]&gt;
  *       &lt;/description&gt;
- *       &lt;!-- Optional default value, used when enabling the rule in a Quality profile. Max length is 4000 characters. --&gt;
+ *       &lt;!-- Optional default value, used when enabling the rule in a Quality profile.
+ *               Max length is 4000 characters. --&gt;
  *       &lt;defaultValue&gt;42&lt;/defaultValue&gt;
  *     &lt;/param&gt;
  *     &lt;param&gt;
@@ -164,13 +167,15 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *     &lt;!-- Since 5.5 --&gt;
  *     &lt;gapDescription&gt;Effort to test one uncovered condition&lt;/gapFixDescription&gt;
  *
- *     &lt;!-- Quality Model - gap multiplier of debt remediation function. Must be defined only for some function types. --&gt;
+ *     &lt;!-- Quality Model - gap multiplier of debt remediation function.
+ *             Must be defined only for some function types. --&gt;
  *     &lt;!-- See {@link org.sonar.api.server.rule.RulesDefinition.DebtRemediationFunctions} --&gt;
  *     &lt;!-- It was previously named 'debtRemediationFunctionCoefficient'. --&gt;
  *     &lt;!-- Since 5.5 --&gt;
  *     &lt;remediationFunctionGapMultiplier&gt;10min&lt;/remediationFunctionGapMultiplier&gt;
  *
- *     &lt;!-- Quality Model - base effort of debt remediation function. Must be defined only for some function types. --&gt;
+ *     &lt;!-- Quality Model - base effort of debt remediation function.
+ *             Must be defined only for some function types. --&gt;
  *     &lt;!-- See {@link org.sonar.api.server.rule.RulesDefinition.DebtRemediationFunctions} --&gt;
  *     &lt;!-- Default value is '5min' for 'CONSTANT_ISSUE' --&gt;
  *     &lt;!-- It was previously named 'debtRemediationFunctionOffset'. --&gt;
@@ -328,12 +333,10 @@ public class RulesDefinitionXmlLoader {
     while (reader.hasNext()) {
       final XMLEvent event = reader.nextEvent();
       if (event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(ELEMENT_RULE)) {
-        if (!"INFO".equals(severity)) {
-          if (debtRemediationFunction == null) {
-            debtRemediationFunction = "CONSTANT_ISSUE";
-            if (remediationFunctionBaseEffort == null) {
-              remediationFunctionBaseEffort = "5min";
-            }
+        if ((!"INFO".equals(severity)) && (debtRemediationFunction == null)) {
+          debtRemediationFunction = "CONSTANT_ISSUE";
+          if (remediationFunctionBaseEffort == null) {
+            remediationFunctionBaseEffort = "5min";
           }
         }
         buildRule(repo, key, name, description, descriptionFormat, internalKey, severity, type, status, template,

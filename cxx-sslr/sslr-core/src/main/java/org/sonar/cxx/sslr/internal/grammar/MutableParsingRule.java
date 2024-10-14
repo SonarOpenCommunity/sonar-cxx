@@ -41,7 +41,8 @@ import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.RuleRefExpression;
 import org.sonar.cxx.sslr.parser.GrammarOperators;
 
-public class MutableParsingRule implements CompilableGrammarRule, Matcher, Rule, AstNodeSkippingPolicy, MemoParsingExpression, GrammarRuleKey {
+public class MutableParsingRule implements CompilableGrammarRule, Matcher, Rule, AstNodeSkippingPolicy,
+  MemoParsingExpression, GrammarRuleKey {
 
   private final GrammarRuleKey ruleKey;
   private final String name;
