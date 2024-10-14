@@ -23,10 +23,9 @@
  */
 package org.sonar.cxx.sslr.internal.vm;
 
-import org.sonar.cxx.sslr.grammar.GrammarException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.sonar.cxx.sslr.grammar.GrammarException;
 
 public class PatternExpression extends NativeExpression implements org.sonar.cxx.sslr.internal.matchers.Matcher {
 
@@ -49,8 +48,10 @@ public class PatternExpression extends NativeExpression implements org.sonar.cxx
     try {
       result = matcher.lookingAt();
     } catch (StackOverflowError e) {
-      throw new GrammarException(e, "The regular expression '" + matcher.pattern().pattern() + "' has led to a stack overflow error."
-          + " This error is certainly due to an inefficient use of alternations. See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507");
+      throw new GrammarException(e, "The regular expression '" + matcher.pattern().pattern()
+        + "' has led to a stack overflow error."
+        + " This error is certainly due to an inefficient use of alternations."
+        + " See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507");
     }
     if (result) {
       // TODO what if end == 0 ???

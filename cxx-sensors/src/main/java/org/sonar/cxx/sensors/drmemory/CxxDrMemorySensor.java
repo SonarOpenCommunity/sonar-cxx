@@ -67,9 +67,9 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
         .defaultValue(DEFAULT_ENCODING_DEF)
         .name("Dr. Memory Report Encoding")
-        .description(
-          "Defines the encoding to be used to read the files from `sonar.cxx.drmemory.reportPaths` (default is `UTF-8`)."
-        )
+        .description("""
+                     Defines the encoding to be used to read the files from `sonar.cxx.drmemory.reportPaths` \
+                     (default is `UTF-8`).""")
         .category(category)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)

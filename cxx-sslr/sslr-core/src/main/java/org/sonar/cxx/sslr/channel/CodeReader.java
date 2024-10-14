@@ -29,8 +29,7 @@ import java.util.regex.Matcher;
 
 /**
  * The CodeReader class provides some advanced features to read a source code. The most important one is the ability to
- * try consuming the
- * next characters in the stream according to a regular expression.
+ * try consuming the next characters in the stream according to a regular expression.
  */
 public class CodeReader extends CodeBuffer {
 
@@ -51,13 +50,11 @@ public class CodeReader extends CodeBuffer {
   }
 
   /**
-   * Creates a code reader with specific configuration parameters.
-   * Note that this constructor will read everything from reader and will close it.
+   * Creates a code reader with specific configuration parameters. Note that this constructor will read everything from
+   * reader and will close it.
    *
-   * @param code
-   * the Reader to read code from
-   * @param configuration
-   * the configuration parameters
+   * @param code the Reader to read code from
+   * @param configuration the configuration parameters
    */
   public CodeReader(Reader code, CodeReaderConfiguration configuration) {
     super(code, configuration);
@@ -66,10 +63,8 @@ public class CodeReader extends CodeBuffer {
   /**
    * Creates a code reader with specific configuration parameters.
    *
-   * @param code
-   * the code itself
-   * @param configuration
-   * the configuration parameters
+   * @param code the code itself
+   * @param configuration the configuration parameters
    */
   public CodeReader(String code, CodeReaderConfiguration configuration) {
     super(code, configuration);
@@ -78,8 +73,7 @@ public class CodeReader extends CodeBuffer {
   /**
    * Read and consume the next character
    *
-   * @param appendable
-   * the read character is appended to appendable
+   * @param appendable the read character is appended to appendable
    */
   public final void pop(Appendable appendable) {
     try {
@@ -92,8 +86,7 @@ public class CodeReader extends CodeBuffer {
   /**
    * Read without consuming the next characters
    *
-   * @param length
-   * number of character to read
+   * @param length number of character to read
    * @return array of characters
    */
   public final char[] peek(int length) {
@@ -111,10 +104,8 @@ public class CodeReader extends CodeBuffer {
   /**
    * Read without consuming the next characters until a condition is reached (EndMatcher)
    *
-   * @param matcher
-   * the EndMatcher used to stop the reading
-   * @param appendable
-   * the read characters is appended to appendable
+   * @param matcher the EndMatcher used to stop the reading
+   * @param appendable the read characters is appended to appendable
    */
   public final void peekTo(EndMatcher matcher, Appendable appendable) {
     int index = 0;
@@ -133,10 +124,8 @@ public class CodeReader extends CodeBuffer {
   /**
    * Read and consume the next characters according to a given regular expression
    *
-   * @param matcher
-   * the regular expression matcher
-   * @param appendable
-   * the consumed characters are appended to this appendable
+   * @param matcher the regular expression matcher
+   * @param appendable the consumed characters are appended to this appendable
    * @return number of consumed characters or -1 if the next input sequence doesn't match this matcher's pattern
    */
   public final int popTo(Matcher matcher, Appendable appendable) {
@@ -145,15 +134,11 @@ public class CodeReader extends CodeBuffer {
 
   /**
    * Read and consume the next characters according to a given regular expression. Moreover the character sequence
-   * immediately following the
-   * desired characters must also match a given regular expression.
+   * immediately following the desired characters must also match a given regular expression.
    *
-   * @param matcher
-   * the Matcher used to try consuming next characters
-   * @param afterMatcher
-   * the Matcher used to check character sequence immediately following the consumed characters
-   * @param appendable
-   * the consumed characters are appended to this appendable
+   * @param matcher the Matcher used to try consuming next characters
+   * @param afterMatcher the Matcher used to check character sequence immediately following the consumed characters
+   * @param appendable the consumed characters are appended to this appendable
    * @return number of consumed characters or -1 if one of the two Matchers doesn't match
    */
   public final int popTo(Matcher matcher, Matcher afterMatcher, Appendable appendable) {
@@ -175,10 +160,11 @@ public class CodeReader extends CodeBuffer {
       }
     } catch (StackOverflowError e) {
       throw new ChannelException("Unable to apply regular expression '" + matcher.pattern().pattern()
-                                   + "' at line " + getCursor().getLine() + " and column " + getCursor().getColumn()
-                                   + ", because it led to a stack overflow error."
-                                   + " This error may be due to an inefficient use of alternations - see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507",
-                                 e);
+        + "' at line " + getCursor().getLine() + " and column " + getCursor().getColumn()
+        + ", because it led to a stack overflow error."
+        + " This error may be due to an inefficient use of alternations"
+        + " - see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5050507",
+        e);
     } catch (IndexOutOfBoundsException e) {
       return -1;
     } catch (IOException e) {

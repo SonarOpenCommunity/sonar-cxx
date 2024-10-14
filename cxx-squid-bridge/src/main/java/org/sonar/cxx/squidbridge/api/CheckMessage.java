@@ -28,6 +28,9 @@ import java.util.Locale;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.sonar.check.Message;
 
+/**
+ * {@inheritDoc}
+ */
 public class CheckMessage implements Message {
 
   private Integer line;
@@ -38,6 +41,9 @@ public class CheckMessage implements Message {
   private final Object[] messageArguments;
   private Boolean bypassExclusion;
 
+  /**
+   * {@inheritDoc}
+   */
   public CheckMessage(Object check, String message, Object... messageArguments) {
     this.check = check;
     this.defaultMessage = message;
@@ -45,6 +51,8 @@ public class CheckMessage implements Message {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @deprecated replaced by the other constructor since 2.12. See SONAR-2875.
    */
   public CheckMessage(CodeCheck check, String message, Object... messageArguments) {

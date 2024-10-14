@@ -26,8 +26,6 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
@@ -44,8 +42,6 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPaths";
   public static final String RULES_KEY = "sonar.cxx.other.rules";
-
-  private static final Logger LOG = LoggerFactory.getLogger(CxxOtherSensor.class);
 
   public static List<PropertyDefinition> properties() {
     var subcategory = "Other Analyser(s)";

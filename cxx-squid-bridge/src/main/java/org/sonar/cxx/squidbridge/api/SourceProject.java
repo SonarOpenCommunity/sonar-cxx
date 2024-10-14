@@ -25,6 +25,9 @@ package org.sonar.cxx.squidbridge.api; // cxx: in use
 
 public class SourceProject extends SourceCode {
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceProject(String key) {
     super(key);
   }

@@ -66,13 +66,12 @@ public class ImmutableInputBuffer implements InputBuffer {
   }
 
   /**
-   * A line is considered to be terminated by any one of
-   * a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
+   * A line is considered to be terminated by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
    * or a carriage return followed immediately by a line feed ({@code "\r\n"}).
    */
   private static boolean isEndOfLine(char[] buffer, int i) {
-    return buffer[i] == TextUtils.LF ||
-        (buffer[i] == TextUtils.CR && (((i + 1 < buffer.length) && buffer[i + 1] != TextUtils.LF) || i + 1 == buffer.length));
+    return buffer[i] == TextUtils.LF || (buffer[i] == TextUtils.CR
+      && (((i + 1 < buffer.length) && buffer[i + 1] != TextUtils.LF) || i + 1 == buffer.length));
   }
 
   @Override

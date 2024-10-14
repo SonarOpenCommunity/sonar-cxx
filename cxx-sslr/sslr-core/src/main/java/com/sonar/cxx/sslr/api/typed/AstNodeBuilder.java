@@ -33,6 +33,8 @@ import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
 /**
+ * {@inheritDoc}
+ *
  * @since 1.21
  */
 public class AstNodeBuilder implements NodeBuilder {
@@ -41,7 +43,7 @@ public class AstNodeBuilder implements NodeBuilder {
 
   @Override
   public AstNode createNonTerminal(GrammarRuleKey ruleKey, Rule rule, List<Object> children, int startIndex,
-                                   int endIndex) {
+    int endIndex) {
     Token token = null;
 
     for (var child : children) {
@@ -63,7 +65,7 @@ public class AstNodeBuilder implements NodeBuilder {
 
   @Override
   public AstNode createTerminal(Input input, int startIndex, int endIndex, List<Trivia> trivias,
-                                @Nullable TokenType type) {
+    @Nullable TokenType type) {
     var lineAndColumn = input.lineAndColumnAt(startIndex);
     var token = Token.builder()
       .setType(type == null ? UNDEFINED_TOKEN_TYPE : type)

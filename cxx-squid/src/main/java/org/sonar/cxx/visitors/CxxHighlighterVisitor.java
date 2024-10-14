@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import javax.annotation.Nullable;
-import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
@@ -89,7 +89,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   private TokenLocation highlight(@Nullable TokenLocation last, TokenLocation current, String typeOfText) {
     if (!current.overlaps(last)) {
       highlighting.add(new Highlight(current.startLine(), current.startLineOffset(),
-                                     current.endLine(), current.endLineOffset(), typeOfText));
+        current.endLine(), current.endLineOffset(), typeOfText));
     }
 
     return current;
@@ -110,7 +110,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       this.endLineOffset = endLineOffset;
       this.typeOfText = typeOfText;
     }
-  };
+  }
 
   private static class TokenLocation {
 
@@ -145,9 +145,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     public boolean overlaps(@Nullable TokenLocation other) {
       if (other != null) {
         return !(startLineOffset() > other.endLineOffset()
-                 || other.startLineOffset() > endLineOffset()
-                 || startLine() > other.endLine()
-                 || other.startLine() > endLine());
+          || other.startLineOffset() > endLineOffset()
+          || startLine() > other.endLine()
+          || other.startLine() > endLine());
       }
       return false;
     }

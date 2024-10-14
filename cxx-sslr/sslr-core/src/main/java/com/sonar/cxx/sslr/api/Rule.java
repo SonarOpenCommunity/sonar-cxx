@@ -41,7 +41,6 @@ public interface Rule extends AstNodeType {
    * @throws IllegalArgumentException if any of given arguments is not a parsing expression
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#is(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   Rule is(Object... e);
 
   /**
@@ -55,7 +54,6 @@ public interface Rule extends AstNodeType {
    * @throws IllegalArgumentException if any of given arguments is not a parsing expression
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#override(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   Rule override(Object... e);
 
   /**
@@ -64,7 +62,6 @@ public interface Rule extends AstNodeType {
    *
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skip()} instead.
    */
-  @Deprecated(since = "1.19")
   void skip();
 
   /**
@@ -72,7 +69,6 @@ public interface Rule extends AstNodeType {
    *
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skipIfOneChild()} instead.
    */
-  @Deprecated(since = "1.19")
   void skipIfOneChild();
 
 }

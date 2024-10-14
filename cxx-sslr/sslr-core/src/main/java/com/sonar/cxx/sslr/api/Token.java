@@ -33,10 +33,8 @@ import javax.annotation.Nullable;
 
 /**
  * Tokens are string of character like an identifier, a literal, an integer, ... which are produced by the lexer to feed
- * the parser.
- * By definition, comments and preprocessing directives should not be seen by the parser that's why such Trivia, when
- * they exist, are
- * attached to the next token.
+ * the parser. By definition, comments and preprocessing directives should not be seen by the parser that's why such
+ * Trivia, when they exist, are attached to the next token.
  */
 public class Token {
 
@@ -76,8 +74,7 @@ public class Token {
 
   /**
    * @return the original value of the token. This method is useful when a language is case-insensitive as in that case
-   * all token values are
-   * capitalized.
+   * all token values are capitalized.
    */
   public String getOriginalValue() {
     return originalValue;
@@ -153,8 +150,7 @@ public class Token {
   }
 
   /**
-   * Instances can be reused - it is safe to call {@link #build}
-   * multiple times to build multiple tokens in series.
+   * Instances can be reused - it is safe to call {@link #build} multiple times to build multiple tokens in series.
    */
   public static final class Builder {
 

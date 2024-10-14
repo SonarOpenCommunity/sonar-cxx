@@ -26,15 +26,24 @@ package org.sonar.cxx.squidbridge.api;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * {@inheritDoc}
+ */
 public class SourceFile extends SourceCode {
 
   private final Set<Integer> noSonarTagLines = new HashSet<>();
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceFile(String key) {
     super(key);
     setStartAtLine(1);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceFile(String key, String fileName) {
     super(key, fileName);
     setStartAtLine(1);

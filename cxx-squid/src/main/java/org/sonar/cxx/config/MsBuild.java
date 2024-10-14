@@ -50,18 +50,18 @@ public class MsBuild {
   private static final String MSC_X64_100 = "_M_X64 100";
 
   private static final Pattern[] INCLUDE_PATTERNS = {Pattern.compile("/I\"(.*?)\""),
-                                                     Pattern.compile("/I([^\\s\"]++) ")};
+    Pattern.compile("/I([^\\s\"]++) ")};
   private static final Pattern[] DEFINE_PATTERNS = {Pattern.compile("[/-]D\\s([^\\s]++)"),
-                                                    Pattern.compile("[/-]D([^\\s]++)")};
+    Pattern.compile("[/-]D([^\\s]++)")};
   private static final Pattern PATH_TO_CL_PATTERN = Pattern.compile(
     "^(?>[^\\\\]{0,260}\\\\)+bin\\\\(?>[^\\\\]{1,260}\\\\)*CL.exe\\x20.*$");
   private static final Pattern PLATFORM_X86_PATTERN = Pattern.compile("Building solution configuration \".*\\|x64\".");
   private static final Pattern TOOLSET_V141_PATTERN = Pattern.compile(
     "^(?>[^\\\\]{0,260}\\\\)+VC\\\\Tools\\\\MSVC\\\\14\\.1\\d\\.\\d{1,6}"
-      + "\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+    + "\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
   private static final Pattern TOOLSET_V142_PATTERN = Pattern.compile(
     "^(?>[^\\\\]{0,260}\\\\)+VC\\\\Tools\\\\MSVC\\\\14\\.2\\d\\.\\d{1,6}"
-      + "\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
+    + "\\\\bin\\\\HostX(86|64)\\\\x(86|64)\\\\CL.exe.*$");
 
   // It seems that the required line in any language has these elements: "ClCompile" and (*.vcxproj)
   private static final Pattern PATH_TO_VCXPROJ = Pattern.compile(
@@ -123,8 +123,8 @@ public class MsBuild {
     LOG.info("Processing MsBuild log '{}', Encoding= '{}'", buildLog.getName(), encodingName);
 
     var detectedPlatform = false;
-    try ( var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
-                                                        encodingName))) {
+    try (var br = new BufferedReader(new InputStreamReader(java.nio.file.Files.newInputStream(buildLog.toPath()),
+      encodingName))) {
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
       var currentProjectPath = Path.of(baseDir);
@@ -189,28 +189,28 @@ public class MsBuild {
    */
   private boolean setPlatformToolsetFromLine(String line) {
     if (line.contains("\\V100\\Microsoft.CppBuild.targets")
-          || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
+      || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V100");
       return true;
     } else if (line.contains("\\V110\\Microsoft.CppBuild.targets")
-                 || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
+      || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V110");
       return true;
     } else if (line.contains("\\V120\\Microsoft.CppBuild.targets")
-                 || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
+      || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
       setPlatformToolset("V120");
       return true;
     } else if (line.contains("\\V140\\Microsoft.CppBuild.targets")
-                 || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")
-                 || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
+      || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")
+      || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
       setPlatformToolset("V140");
       return true;
     } else if (line.contains("\\V141\\Microsoft.CppBuild.targets")
-                 || TOOLSET_V141_PATTERN.matcher(line).matches()) {
+      || TOOLSET_V141_PATTERN.matcher(line).matches()) {
       setPlatformToolset("V141");
       return true;
     } else if (line.contains("\\V142\\Microsoft.CppBuild.targets")
-                 || TOOLSET_V142_PATTERN.matcher(line).matches()) {
+      || TOOLSET_V142_PATTERN.matcher(line).matches()) {
       setPlatformToolset("V142");
       return true;
     } else {
@@ -225,7 +225,7 @@ public class MsBuild {
    * @param data
    */
   private void parseCLParameters(String line, Path currentProjectPath, String data) {
-    String path = data.replaceAll("\"", "");
+    String path = data.replace("\"", "");
     String fileElement;
     try {
       // a) if path is empty: fileElement == currentProjectPath
@@ -386,12 +386,12 @@ public class MsBuild {
     // WinCE and WinRT
     // see https://en.wikipedia.org/wiki/ARM_architecture
     if (line.contains("/arch:IA32 ")
-          || line.contains("/arch:SSE ")
-          || line.contains("/arch:SSE2 ")
-          || line.contains("/arch:AVX2 ")
-          || line.contains("/arch:AVX ")
-          || line.contains("/arch:VFPv4 ")
-          || line.contains("/arch:ARMv7VE ")) {
+      || line.contains("/arch:SSE ")
+      || line.contains("/arch:SSE2 ")
+      || line.contains("/arch:AVX2 ")
+      || line.contains("/arch:AVX ")
+      || line.contains("/arch:VFPv4 ")
+      || line.contains("/arch:ARMv7VE ")) {
       // In the range 30-39 if no /arch ARM option was specified, indicating the default architecture
       //   for ARM was used (VFPv3).
       // In the range 40-49 if /arch:VFPv4 was used.
@@ -522,21 +522,21 @@ public class MsBuild {
     // VC++ 17.0, 18.0, 19.0
     // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
     if (line.contains("/EHs ")
-          || line.contains("/EHa ")
-          || line.contains("/EHsc ")
-          || line.contains("/EHac ")) {
+      || line.contains("/EHa ")
+      || line.contains("/EHsc ")
+      || line.contains("/EHac ")) {
       addMacro("_CPPUNWIND", fileElement);
     }
     if (line.contains("/favor:ATOM") && (existMacro(MSC_X64_100, fileElement)
-                                         || existMacro(MSC_IX86_600, fileElement))) {
+      || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__ATOM__=1", fileElement);
     }
     if (line.contains("/arch:AVX") && (existMacro(MSC_X64_100, fileElement)
-                                       || existMacro(MSC_IX86_600, fileElement))) {
+      || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__AVX__=1", fileElement);
     }
     if (line.contains("/arch:AVX2") && (existMacro(MSC_X64_100, fileElement)
-                                        || existMacro(MSC_IX86_600, fileElement))) {
+      || existMacro(MSC_IX86_600, fileElement))) {
       addMacro("__AVX2__=1", fileElement);
     }
   }

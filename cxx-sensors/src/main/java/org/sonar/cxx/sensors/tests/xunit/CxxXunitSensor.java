@@ -122,17 +122,15 @@ public class CxxXunitSensor extends CxxReportSensor {
     for (var tf : testfiles) {
       if (!tf.getFilename().isEmpty()) {
         var inputFile = getInputFileIfInProject(tf.getFilename());
-        if (inputFile != null) {
-          if (inputFile.language() != null && inputFile.type() == Type.TEST) {
-            LOG.debug("Saving xUnit data for '{}': tests={} | errors:{} | failure:{} | skipped:{} | time:{}",
-              tf.getFilename(), tf.getTests(), tf.getErrors(), tf.getFailures(), tf.getSkipped(),
-              tf.getExecutionTime());
-            saveMetric(inputFile, CoreMetrics.TESTS, tf.getTests());
-            saveMetric(inputFile, CoreMetrics.TEST_ERRORS, tf.getErrors());
-            saveMetric(inputFile, CoreMetrics.TEST_FAILURES, tf.getFailures());
-            saveMetric(inputFile, CoreMetrics.SKIPPED_TESTS, tf.getSkipped());
-            saveMetric(inputFile, CoreMetrics.TEST_EXECUTION_TIME, tf.getExecutionTime());
-          }
+        if ((inputFile != null) && (inputFile.language() != null) && (inputFile.type() == Type.TEST)) {
+          LOG.debug("Saving xUnit data for '{}': tests={} | errors:{} | failure:{} | skipped:{} | time:{}",
+            tf.getFilename(), tf.getTests(), tf.getErrors(), tf.getFailures(), tf.getSkipped(),
+            tf.getExecutionTime());
+          saveMetric(inputFile, CoreMetrics.TESTS, tf.getTests());
+          saveMetric(inputFile, CoreMetrics.TEST_ERRORS, tf.getErrors());
+          saveMetric(inputFile, CoreMetrics.TEST_FAILURES, tf.getFailures());
+          saveMetric(inputFile, CoreMetrics.SKIPPED_TESTS, tf.getSkipped());
+          saveMetric(inputFile, CoreMetrics.TEST_EXECUTION_TIME, tf.getExecutionTime());
         }
       }
       testsTime += tf.getExecutionTime();

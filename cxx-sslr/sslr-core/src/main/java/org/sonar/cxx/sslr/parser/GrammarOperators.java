@@ -46,7 +46,6 @@ import org.sonar.cxx.sslr.internal.vm.ZeroOrMoreExpression;
  * @since 1.16
  * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder} instead.
  */
-@Deprecated(since = "1.19")
 public final class GrammarOperators {
 
   private GrammarOperators() {
@@ -56,7 +55,6 @@ public final class GrammarOperators {
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#sequence(Object, Object)}
    * instead.
    */
-  @Deprecated(since = "1.19")
   public static Object sequence(Object... e) {
     return convertToSingleExpression(e);
   }
@@ -65,7 +63,6 @@ public final class GrammarOperators {
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#firstOf(Object, Object)}
    * instead.
    */
-  @Deprecated(since = "1.19")
   public static Object firstOf(@Nonnull Object... e) {
     Objects.requireNonNull(e);
 
@@ -78,7 +75,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#optional(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object optional(Object... e) {
     return new OptionalExpression(convertToSingleExpression(e));
   }
@@ -86,7 +82,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#oneOrMore(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object oneOrMore(Object... e) {
     return new OneOrMoreExpression(convertToSingleExpression(e));
   }
@@ -94,7 +89,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#zeroOrMore(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object zeroOrMore(Object... e) {
     return new ZeroOrMoreExpression(convertToSingleExpression(e));
   }
@@ -102,7 +96,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#next(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object next(Object... e) {
     return new NextExpression(convertToSingleExpression(e));
   }
@@ -110,7 +103,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#nextNot(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object nextNot(Object... e) {
     return new NextNotExpression(convertToSingleExpression(e));
   }
@@ -118,7 +110,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#regexp(String)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object regexp(String regexp) {
     return new PatternExpression(regexp);
   }
@@ -126,7 +117,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#endOfInput()} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object endOfInput() {
     return EndOfInputExpression.INSTANCE;
   }
@@ -134,7 +124,6 @@ public final class GrammarOperators {
   /**
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#nothing()} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object nothing() {
     return NothingExpression.INSTANCE;
   }
@@ -143,7 +132,6 @@ public final class GrammarOperators {
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#token(TokenType, Object)}
    * instead.
    */
-  @Deprecated(since = "1.19")
   public static Object token(TokenType tokenType, Object e) {
     return new TokenExpression(tokenType, convertToExpression(e));
   }
@@ -152,7 +140,6 @@ public final class GrammarOperators {
    * @since 1.17
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#commentTrivia(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object commentTrivia(Object e) {
     return new TriviaExpression(TriviaKind.COMMENT, convertToExpression(e));
   }
@@ -161,7 +148,6 @@ public final class GrammarOperators {
    * @since 1.17
    * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder#skippedTrivia(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   public static Object skippedTrivia(Object e) {
     return new TriviaExpression(TriviaKind.SKIPPED_TEXT, convertToExpression(e));
   }

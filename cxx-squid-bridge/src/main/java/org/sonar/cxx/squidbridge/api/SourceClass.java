@@ -23,6 +23,9 @@
  */
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
+/**
+ * {@inheritDoc}
+ */
 public class SourceClass extends SourceCode {
 
   /**
@@ -31,10 +34,16 @@ public class SourceClass extends SourceCode {
    */
   private boolean suppressWarnings = false;
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceClass(String key) {
     super(key);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public SourceClass(String key, String className) {
     super(key, className);
   }

@@ -59,10 +59,8 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
     // if there was already a token in the line it's not a preprocessor command
     var previousTokens = output.getTokens();
-    if (!previousTokens.isEmpty()) {
-      if (previousTokens.get(previousTokens.size() - 1).getLine() == line) {
-        return false;
-      }
+    if (!previousTokens.isEmpty() && (previousTokens.get(previousTokens.size() - 1).getLine() == line)) {
+      return false;
     }
 
     if (code.popTo(matcher, sb) <= 0) {
@@ -117,6 +115,8 @@ public class PreprocessorChannel extends Channel<Lexer> {
             // consume backslash and the newline
             dummy.delete(0, dummy.length());
           }
+          break;
+        default:
           break;
       }
 

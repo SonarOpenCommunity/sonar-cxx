@@ -107,7 +107,7 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
     setMultiLocationViolation(sourceFile, messages);
   }
 
-  private static enum DataKey implements MetricDef {
+  private enum DataKey implements MetricDef {
     FILE_VIOLATIONS_WITH_MULTIPLE_LOCATIONS;
 
     @Override

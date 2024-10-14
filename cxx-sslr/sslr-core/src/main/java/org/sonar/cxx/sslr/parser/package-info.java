@@ -24,6 +24,7 @@
 /**
  * @since 1.16
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@ParametersAreNonnullByDefault
 package org.sonar.cxx.sslr.parser;
 
+import javax.annotation.ParametersAreNonnullByDefault;

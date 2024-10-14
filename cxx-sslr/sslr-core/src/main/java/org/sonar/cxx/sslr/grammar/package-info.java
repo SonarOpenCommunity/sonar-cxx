@@ -28,6 +28,7 @@
  *
  * @since 1.18
  */
-@javax.annotation.ParametersAreNonnullByDefault
+@ParametersAreNonnullByDefault
 package org.sonar.cxx.sslr.grammar;
 
+import javax.annotation.ParametersAreNonnullByDefault;

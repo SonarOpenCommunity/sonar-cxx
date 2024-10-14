@@ -24,6 +24,8 @@
 package org.sonar.cxx.squidbridge.api;
 
 /**
+ * {@inheritDoc}
+ *
  * @deprecated since SQ version 2.12. See https://jira.codehaus.org/browse/SONAR-2875
  */
 public interface CodeCheck extends CodeVisitor {

@@ -25,6 +25,9 @@ package com.sonar.cxx.sslr.api; // cxx: in use
 
 import javax.annotation.Nullable;
 
+/**
+ * {@inheritDoc}
+ */
 public interface TokenType extends AstNodeType {
 
   String getName();

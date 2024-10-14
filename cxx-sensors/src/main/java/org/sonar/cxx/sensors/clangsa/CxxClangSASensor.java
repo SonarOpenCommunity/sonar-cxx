@@ -30,8 +30,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
@@ -46,8 +44,6 @@ import org.sonar.cxx.utils.CxxReportIssue;
 public class CxxClangSASensor extends CxxIssuesReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.clangsa.reportPaths";
-
-  private static final Logger LOG = LoggerFactory.getLogger(CxxClangSASensor.class);
 
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(

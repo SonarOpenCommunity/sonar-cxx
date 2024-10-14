@@ -39,8 +39,7 @@ public class LocatedText implements CharSequence {
   private final char[] chars;
 
   /**
-   * Indices of lines.
-   * Number of elements equal to number of line terminators.
+   * Indices of lines. Number of elements equal to number of line terminators.
    */
   private final int[] lines;
 
@@ -57,9 +56,9 @@ public class LocatedText implements CharSequence {
   }
 
   public char[] toChars() {
-    var chars = new char[length()];
-    System.arraycopy(this.chars, 0, chars, 0, chars.length);
-    return chars;
+    var copy = new char[length()];
+    System.arraycopy(chars, 0, copy, 0, copy.length);
+    return copy;
   }
 
   @Override
@@ -115,13 +114,12 @@ public class LocatedText implements CharSequence {
   }
 
   /**
-   * A line is considered to be terminated by any one of
-   * a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
+   * A line is considered to be terminated by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
    * or a carriage return followed immediately by a line feed ({@code "\r\n"}).
    */
   private static boolean isEndOfLine(char[] buffer, int i) {
-    return buffer[i] == '\n' || buffer[i] == '\r' && (i + 1 < buffer.length && buffer[i + 1] != '\n' || i + 1
-                                                                                                        == buffer.length);
+    return buffer[i] == '\n' || buffer[i] == '\r'
+      && (i + 1 < buffer.length && buffer[i + 1] != '\n' || i + 1 == buffer.length);
   }
 
 }

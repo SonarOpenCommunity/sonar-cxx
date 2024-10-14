@@ -43,5 +43,7 @@
  *
  * @since 1.20
  */
+ @ParametersAreNonnullByDefault
 package org.sonar.cxx.sslr.channel;
 
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -56,35 +56,34 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   private static final String FORCE_INCLUDES_PROPERTY_KEY = "sonar.cxx.forceIncludes";
 
   private final ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset", CHARSET_PROPERTY_KEY,
-                                                                                  getPropertyOrDefaultValue(
-                                                                                    CHARSET_PROPERTY_KEY,
-                                                                                    StandardCharsets.UTF_8.name()),
-                                                                                  Validators.charsetValidator());
+    getPropertyOrDefaultValue(
+      CHARSET_PROPERTY_KEY,
+      StandardCharsets.UTF_8.name()),
+    Validators.charsetValidator());
 
   private final ConfigurationProperty errorRecoveryEnabled = new ConfigurationProperty("Error Recovery",
-                                                                                       ERROR_RECOVERY_PROPERTY_KEY,
-                                                                                       getPropertyOrDefaultValue(
-                                                                                         ERROR_RECOVERY_PROPERTY_KEY,
-                                                                                         "false"),
-                                                                                       Validators.booleanValidator());
+    ERROR_RECOVERY_PROPERTY_KEY,
+    getPropertyOrDefaultValue(
+      ERROR_RECOVERY_PROPERTY_KEY,
+      "false"),
+    Validators.booleanValidator());
 
-  private final ConfigurationProperty defines = new ConfigurationProperty("Defines", DEFINES_PROPERTY_KEY
-                                                                                       + " (use \\n\\ as separator)",
-                                                                          getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY,
-                                                                                                    ""));
+  private final ConfigurationProperty defines = new ConfigurationProperty("Defines",
+    DEFINES_PROPERTY_KEY + " (use \\n\\ as separator)", getPropertyOrDefaultValue(DEFINES_PROPERTY_KEY,
+      ""));
 
   private final ConfigurationProperty includeDirectories = new ConfigurationProperty("Include Directories",
-                                                                                     INCLUDE_DIRECTORIES_PROPERTY_KEY
-                                                                                       + " (use , as separator)",
-                                                                                     getPropertyOrDefaultValue(
-                                                                                       INCLUDE_DIRECTORIES_PROPERTY_KEY,
-                                                                                       ""));
+    INCLUDE_DIRECTORIES_PROPERTY_KEY
+    + " (use , as separator)",
+    getPropertyOrDefaultValue(
+      INCLUDE_DIRECTORIES_PROPERTY_KEY,
+      ""));
 
   private final ConfigurationProperty forceIncludes = new ConfigurationProperty("Force Includes",
-                                                                                FORCE_INCLUDES_PROPERTY_KEY
-                                                                                  + " (use , as separator)",
-                                                                                getPropertyOrDefaultValue(
-                                                                                  FORCE_INCLUDES_PROPERTY_KEY, ""));
+    FORCE_INCLUDES_PROPERTY_KEY
+    + " (use , as separator)",
+    getPropertyOrDefaultValue(
+      FORCE_INCLUDES_PROPERTY_KEY, ""));
 
   static String getPropertyOrDefaultValue(String propertyKey, String defaultValue) {
     var propertyValue = System.getProperty(propertyKey);
@@ -154,13 +153,13 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   CxxSquidConfiguration getConfiguration() {
     var config = new CxxSquidConfiguration("", getCharset());
     config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-               errorRecoveryEnabled.getValue());
+      errorRecoveryEnabled.getValue());
     config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
-               getStringLines(defines.getValue()));
+      getStringLines(defines.getValue()));
     config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.FORCE_INCLUDES,
-               getStringArray(forceIncludes.getValue()));
+      getStringArray(forceIncludes.getValue()));
     config.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
-               getStringArray(includeDirectories.getValue()));
+      getStringArray(includeDirectories.getValue()));
     return config;
   }
 

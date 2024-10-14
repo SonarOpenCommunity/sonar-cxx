@@ -38,7 +38,7 @@ public final class CoverageMeasures {
     // empty
   }
 
-  static public CoverageMeasures create() {
+  public static CoverageMeasures create() {
     return new CoverageMeasures();
   }
 

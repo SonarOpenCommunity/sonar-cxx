@@ -26,18 +26,24 @@ package com.sonar.cxx.sslr.api; // cxx: in use
 import com.sonar.cxx.sslr.impl.LexerException;
 
 /**
- * <p>This class is not intended to be instantiated or subclassed by clients.</p>
+ * <p>
+ * This class is not intended to be instantiated or subclassed by clients.</p>
  */
 public class RecognitionException extends RuntimeException {
 
   private final int line;
 
+  /**
+   * {@inheritDoc}
+   */
   public RecognitionException(LexerException e) {
     super("Lexer error: " + e.getMessage(), e);
     this.line = 0;
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @since 1.16
    */
   public RecognitionException(int line, String message) {
@@ -46,6 +52,8 @@ public class RecognitionException extends RuntimeException {
   }
 
   /**
+   * {@inheritDoc}
+   *
    * @since 1.16
    */
   public RecognitionException(int line, String message, Throwable cause) {
