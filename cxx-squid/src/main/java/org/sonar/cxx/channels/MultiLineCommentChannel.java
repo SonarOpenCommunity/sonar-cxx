@@ -19,67 +19,16 @@
  */
 package org.sonar.cxx.channels;
 
-import static com.sonar.cxx.sslr.api.GenericTokenType.COMMENT;
-import com.sonar.cxx.sslr.api.Token;
-import com.sonar.cxx.sslr.api.Trivia;
-import com.sonar.cxx.sslr.impl.Lexer;
-import org.sonar.cxx.sslr.channel.Channel;
 import org.sonar.cxx.sslr.channel.CodeReader;
 
-public class MultiLineCommentChannel extends Channel<Lexer> {
+public class MultiLineCommentChannel extends CommentChannel {
 
-  private final StringBuilder sb = new StringBuilder(256);
-  private final Token.Builder tokenBuilder = Token.builder();
+  public MultiLineCommentChannel() {
+    super('/', '*');
+  }
 
   @Override
-  public boolean consume(CodeReader code, Lexer lexer) {
-    // start of multi line comment?
-    int next = isComment(code);
-    if (next == 0) {
-      return false;
-    }
-
-    int line = code.getLinePosition();
-    int column = code.getColumnPosition();
-
-    code.skip(next);
-    sb.append('/');
-    sb.append('*');
-
-    read(code, sb); // search end of multi line comment
-
-    var value = sb.toString();
-    var token = tokenBuilder
-      .setType(COMMENT)
-      .setValueAndOriginalValue(value)
-      .setURI(lexer.getURI())
-      .setLine(line)
-      .setColumn(column)
-      .build();
-
-    lexer.addTrivia(Trivia.createComment(token));
-    sb.delete(0, sb.length());
-    return true;
-  }
-
-  public static int isComment(CodeReader code) {
-    int next = 0;
-
-    // start of multi line comment?
-    if (code.charAt(next) != '/') {
-      return 0;
-    }
-    next += 1;
-    next += ChannelUtils.handleLineSplicing(code, next);
-
-    if (code.charAt(next) != '*') {
-      return 0;
-    }
-    next += 1;
-    return next;
-  }
-
-  public static boolean read(CodeReader code, StringBuilder sb) {
+  public boolean read(CodeReader code, StringBuilder sb) {
     boolean first = false;
     while (true) { // search end of multi line comment: */
       var end = ChannelUtils.handleLineSplicing(code, 0);
