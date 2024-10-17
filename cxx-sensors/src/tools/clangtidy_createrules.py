@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
 # SonarQube C++ Community Plugin (cxx plugin)
 # Copyright (C) 2010-2024 SonarOpenCommunity
