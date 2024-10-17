@@ -20,1168 +20,1137 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
   </rule>
   <!-- C and C++ rules for Clang Static Analyzer. https://clang-analyzer.llvm.org/
-Rules list was generated based on clang version 16.0.0 (https://github.com/llvm/llvm-project.git 61be261549243deed84b1fae11195f76f1769584) -->
+Rules list was generated based on clang version 19.1.0 (https://github.com/llvm/llvm-project/releases/tag/llvmorg-19.1.0) -->
   <rule>
     <key>core.BitwiseShift</key>
     <name>core.BitwiseShift</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Finds cases where bitwise shift operation causes undefined behaviour.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.CallAndMessage</key>
     <name>core.CallAndMessage</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for logical errors for function calls and Objective-C message expressions (e.g., uninitialized arguments, null function pointers)
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.DivideZero</key>
     <name>core.DivideZero</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for division by zero
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.NonNullParamChecker</key>
     <name>core.NonNullParamChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for null pointers passed as arguments to a function whose arguments are references or marked with the 'nonnull' attribute
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.NullDereference</key>
     <name>core.NullDereference</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for dereferences of null pointers
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.StackAddressEscape</key>
     <name>core.StackAddressEscape</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check that addresses to stack memory do not escape the function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.UndefinedBinaryOperatorResult</key>
     <name>core.UndefinedBinaryOperatorResult</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for undefined results of binary operators
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.VLASize</key>
     <name>core.VLASize</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for declarations of VLA of undefined or zero size
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.uninitialized.ArraySubscript</key>
     <name>core.uninitialized.ArraySubscript</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for uninitialized values used as array subscripts
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.uninitialized.Assign</key>
     <name>core.uninitialized.Assign</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for assigning uninitialized values
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.uninitialized.Branch</key>
     <name>core.uninitialized.Branch</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for uninitialized values used as branch conditions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.uninitialized.CapturedBlockVariable</key>
     <name>core.uninitialized.CapturedBlockVariable</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for blocks that capture uninitialized values
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.uninitialized.NewArraySize</key>
     <name>core.uninitialized.NewArraySize</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check if the size of the array in a new[] expression is undefined
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
     <key>core.uninitialized.UndefReturn</key>
     <name>core.uninitialized.UndefReturn</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for uninitialized values being returned to the caller
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>core</tag>
   </rule>
   <rule>
+    <key>cplusplus.ArrayDelete</key>
+    <name>cplusplus.ArrayDelete</name>
+    <description><![CDATA[
+<p>Reports destructions of arrays of polymorphic objects that are destructed as their base class.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]></description>
+    <type>BUG</type>
+    <tag>cplusplus</tag>
+  </rule>
+  <rule>
     <key>cplusplus.InnerPointer</key>
     <name>cplusplus.InnerPointer</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for inner pointers of C++ containers used after re/deallocation
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>cplusplus.Move</key>
     <name>cplusplus.Move</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Find use-after-move bugs in C++
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>cplusplus.NewDelete</key>
     <name>cplusplus.NewDelete</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for double-free and use-after-free problems. Traces memory managed by new/delete.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>cplusplus.NewDeleteLeaks</key>
     <name>cplusplus.NewDeleteLeaks</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for memory leaks. Traces memory managed by new/delete.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>cplusplus.PlacementNew</key>
     <name>cplusplus.PlacementNew</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check if default placement new is provided with pointers to sufficient storage capacity
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>cplusplus.PureVirtualCall</key>
     <name>cplusplus.PureVirtualCall</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check pure virtual function calls during construction/destruction
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>cplusplus.StringChecker</key>
     <name>cplusplus.StringChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Checks C++ std::string bugs
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>cplusplus</tag>
   </rule>
   <rule>
     <key>deadcode.DeadStores</key>
     <name>deadcode.DeadStores</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for values stored to variables that are never read afterwards
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>deadcode</tag>
   </rule>
   <rule>
     <key>fuchsia.HandleChecker</key>
     <name>fuchsia.HandleChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>A Checker that detect leaks related to Fuchsia handles
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>fuchsia</tag>
   </rule>
   <rule>
     <key>nullability.NullPassedToNonnull</key>
     <name>nullability.NullPassedToNonnull</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns when a null pointer is passed to a pointer which has a _Nonnull type.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
   <rule>
     <key>nullability.NullReturnedFromNonnull</key>
     <name>nullability.NullReturnedFromNonnull</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns when a null pointer is returned from a function that has _Nonnull return type.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
   <rule>
     <key>nullability.NullableDereferenced</key>
     <name>nullability.NullableDereferenced</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns when a nullable pointer is dereferenced.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
   <rule>
     <key>nullability.NullablePassedToNonnull</key>
     <name>nullability.NullablePassedToNonnull</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns when a nullable pointer is passed to a pointer which has a _Nonnull type.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
   <rule>
     <key>nullability.NullableReturnedFromNonnull</key>
     <name>nullability.NullableReturnedFromNonnull</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns when a nullable pointer is returned from a function that has _Nonnull return type.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>nullability</tag>
   </rule>
   <rule>
     <key>optin.core.EnumCastOutOfRange</key>
     <name>optin.core.EnumCastOutOfRange</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check integer to enumeration casts for out of range values
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.cplusplus.UninitializedObject</key>
     <name>optin.cplusplus.UninitializedObject</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Reports uninitialized fields after object construction
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.cplusplus.VirtualCall</key>
     <name>optin.cplusplus.VirtualCall</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check virtual function calls during construction/destruction
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.mpi.MPI-Checker</key>
     <name>optin.mpi.MPI-Checker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Checks MPI code
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.osx.OSObjectCStyleCast</key>
     <name>optin.osx.OSObjectCStyleCast</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Checker for C-style casts of OSObjects
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.osx.cocoa.localizability.EmptyLocalizationContextChecker</key>
     <name>optin.osx.cocoa.localizability.EmptyLocalizationContextChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check that NSLocalizedString macros include a comment for context
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.osx.cocoa.localizability.NonLocalizedStringChecker</key>
     <name>optin.osx.cocoa.localizability.NonLocalizedStringChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns about uses of non-localized NSStrings passed to UI methods expecting localized NSStrings
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.performance.GCDAntipattern</key>
     <name>optin.performance.GCDAntipattern</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for performance anti-patterns when using Grand Central Dispatch
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.performance.Padding</key>
     <name>optin.performance.Padding</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for excessively padded structs.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>optin.portability.UnixAPI</key>
     <name>optin.portability.UnixAPI</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Finds implementation-defined behavior in UNIX/Posix functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>optin.taint.TaintedAlloc</key>
+    <name>optin.taint.TaintedAlloc</name>
+    <description><![CDATA[
+<p>Check for memory allocations, where the size parameter might be a tainted (attacker controlled) value.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]></description>
     <type>BUG</type>
     <tag>optin</tag>
   </rule>
   <rule>
     <key>osx.API</key>
     <name>osx.API</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for proper uses of various Apple APIs
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.MIG</key>
     <name>osx.MIG</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Find violations of the Mach Interface Generator calling convention
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.NumberObjectConversion</key>
     <name>osx.NumberObjectConversion</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for erroneous conversions of objects representing numbers into numbers
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.OSObjectRetainCount</key>
     <name>osx.OSObjectRetainCount</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for leaks and improper reference count management for OSObject
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.ObjCProperty</key>
     <name>osx.ObjCProperty</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for proper uses of Objective-C properties
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.SecKeychainAPI</key>
     <name>osx.SecKeychainAPI</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for proper uses of Secure Keychain APIs
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.AtSync</key>
     <name>osx.cocoa.AtSync</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for nil pointers used as mutexes for @synchronized
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.AutoreleaseWrite</key>
     <name>osx.cocoa.AutoreleaseWrite</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn about potentially crashing writes to autoreleasing objects from different autoreleasing pools in Objective-C
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.ClassRelease</key>
     <name>osx.cocoa.ClassRelease</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for sending 'retain', 'release', or 'autorelease' directly to a Class
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.Dealloc</key>
     <name>osx.cocoa.Dealloc</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn about Objective-C classes that lack a correct implementation of -dealloc
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.IncompatibleMethodTypes</key>
     <name>osx.cocoa.IncompatibleMethodTypes</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn about Objective-C method signatures with type incompatibilities
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.Loops</key>
     <name>osx.cocoa.Loops</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Improved modeling of loops using Cocoa collection types
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.MissingSuperCall</key>
     <name>osx.cocoa.MissingSuperCall</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn about Objective-C methods that lack a necessary call to super
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.NSAutoreleasePool</key>
     <name>osx.cocoa.NSAutoreleasePool</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn for suboptimal uses of NSAutoreleasePool in Objective-C GC mode
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.NSError</key>
     <name>osx.cocoa.NSError</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check usage of NSError** parameters
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.NilArg</key>
     <name>osx.cocoa.NilArg</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for prohibited nil arguments to ObjC method calls
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.NonNilReturnValue</key>
     <name>osx.cocoa.NonNilReturnValue</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Model the APIs that are guaranteed to return a non-nil value
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.ObjCGenerics</key>
     <name>osx.cocoa.ObjCGenerics</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for type errors when using Objective-C generics
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.RetainCount</key>
     <name>osx.cocoa.RetainCount</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for leaks and improper reference count management
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.RunLoopAutoreleaseLeak</key>
     <name>osx.cocoa.RunLoopAutoreleaseLeak</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for leaked memory in autorelease pools that will never be drained
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.SelfInit</key>
     <name>osx.cocoa.SelfInit</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check that 'self' is properly initialized inside an initializer method
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.SuperDealloc</key>
     <name>osx.cocoa.SuperDealloc</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn about improper use of '[super dealloc]' in Objective-C
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.UnusedIvars</key>
     <name>osx.cocoa.UnusedIvars</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn about private ivars that are never used
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.cocoa.VariadicMethodTypes</key>
     <name>osx.cocoa.VariadicMethodTypes</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for passing non-Objective-C types to variadic collection initialization methods that expect only Objective-C types
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.coreFoundation.CFError</key>
     <name>osx.coreFoundation.CFError</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check usage of CFErrorRef* parameters
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.coreFoundation.CFNumber</key>
     <name>osx.coreFoundation.CFNumber</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for proper uses of CFNumber APIs
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.coreFoundation.CFRetainRelease</key>
     <name>osx.coreFoundation.CFRetainRelease</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for null arguments to CFRetain/CFRelease/CFMakeCollectable
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.coreFoundation.containers.OutOfBounds</key>
     <name>osx.coreFoundation.containers.OutOfBounds</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Checks for index out-of-bounds when using 'CFArray' API
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>osx.coreFoundation.containers.PointerSizedValues</key>
     <name>osx.coreFoundation.containers.PointerSizedValues</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warns if 'CFArray', 'CFDictionary', 'CFSet' are created with non-pointer-size values
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>osx</tag>
   </rule>
   <rule>
     <key>security.FloatLoopCounter</key>
     <name>security.FloatLoopCounter</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on using a floating point value as a loop counter (CERT: FLP30-C, FLP30-CPP)
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.PutenvStackArray</key>
+    <name>security.PutenvStackArray</name>
+    <description><![CDATA[
+<p>Finds calls to the function 'putenv' which pass a pointer to an automatic (stack-allocated) array as the argument.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]></description>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.SetgidSetuidOrder</key>
+    <name>security.SetgidSetuidOrder</name>
+    <description><![CDATA[
+<p>Warn on possible reversed order of 'setgid(getgid()))' and 'setuid(getuid())' (CERT: POS36-C)
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.cert.env.InvalidPtr</key>
     <name>security.cert.env.InvalidPtr</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Finds usages of possibly invalidated pointers
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.DeprecatedOrUnsafeBufferHandling</key>
     <name>security.insecureAPI.DeprecatedOrUnsafeBufferHandling</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of unsecure or deprecated buffer manipulating functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.UncheckedReturn</key>
     <name>security.insecureAPI.UncheckedReturn</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of functions whose return values must be always checked
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.bcmp</key>
     <name>security.insecureAPI.bcmp</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'bcmp' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.bcopy</key>
     <name>security.insecureAPI.bcopy</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'bcopy' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.bzero</key>
     <name>security.insecureAPI.bzero</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'bzero' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.decodeValueOfObjCType</key>
     <name>security.insecureAPI.decodeValueOfObjCType</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the '-decodeValueOfObjCType:at:' method
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.getpw</key>
     <name>security.insecureAPI.getpw</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'getpw' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.gets</key>
     <name>security.insecureAPI.gets</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'gets' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.mkstemp</key>
     <name>security.insecureAPI.mkstemp</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn when 'mkstemp' is passed fewer than 6 X's in the format string
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.mktemp</key>
     <name>security.insecureAPI.mktemp</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'mktemp' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.rand</key>
     <name>security.insecureAPI.rand</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'rand', 'random', and related functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.strcpy</key>
     <name>security.insecureAPI.strcpy</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'strcpy' and 'strcat' functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>security.insecureAPI.vfork</key>
     <name>security.insecureAPI.vfork</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Warn on uses of the 'vfork' function
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>security</tag>
   </rule>
   <rule>
     <key>unix.API</key>
     <name>unix.API</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check calls to various UNIX/Posix functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.BlockInCriticalSection</key>
+    <name>unix.BlockInCriticalSection</name>
+    <description><![CDATA[
+<p>Check for calls to blocking functions inside a critical section
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.Errno</key>
     <name>unix.Errno</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for improper use of 'errno'
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.Malloc</key>
     <name>unix.Malloc</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for memory leaks, double free, and use-after-free problems. Traces memory managed by malloc()/free().
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.MallocSizeof</key>
     <name>unix.MallocSizeof</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for dubious malloc arguments involving sizeof
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.MismatchedDeallocator</key>
     <name>unix.MismatchedDeallocator</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for mismatched deallocators.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.StdCLibraryFunctions</key>
     <name>unix.StdCLibraryFunctions</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for invalid arguments of C standard library functions, and apply relations between arguments and return value
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.Stream</key>
+    <name>unix.Stream</name>
+    <description><![CDATA[
+<p>Check stream handling functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.Vfork</key>
     <name>unix.Vfork</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for proper usage of vfork
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.cstring.BadSizeArg</key>
     <name>unix.cstring.BadSizeArg</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check the size argument passed into C string functions for common erroneous patterns
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>unix.cstring.NullArg</key>
     <name>unix.cstring.NullArg</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for null pointers being passed as arguments to C string functions
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>unix</tag>
   </rule>
   <rule>
     <key>valist.CopyToSelf</key>
     <name>valist.CopyToSelf</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for va_lists which are copied onto itself.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>valist</tag>
   </rule>
   <rule>
     <key>valist.Uninitialized</key>
     <name>valist.Uninitialized</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for usages of uninitialized (or already released) va_lists.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>valist</tag>
   </rule>
   <rule>
     <key>valist.Unterminated</key>
     <name>valist.Unterminated</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for va_lists which are not released by a va_end call.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>valist</tag>
   </rule>
   <rule>
     <key>webkit.NoUncountedMemberChecker</key>
     <name>webkit.NoUncountedMemberChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for no uncounted member variables.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>webkit</tag>
   </rule>
   <rule>
     <key>webkit.RefCntblBaseVirtualDtor</key>
     <name>webkit.RefCntblBaseVirtualDtor</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check for any ref-countable base class having virtual destructor.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>webkit</tag>
   </rule>
   <rule>
     <key>webkit.UncountedLambdaCapturesChecker</key>
     <name>webkit.UncountedLambdaCapturesChecker</name>
-    <description>
-<![CDATA[
+    <description><![CDATA[
 <p>Check uncounted lambda captures.
 </p>
  <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/available_checks.html" target="_blank">Available Checkers</a></p> 
-]]>    </description>
+]]></description>
     <type>BUG</type>
     <tag>webkit</tag>
   </rule>
