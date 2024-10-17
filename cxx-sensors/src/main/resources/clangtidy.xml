@@ -18851,7 +18851,6 @@ auto AreSame = boost::range::equal(Items1, Items2);</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>bugprone-crtp-constructor-accessibility</key>
@@ -18923,7 +18922,6 @@ CRTP&lt;int&gt; AlsoCompileTimeError;</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>bugprone-pointer-arithmetic-on-polymorphic-object</key>
@@ -18979,7 +18977,6 @@ void foo() {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>bugprone-return-const-ref-from-parameter</key>
@@ -19011,7 +19008,6 @@ s.v; // use after free</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>bugprone-suspicious-stringview-data-usage</key>
@@ -19049,7 +19045,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>cert-ctr56-cpp</key>
@@ -19071,7 +19066,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>cert-int09-c</key>
@@ -19092,7 +19086,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>clang-analyzer-cplusplus.ArrayDelete</key>
@@ -19114,7 +19107,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>clang-analyzer-optin.taint.TaintedAlloc</key>
@@ -19136,7 +19128,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>clang-analyzer-security.PutenvStackArray</key>
@@ -19155,7 +19146,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>clang-analyzer-security.SetgidSetuidOrder</key>
@@ -19174,7 +19164,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>clang-analyzer-unix.BlockInCriticalSection</key>
@@ -19196,7 +19185,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>clang-analyzer-unix.Stream</key>
@@ -19218,7 +19206,6 @@ void something(std::string_view sv) {
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>linuxkernel-must-check-errs</key>
@@ -19246,7 +19233,6 @@ fn();</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>misc-use-internal-linkage</key>
@@ -19290,7 +19276,6 @@ extern int v2;</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>modernize-min-max-use-initializer-list</key>
@@ -19329,7 +19314,6 @@ extern int v2;</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>modernize-use-designated-initializers</key>
@@ -19378,7 +19362,6 @@ extern int v2;</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>modernize-use-ranges</key>
@@ -19425,7 +19408,6 @@ auto AreSame = std::ranges::equal(Items1, Items2);</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>modernize-use-std-format</key>
@@ -19472,7 +19454,6 @@ return strprintf(&quot;%d %u\n&quot;, i, u);</code></pre>
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>readability-enum-initial-value</key>
@@ -19549,7 +19530,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>readability-math-missing-parentheses</key>
@@ -19572,7 +19552,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
     </rule>
   <rule>
     <key>readability-use-std-min-max</key>
@@ -19601,7 +19580,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
       <![CDATA[]]>
       </description>
     <severity>INFO</severity>
-    <type>CODE_SMELL</type>
   </rule>
 
   <!-- Clang Diagnostic Rules -->
@@ -36506,8 +36484,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
   <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#whlsl-availability" target="_blank">Diagnostic flags in Clang</a></p>
         ]]></description>
     <severity>CRITICAL</severity>
-    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
     </rule>
   <rule>
     <key>clang-diagnostic-installapi-violation</key>
@@ -36572,8 +36548,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
   <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmissing-template-arg-list-after-template-kw" target="_blank">Diagnostic flags in Clang</a></p>
         ]]></description>
     <severity>CRITICAL</severity>
-    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
     </rule>
   <rule>
     <key>clang-diagnostic-mix-packoffset</key>
@@ -36724,8 +36698,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
   <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wreturn-mismatch" target="_blank">Diagnostic flags in Clang</a></p>
         ]]></description>
     <severity>CRITICAL</severity>
-    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
     </rule>
   <rule>
     <key>clang-diagnostic-strict-primary-template-shadow</key>
@@ -36739,8 +36711,6 @@ enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
   <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wstrict-primary-template-shadow" target="_blank">Diagnostic flags in Clang</a></p>
         ]]></description>
     <severity>CRITICAL</severity>
-    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
     </rule>
   <rule>
     <key>clang-diagnostic-template-in-declaration-name</key>
