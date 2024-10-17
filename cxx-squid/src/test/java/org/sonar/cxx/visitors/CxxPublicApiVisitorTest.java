@@ -31,7 +31,6 @@ import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.groups.Tuple;
 import static org.assertj.core.groups.Tuple.tuple;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.api.CxxMetric;
@@ -39,8 +38,6 @@ import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 
 class CxxPublicApiVisitorTest {
-
-  private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(CxxPublicApiVisitorTest.class);
 
   private static String getFileExtension(String fileName) {
     int lastIndexOf = fileName.lastIndexOf('.');
@@ -53,10 +50,10 @@ class CxxPublicApiVisitorTest {
   @Test
   void test_no_matching_suffix() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/doxygen_example.h", ".",
-                                        "");
+      "");
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,
-                    new String[]{".hpp"});
+      new String[]{".hpp"});
 
     SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig);
 
@@ -123,7 +120,7 @@ class CxxPublicApiVisitorTest {
     expectedIdCommentMap.put("testUnion", "testUnion");
     expectedIdCommentMap.put("inlineCommentedAttr", "inlineCommentedAttr");
     expectedIdCommentMap.put("inlineCommentedLastAttr",
-                             "inlineCommentedLastAttr");
+      "inlineCommentedLastAttr");
     expectedIdCommentMap.put("enumVar", "classEnum"); // only one
     // declarator, then
     // doc should precede
@@ -156,7 +153,7 @@ class CxxPublicApiVisitorTest {
     expectedIdCommentMap
       .put("protectedStructField", "protectedStructField");
     expectedIdCommentMap.put("protectedStructField2",
-                             "protectedStructField2");
+      "protectedStructField2");
     expectedIdCommentMap.put("protectedClass", "protectedClass");
     expectedIdCommentMap.put("operator[]", "operator");
     expectedIdCommentMap.put("bitfield", "bitfield");
@@ -172,8 +169,6 @@ class CxxPublicApiVisitorTest {
 
     // check completeness
     for (var id : expectedIdCommentMap.keySet()) {
-      LOG.debug("id: {}", id);
-
       List<Token> comments = visitor.idCommentMap.get(id);
 
       assertThat(visitor.idCommentMap.keySet())
@@ -189,8 +184,6 @@ class CxxPublicApiVisitorTest {
 
     // check correction
     for (var id : visitor.idCommentMap.keySet()) {
-      LOG.debug("id: {}", id);
-
       List<Token> comments = visitor.idCommentMap.get(id);
 
       assertThat(comments)
@@ -213,13 +206,10 @@ class CxxPublicApiVisitorTest {
 
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,
-                    new String[]{getFileExtension(fileName)});
+      new String[]{getFileExtension(fileName)});
 
     var tester = CxxFileTesterHelper.create(fileName, ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig);
-
-    LOG.debug("#API: {} UNDOC: {}",
-              file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
 
     return new Tuple(file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
   }
