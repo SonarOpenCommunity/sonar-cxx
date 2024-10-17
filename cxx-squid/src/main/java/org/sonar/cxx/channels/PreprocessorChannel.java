@@ -34,7 +34,11 @@ import org.sonar.cxx.sslr.channel.CodeReader;
 //
 public class PreprocessorChannel extends Channel<Lexer> {
 
+  private final BackslashChannel backslashChannel = new BackslashChannel();
   private final StringLiteralsChannel stringLiteralsChannel = new StringLiteralsChannel();
+  private final SingleLineCommentChannel singleLineCommentChannel = new SingleLineCommentChannel();
+  private final MultiLineCommentChannel multiLineCommentChannel = new MultiLineCommentChannel();
+
   private final StringBuilder sb = new StringBuilder(256);
   private final StringBuilder dummy = new StringBuilder(256);
   private final Matcher matcher;
@@ -93,24 +97,24 @@ public class PreprocessorChannel extends Channel<Lexer> {
       var len = 0;
       switch (charAt) {
         case '/': // comment?
-          len = SingleLineCommentChannel.isComment(code);
+          len = singleLineCommentChannel.isComment(code);
           if (len != 0) {
             // single line comment
             code.skip(len);
-            SingleLineCommentChannel.read(code, dummy);
+            singleLineCommentChannel.read(code, dummy);
             dummy.delete(0, dummy.length());
           } else {
-            len = MultiLineCommentChannel.isComment(code);
+            len = multiLineCommentChannel.isComment(code);
             if (len != 0) {
               // multi line comment
               code.skip(len);
-              MultiLineCommentChannel.read(code, dummy);
+              multiLineCommentChannel.read(code, dummy);
               dummy.delete(0, dummy.length());
             }
           }
           break;
         case '\\':
-          len = BackslashChannel.read(code, dummy);
+          len = backslashChannel.read(code, dummy);
           if (len != 0) {
             // consume backslash and the newline
             dummy.delete(0, dummy.length());

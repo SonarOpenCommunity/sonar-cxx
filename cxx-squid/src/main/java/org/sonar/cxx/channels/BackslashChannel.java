@@ -38,7 +38,7 @@ public class BackslashChannel extends Channel<Lexer> {
     return lineSplicing != 0;
   }
 
-  public static int read(CodeReader code, StringBuilder sb) {
+  public int read(CodeReader code, StringBuilder sb) {
     var end = ChannelUtils.handleLineSplicing(code, 0);
     code.skip(end); // remove line splicing
     return end;
