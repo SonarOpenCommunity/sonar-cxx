@@ -1382,6 +1382,7 @@ if((f == 5) || (f = 6)) { // the assignment here `(f = 6)` is identified by this
 <p>Finds <code>pthread_kill</code> function calls when a thread is terminated by raising <code>SIGTERM</code> signal and the signal kills the entire process, not just the individual thread. Use any signal except <code>SIGTERM</code>.</p>
 <pre class="c++"><code>pthread_kill(thread, SIGTERM);</code></pre>
 <p>This check corresponds to the CERT C Coding Standard rule <a href="https://wiki.sei.cmu.edu/confluence/display/c/POS44-C.+Do+not+use+signals+to+terminate+threads">POS44-C. Do not use signals to terminate threads</a>.</p>
+<p><span class="title-ref">cert-pos44-c</span> redirects here as an alias of this check.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/bad-signal-to-kill-thread.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -2040,6 +2041,10 @@ public:
 <p>UseCXXHeadersInCppSources</p>
 <p>When suggesting to include the appropriate header in C++ code, should <code>&lt;cstddef&gt;</code> header be suggested, or <code>&lt;stddef.h&gt;</code>. Defaults to <code>true</code>.</p>
 </div>
+<div class="option">
+<p>IgnoreConstantIntExpr</p>
+<p>If the multiplication operands are compile-time constants (like literals or are <code>constexpr</code>) and fit within the source expression type, do not emit a diagnostic or suggested fix. Only considers expressions where the source expression is a signed integer type. Defaults to <code>false</code>.</p>
+</div>
 <p>Examples:</p>
 <pre class="c++"><code>long mul(int a, int b) {
   return a * b; // warning: performing an implicit widening conversion to type &#39;long&#39; of a multiplication performed in type &#39;int&#39;
@@ -2281,6 +2286,7 @@ Now called from FancyFunction</code></pre>
 <p>Macros are expanded by the preprocessor as-is. As a result, there can be unexpected behavior; operators may be evaluated in unexpected order and unary operators may become binary operators, etc.</p>
 <p>When the replacement list has an expression, it is recommended to surround it with parentheses. This ensures that the macro result is evaluated completely before it is used.</p>
 <p>It is also recommended to surround macro arguments in the replacement list with parentheses. This ensures that the argument value is calculated properly.</p>
+<p>This check corresponds to the CERT C Coding Standard rule <a href="https://wiki.sei.cmu.edu/confluence/display/c/PRE02-C.+Macro+replacement+lists+should+be+parenthesized">PRE20-C. Macro replacement lists should be parenthesized.</a></p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/macro-parentheses.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -3162,7 +3168,11 @@ void getInt(int* dst) {
 </div>
 <div class="option">
 <p>WarnOnSizeOfPointerToAggregate</p>
-<p>When <span class="title-ref">true, the check will warn on an expression like </span><span class="title-ref">sizeof(expr)</span><span class="title-ref"> where the expression is a pointer to aggregate. Default is `true</span>.</p>
+<p>When <span class="title-ref">true</span>, the check will warn when the argument of <code>sizeof</code> is either a pointer-to-aggregate type, an expression returning a pointer-to-aggregate value or an expression that returns a pointer from an array-to-pointer conversion (that may be implicit or explicit, for example <code>array + 2</code> or <code>(int *)array</code>). Default is <span class="title-ref">true</span>.</p>
+</div>
+<div class="option">
+<p>WarnOnSizeOfPointer</p>
+<p>When <span class="title-ref">true</span>, the check will report all expressions where the argument of <code>sizeof</code> is an expression that produces a pointer (except for a few idiomatic expressions that are probably intentional and correct). This detects occurrences of CWE 467. Default is <span class="title-ref">false</span>.</p>
 </div>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/sizeof-expression.html" target="_blank">clang.llvm.org</a></p>]]>
@@ -3816,6 +3826,7 @@ do {
   for (short i = 0; i &lt; items.size(); ++i) {}
 }</code></pre>
 <p>This algorithm works for a small amount of objects, but will lead to freeze for a larger user input.</p>
+<p>It's recommended to enable the compiler warning <span class="title-ref">-Wtautological-constant-out-of-range-compare</span> as well, since check does not inspect compile-time constant loop boundaries to avoid overlaps with the warning.</p>
 <div class="option">
 <p>MagnitudeBitsUpperLimit</p>
 <p>Upper limit for the magnitude bits of the loop variable. If it's set the check filters out those catches in which the loop variable's type has more magnitude bits as the specified upper limit. The default value is 16. For example, if the user sets this option to 31 (bits), then a 32-bit <code>unsigned int</code> is ignored by the check, however a 32-bit <code>int</code> is not (A 32-bit <code>signed int</code> has 31 magnitude bits).</p>
@@ -4331,6 +4342,7 @@ void UsingSafeFunctions(const char *Msg) {
 <li>exception variables in catch clauses</li>
 <li>static or thread local</li>
 <li>structured bindings</li>
+<li>variables with <code>[[maybe_unused]]</code> attribute</li>
 </ul>
 <p>This check can be configured to warn on all non-trivial variables by setting <span class="title-ref">IncludeTypes</span> to <span class="title-ref">.*</span>, and excluding specific types using <span class="title-ref">ExcludeTypes</span>.</p>
 <p>In the this example, <span class="title-ref">my_lock</span> would generate a warning that it is unused.</p>
@@ -4401,6 +4413,7 @@ MyObject foo = future1.get();
 </div>
 <h1 id="bugprone-unused-return-value">bugprone-unused-return-value</h1>
 <p>Warns on unused function return values. The checked functions can be configured.</p>
+<p>Operator overloading with assignment semantics are ignored.</p>
 <h2 id="options">Options</h2>
 <div class="option">
 <p>CheckedFunctions</p>
@@ -4415,7 +4428,7 @@ MyObject foo = future1.get();
 </div>
 <div class="option">
 <p>CheckedReturnTypes</p>
-<p>Semicolon-separated list of function return types to check. By default the following function return types are checked: <span class="title-ref">::std::error_code</span>, <span class="title-ref">::std::error_condition</span>, <span class="title-ref">::std::errc</span>, <span class="title-ref">::std::expected</span>, <span class="title-ref">::boost::system::error_code</span></p>
+<p>Semicolon-separated list of function return types to check. By default the following function return types are checked: <span class="title-ref">^::std::error_code$</span>, <span class="title-ref">^::std::error_condition$</span>, <span class="title-ref">^::std::errc$</span>, <span class="title-ref">^::std::expected$</span>, <span class="title-ref">^::boost::system::error_code$</span></p>
 </div>
 <div class="option">
 <p>AllowCastToVoid</p>
@@ -4510,6 +4523,13 @@ f(std::move(str));</code></pre>
 <p>The check will assume that the last line causes a move, even though, in this particular case, it does not. Again, this is intentional.</p>
 <p>There is one special case: A call to <code>std::move</code> inside a <code>try_emplace</code> call is conservatively assumed not to move. This is to avoid spurious warnings, as the check has no way to reason about the <code>bool</code> returned by <code>try_emplace</code>.</p>
 <p>When analyzing the order in which moves, uses and reinitializations happen (see section <a href="#unsequenced-moves-uses-and-reinitializations">Unsequenced moves, uses, and reinitializations</a>), the move is assumed to occur in whichever function the result of the <code>std::move</code> is passed to.</p>
+<p>The check also handles perfect-forwarding with <code>std::forward</code> so the following code will also trigger a use-after-move warning.</p>
+<pre class="c++"><code>void consume(int);
+
+void f(int&amp;&amp; i) {
+  consume(std::forward&lt;int&gt;(i));
+  consume(std::forward&lt;int&gt;(i)); // use-after-move
+}</code></pre>
 <h2 id="use">Use</h2>
 <p>Any occurrence of the moved variable that is not a reinitialization (see below) is considered to be a use.</p>
 <p>An exception to this are objects of type <code>std::unique_ptr</code>, <code>std::shared_ptr</code> and <code>std::weak_ptr</code>, which have defined move behavior (objects of these classes are guaranteed to be empty after they have been moved from). Therefore, an object of these classes will only be considered to be used if it is dereferenced, i.e. if <code>operator*</code>, <code>operator-&gt;</code> or <code>operator[]</code> (in the case of <code>std::unique_ptr&lt;T []&gt;</code>) is called on it.</p>
@@ -4793,7 +4813,7 @@ namespace std {
 </div>
 <h1 id="cert-env33-c">cert-env33-c</h1>
 <p>This check flags calls to <code>system()</code>, <code>popen()</code>, and <code>_popen()</code>, which execute a command processor. It does not flag calls to <code>system()</code> with a null pointer argument, as such a call checks for the presence of a command processor but does not actually attempt to execute a command.</p>
-<p>This check corresponds to the CERT C Coding Standard rule <a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=2130132">ENV33-C. Do not call system()</a>.</p>
+<p>This check corresponds to the CERT C Coding Standard rule <a href="https://www.securecoding.cert.org/confluence/display/c/ENV33-C.+Do+not+call+system()">ENV33-C. Do not call system()</a>.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert/env33-c.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -7233,6 +7253,7 @@ sleep(1); // implementation may use SIGALRM</code></pre>
 <p>Finds <code>pthread_setcanceltype</code> function calls where a thread's cancellation type is set to asynchronous. Asynchronous cancellation type (<code>PTHREAD_CANCEL_ASYNCHRONOUS</code>) is generally unsafe, use type <code>PTHREAD_CANCEL_DEFERRED</code> instead which is the default. Even with deferred cancellation, a cancellation point in an asynchronous signal handler may still be acted upon and the effect is as if it was an asynchronous cancellation.</p>
 <pre class="c++"><code>pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, &amp;oldtype);</code></pre>
 <p>This check corresponds to the CERT C Coding Standard rule <a href="https://wiki.sei.cmu.edu/confluence/display/c/POS47-C.+Do+not+use+threads+that+can+be+canceled+asynchronously">POS47-C. Do not use threads that can be canceled asynchronously</a>.</p>
+<p><span class="title-ref">cert-pos47-c</span> redirects here as an alias of this check.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/concurrency/thread-canceltype-asynchronous.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -7456,6 +7477,11 @@ private:
     char h = 0;
 };</code></pre>
 <p>The variables <code>a</code>, <code>c</code>, <code>c_ptr1</code>, <code>c_const_ptr</code> and <code>c_reference</code> will all generate warnings since they are either a non-const globally accessible variable, a pointer or a reference providing global access to non-const data or both.</p>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>AllowInternalLinkage</p>
+<p>When set to <span class="title-ref">true</span>, static non-const variables and variables in anonymous namespaces will not generate a warning. The default value is <span class="title-ref">false</span>.</p>
+</div>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines/avoid-non-const-global-variables.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -7616,6 +7642,7 @@ void function() {
 <pre class="c++"><code>#define C 0
 #define F1(x, y) ((a) &gt; (b) ? (a) : (b))
 #define F2(...) (__VA_ARGS__)
+#define F3(x, y) x##y
 #define COMMA ,
 #define NORETURN [[noreturn]]
 #define DEPRECATED attribute((deprecated))
@@ -8084,15 +8111,7 @@ Owner1 = nullptr;</code></pre>
 <h1 id="cppcoreguidelines-prefer-member-initializer">cppcoreguidelines-prefer-member-initializer</h1>
 <p>Finds member initializations in the constructor body which can be converted into member initializers of the constructor instead. This not only improves the readability of the code but also positively affects its performance. Class-member assignments inside a control statement or following the first control statement are ignored.</p>
 <p>This check implements <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c49-prefer-initialization-to-assignment-in-constructors">C.49</a> from the C++ Core Guidelines.</p>
-<p>If the language version is <span class="title-ref">C++ 11</span> or above, the constructor is the default constructor of the class, the field is not a bitfield (only in case of earlier language version than <span class="title-ref">C++ 20</span>), furthermore the assigned value is a literal, negated literal or <code>enum</code> constant then the preferred place of the initialization is at the class member declaration.</p>
-<p>This latter rule is <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c48-prefer-in-class-initializers-to-member-initializers-in-constructors-for-constant-initializers">C.48</a> from the C++ Core Guidelines.</p>
-<p>Please note, that this check does not enforce this latter rule for initializations already implemented as member initializers. For that purpose see check <code class="interpreted-text" role="doc">modernize-use-default-member-init &lt;../modernize/use-default-member-init&gt;</code>.</p>
-<div class="note">
-<div class="title">
-<p>Note</p>
-</div>
-<p>Enforcement of rule C.48 in this check is deprecated, to be removed in <code class="interpreted-text" role="program">clang-tidy</code> version 19 (only C.49 will be enforced by this check then). Please use <code class="interpreted-text" role="doc">cppcoreguidelines-use-default-member-init &lt;../cppcoreguidelines/use-default-member-init&gt;</code> to enforce rule C.48.</p>
-</div>
+<p>Please note, that this check does not enforce rule <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#c48-prefer-in-class-initializers-to-member-initializers-in-constructors-for-constant-initializers">C.48</a> from the C++ Core Guidelines. For that purpose see check <code class="interpreted-text" role="doc">modernize-use-default-member-init &lt;../modernize/use-default-member-init&gt;</code>.</p>
 <h2 id="example-1">Example 1</h2>
 <pre class="c++"><code>class C {
   int n;
@@ -8105,12 +8124,12 @@ public:
     m = 1;
   }
 };</code></pre>
-<p>Here <code>n</code> can be initialized using a default member initializer, unlike <code>m</code>, as <code>m</code>'s initialization follows a control statement (<code>if</code>):</p>
+<p>Here <code>n</code> can be initialized in the constructor initializer list, unlike <code>m</code>, as <code>m</code>'s initialization follows a control statement (<code>if</code>):</p>
 <pre class="c++"><code>class C {
-  int n{1};
+  int n;
   int m;
 public:
-  C() {
+  C(): n(1) {
     if (dice())
       return;
     m = 1;
@@ -8128,7 +8147,7 @@ public:
     m = mm;
   }
 };</code></pre>
-<p>Here <code>n</code> can be initialized in the constructor initialization list, unlike <code>m</code>, as <code>m</code>'s initialization follows a control statement (<code>if</code>):</p>
+<p>Here <code>n</code> can be initialized in the constructor initializer list, unlike <code>m</code>, as <code>m</code>'s initialization follows a control statement (<code>if</code>):</p>
 <pre class="c++"><code>C(int nn, int mm) : n(nn) {
   if (dice())
     return;
@@ -8258,7 +8277,7 @@ public:
 <p>clang-tidy - cppcoreguidelines-pro-type-member-init</p>
 </div>
 <h1 id="cppcoreguidelines-pro-type-member-init">cppcoreguidelines-pro-type-member-init</h1>
-<p>The check flags user-defined constructor definitions that do not initialize all fields that would be left in an undefined state by default construction, e.g. builtins, pointers and record types without user-provided default constructors containing at least one such type. If these fields aren't initialized, the constructor will leave some of the memory in an undefined state.</p>
+<p>The check flags user-provided constructor definitions that do not initialize all fields that would be left in an undefined state by default construction, e.g. builtins, pointers and record types without user-provided default constructors containing at least one such type. If these fields aren't initialized, the constructor will leave some of the memory in an undefined state.</p>
 <p>For C++11 it suggests fixes to add in-class field initializers. For older versions it inserts the field initializers into the constructor initializer list. It will also initialize any direct base classes that need to be zeroed in the constructor initializer list.</p>
 <p>The check takes assignment of fields in the constructor body into account but generates false positives for fields initialized in methods invoked in the constructor body.</p>
 <p>The check also flags variables with automatic storage duration that have record types without a user-provided constructor and are not initialized. The suggested fix is to zero initialize the variable via <code>{}</code> for C++11 and beyond or <code>= {}</code> for older language versions.</p>
@@ -10101,13 +10120,13 @@ strlen(&quot;world&quot;);
 </div>
 <h1 id="llvmlibc-implementation-in-namespace">llvmlibc-implementation-in-namespace</h1>
 <p>Checks that all declarations in the llvm-libc implementation are within the correct namespace.</p>
-<pre class="c++"><code>// Implementation inside the LIBC_NAMESPACE namespace.
+<pre class="c++"><code>// Implementation inside the LIBC_NAMESPACE_DECL namespace.
 // Correct if:
-// - LIBC_NAMESPACE is a macro
-// - LIBC_NAMESPACE expansion starts with `__llvm_libc`
-namespace LIBC_NAMESPACE {
+// - LIBC_NAMESPACE_DECL is a macro
+// - LIBC_NAMESPACE_DECL expansion starts with `[[gnu::visibility(&quot;hidden&quot;)]] __llvm_libc`
+namespace LIBC_NAMESPACE_DECL {
     void LLVM_LIBC_ENTRYPOINT(strcpy)(char *dest, const char *src) {}
-    // Namespaces within LIBC_NAMESPACE namespace are allowed.
+    // Namespaces within LIBC_NAMESPACE_DECL namespace are allowed.
     namespace inner {
         int localVar = 0;
     }
@@ -10115,17 +10134,17 @@ namespace LIBC_NAMESPACE {
     extern &quot;C&quot; void str_fuzz() {}
 }
 
-// Incorrect: implementation not in the LIBC_NAMESPACE namespace.
+// Incorrect: implementation not in the LIBC_NAMESPACE_DECL namespace.
 void LLVM_LIBC_ENTRYPOINT(strcpy)(char *dest, const char *src) {}
 
-// Incorrect: outer most namespace is not the LIBC_NAMESPACE macro.
+// Incorrect: outer most namespace is not the LIBC_NAMESPACE_DECL macro.
 namespace something_else {
     void LLVM_LIBC_ENTRYPOINT(strcpy)(char *dest, const char *src) {}
 }
 
-// Incorrect: outer most namespace expansion does not start with `__llvm_libc`.
-#define LIBC_NAMESPACE custom_namespace
-namespace LIBC_NAMESPACE {
+// Incorrect: outer most namespace expansion does not start with `[[gnu::visibility(&quot;hidden&quot;)]] __llvm_libc`.
+#define LIBC_NAMESPACE_DECL custom_namespace
+namespace LIBC_NAMESPACE_DECL {
     void LLVM_LIBC_ENTRYPOINT(strcpy)(char *dest, const char *src) {}
 }</code></pre>
 <h2>References</h2>
@@ -10777,7 +10796,7 @@ void f(const int_ptr ptr) {
 <p>clang-tidy - misc-throw-by-value-catch-by-reference</p>
 </div>
 <h1 id="misc-throw-by-value-catch-by-reference">misc-throw-by-value-catch-by-reference</h1>
-<p><span class="title-ref">cert-err09-cpp</span> redirects here as an alias for this check. <span class="title-ref">cert-err61-cpp</span> redirects here as an alias for this check.</p>
+<p><span class="title-ref">cert-err09-cpp</span> and <span class="title-ref">cert-err61-cpp</span> redirect here as aliases of this check.</p>
 <p>Finds violations of the rule "Throw by value, catch by reference" presented for example in "C++ Coding Standards" by H. Sutter and A. Alexandrescu, as well as the CERT C++ Coding Standard rule <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/ERR61-CPP.+Catch+exceptions+by+lvalue+reference">ERR61-CPP. Catch exceptions by lvalue reference</a>.</p>
 <dl>
 <dt>Exceptions:</dt>
@@ -11068,6 +11087,11 @@ inline void bar() {
 
 }</code></pre>
 <p>Similarly, the <code>main()</code> function is ignored. Its second and third parameters can be either <code>char* argv[]</code> or <code>char** argv</code>, but cannot be <code>std::array&lt;&gt;</code>.</p>
+<div class="option">
+<p>AllowStringArrays</p>
+<p>When set to <span class="title-ref">true</span> (default is <span class="title-ref">false</span>), variables of character array type with deduced length, initialized directly from string literals, will be ignored. This option doesn't affect cases where length can't be deduced, resembling pointers, as seen in class members and parameters. Example:</p>
+<pre class="c++"><code>const char name[] = &quot;Some name&quot;;</code></pre>
+</div>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize/avoid-c-arrays.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -11139,7 +11163,7 @@ void t();
 <p>clang-tidy - modernize-deprecated-headers</p>
 </div>
 <h1 id="modernize-deprecated-headers">modernize-deprecated-headers</h1>
-<p>Some headers from C library were deprecated in C++ and are no longer welcome in C++ codebases. Some have no effect in C++. For more details refer to the C++ 14 Standard [depr.c.headers] section.</p>
+<p>Some headers from C library were deprecated in C++ and are no longer welcome in C++ codebases. Some have no effect in C++. For more details refer to the C++14 Standard [depr.c.headers] section.</p>
 <p>This check replaces C standard library headers with their C++ alternatives and removes redundant ones.</p>
 <pre class="c++"><code>// C++ source file...
 #include &lt;assert.h&gt;
@@ -12248,6 +12272,12 @@ typename std::enable_if&lt;T::some_value, Obj&gt;::type existing_constraint() re
 // The tool will not emit a diagnostic or attempt to replace the code.
 template &lt;typename T, std::enable_if_t&lt;T::some_trait, int&gt; = 0&gt;
 struct my_class {};</code></pre>
+<div class="note">
+<div class="title">
+<p>Note</p>
+</div>
+<p>System headers are not analyzed by this check.</p>
+</div>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize/use-constraints.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -12858,11 +12888,11 @@ printf(&quot;%d %u\n&quot;, i, u);</code></pre>
 </div>
 <div class="option">
 <p>PrintfLikeFunctions</p>
-<p>A semicolon-separated list of (fully qualified) extra function names to replace, with the requirement that the first parameter contains the printf-style format string and the arguments to be formatted follow immediately afterwards. If neither this option nor <span class="title-ref">FprintfLikeFunctions</span> are set then the default value for this option is <span class="title-ref">printf; absl::PrintF</span>, otherwise it is empty.</p>
+<p>A semicolon-separated list of (fully qualified) function names to replace, with the requirement that the first parameter contains the printf-style format string and the arguments to be formatted follow immediately afterwards. If neither this option nor <span class="title-ref">FprintfLikeFunctions</span> are set then the default value for this option is <span class="title-ref">printf; absl::PrintF</span>, otherwise it is empty.</p>
 </div>
 <div class="option">
 <p>FprintfLikeFunctions</p>
-<p>A semicolon-separated list of (fully qualified) extra function names to replace, with the requirement that the first parameter is retained, the second parameter contains the printf-style format string and the arguments to be formatted follow immediately afterwards. If neither this option nor <span class="title-ref">PrintfLikeFunctions</span> are set then the default value for this option is <span class="title-ref">fprintf; absl::FPrintF</span>, otherwise it is empty.</p>
+<p>A semicolon-separated list of (fully qualified) function names to replace, with the requirement that the first parameter is retained, the second parameter contains the printf-style format string and the arguments to be formatted follow immediately afterwards. If neither this option nor <span class="title-ref">PrintfLikeFunctions</span> are set then the default value for this option is <span class="title-ref">fprintf; absl::FPrintF</span>, otherwise it is empty.</p>
 </div>
 <div class="option">
 <p>ReplacementPrintFunction</p>
@@ -14801,7 +14831,16 @@ catch (const std::exception&amp; e) {
 <p>It also supports a fixed prefix and suffix that will be prepended or appended to the identifiers, regardless of the casing.</p>
 <p>Many configuration options are available, in order to be able to create different rules for different kinds of identifiers. In general, the rules are falling back to a more generic rule if the specific case is not configured.</p>
 <p>The naming of virtual methods is reported where they occur in the base class, but not where they are overridden, as it can't be fixed locally there. This also applies for pseudo-override patterns like CRTP.</p>
-<p><code>Leading_upper_snake_case</code> is a naming convention where the first word is capitalized followed by lower case word(s) seperated by underscore(s) '_'. Examples include: Cap_snake_case, Cobra_case, Foo_bar_baz, and Master_copy_8gb.</p>
+<p><code>Leading_upper_snake_case</code> is a naming convention where the first word is capitalized followed by lower case word(s) separated by underscore(s) '_'. Examples include: <span class="title-ref">Cap_snake_case</span>, <span class="title-ref">Cobra_case</span>, <span class="title-ref">Foo_bar_baz</span>, and <span class="title-ref">Master_copy_8gb</span>.</p>
+<p>Hungarian notation can be customized using different <em>HungarianPrefix</em> settings. The options and their corresponding values are:</p>
+<blockquote>
+<ul>
+<li><code>Off</code> - the default setting</li>
+<li><code>On</code> - example: <code>int iVariable</code></li>
+<li><code>LowerCase</code> - example: <code>int i_Variable</code></li>
+<li><code>CamelCase</code> - example: <code>int IVariable</code></li>
+</ul>
+</blockquote>
 <h2 id="options">Options</h2>
 <p>The following options are described below:</p>
 <blockquote>
@@ -17171,7 +17210,7 @@ void conversionsFromBool() {
 <ul>
 <li><code>if (!pointer)</code> is changed to <code>if (pointer == nullptr)</code>,</li>
 </ul></li>
-<li>in case of conversions from bool to other built-in types, an explicit <code>static_cast</code> is proposed to make it clear that a conversion is taking place:
+<li>in case of conversions from bool to other built-in types, an explicit <code>static_cast</code> (or a C-style cast since C23) is proposed to make it clear that a conversion is taking place:
 <ul>
 <li><code>int integer = boolean;</code> is changed to <code>int integer = static_cast&lt;int&gt;(boolean);</code>,</li>
 </ul></li>
@@ -18476,7 +18515,25 @@ if (0 != str1.compare(str2)) {
 // Use str1 == &quot;foo&quot; instead.
 if (str1.compare(&quot;foo&quot;) == 0) {
 }</code></pre>
-<p>The above code examples show the list of if-statements that this check will give a warning for. All of them uses <code>compare</code> to check if equality or inequality of two strings instead of using the correct operators.</p>
+<p>The above code examples show the list of if-statements that this check will give a warning for. All of them use <code>compare</code> to check equality or inequality of two strings instead of using the correct operators.</p>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>StringLikeClasses</p>
+<p>A string containing semicolon-separated names of string-like classes. By default contains only <code>::std::basic_string</code> and <code>::std::basic_string_view</code>. If a class from this list has a <code>compare</code> method similar to that of <code>std::string</code>, it will be checked in the same way.</p>
+</div>
+<h3 id="example-1">Example</h3>
+<pre class="c++"><code>struct CustomString {
+public:
+  int compare (const CustomString&amp; other) const;
+}
+
+CustomString str1;
+CustomString str2;
+
+// use str1 != str2 instead.
+if (str1.compare(str2)) {
+}</code></pre>
+<p>If <span class="title-ref">StringLikeClasses</span> contains <code>CustomString</code>, the check will suggest replacing <code>compare</code> with equality operator.</p>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability/string-compare.html" target="_blank">clang.llvm.org</a></p>]]>
       </description>
@@ -18743,6 +18800,809 @@ Derived();             // and so temporary construction is okay</code></pre>
       </description>
     <type>BUG</type>
     </rule>
+  <rule>
+    <key>boost-use-ranges</key>
+    <name>boost-use-ranges</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - boost-use-ranges</p>
+</div>
+<h1 id="boost-use-ranges">boost-use-ranges</h1>
+<p>Detects calls to standard library iterator algorithms that could be replaced with a Boost ranges version instead.</p>
+<h2 id="example">Example</h2>
+<pre class="c++"><code>auto Iter1 = std::find(Items.begin(), Items.end(), 0);
+auto AreSame = std::equal(Items1.cbegin(), Items1.cend(), std::begin(Items2),
+                          std::end(Items2));</code></pre>
+<p>Transforms to:</p>
+<pre class="c++"><code>auto Iter1 = boost::range::find(Items, 0);
+auto AreSame = boost::range::equal(Items1, Items2);</code></pre>
+<h2 id="supported-algorithms">Supported algorithms</h2>
+<p>Calls to the following std library algorithms are checked:</p>
+<p><code>std::accumulate</code>, <code>std::adjacent_difference</code>, <code>std::adjacent_find</code>, <code>std::all_of</code>, <code>std::any_of</code>, <code>std::binary_search</code>, <code>std::copy_backward</code>, <code>std::copy_if</code>, <code>std::copy</code>, <code>std::count_if</code>, <code>std::count</code>, <code>std::equal_range</code>, <code>std::equal</code>, <code>std::fill</code>, <code>std::find_end</code>, <code>std::find_first_of</code>, <code>std::find_if_not</code>, <code>std::find_if</code>, <code>std::find</code>, <code>std::for_each</code>, <code>std::generate</code>, <code>std::includes</code>, <code>std::iota</code>, <code>std::is_partitioned</code>, <code>std::is_permutation</code>, <code>std::is_sorted_until</code>, <code>std::is_sorted</code>, <code>std::lexicographical_compare</code>, <code>std::lower_bound</code>, <code>std::make_heap</code>, <code>std::max_element</code>, <code>std::merge</code>, <code>std::min_element</code>, <code>std::mismatch</code>, <code>std::next_permutation</code>, <code>std::none_of</code>, <code>std::parital_sum</code>, <code>std::partial_sort_copy</code>, <code>std::partition_copy</code>, <code>std::partition_point</code>, <code>std::partition</code>, <code>std::pop_heap</code>, <code>std::prev_permutation</code>, <code>std::push_heap</code>, <code>std::random_shuffle</code>, <code>std::reduce</code>, <code>std::remove_copy_if</code>, <code>std::remove_copy</code>, <code>std::remove_if</code>, <code>std::remove</code>, <code>std::replace_copy_if</code>, <code>std::replace_copy</code>, <code>std::replace_if</code>, <code>std::replace</code>, <code>std::reverse_copy</code>, <code>std::reverse</code>, <code>std::search</code>, <code>std::set_difference</code>, <code>std::set_intersection</code>, <code>std::set_symmetric_difference</code>, <code>std::set_union</code>, <code>std::sort_heap</code>, <code>std::sort</code>, <code>std::stable_partition</code>, <code>std::stable_sort</code>, <code>std::transform</code>, <code>std::unique_copy</code>, <code>std::unique</code>, <code>std::upper_bound</code>.</p>
+<p>The check will also look for the following functions from the <code>boost::algorithm</code> namespace:</p>
+<p><code>all_of_equal</code>, <code>any_of_equal</code>, <code>any_of</code>, <code>apply_permutation</code>, <code>apply_reverse_permutation</code>, <code>clamp_range</code>, <code>copy_if_until</code>, <code>copy_if_while</code>, <code>copy_if</code>, <code>copy_until</code>, <code>copy_while</code>, <code>find_backward</code>, <code>find_if_backward</code>, <code>find_if_not_backward</code>, <code>find_if_not</code>, <code>find_not_backward</code>, <code>hex_lower</code>, <code>hex</code>, <code>iota</code>, <code>all_of</code>, <code>is_decreasing</code>, <code>is_increasing</code>, <code>is_palindrome</code>, <code>is_partitioned_until</code>, <code>is_partitioned</code>, <code>is_permutation</code>, <code>is_sorted_until</code>, <code>is_sorted</code>, <code>is_strictly_decreasing</code>, <code>is_strictly_increasing</code>, <code>none_of_equal</code>, <code>none_of</code>, <code>one_of_equal</code>, <code>one_of</code>, <code>partition_copy</code>, <code>partition_point</code>, <code>reduce</code>, <code>unhex</code>.</p>
+<h2 id="reverse-iteration">Reverse Iteration</h2>
+<p>If calls are made using reverse iterators on containers, The code will be fixed using the <code>boost::adaptors::reverse</code> adaptor.</p>
+<pre class="c++"><code>auto AreSame = std::equal(Items1.rbegin(), Items1.rend(),
+                          std::crbegin(Items2), std::crend(Items2));</code></pre>
+<p>Transforms to:</p>
+<pre class="c++"><code>auto AreSame = boost::range::equal(boost::adaptors::reverse(Items1),
+                                   boost::adaptors::reverse(Items2));</code></pre>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>IncludeStyle</p>
+<p>A string specifying which include-style is used, <span class="title-ref">llvm</span> or <span class="title-ref">google</span>. Default is <span class="title-ref">llvm</span>.</p>
+</div>
+<div class="option">
+<p>IncludeBoostSystem</p>
+<p>If <span class="title-ref">true</span> (default value) the boost headers are included as system headers with angle brackets (<span class="title-ref">#include &lt;boost.hpp&gt;</span>), otherwise quotes are used (<span class="title-ref">#include "boost.hpp"</span>).</p>
+</div>
+<div class="option">
+<p>UseReversePipe</p>
+<p>When <span class="title-ref">true</span> (default <span class="title-ref">false</span>), fixes which involve reverse ranges will use the pipe adaptor syntax instead of the function syntax.</p>
+<pre class="c++"><code>std::find(Items.rbegin(), Items.rend(), 0);</code></pre>
+<p>Transforms to:</p>
+<pre class="c++"><code>boost::range::find(Items | boost::adaptors::reversed, 0);</code></pre>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/boost/use-ranges.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>bugprone-crtp-constructor-accessibility</key>
+    <name>bugprone-crtp-constructor-accessibility</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - bugprone-crtp-constructor-accessibility</p>
+</div>
+<h1 id="bugprone-crtp-constructor-accessibility">bugprone-crtp-constructor-accessibility</h1>
+<p>Detects error-prone Curiously Recurring Template Pattern usage, when the CRTP can be constructed outside itself and the derived class.</p>
+<p>The CRTP is an idiom, in which a class derives from a template class, where itself is the template argument. It should be ensured that if a class is intended to be a base class in this idiom, it can only be instantiated if the derived class is it's template argument.</p>
+<p>Example:</p>
+<pre class="c++"><code>template &lt;typename T&gt; class CRTP {
+private:
+  CRTP() = default;
+  friend T;
+};
+
+class Derived : CRTP&lt;Derived&gt; {};</code></pre>
+<p>Below can be seen some common mistakes that will allow the breaking of the idiom.</p>
+<p>If the constructor of a class intended to be used in a CRTP is public, then it allows users to construct that class on its own.</p>
+<p>Example:</p>
+<pre class="c++"><code>template &lt;typename T&gt; class CRTP {
+public:
+  CRTP() = default;
+};
+
+class Good : CRTP&lt;Good&gt; {};
+Good GoodInstance;
+
+CRTP&lt;int&gt; BadInstance;</code></pre>
+<p>If the constructor is protected, the possibility of an accidental instantiation is prevented, however it can fade an error, when a different class is used as the template parameter instead of the derived one.</p>
+<p>Example:</p>
+<pre class="c++"><code>template &lt;typename T&gt; class CRTP {
+protected:
+  CRTP() = default;
+};
+
+class Good : CRTP&lt;Good&gt; {};
+Good GoodInstance;
+
+class Bad : CRTP&lt;Good&gt; {};
+Bad BadInstance;</code></pre>
+<p>To ensure that no accidental instantiation happens, the best practice is to make the constructor private and declare the derived class as friend. Note that as a tradeoff, this also gives the derived class access to every other private members of the CRTP.</p>
+<p>Example:</p>
+<pre class="c++"><code>template &lt;typename T&gt; class CRTP {
+  CRTP() = default;
+  friend T;
+};
+
+class Good : CRTP&lt;Good&gt; {};
+Good GoodInstance;
+
+class Bad : CRTP&lt;Good&gt; {};
+Bad CompileTimeError;
+
+CRTP&lt;int&gt; AlsoCompileTimeError;</code></pre>
+<p>Limitations:</p>
+<ul>
+<li>The check is not supported below C++11</li>
+<li>The check does not handle when the derived class is passed as a variadic template argument</li>
+<li>Accessible functions that can construct the CRTP, like factory functions are not checked</li>
+</ul>
+<p>The check also suggests a fix-its in some cases.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/crtp-constructor-accessibility.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>bugprone-pointer-arithmetic-on-polymorphic-object</key>
+    <name>bugprone-pointer-arithmetic-on-polymorphic-object</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - bugprone-pointer-arithmetic-on-polymorphic-object</p>
+</div>
+<h1 id="bugprone-pointer-arithmetic-on-polymorphic-object">bugprone-pointer-arithmetic-on-polymorphic-object</h1>
+<p>Finds pointer arithmetic performed on classes that contain a virtual function.</p>
+<p>Pointer arithmetic on polymorphic objects where the pointer's static type is different from its dynamic type is undefined behavior, as the two types could have different sizes, and thus the vtable pointer could point to an invalid address.</p>
+<p>Finding pointers where the static type contains a virtual member function is a good heuristic, as the pointer is likely to point to a different, derived object.</p>
+<p>Example:</p>
+<pre class="c++"><code>struct Base {
+  virtual void ~Base();
+};
+
+struct Derived : public Base {};
+
+void foo() {
+  Base *b = new Derived[10];
+
+  b += 1;
+  // warning: pointer arithmetic on class that declares a virtual function can
+  // result in undefined behavior if the dynamic type differs from the
+  // pointer type
+
+  delete[] static_cast&lt;Derived*&gt;(b);
+}</code></pre>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>IgnoreInheritedVirtualFunctions</p>
+<p>When <span class="title-ref">true</span>, objects that only inherit a virtual function are not checked. Classes that do not declare a new virtual function are excluded by default, as they make up the majority of false positives. Default: <span class="title-ref">false</span>.</p>
+<pre class="c++"><code>void bar() {
+  Base *b = new Base[10];
+  b += 1; // warning, as Base declares a virtual destructor
+
+  delete[] b;
+
+  Derived *d = new Derived[10]; // Derived overrides the destructor, and
+                                // declares no other virtual functions
+  d += 1; // warning only if IgnoreVirtualDeclarationsOnly is set to false
+
+  delete[] d;
+}</code></pre>
+</div>
+<h2 id="references">References</h2>
+<p>This check corresponds to the SEI Cert rule <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR56-CPP.+Do+not+use+pointer+arithmetic+on+polymorphic+objects">CTR56-CPP. Do not use pointer arithmetic on polymorphic objects</a>.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/pointer-arithmetic-on-polymorphic-object.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>bugprone-return-const-ref-from-parameter</key>
+    <name>bugprone-return-const-ref-from-parameter</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - bugprone-return-const-ref-from-parameter</p>
+</div>
+<h1 id="bugprone-return-const-ref-from-parameter">bugprone-return-const-ref-from-parameter</h1>
+<p>Detects return statements that return a constant reference parameter as constant reference. This may cause use-after-free errors if the caller uses xvalues as arguments.</p>
+<p>In C++, constant reference parameters can accept xvalues which will be destructed after the call. When the function returns such a parameter also as constant reference, then the returned reference can be used after the object it refers to has been destroyed.</p>
+<h2 id="example">Example</h2>
+<pre class="c++"><code>struct S {
+  int v;
+  S(int);
+  ~S();
+};
+
+const S &amp;fn(const S &amp;a) {
+  return a;
+}
+
+const S&amp; s = fn(S{1});
+s.v; // use after free</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/return-const-ref-from-parameter.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>bugprone-suspicious-stringview-data-usage</key>
+    <name>bugprone-suspicious-stringview-data-usage</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - bugprone-suspicious-stringview-data-usage</p>
+</div>
+<h1 id="bugprone-suspicious-stringview-data-usage">bugprone-suspicious-stringview-data-usage</h1>
+<p>Identifies suspicious usages of <code>std::string_view::data()</code> that could lead to reading out-of-bounds data due to inadequate or incorrect string null termination.</p>
+<p>It warns when the result of <code>data()</code> is passed to a constructor or function without also passing the corresponding result of <code>size()</code> or <code>length()</code> member function. Such usage can lead to unintended behavior, particularly when assuming the data pointed to by <code>data()</code> is null-terminated.</p>
+<p>The absence of a <code>c_str()</code> method in <code>std::string_view</code> often leads developers to use <code>data()</code> as a substitute, especially when interfacing with C APIs that expect null-terminated strings. However, since <code>data()</code> does not guarantee null termination, this can result in unintended behavior if the API relies on proper null termination for correct string interpretation.</p>
+<p>In today's programming landscape, this scenario can occur when implicitly converting an <code>std::string_view</code> to an <code>std::string</code>. Since the constructor in <code>std::string</code> designed for string-view-like objects is <code>explicit</code>, attempting to pass an <code>std::string_view</code> to a function expecting an <code>std::string</code> will result in a compilation error. As a workaround, developers may be tempted to utilize the <code>.data()</code> method to achieve compilation, introducing potential risks.</p>
+<p>For instance:</p>
+<pre class="c++"><code>void printString(const std::string&amp; str) {
+  std::cout &lt;&lt; &quot;String: &quot; &lt;&lt; str &lt;&lt; std::endl;
+}
+
+void something(std::string_view sv) {
+  printString(sv.data());
+}</code></pre>
+<p>In this example, directly passing <code>sv</code> to the <code>printString</code> function would lead to a compilation error due to the explicit nature of the <code>std::string</code> constructor. Consequently, developers might opt for <code>sv.data()</code> to resolve the compilation error, albeit introducing potential hazards as discussed.</p>
+<div class="option">
+<p>StringViewTypes</p>
+<p>Option allows users to specify custom string view-like types for analysis. It accepts a semicolon-separated list of type names or regular expressions matching these types. Default value is: <span class="title-ref">::std::basic_string_view;::llvm::StringRef</span>.</p>
+</div>
+<div class="option">
+<p>AllowedCallees</p>
+<p>Specifies methods, functions, or classes where the result of <code>.data()</code> is passed to. Allows to exclude such calls from the analysis. Accepts a semicolon-separated list of names or regular expressions matching these entities. Default value is: empty string.</p>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/bugprone/suspicious-stringview-data-usage.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>cert-ctr56-cpp</key>
+    <name>cert-ctr56-cpp</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - cert-ctr56-cpp</p>
+</div>
+<div class="meta" data-http-equiv=refresh="5;URL=../bugprone/pointer-arithmetic-on-polymorphic-object.html">
+
+</div>
+<h1 id="cert-ctr56-cpp">cert-ctr56-cpp</h1>
+<p>The <span class="title-ref">cert-ctr56-cpp</span> check is an alias, please see <code class="interpreted-text" role="doc">bugprone-pointer-arithmetic-on-polymorphic-object
+&lt;../bugprone/pointer-arithmetic-on-polymorphic-object&gt;</code> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert/ctr56-cpp.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>cert-int09-c</key>
+    <name>cert-int09-c</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - cert-int09-c</p>
+</div>
+<div class="meta" data-http-equiv=refresh="5;URL=../readability/enum-initial-value.html">
+
+</div>
+<h1 id="cert-int09-c">cert-int09-c</h1>
+<p>The <span class="title-ref">cert-int09-c</span> check is an alias, please see <code class="interpreted-text" role="doc">readability-enum-initial-value &lt;../readability/enum-initial-value&gt;</code> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert/int09-c.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-analyzer-cplusplus.ArrayDelete</key>
+    <name>clang-analyzer-cplusplus.ArrayDelete</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - clang-analyzer-cplusplus.ArrayDelete</p>
+</div>
+<div class="meta" data-http-equiv=refresh="5;URL=https://clang.llvm.org/docs/analyzer/checkers.html#cplusplus-arraydelete">
+
+</div>
+<h1 id="clang-analyzer-cplusplus.arraydelete">clang-analyzer-cplusplus.ArrayDelete</h1>
+<p>Reports destructions of arrays of polymorphic objects that are destructed as their base class.</p>
+<p>The <span class="title-ref">clang-analyzer-cplusplus.ArrayDelete</span> check is an alias, please see <a href="https://clang.llvm.org/docs/analyzer/checkers.html#cplusplus-arraydelete">Clang Static Analyzer Available Checkers</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/cplusplus.ArrayDelete.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-analyzer-optin.taint.TaintedAlloc</key>
+    <name>clang-analyzer-optin.taint.TaintedAlloc</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - clang-analyzer-optin.taint.TaintedAlloc</p>
+</div>
+<div class="meta" data-http-equiv=refresh="5;URL=https://clang.llvm.org/docs/analyzer/checkers.html#optin-taint-taintedalloc">
+
+</div>
+<h1 id="clang-analyzer-optin.taint.taintedalloc">clang-analyzer-optin.taint.TaintedAlloc</h1>
+<p>Check for memory allocations, where the size parameter might be a tainted (attacker controlled) value.</p>
+<p>The <span class="title-ref">clang-analyzer-optin.taint.TaintedAlloc</span> check is an alias, please see <a href="https://clang.llvm.org/docs/analyzer/checkers.html#optin-taint-taintedalloc">Clang Static Analyzer Available Checkers</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/optin.taint.TaintedAlloc.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-analyzer-security.PutenvStackArray</key>
+    <name>clang-analyzer-security.PutenvStackArray</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - clang-analyzer-security.PutenvStackArray</p>
+</div>
+<h1 id="clang-analyzer-security.putenvstackarray">clang-analyzer-security.PutenvStackArray</h1>
+<p>Finds calls to the function 'putenv' which pass a pointer to an automatic (stack-allocated) array as the argument.</p>
+<p>The clang-analyzer-security.PutenvStackArray check is an alias of Clang Static Analyzer security.PutenvStackArray.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/security.PutenvStackArray.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-analyzer-security.SetgidSetuidOrder</key>
+    <name>clang-analyzer-security.SetgidSetuidOrder</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - clang-analyzer-security.SetgidSetuidOrder</p>
+</div>
+<h1 id="clang-analyzer-security.setgidsetuidorder">clang-analyzer-security.SetgidSetuidOrder</h1>
+<p>Warn on possible reversed order of 'setgid(getgid()))' and 'setuid(getuid())' (CERT: POS36-C).</p>
+<p>The clang-analyzer-security.SetgidSetuidOrder check is an alias of Clang Static Analyzer security.SetgidSetuidOrder.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/security.SetgidSetuidOrder.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-analyzer-unix.BlockInCriticalSection</key>
+    <name>clang-analyzer-unix.BlockInCriticalSection</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - clang-analyzer-unix.BlockInCriticalSection</p>
+</div>
+<div class="meta" data-http-equiv=refresh="5;URL=https://clang.llvm.org/docs/analyzer/checkers.html#unix-blockincriticalsection">
+
+</div>
+<h1 id="clang-analyzer-unix.blockincriticalsection">clang-analyzer-unix.BlockInCriticalSection</h1>
+<p>Check for calls to blocking functions inside a critical section.</p>
+<p>The <span class="title-ref">clang-analyzer-unix.BlockInCriticalSection</span> check is an alias, please see <a href="https://clang.llvm.org/docs/analyzer/checkers.html#unix-blockincriticalsection">Clang Static Analyzer Available Checkers</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/unix.BlockInCriticalSection.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>clang-analyzer-unix.Stream</key>
+    <name>clang-analyzer-unix.Stream</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - clang-analyzer-unix.Stream</p>
+</div>
+<div class="meta" data-http-equiv=refresh="5;URL=https://clang.llvm.org/docs/analyzer/checkers.html#unix-stream">
+
+</div>
+<h1 id="clang-analyzer-unix.stream">clang-analyzer-unix.Stream</h1>
+<p>Check stream handling functions.</p>
+<p>The <span class="title-ref">clang-analyzer-unix.Stream</span> check is an alias, please see <a href="https://clang.llvm.org/docs/analyzer/checkers.html#unix-stream">Clang Static Analyzer Available Checkers</a> for more information.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/unix.Stream.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>linuxkernel-must-check-errs</key>
+    <name>linuxkernel-must-check-errs</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - linuxkernel-must-check-errs</p>
+</div>
+<h1 id="linuxkernel-must-check-errs">linuxkernel-must-check-errs</h1>
+<p>Checks Linux kernel code to see if it uses the results from the functions in <code>linux/err.h</code>. Also checks to see if code uses the results from functions that directly return a value from one of these error functions.</p>
+<p>This is important in the Linux kernel because <code>ERR_PTR</code>, <code>PTR_ERR</code>, <code>IS_ERR</code>, <code>IS_ERR_OR_NULL</code>, <code>ERR_CAST</code>, and <code>PTR_ERR_OR_ZERO</code> return values must be checked, since positive pointers and negative error codes are being used in the same context. These functions are marked with <code>__attribute__((warn_unused_result))</code>, but some kernel versions do not have this warning enabled for clang.</p>
+<p>Examples:</p>
+<pre class="c"><code>/* Trivial unused call to an ERR function */
+PTR_ERR_OR_ZERO(some_function_call());
+
+/* A function that returns ERR_PTR. */
+void *fn() { ERR_PTR(-EINVAL); }
+
+/* An invalid use of fn. */
+fn();</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/linuxkernel/must-check-errs.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>misc-use-internal-linkage</key>
+    <name>misc-use-internal-linkage</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - misc-use-internal-linkage</p>
+</div>
+<h1 id="misc-use-internal-linkage">misc-use-internal-linkage</h1>
+<p>Detects variables and functions that can be marked as static or moved into an anonymous namespace to enforce internal linkage.</p>
+<p>Static functions and variables are scoped to a single file. Marking functions and variables as static helps to better remove dead code. In addition, it gives the compiler more information and allows for more aggressive optimizations.</p>
+<p>Example:</p>
+<pre class="c++"><code>int v1; // can be marked as static
+
+void fn1(); // can be marked as static
+
+namespace {
+  // already in anonymous namespace
+  int v2;
+  void fn2();
+}
+// already declared as extern
+extern int v2;</code></pre>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>FixMode</p>
+<p>Selects what kind of a fix the check should provide. The default is <span class="title-ref">UseStatic</span>.</p>
+<dl>
+<dt><code>None</code></dt>
+<dd><p>Don't fix automatically.</p>
+</dd>
+<dt><code>UseStatic</code></dt>
+<dd><p>Add <code>static</code> for internal linkage variable and function.</p>
+</dd>
+</dl>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc/use-internal-linkage.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>modernize-min-max-use-initializer-list</key>
+    <name>modernize-min-max-use-initializer-list</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - modernize-min-max-use-initializer-list</p>
+</div>
+<h1 id="modernize-min-max-use-initializer-list">modernize-min-max-use-initializer-list</h1>
+<p>Replaces nested <code>std::min</code> and <code>std::max</code> calls with an initializer list where applicable.</p>
+<p>For instance, consider the following code:</p>
+<pre class="cpp"><code>int a = std::max(std::max(i, j), k);</code></pre>
+<p>The check will transform the above code to:</p>
+<pre class="cpp"><code>int a = std::max({i, j, k});</code></pre>
+<h1 id="performance-considerations">Performance Considerations</h1>
+<p>While this check simplifies the code and makes it more readable, it may cause performance degradation for non-trivial types due to the need to copy objects into the initializer list.</p>
+<p>To avoid this, it is recommended to use <span class="title-ref">std::ref</span> or <span class="title-ref">std::cref</span> for non-trivial types:</p>
+<pre class="cpp"><code>std::string b = std::max({std::ref(i), std::ref(j), std::ref(k)});</code></pre>
+<h1 id="options">Options</h1>
+<div class="option">
+<p>IncludeStyle</p>
+<p>A string specifying which include-style is used, <span class="title-ref">llvm</span> or <span class="title-ref">google</span>. Default is <span class="title-ref">llvm</span>.</p>
+</div>
+<div class="option">
+<p>IgnoreNonTrivialTypes</p>
+<p>A boolean specifying whether to ignore non-trivial types. Default is <span class="title-ref">true</span>.</p>
+</div>
+<div class="option">
+<p>IgnoreTrivialTypesOfSizeAbove</p>
+<p>An integer specifying the size (in bytes) above which trivial types are ignored. Default is <span class="title-ref">32</span>.</p>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize/min-max-use-initializer-list.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>modernize-use-designated-initializers</key>
+    <name>modernize-use-designated-initializers</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - modernize-use-designated-initializers</p>
+</div>
+<h1 id="modernize-use-designated-initializers">modernize-use-designated-initializers</h1>
+<p>Finds initializer lists for aggregate types which could be written as designated initializers instead.</p>
+<p>With plain initializer lists, it is very easy to introduce bugs when adding new fields in the middle of a struct or class type. The same confusion might arise when changing the order of fields.</p>
+<p>C++20 supports the designated initializer syntax for aggregate types. By applying it, we can always be sure that aggregates are constructed correctly, because every variable being initialized is referenced by its name.</p>
+<p>Example:</p>
+<pre class=""><code>struct S { int i, j; };</code></pre>
+<p>is an aggregate type that should be initialized as</p>
+<pre class=""><code>S s{.i = 1, .j = 2};</code></pre>
+<p>instead of</p>
+<pre class=""><code>S s{1, 2};</code></pre>
+<p>which could easily become an issue when <code>i</code> and <code>j</code> are swapped in the declaration of <code>S</code>.</p>
+<p>Even when compiling in a language version older than C++20, depending on your compiler, designated initializers are potentially supported. Therefore, the check is by default restricted to C99/C++20 and above. Check out the options <code>-Wc99-designator</code> to get support for mixed designators in initializer list in C and <code>-Wc++20-designator</code> for support of designated initializers in older C++ language modes.</p>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>IgnoreMacros</p>
+<p>The value <span class="title-ref">false</span> specifies that components of initializer lists expanded from macros are not checked. The default value is <span class="title-ref">true</span>.</p>
+</div>
+<div class="option">
+<p>IgnoreSingleElementAggregates</p>
+<p>The value <span class="title-ref">false</span> specifies that even initializers for aggregate types with only a single element should be checked. The default value is <span class="title-ref">true</span>.</p>
+</div>
+<div class="option">
+<p>RestrictToPODTypes</p>
+<p>The value <span class="title-ref">true</span> specifies that only Plain Old Data (POD) types shall be checked. This makes the check applicable to even older C++ standards. The default value is <span class="title-ref">false</span>.</p>
+</div>
+<div class="option">
+<p>StrictCStandardCompliance</p>
+<p>When set to <span class="title-ref">false</span>, the check will not restrict itself to C99 and above. The default value is <span class="title-ref">true</span>.</p>
+</div>
+<div class="option">
+<p>StrictCppStandardCompliance</p>
+<p>When set to <span class="title-ref">false</span>, the check will not restrict itself to C++20 and above. The default value is <span class="title-ref">true</span>.</p>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize/use-designated-initializers.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>modernize-use-ranges</key>
+    <name>modernize-use-ranges</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - modernize-use-ranges</p>
+</div>
+<h1 id="modernize-use-ranges">modernize-use-ranges</h1>
+<p>Detects calls to standard library iterator algorithms that could be replaced with a ranges version instead.</p>
+<h2 id="example">Example</h2>
+<pre class="c++"><code>auto Iter1 = std::find(Items.begin(), Items.end(), 0);
+auto AreSame = std::equal(Items1.cbegin(), Items1.cend(),
+                          std::begin(Items2), std::end(Items2));</code></pre>
+<p>Transforms to:</p>
+<pre class="c++"><code>auto Iter1 = std::ranges::find(Items, 0);
+auto AreSame = std::ranges::equal(Items1, Items2);</code></pre>
+<h2 id="supported-algorithms">Supported algorithms</h2>
+<p>Calls to the following std library algorithms are checked:</p>
+<p><code>std::adjacent_find</code>, <code>std::all_of</code>, <code>std::any_of</code>, <code>std::binary_search</code>, <code>std::copy_backward</code>, <code>std::copy_if</code>, <code>std::copy</code>, <code>std::destroy</code>, <code>std::equal_range</code>, <code>std::equal</code>, <code>std::fill</code>, <code>std::find_end</code>, <code>std::find_if_not</code>, <code>std::find_if</code>, <code>std::find</code>, <code>std::for_each</code>, <code>std::generate</code>, <code>std::includes</code>, <code>std::inplace_merge</code>, <code>std::iota</code>, <code>std::is_heap_until</code>, <code>std::is_heap</code>, <code>std::is_partitioned</code>, <code>std::is_permutation</code>, <code>std::is_sorted_until</code>, <code>std::is_sorted</code>, <code>std::lexicographical_compare</code>, <code>std::lower_bound</code>, <code>std::make_heap</code>, <code>std::max_element</code>, <code>std::merge</code>, <code>std::min_element</code>, <code>std::minmax_element</code>, <code>std::mismatch</code>, <code>std::move_backward</code>, <code>std::move</code>, <code>std::next_permutation</code>, <code>std::none_of</code>, <code>std::partial_sort_copy</code>, <code>std::partition_copy</code>, <code>std::partition_point</code>, <code>std::partition</code>, <code>std::pop_heap</code>, <code>std::prev_permutation</code>, <code>std::push_heap</code>, <code>std::remove_copy_if</code>, <code>std::remove_copy</code>, <code>std::remove</code>, <code>std::remove_if</code>, <code>std::replace_if</code>, <code>std::replace</code>, <code>std::reverse_copy</code>, <code>std::reverse</code>, <code>std::rotate</code>, <code>std::rotate_copy</code>, <code>std::sample</code>, <code>std::search</code>, <code>std::set_difference</code>, <code>std::set_intersection</code>, <code>std::set_symmetric_difference</code>, <code>std::set_union</code>, <code>std::shift_left</code>, <code>std::shift_right</code>, <code>std::sort_heap</code>, <code>std::sort</code>, <code>std::stable_partition</code>, <code>std::stable_sort</code>, <code>std::transform</code>, <code>std::uninitialized_copy</code>, <code>std::uninitialized_default_construct</code>, <code>std::uninitialized_fill</code>, <code>std::uninitialized_move</code>, <code>std::uninitialized_value_construct</code>, <code>std::unique_copy</code>, <code>std::unique</code>, <code>std::upper_bound</code>.</p>
+<h2 id="reverse-iteration">Reverse Iteration</h2>
+<p>If calls are made using reverse iterators on containers, The code will be fixed using the <code>std::views::reverse</code> adaptor.</p>
+<pre class="c++"><code>auto AreSame = std::equal(Items1.rbegin(), Items1.rend(),
+                          std::crbegin(Items2), std::crend(Items2));</code></pre>
+<p>Transforms to:</p>
+<pre class="c++"><code>auto AreSame = std::ranges::equal(std::ranges::reverse_view(Items1),
+                                  std::ranges::reverse_view(Items2));</code></pre>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>IncludeStyle</p>
+<p>A string specifying which include-style is used, <span class="title-ref">llvm</span> or <span class="title-ref">google</span>. Default is <span class="title-ref">llvm</span>.</p>
+</div>
+<div class="option">
+<p>UseReversePipe</p>
+<p>When <span class="title-ref">true</span> (default <span class="title-ref">false</span>), fixes which involve reverse ranges will use the pipe adaptor syntax instead of the function syntax.</p>
+<pre class="c++"><code>std::find(Items.rbegin(), Items.rend(), 0);</code></pre>
+<p>Transforms to:</p>
+<pre class="c++"><code>std::ranges::find(Items | std::views::reverse, 0);</code></pre>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize/use-ranges.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>modernize-use-std-format</key>
+    <name>modernize-use-std-format</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - modernize-use-std-format</p>
+</div>
+<h1 id="modernize-use-std-format">modernize-use-std-format</h1>
+<p>Converts calls to <code>absl::StrFormat</code>, or other functions via configuration options, to C++20's <code>std::format</code>, or another function via a configuration option, modifying the format string appropriately and removing now-unnecessary calls to <code>std::string::c_str()</code> and <code>std::string::data()</code>.</p>
+<p>For example, it turns lines like</p>
+<pre class="c++"><code>return absl::StrFormat(&quot;The %s is %3d&quot;, description.c_str(), value);</code></pre>
+<p>into:</p>
+<pre class="c++"><code>return std::format(&quot;The {} is {:3}&quot;, description, value);</code></pre>
+<p>The check uses the same format-string-conversion algorithm as <a href="../modernize/use-std-print.html">modernize-use-std-print</a> and its shortcomings are described in the documentation for that check.</p>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>StrictMode</p>
+<p>When <span class="title-ref">true</span>, the check will add casts when converting from variadic functions and printing signed or unsigned integer types (including fixed-width integer types from <code>&lt;cstdint&gt;</code>, <code>ptrdiff_t</code>, <code>size_t</code> and <code>ssize_t</code>) as the opposite signedness to ensure that the output would matches that of a simple wrapper for <code>std::sprintf</code> that accepted a C-style variable argument list. For example, with <span class="title-ref">StrictMode</span> enabled,</p>
+<pre class="c++"><code>extern std::string strprintf(const char *format, ...);
+int i = -42;
+unsigned int u = 0xffffffff;
+return strprintf(&quot;%d %u\n&quot;, i, u);</code></pre>
+<p>would be converted to</p>
+<pre class="c++"><code>return std::format(&quot;{} {}\n&quot;, static_cast&lt;unsigned int&gt;(i), static_cast&lt;int&gt;(u));</code></pre>
+<p>to ensure that the output will continue to be the unsigned representation of -42 and the signed representation of 0xffffffff (often 4294967254 and -1 respectively). When <span class="title-ref">false</span> (which is the default), these casts will not be added which may cause a change in the output. Note that this option makes no difference for the default value of <span class="title-ref">StrFormatLikeFunctions</span> since <code>absl::StrFormat</code> takes a function parameter pack and is not a variadic function.</p>
+</div>
+<div class="option">
+<p>StrFormatLikeFunctions</p>
+<p>A semicolon-separated list of (fully qualified) function names to replace, with the requirement that the first parameter contains the printf-style format string and the arguments to be formatted follow immediately afterwards. The default value for this option is <span class="title-ref">absl::StrFormat</span>.</p>
+</div>
+<div class="option">
+<p>ReplacementFormatFunction</p>
+<p>The function that will be used to replace the function set by the <span class="title-ref">StrFormatLikeFunctions</span> option rather than the default <span class="title-ref">std::format</span>. It is expected that the function provides an interface that is compatible with <code>std::format</code>. A suitable candidate would be <span class="title-ref">fmt::format</span>.</p>
+</div>
+<div class="option">
+<p>FormatHeader</p>
+<p>The header that must be included for the declaration of <span class="title-ref">ReplacementFormatFunction</span> so that a <code>#include</code> directive can be added if required. If <span class="title-ref">ReplacementFormatFunction</span> is <span class="title-ref">std::format</span> then this option will default to <code>&lt;format&gt;</code>, otherwise this option will default to nothing and no <code>#include</code> directive will be added.</p>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize/use-std-format.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>readability-enum-initial-value</key>
+    <name>readability-enum-initial-value</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - readability-enum-initial-value</p>
+</div>
+<h1 id="readability-enum-initial-value">readability-enum-initial-value</h1>
+<p>Enforces consistent style for enumerators' initialization, covering three styles: none, first only, or all initialized explicitly.</p>
+<p>An inconsistent style and strictness to defining the initializing value of enumerators may cause issues if the enumeration is extended with new enumerators that obtain their integer representation implicitly.</p>
+<p>The following three cases are accepted:</p>
+<ol>
+<li><strong>No</strong> enumerators are explicit initialized.</li>
+<li>Exactly <strong>the first</strong> enumerator is explicit initialized.</li>
+<li><strong>All</strong> enumerators are explicit initialized.</li>
+</ol>
+<pre class="c++"><code>enum A {    // (1) Valid, none of enumerators are initialized.
+  a0,
+  a1,
+  a2,
+};
+
+enum B {    // (2) Valid, the first enumerator is initialized.
+  b0 = 0,
+  b1,
+  b2,
+};
+
+enum C {    // (3) Valid, all of enumerators are initialized.
+  c0 = 0,
+  c1 = 1,
+  c2 = 2,
+};
+
+enum D {    // Invalid, d1 is not explicitly initialized!
+  d0 = 0,
+  d1,
+  d2 = 2,
+};
+
+enum E {    // Invalid, e1, e3, and e5 are not explicitly initialized.
+  e0 = 0,
+  e1,
+  e2 = 2,
+  e3,       // Dangerous, as the numeric values of e3 and e5 are both 3, and this is not explicitly visible in the code!
+  e4 = 2,
+  e5,
+};</code></pre>
+<p>This check corresponds to the CERT C Coding Standard recommendation <a href="https://wiki.sei.cmu.edu/confluence/display/c/INT09-C.+Ensure+enumeration+constants+map+to+unique+values">INT09-C. Ensure enumeration constants map to unique values</a>.</p>
+<p><span class="title-ref">cert-int09-c</span> redirects here as an alias of this check.</p>
+<h2 id="options">Options</h2>
+<div class="option">
+<p>AllowExplicitZeroFirstInitialValue</p>
+<p>If set to <span class="title-ref">false</span>, the first enumerator must not be explicitly initialized to a literal <code>0</code>. Default is <span class="title-ref">true</span>.</p>
+<pre class="c++"><code>enum F {
+  f0 = 0, // Not allowed if AllowExplicitZeroFirstInitialValue is false.
+  f1,
+  f2,
+};</code></pre>
+</div>
+<div class="option">
+<p>AllowExplicitSequentialInitialValues</p>
+<p>If set to <span class="title-ref">false</span>, explicit initialization to sequential values are not allowed. Default is <span class="title-ref">true</span>.</p>
+<pre class="c++"><code>enum G {
+  g0 = 1, // Not allowed if AllowExplicitSequentialInitialValues is false.
+  g1 = 2,
+  g2 = 3,</code></pre>
+</div>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability/enum-initial-value.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>readability-math-missing-parentheses</key>
+    <name>readability-math-missing-parentheses</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - readability-math-missing-parentheses</p>
+</div>
+<h1 id="readability-math-missing-parentheses">readability-math-missing-parentheses</h1>
+<p>Check for missing parentheses in mathematical expressions that involve operators of different priorities.</p>
+<p>Parentheses in mathematical expressions clarify the order of operations, especially with different-priority operators. Lengthy or multiline expressions can obscure this order, leading to coding errors. IDEs can aid clarity by highlighting parentheses. Explicitly using parentheses also clarifies what the developer had in mind when writing the expression. Ensuring their presence reduces ambiguity and errors, promoting clearer and more maintainable code.</p>
+<p>Before:</p>
+<pre class="c++"><code>int x = 1 + 2 * 3 - 4 / 5;</code></pre>
+<p>After:</p>
+<pre class="c++"><code>int x = 1 + (2 * 3) - (4 / 5);</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability/math-missing-parentheses.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    </rule>
+  <rule>
+    <key>readability-use-std-min-max</key>
+    <name>readability-use-std-min-max</name>
+    <description>
+      <![CDATA[
+      <div class="title">
+<p>clang-tidy - readability-use-std-min-max</p>
+</div>
+<h1 id="readability-use-std-min-max">readability-use-std-min-max</h1>
+<p>Replaces certain conditional statements with equivalent calls to <code>std::min</code> or <code>std::max</code>. Note: This may impact performance in critical code due to potential additional stores compared to the original if statement.</p>
+<p>Before:</p>
+<pre class="c++"><code>void foo() {
+  int a = 2, b = 3;
+  if (a &lt; b)
+    a = b;
+}</code></pre>
+<p>After:</p>
+<pre class="c++"><code>void foo() {
+  int a = 2, b = 3;
+  a = std::max(a, b);
+}</code></pre>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability/use-std-min-max.html" target="_blank">clang.llvm.org</a></p>
+      ]]>
+      <![CDATA[]]>
+      </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+  </rule>
 
   <!-- Clang Diagnostic Rules -->
 
@@ -35373,6 +36233,552 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdelayed-template-parsing-in-cxx20" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+  </rule>
+  <rule>
+    <key>clang-diagnostic-aarch64-sme-attributes</key>
+    <name>clang-diagnostic-aarch64-sme-attributes</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: %select{returning|passing}0 a VL-dependent argument %select{from|to}0 a function with a different streaming-mode is undefined behaviour when the streaming and non-streaming vector lengths are different at runtime</li>
+  <li>warning: %select{returning|passing}0 a VL-dependent argument %select{from|to}0 a locally streaming function is undefined behaviour when the streaming and non-streaming vector lengths are different at runtime</li>
+  <li>warning: always_inline function %1 and its caller %0 have mismatching %2 attributes, inlining may change runtime behaviour</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#waarch64-sme-attributes" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
     </rule>
-
+  <rule>
+    <key>clang-diagnostic-alias-template-in-declaration-name</key>
+    <name>clang-diagnostic-alias-template-in-declaration-name</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: a declarative nested name specifier cannot name an alias template</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#walias-template-in-declaration-name" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-arm-interrupt-vfp-clobber</key>
+    <name>clang-diagnostic-arm-interrupt-vfp-clobber</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: interrupt service routine with vfp enabled may clobber the interruptee's vfp state</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#warm-interrupt-vfp-clobber" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-bounds-safety-counted-by-elt-type-unknown-size</key>
+    <name>clang-diagnostic-bounds-safety-counted-by-elt-type-unknown-size</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: '%select{counted_by|sized_by|counted_by_or_null|sized_by_or_null}4' %select{cannot|should not}3 be applied to %select{a pointer with pointee|an array with element}0 of unknown size because %1 is %select{an incomplete type|a sizeless type|a function type|a struct type with a flexible array member%select{|. This will be an error in a future compiler version}3}2</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wbounds-safety-counted-by-elt-type-unknown-size" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c++23-attribute-extensions</key>
+    <name>clang-diagnostic-c++23-attribute-extensions</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: use of the %0 attribute is a C++23 extension</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-23-attribute-extensions" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c++23-compat</key>
+    <name>clang-diagnostic-c++23-compat</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning:  '%0' in a raw string literal delimiter is incompatible with standards before C++2c</li>
+  <li>warning: '= delete' with a message is incompatible with C++ standards before C++2c</li>
+  <li>warning: an attribute specifier sequence attached to a structured binding declaration is incompatible with C++ standards before C++2c</li>
+  <li>warning: pack indexing is incompatible with C++ standards before C++2c</li>
+  <li>warning: placeholder variables are incompatible with C++ standards before C++2c</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-23-compat" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c++2c-compat</key>
+    <name>clang-diagnostic-c++2c-compat</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: cannot delete expression with pointer-to-'void' type %0</li>
+  <li>warning: deleting pointer to incomplete type %0 is incompatible with C++2c and may cause undefined behavior</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2c-compat" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c2y-extensions</key>
+    <name>clang-diagnostic-c2y-extensions</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: '%select{--|++}0' on an object of complex type is a C2y extension</li>
+  <li>warning: 'alignof' on an incomplete array type is a C2y extension</li>
+  <li>warning: passing a type argument as the first operand to '_Generic' is a C2y extension</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc2y-extensions" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-cast-function-type-mismatch</key>
+    <name>clang-diagnostic-cast-function-type-mismatch</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: cast %diff{from $ to $ |}0,1converts to incompatible function type</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wcast-function-type-mismatch" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-dangling-assignment</key>
+    <name>clang-diagnostic-dangling-assignment</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: object backing the pointer %0 will be destroyed at the end of the full-expression</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdangling-assignment" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-dangling-assignment-gsl</key>
+    <name>clang-diagnostic-dangling-assignment-gsl</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: object backing the pointer %0 will be destroyed at the end of the full-expression</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdangling-assignment-gsl" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-deprecated-no-relaxed-template-template-args</key>
+    <name>clang-diagnostic-deprecated-no-relaxed-template-template-args</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: argument '-fno-relaxed-template-template-args' is deprecated</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-no-relaxed-template-template-args" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-deprecated-ofast</key>
+    <name>clang-diagnostic-deprecated-ofast</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: argument '-Ofast' is deprecated; use '-O3 -ffast-math' for the same behavior, or '-O3' to enable only conforming optimizations</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-ofast" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-explicit-specialization-storage-class</key>
+    <name>clang-diagnostic-explicit-specialization-storage-class</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: explicit specialization cannot have a storage class</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wexplicit-specialization-storage-class" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-extractapi-misuse</key>
+    <name>clang-diagnostic-extractapi-misuse</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: missing symbol graph output directory, defaulting to working directory</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wextractapi-misuse" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-format-signedness</key>
+    <name>clang-diagnostic-format-signedness</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: format specifies type %0 but the argument has %select{type|underlying type}2 %1</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wformat-signedness" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-friend-enum</key>
+    <name>clang-diagnostic-friend-enum</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: elaborated enum specifier cannot be declared as a friend</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wfriend-enum" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-function-effects</key>
+    <name>clang-diagnostic-function-effects</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: attribute '%0' on function does not match previous declaration</li>
+  <li>warning: attribute '%0' on overriding function does not match base declaration</li>
+  <li>warning: attribute '%0' should not be added via type conversion</li>
+  <li>warning: effects conflict when merging declarations; kept '%0', discarded '%1'</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wfunction-effects" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-higher-precision-fp</key>
+    <name>clang-diagnostic-higher-precision-fp</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: higher precision floating-point type size has the same size than floating-point type size</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#whigher-precision-fp" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-hlsl-availability</key>
+    <name>clang-diagnostic-hlsl-availability</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: %0 is only available %select{|in %4 environment }3on %1 %2 or newer</li>
+  <li>warning: %0 is unavailable</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#whlsl-availability" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>CRITICAL</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-installapi-violation</key>
+    <name>clang-diagnostic-installapi-violation</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: declaration '%0' is %select{weak defined|thread local}1, but symbol is not in dynamic library</li>
+  <li>warning: declaration '%0' is marked %select{available|unavailable}1, but symbol is %select{not |}2exported in dynamic library</li>
+  <li>warning: declaration has external linkage, but dynamic library doesn't have symbol '%0'</li>
+  <li>warning: declaration has external linkage, but symbol has internal linkage in dynamic library '%0'</li>
+  <li>warning: dynamic library symbol '%0' is %select{weak defined|thread local}1, but its declaration is not</li>
+  <li>warning: glob '%0' did not match any header file</li>
+  <li>warning: no declaration was found for exported symbol '%0' in dynamic library</li>
+  <li>warning: no such excluded %select{public|private}0 header file: '%1'</li>
+  <li>warning: platform does not match: '%0' (provided) vs '%1' (found)</li>
+  <li>warning: runpath search paths do not match: '%0' (provided) vs '%1' (found)</li>
+  <li>warning: runpath search paths missing from %0: '%1'</li>
+  <li>warning: symbol exported in dynamic library, but marked hidden in declaration '%0'</li>
+  <li>warning: violations found for %0</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winstallapi-violation" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-missing-designated-field-initializers</key>
+    <name>clang-diagnostic-missing-designated-field-initializers</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: missing field %0 initializer</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmissing-designated-field-initializers" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-missing-include-dirs</key>
+    <name>clang-diagnostic-missing-include-dirs</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: no such include directory: '%0'</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmissing-include-dirs" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-missing-template-arg-list-after-template-kw</key>
+    <name>clang-diagnostic-missing-template-arg-list-after-template-kw</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: a template argument list is expected after a name prefixed by the template keyword</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmissing-template-arg-list-after-template-kw" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>CRITICAL</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-mix-packoffset</key>
+    <name>clang-diagnostic-mix-packoffset</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: cannot mix packoffset elements with nonpackoffset elements in a cbuffer</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmix-packoffset" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-nvcc-compat</key>
+    <name>clang-diagnostic-nvcc-compat</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: target-attribute based function overloads are not supported by NVCC and will be treated as a function redeclaration:new declaration is %select{__device__|__global__|__host__|__host__ __device__}0 function, old declaration is %select{__device__|__global__|__host__|__host__ __device__}1 function</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wnvcc-compat" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-openacc-deprecated-clause-alias</key>
+    <name>clang-diagnostic-openacc-deprecated-clause-alias</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: OpenACC clause name '%0' is a deprecated clause name and is now an alias for '%1'</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wopenacc-deprecated-clause-alias" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-openacc-self-if-potential-conflict</key>
+    <name>clang-diagnostic-openacc-self-if-potential-conflict</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: OpenACC construct 'self' has no effect when an 'if' clause evaluates to true</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wopenacc-self-if-potential-conflict" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pch-vfs-diff</key>
+    <name>clang-diagnostic-pch-vfs-diff</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: PCH was compiled with different VFS overlay files than are currently in use</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpch-vfs-diff" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pre-c11-compat</key>
+    <name>clang-diagnostic-pre-c11-compat</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: '%0' is incompatible with C standards before C11</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c11-compat" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pre-c11-compat-pedantic</key>
+    <name>clang-diagnostic-pre-c11-compat-pedantic</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: '%0' is incompatible with C standards before C11</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c11-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pre-c2y-compat</key>
+    <name>clang-diagnostic-pre-c2y-compat</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: '%select{--|++}0' on an object of complex type is incompatible with C standards before C2y</li>
+  <li>warning: 'alignof' on an incomplete array type is incompatible with C standards before C2y</li>
+  <li>warning: passing a type argument as the first operand to '_Generic' is incompatible with C standards before C2y</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c2y-compat" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pre-c2y-compat-pedantic</key>
+    <name>clang-diagnostic-pre-c2y-compat-pedantic</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: '%select{--|++}0' on an object of complex type is incompatible with C standards before C2y</li>
+  <li>warning: 'alignof' on an incomplete array type is incompatible with C standards before C2y</li>
+  <li>warning: passing a type argument as the first operand to '_Generic' is incompatible with C standards before C2y</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c2y-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-ptrauth-null-pointers</key>
+    <name>clang-diagnostic-ptrauth-null-pointers</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: authenticating a null pointer will almost certainly trap</li>
+  <li>warning: signing a null pointer will yield a non-null pointer</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wptrauth-null-pointers" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-return-mismatch</key>
+    <name>clang-diagnostic-return-mismatch</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: %select{void function|void method|constructor|destructor}1 %0 should not return a value</li>
+  <li>warning: non-void %select{function|method}1 %0 should return a value</li>
+  <li>warning: non-void %select{function|method}1 %0 should return a value</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wreturn-mismatch" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>CRITICAL</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-strict-primary-template-shadow</key>
+    <name>clang-diagnostic-strict-primary-template-shadow</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: declaration of %0 shadows template parameter</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wstrict-primary-template-shadow" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>CRITICAL</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-template-in-declaration-name</key>
+    <name>clang-diagnostic-template-in-declaration-name</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: 'template' cannot be used after a declarative nested name specifier</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wtemplate-in-declaration-name" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-tentative-definition-array</key>
+    <name>clang-diagnostic-tentative-definition-array</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: tentative array definition assumed to have one element</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wtentative-definition-array" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-unsafe-buffer-usage-in-container</key>
+    <name>clang-diagnostic-unsafe-buffer-usage-in-container</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: the two-parameter std::span construction is unsafe as it can introduce mismatch between buffer size and the bound information</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wunsafe-buffer-usage-in-container" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+  </rule>
 </rules>
