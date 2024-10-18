@@ -22,16 +22,15 @@ package org.sonar.cxx.sensors.coverage.bullseye;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.utils.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.cxx.sensors.coverage.CoverageMeasures;
 import org.sonar.cxx.sensors.coverage.CoverageParser;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
@@ -49,34 +48,26 @@ public class BullseyeParser implements CoverageParser {
   private int totalconditions;
   private int totalcoveredconditions;
 
-  private static String ensureRefPathIsCorrect(@Nullable String refPath) {
-    if (refPath == null || refPath.isEmpty()) {
-      return refPath;
+  private static String createRootPath(@Nullable String refPath) {
+    if (refPath == null || refPath.isBlank()) {
+      return ".";
     }
-    if (refPath.endsWith("\\") || refPath.endsWith("/")) {
-      return refPath.replace('\\', '/');
-    }
-    return refPath.replace('\\', '/') + "/";
+    return refPath.replace('\\', '/');
   }
 
-  /**
-   * @param path
-   * @param correctPath
-   * @return
-   */
-  private static String buildPath(List<String> path, String correctPath) {
-    var fileName = String.join(File.separator, path);
-    if (!(new File(fileName)).isAbsolute()) {
-      fileName = correctPath + fileName;
+  private static String createAbsolutePath(LinkedList<String> paths, String rootPath) {
+    var path = String.join("/", paths);
+    if (!(new File(path)).isAbsolute()) {
+      path = rootPath + "/" + path;
     }
-    return PathUtils.sanitize(fileName);
+    return PathUtils.sanitize(path);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Map<String, CoverageMeasures> parse(File report)  {
+  public Map<String, CoverageMeasures> parse(File report) {
     var coverageData = new HashMap<String, CoverageMeasures>();
     try {
       var topLevelparser = new StaxParser((SMHierarchicCursor rootCursor) -> {
@@ -95,7 +86,7 @@ public class BullseyeParser implements CoverageParser {
 
       topLevelparser.parse(report);
       parser.parse(report);
-    } catch(XMLStreamException e) {
+    } catch (XMLStreamException e) {
       throw new InvalidReportException("Bullseye coverage report '" + report + "' cannot be parsed.", e);
     }
     return coverageData;
@@ -107,20 +98,19 @@ public class BullseyeParser implements CoverageParser {
   }
 
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder,
-                                        final Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+    final Map<String, CoverageMeasures> coverageData) throws XMLStreamException {
 
-    String correctPath = ensureRefPathIsCorrect(refPath);
+    String rootPath = createRootPath(refPath);
 
     while (folder.getNext() != null) {
-      var fileName = new File(correctPath, folder.getAttrValue("name"));
+      var fileName = new File(rootPath, folder.getAttrValue("name"));
       recTreeTopWalk(fileName, folder, coverageData);
     }
   }
 
   private void recTreeTopWalk(File fileName, SMInputCursor folder,
-                              final Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+    final Map<String, CoverageMeasures> coverageData) throws XMLStreamException {
+
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
       var fileMeasuresBuilderIn = CoverageMeasures.create();
@@ -130,18 +120,20 @@ public class BullseyeParser implements CoverageParser {
     }
   }
 
-  private void collectCoverage2(String refPath, SMInputCursor folder,
-                                final Map<String, CoverageMeasures> coverageData)
+  private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
-    String correctPath = ensureRefPathIsCorrect(refPath);
+    String rootPath = createRootPath(refPath);
 
-    var path = new LinkedList<String>();
+    var paths = new LinkedList<String>();
     while (folder.getNext() != null) {
       String folderName = folder.getAttrValue("name");
-      path.add(folderName);
-      recTreeWalk(correctPath, folder, path, coverageData);
-      path.removeLast();
+      if (folderName.isBlank()) {
+        folderName = ".";
+      }
+      paths.add(folderName);
+      recTreeWalk(rootPath, folder, paths, coverageData);
+      paths.removeLast();
     }
   }
 
@@ -171,26 +163,25 @@ public class BullseyeParser implements CoverageParser {
     }
   }
 
-  private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path,
-                           final Map<String, CoverageMeasures> coverageData)
-    throws XMLStreamException {
+  private void recTreeWalk(String refPath, SMInputCursor folder, LinkedList<String> paths,
+    final Map<String, CoverageMeasures> coverageData) throws XMLStreamException {
 
-    String correctPath = ensureRefPathIsCorrect(refPath);
+    String rootPath = createRootPath(refPath);
 
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
       String folderChildName = child.getLocalName();
       String name = child.getAttrValue("name");
-      path.add(name);
+      paths.add(name);
       if ("src".equalsIgnoreCase(folderChildName)) {
-        String filePath = buildPath(path, correctPath);
+        String filePath = createAbsolutePath(paths, rootPath);
         var fileMeasuresBuilderIn = CoverageMeasures.create();
         fileWalk(child, fileMeasuresBuilderIn);
         coverageData.put(filePath, fileMeasuresBuilderIn);
       } else {
-        recTreeWalk(correctPath, child, path, coverageData);
+        recTreeWalk(rootPath, child, paths, coverageData);
       }
-      path.remove(path.size() - 1);
+      paths.removeLast();
     }
   }
 
