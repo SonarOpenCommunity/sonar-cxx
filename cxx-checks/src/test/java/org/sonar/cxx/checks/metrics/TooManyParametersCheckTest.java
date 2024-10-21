@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -31,7 +30,7 @@ class TooManyParametersCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     var check = new TooManyParametersCheck();
     check.setMax(3);
 

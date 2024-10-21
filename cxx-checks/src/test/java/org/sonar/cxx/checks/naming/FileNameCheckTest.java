@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.naming;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -34,7 +33,7 @@ class FileNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void bad_name() throws UnsupportedEncodingException, IOException {
+  void bad_name() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/badFile_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 
@@ -46,7 +45,7 @@ class FileNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void good_name_camel_case() throws UnsupportedEncodingException, IOException {
+  void good_name_camel_case() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FileName.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 
@@ -55,7 +54,7 @@ class FileNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void good_name_snake_case() throws UnsupportedEncodingException, IOException {
+  void good_name_snake_case() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/file_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 

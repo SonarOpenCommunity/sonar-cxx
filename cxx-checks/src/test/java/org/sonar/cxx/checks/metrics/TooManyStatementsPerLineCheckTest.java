@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -32,7 +31,7 @@ class TooManyStatementsPerLineCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     var check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
 
@@ -58,7 +57,7 @@ class TooManyStatementsPerLineCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
+  void testExcludeCaseBreak() throws IOException {
     var check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
 

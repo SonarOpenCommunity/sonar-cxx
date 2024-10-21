@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -33,9 +32,9 @@ class TodoTagPresenceCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void detected() throws UnsupportedEncodingException, IOException {
+  void detected() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/TodoTagPresenceCheck.cc",
-                                        ".");
+      ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new TodoTagPresenceCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())

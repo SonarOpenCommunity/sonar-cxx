@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -33,7 +32,7 @@ class NoSonarCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/NoSonarTagPresenceCheck.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 

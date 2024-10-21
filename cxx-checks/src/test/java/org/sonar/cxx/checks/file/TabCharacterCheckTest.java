@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.file;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -33,7 +32,7 @@ class TabCharacterCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void fileWithTabsOneMessagePerFile() throws UnsupportedEncodingException, IOException {
+  void fileWithTabsOneMessagePerFile() throws IOException {
     check.createLineViolation = false;
 
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/TabCharacter.cc", ".");
@@ -46,7 +45,7 @@ class TabCharacterCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void fileWithTabsOneMessagePerLine() throws UnsupportedEncodingException, IOException {
+  void fileWithTabsOneMessagePerLine() throws IOException {
     check.createLineViolation = true;
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/TabCharacter.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
@@ -59,7 +58,7 @@ class TabCharacterCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void fileWithoutTabs() throws UnsupportedEncodingException, IOException {
+  void fileWithoutTabs() throws IOException {
     check.createLineViolation = false;
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/NonEmptyFile.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);

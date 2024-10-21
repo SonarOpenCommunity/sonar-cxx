@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
@@ -35,7 +34,7 @@ class TooManyLinesOfCodeInFunctionCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     check.setMax(6);
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FunctionLength.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);

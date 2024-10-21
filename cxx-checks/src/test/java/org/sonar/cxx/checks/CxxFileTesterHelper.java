@@ -22,7 +22,6 @@ package org.sonar.cxx.checks;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import org.apache.commons.io.ByteOrderMark;
@@ -38,12 +37,12 @@ public final class CxxFileTesterHelper {
   }
 
   public static CxxFileTester create(String fileName, String basePath)
-    throws UnsupportedEncodingException, IOException {
+    throws IOException {
     return create(fileName, basePath, Charset.defaultCharset());
   }
 
   public static CxxFileTester create(String fileName, String basePath, Charset charset)
-    throws UnsupportedEncodingException, IOException {
+    throws IOException {
     var tester = new CxxFileTester();
 
     tester.context = SensorContextTester.create(new File(basePath));
