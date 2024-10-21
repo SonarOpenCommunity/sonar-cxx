@@ -23,7 +23,6 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +102,7 @@ class CxxPublicApiVisitorTest {
   }
 
   @Test
-  void public_api() throws UnsupportedEncodingException, IOException {
+  void public_api() throws IOException {
     var fileNme = "src/test/resources/metrics/public_api.h";
     var visitor = new TestPublicApiVisitor(fileNme, true);
 
@@ -202,7 +201,7 @@ class CxxPublicApiVisitorTest {
    * @return tuple(found public API, thereof undocumented public API)
    */
   private Tuple verifyPublicApiOfFile(String fileName)
-    throws UnsupportedEncodingException, IOException {
+    throws IOException {
 
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.API_FILE_SUFFIXES,

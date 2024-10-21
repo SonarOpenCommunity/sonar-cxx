@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
@@ -35,7 +34,7 @@ import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 class ClassComplexityCheckTest {
 
   @Test
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     var check = new ClassComplexityCheck();
     check.setMaxComplexity(5);
 
@@ -52,7 +51,7 @@ class ClassComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 9"));
     softly.assertThat(issue0.getLocations()).containsOnly(
       new CxxReportLocation(null, "9", null,
-                            "The Cyclomatic Complexity of this class is 12 which is greater than 5 authorized."),
+        "The Cyclomatic Complexity of this class is 12 which is greater than 5 authorized."),
       new CxxReportLocation(null, "14", null, "+1: function definition"),
       new CxxReportLocation(null, "16", null, "+1: function definition"),
       new CxxReportLocation(null, "21", null, "+1: function definition"),
@@ -70,7 +69,7 @@ class ClassComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 42"));
     softly.assertThat(issue1.getLocations()).containsOnly(
       new CxxReportLocation(null, "42", null,
-                            "The Cyclomatic Complexity of this class is 10 which is greater than 5 authorized."),
+        "The Cyclomatic Complexity of this class is 10 which is greater than 5 authorized."),
       new CxxReportLocation(null, "47", null, "+1: function definition"),
       new CxxReportLocation(null, "49", null, "+1: function definition"),
       new CxxReportLocation(null, "51", null, "+1: switch label"),
@@ -87,7 +86,7 @@ class ClassComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 45"));
     softly.assertThat(issue2.getLocations()).containsOnly(
       new CxxReportLocation(null, "45", null,
-                            "The Cyclomatic Complexity of this class is 9 which is greater than 5 authorized."),
+        "The Cyclomatic Complexity of this class is 9 which is greater than 5 authorized."),
       new CxxReportLocation(null, "47", null, "+1: function definition"),
       new CxxReportLocation(null, "49", null, "+1: function definition"),
       new CxxReportLocation(null, "51", null, "+1: switch label"),

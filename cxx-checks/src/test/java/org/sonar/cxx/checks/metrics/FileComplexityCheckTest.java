@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
@@ -35,7 +34,7 @@ import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 class FileComplexityCheckTest {
 
   @Test
-  void check() throws UnsupportedEncodingException, IOException {
+  void check() throws IOException {
     var check = new FileComplexityCheck();
     check.setMaxComplexity(1);
 
@@ -51,7 +50,7 @@ class FileComplexityCheckTest {
     softly.assertThat(actualIssue.getRuleId()).isEqualTo("FileComplexity");
     softly.assertThat(actualIssue.getLocations()).containsOnly(
       new CxxReportLocation(null, "1", null,
-                            "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
+        "The Cyclomatic Complexity of this file is 2 which is greater than 1 authorized."),
       new CxxReportLocation(null, "3", null, "+1: function definition"),
       new CxxReportLocation(null, "5", null, "+1: function definition")
     );

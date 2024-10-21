@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.regex;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -32,7 +31,7 @@ class FileHeaderCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     var check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2005";
 
@@ -103,7 +102,7 @@ class FileHeaderCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void regex() throws UnsupportedEncodingException, IOException {
+  void regex() throws IOException {
     var check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d\\d\\d";
     check.isRegularExpression = true;

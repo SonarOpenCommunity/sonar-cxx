@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -33,7 +32,7 @@ class TooManyLinesOfCodeInFileCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     check.setMax(1);
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/complexity.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
@@ -46,7 +45,7 @@ class TooManyLinesOfCodeInFileCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test2() throws UnsupportedEncodingException, IOException {
+  void test2() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/complexity.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 

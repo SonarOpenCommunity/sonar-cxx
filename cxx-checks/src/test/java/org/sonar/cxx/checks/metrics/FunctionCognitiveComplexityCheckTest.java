@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
@@ -35,7 +34,7 @@ import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 class FunctionCognitiveComplexityCheckTest {
 
   @Test
-  void check() throws UnsupportedEncodingException, IOException {
+  void check() throws IOException {
     var check = new FunctionCognitiveComplexityCheck();
     check.setMaxComplexity(5);
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FunctionCognitiveComplexity.cc", ".");
@@ -52,7 +51,7 @@ class FunctionCognitiveComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 13"));
     softly.assertThat(issue0.getLocations()).containsOnly(
       new CxxReportLocation(null, "13", null,
-                            "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
+        "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
       new CxxReportLocation(null, "14", null, "+1: if statement"),
       new CxxReportLocation(null, "15", null, "+2: if statement (incl 1 for nesting)"),
       new CxxReportLocation(null, "16", null, "+3: conditional operator (incl 2 for nesting)"),
@@ -68,7 +67,7 @@ class FunctionCognitiveComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 33"));
     softly.assertThat(issue1.getLocations()).containsOnly(
       new CxxReportLocation(null, "33", null,
-                            "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
+        "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
       new CxxReportLocation(null, "34", null, "+1: if statement"),
       new CxxReportLocation(null, "35", null, "+2: if statement (incl 1 for nesting)"),
       new CxxReportLocation(null, "36", null, "+3: conditional operator (incl 2 for nesting)"),
@@ -84,7 +83,7 @@ class FunctionCognitiveComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 51"));
     softly.assertThat(issue2.getLocations()).containsOnly(
       new CxxReportLocation(null, "51", null,
-                            "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
+        "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
       new CxxReportLocation(null, "52", null, "+1: if statement"),
       new CxxReportLocation(null, "53", null, "+2: if statement (incl 1 for nesting)"),
       new CxxReportLocation(null, "54", null, "+3: conditional operator (incl 2 for nesting)"),
@@ -100,7 +99,7 @@ class FunctionCognitiveComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 72"));
     softly.assertThat(issue3.getLocations()).containsOnly(
       new CxxReportLocation(null, "72", null,
-                            "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
+        "The Cognitive Complexity of this function is 20 which is greater than 5 authorized."),
       new CxxReportLocation(null, "73", null, "+1: if statement"),
       new CxxReportLocation(null, "74", null, "+2: if statement (incl 1 for nesting)"),
       new CxxReportLocation(null, "75", null, "+3: conditional operator (incl 2 for nesting)"),
@@ -116,7 +115,7 @@ class FunctionCognitiveComplexityCheckTest {
       .findFirst().orElseThrow(() -> new AssertionError("No issue at line 89"));
     softly.assertThat(issue4.getLocations()).containsOnly(
       new CxxReportLocation(null, "89", null,
-                            "The Cognitive Complexity of this function is 18 which is greater than 5 authorized."),
+        "The Cognitive Complexity of this function is 18 which is greater than 5 authorized."),
       new CxxReportLocation(null, "91", null, "+1: if statement"),
       new CxxReportLocation(null, "91", null, "+1: logical operator"),
       new CxxReportLocation(null, "91", null, "+1: logical operator"),

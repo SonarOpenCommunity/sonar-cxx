@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.file;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -33,7 +32,7 @@ class MissingNewLineAtEndOfFileCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test() throws UnsupportedEncodingException, IOException {
+  void test() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/MissingNewLineAtEndOfFile.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 
@@ -44,7 +43,7 @@ class MissingNewLineAtEndOfFileCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test2() throws UnsupportedEncodingException, IOException {
+  void test2() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/EmptyFile.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -54,7 +53,7 @@ class MissingNewLineAtEndOfFileCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test3() throws UnsupportedEncodingException, IOException {
+  void test3() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/NonEmptyFile.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())

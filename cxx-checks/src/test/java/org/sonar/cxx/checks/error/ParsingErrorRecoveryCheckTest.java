@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.error;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
@@ -32,14 +31,14 @@ class ParsingErrorRecoveryCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
+  void test_syntax_error_recovery() throws IOException {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    "true");
+      "true");
 
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/parsingError3.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig,
-                                                              new ParsingErrorRecoveryCheck());
+      new ParsingErrorRecoveryCheck());
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6)

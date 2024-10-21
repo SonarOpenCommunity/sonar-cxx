@@ -20,7 +20,6 @@
 package org.sonar.cxx.checks.api;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -34,7 +33,7 @@ class UndocumentedApiCheckTest {
 
   @SuppressWarnings("squid:S2699")
   @Test
-  void detected() throws UnsupportedEncodingException, IOException {
+  void detected() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new UndocumentedApiCheck());
 
@@ -94,7 +93,7 @@ class UndocumentedApiCheckTest {
   }
 
   @Test
-  void docStyle1() throws UnsupportedEncodingException, IOException {
+  void docStyle1() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new UndocumentedApiCheck());
 
@@ -110,7 +109,7 @@ class UndocumentedApiCheckTest {
   }
 
   @Test
-  void docStyle2() throws UnsupportedEncodingException, IOException {
+  void docStyle2() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), new UndocumentedApiCheck());
 
