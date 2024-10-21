@@ -43,9 +43,7 @@ public class CxxReportLocationTest {
 
   @Test
   void testPathSanitize() {
-    var loc = new CxxReportLocation("file", null, null, "");
-
-    loc = new CxxReportLocation("/dir/File", null, null, "");
+    var loc = new CxxReportLocation("/dir/File", null, null, "");
     assertThat(loc.getFile()).isEqualTo("/dir/File");
     loc = new CxxReportLocation("/dir/./File", null, null, "");
     assertThat(loc.getFile()).isEqualTo("/dir/File");

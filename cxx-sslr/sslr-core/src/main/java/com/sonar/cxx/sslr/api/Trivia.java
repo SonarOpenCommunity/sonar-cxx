@@ -37,6 +37,8 @@ public class Trivia {
     SKIPPED_TEXT
   }
 
+  private static final String TRIVIA_KIND = "TRIVIA kind=";
+
   private final TriviaKind kind;
   private final List<Token> tokens;
   private final PreprocessingDirective preprocessingDirective;
@@ -86,10 +88,10 @@ public class Trivia {
   @Override
   public String toString() {
     if (tokens.isEmpty()) {
-      return "TRIVIA kind=" + kind;
+      return TRIVIA_KIND + kind;
     } else if (tokens.size() == 1) {
       var token = tokens.get(0);
-      return "TRIVIA kind=" + kind + " line=" + token.getLine() + " type=" + token.getType() + " value=" + token
+      return TRIVIA_KIND + kind + " line=" + token.getLine() + " type=" + token.getType() + " value=" + token
         .getOriginalValue();
     } else {
       var sb = new StringBuilder();
@@ -98,7 +100,7 @@ public class Trivia {
         sb.append(' ');
       }
 
-      return "TRIVIA kind=" + kind + " value = " + sb.toString();
+      return TRIVIA_KIND + kind + " value = " + sb.toString();
     }
   }
 
@@ -109,7 +111,7 @@ public class Trivia {
   public static Trivia createSkippedText(@Nonnull List<Token> tokens) {
     Objects.requireNonNull(tokens, "tokens cannot be null");
 
-    return createSkippedText(tokens.toArray(new Token[tokens.size()]));
+    return createSkippedText(tokens.toArray(Token[]::new));
   }
 
   public static Trivia createSkippedText(Token... tokens) {

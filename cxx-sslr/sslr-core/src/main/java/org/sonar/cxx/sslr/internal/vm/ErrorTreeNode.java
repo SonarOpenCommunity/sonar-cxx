@@ -29,8 +29,8 @@ import org.sonar.cxx.sslr.internal.matchers.MatcherPathElement;
 
 public class ErrorTreeNode {
 
-  public MatcherPathElement pathElement;
-  public List<ErrorTreeNode> children = new ArrayList<>();
+  private MatcherPathElement pathElement;
+  private final List<ErrorTreeNode> children = new ArrayList<>();
 
   public static ErrorTreeNode buildTree(List<List<MatcherPathElement>> paths) {
     var root = new ErrorTreeNode();

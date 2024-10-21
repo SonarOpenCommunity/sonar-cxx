@@ -34,6 +34,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -53,7 +54,7 @@ public class CxxClangSASensor extends CxxIssuesReportSensor {
           Comma-separated paths (absolute or relative to the project base directory) to `*.plist` files with \
           `Clang Static Analyzer` issues. Ant patterns are accepted for relative paths."""
         )
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("Clang Static Analyzer")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)

@@ -25,6 +25,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
  * Sensor for Infer - A static analyzer for Java, C, C++, and Objective-C
@@ -41,7 +42,7 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
       .description("""
         Comma-separated paths (absolute or relative to the project base directory) to `*.json` files with \
         `Infer` issues. Ant patterns are accepted for relative paths.""")
-      .category("CXX External Analyzers")
+      .category(CxxReportSensor.CATEGORY)
       .subCategory("Infer")
       .onQualifiers(Qualifiers.PROJECT)
       .multiValues(true)

@@ -31,11 +31,11 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.tools.ant.DirectoryScanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.utils.PathUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class holding various, well, utilities
@@ -135,13 +135,13 @@ public final class CxxUtils {
 
     // Includes array cannot contain null elements
     var directoryScanner = new DirectoryScanner();
-    directoryScanner.setIncludes(normalizedReportPaths.toArray(new String[normalizedReportPaths.size()]));
+    directoryScanner.setIncludes(normalizedReportPaths.toArray(String[]::new));
     directoryScanner.scan();
     String[] existingReportPaths = directoryScanner.getIncludedFiles();
 
     if (existingReportPaths.length == 0) {
       LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathsKey,
-               String.join(", ", normalizedReportPaths));
+        String.join(", ", normalizedReportPaths));
       return Collections.emptyList();
     }
 

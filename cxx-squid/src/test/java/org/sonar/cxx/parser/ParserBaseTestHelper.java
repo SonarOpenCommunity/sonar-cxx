@@ -75,8 +75,7 @@ public class ParserBaseTestHelper {
   private String serialize(AstNode root) {
     var values = new LinkedList<String>();
     iterate(root, values);
-    var s = String.join(" ", values);
-    return s;
+    return String.join(" ", values);
   }
 
   private void iterate(@Nullable AstNode node, List<String> values) {

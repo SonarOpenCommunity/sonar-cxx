@@ -70,11 +70,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
 
   private static final Logger LOG = LoggerFactory.getLogger(AbstractCxxPublicApiVisitor.class);
 
-  /**
-   * Dump the AST of the file if true.
-   */
-  private static final boolean DUMP = false;
-
   private static final String UNNAMED_CLASSIFIER_ID = "<unnamed class>";
 
   private static final String TOKEN_OVERRIDE = "override";
@@ -379,10 +374,6 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
       }
     }
 
-    if (DUMP) {
-      System.out.println(AstXmlPrinter.print(astNode));
-    }
-
   }
 
   @Override
@@ -493,9 +484,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         .getFirstAncestor(CxxGrammarImpl.linkageSpecification);
       if (linkageSpecification != null) {
         if (linkageSpecification.hasDirectChildren(CxxPunctuator.CURLBR_LEFT)) {
-          docNode = declaration; // extern "C" { ... }
+          docNode = declaration; // <code>extern "C" { ... }</code>
         } else {
-          docNode = linkageSpecification; // extern "C" ...
+          docNode = linkageSpecification; // <code>extern "C" ...</code>
         }
       } else {
         docNode = declaration;

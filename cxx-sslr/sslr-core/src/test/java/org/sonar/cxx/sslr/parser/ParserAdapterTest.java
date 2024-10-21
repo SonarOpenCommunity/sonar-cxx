@@ -54,35 +54,36 @@ class ParserAdapterTest {
   }
 
   @Test
-  void should_return_grammar() {
+  void shouldReturnGrammar() {
     assertThat(parser.getGrammar()).isSameAs(grammar);
   }
 
   @Test
-  void should_parse_string() {
+  void shouldParseString() {
     parser.parse("1+1");
   }
 
   @Test
-  void should_not_parse_invalid_string() {
+  void shouldNotParseInvalidString() {
     var thrown = catchThrowableOfType(RecognitionException.class,
       () -> parser.parse("")
     );
-    assertThat(thrown).hasMessage("Parse error at line 1 column 1:\n" + "\n" + "1: \n" + "   ^\n");
+    assertThat(thrown).hasMessage("Parse error at line 1 column 1:\n\n1: \n   ^\n");
   }
 
   @Test
-  void should_parse_file() throws Exception {
+  void shouldParseFile() throws Exception {
     var file = new File(tempDir, "file.txt");
     try (
-      var fileOutputStream = new FileOutputStream(file); var writer = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);) {
+      var fileOutputStream = new FileOutputStream(file); //
+       var writer = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);) {
       writer.write("1+1");
     }
     parser.parse(file);
   }
 
   @Test
-  void should_not_parse_invalid_file() {
+  void shouldNotParseInvalidFile() {
     var file = new File("notfound");
     var thrown = catchThrowableOfType(RecognitionException.class,
       () -> parser.parse(file)
@@ -91,12 +92,12 @@ class ParserAdapterTest {
   }
 
   @Test
-  void builder_should_not_create_new_instance_from_adapter() {
+  void builderShouldNotCreateNewInstanceFromAdapter() {
     assertThat(Parser.builder(parser).build()).isSameAs(parser);
   }
 
   @Test
-  void parse_tokens_unsupported() {
+  void parseTokensUnsupported() {
     List<Token> tokens = Collections.emptyList();
     var thrown = catchThrowableOfType(UnsupportedOperationException.class,
       () -> parser.parse(tokens)
@@ -105,7 +106,7 @@ class ParserAdapterTest {
   }
 
   @Test
-  void getRootRule_unsupported() {
+  void getRootRuleUnsupported() {
     var thrown = catchThrowableOfType(UnsupportedOperationException.class,
       () -> parser.getRootRule()
     );

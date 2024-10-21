@@ -27,6 +27,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxCompilerVcSensor extends CxxCompilerSensor {
 
@@ -40,7 +41,6 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
     \\x20warning\\x20(?<id>C\\d{4,5}):\\x20?(?<message>.*)""";
 
   public static List<PropertyDefinition> properties() {
-    var category = "CXX External Analyzers";
     var subcategory = "Visual C++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -48,7 +48,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .description("""
                      Comma-separated paths (absolute or relative to the project base directory) to `*.log` files with \
                      `Visual Studio` warnings. Ant patterns are accepted for relative paths.""")
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -59,7 +59,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .description(
           "Defines the encoding to be used to read the files from `sonar.cxx.vc.reportPaths` (default is `UTF-8`)."
         )
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -68,7 +68,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         .description("""
                      Java regular expressions to parse the `Visual Studio` warnings. You can use the named-capturing \
                      groups `<file>`, `<line>`, `<column>`, `<id>` and `<message>`.""")
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build()

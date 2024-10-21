@@ -44,13 +44,13 @@ public enum TestwellCtcTxtResult {
     Pattern.MULTILINE);
   public static final Pattern REPORT_FOOTER = Pattern.compile(
     String.join("\\s+", SRC_FLS.patternString, HDR_EXT.patternString, FKT_EXT.patternString,
-                SRC_LNS.patternString), Pattern.MULTILINE);
+      SRC_LNS.patternString), Pattern.MULTILINE);
   public static final Pattern FILE_HEADER
-                                = Pattern.compile(String.join("\\s+", FILE_MONI.patternString, FILE_INST.patternString),
-                                                  Pattern.MULTILINE);
+    = Pattern.compile(String.join("\\s+", FILE_MONI.patternString, FILE_INST.patternString),
+      Pattern.MULTILINE);
   public static final Pattern SECTION_SEP = Pattern.compile("^(-{77}|={77})$", Pattern.MULTILINE);
   public static final Pattern LINE_RESULT = Pattern.compile(
-    "^(?:[ ]{10}|[ ]{0,9}([0-9Ee]{1,9}))[ ](?:[ ]{10}|[ ]{0,9}([0-9Ee]{1,9}))[ ]-?[ ]{0,9}([0-9Ee]{1,9})[ ]{0,256}(?:}([+-]+))?(.{0,256})$",
+    "^(?:\\x20{10}|\\x20{0,9}([0-9Ee]{1,9}))\\x20(?:\\x20{10}|\\x20{0,9}([0-9Ee]{1,9}))\\x20-?\\x20{0,9}([0-9Ee]{1,9})\\x20{0,256}(?:}([+-]+))?(.{0,256})$",
     Pattern.MULTILINE);
   public static final Pattern FILE_RESULT = Pattern.compile(
     String.join("\\s+", FILE_COND.patternString, FILE_STMT.patternString),

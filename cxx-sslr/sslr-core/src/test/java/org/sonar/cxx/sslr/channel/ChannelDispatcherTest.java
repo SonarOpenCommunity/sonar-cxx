@@ -73,8 +73,7 @@ class ChannelDispatcherTest {
 
     @Override
     public boolean consume(CodeReader code, StringBuilder output) {
-      var b = true;
-      return b;
+      return true;
     }
   }
 

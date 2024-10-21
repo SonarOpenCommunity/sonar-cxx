@@ -50,7 +50,7 @@ public class SequenceExpression implements ParsingExpression {
     for (var subExpression : subExpressions) {
       Instruction.addAll(result, compiler.compile(subExpression));
     }
-    return result.toArray(new Instruction[result.size()]);
+    return result.toArray(Instruction[]::new);
   }
 
   @Override

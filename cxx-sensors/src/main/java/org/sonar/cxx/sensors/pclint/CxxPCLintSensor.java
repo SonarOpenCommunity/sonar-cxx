@@ -35,6 +35,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
@@ -71,7 +72,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
           Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with \
           `PC-lint` issues. Ant patterns are accepted for relative paths. In the SonarQube UI, enter one \
           entry per field.""")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("PC-lint")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)

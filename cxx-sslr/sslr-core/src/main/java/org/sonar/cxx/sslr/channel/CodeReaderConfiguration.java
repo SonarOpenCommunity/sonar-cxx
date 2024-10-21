@@ -46,8 +46,7 @@ public class CodeReaderConfiguration {
   }
 
   /**
-   * @param tabWidth
-   * the tabWidth to set
+   * @param tabWidth the tabWidth to set
    */
   public void setTabWidth(int tabWidth) {
     this.tabWidth = tabWidth;
@@ -58,12 +57,11 @@ public class CodeReaderConfiguration {
    */
   @SuppressWarnings("rawtypes")
   public CodeReaderFilter[] getCodeReaderFilters() {
-    return codeReaderFilters.toArray(new CodeReaderFilter[codeReaderFilters.size()]);
+    return codeReaderFilters.toArray(CodeReaderFilter[]::new);
   }
 
   /**
-   * @param codeReaderFilters
-   * the codeReaderFilters to set
+   * @param codeReaderFilters the codeReaderFilters to set
    */
   public void setCodeReaderFilters(CodeReaderFilter<?>... codeReaderFilters) {
     this.codeReaderFilters = new ArrayList<>(Arrays.asList(codeReaderFilters));
@@ -72,8 +70,7 @@ public class CodeReaderConfiguration {
   /**
    * Adds a code reader filter
    *
-   * @param codeReaderFilter
-   * the codeReaderFilter to add
+   * @param codeReaderFilter the codeReaderFilter to add
    */
   public void addCodeReaderFilters(CodeReaderFilter<?> codeReaderFilter) {
     this.codeReaderFilters.add(codeReaderFilter);

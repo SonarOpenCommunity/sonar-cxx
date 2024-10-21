@@ -27,6 +27,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.coverage.CoverageSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
 
@@ -35,7 +36,7 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
   public static List<PropertyDefinition> properties() {
-    var category = "CXX External Analyzers";
+    var category = CxxReportSensor.CATEGORY;
     var subcategory = "Testwell CTC++";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)

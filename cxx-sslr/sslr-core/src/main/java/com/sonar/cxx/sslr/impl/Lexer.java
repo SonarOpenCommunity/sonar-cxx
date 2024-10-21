@@ -61,7 +61,7 @@ public class Lexer {
 
   private Lexer(Builder builder) {
     this.charset = builder.charset;
-    this.preprocessors = builder.preprocessors.toArray(new Preprocessor[builder.preprocessors.size()]);
+    this.preprocessors = builder.preprocessors.toArray(Preprocessor[]::new);
     this.configuration = builder.configuration;
     this.channelDispatcher = builder.getChannelDispatcher();
 
@@ -136,7 +136,7 @@ public class Lexer {
       return getTokens();
     } catch (Exception e) {
       throw new LexerException("Unable to lex source code at line : " + code.getLinePosition() + " and column : "
-                                 + code.getColumnPosition() + " in file : " + uri, e);
+        + code.getColumnPosition() + " in file : " + uri, e);
     }
   }
 
@@ -263,7 +263,7 @@ public class Lexer {
 
     private ChannelDispatcher<Lexer> getChannelDispatcher() {
       var builder = ChannelDispatcher.builder()
-        .addChannels(channels.toArray(new Channel[channels.size()]));
+        .addChannels(channels.toArray(Channel[]::new));
 
       if (failIfNoChannelToConsumeOneCharacter) {
         builder.failIfNoChannelToConsumeOneCharacter();

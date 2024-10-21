@@ -37,12 +37,12 @@ public class ExternalDescriptionLoader {
 
   private final String resourceBasePath;
 
-  public ExternalDescriptionLoader(NewRepository repository, String resourceBasePath) {
+  public ExternalDescriptionLoader(String resourceBasePath) {
     this.resourceBasePath = resourceBasePath;
   }
 
   public static void loadHtmlDescriptions(NewRepository repository, String languageKey) {
-    var loader = new ExternalDescriptionLoader(repository, languageKey);
+    var loader = new ExternalDescriptionLoader(languageKey);
     for (var newRule : repository.rules()) {
       loader.addHtmlDescription(newRule);
     }

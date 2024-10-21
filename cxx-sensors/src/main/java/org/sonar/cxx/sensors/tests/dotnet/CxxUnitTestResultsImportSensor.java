@@ -35,6 +35,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.scanner.sensor.ProjectSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxUnitTestResultsImportSensor implements ProjectSensor {
 
@@ -48,7 +49,6 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
   }
 
   public static List<PropertyDefinition> properties() {
-    var category = "CXX External Analyzers";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(UnitTestConfiguration.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
@@ -57,7 +57,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
           Paths to VSTest reports. Multiple paths may be comma-delimited, or included via wildcards. \
           Note that while measures such as the number of tests are displayed at project level, no drilldown \
           is available. In the SonarQube UI, enter one entry per field.""")
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("Visual C++")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -68,7 +68,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
           Paths to NUnit execution reports. Multiple paths may be comma-delimited, or included via wildcards. \
           Note that while measures such as the number of tests are displayed at project level, no drilldown \
           is available. In the SonarQube UI, enter one entry per field.""")
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("NUnit")
         .onQualifiers(Qualifiers.PROJECT)
         .build()

@@ -124,6 +124,8 @@ public class CxxSquidSensor implements ProjectSensor {
   }
 
   public static List<PropertyDefinition> properties() {
+    var category = "CXX";
+    var subcategory = "(2) Preprocessor";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
         .multiValues(true)
@@ -131,14 +133,14 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           Comma-separated list of directories where the preprocessor looks for include files. The path may be \
           either absolute or relative to the project base directory. In the SonarQube UI, enter one entry per field.""")
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDES_KEY)
         .multiValues(true)
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .name("(2.3) Force Includes")
         .description("""
           Comma-separated list of include files implicitly inserted at the beginning of each source file. This has \
@@ -155,7 +157,7 @@ public class CxxSquidSensor implements ProjectSensor {
           Disable parsing of source code, syntax hightligthing and metric generation. The source files are still \
           indexed, reports can be read and their results displayed. Turning off will speed up reading of \
           source files.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -165,8 +167,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           List of macros to be used by the preprocessor during analysis. Enter one macro per line. The syntax is \
           the same as `#define` directives, except for the `#define` keyword itself.""")
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.TEXT)
         .build(),
@@ -176,7 +178,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           Defines the mode for error handling of report files and parsing errors. `False` (strict) terminates \
           after an error or `True` (tolerant) continues.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(1) General")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -187,8 +189,8 @@ public class CxxSquidSensor implements ProjectSensor {
           Read one ore more MSBuild .LOG files to automatically extract the required macros `sonar.cxx.defines` and \
           include directories `sonar.cxx.includeDirectories`. The path may be either absolute or relative to the \
           project base directory. In the SonarQube UI, enter one entry per field.""")
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
         .build(),
@@ -198,13 +200,13 @@ public class CxxSquidSensor implements ProjectSensor {
         .description(
           "Defines the encoding to be used to read the files from `sonar.cxx.msbuild.reportPaths` (default is `UTF-8`)."
         )
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_KEY)
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .name("(2.4) JSON Compilation Database")
         .description("""
           Read a JSON Compilation Database file to automatically extract the required macros `sonar.cxx.defines` and \
@@ -214,8 +216,8 @@ public class CxxSquidSensor implements ProjectSensor {
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_ONLY_CONTAINED_FILES_KEY)
         .defaultValue(Boolean.FALSE.toString())
-        .category("CXX")
-        .subCategory("(2) Preprocessor")
+        .category(category)
+        .subCategory(subcategory)
         .name("(2.5) JSON Compilation Database analyze only contained files")
         .description("""
           If 'analyzeOnlyContainedFiles=True' is used, the analyzed files will be limited to the files contained in \
@@ -231,7 +233,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           Comma-separated list of suffixes for files to be searched for API comments and to create API metrics. \
           In the SonarQube UI, enter one entry per field.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -241,7 +243,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           The parameter defines the threshold for `Complex Functions ...`. \
           Functions and methods with a higher cyclomatic complexity are classified as `complex`.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
@@ -252,7 +254,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           The parameter defines the threshold for `Big Functions ...`. \
           Functions and methods with more lines of code are classified as `big`.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(3) Metrics")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.INTEGER)
@@ -264,7 +266,7 @@ public class CxxSquidSensor implements ProjectSensor {
           Configure the metrics `Duplications` (Copy Paste Detection). `True` ignores literal (numbers, characters \
           and strings) value differences when evaluating a duplicate block. This means that e.g. `foo=42;` and \
           `foo=43;` will be seen as equivalent.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -275,7 +277,7 @@ public class CxxSquidSensor implements ProjectSensor {
         .description("""
           Configure the metrics `Duplications` (Copy Paste Detection). `True` ignores identifier value differences \
           when evaluating a duplicate block e.g. variable names, methods names, and so forth.""")
-        .category("CXX")
+        .category(category)
         .subCategory("(4) Duplications")
         .onQualifiers(Qualifiers.PROJECT)
         .type(PropertyType.BOOLEAN)
@@ -309,7 +311,7 @@ public class CxxSquidSensor implements ProjectSensor {
     }
 
     var squidConfig = createConfiguration();
-    var scanner = CxxAstScanner.create(squidConfig, visitors.toArray(new SquidAstVisitor[visitors.size()]));
+    var scanner = CxxAstScanner.create(squidConfig, visitors.toArray(SquidAstVisitor[]::new));
 
     Iterable<InputFile> inputFiles = getInputFiles(context, squidConfig);
     scanner.scanInputFiles(inputFiles);
@@ -326,8 +328,8 @@ public class CxxSquidSensor implements ProjectSensor {
   private String[] stripValue(String key, String regex) {
     Optional<String> value = context.config().get(key);
     if (value.isPresent()) {
-      var PATTERN = Pattern.compile(regex);
-      return PATTERN.split(value.get(), -1);
+      var pattern = Pattern.compile(regex);
+      return pattern.split(value.get(), -1);
     }
     return new String[0];
   }
@@ -508,7 +510,7 @@ public class CxxSquidSensor implements ProjectSensor {
     // measures for the lines of file
     var fileLinesContext = fileLinesContextFactory.createFor(inputFile);
     List<Integer> linesOfCode = (List<Integer>) sourceFile.getData(CxxMetric.NCLOC_DATA);
-    linesOfCode.stream().sequential().distinct().forEach((line) -> {
+    linesOfCode.stream().sequential().distinct().forEach(line -> {
       try {
         fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1);
       } catch (IllegalArgumentException | IllegalStateException e) {
@@ -517,7 +519,7 @@ public class CxxSquidSensor implements ProjectSensor {
       }
     });
     List<Integer> executableLines = (List<Integer>) sourceFile.getData(CxxMetric.EXECUTABLE_LINES_DATA);
-    executableLines.stream().sequential().distinct().forEach((line) -> {
+    executableLines.stream().sequential().distinct().forEach(line -> {
       try {
         fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1);
       } catch (IllegalArgumentException | IllegalStateException e) {
@@ -532,7 +534,7 @@ public class CxxSquidSensor implements ProjectSensor {
     NewCpdTokens cpdTokens = context.newCpdTokens().onFile(inputFile);
 
     List<CxxCpdVisitor.CpdToken> data = (List<CxxCpdVisitor.CpdToken>) sourceFile.getData(CxxMetric.CPD_TOKENS_DATA);
-    data.forEach((item) -> {
+    data.forEach(item -> {
       try {
         TextRange range = inputFile.newRange(item.startLine, item.startCol, item.endLine, item.endCol);
         cpdTokens.addToken(range, item.token);
@@ -550,7 +552,7 @@ public class CxxSquidSensor implements ProjectSensor {
 
     List<CxxHighlighterVisitor.Highlight> data = (List<CxxHighlighterVisitor.Highlight>) sourceFile.getData(
       CxxMetric.HIGHLIGTHING_DATA);
-    data.forEach((item) -> {
+    data.forEach(item -> {
       try {
         newHighlighting.highlight(item.startLine, item.startLineOffset, item.endLine, item.endLineOffset,
           TypeOfText.forCssClass(item.typeOfText));

@@ -25,13 +25,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.rule.RuleKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
 
@@ -157,7 +157,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private boolean addLocations(NewIssue newIssue, String ruleId, CxxReportIssue issue) {
     var first = true;
     for (var location : issue.getLocations()) {
-      NewIssueLocation newLocation = null;
+      NewIssueLocation newLocation;
       if (location.getFile() != null && !location.getFile().isEmpty()) {
         newLocation = createNewIssueLocation(newIssue, location);
       } else {

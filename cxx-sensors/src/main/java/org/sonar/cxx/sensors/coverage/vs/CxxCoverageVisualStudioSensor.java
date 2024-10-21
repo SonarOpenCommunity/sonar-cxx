@@ -26,6 +26,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.coverage.CoverageSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxCoverageVisualStudioSensor extends CoverageSensor {
 
@@ -39,7 +40,7 @@ public class CxxCoverageVisualStudioSensor extends CoverageSensor {
           Comma-separated list of paths pointing to coverage reports (absolute or relative to the project base \
           directory). Ant patterns are accepted for relative path. The reports have to conform to the \
           `Visual Studio Coverage XML format`.""")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("Visual C++")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)

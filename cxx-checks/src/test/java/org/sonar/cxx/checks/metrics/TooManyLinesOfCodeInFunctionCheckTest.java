@@ -21,7 +21,6 @@ package org.sonar.cxx.checks.metrics;
 
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.checks.CxxFileTesterHelper;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -30,7 +29,6 @@ import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifier;
 class TooManyLinesOfCodeInFunctionCheckTest {
 
   private final TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
-  private final MapSettings settings = new MapSettings();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion

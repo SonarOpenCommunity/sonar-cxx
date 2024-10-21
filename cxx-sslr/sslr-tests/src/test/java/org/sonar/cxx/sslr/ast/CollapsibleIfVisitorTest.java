@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Test;
 class CollapsibleIfVisitorTest {
 
   private final Parser<Grammar> p = MiniCParser.create();
-  private final Grammar g = p.getGrammar();
 
   @Test
   void test() {

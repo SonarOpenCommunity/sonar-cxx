@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FileUtils;
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinition;
 
 /**
  * {@inheritDoc}
@@ -107,11 +107,8 @@ public class RulesDefinitionXml implements RulesDefinition {
     return files;
   }
 
-  /**
-   * Can be overridden in derived repositories to set rule properties.
-   */
   public void prepareRule(NewRule rule) {
-
+    // can be overridden in derived repositories to set rule properties
   }
 
 }
