@@ -92,7 +92,7 @@ public class JsonCompilationDatabase {
       args.add(removeApostophs(arg.toString()));
     }
 
-    return args.toArray(new String[0]);
+    return args.toArray(String[]::new);
   }
 
   /**
@@ -143,7 +143,7 @@ public class JsonCompilationDatabase {
       String[] args;
 
       if (commandObject.hasArguments()) {
-        args = commandObject.getArguments().toArray(new String[0]);
+        args = commandObject.getArguments().toArray(String[]::new);
         if (args.length == 1) {
           args = tokenizeCommandLine(args[0]);
         }
@@ -208,15 +208,15 @@ public class JsonCompilationDatabase {
   }
 
   private void addDefines(String level, Map<String, String> defines) {
-    defines.forEach((String k, String v) -> {
-      squidConfig.add(level, CxxSquidConfiguration.DEFINES, k + " " + v);
-    });
+    defines.forEach((String k, String v)
+      -> squidConfig.add(level, CxxSquidConfiguration.DEFINES, k + " " + v)
+    );
   }
 
   private void addIncludes(String level, List<Path> includes) {
-    includes.forEach((Path include) -> {
-      squidConfig.add(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES, include.toString());
-    });
+    includes.forEach((Path include)
+      -> squidConfig.add(level, CxxSquidConfiguration.INCLUDE_DIRECTORIES, include.toString())
+    );
   }
 
   private enum ArgNext {

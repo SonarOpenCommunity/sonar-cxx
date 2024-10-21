@@ -42,9 +42,8 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.squidbridge.rules.ExternalDescriptionLoader;
 
 /**
- * Utility class which helps setting up an implementation of {@link RulesDefinition} with a list of
- * rule classes annotated with {@link Rule}, {@link RuleProperty} and SQALE annotations:
- * Exactly one of:
+ * Utility class which helps setting up an implementation of {@link RulesDefinition} with a list of rule classes
+ * annotated with {@link Rule}, {@link RuleProperty} and SQALE annotations: Exactly one of:
  * <ul>
  * <li>{@link SqaleConstantRemediation}</li>
  * <li>{@link SqaleLinearRemediation}</li>
@@ -77,7 +76,7 @@ public class AnnotationBasedRulesDefinition {
     this.repository = repository;
     this.languageKey = languageKey;
     var externalDescriptionBasePath = String.format("/org/sonar/l10n/%s/rules/%s", languageKey, repository.key());
-    this.externalDescriptionLoader = new ExternalDescriptionLoader(repository, externalDescriptionBasePath);
+    this.externalDescriptionLoader = new ExternalDescriptionLoader(externalDescriptionBasePath);
   }
 
   public void addRuleClasses(boolean failIfSqaleNotFound, Iterable<Class> ruleClasses) {
@@ -105,10 +104,10 @@ public class AnnotationBasedRulesDefinition {
   }
 
   private boolean isSqaleAnnotated(Class<?> ruleClass) {
-    return AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class) != null ||
-           AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class) != null ||
-           AnnotationUtils.getAnnotation(ruleClass, SqaleLinearWithOffsetRemediation.class) != null ||
-           getNoSqaleAnnotation(ruleClass) != null;
+    return AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class) != null
+      || AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class) != null
+      || AnnotationUtils.getAnnotation(ruleClass, SqaleLinearWithOffsetRemediation.class) != null
+      || getNoSqaleAnnotation(ruleClass) != null;
   }
 
   @VisibleForTesting

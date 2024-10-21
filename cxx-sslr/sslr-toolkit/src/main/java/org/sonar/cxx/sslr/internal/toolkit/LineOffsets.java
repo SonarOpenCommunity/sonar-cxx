@@ -31,7 +31,7 @@ public class LineOffsets {
 
   private static final String NEWLINE_REGEX = "(\r)?\n|\r";
 
-  private final Map<Integer, Integer> lineOffsets = new HashMap<>();
+  private final Map<Integer, Integer> lineOffsetValues = new HashMap<>();
   private final int endOffset;
 
   public LineOffsets(String code) {
@@ -39,7 +39,7 @@ public class LineOffsets {
 
     var lines = code.split(NEWLINE_REGEX, -1);
     for (int line = 1; line <= lines.length; line++) {
-      lineOffsets.put(line, currentOffset);
+      lineOffsetValues.put(line, currentOffset);
       currentOffset += lines[line - 1].length() + 1;
     }
 
@@ -68,8 +68,8 @@ public class LineOffsets {
       throw new IllegalArgumentException();
     }
 
-    if (lineOffsets.containsKey(line)) {
-      return Math.min(lineOffsets.get(line) + column, endOffset);
+    if (lineOffsetValues.containsKey(line)) {
+      return Math.min(lineOffsetValues.get(line) + column, endOffset);
     } else {
       return endOffset;
     }

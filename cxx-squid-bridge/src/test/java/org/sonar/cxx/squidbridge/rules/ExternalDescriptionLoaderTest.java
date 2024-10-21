@@ -39,7 +39,7 @@ class ExternalDescriptionLoaderTest {
   private final NewRepository repository = context.createRepository(REPO_KEY, LANGUAGE_KEY);
 
   @Test
-  void existing_rule_description() throws Exception {
+  void existingRuleDescription() throws Exception {
     repository.createRule("ruleWithExternalInfo").setName("name1");
     var rule = buildRepository().rule("ruleWithExternalInfo");
     assertThat(rule).isNotNull();
@@ -47,7 +47,7 @@ class ExternalDescriptionLoaderTest {
   }
 
   @Test
-  void rule_with_non_external_description() throws Exception {
+  void ruleWithNonExternalDescription() throws Exception {
     repository.createRule("ruleWithoutExternalInfo").setName("name1").setHtmlDescription("my description");
     var rule = buildRepository().rule("ruleWithoutExternalInfo");
     assertThat(rule).isNotNull();
@@ -55,7 +55,7 @@ class ExternalDescriptionLoaderTest {
   }
 
   @Test
-  void rule_without_description() {
+  void ruleWithoutDescription() {
     repository.createRule("ruleWithoutExternalInfo").setName("name1");
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
@@ -65,8 +65,8 @@ class ExternalDescriptionLoaderTest {
   }
 
   @Test
-  void invalid_url() {
-    var loader = new ExternalDescriptionLoader(repository, LANGUAGE_KEY);
+  void invalidUrl() {
+    var loader = new ExternalDescriptionLoader(LANGUAGE_KEY);
     var rule = repository.createRule("ruleWithoutExternalInfo").setName("name1");
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {

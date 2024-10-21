@@ -132,7 +132,7 @@ public final class CxxAstScanner {
 
       @Override
       public String getContents(String comment) {
-        var HEADER_LEN = 2;
+        final var HEADER_LEN = 2;
         return "/*".equals(comment.substring(0, HEADER_LEN))
           ? comment.substring(HEADER_LEN, comment.length() - HEADER_LEN)
           : comment.substring(HEADER_LEN);

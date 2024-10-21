@@ -110,7 +110,6 @@ class MsBuildTest {
     var parser = new MsBuild(squidConfig);
     parser.parse(logFile, ".", VC_CHARSET);
 
-    List<String> includes = squidConfig.getValues(UNIQUE_FILE, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
-    return includes;
+    return squidConfig.getValues(UNIQUE_FILE, CxxSquidConfiguration.INCLUDE_DIRECTORIES);
   }
 }

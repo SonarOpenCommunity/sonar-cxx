@@ -33,6 +33,7 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.utils.CxxReportIssue;
 
 /**
@@ -51,7 +52,6 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
   private static final Logger LOG = LoggerFactory.getLogger(CxxDrMemorySensor.class);
 
   public static List<PropertyDefinition> properties() {
-    var category = "CXX External Analyzers";
     var subcategory = "Dr. Memory";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -59,7 +59,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         .description("""
           Comma-separated paths (absolute or relative to the project base directory) to `*.txt` files with \
           `Dr. Memory` issues. Ant patterns are accepted for relative paths.""")
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -70,7 +70,7 @@ public class CxxDrMemorySensor extends CxxIssuesReportSensor {
         .description("""
                      Defines the encoding to be used to read the files from `sonar.cxx.drmemory.reportPaths` \
                      (default is `UTF-8`).""")
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .build()

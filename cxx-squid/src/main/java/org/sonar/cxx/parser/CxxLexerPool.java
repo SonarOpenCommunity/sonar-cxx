@@ -50,8 +50,8 @@ public final class CxxLexerPool {
   private static final String BIN_PREFIX = "0[bB]";
   private static final String EXPONENT = "[Ee][+-]?+[0-9_]([']?+[0-9_]++)*+";
   private static final String BINARY_EXPONENT = "[pP][+-]?+\\d([']?+\\d++)*+"; // since C++17
-  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?)|((z|Z)(u|U)))";
-  //private static final String FLOAT_SUFFIX = "(f|l|F|L|f16|f32|f64|f128|bf16|F16|F32|F64|F128|BF16)";
+  // INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?)|((z|Z)(u|U)))"
+  // FLOAT_SUFFIX = "(f|l|F|L|f16|f32|f64|f128|bf16|F16|F32|F64|F128|BF16)"
   // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
   private static final String UD_SUFFIX = "[_a-zA-Z]\\w*+";
   private static final String DECDIGIT_SEQUENCE = "\\d([']?+\\d++)*+";
@@ -97,16 +97,16 @@ public final class CxxLexerPool {
       // C++ Standard, Section 2.14.4 "Floating literals"
       .withChannel(
         regexp(CxxTokenType.NUMBER,
-               and(
-                 or(
-                   g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
-                   g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(
-                     g(BINARY_EXPONENT))),
-                   g(BIN_PREFIX, BINDIGIT_SEQUENCE),
-                   g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
-                 ),
-                 opt(g(UD_SUFFIX))
-               )
+          and(
+            or(
+              g(POINT, DECDIGIT_SEQUENCE, opt(g(EXPONENT))),
+              g(HEX_PREFIX, opt(g(HEXDIGIT_SEQUENCE)), opt(POINT), opt(g(HEXDIGIT_SEQUENCE)), opt(
+                g(BINARY_EXPONENT))),
+              g(BIN_PREFIX, BINDIGIT_SEQUENCE),
+              g(DECDIGIT_SEQUENCE, opt(POINT), opt(g(DECDIGIT_SEQUENCE)), opt(g(EXPONENT)))
+            ),
+            opt(g(UD_SUFFIX))
+          )
         )
       )
       // C++ Standard, Section 2.14.7 "Pointer literals"

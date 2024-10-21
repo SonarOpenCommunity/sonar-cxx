@@ -155,7 +155,7 @@ class CheckMessagesVerifierTest {
       .noMore();
   }
 
-  private static final CheckMessage mockCheckMessage(Integer line, String message, Double cost) {
+  private static CheckMessage mockCheckMessage(Integer line, String message, Double cost) {
     CheckMessage checkMessage = mock(CheckMessage.class);
     when(checkMessage.getLine()).thenReturn(line);
     when(checkMessage.getDefaultMessage()).thenReturn(message);
@@ -164,7 +164,7 @@ class CheckMessagesVerifierTest {
     return checkMessage;
   }
 
-  private static final CheckMessage mockCheckMessage(Integer line, String message) {
+  private static CheckMessage mockCheckMessage(Integer line, String message) {
     return mockCheckMessage(line, message, null);
   }
 

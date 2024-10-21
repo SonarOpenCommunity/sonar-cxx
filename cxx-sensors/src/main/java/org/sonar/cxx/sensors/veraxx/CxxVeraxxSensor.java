@@ -32,6 +32,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -53,7 +54,7 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
           Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with \
           `Vera++` issues. Ant patterns are accepted for relative paths. In the SonarQube UI, enter one \
           entry per field.""")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("Vera++")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)

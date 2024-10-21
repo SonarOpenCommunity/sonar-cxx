@@ -407,7 +407,7 @@ public class RulesDefinitionXmlLoader {
         .setSeverity(severity)
         .setName(name)
         .setInternalKey(internalKey)
-        .setTags(tags.toArray(new String[tags.size()]))
+        .setTags(tags.toArray(String[]::new))
         .setTemplate(template)
         .setStatus(status)
         .setGapDescription(gapDescription);
@@ -426,12 +426,10 @@ public class RulesDefinitionXmlLoader {
   private static void fillDescription(RulesDefinition.NewRule rule, String descriptionFormat,
     @Nullable String description) {
     if (isNotBlank(description)) {
-      switch (DescriptionFormat.valueOf(descriptionFormat)) {
-        case HTML:
-          rule.setHtmlDescription(description);
-          break;
-        default:
-          throw new IllegalArgumentException("Value of descriptionFormat is not supported: " + descriptionFormat);
+      if (DescriptionFormat.valueOf(descriptionFormat) == DescriptionFormat.HTML) {
+        rule.setHtmlDescription(description);
+      } else {
+        throw new IllegalArgumentException("Value of descriptionFormat is not supported: " + descriptionFormat);
       }
     }
   }

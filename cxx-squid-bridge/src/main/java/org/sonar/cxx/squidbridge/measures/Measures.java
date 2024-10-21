@@ -29,10 +29,10 @@ import javax.annotation.CheckForNull;
 
 public class Measures {
 
-  private final Map<MetricDef, Measure> measures = new IdentityHashMap<>();
+  private final Map<MetricDef, Measure> measureValues = new IdentityHashMap<>();
 
   public double getValue(MetricDef metric) {
-    var measure = measures.get(metric);
+    var measure = measureValues.get(metric);
     if (measure == null) {
       return 0;
     }
@@ -41,7 +41,7 @@ public class Measures {
 
   @CheckForNull
   public Object getData(MetricDef metric) {
-    var measure = measures.get(metric);
+    var measure = measureValues.get(metric);
     if (measure == null) {
       return null;
     }
@@ -57,16 +57,16 @@ public class Measures {
   }
 
   private Measure getMeasureOrCreateIt(MetricDef metric) {
-    var measure = measures.get(metric);
+    var measure = measureValues.get(metric);
     if (measure == null) {
       measure = new Measure(0);
-      measures.put(metric, measure);
+      measureValues.put(metric, measure);
     }
     return measure;
   }
 
   public void removeMeasure(MetricDef metric) {
-    measures.remove(metric);
+    measureValues.remove(metric);
   }
 
   private static final class Measure {

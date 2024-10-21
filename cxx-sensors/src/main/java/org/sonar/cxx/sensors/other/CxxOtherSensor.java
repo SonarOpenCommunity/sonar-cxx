@@ -31,6 +31,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -51,7 +52,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         .description("""
           Comma-separated paths (absolute or relative to the project base directory) to `*.xml` files with `other` \
           issues. Ant patterns are accepted for relative paths. In the SonarQube UI, enter one entry per field.""")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -61,7 +62,7 @@ public class CxxOtherSensor extends CxxIssuesReportSensor {
         .description("XML rule definitions for `other` code analyzers. Use a separate field for each tool.")
         .type(PropertyType.TEXT)
         .multiValues(true)
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
         .build()
     ));

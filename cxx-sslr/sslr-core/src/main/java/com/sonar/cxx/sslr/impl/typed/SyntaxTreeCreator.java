@@ -109,7 +109,7 @@ public class SyntaxTreeCreator<T> {
         result = nodeBuilder.createNonTerminal(ruleKey, rule, convertedChildren, node.getStartIndex(), node
           .getEndIndex());
       } else {
-        result = ReflectionUtils.invokeMethod(method, treeFactory, convertedChildren.toArray(new Object[0]));
+        result = ReflectionUtils.invokeMethod(method, treeFactory, convertedChildren.toArray(Object[]::new));
       }
     }
     return result;

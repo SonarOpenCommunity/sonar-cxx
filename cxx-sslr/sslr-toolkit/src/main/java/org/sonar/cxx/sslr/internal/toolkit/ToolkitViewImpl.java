@@ -202,19 +202,19 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     sourceCodeEditorPane.setKeymap(keymap);
 
     sourceCodePasteButton.setText("Paste Clipboard");
-    sourceCodePasteButton.addActionListener((ActionEvent e) -> {
-      presenter.onSourceCodePasteButtonClick();
-    });
+    sourceCodePasteButton.addActionListener((ActionEvent e)
+      -> presenter.onSourceCodePasteButtonClick()
+    );
 
     sourceCodeOpenButton.setText("Open Source File");
-    sourceCodeOpenButton.addActionListener((ActionEvent e) -> {
-      presenter.onSourceCodeOpenButtonClick();
-    });
+    sourceCodeOpenButton.addActionListener((ActionEvent e)
+      -> presenter.onSourceCodeOpenButtonClick()
+    );
 
     sourceCodeParseButton.setText("Parse Source Code");
-    sourceCodeParseButton.addActionListener((ActionEvent e) -> {
-      presenter.onSourceCodeParseButtonClick();
-    });
+    sourceCodeParseButton.addActionListener((ActionEvent e)
+      -> presenter.onSourceCodeParseButtonClick()
+    );
 
     sourceCodeButtonsPanel.add(sourceCodePasteButton);
     sourceCodeButtonsPanel.add(sourceCodeOpenButton);
@@ -237,9 +237,9 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     southPanel.add(xpathPanel, BorderLayout.NORTH);
 
     xpathButton.setText("Evaluate XPath");
-    xpathButton.addActionListener((ActionEvent e) -> {
-      presenter.onXPathEvaluateButtonClick();
-    });
+    xpathButton.addActionListener((ActionEvent e)
+      -> presenter.onXPathEvaluateButtonClick()
+    );
     xpathButtonPanel.add(xpathButton);
 
     southPanel.add(xpathButtonPanel, BorderLayout.SOUTH);

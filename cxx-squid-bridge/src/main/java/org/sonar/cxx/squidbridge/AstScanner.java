@@ -50,6 +50,7 @@ import org.sonar.cxx.squidbridge.measures.MetricDef;
 public class AstScanner<G extends Grammar> {
 
   private static final Logger LOG = LoggerFactory.getLogger(AstScanner.class);
+  private static final String UNABLE_TO_PARSE = "Unable to parse file: ";
 
   private final List<SquidAstVisitor<G>> visitors;
   private final Parser<G> parser;
@@ -103,7 +104,7 @@ public class AstScanner<G extends Grammar> {
         }
         walkAndVisit(astWalker, ast, parseException);
       } catch (Throwable e) {
-        throw new AnalysisException("Unable to parse file: " + file.getAbsolutePath(), e);
+        throw new AnalysisException(UNABLE_TO_PARSE + file.getAbsolutePath(), e);
       }
     }
 
@@ -131,7 +132,7 @@ public class AstScanner<G extends Grammar> {
         }
         walkAndVisit(astWalker, ast, parseException);
       } catch (Throwable e) {
-        throw new AnalysisException("Unable to parse file: " + file.getAbsolutePath(), e);
+        throw new AnalysisException(UNABLE_TO_PARSE + file.getAbsolutePath(), e);
       }
     }
 
@@ -142,10 +143,10 @@ public class AstScanner<G extends Grammar> {
   private static Exception handleParseException(File file, Exception e) {
     checkInterrupted(e);
     if (e instanceof RecognitionException) {
-      LOG.error("Unable to parse file: " + file.getAbsolutePath());
+      LOG.error(UNABLE_TO_PARSE + file.getAbsolutePath());
       LOG.error(e.getMessage());
     } else {
-      LOG.error("Unable to parse file: " + file.getAbsolutePath(), e);
+      LOG.error(UNABLE_TO_PARSE + file.getAbsolutePath(), e);
     }
     return e;
   }

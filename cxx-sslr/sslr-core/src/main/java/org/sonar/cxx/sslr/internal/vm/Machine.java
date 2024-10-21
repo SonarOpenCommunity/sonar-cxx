@@ -58,7 +58,7 @@ public class Machine implements CharSequence {
   private boolean ignoreErrors = false;
 
   public static ParseNode parse(List<Token> tokens, CompiledGrammar grammar) {
-    var inputTokens = tokens.toArray(new Token[tokens.size()]);
+    var inputTokens = tokens.toArray(Token[]::new);
 
     var errorLocatingHandler = new ErrorLocatingHandler();
     var machine = new Machine(null, inputTokens, grammar.getInstructions(), errorLocatingHandler);

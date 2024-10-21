@@ -40,7 +40,6 @@ import org.junit.jupiter.api.Test;
 class CollapsibleIfSelectTest {
 
   private final Parser<Grammar> p = MiniCParser.create();
-  private final Grammar g = p.getGrammar();
 
   @Test
   void test() {
@@ -59,7 +58,7 @@ class CollapsibleIfSelectTest {
   private boolean visit(AstNode node) {
     var select = new AstSelect(node);
     return hasNoElseClause(select) && (hasIfStatementWithoutElse(select)
-                                       || hasIfStatementWithoutElseInCompoundStatement(select));
+      || hasIfStatementWithoutElseInCompoundStatement(select));
   }
 
   private boolean hasNoElseClause(AstSelect select) {
@@ -71,7 +70,7 @@ class CollapsibleIfSelectTest {
       .children(MiniCGrammar.STATEMENT)
       .children(MiniCGrammar.COMPOUND_STATEMENT);
     return select.children().size() == 3
-             && hasIfStatementWithoutElse(select);
+      && hasIfStatementWithoutElse(select);
   }
 
   private boolean hasIfStatementWithoutElse(AstSelect select) {
@@ -113,7 +112,8 @@ class CollapsibleIfSelectTest {
     AstSelect children(AstNodeType type) {
       List<AstNode> result = new ArrayList<>();
       for (var node : selected) {
-        // Don't use "getChildren(type)", because under the hood it will create an array of types and new List to keep the result
+        // Don't use "getChildren(type)", because under the hood it will create an array of types and
+        // new List to keep the result
         for (var child : node.getChildren()) {
           // Don't use "is(type)", because under the hood it will create an array of types
           if (child.getType() == type) {

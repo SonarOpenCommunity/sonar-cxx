@@ -50,10 +50,10 @@ class CxxTestwellCtcTxtParserTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx").initMetadata(
-      "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx")
+      .initMetadata("\n".repeat(100))
+      .build()
+    );
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -72,10 +72,10 @@ class CxxTestwellCtcTxtParserTest {
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx").initMetadata(
-      "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-      + "\n\n\n\n\n\n\n").build());
+      .setLanguage("cxx")
+      .initMetadata("\n".repeat(100))
+      .build()
+    );
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);

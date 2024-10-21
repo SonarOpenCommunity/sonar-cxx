@@ -58,7 +58,7 @@ public class CxxXunitSensor extends CxxReportSensor {
           Each path may be absolute or relative to the project base directory. Ant patterns are accepted for \
           relative paths. Note that while measures such as the number of tests are displayed at project level, \
           no drilldown is available. In the SonarQube UI, enter one entry per field.""")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("xUnit")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)

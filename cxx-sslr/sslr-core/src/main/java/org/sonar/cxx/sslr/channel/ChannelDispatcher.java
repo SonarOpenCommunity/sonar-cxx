@@ -33,7 +33,7 @@ public class ChannelDispatcher<O> extends Channel<O> {
   private final Channel<O>[] channels;
 
   private ChannelDispatcher(Builder builder) {
-    this.channels = builder.channels.toArray(new Channel[builder.channels.size()]);
+    this.channels = builder.channels.toArray(Channel[]::new);
     this.failIfNoChannelToConsumeOneCharacter = builder.failIfNoChannelToConsumeOneCharacter;
   }
 

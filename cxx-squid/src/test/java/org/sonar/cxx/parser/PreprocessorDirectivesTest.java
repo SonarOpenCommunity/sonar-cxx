@@ -34,7 +34,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void hashhash_related_parsing_problem1() {
+  void hashhashRelatedParsingProblem1() {
     assertThat(parse("""
                      #define CASES CASE(00)
                      #define CASE(n) case 0x##n:
@@ -49,7 +49,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void hashhash_related_parsing_problem2() {
+  void hashhashRelatedParsingProblem2() {
     assertThat(parse("""
                      #define paster( n ) printf_s( "token" #n " = %d", token##n )
                      int token9 = 9;int main() {
@@ -60,8 +60,8 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void object_like_macros() {
-    Object equalTo = assertThat(parse("""
+  void objectLikeMacros() {
+    assertThat(parse("""
                                       #define BUFFER_SIZE 1024
                                       foo = (char *) malloc (BUFFER_SIZE);
                                       """))
@@ -103,7 +103,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void function_like_macros() {
+  void functionLikeMacros() {
     assertThat(parse("""
                      #define lang_init() c_init()
                      lang_init();
@@ -126,7 +126,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void complex_macro_rescanning() {
+  void complexMacroRescanning() {
     assertThat(parse("""
                      #define lang_init std_init
                      #define std_init() c_init()
@@ -164,7 +164,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void macro_arguments() {
+  void macroArguments() {
     assertThat(parse("""
                      #define min(X, Y)  ((X) < (Y) ? (X) : (Y))
                      int i = min(a + 28, *p);
@@ -179,7 +179,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void variadic_macros() {
+  void variadicMacros() {
     assertThat(parse("""
                      #define eprintf(...) fprintf (stderr, __VA_ARGS__)
                      eprintf("%s:%d: ", input_file, lineno);
@@ -268,7 +268,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void va_opt_macros() {
+  void vaOptMacros() {
     // C++20 : Replacement-list may contain the token sequence __VA_OPT__ ( content ),
     // which is replaced by content if __VA_ARGS__ is non-empty, and expands to nothing otherwise.
 
@@ -530,7 +530,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void redefining_macros() {
+  void redefiningMacros() {
     assertThat(parse("""
                      #define FOO 1
                      #define FOO 2
@@ -563,7 +563,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void self_referential_macros() {
+  void selfReferentialMacros() {
     assertThat(parse("""
                      #define EPERM EPERM
                      a = EPERM;
@@ -585,7 +585,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void has_include() {
+  void hasInclude() {
     assertThat(parse("""
                      #if __has_include
                      #   define OK 1

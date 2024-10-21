@@ -28,6 +28,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 
 /**
@@ -46,7 +47,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         .description("""
           Comma-separated paths (absolute or relative to the project base directory) to `*.txt` files with \
           `Clang-Tidy` issues. Ant patterns are accepted for relative paths.""")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -56,7 +57,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
         .name("Clang-Tidy Report Encoding")
         .description("Defines the encoding to be used to read the files from `sonar.cxx.clangtidy.reportPaths`"
           + " (default is `UTF-8`).")
-        .category("CXX External Analyzers")
+        .category(CxxReportSensor.CATEGORY)
         .subCategory("Clang-Tidy")
         .onQualifiers(Qualifiers.PROJECT)
         .build()

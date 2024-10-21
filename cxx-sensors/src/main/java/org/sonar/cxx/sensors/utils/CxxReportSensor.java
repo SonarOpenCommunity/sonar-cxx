@@ -26,17 +26,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.CheckForNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class is used as base for all sensors which import reports. It hosts common logic such as finding the reports.
  */
 public abstract class CxxReportSensor implements ProjectSensor {
 
+  public static final String CATEGORY = "CXX External Analyzers";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   private static final Logger LOG = LoggerFactory.getLogger(CxxReportSensor.class);
 
@@ -82,7 +83,7 @@ public abstract class CxxReportSensor implements ProjectSensor {
 
         if (inputFile == null) {
           LOG.warn("Cannot find the file '{}' in project '{}' with baseDir '{}', skipping",
-                   path, context.project().key(), context.fileSystem().baseDir());
+            path, context.project().key(), context.fileSystem().baseDir());
           notFoundFiles.add(path);
         }
       }

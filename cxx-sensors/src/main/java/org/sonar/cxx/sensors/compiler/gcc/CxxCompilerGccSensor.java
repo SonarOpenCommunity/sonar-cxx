@@ -29,6 +29,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
+import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
@@ -46,7 +47,6 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
 
   public static List<PropertyDefinition> properties() {
     var subcateg = "GCC";
-    var category = "CXX External Analyzers";
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
         .name("GCC Compiler Report(s)")
@@ -54,7 +54,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
           Comma-separated paths (absolute or relative to the project base directory) to \
           `*.log` files with `GCC` warnings. Ant patterns are accepted for relative paths."""
         )
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .multiValues(true)
@@ -65,7 +65,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         .description(
           "Defines the encoding to be used to read the files from `sonar.cxx.gcc.reportPaths` (default is `UTF-8`)."
         )
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build(),
@@ -75,7 +75,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
            Java regular expressions to parse the `GCC` warnings. You can use the named-capturing groups \
            `<file>`, `<line>`, `<column>`, `<id>` and `<message>`."""
         )
-        .category(category)
+        .category(CxxReportSensor.CATEGORY)
         .subCategory(subcateg)
         .onQualifiers(Qualifiers.PROJECT)
         .build()
