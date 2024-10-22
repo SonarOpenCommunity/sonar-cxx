@@ -77,7 +77,7 @@ class GrammarOperatorsTest {
   }
 
   @Test
-  void test_token() {
+  void testToken() {
     var tokenType = mock(TokenType.class);
     var e = mock(ParsingExpression.class);
     var result = GrammarOperators.token(tokenType, e);
@@ -86,7 +86,7 @@ class GrammarOperatorsTest {
   }
 
   @Test
-  void test_commentTrivia() {
+  void testCommentTrivia() {
     var e = mock(ParsingExpression.class);
     var result = GrammarOperators.commentTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -94,7 +94,7 @@ class GrammarOperatorsTest {
   }
 
   @Test
-  void test_skippedTrivia() {
+  void testSkippedTrivia() {
     var e = mock(ParsingExpression.class);
     var result = GrammarOperators.skippedTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -102,7 +102,7 @@ class GrammarOperatorsTest {
   }
 
   @Test
-  void illegal_argument() {
+  void illegalArgument() {
     var thrown = catchThrowableOfType(IllegalArgumentException.class,
       () -> GrammarOperators.sequence(new Object())
     );
@@ -110,7 +110,7 @@ class GrammarOperatorsTest {
   }
 
   @Test
-  void private_constructor() throws Exception {
+  void privateConstructor() throws Exception {
     Constructor constructor = GrammarOperators.class.getDeclaredConstructor();
     assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);

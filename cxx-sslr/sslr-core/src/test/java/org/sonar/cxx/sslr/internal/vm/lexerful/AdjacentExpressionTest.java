@@ -39,13 +39,13 @@ class AdjacentExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("Adjacent");
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     var previousToken = mock(Token.class);
     when(previousToken.getValue()).thenReturn("foo");
     when(previousToken.getLine()).thenReturn(42);
@@ -66,7 +66,7 @@ class AdjacentExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     var previousToken = mock(Token.class);
     when(previousToken.getValue()).thenReturn("foo");
     when(previousToken.getLine()).thenReturn(42);
@@ -87,7 +87,7 @@ class AdjacentExpressionTest {
   }
 
   @Test
-  void should_backtrack2() {
+  void shouldBacktrack2() {
     var previousToken = mock(Token.class);
     when(previousToken.getValue()).thenReturn("foo");
     when(previousToken.getLine()).thenReturn(42);
@@ -108,7 +108,7 @@ class AdjacentExpressionTest {
   }
 
   @Test
-  void should_backtrack3() {
+  void shouldBacktrack3() {
     when(machine.getIndex()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);

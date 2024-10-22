@@ -68,7 +68,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void initUncaughtExceptionsHandler() throws InterruptedException {
+  void initUncaughtExceptionsHandler() {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -139,7 +139,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void run_should_call_initConfigurationTab() {
+  void runShouldCallInitConfigurationTab() {
     var view = mock(ToolkitView.class);
 
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
@@ -193,7 +193,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void onSourceCodeOpenButtonClick_with_parse_error_should_clear_console_and_display_code() {
+  void onSourceCodeOpenButtonClickWithParseErrorShouldClearConsoleAndDisplayCode() {
     var view = mock(ToolkitView.class);
     var file = new File("src/test/resources/parse_error.txt");
     when(view.pickFileToParse()).thenReturn(file);
@@ -215,7 +215,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void onSourceCodeOpenButtonClick_should_no_operation_when_no_file() {
+  void onSourceCodeOpenButtonClickShouldNoOperationWhenNoFile() {
     var view = mock(ToolkitView.class);
     when(view.pickFileToParse()).thenReturn(null);
 
@@ -396,7 +396,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void onConfigurationPropertyFocusLost_when_validation_successes() {
+  void onConfigurationPropertyFocusLostWhenValidationSuccesses() {
     var view = mock(ToolkitView.class);
 
     var property = mock(ConfigurationProperty.class);
@@ -420,7 +420,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void onConfigurationPropertyFocusLost_when_validation_fails() {
+  void onConfigurationPropertyFocusLostWhenValidationFails() {
     var view = mock(ToolkitView.class);
 
     var property = mock(ConfigurationProperty.class);
@@ -444,7 +444,7 @@ class ToolkitPresenterTest {
   }
 
   @Test
-  void onConfigurationPropertyFocusLost_with_invalid_name() {
+  void onConfigurationPropertyFocusLostWithInvalidName() {
     var view = mock(ToolkitView.class);
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
 

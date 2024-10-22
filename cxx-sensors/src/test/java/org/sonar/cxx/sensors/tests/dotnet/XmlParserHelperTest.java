@@ -33,7 +33,7 @@ class XmlParserHelperTest {
   private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
   @Test
-  void invalid_prolog() throws IOException {
+  void invalidProlog() {
     IllegalStateException e = catchThrowableOfType(IllegalStateException.class, () -> {
       try (var helper = new XmlParserHelper(new File(REPORT_PATH + "invalid_prolog.txt"))) {
         helper.nextStartTag();

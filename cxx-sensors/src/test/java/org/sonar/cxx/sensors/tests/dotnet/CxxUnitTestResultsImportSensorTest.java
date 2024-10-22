@@ -56,7 +56,7 @@ class CxxUnitTestResultsImportSensorTest {
   }
 
   @Test
-  void analyze() throws Exception {
+  void analyze() {
     var context = SensorContextTester.create(tempDir);
     UnitTestResults results = mock(UnitTestResults.class);
     when(results.tests()).thenReturn(42);
@@ -69,7 +69,7 @@ class CxxUnitTestResultsImportSensorTest {
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
     UnitTestConfiguration unitTestConf = mock(UnitTestConfiguration.class);
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class),
-                                             Mockito.any(UnitTestResults.class), same(unitTestConf)))
+      Mockito.any(UnitTestResults.class), same(unitTestConf)))
       .thenReturn(results);
 
     var sensor = new CxxUnitTestResultsImportSensor(unitTestResultsAggregator);
@@ -77,7 +77,7 @@ class CxxUnitTestResultsImportSensorTest {
     sensor.analyze(results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
-                                                same(unitTestConf));
+      same(unitTestConf));
 
     assertThat(context.measures("projectKey"))
       .extracting("metric.key", "value")
@@ -90,7 +90,7 @@ class CxxUnitTestResultsImportSensorTest {
   }
 
   @Test
-  void should_not_save_metrics_with_empty_results() throws Exception {
+  void shouldNotSaveMetricsWithEmptyResults() {
     var context = SensorContextTester.create(tempDir);
 
     CxxUnitTestResultsAggregator unitTestResultsAggregator = mock(CxxUnitTestResultsAggregator.class);
@@ -102,7 +102,7 @@ class CxxUnitTestResultsImportSensorTest {
     when(results.errors()).thenReturn(3);
     when(results.executionTime()).thenReturn(null);
     when(unitTestResultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class),
-                                             Mockito.any(UnitTestResults.class), same(unitTestConf)))
+      Mockito.any(UnitTestResults.class), same(unitTestConf)))
       .thenReturn(results);
 
     var sensor = new CxxUnitTestResultsImportSensor(unitTestResultsAggregator);
@@ -110,7 +110,7 @@ class CxxUnitTestResultsImportSensorTest {
     sensor.analyze(results, unitTestConf);
 
     verify(unitTestResultsAggregator).aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.eq(results),
-                                                same(unitTestConf));
+      same(unitTestConf));
 
     assertThat(context.measures("projectKey"))
       .extracting("metric.key", "value")

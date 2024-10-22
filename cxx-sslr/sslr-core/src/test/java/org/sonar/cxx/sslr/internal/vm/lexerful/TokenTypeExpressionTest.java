@@ -41,13 +41,13 @@ class TokenTypeExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("TokenType " + type);
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     var token = mock(Token.class);
     when(token.getType()).thenReturn(type);
     when(machine.length()).thenReturn(1);
@@ -62,7 +62,7 @@ class TokenTypeExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -72,7 +72,7 @@ class TokenTypeExpressionTest {
   }
 
   @Test
-  void should_backtrack2() {
+  void shouldBacktrack2() {
     var token = mock(Token.class);
     when(token.getType()).thenReturn(mock(TokenType.class));
     when(machine.length()).thenReturn(1);

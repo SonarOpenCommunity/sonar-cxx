@@ -40,7 +40,7 @@ class NUnitTestResultsFileParserTest {
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
-  void no_counters() {
+  void noCounters() {
     ParseErrorException thrown = catchThrowableOfType(ParseErrorException.class, () -> {
       new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.xml"), mock(UnitTestResults.class));
     });
@@ -49,7 +49,7 @@ class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  void wrong_passed_number() {
+  void wrongPassedNumber() {
     ParseErrorException thrown = catchThrowableOfType(ParseErrorException.class, () -> {
       new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "invalid_total.xml"), mock(UnitTestResults.class));
     });
@@ -58,7 +58,7 @@ class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  void valid() throws Exception {
+  void valid() {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid.xml"), results);
 
@@ -71,7 +71,7 @@ class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  void valid_comma_in_double() throws Exception {
+  void validCommaInDouble() {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_comma_in_double.xml"), results);
 
@@ -79,7 +79,7 @@ class NUnitTestResultsFileParserTest {
   }
 
   @Test
-  void valid_no_execution_time() throws Exception {
+  void validNoExecutionTime() {
     var results = new UnitTestResults();
     new NUnitTestResultsFileParser().accept(new File(REPORT_PATH + "valid_no_execution_time.xml"), results);
 

@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import static org.assertj.core.api.Assertions.*;
@@ -30,7 +29,7 @@ import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError;
 class DrMemoryParserTest {
 
   @Test
-  void shouldParseTheWholeFile() throws IOException {
+  void shouldParseTheWholeFile() {
     ClassLoader classLoader = getClass().getClassLoader();
     var file = new File(classLoader.getResource("org/sonar/cxx/sensors/reports-project/drmemory-reports/results.txt")
       .getFile());

@@ -61,7 +61,7 @@ class CodeReaderTest {
   }
 
   @Test
-  void peekTo_should_stop_at_end_of_input() {
+  void peekToShouldStopAtEndOfInput() {
     var reader = new CodeReader("foo");
     var result = new StringBuilder();
     reader.peekTo(i -> false, result);

@@ -27,7 +27,7 @@ import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 class CxxSonarWayProfileTest {
 
   @Test
-  void should_create_sonar_way_profile() {
+  void shouldCreateSonarWayProfile() {
     var profileDef = new CxxSonarWayProfile();
     var context = new BuiltInQualityProfilesDefinition.Context();
     profileDef.define(context);

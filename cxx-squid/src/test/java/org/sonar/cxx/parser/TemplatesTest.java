@@ -37,7 +37,7 @@ class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void templateDeclaration_reallife() {
+  void templateDeclarationReallife() {
     setRootRule(CxxGrammarImpl.templateDeclaration);
 
     assertThatParser()
@@ -68,7 +68,7 @@ class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void templateHead_reallife() {
+  void templateHeadReallife() {
     setRootRule(CxxGrammarImpl.templateHead);
 
     assertThatParser()
@@ -102,7 +102,7 @@ class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void templateParameter_reallife() {
+  void templateParameterReallife() {
     setRootRule(CxxGrammarImpl.templateParameter);
 
     // type-parameter: type-parameter-key ...opt identifieropt
@@ -199,7 +199,7 @@ class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void simpleTemplateId_reallife() {
+  void simpleTemplateIdReallife() {
     setRootRule(CxxGrammarImpl.simpleTemplateId);
 
     assertThatParser()
@@ -252,7 +252,7 @@ class TemplatesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void templateId_reallife() {
+  void templateIdReallife() {
     setRootRule(CxxGrammarImpl.templateId);
 
     assertThatParser()

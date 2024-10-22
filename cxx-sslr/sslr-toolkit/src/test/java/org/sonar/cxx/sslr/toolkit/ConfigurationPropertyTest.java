@@ -54,13 +54,13 @@ class ConfigurationPropertyTest {
   }
 
   @Test
-  void setValue_should_succeed_if_validation_passes() {
+  void setValueShouldSucceedIfValidationPasses() {
     new ConfigurationProperty("", "", "").setValue("");
     new ConfigurationProperty("", "", "").setValue("foo");
   }
 
   @Test
-  void setValue_should_fail_if_validation_fails() {
+  void setValueShouldFailIfValidationFails() {
     var thrown = catchThrowableOfType(IllegalArgumentException.class,
       () -> new ConfigurationProperty("", "", "", (String newValueCandidate)
         -> newValueCandidate.isEmpty() ? "" : "The value \"" + newValueCandidate + "\" did not pass validation: Not valid!")

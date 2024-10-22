@@ -46,7 +46,7 @@ class RuleAssertTest {
   }
 
   @Test
-  void test_matches_failure() {
+  void testMatchesFailure() {
     var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
       () -> new RuleAssert(rule).matches("bar")
     );
@@ -54,7 +54,7 @@ class RuleAssertTest {
   }
 
   @Test
-  void test_notMatches_failure() {
+  void testNotMatchesFailure() {
     var thrown = catchThrowableOfType(AssertionError.class,
       () -> new RuleAssert(rule).notMatches("foo")
     );
@@ -62,7 +62,7 @@ class RuleAssertTest {
   }
 
   @Test
-  void should_not_accept_null() {
+  void shouldNotAcceptNull() {
     var thrown = catchThrowableOfType(AssertionError.class,
       () -> new RuleAssert((Rule) null).matches("")
     );
@@ -70,19 +70,19 @@ class RuleAssertTest {
   }
 
   @Test
-  void notMatches_should_not_accept_prefix_match() {
+  void notMatchesShouldNotAcceptPrefixMatch() {
     new RuleAssert(rule)
       .notMatches("foo bar");
   }
 
   @Test
-  void matchesPrefix_ok() {
+  void matchesPrefixOk() {
     new RuleAssert(rule)
       .matchesPrefix("foo", " bar");
   }
 
   @Test
-  void matchesPrefix_full_mistmatch() {
+  void matchesPrefixFullMistmatch() {
     var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
       () -> new RuleAssert(rule).matchesPrefix("bar", " baz")
     );
@@ -90,7 +90,7 @@ class RuleAssertTest {
   }
 
   @Test
-  void matchesPrefix_wrong_prefix() {
+  void matchesPrefixWrongPrefix() {
     var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
       () -> new RuleAssert(rule).matchesPrefix("foo bar", " baz")
     );

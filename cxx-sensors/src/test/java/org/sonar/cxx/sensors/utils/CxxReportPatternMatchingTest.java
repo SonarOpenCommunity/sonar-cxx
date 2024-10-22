@@ -63,7 +63,7 @@ class CxxReportPatternMatchingTest {
   }
 
   @Test
-  void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
+  void getReportsPatternMatching() throws java.io.IOException {
     String pattern, expected, allpaths;
     List<File> reports;
     for (var example : examples) {

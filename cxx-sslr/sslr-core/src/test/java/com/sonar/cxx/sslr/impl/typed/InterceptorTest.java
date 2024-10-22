@@ -95,12 +95,12 @@ class InterceptorTest {
   );
 
   @Test
-  void should_invoke_constructor() {
+  void shouldInvokeConstructor() {
     assertThat(interceptedTarget.p).isEqualTo("arg");
   }
 
   @Test
-  void should_intercept() {
+  void shouldIntercept() {
     assertThat(interceptedTarget.m()).isEqualTo("m()");
     assertThat(interceptedMethods).hasSize(1);
 
@@ -110,7 +110,7 @@ class InterceptorTest {
   }
 
   @Test
-  void should_intercept_overloaded_methods() {
+  void shouldInterceptOverloadedMethods() {
     assertThat(interceptedTarget.overloaded()).isEqualTo("overloaded()");
     assertThat(interceptedMethods).hasSize(1);
 
@@ -119,13 +119,13 @@ class InterceptorTest {
   }
 
   @Test
-  void should_intercept_overridden_methods() {
+  void shouldInterceptOverriddenMethods() {
     assertThat(interceptedTarget.overridden()).isEqualTo("Target.overridden()");
     assertThat(interceptedMethods).hasSize(1);
   }
 
   @Test
-  void should_intercept_base_methods() {
+  void shouldInterceptBaseMethods() {
     assertThat(interceptedTarget.base()).isEqualTo("base()");
     assertThat(interceptedMethods).hasSize(1);
   }
@@ -135,7 +135,7 @@ class InterceptorTest {
    * methods.
    */
   @Test
-  void can_not_intercept_non_public_methods() {
+  void canNotInterceptNonPublicMethods() {
     assertThat(interceptedTarget.privateMethod()).isEqualTo("privateMethod()");
     assertThat(interceptedTarget.packageLocalMethod()).isEqualTo("packageLocalMethod()");
     assertThat(interceptedMethods).isEmpty();
@@ -148,7 +148,7 @@ class InterceptorTest {
   }
 
   @Test
-  void requires_class_to_be_public() {
+  void requiresClassToBePublic() {
     var thrown = catchThrowableOfType(IllegalAccessError.class,
       () -> Interceptor.create(NonPublicClass.class, new Class<?>[]{}, new Object[]{}, methodInterceptor)
     );
@@ -165,7 +165,7 @@ class InterceptorTest {
    * @see #can_not_intercept_non_public_methods()
    */
   @Test
-  void requires_final_methods_to_be_non_public() {
+  void requiresFinalMethodsToBeNonPublic() {
     var thrown = catchThrowableOfType(IncompatibleClassChangeError.class,
       () -> Interceptor.create(PublicFinalMethod.class, new Class[]{}, new Object[]{}, methodInterceptor)
     );
@@ -184,7 +184,7 @@ class InterceptorTest {
   }
 
   @Test
-  void requires_non_primitive_return_types() {
+  void requiresNonPrimitiveReturnTypes() {
     var thrown = catchThrowableOfType(UnsupportedOperationException.class,
       () -> Interceptor.create(PrimitiveReturnType.class, new Class[]{}, new Object[]{}, methodInterceptor)
     );
@@ -199,7 +199,7 @@ class InterceptorTest {
   }
 
   @Test
-  void should_use_ClassLoader_of_intercepted_class() throws Exception {
+  void shouldUseClassLoaderOfInterceptedClass() throws Exception {
     var cv = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
     cv.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "Target", null, "java/lang/Object", null);
     var mv = cv.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);

@@ -47,7 +47,7 @@ class CxxPublicApiVisitorTest {
   }
 
   @Test
-  void test_no_matching_suffix() throws IOException {
+  void testNoMatchingSuffix() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/doxygen_example.h", ".",
       "");
     var squidConfig = new CxxSquidConfiguration();
@@ -61,18 +61,18 @@ class CxxPublicApiVisitorTest {
   }
 
   @Test
-  void doxygen_example() throws IOException {
+  void doxygenExample() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/doxygen_example.h")).isEqualTo(tuple(13, 0));
   }
 
   @Test
-  void to_delete() throws IOException {
+  void toDelete() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/public_api.h")).isEqualTo(tuple(47, 0));
 
   }
 
   @Test
-  void no_doc() throws IOException {
+  void noDoc() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/no_doc.h")).isEqualTo(tuple(22, 22));
   }
 
@@ -82,17 +82,17 @@ class CxxPublicApiVisitorTest {
   }
 
   @Test
-  void alias_function_template() throws IOException {
+  void aliasFunctionTemplate() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/alias_in_template_func.h")).isEqualTo(tuple(4, 3));
   }
 
   @Test
-  void unnamed_class() throws IOException {
+  void unnamedClass() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_class.h")).isEqualTo(tuple(3, 1));
   }
 
   @Test
-  void unnamed_enum() throws IOException {
+  void unnamedEnum() throws IOException {
     assertThat(verifyPublicApiOfFile("src/test/resources/metrics/unnamed_enum.h")).isEqualTo(tuple(8, 0));
   }
 
@@ -102,7 +102,7 @@ class CxxPublicApiVisitorTest {
   }
 
   @Test
-  void public_api() throws IOException {
+  void publicApi() throws IOException {
     var fileNme = "src/test/resources/metrics/public_api.h";
     var visitor = new TestPublicApiVisitor(fileNme, true);
 

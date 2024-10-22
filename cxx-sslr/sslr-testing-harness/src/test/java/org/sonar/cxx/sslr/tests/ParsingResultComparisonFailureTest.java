@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class ParsingResultComparisonFailureTest {
 
   @Test
-  void test_implicit_message() {
+  void testImplicitMessage() {
     var failure = new ParsingResultComparisonFailure("expected", "actual");
     assertThat(failure)
       .isInstanceOf(AssertionError.class)
@@ -38,7 +38,7 @@ class ParsingResultComparisonFailureTest {
   }
 
   @Test
-  void test_explicit_message() {
+  void testExplicitMessage() {
     var failure = new ParsingResultComparisonFailure("foo", "expected", "actual");
     assertThat(failure)
       .isInstanceOf(AssertionError.class)

@@ -78,7 +78,7 @@ class ValgrindReportParserTest {
   }
 
   @Test
-  void shouldThrowWhenGivenAnIncompleteReport_1() {
+  void shouldThrowWhenGivenAnIncompleteReport1() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
 
@@ -90,7 +90,7 @@ class ValgrindReportParserTest {
   }
 
   @Test
-  void shouldThrowWhenGivenAnIncompleteReport_2() {
+  void shouldThrowWhenGivenAnIncompleteReport2() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
 
@@ -102,7 +102,7 @@ class ValgrindReportParserTest {
   }
 
   @Test
-  void shouldThrowWhenGivenAnIncompleteReport_3() {
+  void shouldThrowWhenGivenAnIncompleteReport3() {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
 

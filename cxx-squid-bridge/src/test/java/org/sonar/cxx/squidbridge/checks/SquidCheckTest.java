@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class SquidCheckTest {
 
   @Test
-  void test_getKey() {
+  void testGetKey() {
     var squidCheck = new SquidCheck() {
     };
     assertThat(squidCheck.getKey()).isNull();

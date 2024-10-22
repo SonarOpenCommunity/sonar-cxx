@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class OptionalExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new OptionalExpression(new SubExpression(1, 2));
     assertThat(expression).hasToString("Optional[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());

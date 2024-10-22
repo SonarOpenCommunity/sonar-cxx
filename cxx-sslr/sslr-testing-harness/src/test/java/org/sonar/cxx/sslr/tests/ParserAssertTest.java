@@ -66,7 +66,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void test_matches_failure() {
+  void testMatchesFailure() {
     var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
       () -> new ParserAssert(parser).matches("bar")
     );
@@ -74,7 +74,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void test2_matches_failure() {
+  void test2MatchesFailure() {
     var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
       () -> new ParserAssert(parser).matches("foo bar")
     );
@@ -82,7 +82,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void test_notMatches_failure() {
+  void testNotMatchesFailure() {
     var thrown = catchThrowableOfType(AssertionError.class,
       () -> new ParserAssert(parser).notMatches("foo")
     );
@@ -90,7 +90,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void test_notMatches_failure2() {
+  void testNotMatchesFailure2() {
     rule.override("foo", GenericTokenType.EOF);
     var thrown = catchThrowableOfType(AssertionError.class,
       () -> new ParserAssert(parser).notMatches("foo")
@@ -99,7 +99,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void should_not_accept_null() {
+  void shouldNotAcceptNull() {
     var thrown = catchThrowableOfType(AssertionError.class,
       () -> new ParserAssert((Parser) null).matches("")
     );
@@ -107,7 +107,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void should_not_accept_null_root_rule() {
+  void shouldNotAcceptNullRootRule() {
     parser.setRootRule(null);
     var thrown = catchThrowableOfType(AssertionError.class,
       () -> new ParserAssert(parser).matches("")
@@ -116,7 +116,7 @@ class ParserAssertTest {
   }
 
   @Test
-  void test_lexer_failure() {
+  void testLexerFailure() {
     var thrown = catchThrowableOfType(ParsingResultComparisonFailure.class,
       () -> new ParserAssert(parser).matches("_")
     );

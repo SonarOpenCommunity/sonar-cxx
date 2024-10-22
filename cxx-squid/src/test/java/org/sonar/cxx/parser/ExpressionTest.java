@@ -46,7 +46,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void primaryExpression_reallife() {
+  void primaryExpressionReallife() {
     setRootRule(CxxGrammarImpl.primaryExpression);
 
     assertThatParser()
@@ -184,7 +184,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void idExpression_reallife() {
+  void idExpressionReallife() {
     setRootRule(CxxGrammarImpl.idExpression);
 
     assertThatParser()
@@ -215,7 +215,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void unqualifiedId_reallife() {
+  void unqualifiedIdReallife() {
     setRootRule(CxxGrammarImpl.unqualifiedId);
 
     assertThatParser()
@@ -236,7 +236,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void qualifiedId_reallife() {
+  void qualifiedIdReallife() {
     setRootRule(CxxGrammarImpl.qualifiedId);
 
     assertThatParser()
@@ -326,7 +326,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void postfixExpression_reallife() {
+  void postfixExpressionReallife() {
     setRootRule(CxxGrammarImpl.postfixExpression);
 
     assertThatParser()
@@ -347,7 +347,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void expressionList_reallife() {
+  void expressionListReallife() {
     setRootRule(CxxGrammarImpl.expressionList);
 
     assertThatParser()
@@ -377,7 +377,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void unaryExpression_reallife() {
+  void unaryExpressionReallife() {
     setRootRule(CxxGrammarImpl.unaryExpression);
 
     assertThatParser()
@@ -400,7 +400,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void newExpression_reallife() {
+  void newExpressionReallife() {
     setRootRule(CxxGrammarImpl.newExpression);
 
     assertThatParser()
@@ -484,7 +484,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void expression_reallife() {
+  void expressionReallife() {
     setRootRule(CxxGrammarImpl.expression);
 
     assertThatParser()
@@ -525,7 +525,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void assignmentExpression_reallife() {
+  void assignmentExpressionReallife() {
     setRootRule(CxxGrammarImpl.assignmentExpression);
 
     assertThatParser()
@@ -547,7 +547,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void logicalOrExpression_reallife() {
+  void logicalOrExpressionReallife() {
     setRootRule(CxxGrammarImpl.logicalOrExpression);
 
     assertThatParser()
@@ -578,7 +578,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void constantExpression_reallife() {
+  void constantExpressionReallife() {
     setRootRule(CxxGrammarImpl.constantExpression);
 
     assertThatParser()
@@ -699,7 +699,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void multiplicativeExpression_reallive() {
+  void multiplicativeExpressionReallife() {
     setRootRule(CxxGrammarImpl.multiplicativeExpression);
 
     assertThatParser()
@@ -734,7 +734,7 @@ class ExpressionTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void castExpression_reallife() {
+  void castExpressionReallife() {
     setRootRule(CxxGrammarImpl.castExpression);
 
     assertThatParser()

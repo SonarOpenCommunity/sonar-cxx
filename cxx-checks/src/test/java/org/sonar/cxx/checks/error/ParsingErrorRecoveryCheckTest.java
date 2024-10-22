@@ -31,7 +31,7 @@ class ParsingErrorRecoveryCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void test_syntax_error_recovery() throws IOException {
+  void testSyntaxErrorRecovery() throws IOException {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
       "true");

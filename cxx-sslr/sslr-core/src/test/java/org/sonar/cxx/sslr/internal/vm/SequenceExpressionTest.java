@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class SequenceExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new SequenceExpression(
       new SubExpression(1, 2),
       new SubExpression(3));

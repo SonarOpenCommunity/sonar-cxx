@@ -160,7 +160,7 @@ class CodeBufferTest {
   }
 
   @Test
-  void testCodeReaderFilter() throws Exception {
+  void testCodeReaderFilter() {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ReplaceNumbersFilter());
     var code = new CodeBuffer("abcd12efgh34", configuration);
@@ -204,7 +204,7 @@ class CodeBufferTest {
   }
 
   @Test
-  void testSeveralCodeReaderFilter() throws Exception {
+  void testSeveralCodeReaderFilter() {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ReplaceNumbersFilter(), new ReplaceCharFilter());
     var code = new CodeBuffer("abcd12efgh34", configuration);
@@ -234,7 +234,7 @@ class CodeBufferTest {
 
   @Test
   @SuppressWarnings({"unchecked", "rawtypes"})
-  void testChannelCodeReaderFilter() throws Exception {
+  void testChannelCodeReaderFilter() {
     // create a windowing channel that drops the 2 first characters, keeps 6 characters and drops the rest of the line
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ChannelCodeReaderFilter(new Object(), new WindowingChannel()));

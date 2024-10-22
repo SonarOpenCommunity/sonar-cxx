@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 class TagTest {
 
   @Test
-  void private_constructor() throws Exception {
+  void privateConstructor() throws Exception {
     Constructor<Tag> constructor = Tag.class.getDeclaredConstructor();
     assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);

@@ -35,14 +35,14 @@ class RuleRefExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression.getRuleKey()).isSameAs(ruleKey);
     assertThat(expression).hasToString("Ref " + ruleKey);
   }
 
   @Test
-  void can_not_be_executed() {
+  void canNotBeExecuted() {
     var thrown = catchThrowableOfType(UnsupportedOperationException.class,
       () -> expression.execute(machine)
     );

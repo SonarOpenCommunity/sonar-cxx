@@ -74,7 +74,7 @@ class CheckMessagesVerifierTest {
   }
 
   @Test
-  void line_withoutHasNext() {
+  void lineWithoutHasNext() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
@@ -100,7 +100,7 @@ class CheckMessagesVerifierTest {
   }
 
   @Test
-  void withMessage_withoutHasNext() {
+  void withMessageWithoutHasNext() {
     Collection<CheckMessage> messages = Arrays.asList(mockCheckMessage(1, "foo"));
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {

@@ -47,13 +47,13 @@ class GrammarTest {
   }
 
   @Test
-  void method_rule_should_throw_exception_by_default() {
+  void methodRuleShouldThrowExceptionByDefault() {
     var thrown = catchThrowableOfType(UnsupportedOperationException.class, () -> new MyGrammar().rule(mock(GrammarRuleKey.class)));
     assertThat(thrown).isExactlyInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
-  void should_automatically_instanciate_lexerful_rules() throws IllegalAccessException {
+  void shouldAutomaticallyInstanciateLexerfulRules() throws IllegalAccessException {
     var ruleFields = Grammar.getAllRuleFields(MyGrammar.class);
     Grammar grammar = new MyGrammar();
     for (var ruleField : ruleFields) {
@@ -64,7 +64,7 @@ class GrammarTest {
   }
 
   @Test
-  void should_automatically_instanciate_lexerless_rules() throws IllegalAccessException {
+  void shouldAutomaticallyInstanciateLexerlessRules() throws IllegalAccessException {
     var ruleFields = Grammar.getAllRuleFields(MyLexerlessGrammar.class);
     LexerlessGrammar grammar = new MyLexerlessGrammar();
     for (var ruleField : ruleFields) {
@@ -75,7 +75,7 @@ class GrammarTest {
   }
 
   @Test
-  void should_throw_exception() {
+  void shouldThrowException() {
     var thrown = catchThrowableOfType(GrammarException.class, IllegalGrammar::new);
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }

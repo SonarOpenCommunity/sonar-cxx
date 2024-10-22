@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 class OverloadingTest extends ParserBaseTestHelper {
 
   @Test
-  void operatorFunctionId_reallife() {
+  void operatorFunctionIdReallife() {
     setRootRule(CxxGrammarImpl.operatorFunctionId);
 
     assertThatParser()
@@ -46,7 +46,7 @@ class OverloadingTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void literalOperatorId_reallife() {
+  void literalOperatorIdReallife() {
     setRootRule(CxxGrammarImpl.literalOperatorId);
 
     assertThatParser()

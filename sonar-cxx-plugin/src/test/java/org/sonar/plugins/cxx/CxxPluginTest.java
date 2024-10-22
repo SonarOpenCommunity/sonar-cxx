@@ -31,7 +31,7 @@ import org.sonar.api.utils.Version;
 class CxxPluginTest {
 
   @Test
-  void testGetExtensions() throws Exception {
+  void testGetExtensions() {
     SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
       Version.create(8, 6),
       SonarQubeSide.SCANNER,

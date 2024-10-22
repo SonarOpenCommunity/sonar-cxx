@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 class CxxMetricDefinitionTest {
 
   @Test
-  void metrics_defined() {
+  void metricsDefined() {
     assertThat(new CxxMetricDefinition().getMetrics()).hasSize(12);
   }
 

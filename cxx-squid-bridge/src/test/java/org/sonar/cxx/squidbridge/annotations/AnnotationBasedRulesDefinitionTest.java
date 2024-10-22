@@ -44,12 +44,12 @@ class AnnotationBasedRulesDefinitionTest {
   private final RulesDefinition.Context context = new RulesDefinition.Context();
 
   @Test
-  void no_class_to_add() throws Exception {
+  void noClassToAdd() {
     assertThat(buildRepository(false).rules()).isEmpty();
   }
 
   @Test
-  void class_without_rule_annotation() throws Exception {
+  void classWithoutRuleAnnotation() {
     class NotRuleClass {
     }
     IllegalArgumentException thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
@@ -59,7 +59,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void rule_annotation_data() throws Exception {
+  void ruleAnnotationData() {
 
     @Rule(key = "key1", name = "name1", description = "description1", tags = "mytag")
     class RuleClass {
@@ -83,7 +83,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void rule_without_explicit_key() throws Exception {
+  void ruleWithoutExplicitKey() {
     IllegalArgumentException thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       buildSingleRuleRepository(RuleClassWithoutAnnotationDefinedKey.class);
     });
@@ -91,7 +91,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void rule_without_explicit_key_can_be_acceptable() throws Exception {
+  void ruleWithoutExplicitKeyCanBeAcceptable() {
     Repository repository = buildRepository(LANGUAGE_KEY_WITH_RESOURCE_BUNDLE, false, false,
       RuleClassWithoutAnnotationDefinedKey.class);
     var rule = repository.rules().get(0);
@@ -100,7 +100,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void external_names_and_descriptions() throws Exception {
+  void externalNamesAndDescriptions() {
 
     @Rule(key = "ruleWithExternalInfo")
     class RuleClass {
@@ -121,7 +121,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void no_name_and_no_resource_bundle() throws Exception {
+  void noNameAndNoResourceBundle() {
     @Rule(key = "ruleWithExternalInfo")
     class RuleClass {
     }
@@ -132,7 +132,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void rule_template() throws Exception {
+  void ruleTemplate() {
     @Rule(key = "key1", name = "name1", description = "description1")
     @NoSqale
     @RuleTemplate
@@ -144,7 +144,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void cardinality_single() throws Exception {
+  void cardinalitySingle() {
     @Rule(key = "key1", name = "name1", description = "description1", cardinality = Cardinality.SINGLE)
     class RuleClass {
     }
@@ -154,7 +154,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void cardinality_multiple() throws Exception {
+  void cardinalityMultiple() {
     @Rule(key = "key1", name = "name1", description = "description1", cardinality = Cardinality.MULTIPLE)
     class RuleClass {
     }
@@ -165,7 +165,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void class_without_sqale_annotation() throws Exception {
+  void classWithoutSqaleAnnotation() {
     @Rule(key = "key1", name = "name1", description = "description1")
     class RuleClass {
     }
@@ -176,7 +176,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void class_with_nosqale_annotation() throws Exception {
+  void classWithNoSqaleAnnotation() {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @NoSqale
@@ -188,7 +188,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void class_with_sqale_constant_remediation() throws Exception {
+  void classWithSqaleConstantRemediation() {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("10min")
@@ -200,7 +200,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void class_with_sqale_linear_remediation() throws Exception {
+  void classWithSqaleLinearRemediation() {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
@@ -212,7 +212,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void class_with_sqale_linear_with_offset_remediation() throws Exception {
+  void classWithSqaleLinearWithOffsetRemediation() {
 
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleLinearWithOffsetRemediation(coeff = "5min", offset = "1h",
@@ -225,7 +225,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void class_with_several_sqale_remediation_annotations() throws Exception {
+  void classWithSeveralSqaleRemediationAnnotations() {
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("10min")
     @SqaleLinearRemediation(coeff = "2h", effortToFixDescription = "Effort to test one uncovered condition")
@@ -238,7 +238,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void invalid_sqale_annotation() throws Exception {
+  void invalidSqaleAnnotation() {
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("xxx")
     class MyInvalidRuleClass {
@@ -252,7 +252,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void rule_not_created_by_RulesDefinitionAnnotationLoader() throws Exception {
+  void ruleNotCreatedByRulesDefinitionAnnotationLoader() {
     @Rule
     class RuleClass {
     }
@@ -265,7 +265,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void load_method_with_class_without_sqale_annotation() throws Exception {
+  void loadMethodWithClassWithoutSqaleAnnotation() {
     @Rule(key = "key1", name = "name1", description = "description1")
     class RuleClass {
     }
@@ -276,7 +276,7 @@ class AnnotationBasedRulesDefinitionTest {
   }
 
   @Test
-  void load_method_with_class_with_sqale_annotations() throws Exception {
+  void loadMethodWithClassWithSqaleAnnotations() {
     @Rule(key = "key1", name = "name1", description = "description1")
     @SqaleConstantRemediation("10min")
     class RuleClass {

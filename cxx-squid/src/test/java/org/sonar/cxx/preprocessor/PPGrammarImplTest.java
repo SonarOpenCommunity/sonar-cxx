@@ -63,7 +63,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void preprocessorLine_reallife() {
+  void preprocessorLineReallife() {
     assertThat(p).matches("#include      <ace/config-all.h>");
     assertThat(p).matches("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H");
     assertThat(p).matches(
@@ -74,7 +74,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void defineLine_reallife() {
+  void defineLineReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.defineLine));
 
     assertThat(p).matches("#define ALGOSTUFF_HPPEOF");
@@ -87,7 +87,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void define_containing_argumentList() {
+  void defineContainingArgumentList() {
     AstNode define = p.parse("#define lala(a, b) a b");
     org.assertj.core.api.Assertions.assertThat(define.getDescendants(PPGrammarImpl.parameterList)).isNotNull();
   }
@@ -109,7 +109,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void functionlikeMacroDefinition_reallife() {
+  void functionlikeMacroDefinitionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.functionlikeMacroDefinition));
 
     assertThat(p).matches("#define foo() bar");
@@ -129,7 +129,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void objectlikeMacroDefinition_reallife() {
+  void objectlikeMacroDefinitionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.objectlikeMacroDefinition));
 
     assertThat(p).matches("#define foo");
@@ -210,7 +210,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void importLine_reallife() {
+  void importLineReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.ppImport));
 
     assertThat(p).matches("import foo;");
@@ -223,7 +223,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void moduleLine_reallife() {
+  void moduleLineReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.ppModule));
 
     assertThat(p).matches("module;");
@@ -243,7 +243,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void includeLine_reallife() {
+  void includeLineReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.includeLine));
 
     assertThat(p).matches("#include <file>");
@@ -367,7 +367,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void ifLine_reallive() {
+  void ifLineReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.ifLine));
 
     assertThat(p).matches(
@@ -394,7 +394,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void constantExpression_reallive() {
+  void constantExpressionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.constantExpression));
 
     assertThat(p).matches("(1 || 0) && (0 && 1)");
@@ -438,7 +438,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void logicalAndExpression_reallive() {
+  void logicalAndExpressionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.logicalAndExpression));
 
     assertThat(p).matches("A() && B()");
@@ -561,7 +561,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void primaryExpression_reallive() {
+  void primaryExpressionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.primaryExpression));
 
     assertThat(p).matches("(C(A() && B()))");
@@ -578,7 +578,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void expression_reallive() {
+  void expressionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.expression));
 
     assertThat(p).matches("C(A() && B())");
@@ -617,7 +617,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void hasIncludeExpression_reallife() {
+  void hasIncludeExpressionReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.hasIncludeExpression));
 
     assertThat(p).matches("__has_include( <optional> )");
@@ -625,7 +625,7 @@ class PPGrammarImplTest {
   }
 
   @Test
-  void functionlikeMacro_reallife() {
+  void functionlikeMacroReallife() {
     p.setRootRule(g.rule(PPGrammarImpl.functionlikeMacro));
 
     assertThat(p).matches("__has_feature(cxx_rvalue)");

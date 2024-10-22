@@ -36,13 +36,13 @@ class StringExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("String foo");
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     when(machine.length()).thenReturn(3);
     when(machine.charAt(0)).thenReturn('f');
     when(machine.charAt(1)).thenReturn('o');
@@ -59,7 +59,7 @@ class StringExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -69,7 +69,7 @@ class StringExpressionTest {
   }
 
   @Test
-  void should_backtrack2() {
+  void shouldBacktrack2() {
     when(machine.length()).thenReturn(3);
     when(machine.charAt(0)).thenReturn('b');
     expression.execute(machine);

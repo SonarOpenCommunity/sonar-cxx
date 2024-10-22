@@ -69,13 +69,13 @@ class OptionalTest {
   }
 
   @Test
-  void present_or_null() {
+  void presentOrNull() {
     var thrown = catchThrowableOfType(NullPointerException.class, () -> present.or(null));
     assertThat(thrown).hasMessage("use orNull() instead of or(null)");
   }
 
   @Test
-  void absent_or_null() {
+  void absentOrNull() {
     var thrown = catchThrowableOfType(NullPointerException.class, () -> absent.or(null));
     assertThat(thrown).hasMessage("use orNull() instead of or(null)");
   }

@@ -59,7 +59,7 @@ class AbstractCommentRegularExpressionCheckTest {
   }
 
   @Test
-  void case_insensitive() {
+  void caseInsensitive() {
     check.regularExpression = "(?i).*TODO.*";
     check.message = "Avoid TODO.";
 
@@ -70,7 +70,7 @@ class AbstractCommentRegularExpressionCheckTest {
   }
 
   @Test
-  void case_sensitive() {
+  void caseSensitive() {
     check.regularExpression = ".*TODO.*";
     check.message = "Avoid TODO.";
 
@@ -79,7 +79,7 @@ class AbstractCommentRegularExpressionCheckTest {
   }
 
   @Test
-  void wrong_regular_expression() {
+  void wrongRegularExpression() {
     check.regularExpression = "*";
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       scanFile("/checks/commentRegularExpression.mc", check);

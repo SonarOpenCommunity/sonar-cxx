@@ -32,7 +32,7 @@ class PPLexerTest {
   private final static Lexer LEXER = PPLexer.create();
 
   @Test
-  void cpp_keywords() {
+  void cppKeywords() {
     assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex("#define"))).isTrue();
     assertThat(hasToken("#define", PPKeyword.DEFINE)
@@ -42,7 +42,7 @@ class PPLexerTest {
   }
 
   @Test
-  void cpp_keywords_with_whitespaces() {
+  void cppKeywordsWithWhitespaces() {
     assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex("#  define"))).isTrue();
     assertThat(hasToken("#include", PPKeyword.INCLUDE)
@@ -50,7 +50,7 @@ class PPLexerTest {
   }
 
   @Test
-  void cpp_keywords_indented() {
+  void cppKeywordsIndented() {
     assertThat(hasToken("#define", PPKeyword.DEFINE)
       .matches(LEXER.lex(" #define"))).isTrue();
     assertThat(hasToken("#define", PPKeyword.DEFINE)
@@ -58,13 +58,13 @@ class PPLexerTest {
   }
 
   @Test
-  void cpp_identifiers() {
+  void cppIdentifiers() {
     assertThat(hasToken("lala", IDENTIFIER)
       .matches(LEXER.lex("lala"))).isTrue();
   }
 
   @Test
-  void cpp_operators() {
+  void cppOperators() {
     assertThat(hasToken("#", PPPunctuator.HASH)
       .matches(LEXER.lex("#"))).isTrue();
     assertThat(hasToken("##", PPPunctuator.HASHHASH)
@@ -72,7 +72,7 @@ class PPLexerTest {
   }
 
   @Test
-  void hashhash_followed_by_word() {
+  void hashhashFollowedByWord() {
     List<Token> tokens = LEXER.lex("##a");
     assertThat(hasToken("##", PPPunctuator.HASHHASH)
       .matches(tokens)).isTrue();
@@ -81,7 +81,7 @@ class PPLexerTest {
   }
 
   @Test
-  void hash_followed_by_word() {
+  void hashFollowedByWord() {
     List<Token> tokens = LEXER.lex("#a");
     assertThat(hasToken("#", PPPunctuator.HASH)
       .matches(tokens)).isTrue();

@@ -38,7 +38,7 @@ class AssertionsTest {
   }
 
   @Test
-  void private_constructor() throws Exception {
+  void privateConstructor() throws Exception {
     Constructor constructor = Assertions.class.getDeclaredConstructor();
     assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);

@@ -140,7 +140,7 @@ class AstNodeTest {
    * </pre>
    */
   @Test
-  void test_getLastToken() {
+  void testGetLastToken() {
     var token = mock(Token.class);
     var a = mock(AstNodeType.class);
     var rootNode = new AstNode(a, "root", token);
@@ -160,7 +160,7 @@ class AstNodeTest {
   }
 
   @Test
-  void test_getTokens() {
+  void testGetTokens() {
     var token = mock(Token.class);
     var a = mock(AstNodeType.class);
     var rootNode = new AstNode(a, "root", token);
@@ -178,7 +178,7 @@ class AstNodeTest {
   }
 
   @Test
-  void test_toString() {
+  void testToString() {
     var token = mock(Token.class);
     when(token.getValue()).thenReturn("foo");
     when(token.getLine()).thenReturn(42);

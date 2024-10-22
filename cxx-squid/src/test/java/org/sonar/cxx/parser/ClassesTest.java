@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 class ClassesTest extends ParserBaseTestHelper {
 
   @Test
-  void className_reallife() {
+  void classNameReallife() {
     setRootRule(CxxGrammarImpl.className);
 
     assertThatParser()
@@ -32,7 +32,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void classSpecifier_reallife() {
+  void classSpecifierReallife() {
     setRootRule(CxxGrammarImpl.classSpecifier);
 
     assertThatParser()
@@ -88,7 +88,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void memberSpecification_reallife() {
+  void memberSpecificationReallife() {
     setRootRule(CxxGrammarImpl.memberSpecification);
 
     assertThatParser()
@@ -144,7 +144,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void memberDeclaration_reallife() {
+  void memberDeclarationReallife() {
     setRootRule(CxxGrammarImpl.memberDeclaration);
 
     assertThatParser()
@@ -190,7 +190,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void memberDeclaratorList_reallife() {
+  void memberDeclaratorListReallife() {
     setRootRule(CxxGrammarImpl.memberDeclaratorList);
 
     assertThatParser()
@@ -225,7 +225,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void memberDeclarator_reallife() {
+  void memberDeclaratorReallife() {
     setRootRule(CxxGrammarImpl.memberDeclarator);
 
     assertThatParser()
@@ -245,7 +245,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void virtSpecifierSeq_reallife() {
+  void virtSpecifierSeqReallife() {
     setRootRule(CxxGrammarImpl.virtSpecifierSeq);
 
     assertThatParser()
@@ -256,7 +256,7 @@ class ClassesTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void cliFunctionModifier_reallife() {
+  void cliFunctionModifierReallife() {
     setRootRule(CxxGrammarImpl.cliFunctionModifier);
 
     assertThatParser()

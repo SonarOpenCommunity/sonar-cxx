@@ -31,7 +31,7 @@ import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 class ParseRunnerTest {
 
   @Test
-  void should_not_accept_null() {
+  void shouldNotAcceptNull() {
     var thrown = catchThrowableOfType(NullPointerException.class,
       () -> new ParseRunner(null)
     );
@@ -39,7 +39,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_report_error_at_rule_level() {
+  void shouldReportErrorAtRuleLevel() {
     var rule = new MutableParsingRule("rule").is("foo", "bar");
     var runner = new ParseRunner(rule);
     var result = runner.parse("foo".toCharArray());
@@ -50,7 +50,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_report_error_at_end_of_input() {
+  void shouldReportErrorAtEndOfInput() {
     var endOfInput = new MutableParsingRule("endOfInput").is(GrammarOperators.endOfInput());
     var rule = new MutableParsingRule("rule").is("foo", endOfInput);
     var runner = new ParseRunner(rule);
@@ -62,7 +62,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_not_report_error_inside_of_predicate_not() {
+  void shouldNotReportErrorInsideOfPredicateNot() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.nextNot(subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -74,7 +74,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_report_error_at_correct_index() {
+  void shouldReportErrorAtCorrectIndex() {
     var rule = new MutableParsingRule("rule").is(GrammarOperators.nextNot("foo"));
     var runner = new ParseRunner(rule);
     var result = runner.parse("foo".toCharArray());
@@ -85,7 +85,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_report_error_inside_of_predicate_next() {
+  void shouldReportErrorInsideOfPredicateNext() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.next(subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -97,7 +97,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_not_report_error_inside_of_token() {
+  void shouldNotReportErrorInsideOfToken() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.token(GenericTokenType.IDENTIFIER, subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -109,7 +109,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_not_report_error_inside_of_trivia() {
+  void shouldNotReportErrorInsideOfTrivia() {
     var subRule = new MutableParsingRule("subRule").is("foo");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.skippedTrivia(subRule), "bar");
     var runner = new ParseRunner(rule);
@@ -121,7 +121,7 @@ class ParseRunnerTest {
   }
 
   @Test
-  void should_report_error_at_several_paths() {
+  void shouldReportErrorAtSeveralPaths() {
     var subRule1 = new MutableParsingRule("subRule1").is("foo");
     var subRule2 = new MutableParsingRule("subRule2").is("bar");
     var rule = new MutableParsingRule("rule").is(GrammarOperators.firstOf(subRule1, subRule2));

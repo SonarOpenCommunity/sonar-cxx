@@ -67,7 +67,7 @@ class CxxAstScannerTest {
   }
 
   @Test
-  void lines_of_code() throws IOException {
+  void linesOfCode() throws IOException {
 
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/classes.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
@@ -103,28 +103,28 @@ class CxxAstScannerTest {
   }
 
   @Test
-  void complexity_alternative() throws IOException {
+  void complexityAlternative() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/complexity_alternative.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }
 
   @Test
-  void complexity_macro() throws IOException {
+  void complexityMacro() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/complexity_macro.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(1);
   }
 
   @Test
-  void error_recovery_declaration() throws IOException {
+  void errorRecoveryDeclaration() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/parser/bad/error_recovery_declaration.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
   }
 
   @Test
-  void nosonar_comments() throws IOException {
+  void nosonarComments() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/nosonar.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
     assertThat(file.getNoSonarTagLines()).containsOnly(3, 6, 9, 11);

@@ -45,7 +45,7 @@ class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void translationUnit_reallife() {
+  void translationUnitReallife() {
     setRootRule(CxxGrammarImpl.translationUnit);
 
     assertThatParser()
@@ -73,7 +73,7 @@ class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void moduleDeclaration_reallife() {
+  void moduleDeclarationReallife() {
     setRootRule(CxxGrammarImpl.moduleDeclaration);
 
     assertThatParser()
@@ -129,7 +129,7 @@ class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void exportDeclaration_reallife() {
+  void exportDeclarationReallife() {
     setRootRule(CxxGrammarImpl.exportDeclaration);
 
     assertThatParser()
@@ -154,7 +154,7 @@ class ModuleTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void moduleImportDeclaration_reallife() {
+  void moduleImportDeclarationReallife() {
     setRootRule(CxxGrammarImpl.moduleImportDeclaration);
 
     assertThatParser()

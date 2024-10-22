@@ -61,7 +61,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void escaping_newline() {
+  void escapingNewline() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("line\\\r\nline")).as("dos style").noneMatch(token
       -> token.getValue().contentEquals("\\") && token.getType().equals(GenericTokenType.UNKNOWN_CHAR));
@@ -74,7 +74,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void joining_strings() {
+  void joiningStrings() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("\"string\"")).anySatisfy(token
       -> assertThat(token).isValue("\"string\"").hasType(CxxTokenType.STRING));
@@ -87,7 +87,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_objectlike_macros() {
+  void expandingObjectlikeMacros() {
     List<Token> tokens = lexer.lex("""
                                    #define lala "haha"
                                    lala
@@ -99,7 +99,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void recursive_objectlike_macros() {
+  void recursiveObjectlikeMacros() {
     List<Token> tokens = lexer.lex("""
                                    #define RECURSIVE RECURSIVE
                                    RECURSIVE
@@ -113,7 +113,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_functionlike_macros() {
+  void expandingFunctionlikeMacros() {
     List<Token> tokens = lexer.lex("""
                                    #define plus(a, b) a + b
                                    plus(1, 2)
@@ -125,7 +125,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void recursive_functionlike_macros() {
+  void recursiveFunctionlikeMacros() {
     List<Token> tokens = lexer.lex("""
                                    #define RECURSIVE(a) RECURSIVE(a)
                                    RECURSIVE(1)
@@ -142,7 +142,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_functionlike_macros_with_varargs() {
+  void expandingFunctionlikeMacrosWithVarargs() {
     List<Token> tokens = lexer.lex("""
                                    #define wrapper(...) __VA_ARGS__
                                    wrapper(1, 2)
@@ -155,7 +155,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_functionlike_macros_withnamed_varargs() {
+  void expandingFunctionlikeMacrosWithnamedVarargs() {
     List<Token> tokens = lexer.lex("""
                                    #define wrapper(args...) args
                                    wrapper(1, 2)
@@ -168,7 +168,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_functionlike_macros_with_empty_varargs() {
+  void expandingFunctionlikeMacrosWithEmptyVarargs() {
     List<Token> tokens = lexer.lex("""
                                    #define wrapper(...) (__VA_ARGS__)
                                    wrapper()
@@ -181,7 +181,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_macro_with_empty_parameter_list() {
+  void expandingMacroWithEmptyParameterList() {
     List<Token> tokens = lexer.lex("""
                                    #define M() 0
                                    M()
@@ -193,7 +193,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_functionlike_macros_withextraparantheses() {
+  void expandingFunctionlikeMacrosWithextraparantheses() {
     List<Token> tokens = lexer.lex("""
                                    #define neg(a) -a
                                    neg((1))
@@ -205,7 +205,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_hashoperator() {
+  void expandingHashOperator() {
     List<Token> tokens = lexer.lex("""
                                    #define str(a) # a
                                    str(x)
@@ -217,7 +217,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_hashhash_operator() {
+  void expandingHashhashOperator() {
     List<Token> tokens = lexer.lex("""
                                    #define concat(a,b) a ## b
                                    concat(x,y)
@@ -229,7 +229,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_hashhash_operator_withoutparams() {
+  void expandingHashhashOperatorWithoutParams() {
     List<Token> tokens = lexer.lex("""
                                    #define hashhash c ## c
                                    hashhash
@@ -241,7 +241,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_sequenceof_hashhash_operators() {
+  void expandingSequenceofHashhashOperators() {
     List<Token> tokens = lexer.lex("""
                                    #define concat(a,b) a ## ## ## b
                                    concat(x,y)
@@ -253,7 +253,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_many_hashhash_operators() {
+  void expandingManyHashhashOperators() {
     List<Token> tokens = lexer.lex("""
                                    #define concat(a,b) c ## c ## c ## c
                                    concat(x,y)
@@ -266,7 +266,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void hashhash_arguments_with_whitespace_before_comma() {
+  void hashhashArgumentsWithWhitespaceBeforeComma() {
     // The blank behind FOO finds its way into the expansion.
     // This leads to expression evaluation errors. Found in boost.
     // Problem: cannot find defined behaviour in the C++ Standard for
@@ -287,7 +287,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_hashhash_operator_sampleFromCPPStandard() {
+  void expandingHashhashOperatorSampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
     // not working yet. Because the current implementation throws away all 'irrelevant'
     // preprocessor directives too early, I guess.
@@ -308,7 +308,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_hashoperator_quoting1() {
+  void expandingHashOperatorQuoting1() {
     List<Token> tokens = lexer.lex("""
                                    #define str(a) # a
                                    str("x")
@@ -321,7 +321,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_chained_macros() {
+  void expandingChainedMacros() {
     List<Token> tokens = lexer.lex("""
                                    #define M1 "a"
                                    #define M2 M1
@@ -334,7 +334,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_chained_macros2() {
+  void expandingChainedMacros2() {
     List<Token> tokens = lexer.lex("""
                                    #define M1 "a"
                                    #define M2 foo(M1)
@@ -348,7 +348,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void expanding_chained_macros3() {
+  void expandingChainedMacros3() {
     List<Token> tokens = lexer.lex("""
                                    #define M1(a) "a"
                                    #define M2 foo(M1)
@@ -362,7 +362,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void joining_strings_after_macro_expansion() {
+  void joiningStringsAfterMacroExpansion() {
     List<Token> tokens = lexer.lex("""
                                    #define Y "hello, "
                                    #define X Y "world"
@@ -376,7 +376,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void joining_strings_after_macro_expansion2() {
+  void joiningStringsAfterMacroExpansion2() {
     List<Token> tokens = lexer.lex("""
                                    #define M "A" "B" "C"
                                    #define N M
@@ -389,7 +389,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void joining_strings_after_macro_expansion3() {
+  void joiningStringsAfterMacroExpansion3() {
     List<Token> tokens = lexer.lex("""
                                    #define M "B"
                                    "A" M
@@ -401,7 +401,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void preserving_whitespace() {
+  void preservingWhitespace() {
     List<Token> tokens = lexer.lex("""
                                    #define CODE(x) x
                                    CODE(new B())
@@ -414,7 +414,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void bodyless_defines() {
+  void bodylessDefines() {
     assertThat(lexer.lex("""
                          #define M
                          M
@@ -423,7 +423,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void external_define() {
+  void externalDefine() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
       "M body");
@@ -439,7 +439,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void external_defines_with_params() {
+  void externalDefinesWithParams() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
       "minus(a, b) a - b");
@@ -454,7 +454,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void using_keyword_as_macro_name() {
+  void usingKeywordAsMacroName() {
     List<Token> tokens = lexer.lex("""
                                    #define new new_debug
                                    new
@@ -467,7 +467,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void using_keyword_as_macro_parameter() {
+  void usingKeywordAsMacroParameter() {
     List<Token> tokens = lexer.lex("""
                                    #define macro(new) new
                                    macro(a)
@@ -479,7 +479,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void using_macro_name_as_macro_identifier() {
+  void usingMacroNameAsMacroIdentifier() {
     List<Token> tokens = lexer.lex("""
                                    #define X(a) a X(a)
                                    X(new)
@@ -492,7 +492,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void using_keyword_as_macro_argument() {
+  void usingKeywordAsMacroArgument() {
     List<Token> tokens = lexer.lex("""
                                    #define X(a) a
                                    X(new)
@@ -504,7 +504,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void includes_are_working() throws IOException {
+  void includesAreWorking() throws IOException {
     context = mock(SquidAstVisitorContext.class);
     var file = new File("/home/joe/file.cc");
     when(context.getFile()).thenReturn(file);
@@ -526,7 +526,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void macro_replacement_in_includes_is_working() {
+  void macroReplacementInIncludesIsWorking() {
     List<Token> tokens = lexer.lex("""
                                    #define A "B"
                                    #include A
@@ -535,7 +535,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifdef_undefined() {
+  void conditionalCompilationIfdefUndefined() {
     List<Token> tokens = lexer.lex("""
                                    #ifdef LALA
                                    111
@@ -552,7 +552,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifdef_defined() {
+  void conditionalCompilationIfdefDefined() {
     List<Token> tokens = lexer.lex("""
                                    #define LALA
                                    #ifdef LALA
@@ -570,7 +570,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifndef_undefined() {
+  void conditionalCompilationIfndefUndefined() {
     List<Token> tokens = lexer.lex("""
                                    #ifndef LALA
                                    111
@@ -586,7 +586,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifndef_defined() {
+  void conditionalCompilationIfndefDefined() {
     List<Token> tokens = lexer.lex("""
                                    #define X
                                    #ifndef X
@@ -603,7 +603,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifdef_nested1() {
+  void conditionalCompilationIfdefNested1() {
     List<Token> tokens = lexer.lex("""
                                    #define B
                                    #ifdef A
@@ -627,7 +627,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_ifdef_nested2() {
+  void conditionalCompilationIfdefNested2() {
     List<Token> tokens = lexer.lex("""
                                    #if !defined A
                                    #define A
@@ -647,7 +647,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_if_false() {
+  void conditionalCompilationIfFalse() {
     List<Token> tokens = lexer.lex("""
                                    #if 0
                                      a
@@ -664,7 +664,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_if_true() {
+  void conditionalCompilationIfTrue() {
     List<Token> tokens = lexer.lex("""
                                    #if 1
                                      a
@@ -680,7 +680,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_if_identifier_true() {
+  void conditionalCompilationIfIdentifierTrue() {
     List<Token> tokens = lexer.lex("""
                                    #define LALA 1
                                    #if LALA
@@ -697,7 +697,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void conditional_compilation_if_identifier_false() {
+  void conditionalCompilationIfIdentifierFalse() {
     List<Token> tokens = lexer.lex("""
                                    #if LALA
                                      a
@@ -714,7 +714,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void nested_ifs() {
+  void nestedIfs() {
     List<Token> tokens = lexer.lex("""
                                    #if 0
                                      #if 1
@@ -737,7 +737,7 @@ class CxxLexerWithPreprocessingTest {
   // Proper separation of parameterized macros and macros expand to a string enclosed
   // in parentheses
   @Test
-  void macro_expanding_to_parantheses() {
+  void macroExpandingToParantheses() {
     // a macro is identified as 'functionlike' if and only if the parentheses
     // aren't separated from the identifier by whitespace. Otherwise, the parentheses
     // belong to the replacement string
@@ -749,7 +749,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void assume_true_if_cannot_evaluate_if_expression() {
+  void assumeTrueIfCannotEvaluateIfExpression() {
     List<Token> tokens = lexer.lex("""
                                    #if ("")
                                      a
@@ -764,7 +764,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void ignore_irrelevant_preprocessor_directives() {
+  void ignoreIrrelevantPreprocessorDirectives() {
     List<Token> tokens = lexer.lex("#pragma lala\n");
     assertThat(tokens).hasSize(1); // EOF
   }
@@ -869,7 +869,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void elif_expression() {
+  void elifExpression() {
     List<Token> tokens = lexer.lex("""
                                    #if 0
                                      if
@@ -886,7 +886,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void continued_preprocessor_directive() {
+  void continuedPreprocessorDirective() {
     // continuations mask only one succeeding newline
     List<Token> tokens = lexer.lex("""
                                    #define M macrobody\\
@@ -900,7 +900,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void misc_preprocessor_lines() {
+  void miscPreprocessorLines() {
     // a line which begins with a hash is a preprocessor line
     // it doesn't have any meaning in our context and should be just ignored
 
@@ -912,7 +912,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void undef_works() {
+  void undefWorks() {
     List<Token> tokens = lexer.lex("""
                                    #define a b
                                    #undef a
@@ -925,7 +925,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void function_like_macros_in_if_expressions() {
+  void functionLikeMacrosInIfExpressions() {
     List<Token> tokens = lexer.lex("""
                                    #define A() 0
                                    #define B() 0
@@ -943,7 +943,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void proper_expansion_of_function_like_macros_in_if_expressions() {
+  void properExpansionOfFunctionLikeMacrosInIfExpressions() {
     List<Token> tokens = lexer.lex("""
                                    #define A() 0 ## 1
                                    #if A()
@@ -960,7 +960,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void problem_with_chained_defined_expressions() {
+  void problemWithChainedDefinedExpressions() {
     List<Token> tokens = lexer.lex("""
                                    #define _C_
                                    #if !defined(_A_) && !defined(_B_) && !defined(_C_)
@@ -977,7 +977,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void problem_evaluating_elif_expressions() {
+  void problemEvaluatingElifExpressions() {
     List<Token> tokens = lexer.lex("""
                                    #define foo(a) 1
                                    #if 0
@@ -996,7 +996,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void built_in_macros() {
+  void builtInMacros() {
     List<Token> tokens = lexer.lex("__DATE__");
     var softly = new SoftAssertions();
     softly.assertThat(tokens).hasSize(2); // date + EOF
@@ -1005,7 +1005,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void dont_look_at_subsequent_clauses_if_elif() {
+  void dontLookAtSubsequentClausesIfElif() {
     // When a if clause has been evaluated to true, dont look at subsequent elif clauses
     List<Token> tokens = lexer.lex("""
                                    #define A 1
@@ -1023,7 +1023,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void dont_look_at_subsequent_clauses_elif_elif() {
+  void dontLookAtSubsequentClausesElifElif() {
     List<Token> tokens = lexer.lex("""
                                    #define SDS_ARCH_darwin_15_i86
                                    #ifdef SDS_ARCH_freebsd_61_i86
@@ -1044,7 +1044,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void test_ifdef() {
+  void testIfdef() {
     List<Token> tokens = lexer.lex("""
                                    #define CPU
                                    #ifdef CPU
@@ -1066,7 +1066,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void test_elifdef() {
+  void testElifdef() {
     List<Token> tokens = lexer.lex("""
                                    #define GPU
                                    #ifdef CPU
@@ -1088,7 +1088,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void test_elifndef() {
+  void testElifndef() {
     List<Token> tokens = lexer.lex("""
                                    #define XXX
                                    #ifdef CPU
@@ -1111,7 +1111,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void test_else() {
+  void testElse() {
     List<Token> tokens = lexer.lex("""
                                    #define RAM
                                    #ifdef CPU
@@ -1134,7 +1134,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void hashhash_operator_problem() {
+  void hashhashOperatorProblem() {
     // Corresponds to the Jira Issue SONARPLUGINS-3055.
     // The problem here is that 0x##n is splitted into
     // [0, x, ##, n] sequence of tokens by the initial parsing routine.
@@ -1151,7 +1151,7 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void string_problem_1903() {
+  void stringProblem1903() {
     List<Token> tokens = lexer.lex("""
                                    void f1() {}
                                    #define BROKEN_DEFINE " /a/path/*"
@@ -1164,13 +1164,13 @@ class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  void undefined_macro_with_hash_parameter() {
+  void undefinedMacroWithHashParameter() {
     List<Token> tokens = lexer.lex("BOOST_PP_EXPAND(#) define BOOST_FT_config_valid 1");
     assertThat(tokens).hasSize(8);
   }
 
   @Test
-  void defined_macro_with_hash_parameter() {
+  void definedMacroWithHashParameter() {
     List<Token> tokens = lexer.lex("""
                                    #define BOOST_PP_EXPAND(p) p
                                    BOOST_PP_EXPAND(#) define BOOST_FT_config_valid 1

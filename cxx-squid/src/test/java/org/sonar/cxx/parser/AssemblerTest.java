@@ -94,7 +94,7 @@ class AssemblerTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void asmGccLabel_reallife() {
+  void asmGccLabelReallife() {
     setRootRule(CxxGrammarImpl.simpleDeclaration);
 
     assertThatParser()

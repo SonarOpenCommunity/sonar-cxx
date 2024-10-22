@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 class TextUtilsTest {
 
   @Test
-  void should_escape() {
+  void shouldEscape() {
     assertThat(TextUtils.escape('\r')).isEqualTo("\\r");
     assertThat(TextUtils.escape('\n')).isEqualTo("\\n");
     assertThat(TextUtils.escape('\f')).isEqualTo("\\f");
@@ -40,13 +40,13 @@ class TextUtilsTest {
   }
 
   @Test
-  void should_trim_trailing_line_separator() {
+  void shouldTrimTrailingLineSeparator() {
     assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\n")).isEmpty();
     assertThat(TextUtils.trimTrailingLineSeparatorFrom("\r\nfoo\r\n")).isEqualTo("\r\nfoo");
   }
 
   @Test
-  void private_constructor() throws Exception {
+  void privateConstructor() throws Exception {
     Constructor constructor = TextUtils.class.getDeclaredConstructor();
     assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);

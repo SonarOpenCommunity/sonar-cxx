@@ -41,7 +41,7 @@ class RuleBuilderTest {
   private final RuleBuilder ruleBuilder = new RuleBuilder(b, delegate);
 
   @Test
-  void test_is() {
+  void testIs() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     when(b.convertToExpression(e1)).thenReturn(e2);
@@ -50,7 +50,7 @@ class RuleBuilderTest {
   }
 
   @Test
-  void test_is2() {
+  void testIs2() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     var e3 = mock(ParsingExpression.class);
@@ -60,7 +60,7 @@ class RuleBuilderTest {
   }
 
   @Test
-  void should_fail_to_redefine() {
+  void shouldFailToRedefine() {
     var e = mock(ParsingExpression.class);
     when(delegate.getExpression()).thenReturn(e);
     var ruleKey = mock(GrammarRuleKey.class);
@@ -72,7 +72,7 @@ class RuleBuilderTest {
   }
 
   @Test
-  void test_override() {
+  void testOverride() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     var e3 = mock(ParsingExpression.class);
@@ -86,7 +86,7 @@ class RuleBuilderTest {
   }
 
   @Test
-  void test_override2() {
+  void testOverride2() {
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
     var e3 = mock(ParsingExpression.class);
@@ -99,13 +99,13 @@ class RuleBuilderTest {
   }
 
   @Test
-  void test_skip() {
+  void testSkip() {
     ruleBuilder.skip();
     verify(delegate).skip();
   }
 
   @Test
-  void test_skipIfOneChild() {
+  void testSkipIfOneChild() {
     ruleBuilder.skipIfOneChild();
     verify(delegate).skipIfOneChild();
   }

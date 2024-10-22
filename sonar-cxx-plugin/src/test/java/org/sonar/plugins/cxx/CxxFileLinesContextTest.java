@@ -62,7 +62,7 @@ class CxxFileLinesContextTest {
   }
 
   @Test
-  void TestLinesOfCode() throws IOException {
+  void testLinesOfCode() {
     Set<Integer> linesOfCode = Stream.of(
       8, 10, 14, 16, 17, 21, 22, 23, 26, 31, 34, 35, 42, 44, 45, 49, 51, 53, 55, 56,
       58, 59, 63, 65, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 79, 82, 84, 86, 87, 89,
@@ -73,7 +73,7 @@ class CxxFileLinesContextTest {
   }
 
   @Test
-  void TestExecutableLinesOfCode() throws IOException {
+  void testExecutableLinesOfCode() {
     assertThat(fileLinesContext.executableLines).containsExactlyInAnyOrder(
       10, 26, 34, 35, 56, 59, 69, 70, 72, 73,
       75, 76, 79, 87, 90, 98, 102, 118, 119, 126);

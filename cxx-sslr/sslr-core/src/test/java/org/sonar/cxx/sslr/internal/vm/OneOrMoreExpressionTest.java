@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class OneOrMoreExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new OneOrMoreExpression(new SubExpression(1, 2));
     assertThat(expression).hasToString("OneOrMore[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());

@@ -48,7 +48,7 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void lambdaExpression_reallife() {
+  void lambdaExpressionReallife() {
     setRootRule(CxxGrammarImpl.lambdaExpression);
 
     assertThatParser()
@@ -97,7 +97,7 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void lambdaIntroducer_reallife() {
+  void lambdaIntroducerReallife() {
     setRootRule(CxxGrammarImpl.lambdaIntroducer);
 
     assertThatParser()
@@ -179,7 +179,7 @@ class LamdaExpressionsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void initCapture_reallife() {
+  void initCaptureReallife() {
     setRootRule(CxxGrammarImpl.initCapture);
 
     assertThatParser()

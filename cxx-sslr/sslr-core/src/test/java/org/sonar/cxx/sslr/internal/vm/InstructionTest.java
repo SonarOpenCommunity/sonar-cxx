@@ -168,7 +168,7 @@ class InstructionTest {
   }
 
   @Test
-  void commitVerify_should_throw_exception() {
+  void commitVerifyShouldThrowException() {
     var instruction = Instruction.commitVerify(42);
     var stack = new MachineStack().getOrCreateChild();
     stack.setIndex(13);

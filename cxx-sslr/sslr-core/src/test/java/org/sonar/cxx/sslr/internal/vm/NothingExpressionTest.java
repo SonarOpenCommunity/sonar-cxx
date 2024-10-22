@@ -35,13 +35,13 @@ class NothingExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("Nothing");
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     expression.execute(machine);
     verify(machine).backtrack();
     verifyNoMoreInteractions(machine);
