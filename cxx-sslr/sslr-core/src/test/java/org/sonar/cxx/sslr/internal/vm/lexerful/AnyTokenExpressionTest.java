@@ -39,13 +39,13 @@ class AnyTokenExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("AnyToken");
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     var token = mock(Token.class);
     when(machine.length()).thenReturn(1);
     when(machine.tokenAt(0)).thenReturn(token);
@@ -58,7 +58,7 @@ class AnyTokenExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);

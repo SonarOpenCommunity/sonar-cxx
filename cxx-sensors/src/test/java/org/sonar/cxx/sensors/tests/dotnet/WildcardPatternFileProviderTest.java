@@ -70,7 +70,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void absolute_paths() {
+  void absolutePaths() {
     assertThat(listFiles(new File(tempDir, "foo.txt").getAbsolutePath()))
       .containsOnly(new File(tempDir, "foo.txt"));
 
@@ -81,13 +81,13 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void absolute_paths_with_current_and_parent_folder_access() {
+  void absolutePathsWithCurrentAndParentFolderAccess() {
     assertThat(listFiles(new File(tempDir, path("a", "..", ".", "foo.txt")).getAbsolutePath()))
       .containsOnly(new File(tempDir, path("a", "..", ".", "foo.txt")));
   }
 
   @Test
-  void absolute_paths_with_wildcards() {
+  void absolutePathsWithWildcards() {
     assertThat(listFiles(new File(tempDir, "*.txt").getAbsolutePath()))
       .containsOnly(new File(tempDir, "foo.txt"), new File(tempDir, "bar.txt"));
 
@@ -121,7 +121,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void relative_paths() {
+  void relativePaths() {
     assertThat(listFiles("foo.txt", tempDir))
       .containsOnly(new File(tempDir, "foo.txt"));
 
@@ -132,7 +132,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void relative_paths_with_current_and_parent_folder_access() {
+  void relativePathsWithCurrentAndParentFolderAccess() {
     assertThat(listFiles(path("..", "foo.txt"), new File(tempDir, "a")))
       .containsOnly(new File(new File(tempDir, "a"), path("..", "foo.txt")));
 
@@ -144,7 +144,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void relative_paths_with_wildcards() {
+  void relativePathsWithWildcards() {
     assertThat(listFiles("*.txt", tempDir))
       .containsOnly(new File(tempDir, "foo.txt"), new File(tempDir, "bar.txt"));
 
@@ -178,7 +178,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void should_fail_with_current_folder_access_after_wildcard() {
+  void shouldFailWithCurrentFolderAccessAfterWildcard() {
     IllegalArgumentException thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       listFiles(new File(tempDir, path("?", ".", "foo.txt")).getAbsolutePath());
     });
@@ -186,7 +186,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @Test
-  void should_fail_with_parent_folder_access_after_wildcard() {
+  void shouldFailWithParentFolderAccessAfterWildcard() {
     IllegalArgumentException thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       listFiles(path("*", "..", "foo.txt"), tempDir);
     });

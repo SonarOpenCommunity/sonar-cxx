@@ -36,13 +36,13 @@ class EndOfInputExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("EndOfInput");
   }
 
   @Test
-  void should_stop() {
+  void shouldStop() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -52,7 +52,7 @@ class EndOfInputExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     when(machine.length()).thenReturn(1);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);

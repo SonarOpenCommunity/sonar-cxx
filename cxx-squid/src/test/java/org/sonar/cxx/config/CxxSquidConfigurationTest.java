@@ -20,7 +20,6 @@
 package org.sonar.cxx.config;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -405,7 +404,7 @@ class CxxSquidConfigurationTest {
   void emptyValueShouldUseIncludeDirsIfSet() {
     var squidConfig = new CxxSquidConfiguration();
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
-                    new String[]{"dir1", "dir2"});
+      new String[]{"dir1", "dir2"});
     squidConfig.readMsBuildFiles(new ArrayList<>(), VC_CHARSET);
     assertThat(getIncludeDirectories(squidConfig)).hasSize(2);
   }
@@ -719,7 +718,7 @@ class CxxSquidConfigurationTest {
   }
 
   @Test
-  void testConfigFile(@TempDir Path tempDir) throws IOException {
+  void testConfigFile(@TempDir Path tempDir) {
     Path fileName = tempDir.resolve("config.xml");
 
     var squidConfig = new CxxSquidConfiguration(".");
@@ -727,7 +726,7 @@ class CxxSquidConfigurationTest {
     // add a value on each level
     squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "PREDEFINED_MACROS", "PREDEFINED_MACROS");
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, "SONAR_PROJECT_PROPERTIES",
-                    "SONAR_PROJECT_PROPERTIES");
+      "SONAR_PROJECT_PROPERTIES");
     squidConfig.add(CxxSquidConfiguration.GLOBAL, "GLOBAL", "GLOBAL");
     squidConfig.add("a/b/c", "UNIT", "UNIT");
     squidConfig.add(CxxSquidConfiguration.PREDEFINED_MACROS, "l1a", "l1a");

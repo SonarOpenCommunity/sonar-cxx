@@ -39,7 +39,7 @@ class ExternalDescriptionLoaderTest {
   private final NewRepository repository = context.createRepository(REPO_KEY, LANGUAGE_KEY);
 
   @Test
-  void existingRuleDescription() throws Exception {
+  void existingRuleDescription() {
     repository.createRule("ruleWithExternalInfo").setName("name1");
     var rule = buildRepository().rule("ruleWithExternalInfo");
     assertThat(rule).isNotNull();
@@ -47,7 +47,7 @@ class ExternalDescriptionLoaderTest {
   }
 
   @Test
-  void ruleWithNonExternalDescription() throws Exception {
+  void ruleWithNonExternalDescription() {
     repository.createRule("ruleWithoutExternalInfo").setName("name1").setHtmlDescription("my description");
     var rule = buildRepository().rule("ruleWithoutExternalInfo");
     assertThat(rule).isNotNull();

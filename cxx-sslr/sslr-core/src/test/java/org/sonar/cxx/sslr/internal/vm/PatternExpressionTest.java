@@ -38,13 +38,13 @@ class PatternExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("Pattern foo|bar");
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     when(machine.length()).thenReturn(3);
     when(machine.charAt(0)).thenReturn('f');
     when(machine.charAt(1)).thenReturn('o');
@@ -69,7 +69,7 @@ class PatternExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     when(machine.length()).thenReturn(1);
     when(machine.charAt(0)).thenReturn('z');
     expression.execute(machine);
@@ -89,7 +89,7 @@ class PatternExpressionTest {
   }
 
   @Test
-  void should_catch_StackOverflowError() {
+  void shouldCatchStackOverflowError() {
     when(machine.length()).thenReturn(1);
     when(machine.charAt(0)).thenThrow(StackOverflowError.class);
     var thrown = catchThrowableOfType(GrammarException.class,

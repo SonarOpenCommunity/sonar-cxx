@@ -91,7 +91,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void declaration_reallife() {
+  void declarationReallife() {
     setRootRule(CxxGrammarImpl.declaration);
 
     assertThatParser()
@@ -163,7 +163,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void simpleDeclaration_reallife() {
+  void simpleDeclarationReallife() {
     setRootRule(CxxGrammarImpl.simpleDeclaration);
 
     assertThatParser()
@@ -240,7 +240,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void declSpecifier_reallife() {
+  void declSpecifierReallife() {
     setRootRule(CxxGrammarImpl.declSpecifier);
 
     assertThatParser()
@@ -276,7 +276,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void typeSpecifier_reallife() {
+  void typeSpecifierReallife() {
     setRootRule(CxxGrammarImpl.typeSpecifier);
 
     assertThatParser()
@@ -299,7 +299,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void typeSpecifierSeq_reallife() {
+  void typeSpecifierSeqReallife() {
     setRootRule(CxxGrammarImpl.typeSpecifierSeq);
 
     assertThatParser()
@@ -372,7 +372,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void simpleTypeSpecifier_reallife() {
+  void simpleTypeSpecifierReallife() {
     setRootRule(CxxGrammarImpl.simpleTypeSpecifier);
 
     assertThatParser()
@@ -394,7 +394,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void typeName_reallife() {
+  void typeNameReallife() {
     setRootRule(CxxGrammarImpl.typeName);
 
     assertThatParser()
@@ -447,7 +447,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void elaboratedTypeSpecifier_reallife() {
+  void elaboratedTypeSpecifierReallife() {
     setRootRule(CxxGrammarImpl.elaboratedTypeSpecifier);
 
     assertThatParser()
@@ -469,7 +469,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void enumSpecifier_reallife() {
+  void enumSpecifierReallife() {
     setRootRule(CxxGrammarImpl.enumSpecifier);
 
     assertThatParser()
@@ -616,7 +616,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void namespaceDefinition_reallife() {
+  void namespaceDefinitionReallife() {
     setRootRule(CxxGrammarImpl.namespaceDefinition);
 
     assertThatParser()
@@ -782,7 +782,7 @@ class DeclarationsTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void cliAttributesDefinition_reallife() {
+  void cliAttributesDefinitionReallife() {
     setRootRule(CxxGrammarImpl.cliAttributes);
 
     assertThatParser()

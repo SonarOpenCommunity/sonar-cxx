@@ -174,7 +174,7 @@ class FileHeaderCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void should_fail_with_bad_regular_expression() {
+  void shouldFailWithBadRegularExpression() {
     var check = new FileHeaderCheck();
     check.headerFormat = "[";
     check.isRegularExpression = true;

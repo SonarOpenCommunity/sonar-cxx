@@ -53,7 +53,7 @@ class ImmutableInputBufferTest {
   }
 
   @Test
-  void test_single_line() {
+  void testSingleLine() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("foo".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(1);
@@ -67,7 +67,7 @@ class ImmutableInputBufferTest {
   }
 
   @Test
-  void test_empty() {
+  void testEmpty() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(1);
@@ -79,7 +79,7 @@ class ImmutableInputBufferTest {
   }
 
   @Test
-  void test_empty_lines_with_LF() {
+  void testEmptyLinesWithLF() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\n\n".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(3);
@@ -94,7 +94,7 @@ class ImmutableInputBufferTest {
   }
 
   @Test
-  void test_empty_lines_with_CR() {
+  void testEmptyLinesWithCR() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\r\r".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(3);
@@ -109,7 +109,7 @@ class ImmutableInputBufferTest {
   }
 
   @Test
-  void test_empty_lines_with_CRLF() {
+  void testEmptyLinesWithCRLF() {
     InputBuffer inputBuffer = new ImmutableInputBuffer("\r\n\r\n".toCharArray());
 
     assertThat(inputBuffer.getLineCount()).isEqualTo(3);
@@ -126,7 +126,7 @@ class ImmutableInputBufferTest {
   }
 
   @Test
-  void test_equality_and_hash_code_of_positions() {
+  void testEqualityAndHashCodeOfPositions() {
     var position = new Position(0, 0);
     assertThat(position)
       .isEqualTo(position)

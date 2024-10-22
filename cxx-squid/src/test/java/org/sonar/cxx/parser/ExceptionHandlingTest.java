@@ -41,7 +41,7 @@ class ExceptionHandlingTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void exceptionSpecification_reallife() {
+  void exceptionSpecificationReallife() {
     setRootRule(CxxGrammarImpl.noexceptSpecifier);
 
     assertThatParser()

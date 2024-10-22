@@ -26,10 +26,10 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
+import org.slf4j.event.Level;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.testfixtures.log.LogTesterJUnit5;
-import org.slf4j.event.Level;
 
 class DroppedPropertiesSensorTest {
 
@@ -40,7 +40,7 @@ class DroppedPropertiesSensorTest {
   public LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
-  void testNoMsg() throws Exception {
+  void testNoMsg() {
     var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.xxx", "value");
     contextTester.setSettings(mapSettings);
@@ -53,7 +53,7 @@ class DroppedPropertiesSensorTest {
   }
 
   @Test
-  void testNoLongerSupported() throws Exception {
+  void testNoLongerSupported() {
     var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.cppncss.reportPaths", "value");
     contextTester.setSettings(mapSettings);
@@ -67,7 +67,7 @@ class DroppedPropertiesSensorTest {
   }
 
   @Test
-  void testNoLongerSupportedWithInfo() throws Exception {
+  void testNoLongerSupportedWithInfo() {
     var contextTester = SensorContextTester.create(tempDir);
     var mapSettings = new MapSettings().setProperty("sonar.cxx.suffixes.sources", "value");
     contextTester.setSettings(mapSettings);
@@ -76,7 +76,7 @@ class DroppedPropertiesSensorTest {
     sensor.execute(contextTester);
 
     var msg = "CXX property 'sonar.cxx.suffixes.sources' is no longer supported."
-            + " Use key 'sonar.cxx.file.suffixes' instead.";
+      + " Use key 'sonar.cxx.file.suffixes' instead.";
     assertThat(logTester.logs(Level.WARN)).contains(msg);
     assertThat(analysisWarnings).containsExactly(msg);
   }

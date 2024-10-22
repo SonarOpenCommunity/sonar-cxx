@@ -28,7 +28,7 @@ class CxxLanguageTest {
   private final MapSettings settings = new MapSettings();
 
   @Test
-  void testCxxLanguageStringConfiguration() throws Exception {
+  void testCxxLanguageStringConfiguration() {
     var language = new CxxLanguage(settings.asConfig());
     assertThat(language.getKey()).isEqualTo("cxx");
   }

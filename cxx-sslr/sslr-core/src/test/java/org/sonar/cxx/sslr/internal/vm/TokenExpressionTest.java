@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 class TokenExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new TokenExpression(GenericTokenType.IDENTIFIER, new SubExpression(1, 2));
     assertThat(expression).hasToString("Token IDENTIFIER[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
@@ -46,7 +46,7 @@ class TokenExpressionTest {
   }
 
   @Test
-  void should_implement_Matcher() {
+  void shouldImplementMatcher() {
     var expression = new TokenExpression(GenericTokenType.IDENTIFIER, mock(ParsingExpression.class));
     // Important for AstCreator
     assertThat(expression.getTokenType()).isSameAs(GenericTokenType.IDENTIFIER);

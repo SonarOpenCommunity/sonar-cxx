@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class ChecksHelperTest {
 
   @Test
-  void private_constructor() throws Exception {
+  void privateConstructor() throws Exception {
     var constructor = ChecksHelper.class.getDeclaredConstructor();
     assertThat(constructor.canAccess(null)).isFalse();
     constructor.setAccessible(true);

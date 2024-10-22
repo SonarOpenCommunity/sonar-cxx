@@ -35,7 +35,7 @@ import org.sonar.colorizer.Tokenizer;
 class AbstractConfigurationModelTest {
 
   @Test
-  void getParser_should_return_parser_instance() {
+  void getParserShouldReturnParserInstance() {
     var model = new MyConfigurationModel();
     Parser<? extends Grammar> p = mock(Parser.class);
     model.setParser(p);
@@ -43,7 +43,7 @@ class AbstractConfigurationModelTest {
   }
 
   @Test
-  void getParser_should_return_same_parser_instance_when_flag_not_set() {
+  void getParserShouldReturnSameParserInstanceWhenFlagNotSet() {
     var model = new MyConfigurationModel();
     Parser<? extends Grammar> p = mock(Parser.class);
     model.setParser(p);
@@ -54,7 +54,7 @@ class AbstractConfigurationModelTest {
   }
 
   @Test
-  void getParser_should_return_different_parser_instance_when_flag_set() {
+  void getParserShouldReturnDifferentParserInstanceWhenFlagSet() {
     var model = new MyConfigurationModel();
     Parser<? extends Grammar> p = mock(Parser.class);
     model.setParser(p);
@@ -68,7 +68,7 @@ class AbstractConfigurationModelTest {
   }
 
   @Test
-  void getTokenizers_should_return_parser_instance() {
+  void getTokenizersShouldReturnParserInstance() {
     var model = new MyConfigurationModel();
     List<Tokenizer> t = mock(List.class);
     model.setTokenizers(t);
@@ -76,7 +76,7 @@ class AbstractConfigurationModelTest {
   }
 
   @Test
-  void getTokenizers_should_return_same_parser_instance_when_flag_not_set() {
+  void getTokenizersShouldReturnSameParserInstanceWhenFlagNotSet() {
     var model = new MyConfigurationModel();
     List<Tokenizer> t = mock(List.class);
     model.setTokenizers(t);
@@ -87,7 +87,7 @@ class AbstractConfigurationModelTest {
   }
 
   @Test
-  void getTokenizers_should_return_different_parser_instance_when_flag_set() {
+  void getTokenizersShouldReturnDifferentParserInstanceWhenFlagSet() {
     var model = new MyConfigurationModel();
     List<Tokenizer> t = mock(List.class);
     model.setTokenizers(t);

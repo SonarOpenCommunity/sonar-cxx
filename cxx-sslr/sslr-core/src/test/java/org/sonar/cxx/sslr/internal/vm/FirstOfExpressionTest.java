@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class FirstOfExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new FirstOfExpression(
       new SubExpression(1, 2, 3),
       new SubExpression(4, 5),

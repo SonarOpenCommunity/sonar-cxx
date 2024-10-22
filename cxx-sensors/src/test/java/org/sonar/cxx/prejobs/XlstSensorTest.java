@@ -26,11 +26,11 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.slf4j.event.Level;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.testfixtures.log.LogTesterJUnit5;
-import org.slf4j.event.Level;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
@@ -147,7 +147,7 @@ class XlstSensorTest {
 
   @Test
   void shouldTransformReportExternalXlst()
-    throws java.io.IOException, javax.xml.transform.TransformerException {
+    throws java.io.IOException {
     var context = SensorContextTester.create(fs.baseDir());
     var stylesheetFile = "prejobs" + File.separator + "xslt-stylesheet.xslt";
     var inputFile = "prejobs" + File.separator + "xslt-input.xml";
@@ -171,7 +171,7 @@ class XlstSensorTest {
 
   @Test
   void shouldTransformReportInternalXlst()
-    throws java.io.IOException, javax.xml.transform.TransformerException {
+    throws java.io.IOException {
     var context = SensorContextTester.create(fs.baseDir());
     var stylesheetFile = "cppunit-1.x-to-junit-1.0.xsl";
     var inputFile = "prejobs" + File.separator + "cppunit-report.xml";

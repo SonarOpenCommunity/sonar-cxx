@@ -64,7 +64,7 @@ class ExpressionGrammarTest {
   }
 
   @Test
-  void prefix_match() {
+  void prefixNatch() {
     var inputString = "term +";
     var input = inputString.toCharArray();
     var parseRunner = new ParseRunner(grammar.expression);
@@ -73,7 +73,7 @@ class ExpressionGrammarTest {
   }
 
   @Test
-  void should_create_ast() throws Exception {
+  void shouldCreateAst() {
     var inputString = "20 * 2 + 2 - var";
     var grammar = new ExpressionGrammar();
     var input = inputString.toCharArray();

@@ -66,7 +66,7 @@ class BasicQueriesTest {
   }
 
   @Test
-  void EOFTest() {
+  void eofTest() {
     var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT/EOF");
     assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode.getFirstDescendant(EOF));
   }

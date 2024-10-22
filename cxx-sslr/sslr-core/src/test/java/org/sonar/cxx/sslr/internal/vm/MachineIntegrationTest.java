@@ -107,7 +107,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  void zeroOrMore_should_not_cause_infinite_loop() {
+  void zeroOrMoreShouldNotCauseInfiniteLoop() {
     var instructions = new ZeroOrMoreExpression(
       new FirstOfExpression(
         new StringExpression("foo"),
@@ -127,7 +127,7 @@ class MachineIntegrationTest {
 
   @Test
   @Timeout(5000)
-  void oneOrMore_should_not_cause_infinite_loop() {
+  void oneOrMoreShouldNotCauseInfiniteLoop() {
     var instructions = new OneOrMoreExpression(
       new FirstOfExpression(
         new StringExpression("foo"),

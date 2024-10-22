@@ -30,22 +30,22 @@ import org.sonar.cxx.squidbridge.api.SourceFile;
 class CxxCognitiveComplexityVisitorTest {
 
   @Test
-  void if_statement() throws IOException {
+  void ifStatement() throws IOException {
     assertThat(testFile("src/test/resources/visitors/if.cc")).isEqualTo(1);
   }
 
   @Test
-  void if_else() throws IOException {
+  void ifElse() throws IOException {
     assertThat(testFile("src/test/resources/visitors/if_else.cc")).isEqualTo(2);
   }
 
   @Test
-  void if_else_if() throws IOException {
+  void ifElseIf() throws IOException {
     assertThat(testFile("src/test/resources/visitors/if_else_if.cc")).isEqualTo(2);
   }
 
   @Test
-  void if_else_if_else() throws IOException {
+  void ifElseIfElse() throws IOException {
     assertThat(testFile("src/test/resources/visitors/if_else_if_else.cc")).isEqualTo(3);
   }
 
@@ -60,57 +60,57 @@ class CxxCognitiveComplexityVisitorTest {
   }
 
   @Test
-  void switch_statement() throws IOException {
+  void switchStatement() throws IOException {
     assertThat(testFile("src/test/resources/visitors/switch.cc")).isEqualTo(1);
   }
 
   @Test
-  void for_statement() throws IOException {
+  void forStatement() throws IOException {
     assertThat(testFile("src/test/resources/visitors/for.cc")).isEqualTo(1);
   }
 
   @Test
-  void while_statement() throws IOException {
+  void whileStatement() throws IOException {
     assertThat(testFile("src/test/resources/visitors/while.cc")).isEqualTo(1);
   }
 
   @Test
-  void do_while() throws IOException {
+  void doWhile() throws IOException {
     assertThat(testFile("src/test/resources/visitors/do_while.cc")).isEqualTo(1);
   }
 
   @Test
-  void catch_statement() throws IOException {
+  void catchStatement() throws IOException {
     assertThat(testFile("src/test/resources/visitors/catch.cc")).isEqualTo(1);
   }
 
   @Test
-  void multiple_catch() throws IOException {
+  void multipleCatch() throws IOException {
     assertThat(testFile("src/test/resources/visitors/multiple_catch.cc")).isEqualTo(3);
   }
 
   @Test
-  void goto_statement() throws IOException {
+  void gotoStatement() throws IOException {
     assertThat(testFile("src/test/resources/visitors/goto.cc")).isEqualTo(1);
   }
 
   @Test
-  void binary_logical() throws IOException {
+  void binaryLogical() throws IOException {
     assertThat(testFile("src/test/resources/visitors/binary_logical.cc")).isEqualTo(2);
   }
 
   @Test
-  void binary_logical_mixed() throws IOException {
+  void binaryLogicalMixed() throws IOException {
     assertThat(testFile("src/test/resources/visitors/binary_logical_mixed.cc")).isEqualTo(4);
   }
 
   @Test
-  void binary_logical_mixed_alternative() throws IOException {
+  void binaryLogicalMixedAlternative() throws IOException {
     assertThat(testFile("src/test/resources/visitors/binary_logical_mixed_alternative.cc")).isEqualTo(4);
   }
 
   @Test
-  void binary_logical_not() throws IOException {
+  void binaryLogicalNot() throws IOException {
     assertThat(testFile("src/test/resources/visitors/binary_logical_not.cc")).isEqualTo(3);
   }
 
@@ -120,32 +120,32 @@ class CxxCognitiveComplexityVisitorTest {
   }
 
   @Test
-  void sum_of_primes() throws IOException {
+  void sumOfPrimes() throws IOException {
     assertThat(testFile("src/test/resources/visitors/sum_of_primes.cc")).isEqualTo(7);
   }
 
   @Test
-  void get_words() throws IOException {
+  void getWords() throws IOException {
     assertThat(testFile("src/test/resources/visitors/get_words.cc")).isEqualTo(1);
   }
 
   @Test
-  void overridden_symbol_from() throws IOException {
+  void overriddenSymbolFrom() throws IOException {
     assertThat(testFile("src/test/resources/visitors/overridden_symbol_from.cc")).isEqualTo(19);
   }
 
   @Test
-  void add_version() throws IOException {
+  void addVersion() throws IOException {
     assertThat(testFile("src/test/resources/visitors/add_version.cc")).isEqualTo(35);
   }
 
   @Test
-  void add_version_macro() throws IOException {
+  void addVersionMacro() throws IOException {
     assertThat(testFile("src/test/resources/visitors/add_version_macro.cc")).isEqualTo(1);
   }
 
   @Test
-  void to_regexp() throws IOException {
+  void toRegexp() throws IOException {
     assertThat(testFile("src/test/resources/visitors/to_regexp.cc")).isEqualTo(20);
   }
 

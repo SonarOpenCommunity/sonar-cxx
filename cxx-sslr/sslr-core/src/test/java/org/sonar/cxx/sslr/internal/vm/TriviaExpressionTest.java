@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 class TriviaExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new TriviaExpression(TriviaKind.COMMENT, new SubExpression(1, 2));
     assertThat(expression).hasToString("Trivia COMMENT[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());
@@ -46,7 +46,7 @@ class TriviaExpressionTest {
   }
 
   @Test
-  void should_implement_Matcher() {
+  void shouldImplementMatcher() {
     var expression = new TriviaExpression(TriviaKind.COMMENT, mock(ParsingExpression.class));
     // Important for AstCreator
     assertThat(expression.getTriviaKind()).isSameAs(TriviaKind.COMMENT);

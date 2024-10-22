@@ -87,14 +87,14 @@ class AbstractXPathCheckTest {
   }
 
   @Test
-  void parse_error() {
+  void parseError() {
     check.xpath = "//VARIABLE_DEFINITION";
 
     checkMessagesVerifier.verify(scanFile("/checks/parse_error.mc", check).getCheckMessages());
   }
 
   @Test
-  void wrong_xpath() {
+  void wrongXpath() {
     check.xpath = "//";
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       scanFile("/checks/xpath.mc", check);

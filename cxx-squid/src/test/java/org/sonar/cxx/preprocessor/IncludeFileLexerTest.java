@@ -33,7 +33,7 @@ class IncludeFileLexerTest {
   private final static Lexer LEXER = IncludeFileLexer.create();
 
   @Test
-  void proper_preprocessor_directives_are_created() {
+  void properPreprocessorDirectivesAreCreated() {
     assertThat(hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR)
       .matches(LEXER.lex("#include <iostream>"))).isTrue();
     assertThat(hasToken("#define lala", CxxTokenType.PREPROCESSOR)
@@ -43,7 +43,7 @@ class IncludeFileLexerTest {
   }
 
   @Test
-  void continued_lines_are_handled_correctly() {
+  void continuedLinesAreHandledCorrectly() {
     List<Token> tokens = LEXER.lex("""
                                    #define \\
                                    name \\
@@ -55,7 +55,7 @@ class IncludeFileLexerTest {
   }
 
   @Test
-  void multiline_comment_with_Include_is_swallowed() {
+  void multilineCommentWithIncludeIsSwallowed() {
     List<Token> tokens = LEXER.lex("""
                                    /* This is a multiline comment
                                       #include should be swallowed
@@ -67,7 +67,7 @@ class IncludeFileLexerTest {
   }
 
   @Test
-  void singleline_comment_with_Include_is_swallowed() {
+  void singlelineCommentWithIncludeIsSwallowed() {
     List<Token> tokens = LEXER.lex("// #include should be swallowed\n");
     assertThat(tokens).hasSize(1);
     assertThat(hasToken("EOF", EOF)
@@ -75,7 +75,7 @@ class IncludeFileLexerTest {
   }
 
   @Test
-  void all_but_preprocessor_stuff_is_swallowed() {
+  void allButPreprocessorStuffIsSwallowed() {
     // all the other stuff should be consumed by the lexer without
     // generating any tokens
     List<Token> tokens = LEXER.lex("void foo();");

@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class NextExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new NextExpression(new SubExpression(1, 2));
     assertThat(expression).hasToString("Next[SubExpression]");
     var instructions = expression.compile(new CompilationHandler());

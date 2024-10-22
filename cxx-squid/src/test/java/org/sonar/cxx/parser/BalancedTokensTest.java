@@ -38,7 +38,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void attributeSpecifierSeq_reallife() {
+  void attributeSpecifierSeqReallife() {
     setRootRule(CxxGrammarImpl.attributeSpecifierSeq);
 
     assertThatParser()
@@ -62,7 +62,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void attributeSpecifier_reallife() {
+  void attributeSpecifierReallife() {
     setRootRule(CxxGrammarImpl.attributeSpecifier);
 
     assertThatParser()
@@ -113,7 +113,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void attributeList_reallife() {
+  void attributeListReallife() {
     setRootRule(CxxGrammarImpl.attributeList);
 
     assertThatParser()
@@ -137,7 +137,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void attribute_reallife() {
+  void attributeReallife() {
     setRootRule(CxxGrammarImpl.attribute);
 
     assertThatParser()
@@ -166,7 +166,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void attributeScopedToken_reallife() {
+  void attributeScopedTokenReallife() {
     setRootRule(CxxGrammarImpl.attributeScopedToken);
 
     assertThatParser()
@@ -191,7 +191,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void attributeArgumentClause_reallife() {
+  void attributeArgumentClauseReallife() {
     setRootRule(CxxGrammarImpl.attributeArgumentClause);
 
     assertThatParser()
@@ -210,7 +210,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void balancedTokenSeq_reallife() {
+  void balancedTokenSeqReallife() {
     setRootRule(CxxGrammarImpl.balancedTokenSeq);
 
     assertThatParser()
@@ -230,7 +230,7 @@ class BalancedTokensTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void balancedToken_reallife() {
+  void balancedTokenReallife() {
     setRootRule(CxxGrammarImpl.balancedToken);
 
     assertThatParser()

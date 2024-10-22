@@ -136,7 +136,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void conditional_expression() {
+  void conditionalExpression() {
     assertThat(evaluate("1 ? 1 : 0")).isTrue();
     assertThat(evaluate("0 ? 0 : 1")).isTrue();
 
@@ -148,7 +148,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void logical_or() {
+  void logicalOr() {
     assertThat(evaluate("1 || 0")).isTrue();
     assertThat(evaluate("0 || 1")).isTrue();
     assertThat(evaluate("1 || 1")).isTrue();
@@ -159,7 +159,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void logical_and() {
+  void logicalAnd() {
     assertThat(evaluate("1 && 1")).isTrue();
     assertThat(evaluate("1 && 1 && 1")).isTrue();
 
@@ -170,7 +170,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void inclusive_or() {
+  void inclusiveOr() {
     assertThat(evaluate("1 | 0")).isTrue();
     assertThat(evaluate("0 | 1")).isTrue();
     assertThat(evaluate("1 | 1")).isTrue();
@@ -180,7 +180,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void exclusive_or() {
+  void exclusiveOr() {
     assertThat(evaluate("1 ^ 0")).isTrue();
     assertThat(evaluate("0 ^ 1")).isTrue();
     assertThat(evaluate("0 ^ 1 ^ 0")).isTrue();
@@ -190,7 +190,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void and_expr() {
+  void andExpr() {
     assertThat(evaluate("1 & 1")).isTrue();
     assertThat(evaluate("2 & 2 & 2")).isTrue();
 
@@ -202,7 +202,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void equality_expr() {
+  void equalityExpr() {
     assertThat(evaluate("1 == 1")).isTrue();
     assertThat(evaluate("1 == true")).isTrue();
     assertThat(evaluate("true == true")).isTrue();
@@ -223,7 +223,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void relational_expr() {
+  void relationalExpr() {
     assertThat(evaluate("0 < 1")).isTrue();
     assertThat(evaluate("0 <= 1")).isTrue();
     assertThat(evaluate("1 > 0")).isTrue();
@@ -246,7 +246,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void shift_expr() {
+  void shiftExpr() {
     assertThat(evaluate("1 << 2")).isTrue();
     assertThat(evaluate("1 >> 0")).isTrue();
 
@@ -256,7 +256,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void additive_expr() {
+  void additiveExpr() {
     assertThat(evaluate("1 + 1")).isTrue();
     assertThat(evaluate("2 - 1")).isTrue();
     assertThat(evaluate("3 - 3 + 2")).isTrue();
@@ -267,7 +267,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void multiplicative_expr() {
+  void multiplicativeExpr() {
     assertThat(evaluate("1 * 2")).isTrue();
     assertThat(evaluate("1 / 1")).isTrue();
     assertThat(evaluate("1 % 2")).isTrue();
@@ -279,7 +279,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void primary_expr() {
+  void primaryExpr() {
     assertThat(evaluate("(1)")).isTrue();
 
     assertThat(evaluate("(0)")).isFalse();
@@ -288,7 +288,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void unary_expression() {
+  void unaryExpression() {
     assertThat(evaluate("+1")).isTrue();
     assertThat(evaluate("-1")).isTrue();
     assertThat(evaluate("!0")).isTrue();
@@ -301,13 +301,13 @@ class PPExpressionTest {
   }
 
   @Test
-  void identifier_defined() {
+  void identifierDefined() {
     doReturn(PPMacro.create("#define LALA 1")).when(pp).getMacro("LALA");
     assertThat(evaluate("LALA")).isTrue();
   }
 
   @Test
-  void self_referential_identifier0() {
+  void selfReferentialIdentifier0() {
     doReturn(PPMacro.create("#define A A")).when(pp).getMacro("A");
 
     var softly = new SoftAssertions();
@@ -318,7 +318,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void self_referential_identifier1() {
+  void selfReferentialIdentifier1() {
     doReturn(PPMacro.create("#define A B")).when(pp).getMacro("A");
     doReturn(PPMacro.create("#define B A")).when(pp).getMacro("B");
 
@@ -326,7 +326,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void self_referential_identifier2() {
+  void selfReferentialIdentifier2() {
     doReturn(PPMacro.create("#define C B")).when(pp).getMacro("C");
     doReturn(PPMacro.create("#define B C")).when(pp).getMacro("B");
     doReturn(PPMacro.create("#define A B")).when(pp).getMacro("A");
@@ -335,7 +335,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void self_referential_identifier3() {
+  void selfReferentialIdentifier3() {
     doReturn(PPMacro.create("#define C B")).when(pp).getMacro("C");
     doReturn(PPMacro.create("#define B C")).when(pp).getMacro("B");
     doReturn(PPMacro.create("#define A1 1")).when(pp).getMacro("A1");
@@ -346,7 +346,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void self_referential_identifier4() {
+  void selfReferentialIdentifier4() {
     // https://gcc.gnu.org/onlinedocs/gcc-3.0.1/cpp_3.html#SEC31
     doReturn(PPMacro.create("#define x (4 + y)")).when(pp).getMacro("x");
     doReturn(PPMacro.create("#define y (2 * x)")).when(pp).getMacro("y");
@@ -358,42 +358,42 @@ class PPExpressionTest {
   }
 
   @Test
-  void identifier_undefined() {
+  void identifierUndefined() {
     assertThat(evaluate("LALA")).isFalse();
   }
 
   @Test
-  void functionlike_macro_defined_true() {
+  void functionlikeMacroDefinedTrue() {
     doReturn(PPMacro.create("#define has_feature(a) 1")).when(pp).getMacro(any());
     assertThat(evaluate("has_feature(URG)")).isTrue();
   }
 
   @Test
-  void functionlike_macro_defined_false() {
+  void functionlikeMacroDefinedFalse() {
     doReturn(PPMacro.create("#define has_feature(a) 0")).when(pp).getMacro(any());
     assertThat(evaluate("has_feature(URG)")).isFalse();
   }
 
   @Test
-  void functionlike_macro_undefined() {
+  void functionlikeMacroUndefined() {
     doReturn(null).when(pp).getMacro(any());
     assertThat(evaluate("has_feature(URG)")).isFalse();
   }
 
   @Test
-  void defined_true_without_parantheses() {
+  void definedTrueWithoutParantheses() {
     var macro = "LALA";
     doReturn(PPMacro.create("#define " + macro + " 1")).when(pp).getMacro(any());
     assertThat(evaluate("defined " + macro)).isTrue();
   }
 
   @Test
-  void defined_false_without_parantheses() {
+  void definedFalseWithoutParantheses() {
     assertThat(evaluate("defined LALA")).isFalse();
   }
 
   @Test
-  void defined_true_with_parantheses() {
+  void definedTrueWithParantheses() {
     var macro = "LALA";
     doReturn(PPMacro.create("#define " + macro + " 1")).when(pp).getMacro(any());
     assertThat(evaluate("defined (" + macro + ")")).isTrue();
@@ -401,13 +401,13 @@ class PPExpressionTest {
   }
 
   @Test
-  void defined_false_with_parantheses() {
+  void definedFalseWithParantheses() {
     assertThat(evaluate("defined (LALA)")).isFalse();
     assertThat(evaluate("defined(LALA)")).isFalse();
   }
 
   @Test
-  void throw_on_invalid_expressions() {
+  void throwOnInvalidExpressions() {
     EvaluationException thrown = catchThrowableOfType(EvaluationException.class, () -> {
       evaluate("\"\"");
     });
@@ -415,7 +415,7 @@ class PPExpressionTest {
   }
 
   @Test
-  void std_macro_evaluated_as_expected() {
+  void stdMacroEvaluatedAsExpected() {
     // evaluate numbers only, constantExpression can't be a string
     // assertThat(evaluate("__FILE__")).isTrue(); => STRING
     assertThat(evaluate("__LINE__")).isTrue();

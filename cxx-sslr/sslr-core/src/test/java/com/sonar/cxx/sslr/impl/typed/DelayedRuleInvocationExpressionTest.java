@@ -39,7 +39,7 @@ import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 class DelayedRuleInvocationExpressionTest {
 
   @Test
-  void should_compile_rule_keys() {
+  void shouldCompileRuleKeys() {
     var b = spy(LexerlessGrammarBuilder.create());
     var ruleKey = mock(GrammarRuleKey.class);
 
@@ -57,7 +57,7 @@ class DelayedRuleInvocationExpressionTest {
   }
 
   @Test
-  void should_compile_methods() throws Exception {
+  void shouldCompileMethods() throws Exception {
     var b = spy(LexerlessGrammarBuilder.create());
     var ruleKey = mock(GrammarRuleKey.class);
     var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
@@ -79,7 +79,7 @@ class DelayedRuleInvocationExpressionTest {
   }
 
   @Test
-  void should_fail_when_method_is_not_mapped() throws Exception {
+  void shouldFailWhenMethodIsNotMapped() throws Exception {
     var method = DelayedRuleInvocationExpressionTest.class.getDeclaredMethod("FOO");
 
     var thrown = catchThrowableOfType(IllegalStateException.class, () -> {
@@ -89,7 +89,7 @@ class DelayedRuleInvocationExpressionTest {
   }
 
   @Test
-  void test_toString() throws Exception {
+  void testToString() throws Exception {
     var ruleKey = mock(GrammarRuleKey.class);
     when(ruleKey.toString()).thenReturn("foo");
     assertThat(new DelayedRuleInvocationExpression(mock(LexerlessGrammarBuilder.class), ruleKey)).hasToString(

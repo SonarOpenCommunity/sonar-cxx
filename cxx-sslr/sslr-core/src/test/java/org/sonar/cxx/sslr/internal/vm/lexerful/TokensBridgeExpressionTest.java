@@ -44,13 +44,13 @@ class TokensBridgeExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("Bridge[" + fromType + "," + toType + "]");
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     when(machine.length()).thenReturn(5);
     var token1 = token(fromType);
     var token2 = token(fromType);
@@ -77,7 +77,7 @@ class TokensBridgeExpressionTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     when(machine.length()).thenReturn(0);
     expression.execute(machine);
     var inOrder = Mockito.inOrder(machine);
@@ -87,7 +87,7 @@ class TokensBridgeExpressionTest {
   }
 
   @Test
-  void should_backtrack2() {
+  void shouldBacktrack2() {
     when(machine.length()).thenReturn(2);
     var token1 = token(anotherType);
     when(machine.tokenAt(0)).thenReturn(token1);
@@ -100,7 +100,7 @@ class TokensBridgeExpressionTest {
   }
 
   @Test
-  void should_backtrack3() {
+  void shouldBacktrack3() {
     when(machine.length()).thenReturn(2);
     var token1 = token(fromType);
     var token2 = token(fromType);

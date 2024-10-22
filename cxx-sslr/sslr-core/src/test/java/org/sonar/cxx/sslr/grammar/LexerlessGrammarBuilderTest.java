@@ -50,7 +50,7 @@ import org.sonar.cxx.sslr.internal.vm.ZeroOrMoreExpression;
 class LexerlessGrammarBuilderTest {
 
   @Test
-  void should_create_expressions() {
+  void shouldCreateExpressions() {
     var b = LexerlessGrammarBuilder.create();
     var e1 = mock(ParsingExpression.class);
     var e2 = mock(ParsingExpression.class);
@@ -93,7 +93,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_token() {
+  void testToken() {
     var tokenType = mock(TokenType.class);
     var e = mock(ParsingExpression.class);
     var result = LexerlessGrammarBuilder.create().token(tokenType, e);
@@ -102,7 +102,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_commentTrivia() {
+  void testCommentTrivia() {
     var e = mock(ParsingExpression.class);
     var result = LexerlessGrammarBuilder.create().commentTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -110,7 +110,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_skippedTrivia() {
+  void testSkippedTrivia() {
     var e = mock(ParsingExpression.class);
     var result = LexerlessGrammarBuilder.create().skippedTrivia(e);
     assertThat(result).isInstanceOf(TriviaExpression.class);
@@ -118,7 +118,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void should_set_root_rule() {
+  void shouldSetRootRule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is(b.nothing());
@@ -128,7 +128,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_undefined_root_rule() {
+  void testUndefinedRootRule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.setRootRule(ruleKey);
@@ -137,7 +137,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_undefined_rule() {
+  void testUndefinedRule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey);
@@ -146,7 +146,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_used_undefined_rule() {
+  void testUsedUndefinedRule() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey1 = mock(GrammarRuleKey.class);
     var ruleKey2 = mock(GrammarRuleKey.class);
@@ -156,14 +156,14 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_wrong_regexp() {
+  void testWrongRegexp() {
     var b = LexerlessGrammarBuilder.create();
     var thrown = catchThrowableOfType(PatternSyntaxException.class, () -> b.regexp("["));
     assertThat(thrown).isExactlyInstanceOf(PatternSyntaxException.class);
   }
 
   @Test
-  void test_incorrect_type_of_parsing_expression() {
+  void testIncorrectTypeOfParsingExpression() {
     var thrown = catchThrowableOfType(IllegalArgumentException.class,
       () -> LexerlessGrammarBuilder.create().convertToExpression(new Object())
     );
@@ -171,7 +171,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void test_null_parsing_expression() {
+  void testNullParsingExpression() {
     var thrown = catchThrowableOfType(NullPointerException.class,
       () -> LexerlessGrammarBuilder.create().convertToExpression(null)
     );
@@ -179,7 +179,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void should_fail_to_redefine() {
+  void shouldFailToRedefine() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo");
@@ -190,7 +190,7 @@ class LexerlessGrammarBuilderTest {
   }
 
   @Test
-  void should_fail_to_redefine2() {
+  void shouldFailToRedefine2() {
     var b = LexerlessGrammarBuilder.create();
     var ruleKey = mock(GrammarRuleKey.class);
     b.rule(ruleKey).is("foo", "bar");

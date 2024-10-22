@@ -42,13 +42,13 @@ class TillNewLineExpressionTest {
   private final Machine machine = mock(Machine.class);
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     assertThat(expression.compile(new CompilationHandler())).containsOnly(expression);
     assertThat(expression).hasToString("TillNewLine");
   }
 
   @Test
-  void should_match() {
+  void shouldMatch() {
     var token1 = token(GenericTokenType.IDENTIFIER, 1);
     var token2 = token(GenericTokenType.IDENTIFIER, 1);
     var token3 = token(GenericTokenType.IDENTIFIER, 2);
@@ -68,7 +68,7 @@ class TillNewLineExpressionTest {
   }
 
   @Test
-  void should_match2() {
+  void shouldMatch2() {
     var token0 = token(GenericTokenType.IDENTIFIER, 1);
     var token1 = token(GenericTokenType.IDENTIFIER, 1);
     var token2 = token(GenericTokenType.IDENTIFIER, 1);

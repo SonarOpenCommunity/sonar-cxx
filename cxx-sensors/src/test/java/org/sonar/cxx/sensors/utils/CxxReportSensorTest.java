@@ -55,7 +55,7 @@ class CxxReportSensorTest {
   }
 
   @Test
-  void getReports_shouldFindNothingIfNoKey() {
+  void getReportsShouldFindNothingIfNoKey() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
     var context = SensorContextTester.create(baseDir);
@@ -65,7 +65,7 @@ class CxxReportSensorTest {
   }
 
   @Test
-  void getReports_shouldFindNothingIfNoPath() {
+  void getReportsShouldFindNothingIfNoPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);
@@ -74,7 +74,7 @@ class CxxReportSensorTest {
   }
 
   @Test
-  void getReports_shouldFindNothingIfInvalidPath() {
+  void getReportsShouldFindNothingIfInvalidPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);
@@ -83,7 +83,7 @@ class CxxReportSensorTest {
   }
 
   @Test
-  void getReports_shouldFindSomething() {
+  void getReportsShouldFindSomething() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);
@@ -95,7 +95,7 @@ class CxxReportSensorTest {
   }
 
   @Test
-  void getReports_shouldFindSomethingList() {
+  void getReportsShouldFindSomethingList() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
     var context = SensorContextTester.create(baseDir);
     context.setSettings(settings);

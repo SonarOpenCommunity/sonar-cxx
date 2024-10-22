@@ -50,7 +50,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void statement_reallife() {
+  void statementReallife() {
     setRootRule(CxxGrammarImpl.statement);
 
     assertThatParser()
@@ -72,7 +72,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void expressionStatement_reallife() {
+  void expressionStatementReallife() {
     setRootRule(CxxGrammarImpl.expressionStatement);
 
     assertThatParser()
@@ -83,7 +83,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void selectionStatement_reallife() {
+  void selectionStatementReallife() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     assertThatParser()
@@ -165,7 +165,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void switchStatement_reallife() {
+  void switchStatementReallife() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     assertThatParser()
@@ -175,7 +175,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void ifStatement_reallife() {
+  void ifStatementReallife() {
     setRootRule(CxxGrammarImpl.selectionStatement);
 
     assertThatParser()
@@ -202,7 +202,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void condition_reallife() {
+  void conditionReallife() {
     setRootRule(CxxGrammarImpl.condition);
 
     assertThatParser()
@@ -233,7 +233,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void iterationStatement_reallife() {
+  void iterationStatementReallife() {
     setRootRule(CxxGrammarImpl.iterationStatement);
 
     assertThatParser()
@@ -268,7 +268,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void forInitStatement_reallife() {
+  void forInitStatementReallife() {
     setRootRule(CxxGrammarImpl.initStatement);
 
     assertThatParser()
@@ -327,7 +327,7 @@ class StatementTest extends ParserBaseTestHelper {
   }
 
   @Test
-  void jumpStatement_reallife() {
+  void jumpStatementReallife() {
     setRootRule(CxxGrammarImpl.jumpStatement);
 
     assertThatParser()

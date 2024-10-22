@@ -98,7 +98,7 @@ class PPIncludeTest {
   // ////////////////////////////////////////////////////////////////////////////
   // Behavior in the absolute path case
   @Test
-  void getting_file_with_abspath() {
+  void gettingFileWithAbspath() {
     // lookup with absolute paths should ignore the value of current
     // working directory and should work the same in the quoted and
     // unquoted case
@@ -120,7 +120,7 @@ class PPIncludeTest {
   // -------------------------------------------
   // rel. path | 3        | 4        |
   @Test
-  void getting_file_relpath_case1() {
+  void gettingFileRelpathCase1() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("src/test/resources/codeprovider").toAbsolutePath().toString();
@@ -133,7 +133,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case1_without_extension() {
+  void gettingFileRelpathCase1WithoutExtension() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("src/test/resources/codeprovider").toAbsolutePath().toString();
@@ -146,7 +146,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case2() {
+  void gettingFileRelpathCase2() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("resources/codeprovider").toString();
@@ -159,7 +159,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case2_without_extension() {
+  void gettingFileRelpathCase2WithoutExtension() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("resources/codeprovider").toString();
@@ -172,7 +172,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case3() {
+  void gettingFileRelpathCase3() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("src/test/resources").toAbsolutePath().toString();
@@ -185,7 +185,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case3_without_extension() {
+  void gettingFileRelpathCase3WithoutExtension() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("src/test/resources").toAbsolutePath().toString();
@@ -198,7 +198,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case4() {
+  void gettingFileRelpathCase4() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("resources").toString();
@@ -211,7 +211,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_relpath_case4_without_extension() {
+  void gettingFileRelpathCase4WithoutExtension() {
     include = new PPInclude(pp, Path.of("dummy"));
 
     var includeRoot = Path.of("resources").toString();
@@ -227,7 +227,7 @@ class PPIncludeTest {
   // Special behavior in the quoted case
   // Lookup in the current directory. Has to fail for the angle case
   @Test
-  void getting_file_with_filename_and_cwd() {
+  void gettingFileWithFilenameAndCwd() {
     include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/dummy.cpp"));
 
     var path = "source.hh";
@@ -236,7 +236,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_with_relpath_and_cwd() {
+  void gettingFileWithRelpathAndCwd() {
     include = new PPInclude(pp, Path.of("src/test/resources/dummy.cpp"));
 
     var path = "codeprovider/source.hh";
@@ -245,7 +245,7 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_file_with_relpath_containing_backsteps_and_cwd() {
+  void gettingFileWithRelpathContainingBackstepsAndCwd() {
     include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/folder/dummy.cpp"));
 
     var path = "../source.hh";
@@ -254,33 +254,33 @@ class PPIncludeTest {
   }
 
   @Test
-  void getting_source_code1() throws IOException {
+  void gettingSourceCode1() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(expected1, Charset.defaultCharset())).isEqualTo("source code");
   }
 
   @Test
-  void getting_source_code2() throws IOException {
+  void gettingSourceCode2() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(expected2, Charset.defaultCharset())).isEqualTo("source code");
   }
 
   @Test
-  void getting_source_code_utf_8() throws IOException {
+  void gettingSourceCodeUtf8() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(root.resolve("./utf-8.hh"),
                                      Charset.defaultCharset())).isEqualTo("UTF-8");
   }
 
   @Test
-  void getting_source_code_utf_8_bom() throws IOException {
+  void gettingSourceCodeUtf8Bom() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(root.resolve("./utf-8-bom.hh"),
                                      Charset.defaultCharset())).isEqualTo("UTF-8-BOM");
   }
 
   @Test
-  void getting_source_code_utf_16_le_bom() throws IOException {
+  void gettingSourceCodeUtf16LeBom() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(root.resolve("./utf-16le-bom.hh"),
                                      Charset.defaultCharset())).isEqualTo("UTF-16LE-BOM");

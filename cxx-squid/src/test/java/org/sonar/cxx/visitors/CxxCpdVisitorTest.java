@@ -47,7 +47,7 @@ class CxxCpdVisitorTest {
   }
 
   @Test
-  void testCpdTokens() throws Exception {
+  void testCpdTokens() {
     List<CxxCpdVisitor.CpdToken> data = (List<CxxCpdVisitor.CpdToken>) sourceFile.getData(CxxMetric.CPD_TOKENS_DATA);
     assertThat(data).hasSize(391);
   }

@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -67,7 +66,7 @@ public final class TestUtils {
     return null;
   }
 
-  public static DefaultInputFile buildInputFile(File baseDir, String fileName) throws IOException {
+  public static DefaultInputFile buildInputFile(File baseDir, String fileName) {
     var target = new File(baseDir, fileName);
     String content = Files.contentOf(target, StandardCharsets.UTF_8);
     return TestInputFileBuilder.create("ProjectKey", baseDir, target)

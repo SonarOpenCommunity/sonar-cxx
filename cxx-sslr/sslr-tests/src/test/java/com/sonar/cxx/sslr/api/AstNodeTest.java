@@ -187,7 +187,7 @@ class AstNodeTest {
     assertThat(binVariableDeclarationNodes.get(2).getTokenValue()).isEqualTo("c");
 
     var binVDeclarationNodes = fileNode.getDescendants(MiniCGrammar.BIN_VARIABLE_DEFINITION,
-                                                   MiniCGrammar.BIN_FUNCTION_DEFINITION);
+      MiniCGrammar.BIN_FUNCTION_DEFINITION);
     assertThat(binVDeclarationNodes).hasSize(4);
     assertThat(binVDeclarationNodes.get(0).getTokenValue()).isEqualTo("a");
     assertThat(binVDeclarationNodes.get(1).getTokenValue()).isEqualTo("myFunction");
@@ -207,7 +207,7 @@ class AstNodeTest {
     assertThat(declarationNodes.get(1).getTokenValue()).isEqualTo("void");
 
     var binVDeclarationNodes = fileNode.getChildren(MiniCGrammar.BIN_VARIABLE_DEFINITION,
-                                                MiniCGrammar.BIN_FUNCTION_DEFINITION);
+      MiniCGrammar.BIN_FUNCTION_DEFINITION);
     assertThat(binVDeclarationNodes).isEmpty();
   }
 
@@ -262,7 +262,7 @@ class AstNodeTest {
    * </pre>
    */
   @Test
-  void test_getDescendants() {
+  void testGetDescendants() {
     var a = new NodeType();
     var b = new NodeType();
     var c = new NodeType();

@@ -33,7 +33,7 @@ import org.sonar.cxx.sslr.internal.matchers.Matcher;
 class MachineTest {
 
   @Test
-  void subSequence_not_supported() {
+  void subSequenceNotSupported() {
     var machine = new Machine("", new Instruction[0]);
     var thrown = catchThrowableOfType(UnsupportedOperationException.class,
       () -> machine.subSequence(0, 0)
@@ -42,7 +42,7 @@ class MachineTest {
   }
 
   @Test
-  void test_initial_state() {
+  void testInitialState() {
     var machine = new Machine("", new Instruction[2]);
     assertThat(machine.getAddress()).isZero();
     assertThat(machine.getIndex()).isZero();
@@ -50,7 +50,7 @@ class MachineTest {
   }
 
   @Test
-  void should_jump() {
+  void shouldJump() {
     var machine = new Machine("", new Instruction[2]);
     assertThat(machine.getAddress()).isZero();
     machine.jump(42);
@@ -60,7 +60,7 @@ class MachineTest {
   }
 
   @Test
-  void should_advanceIndex() {
+  void shouldAdvanceIndex() {
     var machine = new Machine("foo bar", new Instruction[2]);
     assertThat(machine.getIndex()).isZero();
     assertThat(machine).hasSize(7);
@@ -79,7 +79,7 @@ class MachineTest {
   }
 
   @Test
-  void should_pushReturn() {
+  void shouldPushReturn() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(Matcher.class);
     machine.advanceIndex(1);
@@ -95,7 +95,7 @@ class MachineTest {
   }
 
   @Test
-  void should_detect_left_recursion() {
+  void shouldDetectLeftRecursion() {
     var machine = new Machine("foo", new Instruction[2]);
     var matcher = mock(Matcher.class);
 
@@ -118,7 +118,7 @@ class MachineTest {
   }
 
   @Test
-  void should_pushBacktrack() {
+  void shouldPushBacktrack() {
     var machine = new Machine("foo", new Instruction[2]);
     machine.advanceIndex(1);
     machine.jump(42);
@@ -132,7 +132,7 @@ class MachineTest {
   }
 
   @Test
-  void should_pop() {
+  void shouldPop() {
     var machine = new Machine("", new Instruction[2]);
     var previousStack = machine.peek();
     machine.pushBacktrack(13);
@@ -142,7 +142,7 @@ class MachineTest {
   }
 
   @Test
-  void should_fail() {
+  void shouldFail() {
     var machine = new Machine("", new Instruction[3]);
     var matcher = mock(Matcher.class);
     machine.pushReturn(13, matcher, 0);
@@ -153,7 +153,7 @@ class MachineTest {
   }
 
   @Test
-  void should_backtrack() {
+  void shouldBacktrack() {
     var machine = new Machine("", new Instruction[4]);
     var matcher = mock(Matcher.class);
     var previousStack = machine.peek();
@@ -166,7 +166,7 @@ class MachineTest {
   }
 
   @Test
-  void should_createLeafNode() {
+  void shouldCreateLeafNode() {
     var machine = new Machine("", new Instruction[2]);
     var matcher = mock(Matcher.class);
     machine.advanceIndex(42);
@@ -179,7 +179,7 @@ class MachineTest {
   }
 
   @Test
-  void should_createNode() {
+  void shouldCreateNode() {
     var machine = new Machine(" ", new Instruction[2]);
     var matcher = mock(Matcher.class);
     machine.advanceIndex(1);
@@ -197,7 +197,7 @@ class MachineTest {
   }
 
   @Test
-  void should_use_memo() {
+  void shouldUseMemo() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(MemoParsingExpression.class);
     when(matcher.shouldMemoize()).thenReturn(true);
@@ -214,7 +214,7 @@ class MachineTest {
   }
 
   @Test
-  void should_not_memorize() {
+  void shouldNotMemorize() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(MemoParsingExpression.class);
     when(matcher.shouldMemoize()).thenReturn(false);
@@ -230,7 +230,7 @@ class MachineTest {
   }
 
   @Test
-  void should_not_use_memo() {
+  void shouldNotUseMemo() {
     var machine = new Machine("foo", new Instruction[3]);
     var matcher = mock(MemoParsingExpression.class);
     when(matcher.shouldMemoize()).thenReturn(true);

@@ -38,7 +38,7 @@ class ValidatorsTest {
   }
 
   @Test
-  void charsetValidator_single_instance() {
+  void charsetValidatorSingleInstance() {
     assertThat(Validators.charsetValidator()).isSameAs(Validators.charsetValidator());
   }
 
@@ -66,7 +66,7 @@ class ValidatorsTest {
   }
 
   @Test
-  void integerRangeValidator_should_fail_with_upper_smaller_than_lower_bound() {
+  void integerRangeValidatorShouldFailWithUpperSmallerThanLowerBound() {
     var thrown = catchThrowableOfType(IllegalArgumentException.class,
       () -> Validators.integerRangeValidator(42, 0)
     );
@@ -82,7 +82,7 @@ class ValidatorsTest {
   }
 
   @Test
-  void booleanValidator_single_instance() {
+  void booleanValidatorSingleInstance() {
     assertThat(Validators.booleanValidator()).isSameAs(Validators.booleanValidator());
   }
 

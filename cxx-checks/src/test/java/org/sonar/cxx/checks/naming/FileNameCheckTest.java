@@ -33,7 +33,7 @@ class FileNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void bad_name() throws IOException {
+  void badName() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/badFile_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 
@@ -45,7 +45,7 @@ class FileNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void good_name_camel_case() throws IOException {
+  void goodNameCamelCase() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/FileName.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 
@@ -54,7 +54,7 @@ class FileNameCheckTest {
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion
-  void good_name_snake_case() throws IOException {
+  void goodNameSnakeCase() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/checks/file_name.cc", ".");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile(), check);
 

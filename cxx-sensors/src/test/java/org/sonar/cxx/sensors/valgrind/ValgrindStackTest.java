@@ -95,12 +95,12 @@ class ValgrindStackTest {
   }
 
   @Test
-  void getLastOwnFrame_returnsNullOnEmptyStack() {
+  void getLastOwnFrameReturnsNullOnEmptyStack() {
     assertThat(new ValgrindStack().getLastOwnFrame("somepath")).isNull();
   }
 
   @Test
-  void getLastOwnFrame_returnsNullIfNoOwnFrameThere() {
+  void getLastOwnFrameReturnsNullIfNoOwnFrameThere() {
     var frame = new ValgrindFrame(null, null, null, null, null, "1");
     var stack = new ValgrindStack();
     stack.addFrame(frame);
@@ -109,7 +109,7 @@ class ValgrindStackTest {
   }
 
   @Test
-  void getLastOwnFrame_returnsTheOwnFrame1() {
+  void getLastOwnFrameReturnsTheOwnFrame1() {
     var BASE_DIR = new File("our", "path");
     var OWN_PATH = new File(BASE_DIR, "subdir");
 
@@ -123,7 +123,7 @@ class ValgrindStackTest {
   }
 
   @Test
-  void getLastOwnFrame_returnsTheOwnFrame2() {
+  void getLastOwnFrameReturnsTheOwnFrame2() {
     var BASE_DIR = new File("our/path/.");
     var OWN_PATH = new File("our/../our/./path/subdir");
 

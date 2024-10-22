@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 class PPNumberTest {
 
   @Test
-  void decode_strings() {
+  void decodeStrings() {
     assertThat(PPNumber.decodeString("1")).isEqualTo(new BigInteger("1", 10));
     assertThat(PPNumber.decodeString("067")).isEqualTo(new BigInteger("67", 8));
     assertThat(PPNumber.decodeString("0b11")).isEqualTo(new BigInteger("11", 2));
@@ -52,7 +52,7 @@ class PPNumberTest {
   }
 
   @Test
-  void decode_charcters() {
+  void decodeCharcters() {
     assertThat(PPNumber.decodeCharacter("")).isEqualTo(BigInteger.valueOf(0));
     assertThat(PPNumber.decodeCharacter("\0")).isEqualTo(BigInteger.valueOf(0));
 

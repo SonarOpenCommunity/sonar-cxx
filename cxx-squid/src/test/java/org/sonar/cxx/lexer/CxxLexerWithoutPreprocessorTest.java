@@ -38,7 +38,7 @@ class CxxLexerWithoutPreprocessorTest {
   }
 
   @Test
-  void preprocessor_directives() {
+  void preprocessorDirectives() {
     var softly = new SoftAssertions();
 
     softly.assertThat(lexer.lex("#")).anySatisfy(token -> assertThat(token).isValue(
@@ -64,7 +64,7 @@ class CxxLexerWithoutPreprocessorTest {
   }
 
   @Test
-  void preprocessor_continued_define() {
+  void preprocessorContinuedDefine() {
     assertThat(lexer.lex("""
                          #define M\\
                          0
@@ -73,7 +73,7 @@ class CxxLexerWithoutPreprocessorTest {
   }
 
   @Test
-  void preprocessor_directive_with_comment() {
+  void preprocessorDirectiveWithComment() {
     var softly = new SoftAssertions();
     softly.assertThat(lexer.lex("""
                                 #define A B*/

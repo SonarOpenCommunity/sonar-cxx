@@ -33,14 +33,14 @@ import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 class LexerlessGrammarTest {
 
   @Test
-  void should_instanciate_rule_fields() {
+  void shouldInstanciateRuleFields() {
     var grammar = new TestGrammar();
     assertThat(grammar.getRootRule()).isInstanceOf(MutableParsingRule.class);
     assertThat(((MutableParsingRule) grammar.getRootRule()).getName()).isEqualTo("rootRule");
   }
 
   @Test
-  void should_throw_exception() {
+  void shouldThrowException() {
     var thrown = catchThrowableOfType(GrammarException.class, IllegalGrammar::new);
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }

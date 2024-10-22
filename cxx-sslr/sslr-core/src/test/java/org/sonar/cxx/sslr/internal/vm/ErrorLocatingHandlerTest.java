@@ -33,7 +33,7 @@ class ErrorLocatingHandlerTest {
   private final ErrorLocatingHandler errorLocatingHandler = new ErrorLocatingHandler();
 
   @Test
-  void should_find_location_of_error() {
+  void shouldFindLocationOfError() {
     var machine = mock(Machine.class);
     when(machine.getIndex()).thenReturn(1);
     errorLocatingHandler.onBacktrack(machine);

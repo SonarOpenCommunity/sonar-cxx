@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 class ZeroOrMoreExpressionTest {
 
   @Test
-  void should_compile() {
+  void shouldCompile() {
     var expression = new ZeroOrMoreExpression(new SubExpression(1, 2));
     var instructions = expression.compile(new CompilationHandler());
     assertThat(instructions).isEqualTo(new Instruction[]{

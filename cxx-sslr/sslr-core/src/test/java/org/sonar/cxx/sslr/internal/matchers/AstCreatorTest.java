@@ -42,7 +42,7 @@ import org.sonar.cxx.sslr.parser.ParsingResult;
 class AstCreatorTest {
 
   @Test
-  void should_create_tokens_and_trivias() {
+  void shouldCreateTokensAndTrivias() {
     var input = "foo bar".toCharArray();
 
     var tokenMatcher = mockTokenMatcher(GenericTokenType.IDENTIFIER);
@@ -87,7 +87,7 @@ class AstCreatorTest {
   }
 
   @Test
-  void should_create_tokens_without_TokenMatcher() {
+  void shouldCreateTokensWithoutTokenMatcher() {
     var input = "foobar".toCharArray();
 
     var firstTerminal = new ParseNode(0, 3, Collections.<ParseNode>emptyList(), null);
@@ -128,7 +128,7 @@ class AstCreatorTest {
   }
 
   @Test
-  void should_skip_nodes() {
+  void shouldSkipNodes() {
     var input = "foo".toCharArray();
 
     var ruleMatcher1 = mockRuleMatcher("rule1");

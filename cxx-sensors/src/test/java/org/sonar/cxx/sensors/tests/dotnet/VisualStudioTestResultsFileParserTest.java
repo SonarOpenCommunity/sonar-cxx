@@ -33,7 +33,7 @@ class VisualStudioTestResultsFileParserTest {
   private static final String REPORT_PATH = "src/test/resources/org/sonar/cxx/sensors/reports-project/MSTest-reports/";
 
   @Test
-  void no_counters() {
+  void noCounters() {
     IllegalArgumentException thrown = catchThrowableOfType(IllegalArgumentException.class, () -> {
       new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "no_counters.trx"),
         mock(UnitTestResults.class));
@@ -43,7 +43,7 @@ class VisualStudioTestResultsFileParserTest {
   }
 
   @Test
-  void wrong_passed_number() {
+  void wrongPassedNumber() {
     ParseErrorException thrown = catchThrowableOfType(ParseErrorException.class, () -> {
       new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "wrong_passed_number.trx"),
         mock(UnitTestResults.class));
@@ -53,7 +53,7 @@ class VisualStudioTestResultsFileParserTest {
   }
 
   @Test
-  void valid() throws Exception {
+  void valid() {
     var results = new UnitTestResults();
     new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "valid.trx"), results);
 
@@ -66,7 +66,7 @@ class VisualStudioTestResultsFileParserTest {
   }
 
   @Test
-  void valid_missing_attributes() throws Exception {
+  void validMissingAttributes() {
     var results = new UnitTestResults();
     new VisualStudioTestResultsFileParser().accept(new File(REPORT_PATH + "valid_missing_attributes.trx"), results);
 
