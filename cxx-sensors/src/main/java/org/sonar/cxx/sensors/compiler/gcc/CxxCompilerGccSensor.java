@@ -110,7 +110,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
   @CheckForNull
   protected String alignId(@Nullable String id) {
     /* Some gcc warnings are not associated to any activation switch and don't have a matching id.
-	 * In these cases a default id is used.
+     * In these cases a default id is used.
      */
     if (id == null || "".equals(id)) {
       id = DEFAULT_ID;

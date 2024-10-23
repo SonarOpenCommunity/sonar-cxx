@@ -102,38 +102,38 @@ class ValgrindStackTest {
   @Test
   void getLastOwnFrameReturnsNullIfNoOwnFrameThere() {
     var frame = new ValgrindFrame(null, null, null, null, null, "1");
-    var stack = new ValgrindStack();
-    stack.addFrame(frame);
+    var valgrindStack = new ValgrindStack();
+    valgrindStack.addFrame(frame);
 
     assertThat(new ValgrindStack().getLastOwnFrame("somepath")).isNull();
   }
 
   @Test
   void getLastOwnFrameReturnsTheOwnFrame1() {
-    var BASE_DIR = new File("our", "path");
-    var OWN_PATH = new File(BASE_DIR, "subdir");
+    final var baseDir = new File("our", "path");
+    final var ownPath = new File(baseDir, "subdir");
 
     var otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, "1");
-    var ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, "1");
-    var stack = new ValgrindStack();
-    stack.addFrame(otherFrame);
-    stack.addFrame(ownFrame);
+    var ownFrame = new ValgrindFrame(null, null, null, ownPath.getPath(), null, "1");
+    var valgrindStack = new ValgrindStack();
+    valgrindStack.addFrame(otherFrame);
+    valgrindStack.addFrame(ownFrame);
 
-    assertThat(ownFrame).isEqualTo(stack.getLastOwnFrame(BASE_DIR.getPath()));
+    assertThat(ownFrame).isEqualTo(valgrindStack.getLastOwnFrame(baseDir.getPath()));
   }
 
   @Test
   void getLastOwnFrameReturnsTheOwnFrame2() {
-    var BASE_DIR = new File("our/path/.");
-    var OWN_PATH = new File("our/../our/./path/subdir");
+    final var baseDir = new File("our/path/.");
+    final var ownPath = new File("our/../our/./path/subdir");
 
     var otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, "1");
-    var ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, "1");
-    var stack = new ValgrindStack();
-    stack.addFrame(otherFrame);
-    stack.addFrame(ownFrame);
+    var ownFrame = new ValgrindFrame(null, null, null, ownPath.getPath(), null, "1");
+    var valgrindStack = new ValgrindStack();
+    valgrindStack.addFrame(otherFrame);
+    valgrindStack.addFrame(ownFrame);
 
-    assertThat(ownFrame).isEqualTo(stack.getLastOwnFrame(BASE_DIR.getPath()));
+    assertThat(ownFrame).isEqualTo(valgrindStack.getLastOwnFrame(baseDir.getPath()));
   }
 
 }

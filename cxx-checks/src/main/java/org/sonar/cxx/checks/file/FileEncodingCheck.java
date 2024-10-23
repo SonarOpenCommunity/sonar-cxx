@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import javax.annotation.Nullable;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.squidbridge.annotations.ActivatedByDefault;
@@ -51,13 +52,13 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     try {
       Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
       getContext().createFileViolation(this,
-                                       "Not all characters of the file can be encoded with the predefined charset "
-                                         + charset.name() + ".");
+        "Not all characters of the file can be encoded with the predefined charset "
+        + charset.name() + ".");
     }
   }
 

@@ -162,8 +162,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
         @Nullable String line,
         @Nullable String msg) {
         if (currentIssue.getLocations().isEmpty()) {
-          LOG.error("The issue of {} must have the primary location. Skip adding more locations",
-            currentIssue.toString());
+          LOG.error("The issue of {} must have the primary location. Skip adding more locations", currentIssue);
           return;
         }
 

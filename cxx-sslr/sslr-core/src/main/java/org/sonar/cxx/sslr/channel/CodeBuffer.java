@@ -41,12 +41,13 @@ import java.io.StringReader;
  */
 public class CodeBuffer implements CharSequence {
 
+  private static final char LF = '\n';
+  private static final char CR = '\r';
+
   private int lastChar = -1;
   private Cursor cursor;
   private char[] buffer;
   private int bufferPosition = 0;
-  private static final char LF = '\n';
-  private static final char CR = '\r';
   private int tabWidth;
 
   private boolean recordingMode = false;
@@ -84,7 +85,7 @@ public class CodeBuffer implements CharSequence {
     }
   }
 
-  private char[] read(Reader reader) throws IOException {
+  private static char[] read(Reader reader) throws IOException {
     var sb = new StringBuilder();
     var str = new char[4 * 1024];
     int n;
@@ -204,8 +205,7 @@ public class CodeBuffer implements CharSequence {
   /**
    * Returns the character at the specified index after the cursor without consuming it
    *
-   * @param index
-   * the relative index of the character to be returned
+   * @param index the relative index of the character to be returned
    * @return the desired character
    * @see java.lang.CharSequence#charAt(int)
    */

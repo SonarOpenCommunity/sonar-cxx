@@ -21,6 +21,7 @@ package org.sonar.cxx.checks.file;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.Nullable;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -54,7 +55,7 @@ public class TabCharacterCheck extends SquidCheck<Grammar> {
   public boolean createLineViolation = DEFAULT_CREATE_LINE_VIOLATION;
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     var nr = 0;
     for (var line : getContext().getInputFileLines()) {
       ++nr;

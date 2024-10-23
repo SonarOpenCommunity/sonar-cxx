@@ -29,6 +29,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
@@ -64,7 +65,7 @@ public final class CommentsVisitor<G extends Grammar> extends SquidAstVisitor<G>
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     noSonar = new HashSet<>();
     comments = new HashSet<>();
     seenFirstToken = false;

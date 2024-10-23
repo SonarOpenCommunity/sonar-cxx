@@ -176,8 +176,6 @@ class ClassesTest extends ParserBaseTestHelper {
       .matches("public delegate void DblClickEventHandler(String^);");
   }
 
-  ;
-
   @Test
   void memberDeclaratorList() {
     setRootRule(CxxGrammarImpl.memberDeclaratorList);

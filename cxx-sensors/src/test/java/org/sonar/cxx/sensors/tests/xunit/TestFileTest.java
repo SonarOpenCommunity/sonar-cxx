@@ -48,9 +48,9 @@ class TestFileTest {
     int testBefore = testFile.getTests();
     long timeBefore = testFile.getExecutionTime();
 
-    int EXEC_TIME = 10;
+    final int EXEC_TIME = 10;
     testFile.add(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
-                              "classname", "tcfilename", "tsname"));
+      "classname", "tcfilename", "tsname"));
 
     assertThat(testBefore + 1).isEqualTo(testFile.getTests());
     assertThat(timeBefore + EXEC_TIME).isEqualTo(testFile.getExecutionTime());

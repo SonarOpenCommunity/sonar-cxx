@@ -24,6 +24,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -82,7 +83,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> {
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     if (isRegularExpression) {
       String fileContent = getContext().getInputFileContent();
       checkRegularExpression(fileContent);

@@ -60,7 +60,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
   @Override
   public Map<String, CoverageMeasures> parse(File report) {
     var coverageData = new HashMap<String, CoverageMeasures>();
-    try ( var scanner = new TextScanner(report, StandardCharsets.UTF_8.name())) {
+    try (var scanner = new TextScanner(report, StandardCharsets.UTF_8.name())) {
       scanner.useDelimiter(SECTION_SEP);
       var headerMatcher = FILE_HEADER.matcher(scanner.next());
       while (parseUnit(scanner, coverageData, headerMatcher)) {
@@ -83,7 +83,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
   }
 
   private void parseFileUnit(TextScanner scanner, final Map<String, CoverageMeasures> coverageData,
-                             Matcher headerMatcher) {
+    Matcher headerMatcher) {
     String normalFilename;
     String filename = headerMatcher.group(1);
     if (new File(filename).isAbsolute()) {
@@ -176,7 +176,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
     } while (lineMatcher.find());
   }
 
-  private void setLinehitsByBlockend(CoverageMeasures coverageMeasures, int lineIdCur, Matcher lineMatcher) {
+  private static void setLinehitsByBlockend(CoverageMeasures coverageMeasures, int lineIdCur, Matcher lineMatcher) {
     int lineHits;
     String blockEnd = lineMatcher.group(4);
 
@@ -193,7 +193,7 @@ public class TestwellCtcTxtParser implements CoverageParser {
     }
   }
 
-  private void setLinehits(CoverageMeasures coverageMeasures, int lineIdPrev, int lineIdCur, int lineHits) {
+  private static void setLinehits(CoverageMeasures coverageMeasures, int lineIdPrev, int lineIdCur, int lineHits) {
 
     if (lineIdPrev > 0) {
       int lineIdNext = lineIdPrev + 1;

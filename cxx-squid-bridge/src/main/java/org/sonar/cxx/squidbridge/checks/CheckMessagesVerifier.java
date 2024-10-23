@@ -33,16 +33,14 @@ import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 
 /**
- * Helper class for testing checks without having to deploy them on a Sonar instance.
- * It can be used as following:
+ * Helper class for testing checks without having to deploy them on a Sonar instance. It can be used as following:
  * <pre>{@code
  * CheckMessagesVerifier.verify(messages)
  *   .next().atLine(1).withMessage("foo")
  *   .next().atLine(2).withMessage("bar")
  *   .noMore();
- * }</pre>
- * Strictly speaking this is just a wrapper over collection of {@link CheckMessage},
- * which guarantees order of traversal.
+ * }</pre> Strictly speaking this is just a wrapper over collection of {@link CheckMessage}, which guarantees order of
+ * traversal.
  *
  * @see CheckMessagesVerifierRule
  * @since sslr-squid-bridge 2.1
@@ -51,6 +49,10 @@ public final class CheckMessagesVerifier {
 
   private final Iterator<CheckMessage> iterator;
   private CheckMessage current;
+
+  private CheckMessagesVerifier(Collection<CheckMessage> messages) {
+    iterator = Ordering.from(ORDERING).sortedCopy(messages).iterator();
+  }
 
   private static final Comparator<CheckMessage> ORDERING = (CheckMessage left, CheckMessage right) -> {
     if (Objects.equal(left.getLine(), right.getLine())) {
@@ -63,10 +65,6 @@ public final class CheckMessagesVerifier {
       return left.getLine().compareTo(right.getLine());
     }
   };
-
-  private CheckMessagesVerifier(Collection<CheckMessage> messages) {
-    iterator = Ordering.from(ORDERING).sortedCopy(messages).iterator();
-  }
 
   public static CheckMessagesVerifier verify(Collection<CheckMessage> messages) {
     return new CheckMessagesVerifier(messages);

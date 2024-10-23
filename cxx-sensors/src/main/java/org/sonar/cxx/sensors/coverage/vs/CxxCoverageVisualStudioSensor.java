@@ -32,6 +32,10 @@ public class CxxCoverageVisualStudioSensor extends CoverageSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.vscoveragexml.reportPaths";
 
+  public CxxCoverageVisualStudioSensor() {
+    super(REPORT_PATH_KEY, new VisualStudioParser());
+  }
+
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -46,10 +50,6 @@ public class CxxCoverageVisualStudioSensor extends CoverageSensor {
         .multiValues(true)
         .build()
     ));
-  }
-
-  public CxxCoverageVisualStudioSensor() {
-    super(REPORT_PATH_KEY, new VisualStudioParser());
   }
 
   @Override

@@ -65,18 +65,18 @@ public class AnnotationBasedRulesDefinition {
   private final String languageKey;
   private final ExternalDescriptionLoader externalDescriptionLoader;
 
-  /**
-   * Adds annotated rule classes to an instance of NewRepository. Fails if one the classes has no SQALE annotation.
-   */
-  public static void load(NewRepository repository, String languageKey, Iterable<Class> ruleClasses) {
-    new AnnotationBasedRulesDefinition(repository, languageKey).addRuleClasses(true, ruleClasses);
-  }
-
   public AnnotationBasedRulesDefinition(NewRepository repository, String languageKey) {
     this.repository = repository;
     this.languageKey = languageKey;
     var externalDescriptionBasePath = String.format("/org/sonar/l10n/%s/rules/%s", languageKey, repository.key());
     this.externalDescriptionLoader = new ExternalDescriptionLoader(externalDescriptionBasePath);
+  }
+
+  /**
+   * Adds annotated rule classes to an instance of NewRepository. Fails if one the classes has no SQALE annotation.
+   */
+  public static void load(NewRepository repository, String languageKey, Iterable<Class> ruleClasses) {
+    new AnnotationBasedRulesDefinition(repository, languageKey).addRuleClasses(true, ruleClasses);
   }
 
   public void addRuleClasses(boolean failIfSqaleNotFound, Iterable<Class> ruleClasses) {
@@ -154,7 +154,7 @@ public class AnnotationBasedRulesDefinition {
     }
   }
 
-  private void setupSqaleModel(NewRule rule, Class<?> ruleClass) {
+  private static void setupSqaleModel(NewRule rule, Class<?> ruleClass) {
     var constant = AnnotationUtils.getAnnotation(ruleClass, SqaleConstantRemediation.class);
     var linear = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearRemediation.class);
     var linearWithOffset = AnnotationUtils.getAnnotation(ruleClass, SqaleLinearWithOffsetRemediation.class);
@@ -178,7 +178,7 @@ public class AnnotationBasedRulesDefinition {
     }
   }
 
-  private NoSqale getNoSqaleAnnotation(Class<?> ruleClass) {
+  private static NoSqale getNoSqaleAnnotation(Class<?> ruleClass) {
     return AnnotationUtils.getAnnotation(ruleClass, NoSqale.class);
   }
 

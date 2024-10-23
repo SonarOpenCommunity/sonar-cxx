@@ -27,9 +27,9 @@ import java.lang.reflect.Method;
 
 public interface MethodInterceptor {
 
-    /**
-     * @return {@code true} if original method should not be invoked
-     */
-    boolean intercept(Method method);
+  /**
+   * @return {@code true} if original method should not be invoked
+   */
+  boolean intercept(Method method);
 
 }

@@ -34,8 +34,8 @@ import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
-import org.sonar.api.utils.PathUtils;
 import org.sonar.api.testfixtures.log.LogTesterJUnit5;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.cxx.sensors.coverage.cobertura.CoberturaParser;
 import org.sonar.cxx.sensors.coverage.cobertura.CxxCoverageCoberturaSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
@@ -76,79 +76,79 @@ class CxxCoberturaSensorTest {
     if (TestUtils.isWindows()) {
 
       // Windows
-      var p1_abs1 = Path.of("c:\\test1");
-      var p1_abs2 = Path.of("c:");
-      var p1_abs3 = Path.of("c:\\");
-      var p1_rel1 = Path.of("\\test1");
-      var p2_abs1 = Path.of("c:\\test2\\report.txt");
-      var p2_rel1 = Path.of("\\test2\\report.txt");
-      var p2_rel2 = Path.of("test2\\report.txt");
+      var p1Abs1 = Path.of("c:\\test1");
+      var p1Abs2 = Path.of("c:");
+      var p1Abs3 = Path.of("c:\\");
+      var p1Rel1 = Path.of("\\test1");
+      var p2Abs1 = Path.of("c:\\test2\\report.txt");
+      var p2Rel1 = Path.of("\\test2\\report.txt");
+      var p2Rel2 = Path.of("test2\\report.txt");
 
       result = CoberturaParser.join(empty, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(empty, p2_abs1);
+      result = CoberturaParser.join(empty, p2Abs1);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(empty, p2_rel1);
+      result = CoberturaParser.join(empty, p2Rel1);
       assertThat(result).isEqualTo(".\\test2\\report.txt");
 
-      result = CoberturaParser.join(p1_abs1, empty);
+      result = CoberturaParser.join(p1Abs1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(p1_rel1, empty);
+      result = CoberturaParser.join(p1Rel1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(p1_abs1, p2_abs1);
+      result = CoberturaParser.join(p1Abs1, p2Abs1);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(p1_abs1, p2_rel1);
+      result = CoberturaParser.join(p1Abs1, p2Rel1);
       assertThat(result).isEqualTo("c:\\test1\\test2\\report.txt");
 
-      result = CoberturaParser.join(p1_rel1, p2_abs1);
+      result = CoberturaParser.join(p1Rel1, p2Abs1);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(p1_rel1, p2_rel1);
+      result = CoberturaParser.join(p1Rel1, p2Rel1);
       assertThat(result).isEqualTo(".\\test1\\test2\\report.txt");
 
-      result = CoberturaParser.join(p1_abs2, p2_rel2);
+      result = CoberturaParser.join(p1Abs2, p2Rel2);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
 
-      result = CoberturaParser.join(p1_abs3, p2_rel2);
+      result = CoberturaParser.join(p1Abs3, p2Rel2);
       assertThat(result).isEqualTo("c:\\test2\\report.txt");
     } else {
 
       // Linux
-      var p1_abs1 = Path.of("/home/test1");
-      var p1_rel1 = Path.of("test1");
-      var p2_abs1 = Path.of("/home/test2/report.txt");
-      var p2_rel1 = Path.of("test2/report.txt");
+      var p1Abs1 = Path.of("/home/test1");
+      var p1Rel1 = Path.of("test1");
+      var p2Abs1 = Path.of("/home/test2/report.txt");
+      var p2Rel1 = Path.of("test2/report.txt");
 
       result = CoberturaParser.join(empty, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(empty, p2_abs1);
+      result = CoberturaParser.join(empty, p2Abs1);
       assertThat(result).isEqualTo("/home/test2/report.txt");
 
-      result = CoberturaParser.join(empty, p2_rel1);
+      result = CoberturaParser.join(empty, p2Rel1);
       assertThat(result).isEqualTo("./test2/report.txt");
 
-      result = CoberturaParser.join(p1_abs1, empty);
+      result = CoberturaParser.join(p1Abs1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(p1_rel1, empty);
+      result = CoberturaParser.join(p1Rel1, empty);
       assertThat(result).isEmpty();
 
-      result = CoberturaParser.join(p1_abs1, p2_abs1);
+      result = CoberturaParser.join(p1Abs1, p2Abs1);
       assertThat(result).isEqualTo("/home/test2/report.txt");
 
-      result = CoberturaParser.join(p1_abs1, p2_rel1);
+      result = CoberturaParser.join(p1Abs1, p2Rel1);
       assertThat(result).isEqualTo("/home/test1/test2/report.txt");
 
-      result = CoberturaParser.join(p1_rel1, p2_abs1);
+      result = CoberturaParser.join(p1Rel1, p2Abs1);
       assertThat(result).isEqualTo("/home/test2/report.txt");
 
-      result = CoberturaParser.join(p1_rel1, p2_rel1);
+      result = CoberturaParser.join(p1Rel1, p2Rel1);
       assertThat(result).isEqualTo("./test1/test2/report.txt");
     }
 
@@ -158,7 +158,7 @@ class CxxCoberturaSensorTest {
   void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
-                         "coverage-reports/cobertura/coverage-result-cobertura.xml");
+      "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -189,7 +189,7 @@ class CxxCoberturaSensorTest {
   void shouldReportCorrectCoverageSQ62() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
-                         "coverage-reports/cobertura/coverage-result-cobertura.xml");
+      "coverage-reports/cobertura/coverage-result-cobertura.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -221,14 +221,14 @@ class CxxCoberturaSensorTest {
     List<String> log = logTester.logs();
     assertThat(log).contains(
       "Property 'sonar.cxx.cobertura.reportPaths': cannot find any files matching the Ant pattern(s) '"
-        + PathUtils.sanitize(new File(fs.baseDir(), reportPathsValue).getAbsolutePath()) + "'");
+      + PathUtils.sanitize(new File(fs.baseDir(), reportPathsValue).getAbsolutePath()) + "'");
   }
 
   @Test
   void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
-                         "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
+      "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
     context.setSettings(settings);
 
     var sensor = new CxxCoverageCoberturaSensor();
@@ -241,7 +241,7 @@ class CxxCoberturaSensorTest {
   void shouldReportNoCoverageWhenReportEmpty() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
-                         "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
+      "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")
@@ -264,7 +264,7 @@ class CxxCoberturaSensorTest {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     settings.setProperty(CxxCoverageCoberturaSensor.REPORT_PATH_KEY,
-                         "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
+      "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/application/main.cpp")

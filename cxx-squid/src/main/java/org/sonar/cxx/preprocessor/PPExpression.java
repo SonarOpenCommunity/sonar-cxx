@@ -295,8 +295,7 @@ final class PPExpression {
       }
     }
 
-    LOG.error("preprocessor: unknown expression type '" + type + "' for token '" + exprAst.getToken()
-      + "', assuming 0");
+    LOG.error("preprocessor: unknown expression type '{}' for token '{}', assuming 0", type, exprAst.getToken());
     return BigInteger.ZERO;
   }
 

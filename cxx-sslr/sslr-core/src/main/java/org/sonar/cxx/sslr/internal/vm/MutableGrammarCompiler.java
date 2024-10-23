@@ -33,13 +33,13 @@ import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
 public class MutableGrammarCompiler extends CompilationHandler {
 
-  public static CompiledGrammar compile(CompilableGrammarRule rule) {
-    return new MutableGrammarCompiler().doCompile(rule);
-  }
-
   private final Queue<CompilableGrammarRule> compilationQueue = new ArrayDeque<>();
   private final Map<GrammarRuleKey, CompilableGrammarRule> matchers = new HashMap<>();
   private final Map<GrammarRuleKey, Integer> offsets = new HashMap<>();
+
+  public static CompiledGrammar compile(CompilableGrammarRule rule) {
+    return new MutableGrammarCompiler().doCompile(rule);
+  }
 
   private CompiledGrammar doCompile(CompilableGrammarRule start) {
     List<Instruction> instructions = new ArrayList<>();

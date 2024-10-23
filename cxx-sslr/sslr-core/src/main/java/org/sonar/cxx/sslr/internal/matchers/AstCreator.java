@@ -52,9 +52,31 @@ public final class AstCreator {
     }
   }
 
+  // @VisibleForTesting
+  static final TokenType UNDEFINED_TOKEN_TYPE = new TokenType() {
+    @Override
+    public String getName() {
+      return "TOKEN";
+    }
+
+    @Override
+    public String getValue() {
+      return getName();
+    }
+
+    @Override
+    public boolean hasToBeSkippedFromAst(AstNode node) {
+      return false;
+    }
+  };
+
   private final LocatedText input;
   private final Token.Builder tokenBuilder = Token.builder();
   private final List<Trivia> trivias = new ArrayList<>();
+
+  private AstCreator(LocatedText input) {
+    this.input = input;
+  }
 
   public static AstNode create(ParsingResult parsingResult, LocatedText input) {
     var astNode = new AstCreator(input).visit(parsingResult.getParseTreeRoot());
@@ -66,10 +88,6 @@ public final class AstCreator {
     // Unwrap AstNodeType for root node:
     astNode.hasToBeSkippedFromAst();
     return astNode;
-  }
-
-  private AstCreator(LocatedText input) {
-    this.input = input;
   }
 
   private AstNode visit(ParseNode node) {
@@ -174,23 +192,5 @@ public final class AstCreator {
     }
     return result.toString();
   }
-
-  // @VisibleForTesting
-  static final TokenType UNDEFINED_TOKEN_TYPE = new TokenType() {
-    @Override
-    public String getName() {
-      return "TOKEN";
-    }
-
-    @Override
-    public String getValue() {
-      return getName();
-    }
-
-    @Override
-    public boolean hasToBeSkippedFromAst(AstNode node) {
-      return false;
-    }
-  };
 
 }

@@ -68,15 +68,15 @@ public final class CxxUtils {
    * @param config
    */
   public static void validateRecovery(String msg, Exception ex, Configuration config) {
-    var message = (msg + ", cause='" + ExceptionUtils.getRootCauseMessage(ex) + "'")
+    var message = (msg + ", cause='" + ExceptionUtils.getRootCauseMessage(ex) + "'{}")
       .replaceAll("\\R+", " ");
     Optional<Boolean> recovery = config.getBoolean(CxxReportSensor.ERROR_RECOVERY_KEY);
     if (recovery.isPresent() && recovery.get()) {
-      LOG.warn(message + ", skipping");
+      LOG.warn(message, ", skipping");
       return;
     }
     LOG.info("Error recovery is disabled");
-    LOG.error(message + ", stop analysis");
+    LOG.error(message, ", stop analysis");
     throw new IllegalStateException(msg, ex);
   }
 

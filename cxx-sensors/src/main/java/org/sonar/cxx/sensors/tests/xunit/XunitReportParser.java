@@ -141,7 +141,7 @@ public class XunitReportParser implements XmlStreamHandler {
     return file;
   }
 
-  private String parseTestCaseName(SMInputCursor testCaseCursor) throws XMLStreamException {
+  private static String parseTestCaseName(SMInputCursor testCaseCursor) throws XMLStreamException {
     String name = testCaseCursor.getAttrValue("name");
     String classname = testCaseCursor.getAttrValue("classname");
     if (classname != null) {
@@ -150,7 +150,7 @@ public class XunitReportParser implements XmlStreamHandler {
     return name;
   }
 
-  private double parseTime(SMInputCursor testCaseCursor)
+  private static double parseTime(SMInputCursor testCaseCursor)
     throws XMLStreamException {
     var time = 0.0;
     try {

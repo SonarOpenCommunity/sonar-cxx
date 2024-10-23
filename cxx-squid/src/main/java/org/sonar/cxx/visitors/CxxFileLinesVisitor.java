@@ -26,6 +26,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
@@ -50,10 +51,10 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
       // look for exact sub AST
       if ((functionBody.size() == 3) && functionBody.get(0).is(CxxPunctuator.ASSIGN)
-            && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+        && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
         AstNode bodyType = functionBody.get(1);
         if (bodyType.is(CxxKeyword.DELETE)
-              || bodyType.is(CxxKeyword.DEFAULT)) {
+          || bodyType.is(CxxKeyword.DEFAULT)) {
           return true;
         }
       }
@@ -106,12 +107,12 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.functionDefinition,
-                CxxGrammarImpl.labeledStatement,
-                CxxGrammarImpl.expressionStatement,
-                CxxGrammarImpl.iterationStatement,
-                CxxGrammarImpl.jumpStatement,
-                CxxGrammarImpl.assignmentExpression,
-                CxxGrammarImpl.lambdaExpression);
+      CxxGrammarImpl.labeledStatement,
+      CxxGrammarImpl.expressionStatement,
+      CxxGrammarImpl.iterationStatement,
+      CxxGrammarImpl.jumpStatement,
+      CxxGrammarImpl.assignmentExpression,
+      CxxGrammarImpl.lambdaExpression);
   }
 
   @Override
@@ -154,7 +155,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     linesOfCode = new ArrayList<>();
     executableLines = new ArrayList<>();
   }
@@ -172,7 +173,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
    */
   private void visitStatement(AstNode astNode) {
     if (astNode.hasDirectChildren(CxxGrammarImpl.declarationStatement)
-          && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
+      && !astNode.hasDescendant(CxxGrammarImpl.initializer)) {
       return;
     }
     if (isExecutableToken(astNode.getToken())) {

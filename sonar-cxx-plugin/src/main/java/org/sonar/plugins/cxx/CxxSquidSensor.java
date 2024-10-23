@@ -371,7 +371,7 @@ public class CxxSquidSensor implements ProjectSensor {
     return squidConfig;
   }
 
-  private Iterable<InputFile> getInputFiles(SensorContext context, CxxSquidConfiguration squidConfig) {
+  private static Iterable<InputFile> getInputFiles(SensorContext context, CxxSquidConfiguration squidConfig) {
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(
       context.fileSystem().predicates().and(
         context.fileSystem().predicates().hasLanguage(CxxLanguage.KEY),
