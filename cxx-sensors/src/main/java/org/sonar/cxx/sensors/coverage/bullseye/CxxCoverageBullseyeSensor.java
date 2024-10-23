@@ -32,6 +32,10 @@ public class CxxCoverageBullseyeSensor extends CoverageSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.bullseye.reportPaths";
 
+  public CxxCoverageBullseyeSensor() {
+    super(REPORT_PATH_KEY, new BullseyeParser());
+  }
+
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -46,10 +50,6 @@ public class CxxCoverageBullseyeSensor extends CoverageSensor {
         .multiValues(true)
         .build()
     ));
-  }
-
-  public CxxCoverageBullseyeSensor() {
-    super(REPORT_PATH_KEY, new BullseyeParser());
   }
 
   @Override

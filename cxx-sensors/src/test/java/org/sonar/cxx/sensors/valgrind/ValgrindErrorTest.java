@@ -68,7 +68,7 @@ class ValgrindErrorTest {
 
   @Test
   void getKindWorks() {
-    var KIND = "kind";
+    final var KIND = "kind";
     assertThat(KIND).isEqualTo(new ValgrindError(KIND, "", Collections.singletonList(new ValgrindStack())).getKind());
   }
 

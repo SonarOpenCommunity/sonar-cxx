@@ -25,6 +25,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
+import javax.annotation.Nullable;
 import org.sonar.cxx.CxxComplexityConstants;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.visitors.CxxComplexityScope;
@@ -32,8 +33,7 @@ import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
 /**
  * This is an enhanced version of org.sonar.cxx.squidbridge.metrics.ComplexityVisitor, which is used in order to compute
- * the
- * Cyclomatic Complexity.
+ * the Cyclomatic Complexity.
  *
  * @param <G>
  */
@@ -60,7 +60,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     if (!getScopeType().isPresent()) {
       complexityScopes.addFirst(new CxxComplexityScope(1));
     }

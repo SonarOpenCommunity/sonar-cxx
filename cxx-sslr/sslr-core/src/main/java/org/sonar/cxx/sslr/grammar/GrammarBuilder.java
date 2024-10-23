@@ -41,9 +41,8 @@ import org.sonar.cxx.sslr.internal.vm.ZeroOrMoreExpression;
 abstract class GrammarBuilder {
 
   /**
-   * Allows to describe rule.
-   * Result of this method should be used only for execution of methods in it, i.e. you should not save reference on it.
-   * No guarantee that this method always returns the same instance for the same key of rule.
+   * Allows to describe rule. Result of this method should be used only for execution of methods in it, i.e. you should
+   * not save reference on it. No guarantee that this method always returns the same instance for the same key of rule.
    */
   public abstract GrammarRuleBuilder rule(GrammarRuleKey ruleKey);
 
@@ -53,9 +52,8 @@ abstract class GrammarBuilder {
   public abstract void setRootRule(GrammarRuleKey ruleKey);
 
   /**
-   * Creates parsing expression - "sequence".
-   * During execution of this expression parser will sequentially execute all sub-expressions.
-   * This expression succeeds only if all sub-expressions succeed.
+   * Creates parsing expression - "sequence". During execution of this expression parser will sequentially execute all
+   * sub-expressions. This expression succeeds only if all sub-expressions succeed.
    *
    * @param e1 first sub-expression
    * @param e2 second sub-expression
@@ -66,8 +64,7 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "sequence".
-   * See {@link #sequence(Object, Object)} for more details.
+   * Creates parsing expression - "sequence". See {@link #sequence(Object, Object)} for more details.
    *
    * @param e1 first sub-expression
    * @param e2 second sub-expression
@@ -79,9 +76,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "first of".
-   * During the execution of this expression parser execute sub-expressions in order until one succeeds.
-   * This expressions succeeds if any sub-expression succeeds.
+   * Creates parsing expression - "first of". During the execution of this expression parser execute sub-expressions in
+   * order until one succeeds. This expressions succeeds if any sub-expression succeeds.
    * <p>
    * Be aware that in expression {@code firstOf("foo", sequence("foo", "bar"))} second sub-expression will never be
    * executed.
@@ -95,8 +91,7 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "first of".
-   * See {@link #firstOf(Object, Object)} for more details.
+   * Creates parsing expression - "first of". See {@link #firstOf(Object, Object)} for more details.
    *
    * @param e1 first sub-expression
    * @param e2 second sub-expression
@@ -108,9 +103,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "optional".
-   * During execution of this expression parser will execute sub-expression once.
-   * This expression always succeeds, with an empty match if sub-expression fails.
+   * Creates parsing expression - "optional". During execution of this expression parser will execute sub-expression
+   * once. This expression always succeeds, with an empty match if sub-expression fails.
    * <p>
    * Be aware that this expression is greedy, i.e. expression {@code sequence(optional("foo"), "foo")} will never
    * succeed.
@@ -123,8 +117,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "optional".
-   * Convenience method equivalent to calling {@code optional(sequence(e, rest))}.
+   * Creates parsing expression - "optional". Convenience method equivalent to calling
+   * {@code optional(sequence(e, rest))}.
    *
    * @param e1 first sub-expression
    * @param rest rest of sub-expressions
@@ -137,9 +131,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "one or more".
-   * During execution of this expression parser will repeatedly try sub-expression until it fails.
-   * This expression succeeds only if sub-expression succeeds at least once.
+   * Creates parsing expression - "one or more". During execution of this expression parser will repeatedly try
+   * sub-expression until it fails. This expression succeeds only if sub-expression succeeds at least once.
    * <p>
    * Be aware that:
    * <ul>
@@ -156,8 +149,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "one or more".
-   * Convenience method equivalent to calling {@code oneOrMore(sequence(e1, rest))}.
+   * Creates parsing expression - "one or more". Convenience method equivalent to calling
+   * {@code oneOrMore(sequence(e1, rest))}.
    *
    * @param e1 first sub-expression
    * @param rest rest of sub-expressions
@@ -170,9 +163,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "zero or more".
-   * During execution of this expression parser will repeatedly try sub-expression until it fails.
-   * This expression always succeeds, with an empty match if sub-expression fails.
+   * Creates parsing expression - "zero or more". During execution of this expression parser will repeatedly try
+   * sub-expression until it fails. This expression always succeeds, with an empty match if sub-expression fails.
    * <p>
    * Be aware that:
    * <ul>
@@ -189,8 +181,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "zero or more".
-   * Convenience method equivalent to calling {@code zeroOrMore(sequence(e1, rest))}.
+   * Creates parsing expression - "zero or more". Convenience method equivalent to calling
+   * {@code zeroOrMore(sequence(e1, rest))}.
    *
    * @param e1 sub-expression
    * @param rest rest of sub-expressions
@@ -203,8 +195,7 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "next".
-   * During execution of this expression parser will execute sub-expression once.
+   * Creates parsing expression - "next". During execution of this expression parser will execute sub-expression once.
    * This expression succeeds only if sub-expression succeeds, but never consumes any input.
    *
    * @param e sub-expression
@@ -215,8 +206,7 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "next".
-   * Convenience method equivalent to calling {@code next(sequence(e1, rest))}.
+   * Creates parsing expression - "next". Convenience method equivalent to calling {@code next(sequence(e1, rest))}.
    *
    * @param e1 first sub-expression
    * @param rest rest of sub-expressions
@@ -229,9 +219,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "next not".
-   * During execution of this expression parser will execute sub-expression once.
-   * This expression succeeds only if sub-expression fails.
+   * Creates parsing expression - "next not". During execution of this expression parser will execute sub-expression
+   * once. This expression succeeds only if sub-expression fails.
    *
    * @param e sub-expression
    * @throws IllegalArgumentException if given argument is not a parsing expression
@@ -241,8 +230,8 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "next not".
-   * Convenience method equivalent to calling {@code nextNot(sequence(e1, rest))}.
+   * Creates parsing expression - "next not". Convenience method equivalent to calling
+   * {@code nextNot(sequence(e1, rest))}.
    *
    * @param e1 sub-expression
    * @param rest rest of sub-expressions
@@ -255,10 +244,9 @@ abstract class GrammarBuilder {
   }
 
   /**
-   * Creates parsing expression - "nothing".
-   * This expression always fails.
+   * Creates parsing expression - "nothing". This expression always fails.
    */
-  public final Object nothing() {
+  public static final Object nothing() {
     return NothingExpression.INSTANCE;
   }
 
@@ -300,7 +288,7 @@ abstract class GrammarBuilder {
     public GrammarRuleBuilder is(Object e) {
       if (delegate.getExpression() != null) {
         throw new GrammarException("The rule '" + delegate.getRuleKey()
-                                     + "' has already been defined somewhere in the grammar.");
+          + "' has already been defined somewhere in the grammar.");
       }
       delegate.setExpression(b.convertToExpression(e));
       return this;

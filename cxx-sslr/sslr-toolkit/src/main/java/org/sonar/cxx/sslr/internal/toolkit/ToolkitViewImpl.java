@@ -388,7 +388,9 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   }
 
   @CheckForNull
-  private DefaultMutableTreeNode getAstTreeNodeWithGivenUserObject(DefaultMutableTreeNode treeNode, Object userObject) {
+  private static DefaultMutableTreeNode getAstTreeNodeWithGivenUserObject(DefaultMutableTreeNode treeNode,
+    Object userObject) {
+
     if (treeNode.getUserObject().equals(userObject)) {
       return treeNode;
     } else {

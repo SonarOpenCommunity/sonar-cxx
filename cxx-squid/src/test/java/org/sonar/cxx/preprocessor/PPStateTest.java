@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.google.common.collect.ImmutableList;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,15 +55,15 @@ class PPStateTest {
 
   @Test
   void testGetStack() {
-    List<String> filenames = ImmutableList.of("A", "B", "C");
+    List<String> filenames = List.of("A", "B", "C");
     for (var filename : filenames) {
       state.pushFileState(Path.of(filename));
     }
-    List<String> result = new ArrayList();
+    var result = new ArrayList<String>();
     for (var item : state.getStack()) {
       result.add(item.getFile().toString());
     }
-    List<String> reverse = new ArrayList(filenames);
+    var reverse = new ArrayList<String>(filenames);
     Collections.reverse(reverse);
     reverse.add(CONTEXT);
     assertThat(result).containsExactlyElementsOf(reverse);

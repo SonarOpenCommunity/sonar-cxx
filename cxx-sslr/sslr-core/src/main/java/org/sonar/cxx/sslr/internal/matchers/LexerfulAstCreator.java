@@ -33,23 +33,23 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypeExpression;
 
 public class LexerfulAstCreator {
 
+  private final List<Token> tokens;
+
+  private LexerfulAstCreator(List<Token> tokens) {
+    this.tokens = tokens;
+  }
+
   public static AstNode create(ParseNode node, List<Token> tokens) {
     var astNode = new LexerfulAstCreator(tokens).visit(node);
     if (astNode == null) {
       throw new IllegalStateException("create ParseNode: "
-                                        + node.toString()
-                                        + " Tokens: " + tokens.toString());
+        + node.toString()
+        + " Tokens: " + tokens.toString());
     }
     // Unwrap AstNodeType for root node:
     astNode.hasToBeSkippedFromAst();
 
     return astNode;
-  }
-
-  private final List<Token> tokens;
-
-  private LexerfulAstCreator(List<Token> tokens) {
-    this.tokens = tokens;
   }
 
   private AstNode visit(ParseNode node) {

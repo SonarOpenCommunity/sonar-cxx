@@ -28,6 +28,7 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeType;
 import com.sonar.cxx.sslr.api.Grammar;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 public abstract class AbstractOneStatementPerLineCheck<G extends Grammar> extends SquidCheck<G> {
 
@@ -43,7 +44,7 @@ public abstract class AbstractOneStatementPerLineCheck<G extends Grammar> extend
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     statementsPerLine.clear();
   }
 

@@ -32,6 +32,10 @@ public class CxxCoverageCoberturaSensor extends CoverageSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.cobertura.reportPaths";
 
+  public CxxCoverageCoberturaSensor() {
+    super(REPORT_PATH_KEY, new CoberturaParser());
+  }
+
   public static List<PropertyDefinition> properties() {
     return Collections.unmodifiableList(Arrays.asList(
       PropertyDefinition.builder(REPORT_PATH_KEY)
@@ -46,10 +50,6 @@ public class CxxCoverageCoberturaSensor extends CoverageSensor {
         .multiValues(true)
         .build()
     ));
-  }
-
-  public CxxCoverageCoberturaSensor() {
-    super(REPORT_PATH_KEY, new CoberturaParser());
   }
 
   @Override

@@ -91,10 +91,10 @@ public class PPInclude {
             standardIncludeDirs.add(path);
           }
         } else {
-          LOG.warn("preprocessor: invalid include file directory '{}'", path.toString());
+          LOG.warn("preprocessor: invalid include file directory '{}'", path);
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error(LOGMSG, e.getMessage(), path.toString());
+        LOG.error(LOGMSG, e.getMessage(), path);
       }
     }
   }

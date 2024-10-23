@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.parser.CxxGrammarImpl;
@@ -362,7 +363,7 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     skipFile = true;
 
     if (headerFileSuffixes != null) {

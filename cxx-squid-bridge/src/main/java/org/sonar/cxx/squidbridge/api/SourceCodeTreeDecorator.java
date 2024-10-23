@@ -37,7 +37,7 @@ public class SourceCodeTreeDecorator {
     decorateWith(project, metrics);
   }
 
-  private void decorateWith(SourceCode sourceCode, MetricDef... metrics) {
+  private static void decorateWith(SourceCode sourceCode, MetricDef... metrics) {
     if (sourceCode.hasChildren()) {
       for (var child : sourceCode.getChildren()) {
         decorateWith(child, metrics);

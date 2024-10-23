@@ -57,6 +57,40 @@ public class Machine implements CharSequence {
 
   private boolean ignoreErrors = false;
 
+  private static final MachineHandler NOP_HANDLER = (Machine machine) -> {
+    // nop
+  };
+
+  public Machine(String input, Instruction[] instructions, MachineHandler handler) {
+    this(input.toCharArray(), null, instructions, handler);
+  }
+
+  private Machine(@Nullable char[] input, @Nullable Token[] tokens, Instruction[] instructions,
+    MachineHandler handler) {
+    this.input = input;
+    this.tokens = tokens;
+    if (input != null) {
+      this.inputLength = input.length;
+    } else if (tokens != null) {
+      this.inputLength = tokens.length;
+    } else {
+      this.inputLength = 0;
+    }
+
+    this.handler = handler;
+    this.memos = new ParseNode[inputLength + 1];
+    this.stack = new MachineStack();
+    stack = stack.getOrCreateChild();
+    stack.setIndex(-1);
+    calls = new int[instructions.length];
+    Arrays.fill(calls, -1);
+  }
+
+  // @VisibleForTesting
+  public Machine(String input, Instruction[] instructions) {
+    this(input, instructions, NOP_HANDLER);
+  }
+
   public static ParseNode parse(List<Token> tokens, CompiledGrammar grammar) {
     var inputTokens = tokens.toArray(Token[]::new);
 
@@ -128,40 +162,6 @@ public class Machine implements CharSequence {
       instructions[machine.address].execute(machine);
     }
     return machine.matched;
-  }
-
-  public Machine(String input, Instruction[] instructions, MachineHandler handler) {
-    this(input.toCharArray(), null, instructions, handler);
-  }
-
-  private Machine(@Nullable char[] input, @Nullable Token[] tokens, Instruction[] instructions,
-    MachineHandler handler) {
-    this.input = input;
-    this.tokens = tokens;
-    if (input != null) {
-      this.inputLength = input.length;
-    } else if (tokens != null) {
-      this.inputLength = tokens.length;
-    } else {
-      this.inputLength = 0;
-    }
-
-    this.handler = handler;
-    this.memos = new ParseNode[inputLength + 1];
-    this.stack = new MachineStack();
-    stack = stack.getOrCreateChild();
-    stack.setIndex(-1);
-    calls = new int[instructions.length];
-    Arrays.fill(calls, -1);
-  }
-
-  private static final MachineHandler NOP_HANDLER = (Machine machine) -> {
-    // nop
-  };
-
-  // @VisibleForTesting
-  public Machine(String input, Instruction[] instructions) {
-    this(input, instructions, NOP_HANDLER);
   }
 
   private void execute(Instruction[] instructions) {

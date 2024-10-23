@@ -21,6 +21,7 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.api.CxxMetric;
@@ -42,7 +43,7 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
 
   public CxxFunctionSizeVisitor(CxxSquidConfiguration squidConfig) {
     this.sizeThreshold = squidConfig.getInt(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                                            CxxSquidConfiguration.FUNCTION_SIZE_THRESHOLD)
+      CxxSquidConfiguration.FUNCTION_SIZE_THRESHOLD)
       .orElse(20);
     LOG.debug("'Big Functions' metric threshold (LOC): " + this.sizeThreshold);
   }
@@ -65,7 +66,7 @@ public class CxxFunctionSizeVisitor<G extends Grammar> extends SquidAstVisitor<G
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     bigFunctions = 0;
     bigFunctionsLoc = 0;
     totalLoc = 0;

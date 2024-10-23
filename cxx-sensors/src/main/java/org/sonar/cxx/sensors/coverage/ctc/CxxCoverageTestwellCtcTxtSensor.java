@@ -35,6 +35,10 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
   public static final String REPORT_ENCODING_DEF = "sonar.cxx.ctctxt.encoding";
   public static final String DEFAULT_ENCODING_DEF = StandardCharsets.UTF_8.name();
 
+  public CxxCoverageTestwellCtcTxtSensor() {
+    super(REPORT_PATH_KEY, new TestwellCtcTxtParser());
+  }
+
   public static List<PropertyDefinition> properties() {
     var category = CxxReportSensor.CATEGORY;
     var subcategory = "Testwell CTC++";
@@ -61,10 +65,6 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
         .onQualifiers(Qualifiers.PROJECT)
         .build()
     ));
-  }
-
-  public CxxCoverageTestwellCtcTxtSensor() {
-    super(REPORT_PATH_KEY, new TestwellCtcTxtParser());
   }
 
   @Override

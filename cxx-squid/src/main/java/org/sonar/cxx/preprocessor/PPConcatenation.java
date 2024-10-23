@@ -76,7 +76,7 @@ final class PPConcatenation {
       } else { // error, remove ## and continue
         var token = tokens.get(operatorPos);
         LOG.warn("concatenation error, ignoring ## at {}:{}:{}",
-                 token.getURI().toString(), token.getLine(), token.getColumn());
+          token.getURI(), token.getLine(), token.getColumn());
 
         var left = tokens.subList(0, operatorPos);
         var right = tokens.subList(operatorPos + 1, tokens.size());

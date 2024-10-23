@@ -48,7 +48,7 @@ public class SquidIndex implements SourceCodeIndexer, SourceCodeSearchEngine {
     return result;
   }
 
-  private boolean isSquidUnitMatchQueries(SourceCode unit, Query... queries) {
+  private static boolean isSquidUnitMatchQueries(SourceCode unit, Query... queries) {
     boolean match;
     for (var query : queries) {
       match = query.match(unit);

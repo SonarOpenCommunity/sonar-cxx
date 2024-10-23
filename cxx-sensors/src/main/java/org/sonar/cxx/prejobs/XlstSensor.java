@@ -29,12 +29,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Phase;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.scanner.sensor.ProjectSensor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 
 @Phase(name = Phase.Name.PRE)
@@ -79,8 +79,8 @@ public class XlstSensor implements ProjectSensor {
       String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
 
       if (!context.config().hasKey(stylesheetKey)
-            && !context.config().hasKey(inputKey)
-            && !context.config().hasKey(outputKey)) {
+        && !context.config().hasKey(inputKey)
+        && !context.config().hasKey(outputKey)) {
         break; // no or last item
       }
 
@@ -130,7 +130,7 @@ public class XlstSensor implements ProjectSensor {
     }
   }
 
-  private File createOutputFile(String path, String outputs) {
+  private static File createOutputFile(String path, String outputs) {
     if (outputs.contains("*")) {
       outputs = outputs.replace("*", FilenameUtils.getBaseName(path));
     }

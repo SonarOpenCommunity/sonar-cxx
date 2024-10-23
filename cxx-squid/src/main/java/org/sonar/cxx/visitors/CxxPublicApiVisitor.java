@@ -26,6 +26,7 @@ import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.api.CxxMetric;
@@ -82,7 +83,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   public CxxPublicApiVisitor(CxxSquidConfiguration squidConfig) {
     super();
     String[] suffixes = squidConfig.getValues(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                                              CxxSquidConfiguration.API_FILE_SUFFIXES)
+      CxxSquidConfiguration.API_FILE_SUFFIXES)
       .stream()
       .filter(s -> s != null && !s.trim().isEmpty()).toArray(String[]::new);
     if (suffixes.length == 0) {
@@ -93,7 +94,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     publicApiCounter = 0;
     undocumentedApiCounter = 0;
     super.visitFile(astNode);
@@ -108,7 +109,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
       sourceFile.setMeasure(CxxMetric.PUBLIC_API, publicApiCounter);
       sourceFile.setMeasure(CxxMetric.PUBLIC_UNDOCUMENTED_API, undocumentedApiCounter);
       LOG.debug("'Public API' metric for '{}': total={}, undocumented={}",
-                sourceFile.getName(), publicApiCounter, undocumentedApiCounter);
+        sourceFile.getName(), publicApiCounter, undocumentedApiCounter);
     }
   }
 

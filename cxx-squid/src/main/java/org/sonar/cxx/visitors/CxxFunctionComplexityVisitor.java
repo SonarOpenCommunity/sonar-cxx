@@ -21,6 +21,7 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.api.CxxMetric;
@@ -42,7 +43,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
 
   public CxxFunctionComplexityVisitor(CxxSquidConfiguration squidConfig) {
     this.cyclomaticComplexityThreshold = squidConfig.getInt(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
-                                                            CxxSquidConfiguration.FUNCTION_COMPLEXITY_THRESHOLD)
+      CxxSquidConfiguration.FUNCTION_COMPLEXITY_THRESHOLD)
       .orElse(10);
     LOG.debug("'Complex Functions' metric threshold (cyclomatic complexity): " + this.cyclomaticComplexityThreshold);
   }
@@ -53,7 +54,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
   }
 
   @Override
-  public void visitFile(AstNode astNode) {
+  public void visitFile(@Nullable AstNode astNode) {
     complexFunctions = 0;
     complexFunctionsLoc = 0;
 

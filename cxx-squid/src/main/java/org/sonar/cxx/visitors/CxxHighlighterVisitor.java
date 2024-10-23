@@ -81,7 +81,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     }
   }
 
-  private Optional<Trivia> getTriviaWithConcatenatedLiterals(Token stringToken) {
+  private static Optional<Trivia> getTriviaWithConcatenatedLiterals(Token stringToken) {
     return stringToken.getTrivia().stream()
       .filter(t -> t.isSkippedText() && CxxTokenType.STRING.equals(t.getToken().getType())).findFirst();
   }

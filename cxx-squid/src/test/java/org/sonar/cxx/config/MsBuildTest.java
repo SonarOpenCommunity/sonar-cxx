@@ -65,7 +65,7 @@ class MsBuildTest {
   @Test
   void relativeIncludesVS2019ReferenceLog() {
 
-    var REFERENCE_LOG = "src/test/resources/msbuild/msbuild-azure-devops-en.txt";
+    final var REFERENCE_LOG = "src/test/resources/msbuild/msbuild-azure-devops-en.txt";
     List<String> includes = getIncludesForUniqueFile(REFERENCE_LOG);
 
     var softly = new SoftAssertions();

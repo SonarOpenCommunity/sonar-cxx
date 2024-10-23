@@ -64,11 +64,11 @@ public class LexerfulGrammarBuilder extends GrammarBuilder {
   private final Map<GrammarRuleKey, RuleDefinition> definitions = new HashMap<>();
   private GrammarRuleKey rootRuleKey;
 
-  public static LexerfulGrammarBuilder create() {
-    return new LexerfulGrammarBuilder();
+  private LexerfulGrammarBuilder() {
   }
 
-  private LexerfulGrammarBuilder() {
+  public static LexerfulGrammarBuilder create() {
+    return new LexerfulGrammarBuilder();
   }
 
   /**

@@ -58,11 +58,11 @@ public class LexerlessGrammarBuilder extends GrammarBuilder {
   private final Map<GrammarRuleKey, MutableParsingRule> definitions = new HashMap<>();
   private GrammarRuleKey rootRuleKey;
 
-  public static LexerlessGrammarBuilder create() {
-    return new LexerlessGrammarBuilder();
+  private LexerlessGrammarBuilder() {
   }
 
-  private LexerlessGrammarBuilder() {
+  public static LexerlessGrammarBuilder create() {
+    return new LexerlessGrammarBuilder();
   }
 
   /**

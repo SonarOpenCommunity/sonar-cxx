@@ -59,7 +59,7 @@ public class RulesDefinitionXmlLoaderTest {
   RulesDefinitionXmlLoader underTest = new RulesDefinitionXmlLoader();
 
   @Test
-  public void parseXml() {
+  void parseXml() {
     InputStream input = getClass()
       .getResourceAsStream("/org/sonar/cxx/sensors/utils/RulesDefinitionXmlLoader/rules.xml");
     RulesDefinition.Repository repository = load(input, StandardCharsets.UTF_8.name());
@@ -93,7 +93,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void failIfMissingRuleKey() {
+  void failIfMissingRuleKey() {
     var xml = """
       <rules>
         <rule>
@@ -107,7 +107,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void failIfMissingPropertyKey() {
+  void failIfMissingPropertyKey() {
     var xml = """
       <rules>
         <rule>
@@ -124,7 +124,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void failOnInvalidRuleParameterType() {
+  void failOnInvalidRuleParameterType() {
     var xml = """
       <rules>
         <rule>
@@ -144,7 +144,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void failIfInvalidXml() {
+  void failIfInvalidXml() {
     InputStream input = getClass().getResourceAsStream(
       "/org/sonar/cxx/sensors/utils/RulesDefinitionXmlLoader/invalid.xml"
     );
@@ -154,7 +154,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testUtf8Encoding() {
+  void testUtf8Encoding() {
     InputStream input = getClass().getResourceAsStream(
       "/org/sonar/cxx/sensors/utils/RulesDefinitionXmlLoader/utf8.xml"
     );
@@ -170,7 +170,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testUtf8EncodingWithBom() {
+  void testUtf8EncodingWithBom() {
     InputStream input = getClass().getResourceAsStream(
       "/org/sonar/cxx/sensors/utils/RulesDefinitionXmlLoader/utf8-with-bom.xml"
     );
@@ -186,7 +186,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void supportDeprecatedFormat() {
+  void supportDeprecatedFormat() {
     // the deprecated format uses some attributes instead of nodes
     InputStream input = getClass().getResourceAsStream(
       "/org/sonar/cxx/sensors/utils/RulesDefinitionXmlLoader/deprecated.xml"
@@ -203,7 +203,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testDefaultValues() {
+  void testDefaultValues() {
     var xml = """
     <rules>
       <rule>
@@ -224,7 +224,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testDefaultInfoValues() {
+  void testDefaultInfoValues() {
     var xml = """
       <rules>
         <rule>
@@ -243,7 +243,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testLinearRemediationFunction() {
+  void testLinearRemediationFunction() {
     var xml = """
       <rules>
         <rule>
@@ -266,7 +266,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testLinearWithOffsetRemediationFunction() {
+  void testLinearWithOffsetRemediationFunction() {
     var xml = """
       <rules>
         <rule>
@@ -290,7 +290,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testConstantRemediationFunction() {
+  void testConstantRemediationFunction() {
     var xml = """
     <rules>
       <rule>
@@ -311,7 +311,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void failIfInvalidRemediationFunction() {
+  void failIfInvalidRemediationFunction() {
     var xml = """
       <rules>
         <rule>
@@ -330,7 +330,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void failIfUnsupportedDescriptionFormat() {
+  void failIfUnsupportedDescriptionFormat() {
     var xml = """
       <rules>
         <rule>
@@ -350,7 +350,7 @@ public class RulesDefinitionXmlLoaderTest {
   }
 
   @Test
-  public void testDeprecatedRemediationFunction() {
+  void testDeprecatedRemediationFunction() {
     var xml = """
       <rules>
         <rule>

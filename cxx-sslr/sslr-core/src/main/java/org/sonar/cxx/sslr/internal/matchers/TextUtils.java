@@ -25,14 +25,14 @@ package org.sonar.cxx.sslr.internal.matchers;
 
 public final class TextUtils {
 
-  private TextUtils() {
-  }
-
   public static final char CR = '\r';
   public static final char LF = '\n';
 
   private static final char[] ESCAPE = {'\r', '\n', '\f', '\t', '"'};
   private static final String[] ESCAPED = {"\\r", "\\n", "\\f", "\\t", "\\\""};
+
+  private TextUtils() {
+  }
 
   /**
    * Replaces carriage returns, line feeds, form feeds, tabs and double quotes with their respective escape sequences.
