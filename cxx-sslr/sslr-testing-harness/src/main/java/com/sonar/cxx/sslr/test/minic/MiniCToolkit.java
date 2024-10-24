@@ -46,22 +46,23 @@ public final class MiniCToolkit {
 
   static class MiniCConfigurationModel extends AbstractConfigurationModel {
 
-    private final ConfigurationProperty charsetProperty = new ConfigurationProperty("Charset",
-                                                                                    "Charset used when opening files.",
-                                                                                    "UTF-8", (String newValueCandidate)
-                                                                                    -> {
-                                                                                    try {
-                                                                                      Charset.forName(
-                                                                                        newValueCandidate);
-                                                                                      return "";
-                                                                                    } catch (IllegalCharsetNameException e) {
-                                                                                      return "Illegal charset name: "
-                                                                                               + newValueCandidate;
-                                                                                    } catch (UnsupportedCharsetException e) {
-                                                                                      return "Unsupported charset: "
-                                                                                               + newValueCandidate;
-                                                                                    }
-                                                                                  });
+    private final ConfigurationProperty charsetProperty = new ConfigurationProperty(
+      "Charset",
+      "Charset used when opening files.",
+      "UTF-8", (String newValueCandidate)
+      -> {
+      try {
+        Charset.forName(
+          newValueCandidate);
+        return "";
+      } catch (IllegalCharsetNameException e) {
+        return "Illegal charset name: "
+          + newValueCandidate;
+      } catch (UnsupportedCharsetException e) {
+        return "Unsupported charset: "
+          + newValueCandidate;
+      }
+    });
 
     @Override
     public List<ConfigurationProperty> getProperties() {

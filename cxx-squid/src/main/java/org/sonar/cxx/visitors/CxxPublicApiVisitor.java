@@ -101,7 +101,7 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     super.leaveFile(astNode);
 
     if (!skipFile) {

@@ -21,6 +21,7 @@ package org.sonar.cxx.checks.xpath;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.Nullable;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
@@ -83,7 +84,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
   }
 
   @Override
-  public void visitFile(AstNode fileNode) {
+  public void visitFile(@Nullable AstNode fileNode) {
     if (!matchFilePattern.isEmpty()) {
       var pattern = WildcardPattern.create(matchFilePattern);
       String path = PathUtils.sanitize(getContext().getFile().getPath());

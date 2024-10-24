@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 import org.sonar.cxx.sslr.internal.vm.TokenExpression;
 import org.sonar.cxx.sslr.internal.vm.TriviaExpression;
@@ -65,7 +66,7 @@ public final class AstCreator {
     }
 
     @Override
-    public boolean hasToBeSkippedFromAst(AstNode node) {
+    public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
       return false;
     }
   };

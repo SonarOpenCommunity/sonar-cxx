@@ -79,7 +79,7 @@ public class RulesDefinitionXml implements RulesDefinition {
         try (var input = java.nio.file.Files.newInputStream(userExtensionXml.toPath())) {
           xmlRuleLoader.load(repository, input, encoding);
         } catch (IOException | IllegalStateException e) {
-          LOG.error("Cannot load Rules Definions '{}'", e.getMessage());
+          LOG.error("Cannot load Rules Definions '{}'", e.getMessage(), e);
         }
       }
 

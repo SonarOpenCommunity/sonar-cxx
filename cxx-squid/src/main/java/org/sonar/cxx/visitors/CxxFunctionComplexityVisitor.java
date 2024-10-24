@@ -45,7 +45,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
     this.cyclomaticComplexityThreshold = squidConfig.getInt(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
       CxxSquidConfiguration.FUNCTION_COMPLEXITY_THRESHOLD)
       .orElse(10);
-    LOG.debug("'Complex Functions' metric threshold (cyclomatic complexity): " + this.cyclomaticComplexityThreshold);
+    LOG.debug("'Complex Functions' metric threshold (cyclomatic complexity): {}", this.cyclomaticComplexityThreshold);
   }
 
   @Override
@@ -62,7 +62,7 @@ public class CxxFunctionComplexityVisitor<G extends Grammar> extends SquidAstVis
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     super.leaveFile(astNode);
 
     var sourceFile = (SourceFile) getContext().peekSourceCode();

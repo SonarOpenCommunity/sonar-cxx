@@ -21,13 +21,14 @@ package org.sonar.cxx.visitors;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.Nullable;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 
 public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> {
 
   @Override
-  public void visitFile(AstNode node) {
+  public void visitFile(@Nullable AstNode node) {
     CxxParser.finishedParsing();
   }
 

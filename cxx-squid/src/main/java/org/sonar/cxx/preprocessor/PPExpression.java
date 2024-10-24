@@ -140,7 +140,7 @@ final class PPExpression {
       number = PPNumber.decodeString(intValue);
     } catch (java.lang.NumberFormatException e) {
       LOG.warn("preprocessor cannot decode the number '{}' falling back to value '{}' instead",
-        intValue, BigInteger.ONE);
+        intValue, BigInteger.ONE, e);
       number = BigInteger.ONE;
     }
 
@@ -171,9 +171,9 @@ final class PPExpression {
     } catch (com.sonar.cxx.sslr.api.RecognitionException e) {
       if (exprAst != null) {
         LOG.warn("preprocessor error evaluating expression '{}' for token '{}', assuming 0",
-          constExpr, exprAst.getToken());
+          constExpr, exprAst.getToken(), e);
       } else {
-        LOG.warn("preprocessor error evaluating expression '{}', assuming 0", constExpr);
+        LOG.warn("preprocessor error evaluating expression '{}', assuming 0", constExpr, e);
       }
       return BigInteger.ZERO;
     }

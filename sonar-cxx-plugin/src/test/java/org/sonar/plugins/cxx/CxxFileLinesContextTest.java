@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,7 +44,7 @@ class CxxFileLinesContextTest {
   private FileLinesContextForTesting fileLinesContext;
 
   @BeforeEach
-  public void setUp() throws IOException {
+  public void setUp() {
     ActiveRules rules = mock(ActiveRules.class);
     var checkFactory = new CheckFactory(rules);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);

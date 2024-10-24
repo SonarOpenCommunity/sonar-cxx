@@ -116,7 +116,7 @@ public class DroppedPropertiesSensor implements ProjectSensor {
 
   @Override
   public void execute(SensorContext context) {
-    ALL_REMOVED_PROPERTIES.forEach((key, info) -> {
+    ALL_REMOVED_PROPERTIES.forEach((String key, String info) -> {
       if (context.config().hasKey(key)) {
         var msg = "CXX property '" + key + "' is no longer supported.";
         if (!info.isEmpty()) {

@@ -52,13 +52,11 @@ final class PPNumber {
     var begin = 0;
     if ((number.length() > 2) && (number.charAt(0) == '0')) {
       switch (number.charAt(1)) {
-        case 'x':
-        case 'X':
+        case 'x', 'X':
           radix = 16; // 0x...
           begin = 2;
           break;
-        case 'b':
-        case 'B':
+        case 'b', 'B':
           radix = 2; // 0b...
           begin = 2;
           break;
@@ -73,30 +71,10 @@ final class PPNumber {
     for (var index = begin; index < number.length() && !suffix; index++) {
       var c = number.charAt(index);
       switch (c) {
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-
-        case 'a':
-        case 'b':
-        case 'c':
-        case 'd':
-        case 'e':
-        case 'f':
-
-        case 'A':
-        case 'B':
-        case 'C':
-        case 'D':
-        case 'E':
-        case 'F':
+        case // 0-9, A-F
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //
+        'a', 'b', 'c', 'd', 'e', 'f', //
+        'A', 'B', 'C', 'D', 'E', 'F': //
           sb.append(c);
           break;
 

@@ -31,14 +31,14 @@ public class CxxReportLocationTest {
     assertThat(loc0.getLine()).isNull();
     assertThat(loc0.getColumn()).isNull();
     assertThat(loc0.getInfo()).isEqualTo("info");
-    assertThat(loc0.toString()).isEqualTo("CxxReportLocation [file=null, line=null, column=null, info=info]");
+    assertThat(loc0).hasToString("CxxReportLocation [file=null, line=null, column=null, info=info]");
 
     var loc1 = new CxxReportLocation("file", "line", "column", "info");
     assertThat(loc1.getFile()).isEqualTo("file");
     assertThat(loc1.getLine()).isEqualTo("line");
     assertThat(loc1.getColumn()).isEqualTo("column");
     assertThat(loc1.getInfo()).isEqualTo("info");
-    assertThat(loc1.toString()).isEqualTo("CxxReportLocation [file=file, line=line, column=column, info=info]");
+    assertThat(loc1).hasToString("CxxReportLocation [file=file, line=line, column=column, info=info]");
   }
 
   @Test

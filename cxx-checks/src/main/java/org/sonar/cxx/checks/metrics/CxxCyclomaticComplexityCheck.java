@@ -67,7 +67,7 @@ public abstract class CxxCyclomaticComplexityCheck<G extends Grammar> extends Mu
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     if (!getScopeType().isPresent()) {
       analyzeScopeComplexity();
     }

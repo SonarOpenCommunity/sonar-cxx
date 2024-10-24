@@ -21,6 +21,7 @@ package org.sonar.cxx.checks.metrics;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
+import javax.annotation.Nullable;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -54,7 +55,7 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     var linesOfCode = ChecksHelper.getRecursiveMeasureInt(getContext().peekSourceCode(), CxxMetric.LINES_OF_CODE);
     if (linesOfCode > max) {
       getContext().createFileViolation(this,

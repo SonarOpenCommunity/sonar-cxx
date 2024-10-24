@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
@@ -58,7 +57,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testCollectingSquidMetrics() throws IOException {
+  void testCollectingSquidMetrics() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
     var inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
 
@@ -78,7 +77,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testCpdTokens() throws Exception {
+  void testCpdTokens() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx");
     var context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.CPD_IGNORE_IDENTIFIERS_KEY, true);
@@ -118,7 +117,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testComplexitySquidMetrics() throws IOException {
+  void testComplexitySquidMetrics() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/complexity-project");
     var context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.FUNCTION_COMPLEXITY_THRESHOLD_KEY, 3);
@@ -150,7 +149,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testDocumentationSquidMetrics() throws IOException {
+  void testDocumentationSquidMetrics() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/documentation-project");
     var inputFile = TestUtils.buildInputFile(baseDir, "documentation0.hh");
 
@@ -171,7 +170,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testReplacingOfExtenalMacros() throws IOException {
+  void testReplacingOfExtenalMacros() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/external-macro-project");
     var context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.DEFINES_KEY, "MACRO class A{};");
@@ -190,7 +189,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testFindingIncludedFiles() throws IOException {
+  void testFindingIncludedFiles() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/include-directories-project");
     var context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
@@ -210,7 +209,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testForceIncludedFiles() throws IOException {
+  void testForceIncludedFiles() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/force-include-project");
     var context = SensorContextTester.create(baseDir);
     settings.setProperty(CxxSquidSensor.INCLUDE_DIRECTORIES_KEY, "include");
@@ -231,7 +230,7 @@ class CxxSquidSensorTest {
   }
 
   @Test
-  void testBehaviourOnCircularIncludes() throws IOException {
+  void testBehaviourOnCircularIncludes() {
     // especially: when two files, both belonging to the set of
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics

@@ -201,15 +201,11 @@ public class BullseyeParser implements CoverageParser {
   private void updateMeasures(String kind, String event, String line, CoverageMeasures fileMeasuresBuilderIn) {
 
     switch (kind.toLowerCase(Locale.ENGLISH)) {
-      case "decision":
-      case "condition":
+      case "decision", "condition":
         totalconditions += 2;
         setTotalCoveredConditions(event);
         break;
-      case "catch":
-      case "for-range-body":
-      case "switch-label":
-      case "try":
+      case "catch", "for-range-body", "switch-label", "try":
         totalconditions++;
         if ("full".equalsIgnoreCase(event)) {
           totalcoveredconditions++;
@@ -237,8 +233,7 @@ public class BullseyeParser implements CoverageParser {
       case "full":
         totalcoveredconditions += 2;
         break;
-      case "true":
-      case "false":
+      case "true", "false":
         totalcoveredconditions++;
         break;
       case "none":

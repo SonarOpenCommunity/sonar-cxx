@@ -94,9 +94,9 @@ public class CppcheckParser {
 
       private void processErrorTag(SMInputCursor errorCursor) throws XMLStreamException {
         String id = requireAttributeSet(errorCursor.getAttrValue("id"),
-                                        "Missing mandatory attribute /results/errors/error[@id]");
+          "Missing mandatory attribute /results/errors/error[@id]");
         String msg = requireAttributeSet(errorCursor.getAttrValue("msg"),
-                                         "Missing mandatory attribute /results/errors/error[@msg]");
+          "Missing mandatory attribute /results/errors/error[@msg]");
         boolean isInconclusive = "true".equals(errorCursor.getAttrValue("inconclusive"));
         String issueText = createIssueText(msg, isInconclusive);
         CxxReportIssue issue = null;
@@ -125,7 +125,7 @@ public class CppcheckParser {
             // the current module) we are not interested in this <error>
             if (!isLocationInProject) {
               LOG.debug("Cppcheck issue outside of project, skipping issue: {}:{} {}:{}",
-                        file, line, id, msg);
+                file, line, id, msg);
               return;
             }
 
@@ -167,7 +167,7 @@ public class CppcheckParser {
         try {
           return Path.of(basePath).relativize(Path.of(path)).toString();
         } catch (IllegalArgumentException e) {
-          LOG.warn("Can't create relative path: basePath='{}', path='{}'", basePath, path);
+          LOG.warn("Can't create relative path: basePath='{}', path='{}'", basePath, path, e);
           return path;
         }
       }

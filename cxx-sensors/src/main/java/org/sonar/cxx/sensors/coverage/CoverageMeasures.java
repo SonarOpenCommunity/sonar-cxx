@@ -62,7 +62,7 @@ public final class CoverageMeasures {
 
   public Set<Integer> getCoveredLines() {
     var coveredLines = new HashSet<Integer>();
-    lineMeasures.forEach((key, value) -> {
+    lineMeasures.forEach((Integer key, CoverageMeasure value) -> {
       if (value.getHits() != 0) {
         coveredLines.add(value.getLine());
       }
@@ -72,7 +72,7 @@ public final class CoverageMeasures {
 
   public Set<Integer> getCoveredConditions() {
     var coveredConditionLines = new HashSet<Integer>();
-    lineMeasures.forEach((key, value) -> {
+    lineMeasures.forEach((Integer key, CoverageMeasure value) -> {
       if (value.getCoveredConditions() != 0) {
         coveredConditionLines.add(value.getLine());
       }

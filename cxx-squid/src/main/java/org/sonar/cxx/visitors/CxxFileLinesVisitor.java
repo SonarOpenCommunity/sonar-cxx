@@ -69,15 +69,8 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     }
 
     switch ((CxxPunctuator) type) {
-      case SEMICOLON:
-      case BR_LEFT:
-      case BR_RIGHT:
-      case CURLBR_LEFT:
-      case CURLBR_RIGHT:
-      case SQBR_LEFT:
-      case SQBR_RIGHT:
+      case SEMICOLON, BR_LEFT, BR_RIGHT, CURLBR_LEFT, CURLBR_RIGHT, SQBR_LEFT, SQBR_RIGHT:
         return false;
-
       default:
         return true;
     }
@@ -134,16 +127,12 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
           increaseFunctionDefinition();
         }
         break;
-      case labeledStatement:
-      case expressionStatement:
-      case iterationStatement:
-      case jumpStatement:
-      case assignmentExpression:
-      case lambdaExpression:
+      case labeledStatement, expressionStatement, iterationStatement, jumpStatement:
+      case assignmentExpression, lambdaExpression:
         visitStatement(astNode);
         break;
       default:
-      // Do nothing particular
+      // do nothing particular
     }
   }
 
@@ -161,7 +150,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     getContext().peekSourceCode().addData(CxxMetric.NCLOC_DATA, linesOfCode);
     linesOfCode = null;
     getContext().peekSourceCode().addData(CxxMetric.EXECUTABLE_LINES_DATA, executableLines);

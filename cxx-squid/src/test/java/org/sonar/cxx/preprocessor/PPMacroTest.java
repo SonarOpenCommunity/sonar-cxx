@@ -38,7 +38,7 @@ class PPMacroTest {
       .matches(t -> "REPLACEMENT_LIST".equals(t.get(0).getValue()));
     assertThat(result.isVariadic).isFalse();
     assertThat(result.checkArgumentsCount(2)).isTrue();
-    assertThat(result.toString()).isEqualTo("{MACRO(P1, P2):REPLACEMENT_LIST}");
+    assertThat(result).hasToString("{MACRO(P1, P2):REPLACEMENT_LIST}");
   }
 
   @Test
@@ -54,17 +54,17 @@ class PPMacroTest {
       .matches(t -> "REPLACEMENT_LIST".equals(t.get(0).getValue()));
     assertThat(result.isVariadic).isTrue();
     assertThat(result.checkArgumentsCount(10)).isTrue();
-    assertThat(result.toString()).isEqualTo("{MACRO(__VA_ARGS__...):REPLACEMENT_LIST}");
+    assertThat(result).hasToString("{MACRO(__VA_ARGS__...):REPLACEMENT_LIST}");
   }
 
   @Test
   void testGetParameterIndex() {
     PPMacro macro = PPMacro.create("#define MACRO(P1, P2) REPLACEMENT_LIST");
-    assertThat(macro.getParameterIndex("P1")).isEqualTo(0);
+    assertThat(macro.getParameterIndex("P1")).isZero();
     assertThat(macro.getParameterIndex("P2")).isEqualTo(1);
 
     var parameterNames = macro.getParameterNames();
-    assertThat(parameterNames.indexOf("P1")).isEqualTo(0);
+    assertThat(parameterNames.indexOf("P1")).isZero();
     assertThat(parameterNames.indexOf("P2")).isEqualTo(1);
   }
 

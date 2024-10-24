@@ -25,6 +25,7 @@ package com.sonar.cxx.sslr.impl.ast;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeSkippingPolicy;
+import javax.annotation.Nullable;
 
 public final class SkipFromAstIfOnlyOneChild implements AstNodeSkippingPolicy {
 
@@ -34,7 +35,7 @@ public final class SkipFromAstIfOnlyOneChild implements AstNodeSkippingPolicy {
   }
 
   @Override
-  public boolean hasToBeSkippedFromAst(AstNode node) {
+  public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
     return node.getNumberOfChildren() == 1;
   }
 

@@ -232,9 +232,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("7ZU").tokenValue("7ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -286,9 +287,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("07ZU").tokenValue("07ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -340,9 +342,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("0x7ZU").tokenValue("0x7ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -364,9 +367,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("0b1ZU").tokenValue("0b1ZU").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -411,9 +415,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("0X7ui64").tokenValue("0X7ui64").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -458,9 +463,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("0B1ui64").tokenValue("0B1ui64").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -524,9 +530,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("1.BF16").tokenValue("1.BF16").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -545,9 +552,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("'X'_w").tokenValue("'X'_w").tokenType(CxxTokenType.CHARACTER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -570,9 +578,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("1'000e-1'000").tokenValue("1'000e-1'000").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -585,9 +594,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("false").tokenValue("false").tokenType(CxxKeyword.FALSE).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -599,9 +609,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("nullptr").tokenValue("nullptr").tokenType(CxxTokenType.NUMBER).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -626,9 +637,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("'\\'").tokenValue("'").tokenType(GenericTokenType.UNKNOWN_CHAR).build() // This are 3 Tokens of UNKNOWN_CHAR
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   /**
@@ -652,9 +664,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("\"\\\"").tokenValue("\\").tokenType(GenericTokenType.UNKNOWN_CHAR).build() // string: unescaped backslash
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   @Test
@@ -698,9 +711,10 @@ class CxxLexerTest {
         .tokenType(CxxTokenType.STRING).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Literal %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   @Test
@@ -711,9 +725,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("~").tokenValue("~").tokenType(CxxPunctuator.BW_NOT).build()
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Operator|Delimiter %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   @Test
@@ -728,9 +743,10 @@ class CxxLexerTest {
       LiteralValuesBuilder.builder("truetype").tokenValue("truetype").tokenType(GenericTokenType.IDENTIFIER).build() //identifier: containing boolean constant
     ));
 
-    values.forEach(value
+    values.forEach((LiteralValuesBuilder value)
       -> assertThat(lexer.lex(value.lexerValue)).as("Keyword|Identifier %s", value.lexerValue).anySatisfy(token
-        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType)));
+        -> assertThat(token).isValue(value.tokenValue).hasType(value.tokenType))
+    );
   }
 
   @Test

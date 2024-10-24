@@ -182,8 +182,7 @@ public class JsonCompilationDatabase {
             case DEFINE:
               addMacro(arg, defines);
               break;
-            case INCLUDE:
-            case IQUOTE:
+            case INCLUDE, IQUOTE:
               includes.add(makeRelativeToCwd(cwd, arg));
               break;
             case ISYSTEM:

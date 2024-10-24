@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.regex;
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
 import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.check.Priority;
@@ -106,7 +107,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> {
   }
 
   @Override
-  public void visitFile(AstNode fileNode) {
+  public void visitFile(@Nullable AstNode fileNode) {
     if (!compare(invertFilePattern, matchFile())) {
       return;
     }
