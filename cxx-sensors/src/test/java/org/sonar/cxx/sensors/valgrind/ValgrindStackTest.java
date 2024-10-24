@@ -66,8 +66,9 @@ class ValgrindStackTest {
 
   @Test
   void stackEqualityWorksAsExpected() {
-    assertThat(stack).isEqualTo(equalStack);
-    assertThat(stack).isNotEqualTo(otherStack);
+    assertThat(stack)
+      .isEqualTo(equalStack)
+      .isNotEqualTo(otherStack);
   }
 
   @Test

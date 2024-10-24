@@ -510,7 +510,7 @@ public class CxxSquidSensor implements ProjectSensor {
     // measures for the lines of file
     var fileLinesContext = fileLinesContextFactory.createFor(inputFile);
     List<Integer> linesOfCode = (List<Integer>) sourceFile.getData(CxxMetric.NCLOC_DATA);
-    linesOfCode.stream().sequential().distinct().forEach(line -> {
+    linesOfCode.stream().sequential().distinct().forEach((Integer line) -> {
       try {
         fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1);
       } catch (IllegalArgumentException | IllegalStateException e) {
@@ -519,12 +519,12 @@ public class CxxSquidSensor implements ProjectSensor {
       }
     });
     List<Integer> executableLines = (List<Integer>) sourceFile.getData(CxxMetric.EXECUTABLE_LINES_DATA);
-    executableLines.stream().sequential().distinct().forEach(line -> {
+    executableLines.stream().sequential().distinct().forEach((Integer line) -> {
       try {
         fileLinesContext.setIntValue(CoreMetrics.EXECUTABLE_LINES_DATA_KEY, line, 1);
       } catch (IllegalArgumentException | IllegalStateException e) {
         // ignore errors: parsing errors could lead to wrong location data
-        LOG.debug("EXECUTABLE LINES error in file '{}' at line:{}", inputFile.filename(), line);
+        LOG.debug("EXECUTABLE LINES error in file '{}' at line:{}", inputFile.filename(), line, e);
       }
     });
     fileLinesContext.save();
@@ -533,14 +533,14 @@ public class CxxSquidSensor implements ProjectSensor {
   private void saveCpdTokens(InputFile inputFile, SourceFile sourceFile) {
     NewCpdTokens cpdTokens = context.newCpdTokens().onFile(inputFile);
 
-    List<CxxCpdVisitor.CpdToken> data = (List<CxxCpdVisitor.CpdToken>) sourceFile.getData(CxxMetric.CPD_TOKENS_DATA);
-    data.forEach(item -> {
+    var data = (List<CxxCpdVisitor.CpdToken>) sourceFile.getData(CxxMetric.CPD_TOKENS_DATA);
+    data.forEach((CxxCpdVisitor.CpdToken item) -> {
       try {
         TextRange range = inputFile.newRange(item.startLine, item.startCol, item.endLine, item.endCol);
         cpdTokens.addToken(range, item.token);
       } catch (IllegalArgumentException | IllegalStateException e) {
         // ignore range errors: parsing errors could lead to wrong location data
-        LOG.debug("CPD error in file '{}' at line:{}, column:{}", inputFile.filename(), item.startLine, item.startCol);
+        LOG.debug("CPD error in file '{}' at line:{}, column:{}", inputFile.filename(), item.startLine, item.startCol, e);
       }
     });
 
@@ -550,8 +550,7 @@ public class CxxSquidSensor implements ProjectSensor {
   private void saveHighlighting(InputFile inputFile, SourceFile sourceFile) {
     NewHighlighting newHighlighting = context.newHighlighting().onFile(inputFile);
 
-    List<CxxHighlighterVisitor.Highlight> data = (List<CxxHighlighterVisitor.Highlight>) sourceFile.getData(
-      CxxMetric.HIGHLIGTHING_DATA);
+    var data = (List<CxxHighlighterVisitor.Highlight>) sourceFile.getData(CxxMetric.HIGHLIGTHING_DATA);
     data.forEach(item -> {
       try {
         newHighlighting.highlight(item.startLine, item.startLineOffset, item.endLine, item.endLineOffset,
@@ -559,7 +558,7 @@ public class CxxSquidSensor implements ProjectSensor {
       } catch (IllegalArgumentException | IllegalStateException e) {
         // ignore highlight errors: parsing errors could lead to wrong location data
         LOG.debug("Highlighting error in file '{}' at start:{}:{} end:{}:{}", inputFile.filename(),
-          item.startLine, item.startLineOffset, item.endLine, item.endLineOffset);
+          item.startLine, item.startLineOffset, item.endLine, item.endLineOffset, e);
       }
     });
 

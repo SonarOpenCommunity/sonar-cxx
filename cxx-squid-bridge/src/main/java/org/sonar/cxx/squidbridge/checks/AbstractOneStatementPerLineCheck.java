@@ -62,7 +62,7 @@ public abstract class AbstractOneStatementPerLineCheck<G extends Grammar> extend
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     for (var statementsAtLine : statementsPerLine.entrySet()) {
       if (statementsAtLine.getValue() > 1) {
         getContext().createLineViolation(

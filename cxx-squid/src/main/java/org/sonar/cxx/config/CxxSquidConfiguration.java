@@ -194,7 +194,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
     try {
       document = builder.build(fileName);
     } catch (JDOMException | IOException e) {
-      LOG.debug("Can't read Squid configuration from file '{}': {}", fileName, e.getMessage());
+      LOG.debug("Can't read Squid configuration from file '{}': {}", fileName, e.getMessage(), e);
       return false;
     }
 
@@ -226,7 +226,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
         outputter.output(document, writer);
       }
     } catch (IOException e) {
-      LOG.debug("Can't write Squid configuration to file '{}': {}", fileName, e.getMessage());
+      LOG.debug("Can't write Squid configuration to file '{}': {}", fileName, e.getMessage(), e);
       return false;
     }
     return true;
@@ -459,7 +459,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       return get(level, key).map(String::trim).map(Integer::parseInt);
     } catch (NumberFormatException e) {
       throw new IllegalStateException(
-        String.format("The property '%s' is not an int value: %s", key, e.getMessage())
+        String.format("The property '%s' is not an int value: %s", key, e.getMessage()), e
       );
     }
   }
@@ -476,7 +476,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       return get(level, key).map(String::trim).map(Long::parseLong);
     } catch (NumberFormatException e) {
       throw new IllegalStateException(
-        String.format("The property '%s' is not an long value: %s", key, e.getMessage())
+        String.format("The property '%s' is not an long value: %s", key, e.getMessage()), e
       );
     }
   }
@@ -493,7 +493,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       return get(level, key).map(String::trim).map(Float::valueOf);
     } catch (NumberFormatException e) {
       throw new IllegalStateException(
-        String.format("The property '%s' is not an float value: %s", key, e.getMessage())
+        String.format("The property '%s' is not an float value: %s", key, e.getMessage()), e
       );
     }
   }
@@ -510,7 +510,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
       return get(level, key).map(String::trim).map(Double::valueOf);
     } catch (NumberFormatException e) {
       throw new IllegalStateException(
-        String.format("The property '%s' is not an double value: %s", key, e.getMessage())
+        String.format("The property '%s' is not an double value: %s", key, e.getMessage()), e
       );
     }
   }
@@ -556,7 +556,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
         var jsonDb = new JsonCompilationDatabase(this);
         jsonDb.parse(new File(jsonDbFile.get()));
       } catch (IOException e) {
-        LOG.error("Cannot access Json DB File: " + e.getMessage());
+        LOG.error("Cannot access Json DB File: {}", e.getMessage(), e);
       }
     }
   }

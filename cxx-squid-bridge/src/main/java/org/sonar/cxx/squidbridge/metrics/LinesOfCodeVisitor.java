@@ -28,6 +28,7 @@ import com.sonar.cxx.sslr.api.AstNode;
 import static com.sonar.cxx.sslr.api.GenericTokenType.EOF;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
+import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 
@@ -47,7 +48,7 @@ public class LinesOfCodeVisitor<G extends Grammar> extends SquidAstVisitor<G> im
    * {@inheritDoc}
    */
   @Override
-  public void visitFile(AstNode node) {
+  public void visitFile(@Nullable AstNode node) {
     lastTokenLine = -1;
   }
 

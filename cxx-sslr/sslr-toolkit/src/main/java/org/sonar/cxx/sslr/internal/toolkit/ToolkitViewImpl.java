@@ -371,7 +371,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
   }
 
   @Override
-  public void selectAstNode(AstNode astNode) {
+  public void selectAstNode(@Nullable AstNode astNode) {
     if (astNode != null) {
       try {
         astSelectionEventDisabled = true;

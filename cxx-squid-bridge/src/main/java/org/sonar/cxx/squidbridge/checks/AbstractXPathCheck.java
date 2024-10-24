@@ -28,6 +28,7 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.xpath.api.AstNodeXPathQuery;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public abstract class AbstractXPathCheck<G extends Grammar> extends SquidCheck<G> {
 
@@ -47,14 +48,13 @@ public abstract class AbstractXPathCheck<G extends Grammar> extends SquidCheck<G
         query = AstNodeXPathQuery.create(getXPathQuery());
       } catch (RuntimeException e) {
         throw new IllegalStateException("Unable to initialize the XPath engine, perhaps because of an invalid query: "
-          + xpath,
-          e);
+          + xpath, e);
       }
     }
   }
 
   @Override
-  public void visitFile(AstNode fileNode) {
+  public void visitFile(@Nullable AstNode fileNode) {
     if (query != null && fileNode != null) {
       List<Object> objects = query.selectNodes(fileNode);
 

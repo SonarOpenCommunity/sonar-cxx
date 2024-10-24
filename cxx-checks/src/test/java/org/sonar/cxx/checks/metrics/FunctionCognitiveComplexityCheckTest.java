@@ -43,8 +43,8 @@ class FunctionCognitiveComplexityCheckTest {
     assertThat(issues).isNotNull();
 
     var softly = new SoftAssertions();
-    softly.assertThat(issues).hasSize(5);
     softly.assertThat(issues)
+      .hasSize(5)
       .allSatisfy(issue -> assertThat(issue.getRuleId()).isEqualTo("FunctionCognitiveComplexity"));
 
     CxxReportIssue issue0 = issues.stream().filter(issue -> issue.getLocations().get(0).getLine().equals("13"))

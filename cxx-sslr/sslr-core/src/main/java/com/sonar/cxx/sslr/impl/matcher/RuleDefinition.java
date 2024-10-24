@@ -30,6 +30,7 @@ import com.sonar.cxx.sslr.api.Rule;
 import com.sonar.cxx.sslr.impl.ast.AlwaysSkipFromAst;
 import com.sonar.cxx.sslr.impl.ast.NeverSkipFromAst;
 import com.sonar.cxx.sslr.impl.ast.SkipFromAstIfOnlyOneChild;
+import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 import org.sonar.cxx.sslr.internal.vm.CompilationHandler;
@@ -102,7 +103,7 @@ public class RuleDefinition implements Rule, AstNodeSkippingPolicy, GrammarRuleK
   }
 
   @Override
-  public boolean hasToBeSkippedFromAst(AstNode node) {
+  public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
     if (AstNodeSkippingPolicy.class.isAssignableFrom(astNodeSkippingPolicy.getClass())) {
       return ((AstNodeSkippingPolicy) astNodeSkippingPolicy).hasToBeSkippedFromAst(node);
     }

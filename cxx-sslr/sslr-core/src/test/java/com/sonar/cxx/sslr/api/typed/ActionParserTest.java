@@ -138,7 +138,7 @@ class ActionParserTest {
   }
 
   @Test
-  void moreThanOneCallToTheSameActionMethod() throws Exception {
+  void moreThanOneCallToTheSameActionMethod() {
     assertThat(parse(MyGrammarKeys.NUMERIC, "42", Numeric.class)).hasToString("42");
     assertThat(parse(MyGrammarKeys.NUMERIC2, "42", Numeric.class)).hasToString("42");
   }

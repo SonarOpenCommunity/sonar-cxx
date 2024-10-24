@@ -143,10 +143,10 @@ public class AstScanner<G extends Grammar> {
   private static Exception handleParseException(File file, Exception e) {
     checkInterrupted(e);
     if (e instanceof RecognitionException) {
-      LOG.error(UNABLE_TO_PARSE + file.getAbsolutePath());
+      LOG.error(UNABLE_TO_PARSE + "{}", file.getAbsolutePath());
       LOG.error(e.getMessage());
     } else {
-      LOG.error(UNABLE_TO_PARSE + file.getAbsolutePath(), e);
+      LOG.error(UNABLE_TO_PARSE + "{}", file.getAbsolutePath(), e);
     }
     return e;
   }

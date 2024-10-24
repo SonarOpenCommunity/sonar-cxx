@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +44,7 @@ class CxxHighlighterTest {
   private DefaultInputFile inputFile;
 
   @BeforeEach
-  public void scanFile() throws IOException {
+  public void scanFile() {
     ActiveRules rules = mock(ActiveRules.class);
     var checkFactory = new CheckFactory(rules);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);

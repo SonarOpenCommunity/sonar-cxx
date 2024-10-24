@@ -21,10 +21,10 @@ package org.sonar.cxx.sensors.other;
 
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
-import org.sonar.api.config.Configuration;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Configuration;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 
 /**
@@ -71,7 +71,7 @@ public class CxxOtherRepository implements RulesDefinition {
           var xml = ruleDefs.substring(0, Math.min(ruleDefs.length(), 120))
             .replaceAll("\\R", "").replaceAll(">[ ]+<", "><");
           LOG.error("Cannot load rule definions for 'sonar.cxx.other.rules', '{}', XML '{}...', skipping",
-                    e.getMessage(), xml);
+            e.getMessage(), xml, e);
         }
       }
     }

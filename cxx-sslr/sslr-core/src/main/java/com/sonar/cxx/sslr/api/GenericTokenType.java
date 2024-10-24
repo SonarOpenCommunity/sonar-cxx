@@ -23,6 +23,8 @@
  */
 package com.sonar.cxx.sslr.api; // cxx: in use
 
+import javax.annotation.Nullable;
+
 /**
  * {@inheritDoc}
  */
@@ -40,7 +42,7 @@ public enum GenericTokenType implements TokenType {
   }
 
   @Override
-  public boolean hasToBeSkippedFromAst(AstNode node) {
+  public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
     return false;
   }
 }

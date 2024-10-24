@@ -56,8 +56,9 @@ class ValgrindFrameTest {
 
   @Test
   void frameEqualityWorksAsExpected() {
-    assertThat(frame).isEqualTo(equalFrame);
-    assertThat(frame).isNotEqualTo(otherFrame);
+    assertThat(frame)
+      .isEqualTo(equalFrame)
+      .isNotEqualTo(otherFrame);
   }
 
   @Test
@@ -71,19 +72,19 @@ class ValgrindFrameTest {
     var ioMap = new HashMap<String, ValgrindFrame>();
 
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", "src", "main.cc", "1"));
+      new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", "src", "main.cc", "1"));
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1"));
+      new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1"));
     ioMap.put("0xDEADBEAF: main() (main.cc)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", ""));
+      new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", ""));
     ioMap.put("0xDEADBEAF: ??? (main.cc:1)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", "main.cc", "1"));
+      new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", "main.cc", "1"));
     ioMap.put("0xDEADBEAF: ??? (in libX.so)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", null, "1"));
+      new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", null, "1"));
     ioMap.put("0xDEADBEAF: ???",
-              new ValgrindFrame("0xDEADBEAF", null, null, null, null, ""));
+      new ValgrindFrame("0xDEADBEAF", null, null, null, null, ""));
     ioMap.put("???: ???",
-              new ValgrindFrame(null, null, null, null, null, ""));
+      new ValgrindFrame(null, null, null, null, null, ""));
 
     for (var entry : ioMap.entrySet()) {
       assertThat(entry.getValue()).hasToString(entry.getKey());

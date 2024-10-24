@@ -95,7 +95,7 @@ public class AstNodeBuilder implements NodeBuilder {
     }
 
     @Override
-    public boolean hasToBeSkippedFromAst(AstNode node) {
+    public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
       return false;
     }
 

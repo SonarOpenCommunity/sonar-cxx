@@ -60,7 +60,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
     try (var scanner = new TextScanner(report, reportEncoding)) {
       var pattern = Pattern.compile(reportRegEx);
       LOG.debug("Processing '{}' report '{}', Encoding='{}', Pattern='{}'",
-                getCompilerKey(), report, scanner.encoding(), pattern);
+        getCompilerKey(), report, scanner.encoding(), pattern);
 
       while (scanner.hasNextLine()) {
         var matcher = pattern.matcher(scanner.nextLine());
@@ -117,8 +117,8 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
    * @return true, if valid
    */
   protected boolean isInputValid(@Nullable String filename,
-                                 @Nullable String line, @Nullable String column,
-                                 @Nullable String id, String msg) {
+    @Nullable String line, @Nullable String column,
+    @Nullable String id, String msg) {
     if ((id == null) || id.isEmpty()) {
       return false;
     }
@@ -193,7 +193,7 @@ public abstract class CxxCompilerSensor extends CxxIssuesReportSensor {
       }
     } catch (IllegalArgumentException e) {
       notExistingGroupName.add(groupName);
-      LOG.debug("named-capturing group '{}' is not used in regex.", groupName);
+      LOG.debug("named-capturing group '{}' is not used in regex.", groupName, e);
     }
     return null;
   }

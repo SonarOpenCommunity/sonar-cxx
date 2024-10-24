@@ -183,10 +183,10 @@ class CxxParserTest {
       squidConfig = new CxxSquidConfiguration();
     }
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED,
-                    errorRecovery ? "true" : "false");
+      errorRecovery ? "true" : "false");
     if (includes != null) {
       squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.INCLUDE_DIRECTORIES,
-                      includes);
+        includes);
     }
 
     return CxxParser.create(context, squidConfig);
@@ -208,9 +208,9 @@ class CxxParserTest {
     assertThat(root.hasChildren()).isTrue();
     if (map.containsKey(file.getName())) {
       List<AstNode> declarations = root.getDescendants(CxxGrammarImpl.declaration);
-      assertThat(declarations.size())
+      assertThat(declarations)
         .as("check number of declarations for file '%s'", file.getName())
-        .isEqualTo(map.get(file.getName()));
+        .hasSize(map.get(file.getName()));
     }
   }
 }

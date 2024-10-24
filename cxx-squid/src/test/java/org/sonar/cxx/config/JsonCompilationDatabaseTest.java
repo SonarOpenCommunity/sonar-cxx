@@ -59,8 +59,7 @@ class JsonCompilationDatabaseTest {
       .doesNotContain(unifyPath("/usr/local/include"))
       .contains(unifyPath("/usr/include"));
     assertThat(files)
-      .hasSize(7);
-    assertThat(files)
+      .hasSize(7)
       .contains(filename);
   }
 

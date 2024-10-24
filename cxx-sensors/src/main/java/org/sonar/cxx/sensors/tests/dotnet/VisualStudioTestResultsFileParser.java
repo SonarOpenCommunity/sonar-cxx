@@ -39,7 +39,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
 
   @Override
   public void accept(File file, UnitTestResults unitTestResults) {
-    LOG.info("Parsing the Visual Studio Test Results file " + file.getAbsolutePath());
+    LOG.info("Parsing the Visual Studio Test Results file {}", file.getAbsolutePath());
     new Parser(file, unitTestResults).parse();
   }
 
@@ -117,7 +117,7 @@ public class VisualStudioTestResultsFileParser implements UnitTestResultsParser 
         return dateFormat.parse(value);
       } catch (ParseException e) {
         throw xmlParserHelper.parseError("Expected an valid date and time instead of \"" + value
-                                           + "\" for the attribute \"" + name + "\". " + e.getMessage());
+          + "\" for the attribute \"" + name + "\". " + e.getMessage());
       }
     }
 

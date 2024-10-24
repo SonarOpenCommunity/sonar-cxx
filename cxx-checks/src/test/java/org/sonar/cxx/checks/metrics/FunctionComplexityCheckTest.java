@@ -39,8 +39,9 @@ class FunctionComplexityCheckTest {
     var issues = MultiLocatitionSquidCheck.getMultiLocationCheckMessages(file);
     assertThat(issues).isNotNull();
     var softly = new SoftAssertions();
-    softly.assertThat(issues).hasSize(5);
-    softly.assertThat(issues).allSatisfy(issue -> assertThat(issue.getRuleId()).isEqualTo("FunctionComplexity"));
+    softly.assertThat(issues)
+      .hasSize(5)
+      .allSatisfy(issue -> assertThat(issue.getRuleId()).isEqualTo("FunctionComplexity"));
 
     var issue0 = issues.stream()
       .filter(issue -> issue.getLocations().get(0).getLine().equals("13"))

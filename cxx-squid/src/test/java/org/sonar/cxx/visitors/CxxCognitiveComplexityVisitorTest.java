@@ -151,7 +151,7 @@ class CxxCognitiveComplexityVisitorTest {
 
   @Test
   void template() throws IOException {
-    assertThat(testFile("src/test/resources/visitors/template.cc")).isEqualTo(0);
+    assertThat(testFile("src/test/resources/visitors/template.cc")).isZero();
   }
 
   @Test

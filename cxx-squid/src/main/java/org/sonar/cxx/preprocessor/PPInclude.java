@@ -94,7 +94,7 @@ public class PPInclude {
           LOG.warn("preprocessor: invalid include file directory '{}'", path);
         }
       } catch (IOException | InvalidPathException e) {
-        LOG.error(LOGMSG, e.getMessage(), path);
+        LOG.error(LOGMSG, e.getMessage(), path, e);
       }
     }
   }
@@ -115,15 +115,15 @@ public class PPInclude {
     if (fileName == null) {
       missingFileCounter++;
       String rootFilePath = state().getFileUnderAnalysisPath();
-      LOG.debug("[" + rootFilePath + ":" + token.getLine() + "]: preprocessor cannot find include file '"
-        + token.getValue() + "'");
+      LOG.debug("[{}:{}]: preprocessor cannot find include file '{}'",
+        rootFilePath, token.getLine(), token.getValue());
     } else if (analysedFiles.add(fileName)) {
       state().pushFileState(fileName);
       try {
         LOG.debug("process include file '{}'", fileName);
         fileLexer.lex(getSourceCode(fileName, pp.getCharset()));
       } catch (IOException e) {
-        LOG.error(LOGMSG, e.getMessage(), fileName);
+        LOG.error(LOGMSG, e.getMessage(), fileName, e);
       } finally {
         state().popFileState();
       }

@@ -97,7 +97,7 @@ public final class CommentsVisitor<G extends Grammar> extends SquidAstVisitor<G>
   }
 
   @Override
-  public void leaveFile(AstNode astNode) {
+  public void leaveFile(@Nullable AstNode astNode) {
     if (enableNoSonar) {
       ((SourceFile) getContext().peekSourceCode()).addNoSonarTagLines(noSonar);
     }

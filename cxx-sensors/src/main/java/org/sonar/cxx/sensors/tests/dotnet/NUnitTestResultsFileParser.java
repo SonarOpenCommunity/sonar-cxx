@@ -54,7 +54,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
         xmlParserHelper.checkRootTag("test-results");
         return true;
       } catch (ParseErrorException e) {
-        LOG.warn("One of the assemblies contains no test result, please make sure this is expected.");
+        LOG.warn("One of the assemblies contains no test result, please make sure this is expected.", e);
         return false;
       }
     }
@@ -85,7 +85,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
     }
 
     public void parse() {
-      try ( var xmlParserHelper = new XmlParserHelper(file)) {
+      try (var xmlParserHelper = new XmlParserHelper(file)) {
         if (checkRootTag(xmlParserHelper)) {
           handleTestResultsTag(xmlParserHelper);
         }
@@ -108,7 +108,7 @@ public class NUnitTestResultsFileParser implements UnitTestResultsParser {
       Double executionTime = readExecutionTimeFromDirectlyNestedTestSuiteTags(xmlParserHelper);
 
       unitTestResults.add(tests, passed, skipped, failures, errors,
-                          executionTime != null ? (long) executionTime.doubleValue() : null);
+        executionTime != null ? (long) executionTime.doubleValue() : null);
     }
 
   }
