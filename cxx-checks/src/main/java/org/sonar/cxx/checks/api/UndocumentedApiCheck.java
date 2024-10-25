@@ -81,7 +81,9 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
   public UndocumentedApiCheck() {
     super();
     withHeaderFileSuffixes(DEFAULT_NAME_SUFFIX);
-    LOG.debug("rule 'cxx:UndocumentedApi' file suffixes: {}", Arrays.toString(DEFAULT_NAME_SUFFIX));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("rule 'cxx:UndocumentedApi' file suffixes: {}", Arrays.toString(DEFAULT_NAME_SUFFIX));
+    }
   }
 
   @Override

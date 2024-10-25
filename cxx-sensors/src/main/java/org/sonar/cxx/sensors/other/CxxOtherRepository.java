@@ -69,7 +69,7 @@ public class CxxOtherRepository implements RulesDefinition {
           // In case of an error, ignore the whole XML block. The loading happens during the server start,
           // errors are critical and can cause that the server cannot be started anymore.
           var xml = ruleDefs.substring(0, Math.min(ruleDefs.length(), 120))
-            .replaceAll("\\R", "").replaceAll(">[ ]+<", "><");
+            .replaceAll("\\R", "").replaceAll(">\\x20+<", "><");
           LOG.error("Cannot load rule definions for 'sonar.cxx.other.rules', '{}', XML '{}...', skipping",
             e.getMessage(), xml, e);
         }

@@ -176,10 +176,12 @@ public class MsBuild {
       LOG.error("Cannot parse build log: {}", e.getMessage(), e);
     }
     if (detectedPlatform) {
-      LOG.info("Detected VS platform toolset: {}.{}",
-        platformToolset.substring(0, 3),
-        platformToolset.substring(3)
-      );
+      if (LOG.isInfoEnabled()) {
+        LOG.info("Detected VS platform toolset: {}.{}",
+          platformToolset.substring(0, 3),
+          platformToolset.substring(3)
+        );
+      }
     } else {
       LOG.info("Could not assign VS platform toolset - use default: {}", platformToolset);
     }

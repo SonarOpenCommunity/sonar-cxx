@@ -88,7 +88,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
     if (!matchFilePattern.isEmpty()) {
       var pattern = WildcardPattern.create(matchFilePattern);
       String path = PathUtils.sanitize(getContext().getFile().getPath());
-      if (!compare(invertFilePattern, pattern.match(path))) {
+      if (!compare(invertFilePattern, path != null && pattern.match(path))) {
         return;
       }
     }

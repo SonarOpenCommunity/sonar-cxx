@@ -54,7 +54,7 @@ public class CxxPCLintSensor extends CxxIssuesReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPaths";
   public static final Pattern MISRA_RULE_PATTERN = Pattern.compile(
     // Rule nn.nn -or- Rule nn-nn-nn
-    "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])");
+    "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})([,\\]])");
   private static final Logger LOG = LoggerFactory.getLogger(CxxPCLintSensor.class);
 
   private static final String SUPPLEMENTAL_TYPE_ISSUE = "supplemental";

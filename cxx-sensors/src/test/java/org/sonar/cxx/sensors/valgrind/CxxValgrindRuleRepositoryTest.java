@@ -23,6 +23,8 @@ import java.io.File;
 import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -42,11 +44,17 @@ class CxxValgrindRuleRepositoryTest {
     assertThat(repo.rules()).hasSize(16);
   }
 
-  @Test
-  void containsValidFormatInExtensionRulesOldFormat() {
+  @ParameterizedTest
+  @CsvSource({
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml', 18",
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml', 17",
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml', 16",
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml', 16"
+  })
+  void containsValidFormatInExtensionRules(String reportFile, int issues) {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     var extensionFile = new ArrayList<File>();
-    extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml"));
+    extensionFile.add(TestUtils.loadResource(reportFile));
     var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
     CxxValgrindRuleRepository def = spy(obj);
     String repositoryKey = CxxValgrindRuleRepository.KEY;
@@ -55,55 +63,7 @@ class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules()).hasSize(18);
-  }
-
-  @Test
-  void containsValidFormatInExtensionRulesNewFormat() {
-    ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    var extensionFile = new ArrayList<File>();
-    extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml"));
-    var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
-    CxxValgrindRuleRepository def = spy(obj);
-    String repositoryKey = CxxValgrindRuleRepository.KEY;
-    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
-
-    var context = new RulesDefinition.Context();
-    def.define(context);
-    RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules()).hasSize(17);
-  }
-
-  @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
-  void containsInvalidFormatInExtensionRulesNewFormat() {
-    ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    var extensionFile = new ArrayList<File>();
-    extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml"));
-    var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
-    CxxValgrindRuleRepository def = spy(obj);
-    String repositoryKey = CxxValgrindRuleRepository.KEY;
-    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
-
-    var context = new RulesDefinition.Context();
-    def.define(context);
-    RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules()).hasSize(16);
-  }
-
-  @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
-  void containsEmptyExtensionRulesFile() {
-    ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    var extensionFile = new ArrayList<File>();
-    extensionFile.add(TestUtils.loadResource("/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml"));
-    var obj = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader());
-    CxxValgrindRuleRepository def = spy(obj);
-    String repositoryKey = CxxValgrindRuleRepository.KEY;
-    doReturn(extensionFile).when(def).getExtensions(repositoryKey, "xml");
-
-    var context = new RulesDefinition.Context();
-    def.define(context);
-    RulesDefinition.Repository repo = context.repository(repositoryKey);
-    assertThat(repo.rules()).hasSize(16);
+    assertThat(repo.rules()).hasSize(issues);
   }
 
 }

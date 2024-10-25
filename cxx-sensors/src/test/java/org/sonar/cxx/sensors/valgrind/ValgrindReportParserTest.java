@@ -21,9 +21,12 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
 import java.util.Set;
+import javax.xml.stream.XMLStreamException;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 class ValgrindReportParserTest {
@@ -77,40 +80,20 @@ class ValgrindReportParserTest {
     assertThat(error.getStacks()).hasSize(1);
   }
 
-  @Test
-  void shouldThrowWhenGivenAnIncompleteReport1() {
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "valgrind-reports/incorrect-valgrind-result_1.xml",
+    "valgrind-reports/incorrect-valgrind-result_2.xml",
+    "valgrind-reports/incorrect-valgrind-result_3.xml"
+  })
+  void shouldThrowWhenGivenAnIncompleteReport(String reportFile) {
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
+    var absReportFile = new File(absReportsProject, reportFile);
 
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
-      // error contains no kind-tag
+    XMLStreamException thrown = catchThrowableOfType(XMLStreamException.class, () -> {
       parser.parse(absReportFile);
     });
-    assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
-  }
-
-  @Test
-  void shouldThrowWhenGivenAnIncompleteReport2() {
-    File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
-
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
-      // error contains no what- or xwhat-tag
-      parser.parse(absReportFile);
-    });
-    assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
-  }
-
-  @Test
-  void shouldThrowWhenGivenAnIncompleteReport3() {
-    File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
-    var absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");
-
-    javax.xml.stream.XMLStreamException thrown = catchThrowableOfType(javax.xml.stream.XMLStreamException.class, () -> {
-      // error contains no stack-tag
-      parser.parse(absReportFile);
-    });
-    assertThat(thrown).isExactlyInstanceOf(javax.xml.stream.XMLStreamException.class);
+    assertThat(thrown).isExactlyInstanceOf(XMLStreamException.class);
   }
 
 }

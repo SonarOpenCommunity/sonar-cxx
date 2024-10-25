@@ -230,9 +230,11 @@ final class PPExpression {
           }
         }
       } else {
-        LOG.debug("preprocessor: self-referential macro '{}' detected;"
-          + " assume true; evaluation stack = ['{} <- {}']",
-          id, id, String.join(" <- ", macroEvaluationStack));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("preprocessor: self-referential macro '{}' detected;"
+            + " assume true; evaluation stack = ['{} <- {}']",
+            id, id, String.join(" <- ", macroEvaluationStack));
+        }
         result = BigInteger.ONE;
       }
     } else {

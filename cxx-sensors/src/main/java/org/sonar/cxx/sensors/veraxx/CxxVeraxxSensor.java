@@ -95,11 +95,13 @@ public class CxxVeraxxSensor extends CxxIssuesReportSensor {
               var issue = new CxxReportIssue(source, name, line, null, message);
               saveUniqueViolation(issue);
             } else {
-              LOG.debug("Error in file '{}({})', with message '{}'",
-                name,
-                errorCursor.getAttrValue("line"),
-                errorCursor.getAttrValue("message")
-              );
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("Error in file '{}({})', with message '{}'",
+                  name,
+                  errorCursor.getAttrValue("line"),
+                  errorCursor.getAttrValue("message")
+                );
+              }
             }
           }
         }
