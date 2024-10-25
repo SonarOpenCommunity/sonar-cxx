@@ -528,7 +528,9 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
         .getFirstDescendant(CxxGrammarImpl.declaratorId);
 
       if (declaratorId == null) {
-        LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
+        if (LOG.isErrorEnabled()) {
+          LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
+        }
       } else {
         visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
       }

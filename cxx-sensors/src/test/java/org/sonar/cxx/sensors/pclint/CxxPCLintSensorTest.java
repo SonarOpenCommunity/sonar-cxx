@@ -24,6 +24,8 @@ import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -63,34 +65,27 @@ class CxxPCLintSensorTest {
     assertThat(context.allIssues()).hasSize(16);
   }
 
-  @Test
-  void shouldReportCorrectMisra2004Violations() {
+  @ParameterizedTest
+  @CsvSource({
+    "'pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml', 29",
+    "'pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml', 1",
+    "'pclint-reports/pclint-result-MISRA1998-SAMPLE.xml', 1"
+  })
+  void shouldReportCorrectMisra2004Violations(String reportFile, int issues) {
     var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, reportFile);
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
+    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdas\nasda\n")
+      .build()
+    );
 
     var sensor = new CxxPCLintSensor();
     sensor.execute(context);
 
-    assertThat(context.allIssues()).hasSize(29);
-  }
-
-  @Test
-  void shouldReportCorrectMisra2004PcLint9Violations() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
-
-    var sensor = new CxxPCLintSensor();
-    sensor.execute(context);
-
-    assertThat(context.allIssues()).hasSize(1);
+    assertThat(context.allIssues()).hasSize(issues);
   }
 
   @Test
@@ -130,7 +125,7 @@ class CxxPCLintSensorTest {
   void shouldNotSaveAnythingWhenMisra2004RuleDoNotExist() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY,
-                         "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
+      "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
@@ -140,21 +135,6 @@ class CxxPCLintSensorTest {
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
-  }
-
-  @Test
-  void shouldNotRemapMisra1998Rules() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
-
-    var sensor = new CxxPCLintSensor();
-    sensor.execute(context);
-
-    assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test

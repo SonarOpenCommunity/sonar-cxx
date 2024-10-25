@@ -27,6 +27,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -35,9 +36,9 @@ public class CppcheckParser {
 
   private static final Logger LOG = LoggerFactory.getLogger(CppcheckParser.class);
 
-  private final CxxCppCheckSensor sensor;
+  private final CxxIssuesReportSensor sensor;
 
-  public CppcheckParser(CxxCppCheckSensor sensor) {
+  public CppcheckParser(CxxIssuesReportSensor sensor) {
     this.sensor = sensor;
   }
 

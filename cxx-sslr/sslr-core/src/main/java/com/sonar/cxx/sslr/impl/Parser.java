@@ -29,14 +29,12 @@ import com.sonar.cxx.sslr.api.RecognitionException;
 import com.sonar.cxx.sslr.api.Rule;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.matcher.RuleDefinition;
+import java.io.File;
+import java.util.List;
 import org.sonar.cxx.sslr.internal.matchers.LexerfulAstCreator;
-import org.sonar.cxx.sslr.internal.vm.CompilableGrammarRule;
 import org.sonar.cxx.sslr.internal.vm.Machine;
 import org.sonar.cxx.sslr.internal.vm.MutableGrammarCompiler;
 import org.sonar.cxx.sslr.parser.ParserAdapter;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * To create a new instance of this class use <code>{@link Parser#builder(Grammar)}</code>.
@@ -84,7 +82,7 @@ public class Parser<G extends Grammar> {
 
   public AstNode parse(List<Token> tokens) {
     // TODO can be compiled only once
-    var g = MutableGrammarCompiler.compile((CompilableGrammarRule) rootRule);
+    var g = MutableGrammarCompiler.compile(rootRule);
     return LexerfulAstCreator.create(Machine.parse(tokens, g), tokens);
   }
 

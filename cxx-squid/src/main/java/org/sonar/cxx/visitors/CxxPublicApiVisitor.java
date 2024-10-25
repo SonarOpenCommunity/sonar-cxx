@@ -90,7 +90,9 @@ public class CxxPublicApiVisitor<G extends Grammar> extends AbstractCxxPublicApi
       suffixes = Iterables.toArray(Splitter.on(',').split(API_DEFAULT_FILE_SUFFIXES), String.class);
     }
     withHeaderFileSuffixes(suffixes);
-    LOG.debug(API_FILE_SUFFIXES_KEY + ": {}", Arrays.toString(suffixes));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug(API_FILE_SUFFIXES_KEY + ": {}", Arrays.toString(suffixes));
+    }
   }
 
   @Override

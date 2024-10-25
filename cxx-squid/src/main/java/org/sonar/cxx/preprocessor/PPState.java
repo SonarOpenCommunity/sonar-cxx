@@ -21,6 +21,7 @@ package org.sonar.cxx.preprocessor;
 
 import java.nio.file.Path;
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +45,7 @@ public final class PPState {
     return stack.peekLast().getFile();
   }
 
-  public ArrayDeque<StateItem> getStack() {
+  public Deque<StateItem> getStack() {
     return stack.clone();
   }
 

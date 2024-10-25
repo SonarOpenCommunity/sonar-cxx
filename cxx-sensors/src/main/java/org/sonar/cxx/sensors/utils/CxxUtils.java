@@ -131,7 +131,9 @@ public final class CxxUtils {
         LOG.debug("Not a valid path '{}'", reportPath);
       }
     }
-    LOG.debug("Search files(s) in path(s): '{}'", String.join(", ", normalizedReportPaths));
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Search files(s) in path(s): '{}'", String.join(", ", normalizedReportPaths));
+    }
 
     // Includes array cannot contain null elements
     var directoryScanner = new DirectoryScanner();
@@ -140,8 +142,10 @@ public final class CxxUtils {
     String[] existingReportPaths = directoryScanner.getIncludedFiles();
 
     if (existingReportPaths.length == 0) {
-      LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathsKey,
-        String.join(", ", normalizedReportPaths));
+      if (LOG.isWarnEnabled()) {
+        LOG.warn("Property '{}': cannot find any files matching the Ant pattern(s) '{}'", reportPathsKey,
+          String.join(", ", normalizedReportPaths));
+      }
       return Collections.emptyList();
     }
 

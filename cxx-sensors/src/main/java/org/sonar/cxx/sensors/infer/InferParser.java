@@ -27,6 +27,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
 import org.sonar.cxx.utils.CxxReportIssue;
@@ -40,9 +41,9 @@ public class InferParser {
 
   private static final Logger LOG = LoggerFactory.getLogger(InferParser.class);
 
-  private final CxxInferSensor sensor;
+  private final CxxIssuesReportSensor sensor;
 
-  public InferParser(CxxInferSensor sensor) {
+  public InferParser(CxxIssuesReportSensor sensor) {
     this.sensor = sensor;
   }
 

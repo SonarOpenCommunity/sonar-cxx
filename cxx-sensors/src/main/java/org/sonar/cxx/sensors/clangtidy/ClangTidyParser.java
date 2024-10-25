@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.TextScanner;
 import org.sonar.cxx.utils.CxxReportIssue;
 
@@ -36,10 +37,10 @@ public class ClangTidyParser {
   private static final String REGEX = "((?>[a-zA-Z]:[\\\\/])??[^:]++):(\\d{1,5}):(\\d{1,5}): ([^:]++): (.+)";
   private static final Pattern PATTERN = Pattern.compile(REGEX);
 
-  private final CxxClangTidySensor sensor;
+  private final CxxIssuesReportSensor sensor;
   private Issue issue = null;
 
-  public ClangTidyParser(CxxClangTidySensor sensor) {
+  public ClangTidyParser(CxxIssuesReportSensor sensor) {
     this.sensor = sensor;
   }
 

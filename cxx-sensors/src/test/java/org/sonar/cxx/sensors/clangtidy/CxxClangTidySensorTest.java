@@ -25,6 +25,8 @@ import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -242,85 +244,22 @@ class CxxClangTidySensorTest {
     assertThat(issuesList.get(2).ruleKey().rule()).isEqualTo("test");
   }
 
-  @Test
-  void shouldReportErrors() {
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "clang-tidy-reports/cpd.report-error.txt",
+    "clang-tidy-reports/cpd.report-fatal-error.txt",
+    "clang-tidy-reports/cpd.report-warning.txt",
+    "clang-tidy-reports/cpd.report-nodiscard.txt"
+  })
+  void shouldReport(String reportFile) {
     var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(
-      CxxClangTidySensor.REPORT_PATH_KEY,
-      "clang-tidy-reports/cpd.report-error.txt"
-    );
+    settings.setProperty(CxxClangTidySensor.REPORT_PATH_KEY, reportFile);
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
       .initMetadata("asd\nasdasdgghs\nasda\n")
-      .build()
-    );
-
-    var sensor = new CxxClangTidySensor();
-    sensor.execute(context);
-
-    assertThat(context.allIssues()).hasSize(1);
-  }
-
-  @Test
-  void shouldReportFatalErrors() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(
-      CxxClangTidySensor.REPORT_PATH_KEY,
-      "clang-tidy-reports/cpd.report-fatal-error.txt"
-    );
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdasdgghs\nasda\n")
-      .build()
-    );
-
-    var sensor = new CxxClangTidySensor();
-    sensor.execute(context);
-
-    assertThat(context.allIssues()).hasSize(1);
-  }
-
-  @Test
-  void shouldReportWarnings() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(
-      CxxClangTidySensor.REPORT_PATH_KEY,
-      "clang-tidy-reports/cpd.report-warning.txt"
-    );
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdasdfghtz\nasda\n")
-      .build()
-    );
-
-    var sensor = new CxxClangTidySensor();
-    sensor.execute(context);
-
-    assertThat(context.allIssues()).hasSize(1);
-  }
-
-  @Test
-  void shouldReportNodiscard() {
-    var context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(
-      CxxClangTidySensor.REPORT_PATH_KEY,
-      "clang-tidy-reports/cpd.report-nodiscard.txt"
-    );
-    context.setSettings(settings);
-
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n")
       .build()
     );
 
