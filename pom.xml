@@ -263,7 +263,7 @@
     
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
     <sonar.version>10.7.0.96327</sonar.version>
-    <sonar.plugin.api.version>10.12.0.2522</sonar.plugin.api.version>
+    <sonar.plugin.api.version>10.13.0.2560</sonar.plugin.api.version>
     <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
 
     <!-- dependencies -->
