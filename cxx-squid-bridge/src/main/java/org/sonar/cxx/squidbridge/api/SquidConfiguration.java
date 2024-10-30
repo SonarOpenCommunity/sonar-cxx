@@ -25,6 +25,9 @@ package org.sonar.cxx.squidbridge.api; // cxx: in use
 
 import java.nio.charset.Charset;
 
+/**
+ * Configuration for the AST Scanner.
+ */
 public class SquidConfiguration {
 
   private Charset charset = Charset.defaultCharset();
@@ -33,18 +36,38 @@ public class SquidConfiguration {
   public SquidConfiguration() {
   }
 
+  /**
+   * Configuration object.
+   *
+   * @param charset to use for scanning
+   */
   public SquidConfiguration(Charset charset) {
     this.charset = charset;
   }
 
+  /**
+   * Get default charset to use for scanning.
+   *
+   * @return default charset to use for scanning
+   */
   public Charset getCharset() {
     return charset;
   }
 
+  /**
+   * Defines error behavior for scanner.
+   *
+   * @param stopSquidOnException true, stop on exception
+   */
   public void setStopSquidOnException(boolean stopSquidOnException) {
     this.stopSquidOnException = stopSquidOnException;
   }
 
+  /**
+   * Get error behavior for scanner.
+   *
+   * @return true if scanner should stop on exception
+   */
   public boolean stopSquidOnException() {
     return stopSquidOnException;
   }

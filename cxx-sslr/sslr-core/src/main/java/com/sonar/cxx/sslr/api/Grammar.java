@@ -45,11 +45,9 @@ public abstract class Grammar {
   }
 
   /**
-   * Find all the direct rule fields declared in the given Grammar class.
-   * Inherited rule fields are not returned.
+   * Find all the direct rule fields declared in the given Grammar class. Inherited rule fields are not returned.
    *
-   * @param grammarClass
-   * the class of the Grammar for which rule fields must be found
+   * @param grammarClass the class of the Grammar for which rule fields must be found
    * @return the rule fields declared in this class, excluding the inherited ones
    * @see getAllRuleFields
    */
@@ -67,11 +65,10 @@ public abstract class Grammar {
   }
 
   /**
-   * Find all direct and indirect rule fields declared in the given Grammar class.
-   * Inherited rule fields are also returned.
+   * Find all direct and indirect rule fields declared in the given Grammar class. Inherited rule fields are also
+   * returned.
    *
-   * @param grammarClass
-   * the class of the Grammar for which rule fields must be found
+   * @param grammarClass the class of the Grammar for which rule fields must be found
    * @return the rule fields declared in this class, as well as the inherited ones
    * @see getRuleFields
    */
@@ -110,6 +107,9 @@ public abstract class Grammar {
    * Allows to obtain an instance of grammar rule, which was constructed by
    * {@link org.sonar.cxx.sslr.grammar.LexerlessGrammarBuilder} and
    * {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder}.
+   *
+   * @param ruleKey key of the rule
+   * @return returns grammar rule
    *
    * @since 1.18
    */

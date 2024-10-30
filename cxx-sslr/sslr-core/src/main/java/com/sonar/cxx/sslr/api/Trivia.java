@@ -29,8 +29,15 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * The Trivia class holds on to a piece of source text that should otherwise not turn into a token; for example, a
+ * preprocessor directive, a line continuation character, or a comment.
+ */
 public class Trivia {
 
+  /**
+   * Trivia kinds
+   */
   public enum TriviaKind {
     COMMENT,
     PREPROCESSOR,
@@ -57,32 +64,130 @@ public class Trivia {
     }
   }
 
+  /**
+   * Returns the first token of the trivia.
+   *
+   * @return the first token of the trivia
+   */
   public Token getToken() {
     return tokens.get(0);
   }
 
+  /**
+   * Returns the list of token of the trivia.
+   *
+   * @return the list of token of the trivia.
+   */
   public List<Token> getTokens() {
     return tokens;
   }
 
+  /**
+   * Check if trivia is a comment.
+   *
+   * @return true if trivia is a comment
+   */
   public boolean isComment() {
     return kind == TriviaKind.COMMENT;
   }
 
+  /**
+   * Check if trivia is a preprocessor directive.
+   *
+   * @return true if trivia is a preprocessor directive
+   */
   public boolean isPreprocessor() {
     return kind == TriviaKind.PREPROCESSOR;
   }
 
+  /**
+   * Check if trivia is skipped text.
+   *
+   * @return true if trivia is skipped text
+   */
   public boolean isSkippedText() {
     return kind == TriviaKind.SKIPPED_TEXT;
   }
 
+  /**
+   * Check if trivia has a preprocessor directive.
+   *
+   * @return true if trivia has a preprocessor directive
+   */
   public boolean hasPreprocessingDirective() {
     return preprocessingDirective != null;
   }
 
+  /**
+   * Return preprocessor directive of the trivia.
+   *
+   * @return preprocessor directive of the trivia
+   */
   public PreprocessingDirective getPreprocessingDirective() {
     return preprocessingDirective;
+  }
+
+  /**
+   * Create a trivia from a comment token.
+   *
+   * @param commentToken token with comment
+   * @return new trivia
+   */
+  public static Trivia createComment(Token commentToken) {
+    return new Trivia(TriviaKind.COMMENT, commentToken);
+  }
+
+  /**
+   * Create a trivia from skipped text.
+   *
+   * @param tokens list of tokens which are skipped
+   * @return new trivia
+   */
+  public static Trivia createSkippedText(@Nonnull List<Token> tokens) {
+    Objects.requireNonNull(tokens, "tokens cannot be null");
+
+    return createSkippedText(tokens.toArray(Token[]::new));
+  }
+
+  /**
+   * Create a trivia from skipped text.
+   *
+   * @param tokens list of tokens which are skipped
+   * @return new trivia
+   */
+  public static Trivia createSkippedText(Token... tokens) {
+    return new Trivia(TriviaKind.SKIPPED_TEXT, tokens);
+  }
+
+  /**
+   * Create a trivia from a preprocessing token.
+   *
+   * @param preprocessingToken preprocessing token
+   * @return new trivia
+   */
+  public static Trivia createPreprocessingToken(Token preprocessingToken) {
+    return new Trivia(TriviaKind.PREPROCESSOR, preprocessingToken);
+  }
+
+  /**
+   * Create a trivia from a preprocessing directive.
+   *
+   * @param preprocessingDirective preprocessing directive
+   * @return new trivia
+   */
+  public static Trivia createPreprocessingDirective(PreprocessingDirective preprocessingDirective) {
+    return new Trivia(TriviaKind.PREPROCESSOR, preprocessingDirective);
+  }
+
+  /**
+   * Create a trivia from an AST with a grammar.
+   *
+   * @param ast AST node
+   * @param grammar grammar to use
+   * @return new trivia
+   */
+  public static Trivia createPreprocessingDirective(AstNode ast, Grammar grammar) {
+    return createPreprocessingDirective(PreprocessingDirective.create(ast, grammar));
   }
 
   @Override
@@ -102,32 +207,6 @@ public class Trivia {
 
       return TRIVIA_KIND + kind + " value = " + sb.toString();
     }
-  }
-
-  public static Trivia createComment(Token commentToken) {
-    return new Trivia(TriviaKind.COMMENT, commentToken);
-  }
-
-  public static Trivia createSkippedText(@Nonnull List<Token> tokens) {
-    Objects.requireNonNull(tokens, "tokens cannot be null");
-
-    return createSkippedText(tokens.toArray(Token[]::new));
-  }
-
-  public static Trivia createSkippedText(Token... tokens) {
-    return new Trivia(TriviaKind.SKIPPED_TEXT, tokens);
-  }
-
-  public static Trivia createPreprocessingToken(Token preprocessingToken) {
-    return new Trivia(TriviaKind.PREPROCESSOR, preprocessingToken);
-  }
-
-  public static Trivia createPreprocessingDirective(PreprocessingDirective preprocessingDirective) {
-    return new Trivia(TriviaKind.PREPROCESSOR, preprocessingDirective);
-  }
-
-  public static Trivia createPreprocessingDirective(AstNode ast, Grammar grammar) {
-    return createPreprocessingDirective(PreprocessingDirective.create(ast, grammar));
   }
 
 }

@@ -25,14 +25,29 @@ package org.sonar.cxx.squidbridge.api;
 
 import org.sonar.cxx.squidbridge.measures.MetricDef;
 
+/**
+ * Decorator to add a metric definition to SourceCode tree nodes.
+ */
 public class SourceCodeTreeDecorator {
 
   private final SourceProject project;
 
+  /**
+   * Create a new SourceCodeTreeDecorator with the given SourceProject as root.
+   *
+   * @param project project node (root) of the SourceCode tree
+   *
+   * @see SourceCode
+   */
   public SourceCodeTreeDecorator(SourceProject project) {
     this.project = project;
   }
 
+  /**
+   * Add the given metric definition to all descendants of the SourceProject node in the SourceCode tree.
+   *
+   * @param metrics metric definition to add
+   */
   public void decorateWith(MetricDef... metrics) {
     decorateWith(project, metrics);
   }

@@ -31,12 +31,42 @@ import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
 /**
+ * Parse tree or concrete syntax tree is a tree structure built from the input string during parsing. It represent the
+ * structure of the input string. Each node in the parse tree is either a terminal or non-terminal. Terminals are the
+ * leafs of the tree while the inner nodes are non-terminals.
+ *
  * @since 1.21
  */
 public interface NodeBuilder {
 
+  /**
+   * Create a non terminal object.
+   *
+   * @param ruleKey key of the rule
+   * @param rule grammar rule
+   * @param children list of children
+   * @param startIndex first index in the line
+   * @param endIndex last index in the line
+   * @return non terminal object
+   *
+   * @see GrammarRuleKey
+   * @see Rule
+   */
   Object createNonTerminal(GrammarRuleKey ruleKey, Rule rule, List<Object> children, int startIndex, int endIndex);
 
+  /**
+   * Create a terminal object.
+   *
+   * @param input sequence of characters
+   * @param startIndex first index in the line
+   * @param endIndex last index in the line
+   * @param trivias list of trivias
+   * @param type type of the token
+   * @return terminal object
+   *
+   * @see Trivia
+   * @see TokenType
+   */
   Object createTerminal(Input input, int startIndex, int endIndex, List<Trivia> trivias, @Nullable TokenType type);
 
 }

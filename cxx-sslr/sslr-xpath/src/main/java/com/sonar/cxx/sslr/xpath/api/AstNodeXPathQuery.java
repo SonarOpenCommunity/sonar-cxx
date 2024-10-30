@@ -29,6 +29,13 @@ import java.util.List;
 import org.jaxen.BaseXPath;
 import org.jaxen.JaxenException;
 
+/**
+ * Evaluate the XPath query on the given AstNode.
+ *
+ * @param <T> node type
+ *
+ * @see AstNode
+ */
 public final class AstNodeXPathQuery<T> {
 
   private final AstNodeNavigator astNodeNavigator = new AstNodeNavigator();

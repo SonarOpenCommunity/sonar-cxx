@@ -41,6 +41,10 @@ import org.sonar.cxx.sslr.parser.ParseErrorFormatter;
 import org.sonar.cxx.sslr.parser.ParseRunner;
 
 /**
+ * Parser using a lexer rules and a grammar.
+ *
+ * @param <N> type of Abstract Syntax Tree nodes
+ *
  * @since 1.21
  */
 public class ActionParser<N> {
@@ -51,6 +55,16 @@ public class ActionParser<N> {
   private final GrammarRuleKey rootRule;
   private final ParseRunner parseRunner;
 
+  /**
+   * Create a new parser.
+   *
+   * @param charset charset to use for parsing
+   * @param b rules for lexer
+   * @param grammarClass grammar definition
+   * @param treeFactory tree factory to use
+   * @param nodeBuilder node builder to use
+   * @param rootRule define root rule in grammar
+   */
   public ActionParser(Charset charset, LexerlessGrammarBuilder b, Class grammarClass, Object treeFactory,
     NodeBuilder nodeBuilder, GrammarRuleKey rootRule) {
     this.charset = charset;
@@ -84,6 +98,12 @@ public class ActionParser<N> {
     this.parseRunner = new ParseRunner(b.build().getRootRule());
   }
 
+  /**
+   * Parse transferred file.
+   *
+   * @param file file to parse
+   * @return resulting Abstract Syntax Tree
+   */
   public N parse(File file) {
     try {
       var chars = new String(Files.readAllBytes(Path.of(file.getPath())), charset).toCharArray();
@@ -93,6 +113,12 @@ public class ActionParser<N> {
     }
   }
 
+  /**
+   * Parse transferred string.
+   *
+   * @param source string to parse
+   * @return resulting Abstract Syntax Tree
+   */
   public N parse(String source) {
     return parse(new Input(source.toCharArray()));
   }
@@ -111,6 +137,11 @@ public class ActionParser<N> {
     return syntaxTreeCreator.create(result.getParseTreeRoot(), input);
   }
 
+  /**
+   * Get root rule from the assigned grammar.
+   *
+   * @return root rule from the grammar
+   */
   public GrammarRuleKey rootRule() {
     return rootRule;
   }

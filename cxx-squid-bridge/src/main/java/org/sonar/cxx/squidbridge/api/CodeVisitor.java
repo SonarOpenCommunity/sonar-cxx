@@ -23,6 +23,9 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
+/**
+ * Tagging interface for code visitors. It provides run-time type information and all code visitors must implement it.
+ */
 public interface CodeVisitor {
 
 }

@@ -29,27 +29,65 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Loosely modeled after {@link java.util.Optional}.
+ * A container object which may or may not contain a non-null value. * Loosely modeled after {@link java.util.Optional}.
+ *
+ * @param <T> type of the Optional value
  *
  * @since 1.21
  */
 public abstract class Optional<T> {
 
+  /**
+   * Returns an Absent instance.
+   *
+   * @param <T> the type of the value
+   * @return returns an Absent instance
+   */
   @SuppressWarnings("unchecked")
   public static <T> Optional<T> absent() {
     return (Optional<T>) Absent.INSTANCE;
   }
 
+  /**
+   * Returns an Optional describing the given non-null value.
+   *
+   * @param <T> the type of the value
+   * @param reference the value to describe, which must be non-null
+   * @return an Optional with the value present
+   */
   public static <T> Optional<T> of(@Nonnull T reference) {
     return new Present<>(Objects.requireNonNull(reference));
   }
 
+  /**
+   * If a value is present, returns true, otherwise false.
+   *
+   * @return true if a value is present, otherwise false
+   */
   public abstract boolean isPresent();
 
+  /**
+   * If a value is present, returns the value, otherwise throws IllegalStateException.
+   *
+   * @return the non-null value described by this Optional
+   */
   public abstract T get();
 
+  /**
+   * If a value is present, returns an Optional describing the value, otherwise returns an Optional with the default
+   * value.
+   *
+   * @param defaultValue produces an Optional to be returned
+   * @return returns an Optional describing the value of this Optional, if a value is present, otherwise an Optional
+   * with the default value
+   */
   public abstract T or(T defaultValue);
 
+  /**
+   * If a value is present, returns an Optional describing the value, otherwise returns null.
+   *
+   * @return if a value is present, returns an Optional describing the value, otherwise returns null.
+   */
   @CheckForNull
   public abstract T orNull();
 

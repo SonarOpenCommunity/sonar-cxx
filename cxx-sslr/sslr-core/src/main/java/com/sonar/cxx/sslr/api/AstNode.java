@@ -48,10 +48,22 @@ public class AstNode {
   private int fromIndex;
   private int toIndex;
 
+  /**
+   * Node of abstract syntax tree (AST).
+   *
+   * @param token first token associated to this node
+   */
   public AstNode(Token token) {
     this(token.getType(), token.getType().getName(), token);
   }
 
+  /**
+   * Node of abstract syntax tree (AST).
+   *
+   * @param type type of the node
+   * @param name name of the node
+   * @param token first token associated to this node
+   */
   public AstNode(AstNodeType type, String name, @Nullable Token token) {
     this.type = type;
     this.token = token;
@@ -60,11 +72,18 @@ public class AstNode {
 
   /**
    * Get the parent of this node in the tree.
+   *
+   * @return parent node
    */
   public AstNode getParent() {
     return parent;
   }
 
+  /**
+   * Add a child to this node.
+   *
+   * @param child AstNode to add
+   */
   public void addChild(AstNode child) {
     if (child != null) {
       if (children.isEmpty()) {
@@ -89,14 +108,16 @@ public class AstNode {
   }
 
   /**
-   * @return true if this AstNode has some children.
+   * Check if this node has children.
+   *
+   * @return true if this AstNode has at least one child.
    */
   public boolean hasChildren() {
     return !children.isEmpty();
   }
 
   /**
-   * Get the list of children.
+   * Get the list of children for this node.
    *
    * @return list of children
    */
@@ -104,16 +125,22 @@ public class AstNode {
     return children;
   }
 
+  /**
+   * Get the number of children for this node.
+   *
+   * @return number of children
+   */
   public int getNumberOfChildren() {
     return children.size();
   }
 
   /**
-   * Get the next sibling AstNode in the tree and if this node doesn't exist try to get the next AST Node of the parent.
+   * Get the next sibling node in the tree and if this node doesn't exist try to get the next AST Node of the parent.
+   *
+   * @return matching node (@CheckForNull -> normally already ensured via grammar)
    *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getNextAstNode() {
     var nextSibling = getNextSibling();
     if (nextSibling != null) {
@@ -126,12 +153,13 @@ public class AstNode {
   }
 
   /**
-   * Get the previous sibling AstNode in the tree and if this node doesn't exist try to get the next AST Node of the
+   * Get the previous sibling node in the tree and if this node doesn't exist try to get the next AST Node of the
    * parent.
+   *
+   * @return matching node (@CheckForNull -> normally already ensured via grammar)
    *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getPreviousAstNode() {
     var previousSibling = getPreviousSibling();
     if (previousSibling != null) {
@@ -144,12 +172,12 @@ public class AstNode {
   }
 
   /**
-   * Get the next sibling AstNode if exists in the tree.
+   * Get the next sibling node if exists in the tree.
    *
-   * @return next sibling, or null if not exists
+   * @return next sibling, or null if not exists (@CheckForNull -> normally already ensured via grammar)
+   *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getNextSibling() {
     if (parent == null) {
       return null;
@@ -161,12 +189,12 @@ public class AstNode {
   }
 
   /**
-   * Get the previous sibling AstNode if exists in the tree.
+   * Get the previous sibling node if exists in the tree.
    *
-   * @return previous sibling, or null if not exists
+   * @return previous sibling, or null if not exists (@CheckForNull -> normally already ensured via grammar)
+   *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getPreviousSibling() {
     if (parent == null) {
       return null;
@@ -178,7 +206,7 @@ public class AstNode {
   }
 
   /**
-   * Get the Token's value associated to this AstNode
+   * Get the Token's value associated to this node
    *
    * @return token's value
    */
@@ -187,7 +215,7 @@ public class AstNode {
   }
 
   /**
-   * Get the Token's original value associated to this AstNode
+   * Get the Token's original value associated to this node
    *
    * @return token's original value
    */
@@ -196,14 +224,14 @@ public class AstNode {
   }
 
   /**
-   * Get the Token associated to this AstNode
+   * Get the Token associated to this node
    */
   public Token getToken() {
     return token;
   }
 
   /**
-   * Get the Token's line associated to this AstNode
+   * Get the Token's line associated to this node
    *
    * @return token's line
    */
@@ -211,28 +239,55 @@ public class AstNode {
     return token.getLine();
   }
 
+  /**
+   * Check if this node has a token.
+   *
+   * @return true if node has a token
+   */
   public boolean hasToken() {
     return token != null;
   }
 
+  /**
+   * Returns name of this node.
+   *
+   * @return name of the node
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * First index in the line the node belongs to.
+   *
+   * @return first index in the line (starting with 0)
+   */
   public int getFromIndex() {
     return fromIndex;
   }
 
+  /**
+   * Set first index in the line the node belongs to.
+   *
+   * @param fromIndex first index in the line (starting with 0)
+   */
   public void setFromIndex(int fromIndex) {
     this.fromIndex = fromIndex;
   }
 
+  /**
+   * Last index in the line the node belongs to.
+   *
+   * @return last index in the line (starting with 0)
+   */
   public int getToIndex() {
     return toIndex;
   }
 
   /**
    * For internal use only.
+   *
+   * @return true if node has to be skipped from AST
    */
   public boolean hasToBeSkippedFromAst() {
     if (type == null) {
@@ -254,10 +309,21 @@ public class AstNode {
     return result;
   }
 
+  /**
+   * Set last index in the line the node belongs to.
+   *
+   * @param toIndex last index in the line (starting with 0)
+   */
   public void setToIndex(int toIndex) {
     this.toIndex = toIndex;
   }
 
+  /**
+   * Check wether this node is one of the types in the list.
+   *
+   * @param types to be checked
+   * @return true if node is one of the types in the list.
+   */
   public boolean is(AstNodeType... types) {
     for (var expectedType : types) {
       if (this.type == expectedType) {
@@ -267,6 +333,12 @@ public class AstNode {
     return false;
   }
 
+  /**
+   * Check wether this node is not one of the types in the list.
+   *
+   * @param types to be checked
+   * @return true if node is not one of the types in the list.
+   */
   public boolean isNot(AstNodeType... types) {
     return !is(types);
   }
@@ -283,10 +355,12 @@ public class AstNode {
    *  |__ B3
    * </pre>
    *
-   * @return first child of one of specified types, or null if not found
+   * @param nodeTypes to be checked
+   * @return first child of one of specified types, or null if not found (@CheckForNull -> normally already ensured via
+   * grammar)
+   *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstChild(AstNodeType... nodeTypes) {
     for (var child : children) {
       for (var nodeType : nodeTypes) {
@@ -310,10 +384,12 @@ public class AstNode {
    *  |__ B3
    * </pre>
    *
-   * @return first descendant of one of specified types, or null if not found
+   * @param nodeTypes to be checked
+   * @return first descendant of one of specified types, or null if not found (@CheckForNull -> normally already ensured
+   * via grammar)
+   *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstDescendant(AstNodeType... nodeTypes) {
     for (var child : children) {
       if (child.is(nodeTypes)) {
@@ -344,6 +420,7 @@ public class AstNode {
    * A1 |__ C1 | |__ B1 |__ B2 |__ B3
    * </pre>
    *
+   * @param nodeTypes to be included
    * @return children of specified types, never null
    * @since 1.17
    */
@@ -373,7 +450,9 @@ public class AstNode {
    *  |__ B3
    * </pre>
    *
+   * @param nodeTypes to be included
    * @return descendants of specified types, never null
+   *
    * @since 1.17
    */
   public List<AstNode> getDescendants(AstNodeType... nodeTypes) {
@@ -421,7 +500,9 @@ public class AstNode {
    *       |__ B4
    * </pre>
    *
+   * @param nodeTypes to be checked
    * @return last child of one of specified types, or null if not found
+   *
    * @since 1.20
    */
   // @CheckForNull -> normally already ensured via grammar
@@ -438,6 +519,9 @@ public class AstNode {
   }
 
   /**
+   * Check if this node has some children with the requested node types.
+   *
+   * @param nodeTypes to be checked
    * @return true if this node has some children with the requested node types
    */
   public boolean hasDirectChildren(AstNodeType... nodeTypes) {
@@ -445,7 +529,11 @@ public class AstNode {
   }
 
   /**
+   * Check if this node has a descendant of one of specified types.
+   *
+   * @param nodeTypes to be checked
    * @return true if this node has a descendant of one of specified types
+   *
    * @since 1.17
    */
   public boolean hasDescendant(AstNodeType... nodeTypes) {
@@ -453,6 +541,11 @@ public class AstNode {
   }
 
   /**
+   * Check if this node has a parent of one of specified types
+   *
+   * @param nodeTypes to be checked
+   * @return true if this node has a parent of one of specified types
+   *
    * @since 1.19.2
    */
   public boolean hasParent(AstNodeType... nodeTypes) {
@@ -460,7 +553,11 @@ public class AstNode {
   }
 
   /**
+   * Check if this node has an ancestor of the specified type.
+   *
+   * @param nodeType to be checked
    * @return true if this node has an ancestor of the specified type
+   *
    * @since 1.17
    */
   public boolean hasAncestor(AstNodeType nodeType) {
@@ -468,7 +565,11 @@ public class AstNode {
   }
 
   /**
+   * Check if this node has an ancestor of one of specified types.
+   *
+   * @param nodeTypes to be checked
    * @return true if this node has an ancestor of one of specified types
+   *
    * @since 1.19.2
    */
   public boolean hasAncestor(AstNodeType... nodeTypes) {
@@ -476,10 +577,14 @@ public class AstNode {
   }
 
   /**
-   * @return first ancestor of the specified type, or null if not found
+   * Search first ancestor of the specified type.
+   *
+   * @param nodeType to be checked
+   * @return first ancestor of the specified type, or null if not found (@CheckForNull -> normally already ensured via
+   * grammar)
+   *
    * @since 1.17
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstAncestor(AstNodeType nodeType) {
     if (parent == null) {
       return null;
@@ -491,10 +596,14 @@ public class AstNode {
   }
 
   /**
-   * @return first ancestor of one of specified types, or null if not found
+   * Search first ancestor of the specified types.
+   *
+   * @param nodeTypes to be checked
+   * @return first ancestor of one of specified types, or null if not found (@CheckForNull -> normally already ensured
+   * via grammar)
+   *
    * @since 1.19.2
    */
-  // @CheckForNull -> normally already ensured via grammar
   public AstNode getFirstAncestor(AstNodeType... nodeTypes) {
     var result = parent;
     while (result != null) {
@@ -506,16 +615,28 @@ public class AstNode {
     return null;
   }
 
+  /**
+   * Check if this node is a copy or generated code.
+   *
+   * @return true if this node is a copy or generated code
+   */
   public boolean isCopyBookOrGeneratedNode() {
     return getToken().isCopyBook() || getToken().isGeneratedCode();
   }
 
+  /**
+   * Get type of this node.
+   *
+   * @return type of this node
+   */
   public AstNodeType getType() {
     return type;
   }
 
   /**
    * Return all tokens contained in this tree node. Those tokens can be directly or indirectly attached to this node.
+   *
+   * @return node list
    */
   public List<Token> getTokens() {
     List<Token> tokens = new ArrayList<>();
@@ -535,6 +656,11 @@ public class AstNode {
     }
   }
 
+  /**
+   * String representation of this node.
+   *
+   * @return this node as string
+   */
   @Override
   public String toString() {
     var result = new StringBuilder();
@@ -547,7 +673,11 @@ public class AstNode {
     return result.toString();
   }
 
-  // @CheckForNull -> normally already ensured via grammar
+  /**
+   * Get the last token of this node.
+   *
+   * @return last token of this node (@CheckForNull -> normally already ensured via grammar)
+   */
   public Token getLastToken() {
     if (!this.hasToken()) {
       return null;

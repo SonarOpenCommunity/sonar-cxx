@@ -25,9 +25,29 @@ package org.sonar.cxx.squidbridge.api;
 
 import java.util.Collection;
 
+/**
+ * Interface to defines classes to search for SourceCode objects in the SourceCode tree.
+ *
+ * @see SourceCode
+ */
 public interface SourceCodeSearchEngine {
 
+  /**
+   * Search for a SourceCode object with the given key in the SourceCode tree.
+   *
+   * @param key unique key of a SourceCode object
+   * @return found SourceCode object or null
+   */
   SourceCode search(String key);
 
+  /**
+   * Search for a SourceCode objects with the given Query objects in the SourceCode tree. At least one of the queries
+   * must be positive in order to insert the SourceCode object into the collection.
+   *
+   * @param query Query objects to use for the search
+   * @return collection of found SourceCode objects
+   *
+   * @see Query
+   */
   Collection<SourceCode> search(Query... query);
 }

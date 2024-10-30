@@ -24,7 +24,9 @@
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
 /**
- * {@inheritDoc}
+ * Defines a class node in the SourceCode tree.
+ *
+ * @see SourceCode
  */
 public class SourceClass extends SourceCode {
 
@@ -35,23 +37,38 @@ public class SourceClass extends SourceCode {
   private boolean suppressWarnings = false;
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created class node.
+   *
+   * @param key key of the class
    */
   public SourceClass(String key) {
     super(key);
   }
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created class node.
+   *
+   * @param key key of the class
+   * @param className name of the class
    */
   public SourceClass(String key, String className) {
     super(key, className);
   }
 
+  /**
+   * Defines if warnings should be suppressed.
+   *
+   * @param suppressWarnings true if if warnings should be suppressed
+   */
   public void setSuppressWarnings(boolean suppressWarnings) {
     this.suppressWarnings = suppressWarnings;
   }
 
+  /**
+   * Check if warnings should be suppressed.
+   *
+   * @return true if if warnings should be suppressed
+   */
   public boolean isSuppressWarnings() {
     return suppressWarnings;
   }

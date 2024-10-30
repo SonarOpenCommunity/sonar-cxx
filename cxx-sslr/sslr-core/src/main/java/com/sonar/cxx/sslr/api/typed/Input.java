@@ -30,6 +30,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Input used by the ActionParser to lex and parse a character sequence.
+ *
+ * @see ActionParser
  * @since 1.21
  */
 public class Input {
@@ -40,10 +43,21 @@ public class Input {
   private final URI uri;
   private final int[] newLineIndexes;
 
+  /**
+   * Create new Input object.
+   *
+   * @param input input characters for this Input object.
+   */
   public Input(char[] input) {
     this(input, FAKE_URI);
   }
 
+  /**
+   * Create new Input object.
+   *
+   * @param input input characters for this Input object
+   * @param uri the URI which belongs to this Input
+   */
   public Input(char[] input, URI uri) {
     this.inputChars = input;
     this.uri = uri;
@@ -60,22 +74,47 @@ public class Input {
     }
   }
 
+  /**
+   * Get the input characters of this Input object.
+   *
+   * @return return the input characters of this Input object
+   */
   public char[] input() {
     return inputChars;
   }
 
+  /**
+   * Get the URI which belongs to this Input.
+   *
+   * @return return the URI which belongs to this Input.
+   */
   public URI uri() {
     return uri;
   }
 
+  /**
+   * Returns a string that is a substring of the input characters of this Input. The substring begins at the specified
+   * {@code from} and extends to the character at index {@code to - 1}. Thus the length of the substring is
+   * {@code to-from}.
+   *
+   * @param from index of the first character in the string to copy
+   * @param to index after the last character in the string to copy
+   * @return the specified substring
+   */
   public String substring(int from, int to) {
-    var sb = new StringBuilder();
+    var sb = new StringBuilder(); // TODO use StringBuilder append(CharSequence s, int start, int end)
     for (int i = from; i < to; i++) {
       sb.append(inputChars[i]);
     }
     return sb.toString();
   }
 
+  /**
+   * Return line and column (offset in line) for a given index.
+   *
+   * @param index index to search for
+   * @return integer array with line number (index 0) and column number (index 1)
+   */
   public int[] lineAndColumnAt(int index) {
     var result = new int[2];
     result[0] = lineAt(index);

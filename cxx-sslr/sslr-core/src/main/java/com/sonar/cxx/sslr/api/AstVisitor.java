@@ -26,6 +26,13 @@ package com.sonar.cxx.sslr.api; // cxx: in use
 import java.util.List;
 import javax.annotation.Nullable;
 
+/**
+ * AST visitor to iterate over the nodes from a file created from the parser. Classes that implement this interface can
+ * perform specific operations on the nodes of the abstract syntax tree. This allows, for example, checks of rules and
+ * metrics to be implemented.
+ *
+ * @see AstNode
+ */
 public interface AstVisitor {
 
   /**
