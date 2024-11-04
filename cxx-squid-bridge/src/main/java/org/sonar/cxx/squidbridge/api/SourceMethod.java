@@ -24,7 +24,9 @@
 package org.sonar.cxx.squidbridge.api;
 
 /**
- * {@inheritDoc}
+ * Defines a method node in the SourceCode tree.
+ *
+ * @see SourceCode
  */
 public class SourceMethod extends SourceCode {
 
@@ -35,24 +37,40 @@ public class SourceMethod extends SourceCode {
   private boolean suppressWarnings = false;
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created method node.
+   *
+   * @param key key of the method
    */
   public SourceMethod(String key) {
     super(key);
   }
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created method node. Key is a combination of class key and method signature.
+   *
+   * @param parentClass class the method belongs to
+   * @param methodSignature signature of the method
+   * @param startAtLine position in the source file
    */
-  public SourceMethod(SourceClass peekParentClass, String methodSignature, int startAtLine) {
-    super(peekParentClass.getKey() + "#" + methodSignature, methodSignature);
+  public SourceMethod(SourceClass parentClass, String methodSignature, int startAtLine) {
+    super(parentClass.getKey() + "#" + methodSignature, methodSignature);
     setStartAtLine(startAtLine);
   }
 
+  /**
+   * Defines if warnings should be suppressed.
+   *
+   * @param suppressWarnings true if if warnings should be suppressed
+   */
   public void setSuppressWarnings(boolean suppressWarnings) {
     this.suppressWarnings = suppressWarnings;
   }
 
+  /**
+   * Check if warnings should be suppressed.
+   *
+   * @return true if if warnings should be suppressed
+   */
   public boolean isSuppressWarnings() {
     return suppressWarnings;
   }

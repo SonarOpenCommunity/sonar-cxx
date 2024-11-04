@@ -24,29 +24,102 @@
 package com.sonar.cxx.sslr.api.typed;
 
 import com.sonar.cxx.sslr.api.AstNode;
+import java.util.List;
 import org.sonar.cxx.sslr.grammar.GrammarRuleKey;
 
-import java.util.List;
-
 /**
+ * @param <T>
  * @since 1.21
  */
 public interface GrammarBuilder<T> {
 
+  /**
+   *
+   * @param <U>
+   * @return
+   */
   <U> NonterminalBuilder<U> nonterminal();
 
+  /**
+   *
+   * @param <U>
+   * @param ruleKey
+   * @return
+   */
   <U> NonterminalBuilder<U> nonterminal(GrammarRuleKey ruleKey);
 
+  /**
+   * Creates parsing expression - "first of". During the execution of this expression parser execute sub-expressions in
+   * order until one succeeds. This expressions succeeds if any sub-expression succeeds.
+   * <p>
+   * Be aware that in expression {@code firstOf("foo", sequence("foo", "bar"))} second sub-expression will never be
+   * executed.
+   *
+   * @param <U>
+   * @param methods
+   * @return
+   */
   <U> U firstOf(U... methods);
 
+  /**
+   * Creates parsing expression - "optional". During execution of this expression parser will execute sub-expression
+   * once. This expression always succeeds, with an empty match if sub-expression fails.
+   * <p>
+   * Be aware that this expression is greedy, i.e. expression {@code sequence(optional("foo"), "foo")} will never
+   * succeed.
+   *
+   * @param <U>
+   * @param method
+   * @return
+   */
   <U> Optional<U> optional(U method);
 
+  /**
+   * Creates parsing expression - "one or more". During execution of this expression parser will repeatedly try
+   * sub-expression until it fails. This expression succeeds only if sub-expression succeeds at least once.
+   * <p>
+   * Be aware that:
+   * <ul>
+   * <li>This expression is a greedy, i.e. expression {@code sequence(oneOrMore("foo"), "foo")} will never succeed.
+   * <li>Sub-expression must not allow empty matches, i.e. for expression {@code oneOrMore(optional("foo"))} parser will
+   * report infinite loop.
+   * </ul>
+   *
+   * @param <U>
+   * @param method
+   * @return
+   */
   <U> List<U> oneOrMore(U method);
 
+  /**
+   * Creates parsing expression - "zero or more". During execution of this expression parser will repeatedly try
+   * sub-expression until it fails. This expression always succeeds, with an empty match if sub-expression fails.
+   * <p>
+   * Be aware that:
+   * <ul>
+   * <li>This expression is greedy, i.e. expression {@code sequence(zeroOrMore("foo"), "foo")} will never succeed.
+   * <li>Sub-expression must not allow empty matches, i.e. for expression {@code zeroOrMore(optional("foo"))} parser
+   * will report infinite loop.
+   * </ul>
+   *
+   * @param <U>
+   * @param method
+   * @return
+   */
   <U> Optional<List<U>> zeroOrMore(U method);
 
+  /**
+   *
+   * @param ruleKey
+   * @return
+   */
   AstNode invokeRule(GrammarRuleKey ruleKey);
 
+  /**
+   *
+   * @param ruleKey
+   * @return
+   */
   T token(GrammarRuleKey ruleKey);
 
 }

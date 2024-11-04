@@ -24,19 +24,27 @@
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
 /**
- * {@inheritDoc}
+ * Defines a function node in the SourceCode tree.
+ *
+ * @see SourceCode
  */
 public class SourceFunction extends SourceCode {
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created function node.
+   *
+   * @param key key of the function
    */
   public SourceFunction(String key) {
     super(key);
   }
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created function node. Key is a combination of file key and method signature.
+   *
+   * @param sourceFile file the method belongs to
+   * @param functionSignature signature of the function
+   * @param startAtLine position in the source file
    */
   public SourceFunction(SourceFile sourceFile, String functionSignature, int startAtLine) {
     super(sourceFile.getKey() + "#" + functionSignature, functionSignature);

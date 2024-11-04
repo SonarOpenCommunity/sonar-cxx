@@ -64,30 +64,46 @@ public class Token {
     this.copyBookOriginalFileName = builder.copyBookOriginalFileName;
   }
 
+  /**
+   * Return the type of the token.
+   *
+   * @return type of the token
+   */
   public TokenType getType() {
     return type;
   }
 
+  /**
+   * Return the value of the token.
+   *
+   * @return value of the token
+   */
   public String getValue() {
     return value;
   }
 
   /**
-   * @return the original value of the token. This method is useful when a language is case-insensitive as in that case
+   * Return the original value of the token. This method is useful when a language is case-insensitive as in that case
    * all token values are capitalized.
+   *
+   * @return the original value of the token
    */
   public String getOriginalValue() {
     return originalValue;
   }
 
   /**
-   * @return the line of the token in the source code
+   * Return the line of the token in the source code.
+   *
+   * @return the line of the token in the source code.
    */
   public int getLine() {
     return line;
   }
 
   /**
+   * Return the column of the token in the source code.
+   *
    * @return the column of the token in the source code
    */
   public int getColumn() {
@@ -95,6 +111,8 @@ public class Token {
   }
 
   /**
+   * Return the URI this token belongs to.
+   *
    * @return the URI this token belongs to
    */
   public URI getURI() {
@@ -105,11 +123,18 @@ public class Token {
     return copyBook;
   }
 
+  /**
+   * Check if the token is part of generated code.
+   *
+   * @return true if token is part of generated code.
+   */
   public boolean isGeneratedCode() {
     return generatedCode;
   }
 
   /**
+   * Check if token has a trivia.
+   *
    * @return true if there is some trivia like some comments or preprocessing directive between this token and the
    * previous one.
    */
@@ -118,6 +143,8 @@ public class Token {
   }
 
   /**
+   * Return the list of trivia located between this token and the previous one.
+   *
    * @return the list of trivia located between this token and the previous one
    */
   public List<Trivia> getTrivia() {
@@ -132,6 +159,12 @@ public class Token {
     return copyBookOriginalFileName;
   }
 
+  /**
+   * Check if this token and other token are on same line.
+   *
+   * @param other token to compare with
+   * @return true both token are on same line
+   */
   public boolean isOnSameLineThan(@Nullable Token other) {
     return other == null ? false : (getLine() == other.getLine());
   }
@@ -141,10 +174,21 @@ public class Token {
     return getType() + ": " + getValue();
   }
 
+  /**
+   * Builder to create a token.
+   *
+   * @return builder instance
+   */
   public static Builder builder() {
     return new Builder();
   }
 
+  /**
+   * Builder to create a token.
+   *
+   * @param token source token from which values are copied
+   * @return builder instance
+   */
   public static Builder builder(Token token) {
     return new Builder(token);
   }
@@ -183,6 +227,12 @@ public class Token {
       copyBookOriginalFileName = token.copyBookOriginalFileName;
     }
 
+    /**
+     * Set type for token.
+     *
+     * @param type type for token
+     * @return builder object
+     */
     public Builder setType(@Nonnull TokenType type) {
       Objects.requireNonNull(type, "type cannot be null");
 
@@ -190,6 +240,12 @@ public class Token {
       return this;
     }
 
+    /**
+     * Set value and original value for token.
+     *
+     * @param valueAndOriginalValue value for token (value = original value)
+     * @return builder object
+     */
     public Builder setValueAndOriginalValue(@Nonnull String valueAndOriginalValue) {
       Objects.requireNonNull(valueAndOriginalValue, "valueAndOriginalValue cannot be null");
 
@@ -198,6 +254,13 @@ public class Token {
       return this;
     }
 
+    /**
+     * Set value and original value for token.
+     *
+     * @param value value for token
+     * @param originalValue original value for token
+     * @return builder object
+     */
     public Builder setValueAndOriginalValue(@Nonnull String value, @Nonnull String originalValue) {
       Objects.requireNonNull(value, "value cannot be null");
       Objects.requireNonNull(originalValue, "originalValue cannot be null");
@@ -207,16 +270,34 @@ public class Token {
       return this;
     }
 
+    /**
+     * Set line for token.
+     *
+     * @param line line for token
+     * @return builder object
+     */
     public Builder setLine(int line) {
       this.line = line;
       return this;
     }
 
+    /**
+     * Set column for token.
+     *
+     * @param column column for token
+     * @return builder object
+     */
     public Builder setColumn(int column) {
       this.column = column;
       return this;
     }
 
+    /**
+     * Set URI for token.
+     *
+     * @param uri URI for token
+     * @return builder object
+     */
     public Builder setURI(@Nonnull URI uri) {
       Objects.requireNonNull(uri, "uri cannot be null");
 
@@ -224,11 +305,23 @@ public class Token {
       return this;
     }
 
+    /**
+     * Define if token is part of generated code.
+     *
+     * @param generatedCode true if token is from generated code
+     * @return builder object
+     */
     public Builder setGeneratedCode(boolean generatedCode) {
       this.generatedCode = generatedCode;
       return this;
     }
 
+    /**
+     * Set first triva for token.
+     *
+     * @param trivia trivia for token
+     * @return builder object
+     */
     public Builder setTrivia(@Nonnull List<Trivia> trivia) {
       Objects.requireNonNull(trivia, "trivia can't be null");
 
@@ -236,6 +329,12 @@ public class Token {
       return this;
     }
 
+    /**
+     * Add trivia to token.
+     *
+     * @param trivia trivia for token
+     * @return builder object
+     */
     public Builder addTrivia(@Nonnull Trivia trivia) {
       Objects.requireNonNull(trivia, "trivia can't be null");
 
@@ -248,6 +347,9 @@ public class Token {
     }
 
     /**
+     * Reset original filename and line number of token.
+     *
+     * @return builder object
      * @since 1.17
      */
     public Builder notCopyBook() {
@@ -257,6 +359,13 @@ public class Token {
       return this;
     }
 
+    /**
+     * Set original filename and line number of token.
+     *
+     * @param copyBookOriginalFileName original filename
+     * @param copyBookOriginalLine original line number
+     * @return builder object
+     */
     public Builder setCopyBook(@Nonnull String copyBookOriginalFileName, int copyBookOriginalLine) {
       Objects.requireNonNull(copyBookOriginalFileName, "copyBookOriginalFileName cannot be null");
 
@@ -266,6 +375,11 @@ public class Token {
       return this;
     }
 
+    /**
+     * Build a token.
+     *
+     * @return new token
+     */
     public Token build() {
       Objects.requireNonNull(type, "type must be set");
       Objects.requireNonNull(value, "value must be set");

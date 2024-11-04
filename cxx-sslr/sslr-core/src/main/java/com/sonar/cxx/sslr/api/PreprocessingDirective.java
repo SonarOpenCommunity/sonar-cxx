@@ -23,12 +23,22 @@
  */
 package com.sonar.cxx.sslr.api;
 
+/**
+ * Preprocessing directive.
+ */
 public abstract class PreprocessingDirective {
 
   public abstract AstNode getAst();
 
   public abstract Grammar getGrammar();
 
+  /**
+   * Create a new preprocessing directive.
+   *
+   * @param ast associated AST node
+   * @param grammar associated grammar
+   * @return a new preprocessing directive
+   */
   public static PreprocessingDirective create(AstNode ast, Grammar grammar) {
     return new DefaultPreprocessingDirective(ast, grammar);
   }

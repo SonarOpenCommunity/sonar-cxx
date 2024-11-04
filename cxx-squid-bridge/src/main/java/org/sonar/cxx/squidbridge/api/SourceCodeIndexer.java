@@ -23,7 +23,17 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
+/**
+ * Interface for a source code indexer.
+ */
 public interface SourceCodeIndexer {
 
+  /**
+   * Index a SourceCode object.
+   *
+   * @param sourceCode sourceCode object to index
+   *
+   * @see SourceCode
+   */
   void index(SourceCode sourceCode);
 }

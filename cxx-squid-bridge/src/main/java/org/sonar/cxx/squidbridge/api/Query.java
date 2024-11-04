@@ -23,7 +23,18 @@
  */
 package org.sonar.cxx.squidbridge.api;
 
+/**
+ * Interface for queries in SourceCode.
+ *
+ * @see SourceCode
+ */
 public interface Query {
 
+  /**
+   * Defines a test condition in derived classes.
+   *
+   * @param unit source code object to verify for a match
+   * @return true, if test condition is fulfilled
+   */
   boolean match(SourceCode unit);
 }

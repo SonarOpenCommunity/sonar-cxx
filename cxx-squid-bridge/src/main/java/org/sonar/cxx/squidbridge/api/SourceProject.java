@@ -23,10 +23,17 @@
  */
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
+/**
+ * Defines a project node in the SourceCode tree. The project node is normally the root node.
+ *
+ * @see SourceCode
+ */
 public class SourceProject extends SourceCode {
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created project node.
+   *
+   * @param key key of the project
    */
   public SourceProject(String key) {
     super(key);

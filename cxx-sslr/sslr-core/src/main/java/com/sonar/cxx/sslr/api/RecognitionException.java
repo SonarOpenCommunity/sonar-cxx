@@ -26,6 +26,8 @@ package com.sonar.cxx.sslr.api; // cxx: in use
 import com.sonar.cxx.sslr.impl.LexerException;
 
 /**
+ * Exception that can be thrown during the operation of the parser.
+ *
  * <p>
  * This class is not intended to be instantiated or subclassed by clients.</p>
  */
@@ -34,7 +36,10 @@ public class RecognitionException extends RuntimeException {
   private final int line;
 
   /**
-   * {@inheritDoc}
+   * Constructs a new parser exception.
+   *
+   * @param e LexerException to wrap
+   * @see LexerException
    */
   public RecognitionException(LexerException e) {
     super("Lexer error: " + e.getMessage(), e);
@@ -42,7 +47,10 @@ public class RecognitionException extends RuntimeException {
   }
 
   /**
-   * {@inheritDoc}
+   * Constructs a new parser exception.
+   *
+   * @param line source code line where the parsing error has occurred
+   * @param message the detail message
    *
    * @since 1.16
    */
@@ -52,7 +60,11 @@ public class RecognitionException extends RuntimeException {
   }
 
   /**
-   * {@inheritDoc}
+   * Constructs a new parser exception.
+   *
+   * @param line source code line where the parsing error has occurred
+   * @param message the detail message
+   * @param cause the cause which is saved for later retrieval by the {@link #getCause()} method
    *
    * @since 1.16
    */
@@ -62,7 +74,7 @@ public class RecognitionException extends RuntimeException {
   }
 
   /**
-   * Line where the parsing error has occurred.
+   * Source code line where the parsing error has occurred.
    *
    * @return line
    */

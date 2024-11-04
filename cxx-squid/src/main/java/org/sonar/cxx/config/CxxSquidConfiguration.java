@@ -75,7 +75,7 @@ import org.sonar.cxx.squidbridge.api.SquidConfiguration;
  * found value for key, whereby the search starts on level. {@code getValues} collects all found values over all levels.
  * It starts with the given level and further found values are added to the end of the list.
  *
- * <code>
+ * <pre>
  * CompilationDatabase
  * |-- PredefinedMacros
  * |-- SonarProjectProperties
@@ -96,7 +96,7 @@ import org.sonar.cxx.squidbridge.api.SquidConfiguration;
  *     |        |-- ...
  *     | -- File [path=...]
  *     | -- ...
- * </code>
+ * </pre>
  */
 public class CxxSquidConfiguration extends SquidConfiguration {
 

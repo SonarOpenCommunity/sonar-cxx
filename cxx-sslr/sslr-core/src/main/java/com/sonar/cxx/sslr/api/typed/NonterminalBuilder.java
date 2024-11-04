@@ -24,10 +24,21 @@
 package com.sonar.cxx.sslr.api.typed;
 
 /**
+ * Interface for non-terminals. Each node in the parse tree is either a terminal or non-terminal. Terminals are the
+ * leafs of the tree while the inner nodes are non-terminals.
+ *
+ * @param <T>
+ *
  * @since 1.21
  */
 public interface NonterminalBuilder<T> {
 
+  /**
+   * Definition of a non-terminal.
+   *
+   * @param method method defining the non-terminal
+   * @return
+   */
   T is(T method);
 
 }

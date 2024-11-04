@@ -24,12 +24,16 @@
 package org.sonar.cxx.squidbridge.api;
 
 /**
- * {@inheritDoc}
+ * Defines a package node in the SourceCode tree.
+ *
+ * @see SourceCode
  */
 public class SourcePackage extends SourceCode {
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created package node.
+   *
+   * @param key key of the package
    */
   public SourcePackage(String key) {
     super(key);

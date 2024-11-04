@@ -27,14 +27,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * {@inheritDoc}
+ * Defines a source file node in the SourceCode tree.
+ *
+ * @see SourceCode
  */
 public class SourceFile extends SourceCode {
 
   private final Set<Integer> noSonarTagLines = new HashSet<>();
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created source file node.
+   *
+   * @param key key of the file
    */
   public SourceFile(String key) {
     super(key);
@@ -42,27 +46,51 @@ public class SourceFile extends SourceCode {
   }
 
   /**
-   * {@inheritDoc}
+   * Initializes a newly created source file node.
+   *
+   * @param key key of the file
+   * @param fileName name of the file
    */
   public SourceFile(String key, String fileName) {
     super(key, fileName);
     setStartAtLine(1);
   }
 
-  public Set<Integer> getNoSonarTagLines() {
-    return noSonarTagLines;
+  /**
+   * Mark one line in the file //NOSONAR.
+   *
+   * @param line single line that should be marked //NOSONAR
+   */
+  public void addNoSonarTagLine(int line) {
+    noSonarTagLines.add(line);
   }
 
+  /**
+   * Check if a line in the source file is marked with //NOSONAR.
+   *
+   * @param lineNumber line number to check
+   * @return true if the source code line is marked with //NOSONAR
+   */
   public boolean hasNoSonarTagAtLine(int lineNumber) {
     return noSonarTagLines.contains(lineNumber);
   }
 
+  /**
+   * Mark some lines in the file //NOSONAR.
+   *
+   * @param noSonarTagLines collection of lines that should be marked //NOSONAR
+   */
   public void addNoSonarTagLines(Set<Integer> noSonarTagLines) {
     this.noSonarTagLines.addAll(noSonarTagLines);
   }
 
-  public void addNoSonarTagLine(int line) {
-    noSonarTagLines.add(line);
+  /**
+   * Get all lines marked with //NOSONAR
+   *
+   * @return container with all lines marked with //NOSONAR
+   */
+  public Set<Integer> getNoSonarTagLines() {
+    return noSonarTagLines;
   }
 
 }
