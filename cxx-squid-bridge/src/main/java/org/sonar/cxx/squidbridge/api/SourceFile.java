@@ -25,6 +25,7 @@ package org.sonar.cxx.squidbridge.api;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 /**
  * Defines a source file node in the SourceCode tree.
@@ -39,19 +40,9 @@ public class SourceFile extends SourceCode {
    * Initializes a newly created source file node.
    *
    * @param key key of the file
-   */
-  public SourceFile(String key) {
-    super(key);
-    setStartAtLine(1);
-  }
-
-  /**
-   * Initializes a newly created source file node.
-   *
-   * @param key key of the file
    * @param fileName name of the file
    */
-  public SourceFile(String key, String fileName) {
+  public SourceFile(String key, @Nullable String fileName) {
     super(key, fileName);
     setStartAtLine(1);
   }

@@ -44,18 +44,15 @@ import org.sonar.cxx.squidbridge.measures.MetricDef;
  * Typical structure of the tree:<br>
  * <pre>
  * SourceProject
- * |- 0..n SourcePackage
- *    |- 0..n SourceFile
- *    |  |- 0..n SourceClass
- *    |     |- 0..n SourceMethod
- *    |- 0..n SourceFunction
+ * |- 0..n SourceFile
+ * |  |- 0..n SourceClass
+ * |     |- 0..n SourceFunction
+ * |- 0..n SourceFunction
  * </pre>
  *
  * @see SourceProject
- * @see SourcePackage
  * @see SourceFile
  * @see SourceClass
- * @see SourceMethod
  * @see SourceFunction
  */
 public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
@@ -70,13 +67,20 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
   private SourceCodeIndexer indexer;
   private Set<CheckMessage> messages;
 
-  protected SourceCode(String key) {
-    this(key, null);
-  }
-
   protected SourceCode(String key, @Nullable String name) {
     this.key = key;
     this.name = name;
+  }
+
+  protected SourceCode(SourceCode parentKey, String key, @Nullable String name, int startAtLine) {
+    var sb = new StringBuilder();
+    if (parentKey != null) {
+      sb.append(parentKey.getKey()).append('@');
+    }
+    sb.append(key).append(':').append(startAtLine);
+    this.key = sb.toString();
+    this.name = name;
+    setStartAtLine(startAtLine);
   }
 
   /**

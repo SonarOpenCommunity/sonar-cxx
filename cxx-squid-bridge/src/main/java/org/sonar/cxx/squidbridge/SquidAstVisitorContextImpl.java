@@ -216,7 +216,7 @@ public class SquidAstVisitorContextImpl<G extends Grammar> extends SquidAstVisit
         sourceFile.log(message);
       } else {
         throw new IllegalStateException("Unable to log a check message on source code '"
-                                          + (peekSourceCode() == null ? "[NULL]" : peekSourceCode().getKey()) + "'");
+          + (peekSourceCode() == null ? "[NULL]" : peekSourceCode().getKey()) + "'");
       }
     }
   }

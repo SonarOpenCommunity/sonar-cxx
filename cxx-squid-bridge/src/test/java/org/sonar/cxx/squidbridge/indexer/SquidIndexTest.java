@@ -30,38 +30,34 @@ import org.junit.jupiter.api.Test;
 import org.sonar.cxx.squidbridge.api.SourceClass;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
-import org.sonar.cxx.squidbridge.api.SourcePackage;
 import org.sonar.cxx.squidbridge.api.SourceProject;
 
 class SquidIndexTest {
 
   private SquidIndex indexer;
-  private SourceProject project;
-  private SourcePackage packSquid;
-  private SourceFile fileSquid;
-  private SourceFile file2Squid;
-  private SourceCode classSquid;
+  private SourceProject sourceProject;
+  private SourceFile sourceFile1;
+  private SourceFile sourceFile2;
+  private SourceCode sourceClass;
 
   @BeforeEach
   public void setup() {
     indexer = new SquidIndex();
-    project = new SourceProject("Squid Project");
-    indexer.index(project);
-    packSquid = new SourcePackage("org.sonar.squid");
-    project.addChild(packSquid);
-    fileSquid = new SourceFile("org.sonar.squid.Squid.java", "Squid.java");
-    packSquid.addChild(fileSquid);
-    file2Squid = new SourceFile("org.sonar.squid.SquidConfiguration.java", "SquidConfiguration.java");
-    packSquid.addChild(file2Squid);
-    classSquid = new SourceClass("org.sonar.squid.Squid", "Squid");
-    fileSquid.addChild(classSquid);
+    sourceProject = new SourceProject("ProjectKey", "Project Name");
+    indexer.index(sourceProject);
+    sourceFile1 = new SourceFile("src/test/FileName1.cpp", "FileName1.cpp");
+    sourceProject.addChild(sourceFile1);
+    sourceFile2 = new SourceFile("src/test/FileName2.cpp", "FileName2.cpp");
+    sourceProject.addChild(sourceFile2);
+    sourceClass = new SourceClass("ClassName:LineNo", "ClassName");
+    sourceFile1.addChild(sourceClass);
   }
 
   @Test
   void searchSingleResource() {
-    SourceCode squidClass = indexer.search("org.sonar.squid.Squid");
-    assertThat(squidClass).isEqualTo(new SourceClass("org.sonar.squid.Squid", "Squid"));
-    SourceCode javaNCSSClass = indexer.search("org.sonar.squid.JavaNCSS");
+    SourceCode squidClass = indexer.search("ClassName:LineNo");
+    assertThat(squidClass).isEqualTo(new SourceClass("ClassName:LineNo", "ClassName"));
+    SourceCode javaNCSSClass = indexer.search("undefined");
     assertThat(javaNCSSClass).isNull();
   }
 
@@ -72,7 +68,7 @@ class SquidIndexTest {
     resources = indexer.search(new QueryByType(SourceClass.class));
     assertThat(resources)
       .hasSize(1)
-      .contains(classSquid);
+      .contains(sourceClass);
   }
 
 }

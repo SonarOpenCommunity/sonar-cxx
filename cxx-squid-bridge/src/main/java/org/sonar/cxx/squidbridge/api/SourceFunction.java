@@ -23,31 +23,34 @@
  */
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
+import javax.annotation.Nullable;
+
 /**
- * Defines a function node in the SourceCode tree.
+ * Defines a function/method node in the SourceCode tree.
  *
  * @see SourceCode
  */
 public class SourceFunction extends SourceCode {
 
   /**
-   * Initializes a newly created function node.
+   * Initializes a newly created function/method node.
    *
-   * @param key key of the function
+   * @param key key of the function/method
+   * @param functionSignature signature of the function/method
    */
-  public SourceFunction(String key) {
-    super(key);
+  public SourceFunction(String key, @Nullable String functionSignature) {
+    super(key, functionSignature);
   }
 
   /**
-   * Initializes a newly created function node. Key is a combination of file key and method signature.
+   * Initializes a newly created function/method node.
    *
-   * @param sourceFile file the method belongs to
-   * @param functionSignature signature of the function
-   * @param startAtLine position in the source file
+   * @param parentKey parent object to use for key generation
+   * @param key key of the function/method
+   * @param functionSignature signature of the function/method
+   * @param startAtLine line the function/method starts
    */
-  public SourceFunction(SourceFile sourceFile, String functionSignature, int startAtLine) {
-    super(sourceFile.getKey() + "#" + functionSignature, functionSignature);
-    setStartAtLine(startAtLine);
+  public SourceFunction(SourceCode parentKey, String key, @Nullable String functionSignature, int startAtLine) {
+    super(parentKey, key, functionSignature, startAtLine);
   }
 }
