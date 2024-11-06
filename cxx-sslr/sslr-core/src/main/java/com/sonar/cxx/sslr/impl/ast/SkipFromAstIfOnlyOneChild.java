@@ -36,7 +36,7 @@ public final class SkipFromAstIfOnlyOneChild implements AstNodeSkippingPolicy {
 
   @Override
   public boolean hasToBeSkippedFromAst(@Nullable AstNode node) {
-    return node.getNumberOfChildren() == 1;
+    return node != null && node.getNumberOfChildren() == 1;
   }
 
 }

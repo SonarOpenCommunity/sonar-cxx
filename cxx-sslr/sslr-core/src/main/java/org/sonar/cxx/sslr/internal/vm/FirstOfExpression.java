@@ -51,6 +51,9 @@ public class FirstOfExpression implements ParsingExpression {
    */
   @Override
   public Instruction[] compile(CompilationHandler compiler) {
+    if (subExpressions.length < 1) {
+      return new Instruction[0];
+    }
     int index = 0;
     var sub = new Instruction[subExpressions.length][];
     for (int i = 0; i < subExpressions.length; i++) {
