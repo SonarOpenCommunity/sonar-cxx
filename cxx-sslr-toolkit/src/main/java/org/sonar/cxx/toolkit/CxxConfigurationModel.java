@@ -134,19 +134,20 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   @Override
   public Parser<? extends Grammar> doGetParser() {
-    var context = new SquidAstVisitorContextImpl<>(new SourceProject(""));
+    var context = new SquidAstVisitorContextImpl<>(new SourceProject("", null));
     context.setFile(new File("file.cpp").getAbsoluteFile(), CxxMetric.FILES);
     return CxxParser.create(context, getConfiguration());
   }
 
   @Override
   public List<Tokenizer> doGetTokenizers() {
+    final String tagAfter = "</span>";
     return Arrays.asList(
-      new StringTokenizer("<span class=\"s\">", "</span>"),
-      new CDocTokenizer("<span class=\"cd\">", "</span>"),
-      new JavadocTokenizer("<span class=\"cppd\">", "</span>"),
-      new CppDocTokenizer("<span class=\"cppd\">", "</span>"),
-      new KeywordsTokenizer("<span class=\"k\">", "</span>", CxxKeyword.keywordValues())
+      new StringTokenizer("<span class=\"s\">", tagAfter),
+      new CDocTokenizer("<span class=\"cd\">", tagAfter),
+      new JavadocTokenizer("<span class=\"cppd\">", tagAfter),
+      new CppDocTokenizer("<span class=\"cppd\">", tagAfter),
+      new KeywordsTokenizer("<span class=\"k\">", tagAfter, CxxKeyword.keywordValues())
     );
   }
 

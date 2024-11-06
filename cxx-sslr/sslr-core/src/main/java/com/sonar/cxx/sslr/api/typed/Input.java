@@ -102,11 +102,7 @@ public class Input {
    * @return the specified substring
    */
   public String substring(int from, int to) {
-    var sb = new StringBuilder(); // TODO use StringBuilder append(CharSequence s, int start, int end)
-    for (int i = from; i < to; i++) {
-      sb.append(inputChars[i]);
-    }
-    return sb.toString();
+    return String.copyValueOf(inputChars, from, to - from);
   }
 
   /**

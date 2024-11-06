@@ -41,8 +41,8 @@ public final class CxxParser {
   }
 
   public static Parser<Grammar> create() {
-    return create(new SquidAstVisitorContextImpl<>(new SourceProject("")),
-                  new CxxSquidConfiguration());
+    return create(new SquidAstVisitorContextImpl<>(new SourceProject("", null)),
+      new CxxSquidConfiguration());
   }
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {

@@ -23,6 +23,8 @@
  */
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
+import javax.annotation.Nullable;
+
 /**
  * Defines a class node in the SourceCode tree.
  *
@@ -31,45 +33,26 @@ package org.sonar.cxx.squidbridge.api; // cxx: in use
 public class SourceClass extends SourceCode {
 
   /**
-   * This is used only for Java for now, but can be used for other languages. So maybe we should push it down to
-   * SourceCode.
-   */
-  private boolean suppressWarnings = false;
-
-  /**
-   * Initializes a newly created class node.
-   *
-   * @param key key of the class
-   */
-  public SourceClass(String key) {
-    super(key);
-  }
-
-  /**
    * Initializes a newly created class node.
    *
    * @param key key of the class
    * @param className name of the class
    */
-  public SourceClass(String key, String className) {
+  public SourceClass(String key, @Nullable String className) {
     super(key, className);
   }
 
   /**
-   * Defines if warnings should be suppressed.
+   * Initializes a newly created class node.
    *
-   * @param suppressWarnings true if if warnings should be suppressed
+   * @param parentKey parent object to use for key generation
+   * @param key key of the class
+   * @param className name of the class
+   *
+   * @param startAtLine line the SourceClass object starts
    */
-  public void setSuppressWarnings(boolean suppressWarnings) {
-    this.suppressWarnings = suppressWarnings;
+  public SourceClass(SourceCode parentKey, String key, @Nullable String className, int startAtLine) {
+    super(parentKey, key, className, startAtLine);
   }
 
-  /**
-   * Check if warnings should be suppressed.
-   *
-   * @return true if if warnings should be suppressed
-   */
-  public boolean isSuppressWarnings() {
-    return suppressWarnings;
-  }
 }

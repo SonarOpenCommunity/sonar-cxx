@@ -31,8 +31,9 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypeExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenValueExpression;
 
 /**
- * deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder} instead.
+ * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.LexerfulGrammarBuilder} instead.
  */
+@Deprecated(since = "1.19")
 final class GrammarFunctions {
 
   private GrammarFunctions() {

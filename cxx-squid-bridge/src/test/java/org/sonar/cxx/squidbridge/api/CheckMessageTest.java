@@ -31,14 +31,14 @@ class CheckMessageTest {
   @Test
   void testFormatDefaultMessage() {
     var message = new CheckMessage(null, "Value is {0,number,integer}, expected value is {1,number,integer}.",
-                               3, 7);
+      3, 7);
     assertThat(message.formatDefaultMessage()).isEqualTo("Value is 3, expected value is 7.");
   }
 
   @Test
   void testNotFormatMessageWithoutParameters() {
-    var message = new CheckMessage(null, "public void main(){."); // This message can't be used as a pattern by the MessageFormat
-    // class
+    // This message can't be used as a pattern by the MessageFormat class
+    var message = new CheckMessage(null, "public void main(){.");
     assertThat(message.formatDefaultMessage()).isEqualTo("public void main(){.");
   }
 }

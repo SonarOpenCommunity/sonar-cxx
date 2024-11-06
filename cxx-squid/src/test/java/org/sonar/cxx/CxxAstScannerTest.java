@@ -96,6 +96,14 @@ class CxxAstScannerTest {
   }
 
   @Test
+  void namespaces() throws IOException {
+    var tester = CxxFileTesterHelper.create("src/test/resources/metrics/namespace.cc", ".", "");
+    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
+    assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(3);
+    assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(6); // = functions and methods
+  }
+
+  @Test
   void complexity() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/metrics/complexity.cc", ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());

@@ -103,7 +103,7 @@ public final class MiniCAstScanner {
   private static AstScanner<Grammar> create(boolean ignoreHeaderComments, SquidAstVisitor<Grammar>... visitors) {
 
     SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<>(
-      new SourceProject("MiniC Project"));
+      new SourceProject("MiniCProject", "Demo"));
     Parser<Grammar> parser = MiniCParser.create();
 
     AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
@@ -141,7 +141,7 @@ public final class MiniCAstScanner {
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
       String functionName = astNode.getFirstDescendant(MiniCGrammar.BIN_FUNCTION_DEFINITION).getTokenValue();
 
-      var function = new SourceFunction(astNode.getFromIndex() + "@" + functionName);
+      var function = new SourceFunction(astNode.getFromIndex() + "@" + functionName, functionName);
       function.setStartAtLine(astNode.getTokenLine());
 
       return function;

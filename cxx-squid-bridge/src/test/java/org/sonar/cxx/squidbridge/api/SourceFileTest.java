@@ -32,15 +32,15 @@ class SourceFileTest {
 
   @Test
   void testGetStartAtLine() {
-    var file = new SourceFile("com/sonarsource/Toto.java");
+    var file = new SourceFile("com/sonarsource/FileName1.cpp", "FileName1.cpp");
     assertThat(file.getStartAtLine()).isEqualTo(1);
-    file = new SourceFile("com/sonarsource/Toto.java", "Toto.java");
+    file = new SourceFile("com/sonarsource/FileName1.cpp", "FileName1.cpp");
     assertThat(file.getStartAtLine()).isEqualTo(1);
   }
 
   @Test
   void testHasNoSon() {
-    var file = new SourceFile("com/sonarsource/Toto.java");
+    var file = new SourceFile("com/sonarsource/FileName2.cpp", "FileName2.cpp");
     Set<Integer> noSonarTagLines = new HashSet<>();
     noSonarTagLines.add(23);
     noSonarTagLines.add(10);

@@ -20,9 +20,7 @@
 package org.sonar.cxx;
 
 import com.sonar.cxx.sslr.api.AstNode;
-import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Grammar;
-import static java.lang.Math.min;
 import java.util.Collection;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.cxx.api.CxxMetric;
@@ -107,7 +105,7 @@ public final class CxxAstScanner {
    */
   @SafeVarargs
   public static AstScanner<Grammar> create(CxxSquidConfiguration squidConfig, SquidAstVisitor<Grammar>... visitors) {
-    var context = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
+    var context = new SquidAstVisitorContextImpl<>(new SourceProject("cxx", null));
     var parser = CxxParser.create(context, squidConfig);
     var builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 
@@ -139,29 +137,11 @@ public final class CxxAstScanner {
       }
     });
 
-    /* Functions */
+    /* Functions / Methods */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
-      var sb = new StringBuilder(512);
-      for (var token : astNode.getFirstDescendant(CxxGrammarImpl.declaratorId).getTokens()) {
-        sb.append(token.getValue());
-      }
-      var functionName = sb.toString();
-      sb.setLength(0);
-      // todo: check if working with nested-namespace-definition
-      var namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
-      while (namespace != null) {
-        if (sb.length() > 0) {
-          sb.insert(0, "::");
-        }
-        sb.insert(0, namespace.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue());
-        // todo: check if working with nested-namespace-definition
-        namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition);
-      }
-      var namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
-      var function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
-        + ":" + astNode.getToken().getLine());
-      function.setStartAtLine(astNode.getTokenLine());
-      return function;
+      var declaratorIdNode = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
+      var key = declaratorIdNode == null ? "" : declaratorIdNode.getTokenValue();
+      return new SourceFunction(parentSourceCode, key, null, astNode.getTokenLine());
     }, CxxGrammarImpl.functionDefinition));
 
     builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
@@ -171,11 +151,9 @@ public final class CxxAstScanner {
 
     /* Classes */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {
-      var classNameAst = astNode.getFirstDescendant(CxxGrammarImpl.className);
-      var className = classNameAst == null ? "" : classNameAst.getFirstChild().getTokenValue();
-      var cls = new SourceClass(className + ":" + astNode.getToken().getLine(), className);
-      cls.setStartAtLine(astNode.getTokenLine());
-      return cls;
+      var classNameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
+      var key = classNameNode == null ? "" : classNameNode.getFirstChild().getTokenValue();
+      return new SourceClass(parentSourceCode, key, null, astNode.getTokenLine());
     }, CxxGrammarImpl.classSpecifier));
 
     builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
@@ -233,26 +211,6 @@ public final class CxxAstScanner {
     }
 
     return builder.build();
-  }
-
-  // Concatenate two strings, but if there is overlap at the intersection,
-  // include the intersection/overlap only once.
-  public static String intersectingConcatenate(String a, String b) {
-
-    // find length of maximum possible match
-    var lenOfA = a.length();
-    var lenOfB = b.length();
-    var minIntersectionLen = min(lenOfB, lenOfA);
-
-    // search down from maximum match size, to get longest possible intersection
-    for (var size = minIntersectionLen; size > 0; size--) {
-      if (a.regionMatches(lenOfA - size, b, 0, size)) {
-        return a + b.substring(size, lenOfB);
-      }
-    }
-
-    // Didn't find any intersection. Fall back to straight concatenation.
-    return a + b;
   }
 
 }

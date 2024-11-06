@@ -29,76 +29,75 @@ import org.junit.jupiter.api.Test;
 
 class SourceCodeTest {
 
-  private SourceProject prj;
-  private SourcePackage pac;
-  private SourcePackage pac2;
-  private SourceCode cla;
-  private SourceCode cla2;
+  private SourceProject sourceProject;
+  private SourceFile sourceFile1;
+  private SourceFile sourceFile2;
+  private SourceCode sourceClass1;
+  private SourceCode sourceClass2;
 
   @BeforeEach
   public void before() {
-    prj = new SourceProject("dummy project");
-    pac = new SourcePackage("org.sonar");
-    pac2 = new SourcePackage("org.sonar2");
-    pac2 = new SourcePackage("org.sonar2");
-    cla = new SourceClass("org.sonar.Toto", "Toto");
-    cla2 = new SourceClass("org.sonar2.Tata", "Tata");
-    prj.addChild(pac);
-    prj.addChild(pac2);
-    pac.addChild(cla);
-    pac.addChild(cla2);
+    sourceProject = new SourceProject("ProjectKey", "Demo");
+    sourceFile1 = new SourceFile("src/test/FileName1.cpp", "FileName1.cpp");
+    sourceFile2 = new SourceFile("src/test/FileName2.cpp", "FileName2.cpp");
+    sourceClass1 = new SourceClass("ClassName1:1", "ClassName1");
+    sourceClass2 = new SourceClass("ClassName2:1", "ClassName2");
+    sourceProject.addChild(sourceFile1);
+    sourceProject.addChild(sourceFile2);
+    sourceFile1.addChild(sourceClass1);
+    sourceFile1.addChild(sourceClass2);
   }
 
   @Test
   void testAddChild() {
-    prj.addChild(pac);
-    assertThat(pac.getParent()).isEqualTo(prj);
-    assertThat(prj.getChildren()).contains(pac);
+    sourceProject.addChild(sourceFile1);
+    assertThat(sourceFile1.getParent()).isEqualTo(sourceProject);
+    assertThat(sourceProject.getChildren()).contains(sourceFile1);
   }
 
   @Test
   void testEqualsAndHashCode() {
-    assertThat(prj).isNotEqualTo(pac);
-    assertThat(prj.hashCode()).isNotEqualTo(pac.hashCode());
-    assertThat(prj).isNotEqualTo(new Object());
+    assertThat(sourceProject).isNotEqualTo(sourceFile1);
+    assertThat(sourceProject.hashCode()).isNotEqualTo(sourceFile1.hashCode());
+    assertThat(sourceProject).isNotEqualTo(new Object());
 
-    SourceCode samePac = new SourcePackage("org.sonar");
-    assertThat(pac)
-      .isEqualTo(samePac)
-      .hasSameHashCodeAs(samePac);
+    var sameFile = new SourceFile("src/test/FileName1.cpp", "FileName1.cpp");
+    assertThat(sourceFile1)
+      .isEqualTo(sameFile)
+      .hasSameHashCodeAs(sameFile);
   }
 
   @Test
   void testContains() {
-    assertThat(prj.hasChild(pac)).isTrue();
-    assertThat(prj.hasChild(cla)).isTrue();
+    assertThat(sourceProject.hasChild(sourceFile1)).isTrue();
+    assertThat(sourceProject.hasChild(sourceClass1)).isTrue();
+    assertThat(sourceProject.hasChild(sourceClass2)).isTrue();
   }
 
   @Test
   void testIsType() {
-    var pacFrom = new SourcePackage("org.from");
-    assertThat(pacFrom)
+    assertThat(sourceFile2)
       .isNotExactlyInstanceOf(SourceCode.class)
       .isNotExactlyInstanceOf(SourceClass.class)
-      .isExactlyInstanceOf(SourcePackage.class);
+      .isExactlyInstanceOf(SourceFile.class);
   }
 
   @Test
   void testGetParentByType() {
-    var pacFrom = new SourcePackage("org.from");
-    var fileFrom = new SourceFile("org.from.From.java", "From.java");
-    var classFrom = new SourceClass("org.from.From", "From");
-    pacFrom.addChild(fileFrom);
+    var fileFrom = new SourceFile("src/test/FileName4.cpp", "FileName4.cpp");
+    var classFrom = new SourceClass("ClassName3:1", "ClassName3");
+    var methodFrom = new SourceFunction(classFrom, "methodSignature", null, 1);
     fileFrom.addChild(classFrom);
-    assertThat(pacFrom).isEqualTo(classFrom.getParent(SourcePackage.class));
+    classFrom.addChild(methodFrom);
+    assertThat(fileFrom).isEqualTo(methodFrom.getParent(SourceFile.class));
   }
 
   @Test
   void testGetAncestorByType() {
-    var file = new SourceFile("org.from.From.java", "From.java");
-    var class1 = new SourceClass("org.from.From", "From");
-    var class2 = new SourceClass("org.from.From$Foo", "From$Foo");
-    var method = new SourceMethod(class2, "foo()", 10);
+    var file = new SourceFile("src/test/FileName5.cpp", "FileName5.cpp");
+    var class1 = new SourceClass("ClassName3:1", "ClassName3");
+    var class2 = new SourceClass("ClassName4:1", "ClassName4");
+    var method = new SourceFunction(class2, "methodSignature", null, 10);
     file.addChild(class1);
     class1.addChild(class2);
     class2.addChild(method);
@@ -112,17 +111,29 @@ class SourceCodeTest {
 
   @Test
   void testHasAmongParents() {
-    assertThat(cla.hasAmongParents(prj)).isTrue();
-    assertThat(cla.hasAmongParents(pac)).isTrue();
-    assertThat(prj.hasAmongParents(cla)).isFalse();
+    assertThat(sourceClass1.hasAmongParents(sourceProject)).isTrue();
+    assertThat(sourceClass1.hasAmongParents(sourceFile1)).isTrue();
+    assertThat(sourceProject.hasAmongParents(sourceClass1)).isFalse();
   }
 
   @Test
   void getCheckMessages() {
-    SourceCode foo = new SourceFile("Foo.java");
+    SourceCode foo = new SourceFile("src/test/FileName3.cpp", "FileName3.cpp");
     assertThat(foo.getCheckMessages()).isEmpty();
 
     foo.log(new CheckMessage(null, "message"));
     assertThat(foo.getCheckMessages()).hasSize(1);
+  }
+
+  @Test
+  void keyTest() {
+    var file1 = new SourceFile("src/test/FileName.cpp", "FileName.cpp");
+    var class1 = new SourceClass(file1, "classKey", null, 10);
+    file1.addChild(class1);
+    var method1 = new SourceFunction(class1, "methodKey", null, 20);
+    class1.addChild(method1);
+    assertThat(file1.getKey()).isEqualTo("src/test/FileName.cpp");
+    assertThat(class1.getKey()).isEqualTo("src/test/FileName.cpp@classKey:10");
+    assertThat(method1.getKey()).isEqualTo("src/test/FileName.cpp@classKey:10@methodKey:20");
   }
 }

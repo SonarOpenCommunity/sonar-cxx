@@ -23,6 +23,8 @@
  */
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
+import javax.annotation.Nullable;
+
 /**
  * Defines a project node in the SourceCode tree. The project node is normally the root node.
  *
@@ -34,9 +36,11 @@ public class SourceProject extends SourceCode {
    * Initializes a newly created project node.
    *
    * @param key key of the project
+   * @param projectName name of the project
+   *
    */
-  public SourceProject(String key) {
-    super(key);
+  public SourceProject(String key, @Nullable String projectName) {
+    super(key, projectName);
   }
 
 }

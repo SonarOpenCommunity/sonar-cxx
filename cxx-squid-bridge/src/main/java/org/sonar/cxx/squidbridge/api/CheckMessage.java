@@ -26,14 +26,13 @@ package org.sonar.cxx.squidbridge.api;
 import java.text.MessageFormat;
 import java.util.Locale;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.sonar.check.Message;
 
 /**
  * Create a message for a check
  *
  * @see CodeCheck
  */
-public class CheckMessage implements Message {
+public class CheckMessage {
 
   private Integer line;
   private Double cost;
@@ -41,7 +40,6 @@ public class CheckMessage implements Message {
   private final Object check;
   private final String defaultMessage;
   private final Object[] messageArguments;
-  private Boolean bypassExclusion;
 
   /**
    * Create a message for a check. Defines default message with optional message arguments.
@@ -54,20 +52,6 @@ public class CheckMessage implements Message {
     this.check = check;
     this.defaultMessage = message;
     this.messageArguments = messageArguments;
-  }
-
-  /**
-   * Create a message for a check. Defines default message with optional message arguments.
-   *
-   * @param check check that lead to this message
-   * @param message default message text (can contain placeholders for arguments)
-   * @param messageArguments additional arguments to format the message (message must contain placeholders)
-   *
-   * @deprecated replaced by the other constructor since 2.12. See https://jira.codehaus.org/browse/SONAR-2875. (TODO
-   * remove this Ctor)
-   */
-  public CheckMessage(CodeCheck check, String message, Object... messageArguments) {
-    this((Object) check, message, messageArguments);
   }
 
   /**
@@ -102,7 +86,6 @@ public class CheckMessage implements Message {
    *
    * @return line in the source code to which this message belongs
    */
-  @Override
   public Integer getLine() {
     return line;
   }
@@ -123,37 +106,6 @@ public class CheckMessage implements Message {
    */
   public Double getCost() {
     return cost;
-  }
-
-  /**
-   * TODO remove ?
-   *
-   * @param bypassExclusion
-   */
-  public void setBypassExclusion(boolean bypassExclusion) {
-    this.bypassExclusion = bypassExclusion;
-  }
-
-  /**
-   * TODO remove ?
-   *
-   * @return
-   */
-  public boolean isBypassExclusion() {
-    return bypassExclusion == null ? false : bypassExclusion;
-  }
-
-  /**
-   * Get the related check.
-   *
-   * @return the related check
-   *
-   * @deprecated replaced by getCheck() since SQ version 2.12. Warning, to be called only if check is CodeCheck. TODO
-   * remove
-   */
-  @Override
-  public CodeCheck getChecker() {
-    return (CodeCheck) check;
   }
 
   /**
@@ -189,7 +141,6 @@ public class CheckMessage implements Message {
    * @param locale locale to use for formatting
    * @return formatted text (default message with parameters)
    */
-  @Override
   public String getText(Locale locale) {
     return formatDefaultMessage();
   }
