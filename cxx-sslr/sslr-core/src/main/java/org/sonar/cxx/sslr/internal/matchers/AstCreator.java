@@ -40,6 +40,7 @@ import org.sonar.cxx.sslr.internal.vm.TokenExpression;
 import org.sonar.cxx.sslr.internal.vm.TriviaExpression;
 import org.sonar.cxx.sslr.parser.ParsingResult;
 
+@SuppressWarnings("java:S1075")
 public final class AstCreator {
 
   private static final URI FAKE_URI;

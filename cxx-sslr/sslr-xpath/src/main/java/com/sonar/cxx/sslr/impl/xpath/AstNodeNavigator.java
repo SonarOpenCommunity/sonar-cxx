@@ -136,7 +136,7 @@ public class AstNodeNavigator extends DefaultNavigator {
   @Override
   public boolean isDocument(Object contextObject) {
     computeDocumentNode(contextObject);
-    return documentNode == null ? false : documentNode.equals(contextObject);
+    return (documentNode != null) && documentNode.equals(contextObject);
   }
 
   @Override
@@ -182,7 +182,7 @@ public class AstNodeNavigator extends DefaultNavigator {
   public Object getDocumentNode(@Nonnull Object contextNode) {
     computeDocumentNode(contextNode);
     Objects.requireNonNull(documentNode, "Unable to compute the document node from the context node \"" + contextNode
-                           .getClass().getSimpleName() + "\": " + contextNode);
+      .getClass().getSimpleName() + "\": " + contextNode);
     return documentNode;
   }
 

@@ -94,6 +94,7 @@ public final class TokenUtils {
     return tokens;
   }
 
+  @SuppressWarnings("java:S1075")
   public static Token tokenBuilder(TokenType type, String value, int line, int column) {
     try {
       return Token.builder()

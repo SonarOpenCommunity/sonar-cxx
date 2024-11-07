@@ -48,6 +48,7 @@ import org.sonar.cxx.sslr.channel.ChannelDispatcher;
 import org.sonar.cxx.sslr.channel.CodeReader;
 import org.sonar.cxx.sslr.channel.CodeReaderConfiguration;
 
+@SuppressWarnings("java:S1075")
 public class Lexer {
 
   private final Charset charset;
