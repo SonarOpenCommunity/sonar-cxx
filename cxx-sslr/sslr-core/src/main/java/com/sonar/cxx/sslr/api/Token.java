@@ -166,7 +166,7 @@ public class Token {
    * @return true both token are on same line
    */
   public boolean isOnSameLineThan(@Nullable Token other) {
-    return other == null ? false : (getLine() == other.getLine());
+    return (other != null) && (getLine() == other.getLine());
   }
 
   @Override

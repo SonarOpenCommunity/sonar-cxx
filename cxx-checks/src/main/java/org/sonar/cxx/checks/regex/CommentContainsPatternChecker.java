@@ -79,8 +79,8 @@ class CommentContainsPatternChecker {
   private boolean isLetterAround(String line, int start) {
     int end = start + pattern.length();
 
-    var pre = start > 0 ? Character.isLetter(line.charAt(start - 1)) : false;
-    var post = end < line.length() - 1 ? Character.isLetter(line.charAt(end)) : false;
+    var pre = (start > 0) && Character.isLetter(line.charAt(start - 1));
+    var post = (end < line.length() - 1) && Character.isLetter(line.charAt(end));
 
     return pre || post;
   }

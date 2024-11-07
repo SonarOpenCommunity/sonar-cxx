@@ -36,7 +36,7 @@ class ValgrindStack {
   private final List<ValgrindFrame> frames = new ArrayList<>();
 
   private static boolean isInside(String path, String folder) {
-    return (path == null || "".equals(path)) ? false : path.startsWith(folder);
+    return (path != null) && !path.isBlank() && path.startsWith(folder);
   }
 
   /**

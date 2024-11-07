@@ -48,8 +48,8 @@ import org.sonar.cxx.parser.CxxTokenType;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
 
 /**
- * Implements a C++ preprocessor according to '**A.12 Preprocessing directives [gram.cpp]**'.
- * The grammar for single lines is implemented in 'CppGrammar'.
+ * Implements a C++ preprocessor according to '**A.12 Preprocessing directives [gram.cpp]**'. The grammar for single
+ * lines is implemented in 'CppGrammar'.
  *
  * **A.12 Preprocessing directives [gram.cpp]**
  *
@@ -84,9 +84,9 @@ public class CxxPreprocessor extends Preprocessor {
   private static final Logger LOG = LoggerFactory.getLogger(CxxPreprocessor.class);
 
   private static final String MISSING_INCLUDE_MSG = "Preprocessor: {} include directive error(s). "
-                                                      + "This is only relevant if parser creates syntax errors."
-                                                      + " The preprocessor searches for include files in the with "
-                                                      + "'sonar.cxx.includeDirectories' defined directories and order.";
+    + "This is only relevant if parser creates syntax errors."
+    + " The preprocessor searches for include files in the with "
+    + "'sonar.cxx.includeDirectories' defined directories and order.";
 
   private static int missingFileCounter = 0;
 
@@ -127,9 +127,8 @@ public class CxxPreprocessor extends Preprocessor {
   /**
    * Method called before the lexing starts which can be overridden to initialize a state for instance.
    *
-   * Method can be called:
-   * a) for a new "physical" file (including SquidAstVisitorContext mock)
-   * b) while processing of #include directive.
+   * Method can be called: a) for a new "physical" file (including SquidAstVisitorContext mock) b) while processing of
+   * #include directive.
    *
    * Attention: This function is called for each file and is therefore extremely performance critical!
    */
@@ -337,11 +336,11 @@ public class CxxPreprocessor extends Preprocessor {
    * Uses a cache to speed up slow access times in the file system.
    *
    * @param fileName the path to the file to test
-   * @return {@code true} if the file exists; {@code false} if the file does not exist or
-   * its existence cannot be determined.
+   * @return {@code true} if the file exists; {@code false} if the file does not exist or its existence cannot be
+   * determined.
    */
   public boolean exists(Path fileName) {
-    return fileExists.computeIfAbsent(fileName, f -> Files.isRegularFile(f));
+    return fileExists.computeIfAbsent(fileName, Files::isRegularFile);
   }
 
   private void addPredefinedMacros() {
@@ -369,7 +368,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   private void addGlobalIncludeDirectories() {
     globalIncludeDirectories = squidConfig.getValues(CxxSquidConfiguration.GLOBAL,
-                                                     CxxSquidConfiguration.INCLUDE_DIRECTORIES);
+      CxxSquidConfiguration.INCLUDE_DIRECTORIES);
     include().setStandardIncludeDirs(globalIncludeDirectories, squidConfig.getBaseDir());
   }
 
@@ -446,7 +445,7 @@ public class CxxPreprocessor extends Preprocessor {
     } catch (EvaluationException e) {
       String rootFilePath = include().state().getFileUnderAnalysisPath();
       LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-                rootFilePath, token.getLine(), token.getValue());
+        rootFilePath, token.getLine(), token.getValue());
       include().state().setConditionValue(true);
       include().state().setSkipTokens(false);
     }
@@ -469,7 +468,7 @@ public class CxxPreprocessor extends Preprocessor {
       PPMacro macro = getMacro(getIdentifierName(ast));
       var tokType = ast.getToken().getType();
       boolean result = (tokType.equals(PPKeyword.IFDEF) && macro != null)
-                         || (tokType.equals(PPKeyword.IFNDEF) && macro == null);
+        || (tokType.equals(PPKeyword.IFNDEF) && macro == null);
       include().state().setConditionValue(result);
       include().state().setSkipTokens(!result);
     }
@@ -500,7 +499,7 @@ public class CxxPreprocessor extends Preprocessor {
         PPMacro macro = getMacro(getIdentifierName(ast));
         var tokType = ast.getToken().getType();
         boolean result = (tokType.equals(PPKeyword.ELIFDEF) && macro != null)
-                           || (tokType.equals(PPKeyword.ELIFNDEF) && macro == null);
+          || (tokType.equals(PPKeyword.ELIFNDEF) && macro == null);
         include().state().setConditionValue(result);
         include().state().setSkipTokens(!result);
       } else {
@@ -590,8 +589,8 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   /**
-   * Replace text macros while possibly concatenating or quoting identifiers
-   * (controlled by directives #define and #undef, and operators # and ##).
+   * Replace text macros while possibly concatenating or quoting identifiers (controlled by directives #define and
+   * #undef, and operators # and ##).
    *
    * Every identifier and every keyword can be a macro instance. Pipe the resulting string through a lexer to create
    * proper tokens and to expand recursively all macros which may be in there.

@@ -35,6 +35,7 @@ import java.util.List;
  * @see ActionParser
  * @since 1.21
  */
+@SuppressWarnings("java:S1075")
 public class Input {
 
   private static final URI FAKE_URI = new File("tests://unittests").toURI();

@@ -23,6 +23,7 @@
  */
 package org.sonar.cxx.sslr.internal.vm; // cxx: in use
 
+import com.sonar.cxx.sslr.api.RecognitionException;
 import java.util.Arrays;
 
 public class FirstOfExpression implements ParsingExpression {
@@ -52,7 +53,7 @@ public class FirstOfExpression implements ParsingExpression {
   @Override
   public Instruction[] compile(CompilationHandler compiler) {
     if (subExpressions.length < 1) {
-      return new Instruction[0];
+      throw new RecognitionException(1, "FirstOfExpression: no subExpression");
     }
     int index = 0;
     var sub = new Instruction[subExpressions.length][];

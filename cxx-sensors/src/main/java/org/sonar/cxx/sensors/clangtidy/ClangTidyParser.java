@@ -113,7 +113,7 @@ public class ClangTidyParser {
     for (var start = issue.info.length() - 2; start >= 0; start--) {
       var c = issue.info.charAt(start);
       if (Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_') {
-        continue;
+        // continue
       } else if (c == ',') {
         var aliasId = issue.info.substring(start + 1, end);
         if (!"-warnings-as-errors".equals(aliasId)) {

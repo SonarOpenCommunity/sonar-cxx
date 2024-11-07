@@ -31,6 +31,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+@SuppressWarnings("java:S1192")
 public final class Interceptor {
 
   private Interceptor() {
@@ -83,10 +84,10 @@ public final class Interceptor {
       mv.visitVarInsn(Type.getType(constructorParameterTypes[i]).getOpcode(Opcodes.ILOAD), 1 + i);
     }
     mv.visitMethodInsn(Opcodes.INVOKESPECIAL,
-                       superClassName,
-                       "<init>",
-                       constructorDescriptor,
-                       false);
+      superClassName,
+      "<init>",
+      constructorDescriptor,
+      false);
     mv.visitInsn(Opcodes.RETURN);
     mv.visitMaxs(0, 0);
     mv.visitEnd();
@@ -108,24 +109,24 @@ public final class Interceptor {
         null);
 
       mv.visitFieldInsn(Opcodes.GETSTATIC,
-                        className,
-                        "methodInterceptor",
-                        Type.getDescriptor(MethodInterceptor.class));
+        className,
+        "methodInterceptor",
+        Type.getDescriptor(MethodInterceptor.class));
 
       mv.visitFieldInsn(Opcodes.GETSTATIC,
-                        className,
-                        "methods",
-                        Type.getDescriptor(Method[].class));
+        className,
+        "methods",
+        Type.getDescriptor(Method[].class));
       mv.visitLdcInsn(methodId);
       mv.visitInsn(Opcodes.AALOAD);
 
       mv.visitMethodInsn(Opcodes.INVOKEINTERFACE,
-                         Type.getInternalName(MethodInterceptor.class),
-                         "intercept",
-                         Type.getMethodDescriptor(
-                           Type.getType(boolean.class),
-                           Type.getType(Method.class)),
-                         true);
+        Type.getInternalName(MethodInterceptor.class),
+        "intercept",
+        Type.getMethodDescriptor(
+          Type.getType(boolean.class),
+          Type.getType(Method.class)),
+        true);
       var label = new Label();
       mv.visitJumpInsn(Opcodes.IFEQ, label);
       mv.visitInsn(Opcodes.ACONST_NULL);
@@ -137,10 +138,10 @@ public final class Interceptor {
         mv.visitVarInsn(Type.getType(parameterTypes[i]).getOpcode(Opcodes.ILOAD), 1 + i);
       }
       mv.visitMethodInsn(Opcodes.INVOKESPECIAL,
-                         superClassName,
-                         method.getName(),
-                         Type.getMethodDescriptor(method),
-                         false);
+        superClassName,
+        method.getName(),
+        Type.getMethodDescriptor(method),
+        false);
       mv.visitInsn(Opcodes.ARETURN);
       mv.visitMaxs(0, 0);
       mv.visitEnd();

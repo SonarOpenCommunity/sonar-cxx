@@ -62,6 +62,7 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     return false;
   }
 
+  @SuppressWarnings("java:S1301")
   static boolean isCodeToken(Token token) {
     var type = token.getType();
     if (!(type instanceof CxxPunctuator)) {

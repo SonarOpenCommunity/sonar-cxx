@@ -124,7 +124,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> {
     if (!matchFilePattern.isEmpty()) {
       var filePattern = WildcardPattern.create(matchFilePattern);
       String path = PathUtils.sanitize(getContext().getFile().getPath());
-      return path != null ? filePattern.match(path) : false;
+      return (path != null) && filePattern.match(path);
     }
     return true;
   }

@@ -83,6 +83,7 @@ public class XunitReportParser implements XmlStreamHandler {
     }
   }
 
+  @SuppressWarnings("java:S1192")
   private void parseTestCaseTag(SMInputCursor testCaseCursor, String tsName, String tsFilename) throws
     XMLStreamException {
     String classname = testCaseCursor.getAttrValue("classname");

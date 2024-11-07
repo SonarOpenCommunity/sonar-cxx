@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 
+@SuppressWarnings("java:S1075")
 public final class CssLoader {
 
   private static final String CSS_PATH = "/org/sonar/cxx/sslr/toolkit/sourceCodeEditor.css";
