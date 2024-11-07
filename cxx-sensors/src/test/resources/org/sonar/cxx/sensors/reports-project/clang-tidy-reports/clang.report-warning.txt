@@ -1,0 +1,4 @@
+to_array.hpp:19:16: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   19 |     return { { array[I]... } };
+      |                ^~~~~
+1 warning generated.

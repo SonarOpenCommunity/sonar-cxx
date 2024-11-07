@@ -123,6 +123,14 @@ public class ClangTidyParser {
       } else {
         if (c == '[') {
           issue.ruleId = issue.info.substring(start + 1, end);
+          if(issue.ruleId.startsWith("-W")) {
+            // Let's support also clang, the compiler, output
+            //
+            // clang reports warnings as -W<warning>
+            // clang-tidy reports the exact same warning as clang-diagnostic-<warning>, and no actual clang-tidy warning
+            // starts with "-W"
+            issue.ruleId = issue.ruleId.replaceFirst("^-W", "clang-diagnostic-");
+          }
           issue.info = issue.info.substring(0, start - 1);
         } else {
           issue.aliasRuleIds.clear();

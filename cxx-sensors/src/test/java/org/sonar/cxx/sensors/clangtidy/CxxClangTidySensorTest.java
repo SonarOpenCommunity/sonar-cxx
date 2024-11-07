@@ -270,6 +270,56 @@ class CxxClangTidySensorTest {
   }
 
   @Test
+  void shouldReportClangWarnings() {
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/clang.report-warning.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "to_array.hpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdbsdfghtz\nasda\n")
+      .build()
+    );
+
+    var sensor = new CxxClangTidySensor();
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(1);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("clang-diagnostic-unsafe-buffer-usage");
+  }
+
+  @Test
+  void shouldReportMixedClangWarnings() {
+    // This can easily happen when using CMake with CMAKE_CXX_CLANG_TIDY
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.clang-mixed-output.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "to_array.hpp")
+      .setLanguage("cxx")
+      .initMetadata("asd\nasdcsdfghtz\nasda\n")
+      .build()
+    );
+
+    var sensor = new CxxClangTidySensor();
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(2);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("modernize-type-traits");
+    assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("clang-diagnostic-unsafe-buffer-usage");
+  }
+
+  @Test
   void shouldReportFlow() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
