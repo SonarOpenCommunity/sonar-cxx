@@ -1,0 +1,8 @@
+to_array.hpp:17:88: warning: use c++14 style type templates [modernize-type-traits]
+   17 | to_array_impl(T (&array)[N], boost::mp11::index_sequence<I...>) -> std::array<typename std::remove_cv<T>::type, N>
+      |                                                                               ~~~~~~~~ ^                ~~~~~~
+      |                                                                                                      _t
+to_array.hpp:19:16: warning: unsafe buffer access [-Wunsafe-buffer-usage]
+   19 |     return { { array[I]... } };
+      |                ^~~~~
+1 warning generated.
