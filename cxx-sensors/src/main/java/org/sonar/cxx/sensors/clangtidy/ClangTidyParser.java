@@ -21,7 +21,7 @@ package org.sonar.cxx.sensors.clangtidy;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
@@ -34,11 +34,17 @@ public class ClangTidyParser {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClangTidyParser.class);
 
-  private static final String REGEX = "((?>[a-zA-Z]:[\\\\/])??[^:]++):(\\d{1,5}):(\\d{1,5}): ([^:]++): (.+)";
-  private static final Pattern PATTERN = Pattern.compile(REGEX);
+  private static final String LINE_REGEX = "((?>[a-zA-Z]:[\\\\/])??[^:]++):(\\d{1,5}):(\\d{1,5}): ([^:]++): (.+)";
+  private static final Pattern LINE_PATTERN = Pattern.compile(LINE_REGEX);
+
+  private static final Map<String, String> map = Map.of(
+    "note", "",
+    "warning", "clang-diagnostic-warning",
+    "error", "clang-diagnostic-error",
+    "fatal error", "clang-diagnostic-error"
+  );
 
   private final CxxIssuesReportSensor sensor;
-  private Issue issue = null;
 
   public ClangTidyParser(CxxIssuesReportSensor sensor) {
     this.sensor = sensor;
@@ -48,107 +54,89 @@ public class ClangTidyParser {
     try (var scanner = new TextScanner(report, defaultEncoding)) {
       LOG.debug("Encoding='{}'", scanner.encoding());
 
-      CxxReportIssue currentIssue = null;
+      CxxReportIssue issue = null;
       while (scanner.hasNextLine()) {
-        if (!parseLine(scanner.nextLine())) {
+        LineData data = parseLine(scanner.nextLine());
+        if (data == null) {
           continue;
         }
-        if ("note".equals(issue.level)) {
-          if (currentIssue != null) {
-            currentIssue.addFlowElement(issue.path, issue.line, issue.column, issue.info);
+        if ("note".equals(data.level)) {
+          if (issue != null) {
+            issue.addFlowElement(data.path, data.line, data.column, data.info);
           }
         } else {
-          if (currentIssue != null) {
-            sensor.saveUniqueViolation(currentIssue);
+          if (issue != null) {
+            sensor.saveUniqueViolation(issue);
           }
-          currentIssue = new CxxReportIssue(issue.ruleId, issue.path, issue.line, issue.column, issue.info);
-          for (var aliasRuleId : issue.aliasRuleIds) {
-            currentIssue.addAliasRuleId(aliasRuleId);
+          issue = new CxxReportIssue(data.ruleId, data.path, data.line, data.column, data.info);
+          for (var aliasRuleId : data.aliasRuleIds) {
+            issue.addAliasRuleId(aliasRuleId);
           }
         }
       }
-      if (currentIssue != null) {
-        sensor.saveUniqueViolation(currentIssue);
+      if (issue != null) {
+        sensor.saveUniqueViolation(issue);
       }
     }
   }
 
-  private boolean parseLine(String data) {
-    var matcher = PATTERN.matcher(data);
-    issue = null;
-    if (matcher.matches()) {
-      issue = new Issue();
+  private LineData parseLine(String line) {
+    var lineMatcher = LINE_PATTERN.matcher(line);
+    if (lineMatcher.matches()) {
+      LineData data = new LineData();
       // group: 1      2      3         4        5
       //      <path>:<line>:<column>: <level>: <info> [ruleIds]
       // sample:
       //      c:\a\file.cc:5:20: warning: txt txt [clang-diagnostic-writable-strings]
-      var m = matcher.toMatchResult();
-      issue.path = m.group(1);   // relative paths
-      issue.line = m.group(2);   // 1...n
-      issue.column = m.group(3); // 1...n
-      issue.level = m.group(4);  // error, warning, note, ...
-      issue.info = m.group(5);   // info [ruleIds]
+      var lineMatchResult = lineMatcher.toMatchResult();
+      data.path = lineMatchResult.group(1);   // relative paths
+      data.line = lineMatchResult.group(2);   // 1...n
+      data.column = lineMatchResult.group(3); // 1...n
+      data.level = lineMatchResult.group(4);  // error, warning, note, ...
+      data.info = lineMatchResult.group(5);   // info [ruleIds]
 
-      // Clang-Tidy column numbers are from 1...n and SQ is using 0...n
       try {
-        issue.column = Integer.toString(Integer.parseInt(issue.column) - 1);
+        // Clang-Tidy column numbers are from 1...n and SQ is using 0...n
+        data.column = Integer.toString(Integer.parseInt(data.column) - 1);
       } catch (java.lang.NumberFormatException e) {
-        issue.column = "";
+        data.column = "";
       }
 
-      splitRuleIds(); // info [ruleId, aliasId, ...]
-    }
-
-    return issue != null;
-  }
-
-  private void splitRuleIds() {
-    issue.ruleId = getDefaultRuleId();
-
-    if (!issue.info.endsWith("]")) { // [...]
-      return;
-    }
-
-    var end = issue.info.length() - 1;
-    for (var start = issue.info.length() - 2; start >= 0; start--) {
-      var c = issue.info.charAt(start);
-      if (Character.isLetterOrDigit(c) || c == '-' || c == '.' || c == '_') {
-        // continue
-      } else if (c == ',') {
-        var aliasId = issue.info.substring(start + 1, end);
-        if (!"-warnings-as-errors".equals(aliasId)) {
-          issue.aliasRuleIds.addFirst(aliasId);
-        }
-        end = start;
-      } else {
-        if (c == '[') {
-          issue.ruleId = issue.info.substring(start + 1, end);
-          if(issue.ruleId.startsWith("-W")) {
-            // Let's support also clang, the compiler, output
-            //
-            // clang reports warnings as -W<warning>
-            // clang-tidy reports the exact same warning as clang-diagnostic-<warning>, and no actual clang-tidy warning
-            // starts with "-W"
-            issue.ruleId = issue.ruleId.replaceFirst("^-W", "clang-diagnostic-");
+      // info [ruleId, aliasId, ...]
+      //
+      if (data.info.endsWith("]")) {
+        int pos = data.info.lastIndexOf('[');
+        if (pos != -1) {
+          for (var ruleId : data.info.substring(pos + 1, data.info.length() - 1).trim().split("\\s*[, ]\\s*")) {
+            if (data.ruleId == null) {
+              data.ruleId = ruleId;
+            } else {
+              if (!"-warnings-as-errors".equals(ruleId)) {
+                data.aliasRuleIds.add(ruleId);
+              }
+            }
           }
-          issue.info = issue.info.substring(0, start - 1);
-        } else {
-          issue.aliasRuleIds.clear();
+          data.info = data.info.substring(0, pos - 1);
         }
-        break;
       }
+
+      if (data.ruleId != null) {
+        // map Clang warning (-W<warning>) to Clang-Tidy warning (clang-diagnostic-<warning>)
+        if (data.ruleId.startsWith("-W")) {
+          data.ruleId = "clang-diagnostic-" + data.ruleId.substring(2);
+        }
+      } else {
+        data.ruleId = getDefaultRuleId(data.level);
+      }
+
+      return data;
     }
+
+    return null;
   }
 
-  String getDefaultRuleId() {
-    Map<String, String> map = Map.of(
-      "note", "",
-      "warning", "clang-diagnostic-warning",
-      "error", "clang-diagnostic-error",
-      "fatal error", "clang-diagnostic-error"
-    );
-
-    return map.getOrDefault(issue.level, "clang-diagnostic-unknown");
+  private static String getDefaultRuleId(String level) {
+    return map.getOrDefault(level, "clang-diagnostic-unknown");
   }
 
   @Override
@@ -156,14 +144,14 @@ public class ClangTidyParser {
     return getClass().getSimpleName();
   }
 
-  private static class Issue {
+  private static class LineData {
 
     private String path;
     private String line;
     private String column;
     private String level;
     private String ruleId;
-    private LinkedList<String> aliasRuleIds = new LinkedList<>();
+    private ArrayList<String> aliasRuleIds = new ArrayList<>();
     private String info;
   }
 

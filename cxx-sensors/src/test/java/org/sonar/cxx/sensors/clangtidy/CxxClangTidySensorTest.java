@@ -76,10 +76,10 @@ class CxxClangTidySensorTest {
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
       .initMetadata("""
-                    asd
-                    asdasdfghtzsdfghjuio
-                    asda
-                    """)
+        asd
+        asdasdfghtzsdfghjuio
+        asda
+        """)
       .build()
     );
 
@@ -107,10 +107,10 @@ class CxxClangTidySensorTest {
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
       .initMetadata("""
-                    asd
-                        output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
-                    asda
-                    """)
+        asd
+            output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+        asda
+        """)
       .build()
     );
 
@@ -142,11 +142,11 @@ class CxxClangTidySensorTest {
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
       .initMetadata("""
-                    asd
-                                                   _identityFunction,
-                                                   _identityFunction) {
-                    asda
-                    """)
+        asd
+                                       _identityFunction,
+                                       _identityFunction) {
+        asda
+        """)
       .build()
     );
 
@@ -172,10 +172,10 @@ class CxxClangTidySensorTest {
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
       .initMetadata("""
-                    asd
-                    X
-                    asda
-                    """)
+        asd
+        X
+        asda
+        """)
       .build()
     );
 
@@ -227,10 +227,10 @@ class CxxClangTidySensorTest {
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
       .initMetadata("""
-                    asd
-                        output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
-                    asda
-                    """)
+        asd
+            output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+        asda
+        """)
       .build()
     );
 
@@ -259,7 +259,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdasdgghs\nasda\n")
+      .initMetadata("""
+        asd
+        asdasdgghs
+        asda
+        """)
       .build()
     );
 
@@ -281,7 +285,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "to_array.hpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdbsdfghtz\nasda\n")
+      .initMetadata("""
+        asd
+        asdbsdfghtz
+        asda
+        """)
       .build()
     );
 
@@ -306,7 +314,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "to_array.hpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdcsdfghtz\nasda\n")
+      .initMetadata("""
+        asd
+        asdcsdfghtz
+        asda
+        """)
       .build()
     );
 
@@ -331,7 +343,19 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata("ab\nab\nab\nab\nab\nab\nabcdefg\nabdefgrqwe\nab\nab\nabcdefghijklm\n")
+      .initMetadata("""
+        ab
+        ab
+        ab
+        ab
+        ab
+        ab
+        abcdefg
+        abdefgrqwe
+        ab
+        ab
+        abcdefghijklm
+        """)
       .build()
     );
 
@@ -357,7 +381,11 @@ class CxxClangTidySensorTest {
     context.fileSystem().add(TestInputFileBuilder
       .create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n")
+      .initMetadata("""
+        asd
+        asdas
+        asda
+        """)
       .build()
     );
 
