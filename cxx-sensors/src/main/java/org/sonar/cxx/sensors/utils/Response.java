@@ -17,30 +17,50 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarEdition;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.utils.Version;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 
-class CxxPluginTest {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Response {
 
-  @Test
-  void testGetExtensions() {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
-      Version.create(8, 6),
-      SonarQubeSide.SCANNER,
-      SonarEdition.COMMUNITY
-    );
-    var context = new Plugin.Context(runtime);
-    var plugin = new CxxPlugin();
-    plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(84);
+  int total;
+  int p;
+  int ps;
+
+  List<Rule> rules;
+
+  public int getTotal() {
+    return total;
+  }
+
+  public void setTotal(int total) {
+    this.total = total;
+  }
+
+  public int getP() {
+    return p;
+  }
+
+  public void setP(int p) {
+    this.p = p;
+  }
+
+  public int getPs() {
+    return ps;
+  }
+
+  public void setPs(int ps) {
+    this.ps = ps;
+  }
+
+  public List<Rule> getRules() {
+    return rules;
+  }
+
+  public void setRules(List<Rule> rules) {
+    this.rules = rules;
   }
 
 }

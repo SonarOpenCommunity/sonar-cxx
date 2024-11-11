@@ -17,30 +17,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.sensors.utils;
 
-import static org.assertj.core.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarEdition;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.utils.Version;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-class CxxPluginTest {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Rule {
 
-  @Test
-  void testGetExtensions() {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
-      Version.create(8, 6),
-      SonarQubeSide.SCANNER,
-      SonarEdition.COMMUNITY
-    );
-    var context = new Plugin.Context(runtime);
-    var plugin = new CxxPlugin();
-    plugin.define(context);
-    assertThat(context.getExtensions()).hasSize(84);
+  String key;
+
+  String type;
+
+  public String getKey() {
+    return key;
+  }
+
+  public void setKey(String key) {
+    this.key = key;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 
 }

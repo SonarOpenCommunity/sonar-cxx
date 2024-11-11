@@ -51,6 +51,15 @@
       ]]></description>
     <severity>INFO</severity>
   </rule>
+  <rule>
+    <key>unknown</key>
+    <name>undefined clang-diagnostic-message</name>
+    <description><![CDATA[
+      <p>This is a placeholder for not yet covered clang errors and warnings</p>
+      ]]></description>
+    <severity>INFO</severity>
+    <type>BUG</type>
+  </rule>
 
   <!-- Clang-Tidy Rules -->
 

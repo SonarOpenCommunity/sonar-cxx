@@ -20,9 +20,14 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.CheckForNull;
 import org.slf4j.Logger;
@@ -31,6 +36,8 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
@@ -41,10 +48,18 @@ import org.sonar.cxx.utils.CxxReportLocation;
  */
 public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
+  /**
+   * Key for rules that are not yet defined in sonar
+   */
+  public static final String UNKNOWN_RULE_ID = "sonar.cxx.unknown.rule.id";
+  public static final String DEFAULT_UNKNOWN_RULE_ID = "unknown";
+
   private static final Logger LOG = LoggerFactory.getLogger(CxxIssuesReportSensor.class);
 
   private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
   private int savedNewIssues = 0;
+
+  private final Map<String, List<String>> knownRulesPerRepositoryKey = new HashMap<>();
 
   /**
    * {@inheritDoc}
@@ -52,11 +67,41 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   protected CxxIssuesReportSensor() {
   }
 
+  public static List<PropertyDefinition> properties() {
+    return Collections.unmodifiableList(Arrays.asList(
+      PropertyDefinition.builder(UNKNOWN_RULE_ID)
+        .name("Key id to be used to upload not yet defined new rules")
+        .description(
+          "This key is used to upload e.g., compiler warnings that are not yet defined in sonar. "
+          + "The used key must be defined for each cxx sensor in sonar, e.g. compiler-gcc:unknown. "
+          + "Default value is \"unknown\""
+        )
+        .category("CXX")
+        .subCategory("(1) General")
+        .defaultValue(DEFAULT_UNKNOWN_RULE_ID)
+        .onQualifiers(Qualifiers.PROJECT)
+        .build()
+    ));
+  }
+
   /**
    * {@inheritDoc}
    */
   @Override
   public void executeImpl() {
+    List<String> ruleKeys;
+    try {
+      LOG.info("Downloading rule keys for {} from {}", getRuleRepositoryKey(), context.config()
+        .get("sonar.host.url")
+        .orElse("http://localhost:9000"));
+      ruleKeys = SonarRulesKeyLoader.getRulesFor(context.config()
+        .get("sonar.host.url").orElse("http://localhost:9000"), context.config().get("sonar.login")
+        .orElse(""), "cxx", getRuleRepositoryKey());
+      knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
+      LOG.info("Donwloaded {} known rule keys for {}", ruleKeys.size(), getRuleRepositoryKey());
+    } catch (IOException | InterruptedException e) {
+      LOG.warn("Could not download known rule ids for " + getRuleRepositoryKey(), e);
+    }
     List<File> reports = getReports(getReportPathsKey());
     for (var report : reports) {
       executeReport(report);
@@ -64,6 +109,14 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private void saveIssue(String ruleId, CxxReportIssue issue) {
+    String unknownRuleId = context.config().get(UNKNOWN_RULE_ID).orElse(DEFAULT_UNKNOWN_RULE_ID);
+    if (knownRulesPerRepositoryKey.containsKey(getRuleRepositoryKey())
+      && !knownRulesPerRepositoryKey.get(getRuleRepositoryKey()).contains(ruleId)) {
+      LOG.warn("Rule {} is not known in sonar, will map to {}", ruleId, unknownRuleId);
+      issue.overRideRuleId(unknownRuleId);
+      issue.getLocations().get(0).prefixInfo("Unknown warning: " + ruleId + "; ");
+      ruleId = unknownRuleId;
+    }
     var newIssue = context.newIssue();
     if (addLocations(newIssue, ruleId, issue)) {
       addFlow(newIssue, issue);
