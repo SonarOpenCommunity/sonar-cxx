@@ -27,13 +27,19 @@ class CxxReportIssueTest {
 
   @Test
   void reportLocationEquality() {
-    var location0 = new CxxReportLocation("path0.cpp", "1", null, "Boolean value assigned to pointer.");
-    var location1 = new CxxReportLocation("path0.cpp", "1", null, "Boolean value assigned to pointer.");
+    var location0 = new CxxReportLocation(
+      "path0.cpp", "1", null, "Boolean value assigned to pointer."
+    );
+    var location1 = new CxxReportLocation(
+      "path0.cpp", "1", null, "Boolean value assigned to pointer."
+    );
     assertThat(location1)
       .isEqualTo(location0)
       .hasSameHashCodeAs(location0);
 
-    var location2 = new CxxReportLocation("path2.cpp", "1", null, "Exception thrown in destructor.");
+    var location2 = new CxxReportLocation(
+      "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
     assertThat(location0).isNotEqualTo(location2);
     assertThat(location0.hashCode()).isNotEqualTo(location2.hashCode());
 
@@ -43,11 +49,17 @@ class CxxReportIssueTest {
 
   @Test
   void reportIssueEquality() {
-    var issue0 = new CxxReportIssue("nullPointer", "path0.cpp", "1", null, "Null pointer dereference: ptr");
+    var issue0 = new CxxReportIssue(
+      "nullPointer", "path0.cpp", "1", null, "Null pointer dereference: ptr"
+    );
     issue0.addLocation("path0.cpp", "1", null, "Assignment &apos;ptr=nullptr&apos;, assigned value is 0");
 
-    var issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
-    var issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
+    var issue1 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
+    var issue2 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
 
     assertThat(issue2)
       .isEqualTo(issue1)
@@ -61,22 +73,41 @@ class CxxReportIssueTest {
   }
 
   @Test
+  void reportMappedInfo() {
+    var issue0 = new CxxReportIssue(
+      "nullPointer", "path0.cpp", "1", null, "issueInfo"
+    );
+    issue0.addLocation("path0.cpp", "1", null, "locInfo");
+    issue0.addMappedInfo();
+    assertThat(issue0.getRuleId()).isEqualTo("nullPointer");
+    assertThat(issue0.getLocations().get(0).getInfo()).isEqualTo("Unknown 'nullPointer': issueInfo");
+  }
+
+  @Test
   void reportIssueEqualityConsideringFlow() {
-    var issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
+    var issue0 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
     issue0.addFlowElement("path0.cpp", "1", null, "a");
     issue0.addFlowElement("path1.cpp", "1", null, "b");
     issue0.addFlowElement("path2.cpp", "1", null, "c");
 
-    var issue1 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
+    var issue1 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
     issue1.addFlowElement("path0.cpp", "1", null, "a");
     issue1.addFlowElement("path1.cpp", "1", null, "b");
     issue1.addFlowElement("path2.cpp", "1", null, "c");
 
-    var issue2 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
+    var issue2 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
     issue2.addFlowElement("path1.cpp", "1", null, "b");
     issue2.addFlowElement("path2.cpp", "1", null, "c");
 
-    var issue3 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
+    var issue3 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
 
     assertThat(issue1)
       .isEqualTo(issue0)
@@ -94,7 +125,9 @@ class CxxReportIssueTest {
 
   @Test
   void reportIssueFlowOrder() {
-    var issue0 = new CxxReportIssue("exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor.");
+    var issue0 = new CxxReportIssue(
+      "exceptThrowInDestructor", "path2.cpp", "1", null, "Exception thrown in destructor."
+    );
     issue0.addFlowElement("path0.cpp", "1", null, "a");
     issue0.addFlowElement("path1.cpp", "2", null, "b");
     issue0.addFlowElement("path2.cpp", "3", null, "c");

@@ -18,4 +18,16 @@ Follow these steps to make your custom rules available in SonarQube:
       ]]>
     </description>
   </rule>
+  <rule>
+    <key>unknown</key>
+    <name>Unknown 'other' rule</name>
+    <description>
+      <![CDATA[
+<p>
+By activating this rule, unknown rules in the reports are not discarded but mapped to this rule. This helps to identify unknown rules, e.g. from newer versions of a tool.
+</p>
+      ]]>
+    </description>
+    <severity>INFO</severity>
+  </rule>
 </rules>

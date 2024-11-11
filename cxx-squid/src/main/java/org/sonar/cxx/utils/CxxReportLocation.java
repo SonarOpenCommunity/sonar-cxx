@@ -32,7 +32,8 @@ public class CxxReportLocation {
   private final String file;
   private final String line;
   private final String column;
-  private String info;
+  private final String info;
+  private String infoPrefix;
 
   public CxxReportLocation(@Nullable String file, @Nullable String line, @Nullable String column, String info) {
     super();
@@ -70,25 +71,30 @@ public class CxxReportLocation {
   }
 
   public String getInfo() {
+    if (infoPrefix != null && !infoPrefix.isEmpty()) {
+      return infoPrefix + info;
+    }
     return info;
   }
 
-  public void prefixInfo(String prefix) {
-	  info=prefix+info;
+  public void setInfoPrefix(String prefix) {
+    infoPrefix = prefix;
   }
-  
+
   @Override
   public String toString() {
     return "CxxReportLocation ["
-             + "file=" + file
-             + ", line=" + line
-             + ", column=" + column
-             + ", info=" + info
-             + "]";
+      + "file=" + file
+      + ", line=" + line
+      + ", column=" + column
+      + ", infoPrefix=" + infoPrefix
+      + ", info=" + info
+      + "]";
   }
 
   @Override
   public int hashCode() {
+    // 'infoPrefix' is not part of hashCode
     return Objects.hash(file, line, column, info);
   }
 
@@ -104,10 +110,11 @@ public class CxxReportLocation {
       return false;
     }
     var other = (CxxReportLocation) obj;
+    // 'infoPrefix' is not part of equals
     return Objects.equals(line, other.line)
-             && Objects.equals(column, other.column)
-             && Objects.equals(file, other.file)
-             && Objects.equals(info, other.info);
+      && Objects.equals(column, other.column)
+      && Objects.equals(file, other.file)
+      && Objects.equals(info, other.info);
   }
 
 }

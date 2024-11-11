@@ -20,18 +20,22 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>unknown</key>
+    <name>Unknown GCC rule</name>
+    <description>
+      <![CDATA[
+<p>
+By activating this rule, unknown rules in the reports are not discarded but mapped to this rule. This helps to identify unknown rules, e.g. from newer versions of a tool.
+</p>
+      ]]>
+    </description>
+    <severity>INFO</severity>
+  </rule>
+  <rule>
     <key>default</key>
     <name>Default compiler warnings</name>
     <description>
       Default compiler warnings.
-    </description>
-    <severity>CRITICAL</severity>
-  </rule>
-  <rule>
-    <key>unknown</key>
-    <name>Unknown compiler warnings</name>
-    <description>
-      Unknown compiler warnings.
     </description>
     <severity>CRITICAL</severity>
   </rule>
