@@ -20,10 +20,11 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.CheckForNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,13 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
 
   private static final Logger LOG = LoggerFactory.getLogger(CxxIssuesReportSensor.class);
 
-  private final Set<CxxReportIssue> uniqueIssues = new HashSet<>();
+  public static final String DEFAULT_UNKNOWN_RULE_KEY = "unknown";
+
+  private final HashSet<CxxReportIssue> uniqueIssues = new HashSet<>();
   private int savedNewIssues = 0;
+
+  private final HashMap<String, HashSet<String>> knownRulesPerRepositoryKey = new HashMap<>();
+  private final HashSet<String> mappedRuleIds = new HashSet<>();
 
   /**
    * {@inheritDoc}
@@ -57,19 +63,63 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
    */
   @Override
   public void executeImpl() {
+    downloadRulesFromServer();
     List<File> reports = getReports(getReportPathsKey());
     for (var report : reports) {
       executeReport(report);
     }
   }
 
+  private void downloadRulesFromServer() {
+
+    // deactivate mapping if 'unknown' rule is not active
+    if (context.activeRules().find(RuleKey.of(getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY)) == null) {
+      LOG.info("Rule mapping to '{}:{}' is not active", getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY);
+      return;
+    }
+
+    try {
+      String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
+      LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
+      var ruleKeys = SonarServerWebApi.getRuleKeys(
+        url,
+        context.config().get("sonar.token")
+          .or(() -> context.config().get("sonar.login")) // deprecated: can be removed in future
+          .orElse(System.getenv("SONAR_TOKEN")),
+        "cxx",
+        getRuleRepositoryKey());
+      if (!ruleKeys.isEmpty()) {
+        knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
+        LOG.debug("{} rules for '{}' were loaded from server", ruleKeys.size(), getRuleRepositoryKey());
+      }
+    } catch (IOException e) {
+      LOG.warn("Rules for '{}' could not be loaded from server", getRuleRepositoryKey(), e);
+    }
+  }
+
   private void saveIssue(String ruleId, CxxReportIssue issue) {
+    ruleId = mapUnknownRuleId(ruleId, issue);
     var newIssue = context.newIssue();
     if (addLocations(newIssue, ruleId, issue)) {
       addFlow(newIssue, issue);
       newIssue.save();
       savedNewIssues++;
     }
+  }
+
+  private String mapUnknownRuleId(String ruleId, CxxReportIssue issue) {
+    var repository = knownRulesPerRepositoryKey.get(getRuleRepositoryKey());
+    if (repository != null && !repository.contains(ruleId)) {
+      if (mappedRuleIds.add(ruleId)) {
+        LOG.info("Rule '{}' is unknown in '{}' and will be mapped to '{}'",
+          ruleId,
+          getRuleRepositoryKey(),
+          DEFAULT_UNKNOWN_RULE_KEY);
+      }
+      issue.addMappedInfo();
+      ruleId = DEFAULT_UNKNOWN_RULE_KEY;
+    }
+    return ruleId;
   }
 
   /**

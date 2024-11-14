@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+  <cppcheck version="1.61"/>
+  <errors>
+
+    <!-- known rule from Cppcheck -->
+    <error id="unusedVariable" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/main.cc" line="5"/>
+    </error>
+    <!-- same violation again to see that it is not added more than once -->
+    <error id="unusedVariable" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/main.cc" line="5"/>
+    </error>
+    <error id="unusedVariable" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/main.cc" line="5"/>
+    </error>
+
+    <!-- unknown rule from Cppcheck -->
+    <error id="id_of_a_rule_unknown_to_the_server" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/main.cc" line="5"/>
+    </error>
+    <!-- same violation again to see that it is not added more than once -->
+    <error id="id_of_a_rule_unknown_to_the_server" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/main.cc" line="5"/>
+    </error>
+    <error id="id_of_a_rule_unknown_to_the_server" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/main.cc" line="5"/>
+    </error>
+
+  </errors>
+</results>

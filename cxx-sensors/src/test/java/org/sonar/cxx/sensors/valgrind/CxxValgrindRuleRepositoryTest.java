@@ -41,15 +41,15 @@ class CxxValgrindRuleRepositoryTest {
     var context = new RulesDefinition.Context();
     def.define(context);
     RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(16);
+    assertThat(repo.rules()).hasSize(17);
   }
 
   @ParameterizedTest
   @CsvSource({
-    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml', 18",
-    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml', 17",
-    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml', 16",
-    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml', 16"
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesOldFormat.xml', 19",
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesNewFormat.xml', 18",
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesInvalid.xml', 17",
+    "'/org/sonar/cxx/sensors/rules-repository/CustomRulesEmptyFile.xml', 17"
   })
   void containsValidFormatInExtensionRules(String reportFile, int issues) {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);

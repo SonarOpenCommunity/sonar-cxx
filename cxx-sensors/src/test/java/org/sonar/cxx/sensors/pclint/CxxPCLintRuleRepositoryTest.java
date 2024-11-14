@@ -36,7 +36,7 @@ class CxxPCLintRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(1920);
+    assertThat(repo.rules()).hasSize(1921);
   }
 
 }

@@ -20,6 +20,18 @@ Follow these steps to make your custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>unknown</key>
+    <name>Unknown Cppcheck rule</name>
+    <description>
+      <![CDATA[
+<p>
+By activating this rule, unknown rules in the reports are not discarded but mapped to this rule. This helps to identify unknown rules, e.g. from newer versions of a tool.
+</p>
+      ]]>
+    </description>
+    <severity>INFO</severity>
+  </rule>
+  <rule>
     <key>AssignmentAddressToInteger</key>
     <name>Assigning a pointer to an integer is not portable</name>
     <description>
@@ -8110,7 +8122,7 @@ Pointer arithmetic overflow.
     <severity>MINOR</severity>
     <remediationFunction>CONSTANT_ISSUE</remediationFunction>
     <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
-    </rule>  
+    </rule>
   <!-- ########### New in Cppcheck 2.15.0 ########### -->
   <rule>
     <key>suspiciousFloatingPointCast</key>
@@ -8148,7 +8160,7 @@ Pointer arithmetic overflow.
     </rule>
    <rule>
     <key>"unknownMacro</key>
-    <name>Internal Error: Unkown macro</name>
+    <name>Internal Error: Unknown macro</name>
     <description>
       There is an unknown macro here somewhere. Configuration is required. If 'token' is a macro then please configure it.
     </description>

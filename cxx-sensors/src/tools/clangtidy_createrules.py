@@ -426,7 +426,7 @@ def create_clang_default_rules(rules):
     rule_name = "clang-diagnostic-unknown"
     rule_type = DIAG_CLASS["CLASS_REMARK"]["sonarqube_type"]
     rule_severity = SEVERITY["SEV_Remark"]["sonarqube_severity"]
-    rule_description = "<p>(Unkown) compiler diagnostic without an explicit check name.</p>"
+    rule_description = "<p>(Unknown) compiler diagnostic without an explicit check name.</p>"
 
     rule = et.Element('rule')
     et.SubElement(rule, 'key').text = rule_key

@@ -41,7 +41,7 @@ class CxxDrMemoryRuleRepositoryTest {
 
     RulesDefinition.Repository repo = context.repository(CxxDrMemoryRuleRepository.KEY);
     List<Rule> rules = repo.rules();
-    assertThat(rules).hasSize(9);
+    assertThat(rules).hasSize(10);
   }
 
 }

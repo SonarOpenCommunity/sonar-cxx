@@ -37,7 +37,7 @@ class CxxInferRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxInferRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(164);
+    assertThat(repo.rules()).hasSize(165);
   }
 
 }

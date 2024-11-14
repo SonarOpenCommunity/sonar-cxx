@@ -36,7 +36,7 @@ class CxxVeraxxRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(28);
+    assertThat(repo.rules()).hasSize(29);
   }
 
 }

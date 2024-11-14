@@ -25,6 +25,21 @@
       ]]></description>
   </rule>
 
+  <!-- Unknown Rule -->
+
+  <rule>
+    <key>unknown</key>
+    <name>Unknown Clang-Tidy rule</name>
+    <description>
+      <![CDATA[
+<p>
+By activating this rule, unknown rules in the reports are not discarded but mapped to this rule. This helps to identify unknown rules, e.g. from newer versions of a tool.
+</p>
+      ]]>
+    </description>
+    <severity>INFO</severity>
+  </rule>
+
   <!-- Default Rules -->
 
   <rule>
@@ -47,7 +62,7 @@
     <key>clang-diagnostic-unknown</key>
     <name>clang-diagnostic-unknown</name>
     <description><![CDATA[
-      <p>(Unkown) compiler diagnostic without an explicit check name.</p>
+      <p>(Unknown) compiler diagnostic without an explicit check name.</p>
       ]]></description>
     <severity>INFO</severity>
   </rule>

@@ -92,7 +92,7 @@ class CxxOtherRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
-    assertThat(repo.rules()).hasSize(1);
+    assertThat(repo.rules()).hasSize(2);
   }
 
   @Test
@@ -104,7 +104,7 @@ class CxxOtherRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
-    assertThat(repo.rules()).hasSize(3);
+    assertThat(repo.rules()).hasSize(4);
   }
 
   @Test
@@ -116,7 +116,7 @@ class CxxOtherRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
-    assertThat(repo.rules()).hasSize(1);
+    assertThat(repo.rules()).hasSize(2);
   }
 
   @Test
@@ -146,7 +146,7 @@ class CxxOtherRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
-    assertThat(repo.rules()).hasSize(3);
+    assertThat(repo.rules()).hasSize(4);
 
     var rule = repo.rule("key1");
     assertThat(rule).isNotNull();
