@@ -59,7 +59,7 @@ import org.sonar.cxx.sslr.internal.vm.lexerful.TokensBridgeExpression;
  * @since 1.18
  * @see LexerlessGrammarBuilder
  */
-public class LexerfulGrammarBuilder extends GrammarBuilder {
+public final class LexerfulGrammarBuilder extends GrammarBuilder {
 
   private final Map<GrammarRuleKey, RuleDefinition> definitions = new HashMap<>();
   private GrammarRuleKey rootRuleKey;

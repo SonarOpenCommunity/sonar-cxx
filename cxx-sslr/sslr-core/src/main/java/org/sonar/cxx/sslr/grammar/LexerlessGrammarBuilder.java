@@ -53,7 +53,7 @@ import org.sonar.cxx.sslr.parser.LexerlessGrammar;
  * @since 1.18
  * @see LexerfulGrammarBuilder
  */
-public class LexerlessGrammarBuilder extends GrammarBuilder {
+public final class LexerlessGrammarBuilder extends GrammarBuilder {
 
   private final Map<GrammarRuleKey, MutableParsingRule> definitions = new HashMap<>();
   private GrammarRuleKey rootRuleKey;

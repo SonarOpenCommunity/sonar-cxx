@@ -21,7 +21,7 @@ package org.sonar.cxx.channels;
 
 import org.sonar.cxx.sslr.channel.CodeReader;
 
-public class ChannelUtils {
+public final class ChannelUtils {
 
   public static final char LF = '\n';
   public static final char CR = '\r';
@@ -44,14 +44,10 @@ public class ChannelUtils {
   }
 
   /**
-   * Handle line splicing.
-   * - lines terminated by a \ are spliced together with the next line
-   * - P2178R0 making trailing whitespaces non-significant
+   * Handle line splicing. - lines terminated by a \ are spliced together with the next line - P2178R0 making trailing
+   * whitespaces non-significant
    *
-   * line endings:
-   * - Linux/Unix, Mac from OS X a.k.a macOS: LF
-   * - Windows/DOS: CR LF
-   * - Classic Mac OS: CR
+   * line endings: - Linux/Unix, Mac from OS X a.k.a macOS: LF - Windows/DOS: CR LF - Classic Mac OS: CR
    *
    * @return numbers of sign to remove to splice the lines
    */

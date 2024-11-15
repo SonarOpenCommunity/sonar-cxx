@@ -31,7 +31,7 @@ import java.util.List;
 import javax.annotation.CheckForNull;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypeExpression;
 
-public class LexerfulAstCreator {
+public final class LexerfulAstCreator {
 
   private final List<Token> tokens;
 

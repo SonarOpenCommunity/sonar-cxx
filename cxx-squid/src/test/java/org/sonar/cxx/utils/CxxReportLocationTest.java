@@ -52,8 +52,9 @@ public class CxxReportLocationTest {
     assertThat(loc0.getInfo()).isEqualTo("info");
     loc0.setInfoPrefix("prefix:");
     assertThat(loc0.getInfo()).isEqualTo("prefix:info");
-    assertThat(loc0).isEqualTo(loc1);
-    assertThat(loc0).hasSameHashCodeAs(loc1);
+    assertThat(loc0)
+      .isEqualTo(loc1)
+      .hasSameHashCodeAs(loc1);
   }
 
   @Test

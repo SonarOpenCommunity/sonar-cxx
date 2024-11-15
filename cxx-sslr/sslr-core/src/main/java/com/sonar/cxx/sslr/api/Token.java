@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * the parser. By definition, comments and preprocessing directives should not be seen by the parser that's why such
  * Trivia, when they exist, are attached to the next token.
  */
-public class Token {
+public final class Token {
 
   private final TokenType type;
   private final String value;

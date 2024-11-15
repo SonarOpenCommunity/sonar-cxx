@@ -80,10 +80,10 @@ public class ClangTidyParser {
     }
   }
 
-  private LineData parseLine(String line) {
+  private static LineData parseLine(String line) {
     var lineMatcher = LINE_PATTERN.matcher(line);
     if (lineMatcher.matches()) {
-      LineData data = new LineData();
+      var data = new LineData();
       // group: 1      2      3         4        5
       //      <path>:<line>:<column>: <level>: <info> [ruleIds]
       // sample:
@@ -95,44 +95,50 @@ public class ClangTidyParser {
       data.level = lineMatchResult.group(4);  // error, warning, note, ...
       data.info = lineMatchResult.group(5);   // info [ruleIds]
 
-      try {
-        // Clang-Tidy column numbers are from 1...n and SQ is using 0...n
-        data.column = Integer.toString(Integer.parseInt(data.column) - 1);
-      } catch (java.lang.NumberFormatException e) {
-        data.column = "";
-      }
-
-      // info [ruleId, aliasId, ...]
-      //
-      if (data.info.endsWith("]")) {
-        int pos = data.info.lastIndexOf('[');
-        if (pos != -1) {
-          for (var ruleId : data.info.substring(pos + 1, data.info.length() - 1).trim().split("\\s*[, ]\\s*")) {
-            if (data.ruleId == null) {
-              data.ruleId = ruleId;
-            } else {
-              if (!"-warnings-as-errors".equals(ruleId)) {
-                data.aliasRuleIds.add(ruleId);
-              }
-            }
-          }
-          data.info = data.info.substring(0, pos - 1);
-        }
-      }
-
-      if (data.ruleId != null) {
-        // map Clang warning (-W<warning>) to Clang-Tidy warning (clang-diagnostic-<warning>)
-        if (data.ruleId.startsWith("-W")) {
-          data.ruleId = "clang-diagnostic-" + data.ruleId.substring(2);
-        }
-      } else {
-        data.ruleId = getDefaultRuleId(data.level);
-      }
+      adjustColumn(data);
+      parseRuleIds(data);
 
       return data;
     }
 
     return null;
+  }
+
+  private static void adjustColumn(LineData data) {
+    try {
+      // Clang-Tidy column numbers are from 1...n and SQ is using 0...n
+      data.column = Integer.toString(Integer.parseInt(data.column) - 1);
+    } catch (java.lang.NumberFormatException e) {
+      data.column = "";
+    }
+  }
+
+  private static void parseRuleIds(LineData data) {
+    // info [ruleId, aliasId, ...]
+    if (data.info.endsWith("]")) {
+      int pos = data.info.lastIndexOf('[');
+      if (pos != -1) {
+        for (var ruleId : data.info.substring(pos + 1, data.info.length() - 1).trim().split("\\s*+,\\s*+")) {
+          if (data.ruleId == null) {
+            data.ruleId = ruleId;
+          } else {
+            if (!"-warnings-as-errors".equals(ruleId)) {
+              data.aliasRuleIds.add(ruleId);
+            }
+          }
+        }
+        data.info = data.info.substring(0, pos - 1);
+      }
+    }
+
+    if (data.ruleId != null) {
+      // map Clang warning (-W<warning>) to Clang-Tidy warning (clang-diagnostic-<warning>)
+      if (data.ruleId.startsWith("-W")) {
+        data.ruleId = "clang-diagnostic-" + data.ruleId.substring(2);
+      }
+    } else {
+      data.ruleId = getDefaultRuleId(data.level);
+    }
   }
 
   private static String getDefaultRuleId(String level) {

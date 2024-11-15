@@ -22,11 +22,11 @@ package org.sonar.cxx.sensors.valgrind;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents a call stack, consists basically of a list of frames
@@ -59,9 +59,7 @@ class ValgrindStack {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder()
-      .append(frames)
-      .toHashCode();
+    return Objects.hash(frames);
   }
 
   @Override

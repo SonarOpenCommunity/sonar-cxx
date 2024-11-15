@@ -26,7 +26,7 @@ package org.sonar.cxx.sslr.channel; // cxx: in use
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChannelDispatcher<O> extends Channel<O> {
+public final class ChannelDispatcher<O> extends Channel<O> {
 
   private final boolean failIfNoChannelToConsumeOneCharacter;
 

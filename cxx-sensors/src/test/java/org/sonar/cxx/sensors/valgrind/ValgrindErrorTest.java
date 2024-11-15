@@ -56,8 +56,9 @@ class ValgrindErrorTest {
 
   @Test
   void errorEqualityWorksAsExpected() {
-    assertThat(error).isEqualTo(equalError);
-    assertThat(error).isNotEqualTo(otherError);
+    assertThat(error)
+      .isEqualTo(equalError)
+      .isNotEqualTo(otherError);
   }
 
   @Test

@@ -20,10 +20,10 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
+import java.util.Objects;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents a stack frame. Overwrites equality. Has a string serialization that resembles the valgrind output in
@@ -43,7 +43,7 @@ class ValgrindFrame {
    * meaningful information.
    */
   public ValgrindFrame(@Nullable String ip, @Nullable String obj, @Nullable String fn, @Nullable String dir,
-                       @Nullable String file, @Nullable String line) {
+    @Nullable String file, @Nullable String line) {
     this.ip = (ip != null) ? ip : "???";
     this.obj = (obj != null) ? obj : "";
     this.fn = (fn != null) ? fn : "???";
@@ -88,14 +88,7 @@ class ValgrindFrame {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder()
-      .append(ip)
-      .append(obj)
-      .append(fn)
-      .append(dir)
-      .append(file)
-      .append(line)
-      .toHashCode();
+    return Objects.hash(ip, obj, fn, dir, file, line);
   }
 
   public boolean isLocationKnown() {
