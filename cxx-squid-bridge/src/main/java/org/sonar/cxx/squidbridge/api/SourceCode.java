@@ -24,6 +24,7 @@
 package org.sonar.cxx.squidbridge.api; // cxx: in use
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -152,7 +153,7 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
 
   @Override
   public int hashCode() {
-    return key.hashCode();
+    return Objects.hash(key);
   }
 
   @Override

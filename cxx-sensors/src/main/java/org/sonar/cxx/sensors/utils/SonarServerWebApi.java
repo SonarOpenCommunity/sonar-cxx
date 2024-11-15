@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SonarServerWebApi {
+public final class SonarServerWebApi {
 
   private static final Logger LOG = LoggerFactory.getLogger(CxxIssuesReportSensor.class);
   static ObjectMapper objectMapper = new ObjectMapper();

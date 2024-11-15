@@ -77,7 +77,7 @@ class ToolkitPresenterTest {
     presenter.initUncaughtExceptionsHandler();
 
     var uncaughtExceptionHandler = Thread.currentThread().getUncaughtExceptionHandler();
-    assertThat(uncaughtExceptionHandler instanceof ThreadGroup).isFalse();
+    assertThat(uncaughtExceptionHandler).isNotInstanceOf(ThreadGroup.class);
 
     var e = mock(Throwable.class);
 
@@ -129,7 +129,7 @@ class ToolkitPresenterTest {
 
     presenter.run("my_mocked_title");
 
-    assertThat(Thread.currentThread().getUncaughtExceptionHandler() instanceof ThreadGroup).isFalse();
+    assertThat(Thread.currentThread().getUncaughtExceptionHandler()).isNotInstanceOf(ThreadGroup.class);
     verify(view).setTitle("my_mocked_title");
     verify(view).displayHighlightedSourceCode("");
     verify(view).displayAst(null);

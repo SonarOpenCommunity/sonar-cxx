@@ -23,6 +23,7 @@
  */
 package org.sonar.cxx.squidbridge.indexer; // cxx: in use
 
+import java.util.Objects;
 import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.api.Query;
 import org.sonar.cxx.squidbridge.api.SourceCode;
@@ -66,6 +67,6 @@ public class QueryByType implements Query {
 
   @Override
   public int hashCode() {
-    return resourceType != null ? resourceType.hashCode() : 0;
+    return Objects.hash(resourceType);
   }
 }

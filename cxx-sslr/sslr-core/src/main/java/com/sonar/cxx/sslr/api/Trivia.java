@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * The Trivia class holds on to a piece of source text that should otherwise not turn into a token; for example, a
  * preprocessor directive, a line continuation character, or a comment.
  */
-public class Trivia {
+public final class Trivia {
 
   /**
    * Trivia kinds
