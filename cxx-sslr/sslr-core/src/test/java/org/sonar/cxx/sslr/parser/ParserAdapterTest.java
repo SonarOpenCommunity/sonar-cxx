@@ -60,7 +60,7 @@ class ParserAdapterTest {
 
   @Test
   void shouldParseString() {
-    parser.parse("1+1");
+    assertThatCode(() -> parser.parse("1+1")).doesNotThrowAnyException();
   }
 
   @Test
@@ -79,7 +79,7 @@ class ParserAdapterTest {
        var writer = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);) {
       writer.write("1+1");
     }
-    parser.parse(file);
+    assertThatCode(() -> parser.parse(file)).doesNotThrowAnyException();
   }
 
   @Test

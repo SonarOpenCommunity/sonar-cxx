@@ -23,19 +23,25 @@ import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
 import org.sonar.cxx.sensors.coverage.vs.CxxCoverageVisualStudioSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 class CxxMSCoverageSensorTest {
 
+  @RegisterExtension
+  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private final MapSettings settings = new MapSettings();
+  private final String metaData = "asd\nasdas\nasda" + "\n".repeat(30);
 
   @BeforeEach
   public void setUp() {
@@ -50,11 +56,11 @@ class CxxMSCoverageSensorTest {
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .initMetadata(metaData)
       .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/rootfinder/rootfinder.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .initMetadata(metaData)
       .build());
 
     var sensor = new CxxCoverageVisualStudioSensor();
@@ -75,14 +81,14 @@ class CxxMSCoverageSensorTest {
   void shouldReportCoverageWhenVisualStudioCase() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCoverageVisualStudioSensor.REPORT_PATH_KEY,
-                         "coverage-reports/MSCoverage/coverage-result-visual-studio.xml");
+      "coverage-reports/MSCoverage/coverage-result-visual-studio.xml");
     context.setSettings(settings);
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source1.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx").initMetadata(metaData)
       .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "project2/source2.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .setLanguage("cxx").initMetadata(metaData)
       .build());
 
     var sensor = new CxxCoverageVisualStudioSensor();
@@ -116,15 +122,21 @@ class CxxMSCoverageSensorTest {
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .initMetadata(metaData)
       .build());
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/rootfinder/rootfinder.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .initMetadata(metaData)
       .build());
 
     var sensor = new CxxCoverageVisualStudioSensor();
+    logTester.clear();
     sensor.execute(context);
+
+    var log = logTester.logs();
+    assertThat(log).hasSize(2);
+    assertThat(log.get(0)).contains("faulty.xml");
+    assertThat(log.get(1)).contains("skipping");
   }
 
   @Test
@@ -135,7 +147,7 @@ class CxxMSCoverageSensorTest {
 
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source/motorcontroller/motorcontroller.cpp")
       .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+      .initMetadata(metaData)
       .build());
 
     var sensor = new CxxCoverageVisualStudioSensor();

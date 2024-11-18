@@ -29,13 +29,14 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class SonarServerWebApi {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CxxIssuesReportSensor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SonarServerWebApi.class);
   static ObjectMapper objectMapper = new ObjectMapper();
 
   private SonarServerWebApi() {
@@ -52,7 +53,7 @@ public final class SonarServerWebApi {
    *
    * @throws IOException if an I/O error occurs when sending or receiving
    */
-  public static HashSet<String> getRuleKeys(String serverUrl, String authenticationToken, String language, String tag)
+  public static Set<String> getRuleKeys(String serverUrl, String authenticationToken, String language, String tag)
     throws IOException {
 
     int p = 0;

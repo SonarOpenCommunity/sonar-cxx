@@ -274,7 +274,8 @@ class CodeBufferTest {
   void testWrongEndOfStreamFilter() {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new WrongEndOfStreamFilter());
-    new CodeBuffer("foo", configuration);
+    var codeBuffer = new CodeBuffer("foo", configuration);
+    assertThat(codeBuffer.lastChar()).isEqualTo(-1);
   }
 
   class WrongEndOfStreamFilter extends CodeReaderFilter<Object> {

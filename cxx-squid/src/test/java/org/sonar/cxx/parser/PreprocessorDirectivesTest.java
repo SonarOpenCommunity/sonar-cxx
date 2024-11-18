@@ -94,6 +94,7 @@ class PreprocessorDirectivesTest extends ParserBaseTestHelper {
                      """))
       .isEqualTo("a ; EOF");
 
+    // TODO: wrong assert
     assertThat(parse("""
                      #define A_B A/*Comment*/B
                       A_B;
