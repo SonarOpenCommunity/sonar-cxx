@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.CheckForNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private final HashSet<CxxReportIssue> uniqueIssues = new HashSet<>();
   private int savedNewIssues = 0;
 
-  private final HashMap<String, HashSet<String>> knownRulesPerRepositoryKey = new HashMap<>();
+  private final HashMap<String, Set<String>> knownRulesPerRepositoryKey = new HashMap<>();
   private final HashSet<String> mappedRuleIds = new HashSet<>();
 
   /**

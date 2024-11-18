@@ -111,7 +111,7 @@ class AstWalkerTest {
 
   @Test
   void testAddVisitor() {
-    var walker = new AstWalker();
+    var walker1 = new AstWalker();
 
     var astNodeType = mock(AstNodeType.class);
 
@@ -121,8 +121,8 @@ class AstWalkerTest {
     var visitor2 = mock(AstVisitor.class);
     when(visitor2.getAstNodeTypesToVisit()).thenReturn(Arrays.asList(astNodeType));
 
-    walker.addVisitor(visitor1);
-    walker.addVisitor(visitor2);
+    walker1.addVisitor(visitor1);
+    walker1.addVisitor(visitor2);
   }
 
 }

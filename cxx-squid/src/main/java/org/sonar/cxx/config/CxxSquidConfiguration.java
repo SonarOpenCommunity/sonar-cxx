@@ -568,18 +568,26 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @throws IOException
    */
   public static boolean fileSystemIsCaseSensitive() throws IOException {
-    Path a = null;
-    Path b = null;
+    File a = null;
+    File b = null;
     try {
-      Path tempDir = Files.createTempDirectory("test");
-      a = Files.createFile(tempDir.resolve(Paths.get("test.test")));
-      b = Files.createFile(tempDir.resolve(Paths.get("TEST.TEST")));
+      Path tempDir = Files.createTempDirectory("case_sensitive");
+      a = Files.createFile(tempDir.resolve(Paths.get("test.test"))).toFile();
+      var failed = !a.setReadable(true, true)
+        || !a.setWritable(false, false)
+        || !a.setExecutable(false, false);
+      b = Files.createFile(tempDir.resolve(Paths.get("TEST.TEST"))).toFile();
+      failed = !a.setReadable(true, true)
+        || !a.setWritable(false, false)
+        || !a.setExecutable(false, false);
     } catch (FileAlreadyExistsException e) {
       return false;
     } finally {
-      Files.deleteIfExists(a);
+      if (a != null) {
+        Files.deleteIfExists(a.toPath());
+      }
       if (b != null) {
-        Files.deleteIfExists(b);
+        Files.deleteIfExists(b.toPath());
       }
     }
     return true;

@@ -118,7 +118,8 @@ public class ClangTidyParser {
     if (data.info.endsWith("]")) {
       int pos = data.info.lastIndexOf('[');
       if (pos != -1) {
-        for (var ruleId : data.info.substring(pos + 1, data.info.length() - 1).trim().split("\\s*+,\\s*+")) {
+        for (var ruleId : data.info.substring(pos + 1, data.info.length() - 1).split(",")) {
+          ruleId = ruleId.trim();
           if (data.ruleId == null) {
             data.ruleId = ruleId;
           } else {
