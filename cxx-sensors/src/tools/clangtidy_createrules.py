@@ -347,6 +347,41 @@ def rstfile_to_rule(path, fix_urls):
     return rule
 
 
+def add_old_clangtidy_rules(rules):
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-analyzer-core.DynamicTypePropagation'
+    et.SubElement(rule, 'name').text = 'clang-analyzer-core.DynamicTypePropagation'
+    et.SubElement(rule, 'description').append(CDATA("""<div class="title">
+<p>clang-tidy - clang-analyzer-core.DynamicTypePropagation</p>
+</div>
+<h1 id="clang-analyzer-core.dynamictypepropagation">clang-analyzer-core.DynamicTypePropagation</h1>
+<p>Generate dynamic type information</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/core.DynamicTypePropagation.html" target="_blank">clang.llvm.org</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'cert-dcl21-cpp'
+    et.SubElement(rule, 'name').text = 'cert-dcl21-cpp'
+    et.SubElement(rule, 'description').append(CDATA("""<div class="title">
+<p>clang-tidy - cert-dcl21-cpp</p>
+</div>
+<h1 id="cert-dcl21-cpp">cert-dcl21-cpp</h1>
+<div class="note">
+<div class="title">
+<p>Note</p>
+</div>
+<p>This check is deprecated since it's no longer part of the CERT standard. It will be removed in <code class="interpreted-text" role="program">clang-tidy</code> version 19.</p>
+</div>
+<p>This check flags postfix <code>operator++</code> and <code>operator--</code> declarations if the return type is not a const object. This also warns if the return type is a reference type.</p>
+<p>The object returned by a postfix increment or decrement operator is supposed to be a snapshot of the object's value prior to modification. With such an implementation, any modifications made to the resulting object from calling operator++(int) would be modifying a temporary object. Thus, such an implementation of a postfix increment or decrement operator should instead return a const object, prohibiting accidental mutation of a temporary object. Similarly, it is unexpected for the postfix operator to return a reference to its previous state, and any subsequent modifications would be operating on a stale object.</p>
+<p>This check corresponds to the CERT C++ Coding Standard recommendation DCL21-CPP. Overloaded postfix increment and decrement operators should return a const object. However, all of the CERT recommendations have been removed from public view, and so their justification for the behavior of this check requires an account on their wiki to view.</p>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert/dcl21-cpp.html" target="_blank">clang.llvm.org</a></p>"""))
+    rules.append(rule)
+
+
 def rstfiles_to_rules_xml(directory, fix_urls):
     sys.stderr.write("[INFO] read .rst files '{}'\n".format(directory))
     rules = et.Element('rules')
@@ -356,6 +391,8 @@ def rstfiles_to_rules_xml(directory, fix_urls):
             if ext == ".rst" and f != "list.rst":
                 rst_file_path = os.path.join(subdir, f)
                 rules.append(rstfile_to_rule(rst_file_path, fix_urls))
+
+    add_old_clangtidy_rules(rules)
 
     rules[:] = sorted(rules, key=lambda rule: rule.find('key').text.casefold())
 
