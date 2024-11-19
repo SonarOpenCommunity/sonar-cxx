@@ -12137,7 +12137,7 @@ public:
 +  C(std::string S) : S(std::move(S)) {}
 };</code></pre>
 <div class="seealso">
-<p>For more information about the pass-by-value idiom, read: <a href="http://clang.llvm.org/extra/clang-tidy/checks/">Want Speed? Pass by Value</a>.</p>
+<p>For more information about the pass-by-value idiom, read: <a href="https://web.archive.org/web/20140205194657/http://cpp-next.com/archive/2009/08/want-speed-pass-by-value/">Want Speed? Pass by Value</a>.</p>
 </div>
 <h2 id="options">Options</h2>
 <div class="option">
