@@ -608,6 +608,8 @@ def diagnostics_to_rules_xml(json_file):
 
             rules.append(rule)
 
+    rules[:] = sorted(rules, key=lambda rule: rule.find('key').text.lower())
+
     write_rules_xml(rules, sys.stdout)
 
 #
