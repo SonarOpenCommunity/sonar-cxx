@@ -357,7 +357,7 @@ def add_old_clangtidy_rules(rules):
 <h1 id="clang-analyzer-core.dynamictypepropagation">clang-analyzer-core.DynamicTypePropagation</h1>
 <p>Generate dynamic type information</p>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/clang-analyzer/core.DynamicTypePropagation.html" target="_blank">clang.llvm.org</a></p>"""))
+<p><a href="https://releases.llvm.org/17.0.1/tools/clang/tools/extra/docs/clang-tidy/checks/clang-analyzer/core.DynamicTypePropagation.html" target="_blank">clang.llvm.org</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -378,7 +378,7 @@ def add_old_clangtidy_rules(rules):
 <p>The object returned by a postfix increment or decrement operator is supposed to be a snapshot of the object's value prior to modification. With such an implementation, any modifications made to the resulting object from calling operator++(int) would be modifying a temporary object. Thus, such an implementation of a postfix increment or decrement operator should instead return a const object, prohibiting accidental mutation of a temporary object. Similarly, it is unexpected for the postfix operator to return a reference to its previous state, and any subsequent modifications would be operating on a stale object.</p>
 <p>This check corresponds to the CERT C++ Coding Standard recommendation DCL21-CPP. Overloaded postfix increment and decrement operators should return a const object. However, all of the CERT recommendations have been removed from public view, and so their justification for the behavior of this check requires an account on their wiki to view.</p>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert/dcl21-cpp.html" target="_blank">clang.llvm.org</a></p>"""))
+<p><a href="https://releases.llvm.org/18.1.0/tools/clang/tools/extra/docs/clang-tidy/checks/cert/dcl21-cpp.html" target="_blank">clang.llvm.org</a></p>"""))
     rules.append(rule)
 
 
@@ -589,7 +589,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++2b extension</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2b-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wpre-c-2b-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -605,7 +605,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++2b extension</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2b-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wpre-c-2b-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -617,7 +617,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: support for std::experimental::%0 will be removed in LLVM 15; use std::%0 instead</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-experimental-coroutine" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wdeprecated-experimental-coroutine" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -678,7 +678,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: this requires expression will only be checked for syntactic validity; did you intend to place it in a nested requirement? (add another 'requires' before the expression)</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wrequires-expression" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/13.0.0/tools/clang/docs/DiagnosticsReference.html#wrequires-expression" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -690,7 +690,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: ISO C++20 does not permit the 'bool' keyword after 'concept'</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wconcepts-ts-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/15.0.0/tools/clang/docs/DiagnosticsReference.html#wconcepts-ts-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -702,7 +702,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: interrupt service routine should only call a function with attribute 'no_caller_saved_registers'</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winterrupt-service-routine" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/17.0.1/tools/clang/docs/DiagnosticsReference.html#winterrupt-service-routine" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -714,7 +714,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: ISO C++20 does not permit using directive to be exported</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wexport-using-directive" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wexport-using-directive" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -726,7 +726,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: overriding '%0' option with '%1'</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#woverriding-t-option" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/17.0.1/tools/clang/docs/DiagnosticsReference.html#woverriding-t-option" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -738,7 +738,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: defaulted definition of %select{%sub{select_defaulted_comparison_kind}1|three-way comparison operator}0 that is declared %select{constexpr|consteval}2 but%select{|for which the corresponding implicit 'operator==' }0 invokes a non-constexpr comparison function is a C++23 extension</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-23-default-comp-relaxed-constexpr" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/18.1.0/tools/clang/docs/DiagnosticsReference.html#wc-23-default-comp-relaxed-constexpr" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -751,7 +751,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: analyzer option '%0' is deprecated. This flag will be removed in %1, and passing this option will be an error. Use '%2' instead.</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-static-analyzer-flag" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/18.1.0/tools/clang/docs/DiagnosticsReference.html#wdeprecated-static-analyzer-flag" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -763,7 +763,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: passing a type argument as the first operand to '_Generic' is a Clang extension</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wgeneric-type-extension" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/18.1.0/tools/clang/docs/DiagnosticsReference.html#wgeneric-type-extension" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -799,7 +799,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: KNL, KNM related Intel Xeon Phi CPU's specific ISA's supports will be removed in LLVM 19.</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wknl-knm-isa-support-removed" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/18.1.0/tools/clang/docs/DiagnosticsReference.html#wknl-knm-isa-support-removed" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -811,7 +811,7 @@ def add_old_diagnostics_rules(rules):
 <li>warning: builtin call has undefined behaviour when called from a %0 function</li>
 </ul>
 <h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wundefined-arm-streaming" target="_blank">Diagnostic flags in Clang</a></p>"""))
+<p><a href="https://releases.llvm.org/18.1.0/tools/clang/docs/DiagnosticsReference.html#wundefined-arm-streaming" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
