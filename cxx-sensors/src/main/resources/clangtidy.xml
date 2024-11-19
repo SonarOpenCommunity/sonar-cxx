@@ -20492,6 +20492,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-bit-int-extension</key>
+    <name>clang-diagnostic-bit-int-extension</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: '_BitInt' in %select{C17 and earlier|C++}0 is a Clang extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wbit-int-extension" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-bitwise-conditional-parentheses</key>
     <name>clang-diagnostic-bitwise-conditional-parentheses</name>
     <description>
@@ -32378,19 +32391,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-slash-u-filename</key>
-    <name>clang-diagnostic-slash-u-filename</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: '/U%0' treated as the '/U' option</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wslash-u-filename" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-msvc-not-found</key>
     <name>clang-diagnostic-msvc-not-found</name>
     <description>
@@ -32508,19 +32508,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-div-by-zero</key>
-    <name>clang-diagnostic-div-by-zero</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: %select{remainder|division}0 by zero is undefined</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdiv-by-zero" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-module-file-config-mismatch</key>
     <name>clang-diagnostic-module-file-config-mismatch</name>
     <description>
@@ -32532,6 +32519,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmodule-file-config-mismatch" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-div-by-zero</key>
+    <name>clang-diagnostic-div-by-zero</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: %select{remainder|division}0 by zero is undefined</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdiv-by-zero" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>clang-diagnostic-eager-load-cxx-named-modules</key>
@@ -32651,19 +32651,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-c++1z-compat-mangling</key>
-    <name>clang-diagnostic-c++1z-compat-mangling</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: mangled name of %0 will change in C++17 due to non-throwing exception specification in function signature</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-compat-mangling" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-mathematical-notation-identifier-extension</key>
     <name>clang-diagnostic-mathematical-notation-identifier-extension</name>
     <description>
@@ -32673,6 +32660,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmathematical-notation-identifier-extension" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c++1z-compat-mangling</key>
+    <name>clang-diagnostic-c++1z-compat-mangling</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: mangled name of %0 will change in C++17 due to non-throwing exception specification in function signature</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-compat-mangling" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -32794,6 +32794,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-disabled-macro-expansion</key>
+    <name>clang-diagnostic-disabled-macro-expansion</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: disabled expansion of recursive macro</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdisabled-macro-expansion" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-pre-c2x-compat</key>
     <name>clang-diagnostic-pre-c2x-compat</name>
     <description>
@@ -32815,19 +32828,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c2x-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-disabled-macro-expansion</key>
-    <name>clang-diagnostic-disabled-macro-expansion</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: disabled expansion of recursive macro</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdisabled-macro-expansion" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -32949,6 +32949,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-private-header</key>
+    <name>clang-diagnostic-private-header</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: use of private header from outside its module: '%0'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wprivate-header" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>CRITICAL</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-pre-c2x-compat-pedantic</key>
     <name>clang-diagnostic-pre-c2x-compat-pedantic</name>
     <description>
@@ -32972,19 +32985,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c2x-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-private-header</key>
-    <name>clang-diagnostic-private-header</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: use of private header from outside its module: '%0'</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wprivate-header" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>clang-diagnostic-include-angled-in-module-purview</key>
@@ -33104,29 +33104,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-c++98-c++11-compat</key>
-    <name>clang-diagnostic-c++98-c++11-compat</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: 'decltype(auto)' type specifier is incompatible with C++ standards before C++14</li>
-<li>warning: constexpr function with no return statements is incompatible with C++ standards before C++14</li>
-<li>warning: digit separators are incompatible with C++ standards before C++14</li>
-<li>warning: generic lambdas are incompatible with C++11</li>
-<li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
-<li>warning: multiple return statements in constexpr function is incompatible with C++ standards before C++14</li>
-<li>warning: return type deduction is incompatible with C++ standards before C++14</li>
-<li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
-<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
-<li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
-<li>warning: variable templates are incompatible with C++ standards before C++14</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-missing-selector-name</key>
     <name>clang-diagnostic-missing-selector-name</name>
     <description>
@@ -33149,6 +33126,29 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wauto-storage-class" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c++98-c++11-compat</key>
+    <name>clang-diagnostic-c++98-c++11-compat</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: 'decltype(auto)' type specifier is incompatible with C++ standards before C++14</li>
+<li>warning: constexpr function with no return statements is incompatible with C++ standards before C++14</li>
+<li>warning: digit separators are incompatible with C++ standards before C++14</li>
+<li>warning: generic lambdas are incompatible with C++11</li>
+<li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
+<li>warning: multiple return statements in constexpr function is incompatible with C++ standards before C++14</li>
+<li>warning: return type deduction is incompatible with C++ standards before C++14</li>
+<li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: variable templates are incompatible with C++ standards before C++14</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -33257,19 +33257,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-bit-int-extension</key>
-    <name>clang-diagnostic-bit-int-extension</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: '_BitInt' in %select{C17 and earlier|C++}0 is a Clang extension</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wbit-int-extension" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-concepts-ts-compat</key>
     <name>clang-diagnostic-concepts-ts-compat</name>
     <description>
@@ -33292,30 +33279,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wduplicate-enum" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-c++98-c++11-compat-pedantic</key>
-    <name>clang-diagnostic-c++98-c++11-compat-pedantic</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: 'decltype(auto)' type specifier is incompatible with C++ standards before C++14</li>
-<li>warning: binary integer literals are incompatible with C++ standards before C++14</li>
-<li>warning: constexpr function with no return statements is incompatible with C++ standards before C++14</li>
-<li>warning: digit separators are incompatible with C++ standards before C++14</li>
-<li>warning: generic lambdas are incompatible with C++11</li>
-<li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
-<li>warning: multiple return statements in constexpr function is incompatible with C++ standards before C++14</li>
-<li>warning: return type deduction is incompatible with C++ standards before C++14</li>
-<li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
-<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
-<li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
-<li>warning: variable templates are incompatible with C++ standards before C++14</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -33355,6 +33318,30 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winterrupt-service-routine" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-c++98-c++11-compat-pedantic</key>
+    <name>clang-diagnostic-c++98-c++11-compat-pedantic</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: 'decltype(auto)' type specifier is incompatible with C++ standards before C++14</li>
+<li>warning: binary integer literals are incompatible with C++ standards before C++14</li>
+<li>warning: constexpr function with no return statements is incompatible with C++ standards before C++14</li>
+<li>warning: digit separators are incompatible with C++ standards before C++14</li>
+<li>warning: generic lambdas are incompatible with C++11</li>
+<li>warning: initialized lambda captures are incompatible with C++ standards before C++14</li>
+<li>warning: multiple return statements in constexpr function is incompatible with C++ standards before C++14</li>
+<li>warning: return type deduction is incompatible with C++ standards before C++14</li>
+<li>warning: type definition in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: variable declaration in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++14</li>
+<li>warning: variable templates are incompatible with C++ standards before C++14</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -33476,6 +33463,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-memsize-comparison</key>
+    <name>clang-diagnostic-memsize-comparison</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: size argument in %0 call is a comparison</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmemsize-comparison" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-c++98-c++11-c++14-compat</key>
     <name>clang-diagnostic-c++98-c++11-c++14-compat</name>
     <description>
@@ -33501,19 +33501,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-c-14-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-memsize-comparison</key>
-    <name>clang-diagnostic-memsize-comparison</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: size argument in %0 call is a comparison</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wmemsize-comparison" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -33635,6 +33622,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-objc-property-matches-cocoa-ownership-rule</key>
+    <name>clang-diagnostic-objc-property-matches-cocoa-ownership-rule</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: property follows Cocoa naming convention for returning 'owned' objects</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wobjc-property-matches-cocoa-ownership-rule" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-c++98-c++11-c++14-compat-pedantic</key>
     <name>clang-diagnostic-c++98-c++11-c++14-compat-pedantic</name>
     <description>
@@ -33662,19 +33662,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-c-14-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-objc-property-matches-cocoa-ownership-rule</key>
-    <name>clang-diagnostic-objc-property-matches-cocoa-ownership-rule</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: property follows Cocoa naming convention for returning 'owned' objects</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wobjc-property-matches-cocoa-ownership-rule" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -33978,6 +33965,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-undefined-arm-zt0</key>
+    <name>clang-diagnostic-undefined-arm-zt0</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: builtin call is not valid when calling from a function without active ZT0 state</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wundefined-arm-zt0" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-c++98-c++11-c++14-c++17-compat-pedantic</key>
     <name>clang-diagnostic-c++98-c++11-c++14-c++17-compat-pedantic</name>
     <description>
@@ -34015,19 +34015,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-98-c-11-c-14-c-17-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-undefined-arm-zt0</key>
-    <name>clang-diagnostic-undefined-arm-zt0</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: builtin call is not valid when calling from a function without active ZT0 state</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wundefined-arm-zt0" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -34149,19 +34136,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-pre-c++2c-compat</key>
-    <name>clang-diagnostic-pre-c++2c-compat</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: placeholder variables are incompatible with C++ standards before C++2c</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2c-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-invalid-initializer-from-system-header</key>
     <name>clang-diagnostic-invalid-initializer-from-system-header</name>
     <description>
@@ -34171,6 +34145,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winvalid-initializer-from-system-header" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pre-c++2c-compat</key>
+    <name>clang-diagnostic-pre-c++2c-compat</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: placeholder variables are incompatible with C++ standards before C++2c</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2c-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -34292,19 +34279,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-pre-c++2c-compat-pedantic</key>
-    <name>clang-diagnostic-pre-c++2c-compat-pedantic</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: placeholder variables are incompatible with C++ standards before C++2c</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2c-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-attribute-packed-for-bitfield</key>
     <name>clang-diagnostic-attribute-packed-for-bitfield</name>
     <description>
@@ -34314,6 +34288,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wattribute-packed-for-bitfield" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pre-c++2c-compat-pedantic</key>
+    <name>clang-diagnostic-pre-c++2c-compat-pedantic</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: placeholder variables are incompatible with C++ standards before C++2c</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2c-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -34986,19 +34973,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-pointer-integer-compare</key>
-    <name>clang-diagnostic-pointer-integer-compare</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: comparison between pointer and integer (%0 and %1)</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpointer-integer-compare" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-c++1z-compat</key>
     <name>clang-diagnostic-c++1z-compat</name>
     <description>
@@ -35052,6 +35026,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pointer-integer-compare</key>
+    <name>clang-diagnostic-pointer-integer-compare</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: comparison between pointer and integer (%0 and %1)</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpointer-integer-compare" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -35160,45 +35147,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-idiomatic-parentheses</key>
-    <name>clang-diagnostic-idiomatic-parentheses</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: using the result of an assignment as a condition without parentheses</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#widiomatic-parentheses" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-pointer-sign</key>
-    <name>clang-diagnostic-pointer-sign</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: %select{%diff{assigning to $ from $|assigning to different types}0,1|%diff{passing $ to parameter of type $|passing to parameter of different type}0,1|%diff{returning $ from a function with result type $|returning from function with different return type}0,1|%diff{converting $ to type $|converting between types}0,1|%diff{initializing $ with an expression of type $|initializing with expression of different type}0,1|%diff{sending $ to parameter of type $|sending to parameter of different type}0,1|%diff{casting $ to type $|casting between types}0,1}2 converts between pointers to integer types %select{with different sign|where one is of the unique plain 'char' type and the other is not}3</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpointer-sign" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-alias-template-in-declaration-name</key>
-    <name>clang-diagnostic-alias-template-in-declaration-name</name>
-    <description><![CDATA[
-        <p>Diagnostic text:</p>
-  <ul>
-  <li>warning: a declarative nested name specifier cannot name an alias template</li>
-  </ul>
-  <h2>References</h2>
-  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#walias-template-in-declaration-name" target="_blank">Diagnostic flags in Clang</a></p>
-        ]]></description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-template-in-declaration-name</key>
     <name>clang-diagnostic-template-in-declaration-name</name>
     <description><![CDATA[
@@ -35244,6 +35192,45 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-alias-template-in-declaration-name</key>
+    <name>clang-diagnostic-alias-template-in-declaration-name</name>
+    <description><![CDATA[
+        <p>Diagnostic text:</p>
+  <ul>
+  <li>warning: a declarative nested name specifier cannot name an alias template</li>
+  </ul>
+  <h2>References</h2>
+  <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#walias-template-in-declaration-name" target="_blank">Diagnostic flags in Clang</a></p>
+        ]]></description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-idiomatic-parentheses</key>
+    <name>clang-diagnostic-idiomatic-parentheses</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: using the result of an assignment as a condition without parentheses</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#widiomatic-parentheses" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-pointer-sign</key>
+    <name>clang-diagnostic-pointer-sign</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: %select{%diff{assigning to $ from $|assigning to different types}0,1|%diff{passing $ to parameter of type $|passing to parameter of different type}0,1|%diff{returning $ from a function with result type $|returning from function with different return type}0,1|%diff{converting $ to type $|converting between types}0,1|%diff{initializing $ with an expression of type $|initializing with expression of different type}0,1|%diff{sending $ to parameter of type $|sending to parameter of different type}0,1|%diff{casting $ to type $|casting between types}0,1}2 converts between pointers to integer types %select{with different sign|where one is of the unique plain 'char' type and the other is not}3</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpointer-sign" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -35339,6 +35326,57 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-c++2a-compat-pedantic</key>
+    <name>clang-diagnostic-c++2a-compat-pedantic</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: #warning is incompatible with C++ standards before C++23</li>
+<li>warning: #warning is incompatible with C++ standards before C++23</li>
+<li>warning: %select{an attribute specifier sequence|%1}0 in this position is incompatible with C++ standards before C++23</li>
+<li>warning: %select{an attribute specifier sequence|%1}0 in this position is incompatible with C++ standards before C++23</li>
+<li>warning: %select{delimited|named}0 escape sequences are incompatible with C++ standards before C++23</li>
+<li>warning: %select{delimited|named}0 escape sequences are incompatible with C++ standards before C++23</li>
+<li>warning: '%0' is a keyword in C++20</li>
+<li>warning: '&lt;=&gt;' is a single token in C++20; add a space to avoid a change in behavior</li>
+<li>warning: 'auto' as a functional-style cast is incompatible with C++ standards before C++23</li>
+<li>warning: 'auto' as a functional-style cast is incompatible with C++ standards before C++23</li>
+<li>warning: 'consteval' specifier is incompatible with C++ standards before C++20</li>
+<li>warning: 'constinit' specifier is incompatible with C++ standards before C++20</li>
+<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++23</li>
+<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++23</li>
+<li>warning: aggregate initialization of type %0 with user-declared constructors is incompatible with C++20</li>
+<li>warning: alias declaration in this context is incompatible with C++ standards before C++23</li>
+<li>warning: alias declaration in this context is incompatible with C++ standards before C++23</li>
+<li>warning: consteval if is incompatible with C++ standards before C++23</li>
+<li>warning: consteval if is incompatible with C++ standards before C++23</li>
+<li>warning: declaring overloaded %0 as 'static' is incompatible with C++ standards before C++23</li>
+<li>warning: declaring overloaded %0 as 'static' is incompatible with C++ standards before C++23</li>
+<li>warning: defaulted definition of %select{%sub{select_defaulted_comparison_kind}1|three-way comparison operator}0 that is declared %select{constexpr|consteval}2 but%select{|for which the corresponding implicit 'operator==' }0 invokes a non-constexpr comparison function is incompatible with C++ standards before C++23</li>
+<li>warning: defaulted definition of %select{%sub{select_defaulted_comparison_kind}1|three-way comparison operator}0 that is declared %select{constexpr|consteval}2 but%select{|for which the corresponding implicit 'operator==' }0 invokes a non-constexpr comparison function is incompatible with C++ standards before C++23</li>
+<li>warning: definition of a %select{static variable|thread_local variable|variable of non-literal type}1 in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
+<li>warning: definition of a %select{static variable|thread_local variable|variable of non-literal type}1 in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
+<li>warning: label at end of compound statement is incompatible with C++ standards before C++23</li>
+<li>warning: label at end of compound statement is incompatible with C++ standards before C++23</li>
+<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++23 extension</li>
+<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++23 extension</li>
+<li>warning: static lambdas are incompatible with C++ standards before C++23</li>
+<li>warning: static lambdas are incompatible with C++ standards before C++23</li>
+<li>warning: taking address of non-addressable standard library function is incompatible with C++20</li>
+<li>warning: this expression will be parsed as explicit(bool) in C++20</li>
+<li>warning: type of UTF-8 string literal will change from array of const char to array of const char8_t in C++20</li>
+<li>warning: use of a '#%select{&lt;BUG IF SEEN&gt;|elifdef|elifndef}0' directive is incompatible with C++ standards before C++23</li>
+<li>warning: use of a '#%select{&lt;BUG IF SEEN&gt;|elifdef|elifndef}0' directive is incompatible with C++ standards before C++23</li>
+<li>warning: use of implicit 'typename' is incompatible with C++ standards before C++20</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
+<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-conditional-type-mismatch</key>
     <name>clang-diagnostic-conditional-type-mismatch</name>
     <description>
@@ -35387,57 +35425,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wabstract-vbase-init" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-c++2a-compat-pedantic</key>
-    <name>clang-diagnostic-c++2a-compat-pedantic</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: #warning is incompatible with C++ standards before C++23</li>
-<li>warning: #warning is incompatible with C++ standards before C++23</li>
-<li>warning: %select{an attribute specifier sequence|%1}0 in this position is incompatible with C++ standards before C++23</li>
-<li>warning: %select{an attribute specifier sequence|%1}0 in this position is incompatible with C++ standards before C++23</li>
-<li>warning: %select{delimited|named}0 escape sequences are incompatible with C++ standards before C++23</li>
-<li>warning: %select{delimited|named}0 escape sequences are incompatible with C++ standards before C++23</li>
-<li>warning: '%0' is a keyword in C++20</li>
-<li>warning: '&lt;=&gt;' is a single token in C++20; add a space to avoid a change in behavior</li>
-<li>warning: 'auto' as a functional-style cast is incompatible with C++ standards before C++23</li>
-<li>warning: 'auto' as a functional-style cast is incompatible with C++ standards before C++23</li>
-<li>warning: 'consteval' specifier is incompatible with C++ standards before C++20</li>
-<li>warning: 'constinit' specifier is incompatible with C++ standards before C++20</li>
-<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++23</li>
-<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++23</li>
-<li>warning: aggregate initialization of type %0 with user-declared constructors is incompatible with C++20</li>
-<li>warning: alias declaration in this context is incompatible with C++ standards before C++23</li>
-<li>warning: alias declaration in this context is incompatible with C++ standards before C++23</li>
-<li>warning: consteval if is incompatible with C++ standards before C++23</li>
-<li>warning: consteval if is incompatible with C++ standards before C++23</li>
-<li>warning: declaring overloaded %0 as 'static' is incompatible with C++ standards before C++23</li>
-<li>warning: declaring overloaded %0 as 'static' is incompatible with C++ standards before C++23</li>
-<li>warning: defaulted definition of %select{%sub{select_defaulted_comparison_kind}1|three-way comparison operator}0 that is declared %select{constexpr|consteval}2 but%select{|for which the corresponding implicit 'operator==' }0 invokes a non-constexpr comparison function is incompatible with C++ standards before C++23</li>
-<li>warning: defaulted definition of %select{%sub{select_defaulted_comparison_kind}1|three-way comparison operator}0 that is declared %select{constexpr|consteval}2 but%select{|for which the corresponding implicit 'operator==' }0 invokes a non-constexpr comparison function is incompatible with C++ standards before C++23</li>
-<li>warning: definition of a %select{static variable|thread_local variable|variable of non-literal type}1 in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
-<li>warning: definition of a %select{static variable|thread_local variable|variable of non-literal type}1 in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
-<li>warning: label at end of compound statement is incompatible with C++ standards before C++23</li>
-<li>warning: label at end of compound statement is incompatible with C++ standards before C++23</li>
-<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++23 extension</li>
-<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++23 extension</li>
-<li>warning: static lambdas are incompatible with C++ standards before C++23</li>
-<li>warning: static lambdas are incompatible with C++ standards before C++23</li>
-<li>warning: taking address of non-addressable standard library function is incompatible with C++20</li>
-<li>warning: this expression will be parsed as explicit(bool) in C++20</li>
-<li>warning: type of UTF-8 string literal will change from array of const char to array of const char8_t in C++20</li>
-<li>warning: use of a '#%select{&lt;BUG IF SEEN&gt;|elifdef|elifndef}0' directive is incompatible with C++ standards before C++23</li>
-<li>warning: use of a '#%select{&lt;BUG IF SEEN&gt;|elifdef|elifndef}0' directive is incompatible with C++ standards before C++23</li>
-<li>warning: use of implicit 'typename' is incompatible with C++ standards before C++20</li>
-<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
-<li>warning: use of this statement in a constexpr %select{function|constructor}0 is incompatible with C++ standards before C++23</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -35533,6 +35520,21 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-return-local-addr</key>
+    <name>clang-diagnostic-return-local-addr</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: %select{address of|reference to}0 stack memory associated with %select{local variable|parameter}2 %1 returned</li>
+<li>warning: returning %select{address of|reference to}0 local temporary object</li>
+<li>warning: returning address of label, which is local</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wreturn-local-addr" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-assign-enum</key>
     <name>clang-diagnostic-assign-enum</name>
     <description>
@@ -35568,21 +35570,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wargument-undefined-behaviour" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-return-local-addr</key>
-    <name>clang-diagnostic-return-local-addr</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: %select{address of|reference to}0 stack memory associated with %select{local variable|parameter}2 %1 returned</li>
-<li>warning: returning %select{address of|reference to}0 local temporary object</li>
-<li>warning: returning address of label, which is local</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wreturn-local-addr" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -36257,20 +36244,6 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
-    <key>clang-diagnostic-deprecated-copy-dtor</key>
-    <name>clang-diagnostic-deprecated-copy-dtor</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: definition of implicit copy %select{constructor|assignment operator}1 for %0 is deprecated because it has a user-declared destructor</li>
-<li>warning: definition of implicit copy %select{constructor|assignment operator}1 for %0 is deprecated because it has a user-provided destructor</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-copy-dtor" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
     <key>clang-diagnostic-c++1y-extensions</key>
     <name>clang-diagnostic-c++1y-extensions</name>
     <description>
@@ -36288,6 +36261,20 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1y-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-deprecated-copy-dtor</key>
+    <name>clang-diagnostic-deprecated-copy-dtor</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: definition of implicit copy %select{constructor|assignment operator}1 for %0 is deprecated because it has a user-declared destructor</li>
+<li>warning: definition of implicit copy %select{constructor|assignment operator}1 for %0 is deprecated because it has a user-provided destructor</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-copy-dtor" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -36467,6 +36454,19 @@ Derived();             // and so temporary construction is okay</code></pre>
     <severity>INFO</severity>
     </rule>
   <rule>
+    <key>clang-diagnostic-fixed-point-overflow</key>
+    <name>clang-diagnostic-fixed-point-overflow</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: overflow in expression; result is %0 with type %1</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wfixed-point-overflow" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
     <key>clang-diagnostic-partial-availability</key>
     <name>clang-diagnostic-partial-availability</name>
     <description>
@@ -36477,19 +36477,6 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpartial-availability" target="_blank">Diagnostic flags in Clang</a></p>]]>
-      </description>
-    <severity>INFO</severity>
-    </rule>
-  <rule>
-    <key>clang-diagnostic-fixed-point-overflow</key>
-    <name>clang-diagnostic-fixed-point-overflow</name>
-    <description>
-      <![CDATA[<p>Diagnostic text:</p>
-<ul>
-<li>warning: overflow in expression; result is %0 with type %1</li>
-</ul>
-<h2>References</h2>
-<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wfixed-point-overflow" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
     </rule>
@@ -36763,6 +36750,19 @@ Derived();             // and so temporary construction is okay</code></pre>
 </ul>
 <h2>References</h2>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdelayed-template-parsing-in-cxx20" target="_blank">Diagnostic flags in Clang</a></p>]]>
+      </description>
+    <severity>INFO</severity>
+    </rule>
+  <rule>
+    <key>clang-diagnostic-slash-u-filename</key>
+    <name>clang-diagnostic-slash-u-filename</name>
+    <description>
+      <![CDATA[<p>Diagnostic text:</p>
+<ul>
+<li>warning: '/U%0' treated as the '/U' option</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wslash-u-filename" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
   </rule>
