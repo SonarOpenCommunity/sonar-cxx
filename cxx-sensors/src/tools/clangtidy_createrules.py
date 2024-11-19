@@ -564,6 +564,258 @@ def generate_description(diag_group_name, diagnostics):
     return "\n".join(html_lines)
 
 
+def add_old_diagnostics_rules(rules):
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-auto-import'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-auto-import'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: treating #%select{include|import|include_next|__include_macros}0 as an import of module '%1'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wauto-import" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-pre-c++2b-compat'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-pre-c++2b-compat'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++2b</li>
+<li>warning: alias declaration in this context is incompatible with C++ standards before C++2b</li>
+<li>warning: an attribute specifier sequence in this position is incompatible with C++ standards before C++2b</li>
+<li>warning: consteval if is incompatible with C++ standards before C++2b</li>
+<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++2b extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2b-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-pre-c++2b-compat-pedantic'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-pre-c++2b-compat-pedantic'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++2b</li>
+<li>warning: alias declaration in this context is incompatible with C++ standards before C++2b</li>
+<li>warning: an attribute specifier sequence in this position is incompatible with C++ standards before C++2b</li>
+<li>warning: consteval if is incompatible with C++ standards before C++2b</li>
+<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++2b extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2b-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-deprecated-experimental-coroutine'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-deprecated-experimental-coroutine'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: support for std::experimental::%0 will be removed in LLVM 15; use std::%0 instead</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-experimental-coroutine" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-export-unnamed'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-export-unnamed'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: ISO C++20 does not permit %select{an empty|a static_assert}0 declaration to appear in an export block</li>
+<li>warning: ISO C++20 does not permit a declaration that does not introduce any names to be exported</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wexport-unnamed" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-gnu-empty-initializer'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-gnu-empty-initializer'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: use of GNU empty initializer extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wgnu-empty-initializer" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-ignored-pragma-optimize'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-ignored-pragma-optimize'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: '#pragma optimize' is not supported</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wignored-pragma-optimize" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-return-std-move'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-return-std-move'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: local variable %0 will be copied despite being %select{returned|thrown}1 by name</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wreturn-std-move" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-requires-expression'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-requires-expression'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: this requires expression will only be checked for syntactic validity; did you intend to place it in a nested requirement? (add another 'requires' before the expression)</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wrequires-expression" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-concepts-ts-compat'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-concepts-ts-compat'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: ISO C++20 does not permit the 'bool' keyword after 'concept'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wconcepts-ts-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-interrupt-service-routine'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-interrupt-service-routine'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: interrupt service routine should only call a function with attribute 'no_caller_saved_registers'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#winterrupt-service-routine" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-export-using-directive'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-export-using-directive'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: ISO C++20 does not permit using directive to be exported</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wexport-using-directive" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-overriding-t-option'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-overriding-t-option'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: overriding '%0' option with '%1'</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#woverriding-t-option" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-c++23-default-comp-relaxed-constexpr'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-c++23-default-comp-relaxed-constexpr'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: defaulted definition of %select{%sub{select_defaulted_comparison_kind}1|three-way comparison operator}0 that is declared %select{constexpr|consteval}2 but%select{|for which the corresponding implicit 'operator==' }0 invokes a non-constexpr comparison function is a C++23 extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-23-default-comp-relaxed-constexpr" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-deprecated-static-analyzer-flag'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-deprecated-static-analyzer-flag'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: analyzer option '%0' is deprecated. This flag will be removed in %1, and passing this option will be an error.</li>
+<li>warning: analyzer option '%0' is deprecated. This flag will be removed in %1, and passing this option will be an error. Use '%2' instead.</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wdeprecated-static-analyzer-flag" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-generic-type-extension'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-generic-type-extension'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: passing a type argument as the first operand to '_Generic' is a Clang extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wgeneric-type-extension" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-gnu-binary-literal'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-gnu-binary-literal'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: binary integer literals are a GNU extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wgnu-binary-literal" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-gnu-offsetof-extensions'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-gnu-offsetof-extensions'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: defining a type within '%select{__builtin_offsetof|offsetof}0' is a Clang extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wgnu-offsetof-extensions" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-knl-knm-isa-support-removed'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-knl-knm-isa-support-removed'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: KNL, KNM related Intel Xeon Phi CPU's specific ISA's supports will be removed in LLVM 19.</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wknl-knm-isa-support-removed" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-undefined-arm-streaming'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-undefined-arm-streaming'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: builtin call has undefined behaviour when called from a %0 function</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wundefined-arm-streaming" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+
 def diagnostics_to_rules_xml(json_file):
     rules = et.Element('rules')
 
@@ -607,6 +859,8 @@ def diagnostics_to_rules_xml(json_file):
                 et.SubElement(rule, 'type').text = rule_type
 
             rules.append(rule)
+
+    add_old_diagnostics_rules(rules)
 
     rules[:] = sorted(rules, key=lambda rule: rule.find('key').text.lower())
 
