@@ -357,6 +357,9 @@ def rstfiles_to_rules_xml(directory, fix_urls):
             if ext == ".rst" and f != "list.rst":
                 rst_file_path = os.path.join(subdir, f)
                 rules.append(rstfile_to_rule(rst_file_path, fix_urls))
+
+    rules[:] = sorted(rules, key=lambda rule: rule.find('key').text.casefold())
+
     sys.stderr.write("[INFO] write .xml file ...\n")
     write_rules_xml(rules, sys.stdout)
 
