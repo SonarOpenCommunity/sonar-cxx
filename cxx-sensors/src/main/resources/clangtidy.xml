@@ -3084,7 +3084,7 @@ if (onFire) {
   #define cool__macro // also this
 }
 int _g(); // disallowed in global namespace only</code></pre>
-<p>The check can also be inverted, i.e. it can be configured to flag any identifier that is _<a href="http://clang.llvm.org/extra/clang-tidy/checks/">not</a> a reserved identifier. This mode is for use by e.g. standard library implementors, to ensure they don't infringe on the user namespace.</p>
+<p>The check can also be inverted, i.e. it can be configured to flag any identifier that is <em>not</em> a reserved identifier. This mode is for use by e.g. standard library implementors, to ensure they don't infringe on the user namespace.</p>
 <p>This check does not (yet) check for other reserved names, e.g. macro names identical to language keywords, and names specifically reserved by language standards, e.g. C++ 'zombie names' and C future library directions.</p>
 <p>This check corresponds to CERT C Coding Standard rule <a href="https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+define+a+reserved+identifier">DCL37-C. Do not declare or define a reserved identifier</a> as well as its C++ counterpart, <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/DCL51-CPP.+Do+not+declare+or+define+a+reserved+identifier">DCL51-CPP. Do not declare or define a reserved identifier</a>.</p>
 <h2 id="options">Options</h2>
