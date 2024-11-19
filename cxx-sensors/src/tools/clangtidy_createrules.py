@@ -339,8 +339,10 @@ def rstfile_to_rule(path, fix_urls):
         default_issue_severity = custom_severity["severity"]
         default_issue_type = custom_severity["type"]
 
-    et.SubElement(rule, 'severity').text = default_issue_severity
-    et.SubElement(rule, 'type').text = default_issue_type
+    if default_issue_severity != 'MAJOR': # MAJOR is the default
+        et.SubElement(rule, 'severity').text = default_issue_severity
+    if default_issue_type != 'CODE_SMELL': # CODE_SMELL is the default
+        et.SubElement(rule, 'type').text = default_issue_type
 
     return rule
 
