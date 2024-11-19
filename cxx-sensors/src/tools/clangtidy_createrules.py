@@ -373,15 +373,15 @@ def contains_required_fields(entry_value):
 
 def create_template_rules(rules):
     rule_key = "CustomRuleTemplate"
-    rule_name = "Template for custom Custom rules"
+    rule_name = "Rule template for Clang-Tidy custom rules"
     rule_severity = SEVERITY["SEV_Warning"]["sonarqube_severity"]
-    rule_description = """<p>Follow these steps to make your custom Custom rules available in SonarQube:</p>
+    rule_description = """<p>Follow these steps to make your custom rules available in SonarQube:</p>
 <ol>
   <ol>
     <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
     <li>Enable the newly created rule in your quality profile</li>
   </ol>
-  <li>Relaunch an analysis on your projects, et voila, your custom rules are executed!</li>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
 </ol>"""
 
     rule = et.Element('rule')
