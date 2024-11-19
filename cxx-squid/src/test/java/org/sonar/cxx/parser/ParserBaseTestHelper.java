@@ -45,14 +45,15 @@ public class ParserBaseTestHelper {
 
   public ParserBaseTestHelper() {
     squidConfig = new CxxSquidConfiguration();
-    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED, "false");
+    squidConfig.add(
+      CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.ERROR_RECOVERY_ENABLED, "false"
+    );
 
     var file = new File("snippet.cpp").getAbsoluteFile();
     SquidAstVisitorContextImpl<Grammar> context = mock(SquidAstVisitorContextImpl.class);
     when(context.getFile()).thenReturn(file);
 
     p = CxxParser.create(context, squidConfig);
-    //var builder = AstScanner.<Grammar>builder(context).setBaseParser(p);
     g = p.getGrammar();
   }
 

@@ -135,7 +135,7 @@ class CxxLexerTest {
                                 O 10\\
                                 20
                                 """)).as("preprocessor directive with line splicing").anySatisfy(token
-      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("#  define FOO 1020").isTriviaLine(3));
+      -> assertThat(token).isValue("EOF").hasTrivia().isTrivia("#   define FOO 1020").isTriviaLine(3));
     softly.assertAll();
 
     softly.assertThat(lexer.lex("""
