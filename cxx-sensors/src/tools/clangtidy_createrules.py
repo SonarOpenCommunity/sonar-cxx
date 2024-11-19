@@ -294,7 +294,7 @@ CLANG_TIDY_DOC_URL_BASE = "http://clang.llvm.org/extra/clang-tidy/checks/"
 
 def fix_local_urls(html, filename):
     # replace local ancors
-    html = re.sub("href=\"(?!http)#", "href=\"" +
+    html = re.sub("href=\"(?!http)(.*\\.html)??#", "href=\"" +
                   CLANG_TIDY_DOC_URL_BASE + filename + ".html#", html)
     # replace local urls
     html = re.sub("href=\"(?!http)", "href=\"" + CLANG_TIDY_DOC_URL_BASE, html)
