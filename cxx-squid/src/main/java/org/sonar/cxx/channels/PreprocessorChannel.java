@@ -106,9 +106,10 @@ public class PreprocessorChannel extends Channel<Lexer> {
           } else {
             len = multiLineCommentChannel.isComment(code);
             if (len != 0) {
-              // multi line comment
+              // multi line comment: replace it with a blank
               code.skip(len);
               multiLineCommentChannel.read(code, dummy);
+              sb.append(' ');
               dummy.delete(0, dummy.length());
             }
           }
