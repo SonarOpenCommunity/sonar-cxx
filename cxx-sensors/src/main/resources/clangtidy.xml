@@ -3,7 +3,7 @@
   C and C++ rules from
   * https://clang.llvm.org/extra/clang-tidy/checks/list.html
   * https://clang-analyzer.llvm.org/available_checks.html
-  * last update: llvmorg-19-init (git describe)
+  * last update: llvmorg-19.1.0 (git describe)
 -->
 <rules>
 
