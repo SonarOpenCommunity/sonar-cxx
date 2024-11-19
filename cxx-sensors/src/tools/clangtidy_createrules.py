@@ -303,7 +303,7 @@ def fix_local_urls(html, filename):
 
 def rstfile_to_description(path, filename, fix_urls):
     html = subprocess.check_output(
-        ['pandoc', path, '--no-highlight', '-f', 'rst', '-t', 'html5']).decode('utf-8')
+        ['pandoc', path, '--wrap=none', '--no-highlight', '-f', 'rst', '-t', 'html5']).decode('utf-8')
     footer = """<h2>References</h2>
 <p><a href="%s%s.html" target="_blank">clang.llvm.org</a></p>""" % (CLANG_TIDY_DOC_URL_BASE, filename)
     if fix_urls:
