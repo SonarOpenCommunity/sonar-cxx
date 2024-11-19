@@ -26,14 +26,19 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import javax.xml.XMLConstants;
@@ -568,26 +573,36 @@ public class CxxSquidConfiguration extends SquidConfiguration {
    * @throws IOException
    */
   public static boolean fileSystemIsCaseSensitive() throws IOException {
-    File a = null;
-    File b = null;
+    Path tempDir = null;
+    Path a = null;
+    Path b = null;
     try {
-      Path tempDir = Files.createTempDirectory("case_sensitive");
-      a = Files.createFile(tempDir.resolve(Paths.get("test.test"))).toFile();
-      var failed = !a.setReadable(true, true)
-        || !a.setWritable(false, false)
-        || !a.setExecutable(false, false);
-      b = Files.createFile(tempDir.resolve(Paths.get("TEST.TEST"))).toFile();
-      failed = !a.setReadable(true, true)
-        || !a.setWritable(false, false)
-        || !a.setExecutable(false, false);
+      boolean isPosix = FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
+      if (isPosix) {
+        FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(
+          PosixFilePermissions.fromString("rw-------")
+        );
+        tempDir = Files.createTempDirectory("case_sensitive", attr);
+      } else {
+        tempDir = Files.createTempDirectory("case_sensitive");
+        var f = tempDir.toFile();
+        var failed = !f.setReadable(true, true)
+          || !f.setWritable(true, true)
+          || !f.setExecutable(false, false);
+      }
+      a = Files.createFile(tempDir.resolve(Paths.get("test.test")));
+      b = Files.createFile(tempDir.resolve(Paths.get("TEST.TEST")));
     } catch (FileAlreadyExistsException e) {
       return false;
     } finally {
       if (a != null) {
-        Files.deleteIfExists(a.toPath());
+        Files.deleteIfExists(a);
       }
       if (b != null) {
-        Files.deleteIfExists(b.toPath());
+        Files.deleteIfExists(b);
+      }
+      if (tempDir != null) {
+        Files.deleteIfExists(tempDir);
       }
     }
     return true;
