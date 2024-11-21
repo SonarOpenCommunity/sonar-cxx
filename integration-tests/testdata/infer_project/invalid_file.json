@@ -1,0 +1,47 @@
+[
+   {
+      "bug_type":"NULL_DEREFERENCE",
+      "qualifier":"pointer `str` last assigned on line 6 could be null and is dereferenced by call to `strchr()` at line 10, column 15.",
+      "severity":"ERROR",
+      "line":10,
+      "column":15,
+      "procedure":"main",
+      "procedure_start_line":4,
+      "file":"src/invalid.cc",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"src/invalid.cc",
+            "line_number":4,
+            "column_number":1,
+            "description":"start of procedure main()"
+         }        
+      ],
+      "key":"invalid.cc|main|NULL_DEREFERENCE",
+      "node_key":"d6170fb5d3d229077ee51eb7960a81a2",
+      "hash":"7d229687ccbbd642e14a29176d4e81dd",
+      "bug_type_hum":"Null Dereference"
+   },
+   {
+      "bug_type":"DEAD_STORE",
+      "qualifier":"The value written to pch (type char*) is never used.",
+      "severity":"ERROR",
+      "line":10,
+      "column":9,
+      "procedure":"main",
+      "procedure_start_line":4,
+      "file":"src/file.cc",
+      "bug_trace":[
+         {
+            "level":0,
+            "filename":"src/file.cc",
+            "line_number":10,
+            "column_number":9,
+            "description":"Write of unused value"
+         }
+      ],
+      "key":"file.cc|main|DEAD_STORE",
+      "hash":"7cef429fd1a3d4ec3dcf4260c0ae58c9",
+      "bug_type_hum":"Dead Store"
+   }
+]
