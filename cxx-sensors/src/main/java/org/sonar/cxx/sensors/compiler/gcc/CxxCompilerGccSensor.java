@@ -115,7 +115,9 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
     if (id == null || "".equals(id)) {
       id = DEFAULT_ID;
     }
-    id = id.replaceAll("=$", "");
+    if (id.charAt(id.length() - 1) == '=') {
+      id = id.substring(0, id.length() - 1);
+    }
 
     switch(id) {
       case "-Wc++0x-compat":
