@@ -20,6 +20,8 @@
 package org.sonar.cxx.sensors.infer;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import java.io.File;
@@ -57,7 +59,7 @@ public class InferParser {
           throw new EmptyReportException("The 'Infer JSON' report is empty");
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JsonSyntaxException | JsonIOException e) {
       throw new InvalidReportException("The 'Infer JSON' report is invalid", e);
     }
 
