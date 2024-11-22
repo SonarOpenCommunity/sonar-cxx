@@ -115,7 +115,27 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
     if (id == null || "".equals(id)) {
       id = DEFAULT_ID;
     }
-    return id.replaceAll("=$", "");
+    id = id.replaceAll("=$", "");
+
+    switch(id) {
+      case "-Wc++0x-compat":
+        id = "-Wc++11-compat";
+        break;
+      case "-Wc++1z-compat":
+        id = "-Wc++17-compat";
+        break;
+      case "-Wc11-c2x-compat":
+        id = "-Wc11-c23-compat";
+        break;
+      case "-Wmissing-format-attribute":
+        id = "-Wsuggest-attribute=format";
+        break;
+      case "-Wmissing-noreturn":
+        id = "-Wsuggest-attribute=noreturn";
+        break;
+    }
+
+    return id;
   }
 
   @Override
