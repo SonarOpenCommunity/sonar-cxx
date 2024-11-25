@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>80.0.0.2205</version>
+    <version>81.0.0.2300</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -254,13 +254,15 @@
     <license.title>C++ Community Plugin (cxx plugin)</license.title>
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
+    <license.years>2010-2024</license.years>
+    <license.name>GNU LGPL v3</license.name>
+
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
-    <license.years>2010-2024</license.years>
-    
+
     <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
     <sonar.version>10.7.0.96327</sonar.version>
     <sonar.plugin.api.version>10.14.0.2599</sonar.plugin.api.version>
@@ -366,7 +368,7 @@
         <artifactId>junit-jupiter-params</artifactId>
         <version>${junit-jupiter.version}</version>
         <scope>test</scope>
-      </dependency>      
+      </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
