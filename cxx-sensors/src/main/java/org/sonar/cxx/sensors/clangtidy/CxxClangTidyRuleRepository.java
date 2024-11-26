@@ -42,7 +42,53 @@ public class CxxClangTidyRuleRepository extends RulesDefinitionXml {
 
   @Override
   public void prepareRule(NewRule rule) {
-    rule.addDeprecatedRuleKey("ClangTidy", rule.key()); // V1.3 repository name
+    // V1.3 repository name
+    rule.addDeprecatedRuleKey("ClangTidy", rule.key());
+
+    switch (rule.key()) {
+      case "clang-diagnostic-c++14-extensions":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++1y-extensions");
+        break;
+      case "clang-diagnostic-c++17-compat":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++1z-compat");
+        break;
+      case "clang-diagnostic-c++17-compat-mangling":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++1z-compat-mangling");
+        break;
+      case "clang-diagnostic-c++17-extensions":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++1z-extensions");
+        break;
+      case "clang-diagnostic-c++20-compat":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++2a-compat");
+        break;
+      case "clang-diagnostic-c++20-compat-pedantic":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++2a-compat-pedantic");
+        break;
+      case "clang-diagnostic-c++20-extensions":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++2a-extensions");
+        break;
+      case "clang-diagnostic-c++23-extensions":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++2b-extensions");
+        break;
+      case "clang-diagnostic-pre-c++23-compat":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-pre-c++2b-compat");
+        break;
+      case "clang-diagnostic-pre-c++23-compat-pedantic":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-pre-c++2b-compat-pedantic");
+        break;
+      case "clang-diagnostic-c++26-compat":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++2c-compat");
+        break;
+      case "clang-diagnostic-c++26-extensions":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-c++2c-extensions");
+        break;
+      case "clang-diagnostic-pre-c++26-compat":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-pre-c++2c-compat");
+        break;
+      case "clang-diagnostic-pre-c++26-compat-pedantic":
+        rule.addDeprecatedRuleKey(KEY, "clang-diagnostic-pre-c++2c-compat-pedantic");
+        break;
+    }
   }
 
 }
