@@ -62,6 +62,20 @@
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
+                            <!--
+                            There are three possible rule statuses: BETA, READY (default), and DEPRECATED. Sometimes, rules are first issued
+                            in BETA status and then moved to READY. Most rules are in READY status; READY to be used in production. When Sonar
+                            developers realize that a rule no longer makes sense, they first deprecate the rule, then eventually drop it.
+                            -->
+                            <xs:element name="status" minOccurs="0" maxOccurs="1">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="BETA"/>
+                                        <xs:enumeration value="READY"/>
+                                        <xs:enumeration value="DEPRECATED"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
                             <xs:element name="remediationFunction" minOccurs="0" maxOccurs="1" >
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">

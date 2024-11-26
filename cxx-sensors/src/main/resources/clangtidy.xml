@@ -21154,6 +21154,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-0x-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++0x-extensions</key>
@@ -21195,6 +21196,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-0x-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++0x-narrowing</key>
@@ -21217,6 +21219,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-0x-narrowing" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>CRITICAL</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++11-compat</key>
@@ -22175,6 +22178,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1y-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++1z-compat</key>
@@ -22237,6 +22241,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++1z-compat-mangling</key>
@@ -22250,6 +22255,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-compat-mangling" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++1z-extensions</key>
@@ -22280,6 +22286,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-1z-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++20-attribute-extensions</key>
@@ -22577,6 +22584,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++2a-compat-pedantic</key>
@@ -22636,6 +22644,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++2a-extensions</key>
@@ -22672,6 +22681,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2a-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++2b-extensions</key>
@@ -22695,6 +22705,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2b-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++2c-compat</key>
@@ -22709,6 +22720,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2c-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++2c-extensions</key>
@@ -22726,6 +22738,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wc-2c-extensions" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-c++98-c++11-c++14-c++17-compat</key>
@@ -32800,6 +32813,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wpre-c-2b-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-pre-c++2b-compat-pedantic</key>
@@ -32817,6 +32831,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wpre-c-2b-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-pre-c++2c-compat</key>
@@ -32834,6 +32849,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2c-compat" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-pre-c++2c-compat-pedantic</key>
@@ -32851,6 +32867,7 @@ Derived();             // and so temporary construction is okay</code></pre>
 <p><a href="http://clang.llvm.org/docs/DiagnosticsReference.html#wpre-c-2c-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>]]>
       </description>
     <severity>INFO</severity>
+    <status>DEPRECATED</status>
     </rule>
   <rule>
     <key>clang-diagnostic-pre-c11-compat</key>
