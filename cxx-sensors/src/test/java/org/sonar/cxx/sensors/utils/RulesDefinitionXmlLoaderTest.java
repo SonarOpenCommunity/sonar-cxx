@@ -47,11 +47,12 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.impl.server.RulesDefinitionContext;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.rule.Severity;
 import org.sonar.api.rules.RuleType;
 import org.sonar.api.server.debt.DebtRemediationFunction;
+import org.sonar.api.server.impl.RulesDefinitionContext;
 import org.sonar.api.server.rule.RulesDefinition;
 
 public class RulesDefinitionXmlLoaderTest {
@@ -74,7 +75,14 @@ public class RulesDefinitionXmlLoaderTest {
     assertThat(rule.status()).isEqualTo(RuleStatus.BETA);
     assertThat(rule.internalKey()).isEqualTo("Checker/TreeWalker/LocalVariableName");
     assertThat(rule.type()).isEqualTo(RuleType.BUG);
-    assertThat(rule.tags()).containsOnly("misra", "spring");
+    assertThat(rule.tags()).containsOnly(
+      "misra",
+      "spring"
+    );
+    assertThat(rule.deprecatedRuleKeys()).containsOnly(
+      RuleKey.of(repository.key(), "deprecatedKey1"),
+      RuleKey.of(repository.key(), "deprecatedKey2")
+    );
 
     assertThat(rule.params()).hasSize(2);
     RulesDefinition.Param ignore = rule.param("ignore");

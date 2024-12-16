@@ -1635,6 +1635,7 @@ ISO C and ISO C++, e.g. request for implicit conversion from
   <rule>
     <key>-Wc++11-compat</key>
     <name>Warn about C++ constructs whose meaning differs between ISO C++ 1998 and ISO C++ 2011</name>
+    <deprecatedKey>-Wc++0x-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Warn about C++ constructs whose meaning differs between ISO C++ 1998
 and ISO C++ 2011, e.g., identifiers in ISO C++ 1998 that are keywords
@@ -1675,6 +1676,7 @@ will only be diagnosed if <samp>-Wpedantic</samp> is used.
   <rule>
     <key>-Wc++17-compat</key>
     <name>Warn about C++ constructs whose meaning differs between ISO C++ 2014 and ISO C++ 2017</name>
+    <deprecatedKey>-Wc++1z-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Warn about C++ constructs whose meaning differs between ISO C++ 2014
 and ISO C++ 2017.  This warning is enabled by <samp>-Wall</samp>.
@@ -1733,6 +1735,7 @@ will only be diagnosed if <samp>-Wpedantic</samp> is used.
   <rule>
     <key>-Wc11-c23-compat</key>
     <name>Warn about features not present in ISO C11, but present in ISO C23</name>
+    <deprecatedKey>-Wc11-c2x-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Warn about features not present in ISO C11, but present in ISO C23.
 For instance, warn about omitting the string in <code>_Static_assert</code>,
@@ -6124,6 +6127,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
   <rule>
     <key>-Wsuggest-attribute=format</key>
     <name>Warn about functions which might be candidates for format attributes</name>
+    <deprecatedKey>-Wmissing-format-attribute</deprecatedKey>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
 attributes currently supported are listed below.
@@ -6272,6 +6276,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
   <rule>
     <key>-Wsuggest-attribute=noreturn</key>
     <name>Warn about functions which might be candidates for __attribute__((noreturn))</name>
+    <deprecatedKey>-Wmissing-noreturn</deprecatedKey>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
 attributes currently supported are listed below.
