@@ -51,6 +51,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private int savedNewIssues = 0;
 
   private final HashMap<String, Set<String>> knownRulesPerRepositoryKey = new HashMap<>();
+  private final HashMap<String, String> deprecatedRuleIds = new HashMap<>();
   private final HashSet<String> mappedRuleIds = new HashSet<>();
 
   /**
@@ -99,6 +100,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private void saveIssue(String ruleId, CxxReportIssue issue) {
+    ruleId = mapDeprecatedRuleId(ruleId);
     ruleId = mapUnknownRuleId(ruleId, issue);
     var newIssue = context.newIssue();
     if (addLocations(newIssue, ruleId, issue)) {
@@ -106,6 +108,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       newIssue.save();
       savedNewIssues++;
     }
+  }
+
+  private String mapDeprecatedRuleId(String ruleId) {
+    return deprecatedRuleIds.getOrDefault(ruleId, ruleId);
   }
 
   private String mapUnknownRuleId(String ruleId, CxxReportIssue issue) {

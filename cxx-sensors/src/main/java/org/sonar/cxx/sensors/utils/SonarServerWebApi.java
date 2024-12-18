@@ -58,11 +58,14 @@ public final class SonarServerWebApi {
 
     int p = 0;
     int total;
-    Response response = null;
+    ApiRulesSearchResponse response = null;
     String requestURL = createUrl(serverUrl, language, tag);
     do {
       p++;
-      Response res = objectMapper.readValue(get(requestURL + p, authenticationToken), Response.class);
+      ApiRulesSearchResponse res = objectMapper.readValue(
+        get(requestURL + p, authenticationToken),
+        ApiRulesSearchResponse.class
+      );
       if (response == null || response.rules() == null) {
         response = res;
       } else {
@@ -83,7 +86,7 @@ public final class SonarServerWebApi {
     if (!sonarUrl.endsWith("/")) {
       builder.append("/");
     }
-    builder.append("api/rules/search?f=internalKey&ps=500");
+    builder.append("api/rules/search?f=internalKey,deprecatedKeys&ps=500");
     builder.append("&language=").append(language);
     builder.append("&tags=").append(tag);
     builder.append("&p=");
@@ -111,6 +114,10 @@ public final class SonarServerWebApi {
       long start = System.currentTimeMillis();
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       long finish = System.currentTimeMillis();
+
+      // TODO: remove
+      LOG.debug("response: {}", response.body());
+
       LOG.debug("{} {} {} | time={}ms", response.request().method(), response.statusCode(), response.request().uri(),
         finish - start);
       return response.body();
@@ -121,7 +128,7 @@ public final class SonarServerWebApi {
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  public static record Response(int total, int p, int ps, HashSet<Rule> rules) {
+  public static record ApiRulesSearchResponse(int total, int p, int ps, HashSet<Rule> rules) {
 
   }
 
