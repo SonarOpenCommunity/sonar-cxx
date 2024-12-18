@@ -58,35 +58,35 @@ public final class SonarServerWebApi {
 
     int p = 0;
     int total;
-    ApiRulesSearchResponse response = null;
-    String requestURL = createUrl(serverUrl, language, tag);
+    HashSet<Rule> rules = null;
+    String requestURL = createUrl(serverUrl, "api/rules/search?f=deprecatedKeys&ps=500", language, tag);
     do {
       p++;
       ApiRulesSearchResponse res = objectMapper.readValue(
         get(requestURL + p, authenticationToken),
         ApiRulesSearchResponse.class
       );
-      if (response == null || response.rules() == null) {
-        response = res;
+      if (rules == null) {
+        rules = res.rules();
       } else {
-        response.rules().addAll(res.rules());
+        rules.addAll(res.rules());
       }
       total = res.total();
     } while (total - p * 500 > 0);
 
-    return response.rules().stream()
+    return rules.stream()
       .map(Rule::key)
       .map(k -> k.replace(tag + ":", ""))
       .collect(Collectors.toCollection(HashSet::new));
   }
 
-  private static String createUrl(String sonarUrl, String language, String tag) {
+  private static String createUrl(String sonarUrl, String api, String language, String tag) {
     StringBuilder builder = new StringBuilder(1024);
     builder.append(sonarUrl);
     if (!sonarUrl.endsWith("/")) {
       builder.append("/");
     }
-    builder.append("api/rules/search?f=internalKey,deprecatedKeys&ps=500");
+    builder.append(api);
     builder.append("&language=").append(language);
     builder.append("&tags=").append(tag);
     builder.append("&p=");
@@ -114,10 +114,6 @@ public final class SonarServerWebApi {
       long start = System.currentTimeMillis();
       HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
       long finish = System.currentTimeMillis();
-
-      // TODO: remove
-      LOG.debug("response: {}", response.body());
-
       LOG.debug("{} {} {} | time={}ms", response.request().method(), response.statusCode(), response.request().uri(),
         finish - start);
       return response.body();
@@ -133,7 +129,12 @@ public final class SonarServerWebApi {
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  public static record Rule(String key, String type) {
+  public static record Rule(String key, DeprecatedKeys deprecatedKeys) {
+
+  }
+
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static record DeprecatedKeys(HashSet<String> deprecatedKey) {
 
   }
 
