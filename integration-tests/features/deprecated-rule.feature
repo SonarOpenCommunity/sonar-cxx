@@ -1,11 +1,10 @@
 @SqApi79
 Feature: Importing reports with deprecated rules
   As a CXX plug-in user, I want to import a report with a deprecated rule.
-  
+
   Scenario: Successor of deprecated rule is active, the deprecated rule should be mapped to the successor.
     Given the project "deprecated_rule"
-    And rule "clangtidy:clang-diagnostic-c++23-extensions" is activated    
-    And rule "clangtidy:unknown" is activated
+    And rule "clangtidy:clang-diagnostic-c++23-extensions" is activated
     When I run sonar-scanner with "-X -Dsonar.cxx.clangtidy.reportPaths=deprecated.txt"
     Then the analysis finishes successfully
     And the analysis in server has completed
@@ -18,3 +17,4 @@ Feature: Importing reports with deprecated rules
       """
       rules for 'clangtidy' were loaded from server
       """
+    And the number of violations fed is 1

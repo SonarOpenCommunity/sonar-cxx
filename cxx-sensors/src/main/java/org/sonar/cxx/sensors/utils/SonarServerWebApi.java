@@ -27,6 +27,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public final class SonarServerWebApi {
   /**
    * Get list with rule keys from server.
    *
-   * @param serverUrl url of the SonarQube server
+   * @param serverUrl URL of the SonarQube server
    * @param authenticationToken authentication token to use for API access
    * @param language language filter for result
    * @param tag repository key
@@ -56,7 +57,7 @@ public final class SonarServerWebApi {
 
     int p = 0;
     int total;
-    List<Rule> rules = null;
+    List<Rule> rules = new ArrayList<>();
     String requestURL = createUrl(serverUrl, "api/rules/search?f=deprecatedKeys&ps=500", language, tag);
     do {
       p++;
@@ -64,11 +65,7 @@ public final class SonarServerWebApi {
         get(requestURL + p, authenticationToken),
         ApiRulesSearchResponse.class
       );
-      if (rules == null) {
-        rules = res.rules();
-      } else {
-        rules.addAll(res.rules());
-      }
+      rules.addAll(res.rules());
       total = res.total();
     } while (total - p * 500 > 0);
 

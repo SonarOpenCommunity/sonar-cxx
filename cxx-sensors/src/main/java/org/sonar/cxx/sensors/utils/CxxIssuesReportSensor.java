@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,16 +73,18 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private void downloadRulesFromServer() {
+    var ruleMappingActive = true;
 
     // deactivate mapping if 'unknown' rule is not active
     if (context.activeRules().find(RuleKey.of(getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY)) == null) {
       LOG.info("Rule mapping to '{}:{}' is not active", getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY);
-      return;
+      ruleMappingActive = false;
     }
 
     try {
       String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
       LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
+
       var rules = SonarServerWebApi.getRules(
         url,
         context.config().get("sonar.token")
@@ -91,14 +92,24 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
           .orElse(System.getenv("SONAR_TOKEN")),
         "cxx",
         getRuleRepositoryKey());
-      if (!rules.isEmpty()) {
-        var ruleKeys = rules.stream()
-          .map(SonarServerWebApi.Rule::key)
-          .map(k -> k.replace(getRuleRepositoryKey() + ":", ""))
-          .collect(Collectors.toCollection(HashSet::new));
-        knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
-        LOG.debug("{} rules for '{}' were loaded from server", ruleKeys.size(), getRuleRepositoryKey());
+
+      var ruleKeys = new HashSet<String>();
+      for (var rule : rules) {
+        var ruleKey = rule.key().replace(getRuleRepositoryKey() + ":", "");
+        ruleKeys.add(ruleKey);
+        for (var deprecatedKey : rule.deprecatedKeys().deprecatedKey()) {
+          if (deprecatedKey.startsWith(getRuleRepositoryKey())) {
+            deprecatedKey = deprecatedKey.replace(getRuleRepositoryKey() + ":", "");
+            deprecatedRuleIds.put(deprecatedKey, ruleKey);
+            LOG.info("Map deprecated rule '{}' to '{}' for '{}'",
+              deprecatedKey, ruleKey, getRuleRepositoryKey());
+          }
+        }
       }
+      if (ruleMappingActive) {
+        knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
+      }
+      LOG.debug("{} rules for '{}' were loaded from server", ruleKeys.size(), getRuleRepositoryKey());
     } catch (IOException e) {
       LOG.warn("Rules for '{}' could not be loaded from server", getRuleRepositoryKey(), e);
     }
