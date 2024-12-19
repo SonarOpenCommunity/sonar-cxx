@@ -36,6 +36,15 @@
                             <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
                             <xs:element name="internalKey" type="xs:string" minOccurs="0" maxOccurs="1"/>
                             <!--
+                            Optional deprecated rules keys for this rule. See org.sonar.api.server.rule.RulesDefinition.Rule.deprecatedRuleKeys
+                            If you want to rename the key of a rule register the rule's previous key. This will allow SonarQube to support
+                            "issue re-keying" for this rule. If the key of an existing rule is changed without declaring deprecated keys, existing
+                            issues for this rule, created under the rule's previous key, will be closed and new ones will be created under the
+                            issue's new key. Several deprecated keys can be provided to allow SonarQube to support several key changes across
+                            multiple versions of a plugin.
+                            -->
+                            <xs:element name="deprecatedKey" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                            <!--
                             Default severity when enabling the rule in a Quality profile.
                             Possible values are INFO, MINOR, MAJOR (default), CRITICAL, BLOCKER.
                             -->
