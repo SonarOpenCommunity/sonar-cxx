@@ -97,12 +97,14 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       for (var rule : rules) {
         var ruleKey = rule.key().replace(getRuleRepositoryKey() + ":", "");
         ruleKeys.add(ruleKey);
-        for (var deprecatedKey : rule.deprecatedKeys().deprecatedKey()) {
-          if (deprecatedKey.startsWith(getRuleRepositoryKey())) {
-            deprecatedKey = deprecatedKey.replace(getRuleRepositoryKey() + ":", "");
-            deprecatedRuleIds.put(deprecatedKey, ruleKey);
-            LOG.info("Map deprecated rule '{}' to '{}' for '{}'",
-              deprecatedKey, ruleKey, getRuleRepositoryKey());
+        if (rule.deprecatedKeys() != null) {
+          for (var deprecatedKey : rule.deprecatedKeys().deprecatedKey()) {
+            if (deprecatedKey.startsWith(getRuleRepositoryKey())) {
+              deprecatedKey = deprecatedKey.replace(getRuleRepositoryKey() + ":", "");
+              deprecatedRuleIds.put(deprecatedKey, ruleKey);
+              LOG.info("Map deprecated rule '{}' to '{}' for '{}'",
+                deprecatedKey, ruleKey, getRuleRepositoryKey());
+            }
           }
         }
       }
