@@ -1,0 +1,3 @@
+src\module1.cc:9:33: warning: 'size_t' suffix for literals is a C++2b extension [clang-diagnostic-c++2b-extensions]
+    output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
+                                ^

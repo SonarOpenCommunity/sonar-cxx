@@ -21049,6 +21049,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++11-compat</key>
     <name>clang-diagnostic-c++11-compat</name>
+    <deprecatedKey>clang-diagnostic-c++0x-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21373,6 +21374,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++11-extensions</key>
     <name>clang-diagnostic-c++11-extensions</name>
+    <deprecatedKey>clang-diagnostic-c++0x-extensions</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21516,6 +21518,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++14-compat</key>
     <name>clang-diagnostic-c++14-compat</name>
+    <deprecatedKey>clang-diagnostic-c++1y-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21736,6 +21739,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++14-extensions</key>
     <name>clang-diagnostic-c++14-extensions</name>
+    <deprecatedKey>clang-diagnostic-c++1y-extensions</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21770,6 +21774,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++17-compat</key>
     <name>clang-diagnostic-c++17-compat</name>
+    <deprecatedKey>clang-diagnostic-c++1z-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21956,6 +21961,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++17-extensions</key>
     <name>clang-diagnostic-c++17-extensions</name>
+    <deprecatedKey>clang-diagnostic-c++1z-extensions</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21999,6 +22005,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++20-compat</key>
     <name>clang-diagnostic-c++20-compat</name>
+    <deprecatedKey>clang-diagnostic-c++2a-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -22111,6 +22118,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++20-extensions</key>
     <name>clang-diagnostic-c++20-extensions</name>
+    <deprecatedKey>clang-diagnostic-c++2a-extensions</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -22160,6 +22168,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++23-compat</key>
     <name>clang-diagnostic-c++23-compat</name>
+    <deprecatedKey>clang-diagnostic-c++2b-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -22190,6 +22199,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++23-extensions</key>
     <name>clang-diagnostic-c++23-extensions</name>
+    <deprecatedKey>clang-diagnostic-c++2b-extensions</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -22226,6 +22236,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++26-extensions</key>
     <name>clang-diagnostic-c++26-extensions</name>
+    <deprecatedKey>clang-diagnostic-c++2c-extensions</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32025,6 +32036,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++14-compat</key>
     <name>clang-diagnostic-pre-c++14-compat</name>
+    <deprecatedKey>clang-diagnostic-pre-c++1y-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32048,6 +32060,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++14-compat-pedantic</key>
     <name>clang-diagnostic-pre-c++14-compat-pedantic</name>
+    <deprecatedKey>clang-diagnostic-pre-c++1y-compat-pedantic</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32072,6 +32085,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++17-compat</key>
     <name>clang-diagnostic-pre-c++17-compat</name>
+    <deprecatedKey>clang-diagnostic-pre-c++1z-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32101,6 +32115,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++17-compat-pedantic</key>
     <name>clang-diagnostic-pre-c++17-compat-pedantic</name>
+    <deprecatedKey>clang-diagnostic-pre-c++1z-compat-pedantic</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32132,6 +32147,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++20-compat</key>
     <name>clang-diagnostic-pre-c++20-compat</name>
+    <deprecatedKey>clang-diagnostic-pre-c++2a-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32172,6 +32188,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++20-compat-pedantic</key>
     <name>clang-diagnostic-pre-c++20-compat-pedantic</name>
+    <deprecatedKey>clang-diagnostic-pre-c++2a-compat-pedantic</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32214,6 +32231,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++23-compat</key>
     <name>clang-diagnostic-pre-c++23-compat</name>
+    <deprecatedKey>clang-diagnostic-pre-c++2b-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32240,6 +32258,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++23-compat-pedantic</key>
     <name>clang-diagnostic-pre-c++23-compat-pedantic</name>
+    <deprecatedKey>clang-diagnostic-pre-c++2b-compat-pedantic</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32266,6 +32285,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++26-compat</key>
     <name>clang-diagnostic-pre-c++26-compat</name>
+    <deprecatedKey>clang-diagnostic-pre-c++2c-compat</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -32283,6 +32303,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-pre-c++26-compat-pedantic</key>
     <name>clang-diagnostic-pre-c++26-compat-pedantic</name>
+    <deprecatedKey>clang-diagnostic-pre-c++2c-compat-pedantic</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>

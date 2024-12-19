@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private int savedNewIssues = 0;
 
   private final HashMap<String, Set<String>> knownRulesPerRepositoryKey = new HashMap<>();
+  private final HashMap<String, String> deprecatedRuleIds = new HashMap<>();
   private final HashSet<String> mappedRuleIds = new HashSet<>();
 
   /**
@@ -82,14 +84,18 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     try {
       String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
       LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
-      var ruleKeys = SonarServerWebApi.getRuleKeys(
+      var rules = SonarServerWebApi.getRules(
         url,
         context.config().get("sonar.token")
           .or(() -> context.config().get("sonar.login")) // deprecated: can be removed in future
           .orElse(System.getenv("SONAR_TOKEN")),
         "cxx",
         getRuleRepositoryKey());
-      if (!ruleKeys.isEmpty()) {
+      if (!rules.isEmpty()) {
+        var ruleKeys = rules.stream()
+          .map(SonarServerWebApi.Rule::key)
+          .map(k -> k.replace(getRuleRepositoryKey() + ":", ""))
+          .collect(Collectors.toCollection(HashSet::new));
         knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
         LOG.debug("{} rules for '{}' were loaded from server", ruleKeys.size(), getRuleRepositoryKey());
       }
@@ -99,6 +105,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private void saveIssue(String ruleId, CxxReportIssue issue) {
+    ruleId = mapDeprecatedRuleId(ruleId);
     ruleId = mapUnknownRuleId(ruleId, issue);
     var newIssue = context.newIssue();
     if (addLocations(newIssue, ruleId, issue)) {
@@ -106,6 +113,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       newIssue.save();
       savedNewIssues++;
     }
+  }
+
+  private String mapDeprecatedRuleId(String ruleId) {
+    return deprecatedRuleIds.getOrDefault(ruleId, ruleId);
   }
 
   private String mapUnknownRuleId(String ruleId, CxxReportIssue issue) {
