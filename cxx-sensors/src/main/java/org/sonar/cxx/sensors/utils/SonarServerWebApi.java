@@ -28,9 +28,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Base64;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,12 +51,12 @@ public final class SonarServerWebApi {
    *
    * @throws IOException if an I/O error occurs when sending or receiving
    */
-  public static Set<String> getRuleKeys(String serverUrl, String authenticationToken, String language, String tag)
+  public static List<Rule> getRules(String serverUrl, String authenticationToken, String language, String tag)
     throws IOException {
 
     int p = 0;
     int total;
-    HashSet<Rule> rules = null;
+    List<Rule> rules = null;
     String requestURL = createUrl(serverUrl, "api/rules/search?f=deprecatedKeys&ps=500", language, tag);
     do {
       p++;
@@ -74,10 +72,7 @@ public final class SonarServerWebApi {
       total = res.total();
     } while (total - p * 500 > 0);
 
-    return rules.stream()
-      .map(Rule::key)
-      .map(k -> k.replace(tag + ":", ""))
-      .collect(Collectors.toCollection(HashSet::new));
+    return rules;
   }
 
   private static String createUrl(String sonarUrl, String api, String language, String tag) {
@@ -97,7 +92,7 @@ public final class SonarServerWebApi {
   /**
    * HTTP method GET.
    *
-   * @param uri uri to use for the GET method
+   * @param uri URI to use for the GET method
    * @param authenticationToken authentication token to use for the GET method
    * @return response of the server
    *
@@ -124,7 +119,7 @@ public final class SonarServerWebApi {
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  public static record ApiRulesSearchResponse(int total, int p, int ps, HashSet<Rule> rules) {
+  public static record ApiRulesSearchResponse(int total, int p, int ps, List<Rule> rules) {
 
   }
 
@@ -134,7 +129,7 @@ public final class SonarServerWebApi {
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  public static record DeprecatedKeys(HashSet<String> deprecatedKey) {
+  public static record DeprecatedKeys(List<String> deprecatedKey) {
 
   }
 
