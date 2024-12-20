@@ -19,6 +19,6 @@ Feature: Importing reports with deprecated rules
       """
     And the analysis log contains a line matching
       """
-      Map deprecated rule 'clang-diagnostic-c++2b-extensions' to 'clang-diagnostic-c++23-extensions' for 'clangtidy'
+      Map deprecated rule 'clang-diagnostic-c\+\+2b-extensions' to 'clang-diagnostic-c\+\+23-extensions' for 'clangtidy'
       """
     And the number of violations fed is 1
