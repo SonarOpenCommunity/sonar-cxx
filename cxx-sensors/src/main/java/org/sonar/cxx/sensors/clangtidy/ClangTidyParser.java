@@ -119,7 +119,7 @@ public class ClangTidyParser {
       int pos = data.info.lastIndexOf('[');
       if (pos != -1) {
         for (var ruleId : data.info.substring(pos + 1, data.info.length() - 1).split(",")) {
-          ruleId = mapDeprecatedRules(ruleId.trim());
+          ruleId = ruleId.trim();
           if (data.ruleId == null) {
             data.ruleId = ruleId;
           } else {
@@ -139,76 +139,6 @@ public class ClangTidyParser {
       }
     } else {
       data.ruleId = getDefaultRuleId(data.level);
-    }
-  }
-
-  private static String mapDeprecatedRules(String ruleId) {
-
-    // TODO: put data into hashmap
-    switch (ruleId) {
-
-      // C++11 (0x)
-      case "clang-diagnostic-c++0x-compat":
-        return "clang-diagnostic-c++11-compat";
-      case "clang-diagnostic-c++0x-extensions":
-        return "clang-diagnostic-c++11-extensions";
-      case "clang-diagnostic-pre-c++0x-compat":
-        return "clang-diagnostic-pre-c++11-compat";
-      case "clang-diagnostic-pre-c++0x-compat-pedantic":
-        return "clang-diagnostic-pre-c++11-compat-pedantic";
-
-      // C++14 (1y)
-      case "clang-diagnostic-c++1y-compat":
-        return "clang-diagnostic-c++14-compat";
-      case "clang-diagnostic-c++1y-extensions":
-        return "clang-diagnostic-c++14-extensions";
-      case "clang-diagnostic-pre-c++1y-compat":
-        return "clang-diagnostic-pre-c++14-compat";
-      case "clang-diagnostic-pre-c++1y-compat-pedantic":
-        return "clang-diagnostic-pre-c++14-compat-pedantic";
-
-      // C++17 (1z)
-      case "clang-diagnostic-c++1z-compat":
-        return "clang-diagnostic-c++17-compat";
-      case "clang-diagnostic-c++1z-extensions":
-        return "clang-diagnostic-c++17-extensions";
-      case "clang-diagnostic-pre-c++1z-compat":
-        return "clang-diagnostic-pre-c++17-compat";
-      case "clang-diagnostic-pre-c++1z-compat-pedantic":
-        return "clang-diagnostic-pre-c++17-compat-pedantic";
-
-      // C++20 (2a)
-      case "clang-diagnostic-c++2a-compat":
-        return "clang-diagnostic-c++20-compat";
-      case "clang-diagnostic-c++2a-extensions":
-        return "clang-diagnostic-c++20-extensions";
-      case "clang-diagnostic-pre-c++2a-compat":
-        return "clang-diagnostic-pre-c++20-compat";
-      case "clang-diagnostic-pre-c++2a-compat-pedantic":
-        return "clang-diagnostic-pre-c++20-compat-pedantic";
-
-      // C++23 (2b)
-      case "clang-diagnostic-c++2b-compat":
-        return "clang-diagnostic-c++23-compat";
-      case "clang-diagnostic-c++2b-extensions":
-        return "clang-diagnostic-c++23-extensions";
-      case "clang-diagnostic-pre-c++2b-compat":
-        return "clang-diagnostic-pre-c++23-compat";
-      case "clang-diagnostic-pre-c++2b-compat-pedantic":
-        return "clang-diagnostic-pre-c++23-compat-pedantic";
-
-      // C++26 (2c)
-      case "clang-diagnostic-c++2c-compat":
-        return "clang-diagnostic-c++26-compat";
-      case "clang-diagnostic-c++2c-extensions":
-        return "clang-diagnostic-c++26-extensions";
-      case "clang-diagnostic-pre-c++2c-compat":
-        return "clang-diagnostic-pre-c++26-compat";
-      case "clang-diagnostic-pre-c++2c-compat-pedantic":
-        return "clang-diagnostic-pre-c++26-compat-pedantic";
-
-      default:
-        return ruleId;
     }
   }
 
