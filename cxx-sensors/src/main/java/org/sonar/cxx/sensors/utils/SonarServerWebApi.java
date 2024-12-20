@@ -27,10 +27,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +44,7 @@ public final class SonarServerWebApi {
   /**
    * Get list with rule keys from server.
    *
-   * @param serverUrl url of the SonarQube server
+   * @param serverUrl URL of the SonarQube server
    * @param authenticationToken authentication token to use for API access
    * @param language language filter for result
    * @param tag repository key
@@ -53,37 +52,33 @@ public final class SonarServerWebApi {
    *
    * @throws IOException if an I/O error occurs when sending or receiving
    */
-  public static Set<String> getRuleKeys(String serverUrl, String authenticationToken, String language, String tag)
+  public static List<Rule> getRules(String serverUrl, String authenticationToken, String language, String tag)
     throws IOException {
 
     int p = 0;
     int total;
-    Response response = null;
-    String requestURL = createUrl(serverUrl, language, tag);
+    List<Rule> rules = new ArrayList<>();
+    String requestURL = createUrl(serverUrl, "api/rules/search?f=deprecatedKeys&ps=500", language, tag);
     do {
       p++;
-      Response res = objectMapper.readValue(get(requestURL + p, authenticationToken), Response.class);
-      if (response == null || response.rules() == null) {
-        response = res;
-      } else {
-        response.rules().addAll(res.rules());
-      }
+      ApiRulesSearchResponse res = objectMapper.readValue(
+        get(requestURL + p, authenticationToken),
+        ApiRulesSearchResponse.class
+      );
+      rules.addAll(res.rules());
       total = res.total();
     } while (total - p * 500 > 0);
 
-    return response.rules().stream()
-      .map(Rule::key)
-      .map(k -> k.replace(tag + ":", ""))
-      .collect(Collectors.toCollection(HashSet::new));
+    return rules;
   }
 
-  private static String createUrl(String sonarUrl, String language, String tag) {
+  private static String createUrl(String sonarUrl, String api, String language, String tag) {
     StringBuilder builder = new StringBuilder(1024);
     builder.append(sonarUrl);
     if (!sonarUrl.endsWith("/")) {
       builder.append("/");
     }
-    builder.append("api/rules/search?f=internalKey&ps=500");
+    builder.append(api);
     builder.append("&language=").append(language);
     builder.append("&tags=").append(tag);
     builder.append("&p=");
@@ -94,7 +89,7 @@ public final class SonarServerWebApi {
   /**
    * HTTP method GET.
    *
-   * @param uri uri to use for the GET method
+   * @param uri URI to use for the GET method
    * @param authenticationToken authentication token to use for the GET method
    * @return response of the server
    *
@@ -121,12 +116,22 @@ public final class SonarServerWebApi {
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  public static record Response(int total, int p, int ps, HashSet<Rule> rules) {
+  public static record ApiRulesSearchResponse(int total, int p, int ps, List<Rule> rules) {
 
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
-  public static record Rule(String key, String type) {
+  public static record Rule(String key, DeprecatedKeys deprecatedKeys) {
+
+    public Rule  {
+      if (deprecatedKeys == null) {
+        deprecatedKeys = new DeprecatedKeys(new ArrayList<>());
+      }
+    }
+  }
+
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static record DeprecatedKeys(List<String> deprecatedKey) {
 
   }
 

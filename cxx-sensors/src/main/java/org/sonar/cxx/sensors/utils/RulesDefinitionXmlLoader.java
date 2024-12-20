@@ -139,6 +139,14 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  *     &lt;tag&gt;misra&lt;/tag&gt;
  *     &lt;tag&gt;multi-threading&lt;/tag&gt;
  *
+ *     &lt;!-- Optional deprecated rules keys for this rule.
+ *             See org.sonar.api.server.rule.RulesDefinition.Rule.deprecatedRuleKeys
+ *             If you want to rename the key of a rule register the rule's previous key. This will allow SonarQube to
+ *             support "issue re-keying" for this rule. Several deprecated keys can be provided to allow SonarQube to
+ *             support several key changes across multiple versions of a plugin. --&gt;
+ *     &lt;deprecatedKey&gt;deprecatedKey1&lt;/deprecatedKey&gt;
+ *     &lt;deprecatedKey&gt;deprecatedKey2&lt;/deprecatedKey&gt;
+ *
  *     &lt;!-- Optional parameters --&gt;
  *     &lt;param&gt;
  *       &lt;!-- Required key. Max length is 128 characters. --&gt;
@@ -319,6 +327,7 @@ public class RulesDefinitionXmlLoader {
     String remediationFunctionGapMultiplier = null;
     List<ParamStruct> params = new ArrayList<>();
     List<String> tags = new ArrayList<>();
+    List<String> deprecatedKeys = new ArrayList<>();
 
     /* BACKWARD COMPATIBILITY WITH VERY OLD FORMAT */
     Attribute keyAttribute = ruleElement.getAttributeByName(new QName("key"));
@@ -341,7 +350,7 @@ public class RulesDefinitionXmlLoader {
         }
         buildRule(repo, key, name, description, descriptionFormat, internalKey, severity, type, status, template,
           gapDescription, debtRemediationFunction, remediationFunctionBaseEffort,
-          remediationFunctionGapMultiplier, params, tags);
+          remediationFunctionGapMultiplier, params, tags, deprecatedKeys);
         return;
       }
       if (event.isStartElement()) {
@@ -388,6 +397,8 @@ public class RulesDefinitionXmlLoader {
           params.add(processParameter(element, reader));
         } else if ("tag".equalsIgnoreCase(elementName)) {
           tags.add(StringUtils.trim(reader.getElementText()));
+        } else if ("deprecatedKey".equalsIgnoreCase(elementName)) {
+          deprecatedKeys.add(StringUtils.trim(reader.getElementText()));
         }
       }
     }
@@ -401,7 +412,8 @@ public class RulesDefinitionXmlLoader {
     @Nullable String debtRemediationFunction,
     @Nullable String debtRemediationFunctionBaseEffort,
     @Nullable String debtRemediationFunctionGapMultiplier, List<ParamStruct> params,
-    List<String> tags) {
+    List<String> tags,
+    List<String> deprecatedKeys) {
     try {
       RulesDefinition.NewRule rule = repo.createRule(key)
         .setSeverity(severity)
@@ -418,6 +430,7 @@ public class RulesDefinitionXmlLoader {
       fillRemediationFunction(rule, debtRemediationFunction, debtRemediationFunctionGapMultiplier,
         debtRemediationFunctionBaseEffort);
       fillParams(rule, params);
+      fillDeprecatedKeys(repo, rule, deprecatedKeys);
     } catch (Exception e) {
       throw new IllegalStateException(format("Fail to load the rule with key [%s:%s]", repo.key(), key), e);
     }
@@ -444,11 +457,21 @@ public class RulesDefinitionXmlLoader {
   }
 
   private static void fillParams(RulesDefinition.NewRule rule, List<ParamStruct> params) {
-    for (ParamStruct param : params) {
+    for (var param : params) {
       rule.createParam(param.key)
         .setDefaultValue(param.defaultValue)
         .setType(param.type)
         .setDescription(param.description);
+    }
+  }
+
+  /**
+   * @since cxx plugin 2.2.0
+   */
+  private static void fillDeprecatedKeys(RulesDefinition.NewRepository repo,
+    RulesDefinition.NewRule rule, List<String> deprecatedKeys) {
+    for (var deprecatedKey : deprecatedKeys) {
+      rule.addDeprecatedRuleKey(repo.key(), deprecatedKey);
     }
   }
 

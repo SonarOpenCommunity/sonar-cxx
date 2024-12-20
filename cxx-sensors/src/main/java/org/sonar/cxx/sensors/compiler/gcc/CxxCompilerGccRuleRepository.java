@@ -39,25 +39,4 @@ public class CxxCompilerGccRuleRepository extends RulesDefinitionXml {
   public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader) {
     super(fileSystem, xmlRuleLoader, LANGUAGE, KEY, NAME, FILE);
   }
-
-  @Override
-  public void prepareRule(NewRule rule) {
-    switch (rule.key()) {
-      case "-Wc++11-compat":
-        rule.addDeprecatedRuleKey(KEY, "-Wc++0x-compat");
-        break;
-      case "-Wc++17-compat":
-        rule.addDeprecatedRuleKey(KEY, "-Wc++1z-compat");
-        break;
-      case "-Wc11-c23-compat":
-        rule.addDeprecatedRuleKey(KEY, "-Wc11-c2x-compat");
-        break;
-      case "-Wsuggest-attribute=format":
-        rule.addDeprecatedRuleKey(KEY, "-Wmissing-format-attribute");
-        break;
-      case "-Wsuggest-attribute=noreturn":
-        rule.addDeprecatedRuleKey(KEY, "-Wmissing-noreturn");
-        break;
-    }
-  }
 }

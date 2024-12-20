@@ -51,6 +51,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private int savedNewIssues = 0;
 
   private final HashMap<String, Set<String>> knownRulesPerRepositoryKey = new HashMap<>();
+  private final HashMap<String, String> deprecatedRuleIds = new HashMap<>();
   private final HashSet<String> mappedRuleIds = new HashSet<>();
 
   /**
@@ -72,33 +73,49 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   private void downloadRulesFromServer() {
-
-    // deactivate mapping if 'unknown' rule is not active
-    if (context.activeRules().find(RuleKey.of(getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY)) == null) {
-      LOG.info("Rule mapping to '{}:{}' is not active", getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY);
-      return;
-    }
-
     try {
       String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
       LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
-      var ruleKeys = SonarServerWebApi.getRuleKeys(
+
+      var rules = SonarServerWebApi.getRules(
         url,
         context.config().get("sonar.token")
           .or(() -> context.config().get("sonar.login")) // deprecated: can be removed in future
           .orElse(System.getenv("SONAR_TOKEN")),
         "cxx",
         getRuleRepositoryKey());
-      if (!ruleKeys.isEmpty()) {
-        knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
-        LOG.debug("{} rules for '{}' were loaded from server", ruleKeys.size(), getRuleRepositoryKey());
+
+      // deactivate mapping if 'unknown' rule is not active
+      var ruleMappingActive = true;
+      if (context.activeRules().find(RuleKey.of(getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY)) == null) {
+        LOG.info("Rule mapping to '{}:{}' is not active", getRuleRepositoryKey(), DEFAULT_UNKNOWN_RULE_KEY);
+        ruleMappingActive = false;
       }
+
+      var ruleKeys = new HashSet<String>();
+      for (var rule : rules) {
+        var ruleKey = rule.key().replace(getRuleRepositoryKey() + ":", "");
+        ruleKeys.add(ruleKey);
+        for (var deprecatedKey : rule.deprecatedKeys().deprecatedKey()) {
+          if (deprecatedKey.startsWith(getRuleRepositoryKey())) {
+            deprecatedKey = deprecatedKey.replace(getRuleRepositoryKey() + ":", "");
+            deprecatedRuleIds.put(deprecatedKey, ruleKey);
+            LOG.debug("Map deprecated rule '{}' to '{}' for '{}'",
+              deprecatedKey, ruleKey, getRuleRepositoryKey());
+          }
+        }
+      }
+      if (ruleMappingActive) {
+        knownRulesPerRepositoryKey.put(getRuleRepositoryKey(), ruleKeys);
+      }
+      LOG.debug("{} rules for '{}' were loaded from server", ruleKeys.size(), getRuleRepositoryKey());
     } catch (IOException e) {
       LOG.warn("Rules for '{}' could not be loaded from server", getRuleRepositoryKey(), e);
     }
   }
 
   private void saveIssue(String ruleId, CxxReportIssue issue) {
+    ruleId = mapDeprecatedRuleId(ruleId);
     ruleId = mapUnknownRuleId(ruleId, issue);
     var newIssue = context.newIssue();
     if (addLocations(newIssue, ruleId, issue)) {
@@ -106,6 +123,10 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
       newIssue.save();
       savedNewIssues++;
     }
+  }
+
+  private String mapDeprecatedRuleId(String ruleId) {
+    return deprecatedRuleIds.getOrDefault(ruleId, ruleId);
   }
 
   private String mapUnknownRuleId(String ruleId, CxxReportIssue issue) {

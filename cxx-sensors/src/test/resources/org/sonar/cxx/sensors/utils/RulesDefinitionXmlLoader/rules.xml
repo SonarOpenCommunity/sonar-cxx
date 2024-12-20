@@ -3,6 +3,8 @@
     <!-- with exhaustive fields -->
     <key>complete</key>
     <name>Complete</name>
+    <deprecatedKey>deprecatedKey1</deprecatedKey>
+    <deprecatedKey>deprecatedKey2</deprecatedKey>
     <description>
       <![CDATA[Description of Complete]]>
     </description>
