@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public final class SonarServerWebApi {
 
   private static final Logger LOG = LoggerFactory.getLogger(SonarServerWebApi.class);
-  static ObjectMapper objectMapper = new ObjectMapper();
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   private SonarServerWebApi() {
   }

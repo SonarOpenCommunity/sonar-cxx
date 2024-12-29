@@ -80,7 +80,7 @@ class GrammarTest {
     assertThat(thrown).hasMessageStartingWith("Unable to instanciate the rule 'rootRule': ");
   }
 
-  public static abstract class MyBaseGrammar extends Grammar {
+  public abstract static class MyBaseGrammar extends Grammar {
 
     Rule basePackageRule;
     public Rule basePublicRule;

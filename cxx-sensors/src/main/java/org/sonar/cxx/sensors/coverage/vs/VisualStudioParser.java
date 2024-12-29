@@ -92,12 +92,7 @@ public class VisualStudioParser implements CoverageParser {
       int covered = !"no".equalsIgnoreCase(range.getAttrValue("covered")) ? 1 : 0;
 
       if (!sourceId.equals(lastSourceId) || builder == null) {
-        builder = coverageData.get(sourceId);
-        if (builder == null) {
-          builder = CoverageMeasures.create();
-          coverageData.put(sourceId, builder);
-        }
-
+        builder = coverageData.computeIfAbsent(sourceId, k -> CoverageMeasures.create());
         lastSourceId = sourceId;
       }
 

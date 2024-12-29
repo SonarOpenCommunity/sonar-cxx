@@ -76,11 +76,7 @@ public final class LexerfulGrammarBuilder extends GrammarBuilder {
    */
   @Override
   public GrammarRuleBuilder rule(GrammarRuleKey ruleKey) {
-    var rule = definitions.get(ruleKey);
-    if (rule == null) {
-      rule = new RuleDefinition(ruleKey);
-      definitions.put(ruleKey, rule);
-    }
+    var rule = definitions.computeIfAbsent(ruleKey, k -> new RuleDefinition(k));
     return new RuleBuilder(this, rule);
   }
 

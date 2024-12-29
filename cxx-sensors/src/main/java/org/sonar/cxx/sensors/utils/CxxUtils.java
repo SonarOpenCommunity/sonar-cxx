@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -71,7 +70,7 @@ public final class CxxUtils {
     var message = (msg + ", cause='" + ExceptionUtils.getRootCauseMessage(ex) + "'{}")
       .replaceAll("\\R+", " ");
     Optional<Boolean> recovery = config.getBoolean(CxxReportSensor.ERROR_RECOVERY_KEY);
-    if (recovery.isPresent() && recovery.get()) {
+    if (recovery.isPresent() && Boolean.TRUE.equals(recovery.get())) {
       LOG.warn(message, ", skipping");
       return;
     }
@@ -150,7 +149,7 @@ public final class CxxUtils {
     }
 
     LOG.debug("Found '{}' file(s)", existingReportPaths.length);
-    return Arrays.stream(existingReportPaths).map(File::new).collect(Collectors.toList());
+    return Arrays.stream(existingReportPaths).map(File::new).toList();
   }
 
 }

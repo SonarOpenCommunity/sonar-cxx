@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 class PPLexerTest {
 
-  private final static Lexer LEXER = PPLexer.create();
+  private static final Lexer LEXER = PPLexer.create();
 
   @Test
   void cppKeywords() {

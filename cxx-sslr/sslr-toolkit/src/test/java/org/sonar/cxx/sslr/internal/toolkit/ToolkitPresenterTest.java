@@ -52,9 +52,7 @@ class ToolkitPresenterTest {
   void checkInitializedBad() {
     var presenter = new ToolkitPresenter(mock(ConfigurationModel.class), mock(SourceCodeModel.class));
 
-    var thrown = catchThrowableOfType(IllegalStateException.class, () -> {
-      presenter.checkInitialized();
-    });
+    var thrown = catchThrowableOfType(IllegalStateException.class, presenter::checkInitialized);
     assertThat(thrown)
       .isExactlyInstanceOf(IllegalStateException.class)
       .hasMessage("the view must be set before the presenter can be ran");

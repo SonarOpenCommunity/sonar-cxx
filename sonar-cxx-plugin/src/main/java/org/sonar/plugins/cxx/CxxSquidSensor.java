@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.annotation.Nullable;
 import org.slf4j.Logger;
@@ -395,7 +394,7 @@ public class CxxSquidSensor implements ProjectSensor {
       }
       var result = StreamSupport.stream(inputFiles.spliterator(), false)
         .filter(f -> inputFilesInConfig.contains(Path.of(f.uri())))
-        .collect(Collectors.toList());
+        .toList();
       inputFiles = result;
 
       LOG.info("Analyze only files contained in 'JSON Compilation Database': {} files", result.size());
@@ -480,7 +479,7 @@ public class CxxSquidSensor implements ProjectSensor {
           newIssue.at(location);
           newIssue.save();
         } else {
-          LOG.debug("Unknown rule key: %s", message);
+          LOG.debug("Unknown rule key: {}", message);
         }
       }
     }
@@ -551,7 +550,7 @@ public class CxxSquidSensor implements ProjectSensor {
     NewHighlighting newHighlighting = context.newHighlighting().onFile(inputFile);
 
     var data = (List<CxxHighlighterVisitor.Highlight>) sourceFile.getData(CxxMetric.HIGHLIGTHING_DATA);
-    data.forEach(item -> {
+    data.forEach((CxxHighlighterVisitor.Highlight item) -> {
       try {
         newHighlighting.highlight(item.startLine, item.startLineOffset, item.endLine, item.endLineOffset,
           TypeOfText.forCssClass(item.typeOfText));

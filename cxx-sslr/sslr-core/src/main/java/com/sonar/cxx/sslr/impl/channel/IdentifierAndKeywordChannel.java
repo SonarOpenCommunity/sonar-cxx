@@ -28,6 +28,7 @@ import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.api.TokenType;
 import com.sonar.cxx.sslr.impl.Lexer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,7 +49,7 @@ public class IdentifierAndKeywordChannel extends Channel<Lexer> {
   public IdentifierAndKeywordChannel(String regexp, boolean caseSensitive, TokenType[]... keywordSets) {
     for (var keywords : keywordSets) {
       for (var keyword : keywords) {
-        var keywordValue = caseSensitive ? keyword.getValue() : keyword.getValue().toUpperCase();
+        var keywordValue = caseSensitive ? keyword.getValue() : keyword.getValue().toUpperCase(Locale.ENGLISH);
         keywordsMap.put(keywordValue, keyword);
       }
     }
@@ -62,7 +63,7 @@ public class IdentifierAndKeywordChannel extends Channel<Lexer> {
       var word = tmpBuilder.toString();
       var wordOriginal = word;
       if (!caseSensitive) {
-        word = word.toUpperCase();
+        word = word.toUpperCase(Locale.ENGLISH);
       }
 
       var keywordType = keywordsMap.get(word);

@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.tests.xunit;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.util.Strings;
@@ -87,8 +86,8 @@ class XunitReportParserTest {
       .stream()
       .map(TestFile::getFilename)
       .filter(p -> !Strings.isNullOrEmpty(p))
-      .map(s -> Path.of(s))
-      .collect(Collectors.toList());
+      .map(Path::of)
+      .toList();
 
     var expectPaths = Stream.of(
       Path.of("/test/file.cpp"),

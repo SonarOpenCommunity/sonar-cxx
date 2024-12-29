@@ -773,7 +773,7 @@ class CxxSquidConfigurationTest {
     softly.assertAll();
   }
 
-  static private List<String> getDefines(CxxSquidConfiguration squidConfig) {
+  private static List<String> getDefines(CxxSquidConfiguration squidConfig) {
     var allDefines = new HashSet<String>();
 
     for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.UNITS, CxxSquidConfiguration.DEFINES)) {
@@ -783,10 +783,11 @@ class CxxSquidConfigurationTest {
     return new ArrayList<>(allDefines);
   }
 
-  static private List<Path> getIncludeDirectories(CxxSquidConfiguration squidConfig) {
+  private static List<Path> getIncludeDirectories(CxxSquidConfiguration squidConfig) {
     var allIncludes = new HashSet<Path>();
 
-    for (var elem : squidConfig.getChildrenValues(CxxSquidConfiguration.UNITS, CxxSquidConfiguration.INCLUDE_DIRECTORIES)) {
+    for (var elem : squidConfig.getChildrenValues(
+      CxxSquidConfiguration.UNITS, CxxSquidConfiguration.INCLUDE_DIRECTORIES)) {
       allIncludes.add(Path.of(elem));
     }
 

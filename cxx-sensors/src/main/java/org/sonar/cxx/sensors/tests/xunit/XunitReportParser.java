@@ -131,15 +131,12 @@ public class XunitReportParser implements XmlStreamHandler {
 
   private TestFile getTestFile(String filename) {
     var absolute = Optional.ofNullable(CxxUtils.resolveAntPath(baseDir, filename))
-      .map(p -> Path.of(p));
+      .map(Path::of);
 
-    var file = testFiles.get(absolute.orElse(null));
-    if (file == null) {
-      file = new TestFile(absolute.map(Object::toString).orElse(null));
-      testFiles.put(absolute.orElse(null), file);
-    }
-
-    return file;
+    return testFiles.computeIfAbsent(
+      absolute.orElse(null),
+      k -> new TestFile(absolute.map(Object::toString).orElse(null))
+    );
   }
 
   private static String parseTestCaseName(SMInputCursor testCaseCursor) throws XMLStreamException {

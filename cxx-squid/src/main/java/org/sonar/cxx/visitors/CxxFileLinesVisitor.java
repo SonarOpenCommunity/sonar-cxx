@@ -40,9 +40,9 @@ import org.sonar.cxx.squidbridge.SquidAstVisitor;
  */
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
-  private List<Integer> linesOfCode;
-  private List<Integer> executableLines;
-  private int isWithinFunctionDefinition;
+  private List<Integer> linesOfCode = null;
+  private List<Integer> executableLines = null;
+  private int isWithinFunctionDefinition = 0;
 
   private static boolean isDefaultOrDeleteFunctionBody(AstNode astNode) {
     var node = astNode.getFirstChild(CxxGrammarImpl.functionBody);

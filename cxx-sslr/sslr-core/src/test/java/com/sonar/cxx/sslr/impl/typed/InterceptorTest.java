@@ -26,7 +26,6 @@ package com.sonar.cxx.sslr.impl.typed;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
@@ -143,7 +142,7 @@ class InterceptorTest {
     assertThat(Arrays.stream(interceptedTarget.getClass().getDeclaredMethods())
       .map(Method::getName)
       .sorted()
-      .collect(Collectors.toList()))
+      .toList())
       .isEqualTo(Arrays.asList("base", "m", "overloaded", "overloaded", "overridden"));
   }
 
