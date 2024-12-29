@@ -309,7 +309,7 @@ class JsonCompilationDatabaseTest {
     assertThat(thrown).isExactlyInstanceOf(FileNotFoundException.class);
   }
 
-  static private String unifyPath(String path) {
+  private static String unifyPath(String path) {
     return Path.of(path).toString();
   }
 

@@ -83,10 +83,10 @@ public class InferParser {
   public static class InferIssue {
 
     @SerializedName("bug_type")
-    private String bugType;
-    private String qualifier;
-    private long line;
-    private String file;
+    private String bugType = "";
+    private String qualifier = "";
+    private long line = 0;
+    private String file = "";
 
     public String getBugType() {
       return bugType;

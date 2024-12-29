@@ -42,7 +42,7 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar>
 
   public static final Pattern EOL_PATTERN = Pattern.compile("\\R");
 
-  private int lastTokenLine;
+  private int lastTokenLine = -1;
 
   /**
    * {@inheritDoc}

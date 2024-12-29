@@ -70,11 +70,7 @@ public final class LexerlessGrammarBuilder extends GrammarBuilder {
    */
   @Override
   public GrammarRuleBuilder rule(GrammarRuleKey ruleKey) {
-    var rule = definitions.get(ruleKey);
-    if (rule == null) {
-      rule = new MutableParsingRule(ruleKey);
-      definitions.put(ruleKey, rule);
-    }
+    var rule = definitions.computeIfAbsent(ruleKey, k -> new MutableParsingRule(k));
     return new RuleBuilder(this, rule);
   }
 

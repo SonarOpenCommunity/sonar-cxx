@@ -25,6 +25,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.CheckForNull;
 import org.apache.tools.ant.DirectoryScanner;
 import org.mockito.Mockito;
@@ -36,7 +37,7 @@ import org.sonar.api.resources.Language;
 
 public final class TestUtils {
 
-  private final static String OS = System.getProperty("os.name").toLowerCase();
+  private static final String OS = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
 
   public static File loadResource(String resourceName) {
     URL resource = TestUtils.class.getResource(resourceName);
@@ -67,8 +68,8 @@ public final class TestUtils {
    */
   public static DefaultFileSystem mockFileSystem() {
     return mockFileSystem(TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project"),
-                          Arrays.asList(new File(".")),
-                          null);
+      Arrays.asList(new File(".")),
+      null);
   }
 
   /**
@@ -81,8 +82,8 @@ public final class TestUtils {
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem(File baseDir,
-                                                 List<File> sourceDirs,
-                                                 List<File> testDirs) {
+    List<File> sourceDirs,
+    List<File> testDirs) {
     var fs = new DefaultFileSystem(baseDir);
     fs.setEncoding(StandardCharsets.UTF_8);
     scanDirs(fs, sourceDirs, Type.MAIN);

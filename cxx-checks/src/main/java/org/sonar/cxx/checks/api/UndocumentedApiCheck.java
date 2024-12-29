@@ -75,11 +75,10 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
   private static final String[] DEFAULT_NAME_SUFFIX = new String[]{".h", ".hh", ".hpp", ".H"};
 
-  /**
-   * {@inheritDoc}
-   */
-  public UndocumentedApiCheck() {
-    super();
+  @Override
+  public void init() {
+    super.init();
+
     withHeaderFileSuffixes(DEFAULT_NAME_SUFFIX);
     if (LOG.isDebugEnabled()) {
       LOG.debug("rule 'cxx:UndocumentedApi' file suffixes: {}", Arrays.toString(DEFAULT_NAME_SUFFIX));

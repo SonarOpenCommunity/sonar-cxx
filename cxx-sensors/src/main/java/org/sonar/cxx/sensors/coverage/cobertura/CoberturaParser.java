@@ -48,17 +48,19 @@ public class CoberturaParser implements CoverageParser {
   /**
    * Join two paths
    *
-   * path1    | path2    | result
-   * ---------|----------|-------
-   * empty    | empty    | empty
-   * empty    | absolute | absolute path2
-   * empty    | relative | relative path2
-   * absolute | empty    | empty
-   * relative | empty    | empty
-   * absolute | absolute | absolute path2
-   * absolute | relative | absolute path1 + relative path2
-   * relative | absolute | absolute path2
-   * relative | relative | relative path1 + relative path2
+   * <pre>
+   * | path1    | path2    | result                          |
+   * |--------_-|----------|---------------------------------|
+   * | empty    | empty    | empty                           |
+   * | empty    | absolute | absolute path2                  |
+   * | empty    | relative | relative path2                  |
+   * | absolute | empty    | empty                           |
+   * | relative | empty    | empty                           |
+   * | absolute | absolute | absolute path2                  |
+   * | absolute | relative | absolute path1 + relative path2 |
+   * | relative | absolute | absolute path2                  |
+   * | relative | relative | relative path1 + relative path2 |
+   * </pre>
    *
    * @param path1 first path
    * @param path2 second path to be joined to first path
@@ -96,7 +98,7 @@ public class CoberturaParser implements CoverageParser {
       var noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
         LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by SonarQube ({})",
-                 noHits, Integer.MAX_VALUE);
+          noHits, Integer.MAX_VALUE);
         noHits = Integer.MAX_VALUE;
       }
       builder.setHits(lineId, (int) noHits);
@@ -171,11 +173,7 @@ public class CoberturaParser implements CoverageParser {
     while (clazz.getNext() != null) {
       String normalPath = join(baseDir, Path.of(clazz.getAttrValue("filename")));
       if (!normalPath.isEmpty()) {
-        CoverageMeasures builder = coverageData.get(normalPath);
-        if (builder == null) {
-          builder = CoverageMeasures.create();
-          coverageData.put(normalPath, builder);
-        }
+        CoverageMeasures builder = coverageData.computeIfAbsent(normalPath, k -> CoverageMeasures.create());
         collectFileData(clazz, builder);
       }
     }

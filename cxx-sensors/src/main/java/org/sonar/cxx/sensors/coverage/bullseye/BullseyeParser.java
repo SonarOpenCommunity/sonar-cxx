@@ -44,9 +44,9 @@ public class BullseyeParser implements CoverageParser {
 
   private static final Logger LOG = LoggerFactory.getLogger(BullseyeParser.class);
 
-  private String prevLine;
-  private int totalconditions;
-  private int totalcoveredconditions;
+  private String prevLine = "";
+  private int totalconditions = 0;
+  private int totalcoveredconditions = 0;
 
   private static String createRootPath(@Nullable String refPath) {
     if (refPath == null || refPath.isBlank()) {

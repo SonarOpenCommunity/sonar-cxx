@@ -25,6 +25,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.Nullable;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ public class RulesDefinitionXml implements RulesDefinition {
       }
 
       // add repository key as tag to make it possible to filter in issues by tool (tag must be a-z,0-9,-,+)
-      String tag = repositoryKey.toLowerCase().replaceAll("[^a-z0-9-+]", "-");
+      String tag = repositoryKey.toLowerCase(Locale.ENGLISH).replaceAll("[^a-z0-9-+]", "-");
       for (var rule : repository.rules()) {
         prepareRule(rule);
         rule.addTags(tag);

@@ -57,12 +57,7 @@ public class Measures {
   }
 
   private Measure getMeasureOrCreateIt(MetricDef metric) {
-    var measure = measureValues.get(metric);
-    if (measure == null) {
-      measure = new Measure(0);
-      measureValues.put(metric, measure);
-    }
-    return measure;
+    return measureValues.computeIfAbsent(metric, k -> new Measure(0));
   }
 
   public void removeMeasure(MetricDef metric) {

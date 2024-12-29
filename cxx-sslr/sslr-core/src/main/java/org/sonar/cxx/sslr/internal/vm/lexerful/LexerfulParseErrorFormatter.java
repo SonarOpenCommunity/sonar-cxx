@@ -36,8 +36,8 @@ public class LexerfulParseErrorFormatter {
   public String format(List<Token> tokens, int errorIndex) {
     var sb = new StringBuilder();
     var errorPos = errorIndex < tokens.size()
-                 ? getTokenStart(tokens.get(errorIndex))
-                 : getTokenEnd(tokens.get(tokens.size() - 1));
+      ? getTokenStart(tokens.get(errorIndex))
+      : getTokenEnd(tokens.get(tokens.size() - 1));
     sb.append("Parse error at line ").append(errorPos.line)
       .append(" column ").append(errorPos.column)
       .append(":\n\n");
@@ -47,8 +47,8 @@ public class LexerfulParseErrorFormatter {
 
   private static class Pos {
 
-    int line;
-    int column;
+    private int line;
+    private int column;
 
     @Override
     public String toString() {
@@ -109,8 +109,8 @@ public class LexerfulParseErrorFormatter {
 
   private static String formatLineNumber(int line, int errorLine) {
     return line == errorLine
-             ? String.format("%1$5s  ", "-->")
-             : String.format("%1$5d: ", line);
+      ? String.format("%1$5s  ", "-->")
+      : String.format("%1$5d: ", line);
   }
 
 }

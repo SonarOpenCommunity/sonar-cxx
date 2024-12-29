@@ -30,7 +30,7 @@ import org.sonar.cxx.parser.CxxTokenType;
 
 class IncludeFileLexerTest {
 
-  private final static Lexer LEXER = IncludeFileLexer.create();
+  private static final Lexer LEXER = IncludeFileLexer.create();
 
   @Test
   void properPreprocessorDirectivesAreCreated() {

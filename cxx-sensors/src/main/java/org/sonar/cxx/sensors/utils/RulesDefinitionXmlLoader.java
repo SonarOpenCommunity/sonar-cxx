@@ -477,10 +477,10 @@ public class RulesDefinitionXmlLoader {
 
   private static class ParamStruct {
 
-    String key;
-    String description;
-    String defaultValue;
-    RuleParamType type = RuleParamType.STRING;
+    private String key;
+    private String description;
+    private String defaultValue;
+    private RuleParamType type = RuleParamType.STRING;
   }
 
   private static ParamStruct processParameter(StartElement paramElement, XMLEventReader reader) throws

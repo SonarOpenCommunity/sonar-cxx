@@ -70,7 +70,7 @@ public final class MiniCLexer {
 
     private final String value;
 
-    private Punctuators(String value) {
+    Punctuators(String value) {
       this.value = value;
     }
 
@@ -100,7 +100,7 @@ public final class MiniCLexer {
 
     private final String value;
 
-    private Keywords(String value) {
+    Keywords(String value) {
       this.value = value;
     }
 
