@@ -263,7 +263,7 @@
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
-    <!-- we depend on API ${sonar.version} but we keep backward compatibility with LTS -->
+    <!-- we depend on API ${sonar.plugin.api.version} but we keep backward compatibility -->
     <sonar.version>25.1.0.102122</sonar.version>
     <sonar.plugin.api.version>10.14.0.2599</sonar.plugin.api.version>
     <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>

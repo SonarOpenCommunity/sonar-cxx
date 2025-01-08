@@ -39,7 +39,6 @@ Feature: Smoketests
       | duplicated_files               | 2     |
       | complexity                     | 7     |
       | cognitive_complexity           | 2     |
-      | file_complexity                | 0.9   |
       | violations                     | 12    |
       | lines_to_cover                 | 31    |
       | coverage                       | 53.8  |
@@ -103,7 +102,6 @@ Feature: Smoketests
       | duplicated_files               | 2     |
       | complexity                     | 7     |
       | cognitive_complexity           | 2     |
-      | file_complexity                | 0.9   |
       | violations                     | 12    |
       | lines_to_cover                 | 31    |
       | coverage                       | 53.8  |
@@ -167,7 +165,6 @@ Feature: Smoketests
       | duplicated_files               | 2     |
       | complexity                     | 7     |
       | cognitive_complexity           | 2     |
-      | file_complexity                | 0.9   |
       | violations                     | 12    |
       | lines_to_cover                 | 31    |
       | coverage                       | 53.8  |
@@ -241,7 +238,6 @@ Feature: Smoketests
       | duplicated_blocks        | 0     |
       | duplicated_files         | 0     |
       | complexity               | 4     |
-      | file_complexity          | 2.0   |
       | violations               | 19    |
       | line_coverage            | 100   |
       | branch_coverage          | 50    |
