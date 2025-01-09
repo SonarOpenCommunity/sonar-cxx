@@ -47,8 +47,8 @@ public class LexerfulParseErrorFormatter {
 
   private static class Pos {
 
-    private int line;
-    private int column;
+    private int line = 0;
+    private int column = 0;
 
     @Override
     public String toString() {
