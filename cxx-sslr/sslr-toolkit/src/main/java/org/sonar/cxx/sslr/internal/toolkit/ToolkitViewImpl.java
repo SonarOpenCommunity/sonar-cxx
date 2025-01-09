@@ -59,7 +59,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import static javax.swing.KeyStroke.getKeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -67,6 +69,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.Keymap;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -138,7 +141,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
 
   private void initComponents() {
     setSize(1000, 700);
-    setDefaultCloseOperation(ToolkitViewImpl.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     setLayout(new BorderLayout(0, 5));
 
@@ -152,7 +155,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     consoleTextArea.setEditable(false);
     consoleTextArea.setFont(Font.decode("Monospaced"));
 
-    tabbedPane.setTabPlacement(JTabbedPane.TOP);
+    tabbedPane.setTabPlacement(SwingConstants.TOP);
     tabbedPane.add("Abstract Syntax Tree", astTreeScrollPane);
     tabbedPane.add("XML", xmlScrollPane);
     tabbedPane.add("Console", consoleScrollPane);
@@ -186,7 +189,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
       }
     });
 
-    Keymap keymap = JEditorPane.addKeymap(null, sourceCodeEditorPane.getKeymap());
+    Keymap keymap = JTextComponent.addKeymap(null, sourceCodeEditorPane.getKeymap());
     keymap.addActionForKeyStroke(getKeyStroke(VK_V, CTRL_DOWN_MASK), new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {

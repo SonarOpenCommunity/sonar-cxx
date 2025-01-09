@@ -477,9 +477,9 @@ public class RulesDefinitionXmlLoader {
 
   private static class ParamStruct {
 
-    private String key;
-    private String description;
-    private String defaultValue;
+    private String key = "";
+    private String description = "";
+    private String defaultValue = "";
     private RuleParamType type = RuleParamType.STRING;
   }
 

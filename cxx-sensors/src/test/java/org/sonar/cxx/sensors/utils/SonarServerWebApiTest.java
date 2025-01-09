@@ -28,7 +28,15 @@ import org.mockito.MockedStatic;
 import static org.mockito.Mockito.mockStatic;
 import org.mockito.invocation.InvocationOnMock;
 
-public class SonarServerWebApiTest {
+class SonarServerWebApiTest {
+
+  @Test
+  void ruleTest() {
+    var rule = new SonarServerWebApi.Rule("key", null);
+
+    assertThat(rule.key()).isEqualTo("key");
+    assertThat(rule.deprecatedKeys()).isNotNull();
+  }
 
   @Test
   void getRulesTest() throws IOException {
