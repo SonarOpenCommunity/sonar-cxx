@@ -42,7 +42,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.7'
+        python-version: '3.13'
 
     # setup Tidy
     #
@@ -340,7 +340,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.7'
+        python-version: '3.13'
         # cache not working with 2.7?
         #cache: 'pip'
     - run: pip install -r "$GITHUB_WORKSPACE/integration-tests/requirements.txt"
@@ -482,7 +482,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.7'
+        python-version: '3.13'
         # cache not working with 2.7?
         #cache: 'pip'
     - run: pip install -r "$GITHUB_WORKSPACE/integration-tests/requirements.txt"
