@@ -32,6 +32,8 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
@@ -226,29 +228,15 @@ class PPIncludeTest {
   // ////////////////////////////////////////////////////////////////////////////
   // Special behavior in the quoted case
   // Lookup in the current directory. Has to fail for the angle case
-  @Test
-  void gettingFileWithFilenameAndCwd() {
-    include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/dummy.cpp"));
+  @ParameterizedTest
+  @CsvSource({
+    "'src/test/resources/codeprovider/dummy.cpp', 'source.hh'",
+    "'src/test/resources/dummy.cpp', 'codeprovider/source.hh'",
+    "'src/test/resources/codeprovider/folder/dummy.cpp', '../source.hh'"
+  })
+  void gettingFileWithFilenameAndCwd(String source, String path) {
+    include = new PPInclude(pp, Path.of(source));
 
-    var path = "source.hh";
-    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
-    assertThat(include.searchFile(path, false)).isNull();
-  }
-
-  @Test
-  void gettingFileWithRelpathAndCwd() {
-    include = new PPInclude(pp, Path.of("src/test/resources/dummy.cpp"));
-
-    var path = "codeprovider/source.hh";
-    assertThat(include.searchFile(path, true)).isEqualTo(expected1);
-    assertThat(include.searchFile(path, false)).isNull();
-  }
-
-  @Test
-  void gettingFileWithRelpathContainingBackstepsAndCwd() {
-    include = new PPInclude(pp, Path.of("src/test/resources/codeprovider/folder/dummy.cpp"));
-
-    var path = "../source.hh";
     assertThat(include.searchFile(path, true)).isEqualTo(expected1);
     assertThat(include.searchFile(path, false)).isNull();
   }
@@ -269,21 +257,21 @@ class PPIncludeTest {
   void gettingSourceCodeUtf8() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(root.resolve("./utf-8.hh"),
-                                     Charset.defaultCharset())).isEqualTo("UTF-8");
+      Charset.defaultCharset())).isEqualTo("UTF-8");
   }
 
   @Test
   void gettingSourceCodeUtf8Bom() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(root.resolve("./utf-8-bom.hh"),
-                                     Charset.defaultCharset())).isEqualTo("UTF-8-BOM");
+      Charset.defaultCharset())).isEqualTo("UTF-8-BOM");
   }
 
   @Test
   void gettingSourceCodeUtf16LeBom() throws IOException {
     include = new PPInclude(pp, Path.of("dummy"));
     assertThat(include.getSourceCode(root.resolve("./utf-16le-bom.hh"),
-                                     Charset.defaultCharset())).isEqualTo("UTF-16LE-BOM");
+      Charset.defaultCharset())).isEqualTo("UTF-16LE-BOM");
   }
 
 }

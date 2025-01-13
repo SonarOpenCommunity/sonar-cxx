@@ -26,6 +26,8 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -103,25 +105,16 @@ class CxxAstScannerTest {
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(6); // = functions and methods
   }
 
-  @Test
-  void complexity() throws IOException {
-    var tester = CxxFileTesterHelper.create("src/test/resources/metrics/complexity.cc", ".", "");
+  @ParameterizedTest
+  @CsvSource({
+    "'src/test/resources/metrics/complexity.cc', 14",
+    "'src/test/resources/metrics/complexity_alternative.cc', 14",
+    "'src/test/resources/metrics/complexity_macro.cc', 1"
+  })
+  void complexity(String source, int result) throws IOException {
+    var tester = CxxFileTesterHelper.create(source, ".", "");
     SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
-    assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
-  }
-
-  @Test
-  void complexityAlternative() throws IOException {
-    var tester = CxxFileTesterHelper.create("src/test/resources/metrics/complexity_alternative.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
-    assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
-  }
-
-  @Test
-  void complexityMacro() throws IOException {
-    var tester = CxxFileTesterHelper.create("src/test/resources/metrics/complexity_macro.cc", ".", "");
-    SourceFile file = CxxAstScanner.scanSingleInputFile(tester.asInputFile());
-    assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(1);
+    assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(result);
   }
 
   @Test
