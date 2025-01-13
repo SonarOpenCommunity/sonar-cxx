@@ -22,9 +22,13 @@ package org.sonar.cxx.preprocessor;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.impl.Lexer;
 import java.util.List;
+import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class PPConcatenationTest {
 
@@ -43,49 +47,24 @@ class PPConcatenationTest {
       .hasSize(4);
   }
 
-  @Test
-  void testConcatenateTwo() {
-    List<Token> tokens = lexer.lex("x \t ## \t y");
-    List<Token> result = PPConcatenation.concatenate(tokens);
-    assertThat(result)
-      .hasSize(2)
-      .matches(t -> "xy".equals(t.get(0).getValue()));
+  static Stream<Arguments> sourceCodeToConcatenate() {
+    return Stream.of(
+      Arguments.of("x \t ## \t y", "xy"),
+      Arguments.of("x ## y ## z", "xyz"),
+      Arguments.of("0x##10", "0x10"),
+      Arguments.of("##B", "B"),
+      Arguments.of("A##", "A")
+    );
   }
 
-  @Test
-  void testConcatenateThree() {
-    List<Token> tokens = lexer.lex("x ## y ## z");
+  @ParameterizedTest
+  @MethodSource("sourceCodeToConcatenate")
+  void testConcatenate(String sourceCode, String concatenated) {
+    List<Token> tokens = lexer.lex(sourceCode);
     List<Token> result = PPConcatenation.concatenate(tokens);
     assertThat(result)
       .hasSize(2)
-      .matches(t -> "xyz".equals(t.get(0).getValue()));
-  }
-
-  @Test
-  void testConcatenateHexNumber() {
-    List<Token> tokens = lexer.lex("0x##10");
-    List<Token> result = PPConcatenation.concatenate(tokens);
-    assertThat(result)
-      .hasSize(2)
-      .matches(t -> "0x10".equals(t.get(0).getValue()));
-  }
-
-  @Test
-  void testConcatenateLeftError() {
-    List<Token> tokens = lexer.lex("##B");
-    List<Token> result = PPConcatenation.concatenate(tokens);
-    assertThat(result)
-      .hasSize(2)
-      .matches(t -> "B".equals(t.get(0).getValue()));
-  }
-
-  @Test
-  void testConcatenateRightError() {
-    List<Token> tokens = lexer.lex("A##");
-    List<Token> result = PPConcatenation.concatenate(tokens);
-    assertThat(result)
-      .hasSize(2)
-      .matches(t -> "A".equals(t.get(0).getValue()));
+      .matches(t -> concatenated.equals(t.get(0).getValue()));
   }
 
 }

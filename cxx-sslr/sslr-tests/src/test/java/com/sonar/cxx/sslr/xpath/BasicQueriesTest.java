@@ -31,6 +31,8 @@ import com.sonar.cxx.sslr.xpath.api.AstNodeXPathQuery;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class BasicQueriesTest {
 
@@ -41,22 +43,15 @@ class BasicQueriesTest {
     fileNode = parseFile("/xpath/basicQueries.mc");
   }
 
-  @Test
-  void compilationUnitTest() {
-    var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT");
-    assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
-  }
-
-  @Test
-  void anyCompilationUnitTest() {
-    var xpath = AstNodeXPathQuery.create("//COMPILATION_UNIT");
-    assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
-  }
-
-  @Test
-  void compilationUnitWithPredicateWithEOFTest() {
-    var xpath = AstNodeXPathQuery.create("/COMPILATION_UNIT[not(not(EOF))]");
-    assertThat(xpath.selectSingleNode(fileNode)).isEqualTo(fileNode);
+  @ParameterizedTest
+  @ValueSource(strings = {
+    "/COMPILATION_UNIT",
+    "//COMPILATION_UNIT",
+    "/COMPILATION_UNIT[not(not(EOF))]"
+  })
+  void query(String xpath) {
+    var node = AstNodeXPathQuery.create(xpath);
+    assertThat(node.selectSingleNode(fileNode)).isEqualTo(fileNode);
   }
 
   @Test

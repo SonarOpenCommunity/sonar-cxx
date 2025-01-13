@@ -47,6 +47,8 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rule.RuleStatus;
 import org.sonar.api.rule.Severity;
@@ -100,53 +102,39 @@ public class RulesDefinitionXmlLoaderTest {
     assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL);
   }
 
-  @Test
-  void failIfMissingRuleKey() {
-    var xml = """
-      <rules>
-        <rule>
-          <name>Foo</name>
-        </rule>
-      </rules>
-      """;
+  @ParameterizedTest
+  @ValueSource(strings = {
+    """
+    <rules>
+      <rule>
+        <name>Foo</name>
+      </rule>
+    </rules>
+    """,
+    """
+    <rules>
+      <rule>
+        <key>foo</key>
+        <name>Foo</name>
+        <param></param>
+      </rule>
+    </rules>
+    """,
+    """
+    <rules>
+      <rule>
+        <key>foo</key>
+        <name>Foo</name>
+        <param>
+          <key>key</key>
+          <type>INVALID</type>
+        </param>
+      </rule>
+    </rules>
+    """
+  })
+  void failIfInvalidXml(String xml) {
     assertThatThrownBy(() -> load(IOUtils.toInputStream(xml, StandardCharsets.UTF_8),
-      StandardCharsets.UTF_8.name()))
-      .isInstanceOf(IllegalStateException.class);
-  }
-
-  @Test
-  void failIfMissingPropertyKey() {
-    var xml = """
-      <rules>
-        <rule>
-          <key>foo</key>
-          <name>Foo</name>
-          <param></param>
-        </rule>
-      </rules>
-      """;
-    assertThatThrownBy(() -> load(IOUtils.toInputStream(
-      xml, StandardCharsets.UTF_8),
-      StandardCharsets.UTF_8.name()))
-      .isInstanceOf(IllegalStateException.class);
-  }
-
-  @Test
-  void failOnInvalidRuleParameterType() {
-    var xml = """
-      <rules>
-        <rule>
-          <key>foo</key>
-          <name>Foo</name>
-          <param>
-            <key>key</key>
-            <type>INVALID</type>
-          </param>
-        </rule>
-      </rules>
-      """;
-    assertThatThrownBy(() -> load(IOUtils.toInputStream(
-      xml, StandardCharsets.UTF_8),
       StandardCharsets.UTF_8.name()))
       .isInstanceOf(IllegalStateException.class);
   }
