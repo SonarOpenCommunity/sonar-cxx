@@ -24,6 +24,7 @@
 package com.sonar.cxx.sslr.impl.matcher;
 
 import com.sonar.cxx.sslr.api.TokenType;
+import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.internal.vm.ParsingExpression;
 import org.sonar.cxx.sslr.internal.vm.SequenceExpression;
 import org.sonar.cxx.sslr.internal.vm.lexerful.TokenTypeClassExpression;
@@ -76,7 +77,7 @@ final class GrammarFunctions {
     return expression;
   }
 
-  private static void checkSize(Object[] e) {
+  private static void checkSize(@Nullable Object[] e) {
     if (e == null || e.length == 0) {
       throw new IllegalArgumentException("You must define at least one matcher.");
     }

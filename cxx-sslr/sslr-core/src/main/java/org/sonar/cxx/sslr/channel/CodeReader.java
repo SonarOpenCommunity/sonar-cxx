@@ -26,6 +26,7 @@ package org.sonar.cxx.sslr.channel; // cxx: in use
 import java.io.IOException;
 import java.io.Reader;
 import java.util.regex.Matcher;
+import javax.annotation.Nullable;
 
 /**
  * The CodeReader class provides some advanced features to read a source code. The most important one is the ability to
@@ -141,7 +142,7 @@ public class CodeReader extends CodeBuffer {
    * @param appendable the consumed characters are appended to this appendable
    * @return number of consumed characters or -1 if one of the two Matchers doesn't match
    */
-  public final int popTo(Matcher matcher, Matcher afterMatcher, Appendable appendable) {
+  public final int popTo(Matcher matcher, @Nullable Matcher afterMatcher, Appendable appendable) {
     try {
       matcher.reset(this);
       if (matcher.lookingAt()) {
