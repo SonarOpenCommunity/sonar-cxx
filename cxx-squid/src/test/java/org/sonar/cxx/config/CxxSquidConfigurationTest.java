@@ -448,7 +448,8 @@ class CxxSquidConfigurationTest {
     softly.assertAll();
   }
 
-  public void shouldHandleSpecificCommonWin32OptionsCorrectly() {
+  @Test
+  void shouldHandleSpecificCommonWin32OptionsCorrectly() {
     var squidConfig = new CxxSquidConfiguration();
     var files = new ArrayList<File>();
     files.add(new File("src/test/resources/msbuild/platformCommonWin32.txt"));
@@ -457,7 +458,7 @@ class CxxSquidConfigurationTest {
     var softly = new SoftAssertions();
     softly.assertThat(getIncludeDirectories(squidConfig)).isEmpty();
     List<String> defines = getDefines(squidConfig);
-    softly.assertThat(defines).hasSize(3);
+    softly.assertThat(defines).hasSize(16);
     ValidateDefaultAsserts(softly, defines);
     softly.assertThat(defines).contains("_WIN32");
     softly.assertAll();

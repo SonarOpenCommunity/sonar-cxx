@@ -37,7 +37,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 class CxxCompilerSensorTest {
 
   @RegisterExtension
-  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+  private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
@@ -98,6 +98,7 @@ class CxxCompilerSensorTest {
 
     @Override
     public void describe(SensorDescriptor descriptor) {
+      // dummy
     }
 
     public void testExecuteReport(File report) {

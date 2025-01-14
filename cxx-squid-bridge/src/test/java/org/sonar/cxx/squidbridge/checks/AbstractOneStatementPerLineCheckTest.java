@@ -32,7 +32,7 @@ import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 class AbstractOneStatementPerLineCheckTest {
 
-  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  private final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   private static class Check extends AbstractOneStatementPerLineCheck<Grammar> {
 

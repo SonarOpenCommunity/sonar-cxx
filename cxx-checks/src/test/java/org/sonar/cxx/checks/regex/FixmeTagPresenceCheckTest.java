@@ -28,7 +28,7 @@ import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
 class FixmeTagPresenceCheckTest {
 
-  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  private final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
   @SuppressWarnings("squid:S2699") // ... verify contains the assertion

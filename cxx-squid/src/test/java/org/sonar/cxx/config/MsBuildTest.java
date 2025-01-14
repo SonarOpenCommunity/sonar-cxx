@@ -36,12 +36,12 @@ import org.sonar.api.internal.apachecommons.lang3.SystemUtils;
  */
 class MsBuildTest {
 
-  public static final String REFERENCE_DETAILED_LOG = "src/test/resources/msbuild/msbuild-detailed-en.txt";
-  public static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
+  private static final String REFERENCE_DETAILED_LOG = "src/test/resources/msbuild/msbuild-detailed-en.txt";
+  private static final String UNIQUE_FILE = "C:\\Development\\Source\\Cpp\\Dummy\\src\\main.cpp";
   private static final String VC_CHARSET = "UTF8";
 
   @BeforeAll
-  public static void init() {
+  public static void setUp() {
     Assumptions.assumeTrue(SystemUtils.IS_OS_WINDOWS);
   }
 

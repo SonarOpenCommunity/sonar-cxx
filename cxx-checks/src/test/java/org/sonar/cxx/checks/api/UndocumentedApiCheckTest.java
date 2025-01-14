@@ -29,7 +29,7 @@ import org.sonar.cxx.squidbridge.checks.CheckMessagesVerifierRule;
 
 class UndocumentedApiCheckTest {
 
-  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  private final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @SuppressWarnings("squid:S2699")
   @Test

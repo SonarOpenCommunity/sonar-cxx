@@ -33,7 +33,7 @@ class CxxLexerWithoutPreprocessorTest {
   private Lexer lexer;
 
   @BeforeEach
-  public void init() {
+  public void setUp() {
     lexer = CxxLexerPool.create().getLexer();
   }
 

@@ -164,13 +164,11 @@ class ExpressionTest extends ParserBaseTestHelper {
       .matches("{ expression } noexcept returnTypeRequirement ;");
   }
 
-  public void returnTypeRequirement() {
+  @Test
+  void returnTypeRequirement() {
     setRootRule(CxxGrammarImpl.returnTypeRequirement);
-
     mockRule(CxxGrammarImpl.typeConstraint);
-
-    assertThatParser()
-      .matches("-> typeConstraint");
+    assertThatParser().matches("-> typeConstraint");
   }
 
   @Test

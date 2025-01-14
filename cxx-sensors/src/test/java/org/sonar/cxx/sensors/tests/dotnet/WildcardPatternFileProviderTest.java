@@ -50,7 +50,7 @@ class WildcardPatternFileProviderTest {
   }
 
   @BeforeEach
-  public void init() throws Exception {
+  public void setUp() throws Exception {
     Path root = tempDir.toPath();
 
     Files.createFile(root.resolve("foo.txt"));

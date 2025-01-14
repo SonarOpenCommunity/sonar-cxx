@@ -59,7 +59,7 @@ class AstWalkerTest {
   private final AstAndTokenVisitor astAndTokenVisitor = mock(AstAndTokenVisitor.class);
 
   @BeforeEach
-  public void init() {
+  public void setUp() {
     token = mock(Token.class);
     when(token.getType()).thenReturn(MockTokenType.WORD);
     when(token.getValue()).thenReturn("word");
@@ -123,6 +123,12 @@ class AstWalkerTest {
 
     walker1.addVisitor(visitor1);
     walker1.addVisitor(visitor2);
+    walker1.walkAndVisit(astNodeWithToken);
+
+    verify(visitor1).visitFile(astNodeWithToken);
+    verify(visitor1).leaveFile(astNodeWithToken);
+    verify(visitor2).visitFile(astNodeWithToken);
+    verify(visitor2).leaveFile(astNodeWithToken);
   }
 
 }

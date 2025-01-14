@@ -41,7 +41,7 @@ class SquidIndexTest {
   private SourceCode sourceClass;
 
   @BeforeEach
-  public void setup() {
+  public void setUp() {
     indexer = new SquidIndex();
     sourceProject = new SourceProject("ProjectKey", "Project Name");
     indexer.index(sourceProject);

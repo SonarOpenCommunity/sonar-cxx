@@ -37,6 +37,6 @@ public abstract class RuleTest {
     return p.getRootRule();
   }
 
-  public abstract void init();
+  public abstract void setUp();
 
 }

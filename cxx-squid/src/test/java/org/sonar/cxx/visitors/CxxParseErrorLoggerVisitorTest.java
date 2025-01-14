@@ -22,15 +22,15 @@ package org.sonar.cxx.visitors;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.sonar.api.testfixtures.log.LogTesterJUnit5;
 import org.slf4j.event.Level;
+import org.sonar.api.testfixtures.log.LogTesterJUnit5;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 
 class CxxParseErrorLoggerVisitorTest {
 
   @RegisterExtension
-  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+  private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
   void handleParseErrorTest() throws Exception {

@@ -30,7 +30,7 @@ import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 class AbstractXPathCheckTest {
 
-  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  private final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   private static class Check extends AbstractXPathCheck<Grammar> {
 

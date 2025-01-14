@@ -33,7 +33,7 @@ import static org.sonar.cxx.squidbridge.metrics.ResourceParser.scanFile;
 
 class FakeCommentCheckTest {
 
-  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  private final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   private class FakeCommentCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 

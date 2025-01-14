@@ -37,7 +37,7 @@ class NUnitTestResultsFileParserTest {
     = "src/test/resources/org/sonar/cxx/sensors/reports-project/xunit-reports/nunit/";
 
   @RegisterExtension
-  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+  private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   @Test
   void noCounters() {
