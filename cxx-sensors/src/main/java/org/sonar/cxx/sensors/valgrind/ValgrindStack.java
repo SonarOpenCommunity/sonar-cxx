@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 
@@ -35,7 +36,7 @@ class ValgrindStack {
 
   private final List<ValgrindFrame> frames = new ArrayList<>();
 
-  private static boolean isInside(String path, String folder) {
+  private static boolean isInside(@Nullable String path, String folder) {
     return (path != null) && !path.isBlank() && path.startsWith(folder);
   }
 

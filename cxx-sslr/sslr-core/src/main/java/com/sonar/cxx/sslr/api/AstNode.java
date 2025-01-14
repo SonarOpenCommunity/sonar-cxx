@@ -84,7 +84,7 @@ public class AstNode {
    *
    * @param child AstNode to add
    */
-  public void addChild(AstNode child) {
+  public void addChild(@Nullable AstNode child) {
     if (child != null) {
       if (children.isEmpty()) {
         children = new ArrayList<>();

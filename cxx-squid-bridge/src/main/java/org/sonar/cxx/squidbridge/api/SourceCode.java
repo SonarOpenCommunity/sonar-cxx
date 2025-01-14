@@ -73,7 +73,7 @@ public abstract class SourceCode implements Measurable, Comparable<SourceCode> {
     this.name = name;
   }
 
-  protected SourceCode(SourceCode parentKey, String key, @Nullable String name, int startAtLine) {
+  protected SourceCode(@Nullable SourceCode parentKey, String key, @Nullable String name, int startAtLine) {
     var sb = new StringBuilder();
     if (parentKey != null) {
       sb.append(parentKey.getKey()).append('@');

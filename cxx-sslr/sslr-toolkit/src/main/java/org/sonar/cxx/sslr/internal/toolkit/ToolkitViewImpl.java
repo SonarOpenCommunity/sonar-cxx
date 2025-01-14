@@ -502,7 +502,7 @@ public class ToolkitViewImpl extends JFrame implements ToolkitView {
     return getFollowingAstNode((DefaultMutableTreeNode) astTree.getModel().getRoot(), currentOffset);
   }
 
-  private AstNode getFollowingAstNode(DefaultMutableTreeNode treeNode, int offset) {
+  private AstNode getFollowingAstNode(@Nullable DefaultMutableTreeNode treeNode, int offset) {
     AstNode followingAstNode = null;
 
     if (treeNode != null) {
