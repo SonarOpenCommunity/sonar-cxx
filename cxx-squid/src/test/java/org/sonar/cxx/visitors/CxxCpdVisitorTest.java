@@ -35,7 +35,7 @@ class CxxCpdVisitorTest {
   private SourceFile sourceFile;
 
   @BeforeEach
-  public void scanFile() throws IOException {
+  public void setUp() throws IOException {
     var tester = CxxFileTesterHelper.create("src/test/resources/visitors/cpd.cc", ".", "");
     var squidConfig = new CxxSquidConfiguration();
     squidConfig

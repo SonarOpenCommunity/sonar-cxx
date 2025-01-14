@@ -45,7 +45,7 @@ class CxxLexerTest {
   private Lexer lexer;
 
   @BeforeEach
-  public void init() {
+  public void setUp() {
     var file = new File("snippet.cpp").getAbsoluteFile();
     SquidAstVisitorContext<Grammar> context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);

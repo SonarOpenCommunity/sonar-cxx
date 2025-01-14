@@ -45,12 +45,12 @@ import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 class FinalReportTest {
 
   @RegisterExtension
-  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+  private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   private PostJobContext postJobContext;
 
   @BeforeEach
-  public void scanFile() {
+  public void setUp() {
     postJobContext = Mockito.mock(PostJobContext.class);
   }
 

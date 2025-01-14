@@ -57,7 +57,7 @@ import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.impl.RulesDefinitionContext;
 import org.sonar.api.server.rule.RulesDefinition;
 
-public class RulesDefinitionXmlLoaderTest {
+class RulesDefinitionXmlLoaderTest {
 
   RulesDefinitionXmlLoader underTest = new RulesDefinitionXmlLoader();
 

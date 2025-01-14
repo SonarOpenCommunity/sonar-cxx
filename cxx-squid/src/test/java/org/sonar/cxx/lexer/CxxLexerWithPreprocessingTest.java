@@ -55,7 +55,7 @@ class CxxLexerWithPreprocessingTest {
   private SquidAstVisitorContext<Grammar> context;
 
   @BeforeEach
-  public void init() {
+  public void setUp() {
     var file = new File("snippet.cpp").getAbsoluteFile();
     context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(file);

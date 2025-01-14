@@ -32,7 +32,7 @@ class StructTest extends RuleTest {
 
   @Override
   @BeforeEach
-  public void init() {
+  public void setUp() {
     p.setRootRule(g.rule(MiniCGrammar.STRUCT_DEFINITION));
   }
 

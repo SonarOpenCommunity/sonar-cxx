@@ -37,7 +37,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 class XlstSensorTest {
 
   @RegisterExtension
-  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+  private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   private FileSystem fs;
   private final MapSettings settings = new MapSettings();

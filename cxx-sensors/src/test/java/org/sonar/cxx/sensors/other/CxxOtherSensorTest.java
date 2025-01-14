@@ -36,7 +36,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 class CxxOtherSensorTest {
 
   @RegisterExtension
-  public LogTesterJUnit5 logTester = new LogTesterJUnit5();
+  private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
   private CxxOtherSensor sensor;
   private DefaultFileSystem fs;

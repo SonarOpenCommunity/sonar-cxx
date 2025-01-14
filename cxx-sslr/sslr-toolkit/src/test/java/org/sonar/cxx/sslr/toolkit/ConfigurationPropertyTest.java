@@ -45,7 +45,8 @@ class ConfigurationPropertyTest {
     assertThat(new ConfigurationProperty("", "", "").validate("")).isEmpty();
     assertThat(new ConfigurationProperty("", "", "").validate("foo")).isEmpty();
 
-    var property = new ConfigurationProperty("", "", "foo", (String newValueCandidate) -> "foo".equals(newValueCandidate)
+    var property = new ConfigurationProperty("", "", "foo",
+      (String newValueCandidate) -> "foo".equals(newValueCandidate)
       ? ""
       : "Only the value \"foo\" is allowed.");
     assertThat(property.validate("")).isEqualTo("Only the value \"foo\" is allowed.");
@@ -55,8 +56,8 @@ class ConfigurationPropertyTest {
 
   @Test
   void setValueShouldSucceedIfValidationPasses() {
-    new ConfigurationProperty("", "", "").setValue("");
-    new ConfigurationProperty("", "", "").setValue("foo");
+    assertThatCode(() -> new ConfigurationProperty("", "", "").setValue("")).doesNotThrowAnyException();
+    assertThatCode(() -> new ConfigurationProperty("", "", "").setValue("foo")).doesNotThrowAnyException();
   }
 
   @Test
