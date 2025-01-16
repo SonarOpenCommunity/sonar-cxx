@@ -33,26 +33,46 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class SonarServerWebApi {
+public class SonarServerWebApi {
 
   private static final Logger LOG = LoggerFactory.getLogger(SonarServerWebApi.class);
-  private static final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-  private SonarServerWebApi() {
+  protected String serverUrl = "http://localhost:9000";
+  protected String authorization = "";
+
+  /**
+   * Set URL of the SonarQube server.
+   *
+   * @param serverUrl URL of the SonarQube server
+   * @return return current object
+   */
+  public SonarServerWebApi setServerUrl(String serverUrl) {
+    this.serverUrl = serverUrl;
+    return this;
+  }
+
+  /**
+   * Set authentication token to use for API access.
+   *
+   * @param authenticationToken authentication token to use for API access
+   * @return return current object
+   */
+  public SonarServerWebApi setAuthenticationToken(String authenticationToken) {
+    this.authorization = "Basic " + Base64.getEncoder().encodeToString((authenticationToken + ":").getBytes());
+    return this;
   }
 
   /**
    * Get list with rule keys from server.
    *
-   * @param serverUrl URL of the SonarQube server
-   * @param authenticationToken authentication token to use for API access
    * @param language language filter for result
    * @param tag repository key
    * @return list of all keys of the rules matching the filter criteria
    *
    * @throws IOException if an I/O error occurs when sending or receiving
    */
-  public static List<Rule> getRules(String serverUrl, String authenticationToken, String language, String tag)
+  public List<Rule> getRules(String language, String tag)
     throws IOException {
 
     int p = 0;
@@ -62,7 +82,7 @@ public final class SonarServerWebApi {
     do {
       p++;
       ApiRulesSearchResponse res = objectMapper.readValue(
-        get(requestURL + p, authenticationToken),
+        get(requestURL + p, authorization),
         ApiRulesSearchResponse.class
       );
       rules.addAll(res.rules());
@@ -90,16 +110,16 @@ public final class SonarServerWebApi {
    * HTTP method GET.
    *
    * @param uri URI to use for the GET method
-   * @param authenticationToken authentication token to use for the GET method
+   * @param authorization authentication token to use for the GET method
    * @return response of the server
    *
    * @throws IOException if an I/O error occurs when sending or receiving
    */
-  public static String get(String uri, String authenticationToken) throws IOException {
+  public static String get(String uri, String authorization) throws IOException {
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
       .uri(URI.create(uri))
-      .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((authenticationToken + ":").getBytes()))
+      .header("Authorization", authorization)
       .build();
 
     try {

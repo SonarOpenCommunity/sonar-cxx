@@ -19,21 +19,30 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
+import org.sonar.api.batch.rule.internal.NewActiveRule;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
+import org.sonar.cxx.sensors.utils.SonarServerWebApi;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 class CxxClangTidySensorTest {
@@ -49,6 +58,19 @@ class CxxClangTidySensorTest {
   }
 
   @Test
+  void sensorDescriptor() {
+    var descriptor = new DefaultSensorDescriptor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
+    sensor.describe(descriptor);
+
+    var softly = new SoftAssertions();
+    softly.assertThat(descriptor.name()).isEqualTo("CXX Clang-Tidy report import");
+    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c++", "c");
+    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
+    softly.assertAll();
+  }
+
+  @Test
   void shouldIgnoreIssuesIfResourceNotFound() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(
@@ -57,7 +79,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -83,7 +105,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(4);
@@ -114,7 +136,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(4);
@@ -150,7 +172,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
@@ -179,7 +201,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -203,7 +225,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
@@ -234,7 +256,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -267,7 +289,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -293,7 +315,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -322,7 +344,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
@@ -359,7 +381,7 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -389,23 +411,105 @@ class CxxClangTidySensorTest {
       .build()
     );
 
-    var sensor = new CxxClangTidySensor();
+    var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
   }
 
   @Test
-  void sensorDescriptor() {
-    var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxClangTidySensor();
-    sensor.describe(descriptor);
+  void mapDeprecatedRuleId() throws IOException {
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.report-map-deprecated.txt"
+    );
+    context.setSettings(settings);
 
-    var softly = new SoftAssertions();
-    softly.assertThat(descriptor.name()).isEqualTo("CXX Clang-Tidy report import");
-    softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c++", "c");
-    softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangTidyRuleRepository.KEY);
-    softly.assertAll();
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata("""
+        asd
+        X
+        asda
+        """)
+      .build()
+    );
+
+    var webApi = mock(SonarServerWebApi.class);
+    when(webApi.setServerUrl(any())).thenCallRealMethod();
+    when(webApi.setAuthenticationToken(any())).thenCallRealMethod();
+    when(webApi.getRules(any(), any())).thenReturn(
+      List.of(
+        new SonarServerWebApi.Rule("clangtidy:clang-diagnostic-c++20-compat",
+          new SonarServerWebApi.DeprecatedKeys(
+            List.of(
+              "ClangTidy:clang-diagnostic-c++20-compat",
+              "clangtidy:clang-diagnostic-c++2a-compat"
+            )
+          )
+        )
+      )
+    );
+
+    var sensor = new CxxClangTidySensor().setWebApi(webApi);
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(1);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("clang-diagnostic-c++20-compat");
+  }
+
+  @Test
+  void unkownRuleId() throws IOException {
+    var context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(
+      CxxClangTidySensor.REPORT_PATH_KEY,
+      "clang-tidy-reports/cpd.report-unknown-rule-id.txt"
+    );
+    context.setSettings(settings);
+
+    context.fileSystem().add(TestInputFileBuilder
+      .create("ProjectKey", "sources/utils/code_chunks.cpp")
+      .setLanguage("cxx")
+      .initMetadata("""
+        asd
+        X
+        asda
+        """)
+      .build()
+    );
+
+    ActiveRulesBuilder builder = new ActiveRulesBuilder();
+    NewActiveRule newRule = new NewActiveRule.Builder()
+      .setRuleKey(RuleKey.of("clangtidy", "unknown"))
+      .setName("Unknown Clang-Tidy rule")
+      .build();
+    builder.addRule(newRule);
+    context.setActiveRules(builder.build());
+
+    var webApi = mock(SonarServerWebApi.class);
+    when(webApi.setServerUrl(any())).thenCallRealMethod();
+    when(webApi.setAuthenticationToken(any())).thenCallRealMethod();
+    when(webApi.getRules(any(), any())).thenReturn(
+      List.of(
+        new SonarServerWebApi.Rule("clangtidy:unknown",
+          new SonarServerWebApi.DeprecatedKeys(
+            List.of(
+              "ClangTidy:unknown"
+            )
+          )
+        )
+      )
+    );
+
+    var sensor = new CxxClangTidySensor().setWebApi(webApi);
+    sensor.execute(context);
+
+    assertThat(context.allIssues()).hasSize(1);
+    var issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("unknown");
   }
 
 }

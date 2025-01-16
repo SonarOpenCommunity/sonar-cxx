@@ -41,11 +41,11 @@ class SonarServerWebApiTest {
   @Test
   void getRulesTest() throws IOException {
 
-    try (MockedStatic<SonarServerWebApi> sonarServerWebApi = mockStatic(
+    try (MockedStatic<SonarServerWebApi> sonarServerWebApiMock = mockStatic(
       SonarServerWebApi.class,
       InvocationOnMock::callRealMethod)) {
 
-      sonarServerWebApi.when(() -> SonarServerWebApi.get(any(String.class), any(String.class)))
+      sonarServerWebApiMock.when(() -> SonarServerWebApi.get(any(), any()))
         .thenReturn("""
         {
           "total":1,
@@ -93,9 +93,11 @@ class SonarServerWebApiTest {
         """
         );
 
-      List<SonarServerWebApi.Rule> rules = SonarServerWebApi.getRules(
-        "http://localhost:9000", "token", "cxx", "clangtidy"
-      );
+      var sonarServerWebApi = new SonarServerWebApi()
+        .setServerUrl("http://localhost:9000")
+        .setAuthenticationToken("token");
+
+      List<SonarServerWebApi.Rule> rules = sonarServerWebApi.getRules("cxx", "clangtidy");
       var rule1 = new SonarServerWebApi.Rule(
         "clangtidy:clang-diagnostic-c++11-narrowing-const-reference",
         new SonarServerWebApi.DeprecatedKeys(

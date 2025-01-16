@@ -81,7 +81,7 @@ class CxxInferSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/valueflow.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxInferSensor();
+    var sensor = new CxxInferSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(34);
@@ -93,7 +93,7 @@ class CxxInferSensorTest {
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-sample.json");
     context.setSettings(settings);
 
-    var sensor = new CxxInferSensor();
+    var sensor = new CxxInferSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -105,7 +105,7 @@ class CxxInferSensorTest {
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-empty.json");
     context.setSettings(settings);
-    var sensor = new CxxInferSensor();
+    var sensor = new CxxInferSensor().setWebApi(null);
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
@@ -116,7 +116,7 @@ class CxxInferSensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxInferSensor();
+    var sensor = new CxxInferSensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();

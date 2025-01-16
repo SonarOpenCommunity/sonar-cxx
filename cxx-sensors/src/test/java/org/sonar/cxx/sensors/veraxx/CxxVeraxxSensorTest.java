@@ -70,7 +70,7 @@ class CxxVeraxxSensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxVeraxxSensor();
+    var sensor = new CxxVeraxxSensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();

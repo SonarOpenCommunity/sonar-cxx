@@ -33,7 +33,6 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 class CxxRatsSensorTest {
 
-  private CxxRatsSensor sensor;
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 
@@ -54,7 +53,7 @@ class CxxRatsSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "report.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    sensor = new CxxRatsSensor();
+    var sensor = new CxxRatsSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(5);
@@ -63,7 +62,7 @@ class CxxRatsSensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxRatsSensor();
+    var sensor = new CxxRatsSensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();

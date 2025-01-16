@@ -53,7 +53,7 @@ class CxxCppCheckSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(7);
@@ -66,7 +66,7 @@ class CxxCppCheckSensorTest {
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor().setWebApi(null);
     sensor.execute(context);
 
     var softly = new SoftAssertions();
@@ -86,7 +86,7 @@ class CxxCppCheckSensorTest {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -98,7 +98,7 @@ class CxxCppCheckSensorTest {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -111,7 +111,7 @@ class CxxCppCheckSensorTest {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, "cppcheck-reports/cppcheck-result-empty.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor().setWebApi(null);
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
     });
@@ -121,7 +121,7 @@ class CxxCppCheckSensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxCppCheckSensor();
+    var sensor = new CxxCppCheckSensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();

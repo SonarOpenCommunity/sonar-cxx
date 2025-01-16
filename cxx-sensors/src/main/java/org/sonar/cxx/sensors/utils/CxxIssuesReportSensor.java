@@ -50,6 +50,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   private final HashSet<CxxReportIssue> uniqueIssues = new HashSet<>();
   private int savedNewIssues = 0;
 
+  private SonarServerWebApi webApi = new SonarServerWebApi();
   private final HashMap<String, Set<String>> knownRulesPerRepositoryKey = new HashMap<>();
   private final HashMap<String, String> deprecatedRuleIds = new HashMap<>();
   private final HashSet<String> mappedRuleIds = new HashSet<>();
@@ -61,29 +62,45 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   }
 
   /**
+   * Set WebApi access object.
+   *
+   * Can be mocked in unit tests.
+   *
+   * @param webApi WebApi object to use
+   * @return return current object
+   */
+  public CxxIssuesReportSensor setWebApi(SonarServerWebApi webApi) {
+    this.webApi = webApi;
+    return this;
+  }
+
+  /**
    * {@inheritDoc}
    */
   @Override
   public void executeImpl() {
-    downloadRulesFromServer();
+    if (webApi != null) {
+      String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
+      String authenticationToken = context.config().get("sonar.token")
+        .or(() -> context.config().get("sonar.login")) // deprecated: can be removed in future
+        .orElse(System.getenv("SONAR_TOKEN"));
+
+      downloadRulesFromServer(url, authenticationToken);
+    }
     List<File> reports = getReports(getReportPathsKey());
     for (var report : reports) {
       executeReport(report);
     }
   }
 
-  private void downloadRulesFromServer() {
+  private void downloadRulesFromServer(String url, String authenticationToken) {
     try {
-      String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
       LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
 
-      var rules = SonarServerWebApi.getRules(
-        url,
-        context.config().get("sonar.token")
-          .or(() -> context.config().get("sonar.login")) // deprecated: can be removed in future
-          .orElse(System.getenv("SONAR_TOKEN")),
-        "cxx",
-        getRuleRepositoryKey());
+      var rules = webApi
+        .setServerUrl(url)
+        .setAuthenticationToken(authenticationToken)
+        .getRules("cxx", getRuleRepositoryKey());
 
       // deactivate mapping if 'unknown' rule is not active
       var ruleMappingActive = true;

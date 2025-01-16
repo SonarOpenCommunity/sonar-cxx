@@ -43,6 +43,7 @@ class CxxValgrindSensorTest {
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     sensor = new CxxValgrindSensor();
+    sensor.setWebApi(null);
   }
 
   @Test

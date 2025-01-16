@@ -43,13 +43,13 @@ class CxxDrMemorySensorTest {
   void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     var context = SensorContextTester.create(fs.baseDir());
     context.settings().setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
-                                   "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
+      "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
 
     var inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .initMetadata("asd\nasdas\nasda\n").setCharset(StandardCharsets.UTF_8).build();
     context.fileSystem().add(inputFile);
 
-    var sensor = new CxxDrMemorySensor();
+    var sensor = new CxxDrMemorySensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -58,7 +58,7 @@ class CxxDrMemorySensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxDrMemorySensor();
+    var sensor = new CxxDrMemorySensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
