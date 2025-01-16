@@ -38,7 +38,6 @@ class CxxOtherSensorTest {
   @RegisterExtension
   private final LogTesterJUnit5 logTester = new LogTesterJUnit5();
 
-  private CxxOtherSensor sensor;
   private DefaultFileSystem fs;
   private final MapSettings settings = new MapSettings();
 
@@ -58,7 +57,7 @@ class CxxOtherSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/utils.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
@@ -74,7 +73,7 @@ class CxxOtherSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -87,7 +86,7 @@ class CxxOtherSensorTest {
       "externalrules-reports/externalrules-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -99,7 +98,7 @@ class CxxOtherSensorTest {
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
     context.setSettings(settings);
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
@@ -114,7 +113,7 @@ class CxxOtherSensorTest {
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
     context.setSettings(settings);
 
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -126,7 +125,7 @@ class CxxOtherSensorTest {
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, false);
     settings.setProperty(CxxOtherSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
     context.setSettings(settings);
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
 
     IllegalStateException thrown = catchThrowableOfType(IllegalStateException.class, () -> {
       sensor.execute(context);
@@ -143,7 +142,7 @@ class CxxOtherSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -152,7 +151,7 @@ class CxxOtherSensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    sensor = new CxxOtherSensor();
+    var sensor = new CxxOtherSensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();

@@ -1,0 +1,3 @@
+sources\utils\code_chunks.cpp:2:10: warning: I'm an unknown rule id ... [clang-diagnostic-xyz]
+    void foo(int bar);
+         ^

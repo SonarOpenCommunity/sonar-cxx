@@ -54,7 +54,7 @@ class CxxClangSASensorTest {
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-empty.plist");
     context.setSettings(settings);
 
-    var sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -80,7 +80,7 @@ class CxxClangSASensorTest {
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    var sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -90,7 +90,7 @@ class CxxClangSASensorTest {
   void shouldReportCorrectFlows() {
     var context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY,
-                         "clangsa-reports/clangsa-report.plist");
+      "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
     /*
@@ -107,7 +107,7 @@ class CxxClangSASensorTest {
     context.fileSystem().add(testFile0);
     context.fileSystem().add(testFile1);
 
-    var sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(3);
@@ -158,7 +158,7 @@ class CxxClangSASensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
       .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -167,7 +167,7 @@ class CxxClangSASensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxClangSASensor();
+    var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();

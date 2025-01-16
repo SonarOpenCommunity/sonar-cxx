@@ -59,7 +59,7 @@ class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "ZipManager.cpp").setLanguage("cxx")
       .initMetadata("asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(16);
@@ -82,7 +82,7 @@ class CxxPCLintSensorTest {
       .build()
     );
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(issues);
@@ -97,7 +97,7 @@ class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);
@@ -115,7 +115,7 @@ class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -131,7 +131,7 @@ class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -143,7 +143,7 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-projectlevelviolation.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(1);
@@ -155,7 +155,7 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-invalid-char.xml");
     context.setSettings(settings);
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).isEmpty();
@@ -164,7 +164,7 @@ class CxxPCLintSensorTest {
   @Test
   void sensorDescriptor() {
     var descriptor = new DefaultSensorDescriptor();
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.describe(descriptor);
 
     var softly = new SoftAssertions();
@@ -185,7 +185,7 @@ class CxxPCLintSensorTest {
     context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cxx").initMetadata(
       "asd\nasdas\nasda\n").build());
 
-    var sensor = new CxxPCLintSensor();
+    var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
 
     assertThat(context.allIssues()).hasSize(2);

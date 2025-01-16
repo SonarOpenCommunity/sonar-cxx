@@ -51,6 +51,7 @@ class CxxCompilerSensorTest {
     context = SensorContextTester.create(fs.baseDir());
     context.setSettings(settings);
     sensor = new CxxCompilerSensorMock(context);
+    sensor.setWebApi(null);
   }
 
   @Test

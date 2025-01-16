@@ -1,0 +1,3 @@
+sources\utils\code_chunks.cpp:2:10: warning: bla bla ... [clang-diagnostic-c++2a-compat]
+    void foo(int bar);
+         ^
