@@ -27,6 +27,7 @@ import com.sonar.cxx.sslr.impl.matcher.RuleDefinition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.sslr.internal.grammar.MutableParsingRule;
 
@@ -141,6 +142,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getNextAstNode() {
     var nextSibling = getNextSibling();
     if (nextSibling != null) {
@@ -160,6 +162,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getPreviousAstNode() {
     var previousSibling = getPreviousSibling();
     if (previousSibling != null) {
@@ -178,6 +181,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getNextSibling() {
     if (parent == null) {
       return null;
@@ -195,6 +199,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getPreviousSibling() {
     if (parent == null) {
       return null;
@@ -361,6 +366,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getFirstChild(AstNodeType... nodeTypes) {
     for (var child : children) {
       for (var nodeType : nodeTypes) {
@@ -390,6 +396,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getFirstDescendant(AstNodeType... nodeTypes) {
     for (var child : children) {
       if (child.is(nodeTypes)) {
@@ -505,7 +512,7 @@ public class AstNode {
    *
    * @since 1.20
    */
-  // @CheckForNull -> normally already ensured via grammar
+  @CheckForNull // -> normally already ensured via grammar
   public AstNode getLastChild(AstNodeType... nodeTypes) {
     for (int i = children.size() - 1; i >= 0; i--) {
       var child = children.get(i);
@@ -585,6 +592,7 @@ public class AstNode {
    *
    * @since 1.17
    */
+  @CheckForNull
   public AstNode getFirstAncestor(AstNodeType nodeType) {
     if (parent == null) {
       return null;
@@ -604,6 +612,7 @@ public class AstNode {
    *
    * @since 1.19.2
    */
+  @CheckForNull
   public AstNode getFirstAncestor(AstNodeType... nodeTypes) {
     var result = parent;
     while (result != null) {
@@ -678,6 +687,7 @@ public class AstNode {
    *
    * @return last token of this node (@CheckForNull -> normally already ensured via grammar)
    */
+  @CheckForNull
   public Token getLastToken() {
     if (!this.hasToken()) {
       return null;

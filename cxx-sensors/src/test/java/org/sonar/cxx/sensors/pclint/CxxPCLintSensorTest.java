@@ -27,13 +27,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxPCLintSensorTest {
 
@@ -52,12 +52,9 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "ZipManager.cpp").setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("FileZip.cpp", 3));
+    context.fileSystem().add(createTestInputFile("FileZip.h", 3));
+    context.fileSystem().add(createTestInputFile("ZipManager.cpp", 3));
 
     var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
@@ -76,11 +73,7 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, reportFile);
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n")
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("test.c", 3));
 
     var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
@@ -94,8 +87,7 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRACPP.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("test.c", 3));
 
     var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
@@ -112,8 +104,7 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("test.c", 3));
 
     var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
@@ -128,8 +119,7 @@ class CxxPCLintSensorTest {
       "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test.c").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("test.c", 3));
 
     var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);
@@ -180,10 +170,8 @@ class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-with-supplemental.xml");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.cpp").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "FileZip.h").setLanguage("cxx").initMetadata(
-      "asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("FileZip.cpp", 3));
+    context.fileSystem().add(createTestInputFile("FileZip.h", 3));
 
     var sensor = new CxxPCLintSensor().setWebApi(null);
     sensor.execute(context);

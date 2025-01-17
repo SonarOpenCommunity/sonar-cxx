@@ -33,7 +33,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
@@ -44,6 +43,7 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.SonarServerWebApi;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxClangTidySensorTest {
 
@@ -94,16 +94,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        asdasdfghtzsdfghjuio
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -125,16 +116,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-            output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -160,17 +142,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-                                       _identityFunction,
-                                       _identityFunction) {
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 4));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -190,16 +162,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        X
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -218,12 +181,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("0123456789\n")
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 1));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -245,16 +203,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-            output[outputPos++] = table[((input[inputPos + 1] & 0x0f) << 2) | (input[inputPos + 2] >> 6)];
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -278,16 +227,7 @@ class CxxClangTidySensorTest {
     settings.setProperty(CxxClangTidySensor.REPORT_PATH_KEY, reportFile);
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        asdasdgghs
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -304,16 +244,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "to_array.hpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        asdbsdfghtz
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("to_array.hpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -333,16 +264,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "to_array.hpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        asdcsdfghtz
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("to_array.hpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -362,24 +284,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        ab
-        ab
-        ab
-        ab
-        ab
-        ab
-        abcdefg
-        abdefgrqwe
-        ab
-        ab
-        abcdefghijklm
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 11));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -400,16 +305,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        asdas
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxClangTidySensor().setWebApi(null);
     sensor.execute(context);
@@ -426,16 +322,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        X
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var webApi = mock(SonarServerWebApi.class);
     when(webApi.setServerUrl(any())).thenCallRealMethod();
@@ -470,16 +357,7 @@ class CxxClangTidySensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder
-      .create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-        asd
-        X
-        asda
-        """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     ActiveRulesBuilder builder = new ActiveRulesBuilder();
     NewActiveRule newRule = new NewActiveRule.Builder()

@@ -19,16 +19,15 @@
  */
 package org.sonar.cxx.sensors.drmemory;
 
-import java.nio.charset.StandardCharsets;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxDrMemorySensorTest {
 
@@ -45,9 +44,7 @@ class CxxDrMemorySensorTest {
     context.settings().setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
       "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
 
-    var inputFile = TestInputFileBuilder.create("ProjectKey", "sources/utils/code_chunks.cpp")
-      .initMetadata("asd\nasdas\nasda\n").setCharset(StandardCharsets.UTF_8).build();
-    context.fileSystem().add(inputFile);
+    context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
     var sensor = new CxxDrMemorySensor().setWebApi(null);
     sensor.execute(context);

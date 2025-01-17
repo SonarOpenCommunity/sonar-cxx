@@ -29,14 +29,14 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 
 /**
- * Container for preprocessor macros:
- * - the container stores all existing macros (put)
- * - the container allows quick search for macros (get)
+ * Container for preprocessor macros: - the container stores all existing macros (put) - the container allows quick
+ * search for macros (get)
  *
- * For recursively existing macros:
- * - the container allows to deactivate macros temporarily in the search (pushDisable/popDisable)
+ * For recursively existing macros: - the container allows to deactivate macros temporarily in the search
+ * (pushDisable/popDisable)
  */
 public class MacroContainer<K, V> {
 
@@ -48,6 +48,7 @@ public class MacroContainer<K, V> {
    *
    * @return if key exists and is not disabled return value, else null
    */
+  @CheckForNull
   public V get(K key) {
     V v = values.get(key);
     if ((v != null) && (disabled.isEmpty() || !disabled.contains(key))) {
@@ -116,8 +117,7 @@ public class MacroContainer<K, V> {
    * @throws java.io.IOException file cannot be created, or cannot be written for any other reason
    */
   public void writeToFile(String fileName) throws IOException {
-    try (FileOutputStream fos = new FileOutputStream(fileName);
-         ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+    try (FileOutputStream fos = new FileOutputStream(fileName); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
       oos.writeObject(values);
       oos.writeObject(disabled);
     }
@@ -131,8 +131,7 @@ public class MacroContainer<K, V> {
    * @throws java.lang.ClassNotFoundException class of a serialized object cannot be found
    */
   public void readFromFile(String fileName) throws IOException, ClassNotFoundException {
-    try (FileInputStream fis = new FileInputStream(fileName);
-         ObjectInputStream ois = new ObjectInputStream(fis)) {
+    try (FileInputStream fis = new FileInputStream(fileName); ObjectInputStream ois = new ObjectInputStream(fis)) {
       values = (Map) ois.readObject();
       disabled = (Deque) ois.readObject();
     }
