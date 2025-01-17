@@ -20,14 +20,11 @@
 package org.sonar.cxx.sensors.clangsa;
 
 import com.google.common.collect.Iterables;
-import java.util.Collections;
-import org.apache.commons.lang.RandomStringUtils;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
@@ -36,6 +33,7 @@ import org.sonar.api.batch.sensor.issue.IssueLocation;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxClangSASensorTest {
 
@@ -66,19 +64,8 @@ class CxxClangSASensorTest {
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
-    /*
-     * 2 issues
-     */
-    var testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cxx")
-      .initMetadata("asd\nasdghzui\nasd\nasd\nasdghtlout\nasdghtkouilh\nasd\nasdkhgkjgkjhgjg\nasd\n").build();
-    /*
-     * 1 issue
-     */
-    var testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasdaghtzutiojklmg\n").build();
-
-    context.fileSystem().add(testFile0);
-    context.fileSystem().add(testFile1);
+    context.fileSystem().add(createTestInputFile("src/lib/component0.cc", 9));
+    context.fileSystem().add(createTestInputFile("src/lib/component1.cc", 3));
 
     var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
@@ -93,19 +80,9 @@ class CxxClangSASensorTest {
       "clangsa-reports/clangsa-report.plist");
     context.setSettings(settings);
 
-    /*
-     * 2 issues
-     */
-    var testFile0 = TestInputFileBuilder.create("ProjectKey", "src/lib/component0.cc").setLanguage("cxx")
-      .setContents(generateTestFileContents(100, 80)).build();
-    /*
-     * 1 issue
-     */
-    var testFile1 = TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc").setLanguage("cxx")
-      .setContents(generateTestFileContents(100, 80)).build();
-
+    var testFile0 = createTestInputFile("src/lib/component0.cc", 100);
     context.fileSystem().add(testFile0);
-    context.fileSystem().add(testFile1);
+    context.fileSystem().add(createTestInputFile("src/lib/component1.cc", 100));
 
     var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
@@ -155,8 +132,7 @@ class CxxClangSASensorTest {
     settings.setProperty(CxxClangSASensor.REPORT_PATH_KEY, "clangsa-reports/clangsa-reportXYZ.plist");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/lib/component1.cc")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("src/lib/component1.cc", 3));
 
     var sensor = new CxxClangSASensor().setWebApi(null);
     sensor.execute(context);
@@ -175,11 +151,6 @@ class CxxClangSASensorTest {
     softly.assertThat(descriptor.languages()).containsOnly("cxx", "cpp", "c++", "c");
     softly.assertThat(descriptor.ruleRepositories()).containsOnly(CxxClangSARuleRepository.KEY);
     softly.assertAll();
-  }
-
-  private String generateTestFileContents(int linesNum, int lineLen) {
-    String line = RandomStringUtils.randomAscii(lineLen);
-    return String.join("\n", Collections.nCopies(linesNum, line));
   }
 
 }

@@ -23,12 +23,12 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.coverage.bullseye.CxxCoverageBullseyeSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxBullseyeCoverageSensorTest {
 
@@ -51,30 +51,12 @@ class CxxBullseyeCoverageSensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "main.cpp")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "source_1.cpp")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(59))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.h")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "src/testclass.cpp")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(59))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.h")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "testclass.cpp")
-      .setLanguage("cxx")
-      .initMetadata(
-        "asd\nasdas\nasda\n" + "\n".repeat(59))
-      .build());
+    context.fileSystem().add(createTestInputFile("main.cpp", 32));
+    context.fileSystem().add(createTestInputFile("source_1.cpp", 52));
+    context.fileSystem().add(createTestInputFile("src/testclass.h", 32));
+    context.fileSystem().add(createTestInputFile("src/testclass.cpp", 52));
+    context.fileSystem().add(createTestInputFile("testclass.h", 32));
+    context.fileSystem().add(createTestInputFile("testclass.cpp", 62));
 
     var sensor = new CxxCoverageBullseyeSensor();
     sensor.execute(context);
@@ -132,26 +114,10 @@ class CxxBullseyeCoverageSensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-      "randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-      "randomfoldernamethatihopeknowmachinehas/test/test.c")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-      "randomfoldernamethatihopeknowmachinehas/test2/test2.c")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey",
-      "randomfoldernamethatihopeknowmachinehas/main.c")
-      .setLanguage("cxx")
-      .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(29))
-      .build());
+    context.fileSystem().add(createTestInputFile("randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h", 32));
+    context.fileSystem().add(createTestInputFile("randomfoldernamethatihopeknowmachinehas/test/test.c", 32));
+    context.fileSystem().add(createTestInputFile("randomfoldernamethatihopeknowmachinehas/test2/test2.c", 32));
+    context.fileSystem().add(createTestInputFile("randomfoldernamethatihopeknowmachinehas/main.c", 32));
 
     var sensor = new CxxCoverageBullseyeSensor();
     sensor.execute(context);
@@ -189,10 +155,7 @@ class CxxBullseyeCoverageSensorTest {
     };
 
     for (var filepath : fileList) {
-      context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", filepath)
-        .setLanguage("cxx")
-        .initMetadata("asd\nasdas\nasda\n" + "\n".repeat(4029))
-        .build());
+      context.fileSystem().add(createTestInputFile(filepath, 4032));
     }
     var sensor = new CxxCoverageBullseyeSensor();
     sensor.execute(context);
@@ -258,19 +221,7 @@ class CxxBullseyeCoverageSensorTest {
     );
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "root/folder/test.cpp")
-      .setLanguage("cxx")
-      .initMetadata("""
-                            namespace Core {
-                                class TokenHandler {
-                                public:
-                                    virtual ~TokenHandler() {}
-                                    virtual void OnHandle() = 0;
-                                };
-                            }
-                            """)
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("root/folder/test.cpp", 7));
 
     var sensor = new CxxCoverageBullseyeSensor();
     sensor.execute(context);

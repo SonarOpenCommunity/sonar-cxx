@@ -24,12 +24,12 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxInferSensorTest {
 
@@ -48,38 +48,22 @@ class CxxInferSensorTest {
     settings.setProperty(CxxInferSensor.REPORT_PATH_KEY, "infer-reports/infer-result-sample.json");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/tokenize.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "cli/cppcheckexecutor.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "externals/tinyxml/tinyxml2.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/ctu.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/checkunusedvar.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/cppcheck.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/checkio.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/checkother.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/exprengine.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/checkstl.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/astutils.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/clangimport.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/templatesimplifier.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/checkclass.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/symboldatabase.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "lib/valueflow.cpp")
-      .setLanguage("cxx").initMetadata("asd\nasdas\nasda\n").build());
+    context.fileSystem().add(createTestInputFile("lib/tokenize.cpp", 3));
+    context.fileSystem().add(createTestInputFile("cli/cppcheckexecutor.cpp", 3));
+    context.fileSystem().add(createTestInputFile("externals/tinyxml/tinyxml2.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/ctu.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/checkunusedvar.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/cppcheck.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/checkio.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/checkother.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/exprengine.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/checkstl.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/astutils.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/clangimport.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/templatesimplifier.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/checkclass.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/symboldatabase.cpp", 3));
+    context.fileSystem().add(createTestInputFile("lib/valueflow.cpp", 3));
 
     var sensor = new CxxInferSensor().setWebApi(null);
     sensor.execute(context);

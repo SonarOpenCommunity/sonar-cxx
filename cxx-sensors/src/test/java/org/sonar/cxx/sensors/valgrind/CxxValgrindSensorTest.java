@@ -29,10 +29,10 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxValgrindSensorTest {
 
@@ -57,11 +57,8 @@ class CxxValgrindSensorTest {
   @Test
   void shouldSaveViolationIfErrorIsInside() {
     var context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(
-      TestInputFileBuilder.create("myProjectKey", "dir/file")
-        .setLanguage("cxx")
-        .initMetadata("asd\nasdas\nasda\n")
-        .build());
+    context.fileSystem().add(createTestInputFile("dir/file", 3));
+
     sensor.execute(context); // set context
     var valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(true));

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Pattern;
+import javax.annotation.CheckForNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
@@ -80,6 +81,7 @@ public class ClangTidyParser {
     }
   }
 
+  @CheckForNull
   private static LineData parseLine(String line) {
     var lineMatcher = LINE_PATTERN.matcher(line);
     if (lineMatcher.matches()) {

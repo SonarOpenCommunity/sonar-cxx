@@ -32,12 +32,17 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.resources.Language;
 
 public final class TestUtils {
 
   private static final String OS = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+
+  private TestUtils() {
+    // utility class
+  }
 
   public static File loadResource(String resourceName) {
     URL resource = TestUtils.class.getResource(resourceName);
@@ -128,6 +133,13 @@ public final class TestUtils {
     return null;
   }
 
+  public static DefaultInputFile createTestInputFile(String relativePath, int lines) {
+    return TestInputFileBuilder.create("ProjectKey", relativePath)
+      .setLanguage("cxx")
+      .initMetadata(("c".repeat(80) + "\n").repeat(lines))
+      .build();
+  }
+
   private static void scanDirs(DefaultFileSystem fs, List<File> dirs, Type ftype) {
     if (dirs == null) {
       return;
@@ -150,10 +162,6 @@ public final class TestUtils {
         fs.add(TestInputFileBuilder.create("ProjectKey", target.getPath()).setLanguage("cxx").setType(ftype).build());
       }
     }
-  }
-
-  private TestUtils() {
-    // utility class
   }
 
 }

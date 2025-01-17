@@ -23,12 +23,12 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.cxx.sensors.coverage.ctc.CxxCoverageTestwellCtcTxtSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxTestwellCtcTxtParserTest {
 
@@ -49,11 +49,7 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx")
-      .initMetadata("\n".repeat(100))
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("HGBuildNumberLookup.cpp", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -71,11 +67,7 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx")
-      .initMetadata("\n".repeat(100))
-      .build()
-    );
+    context.fileSystem().add(createTestInputFile("HGBuildNumberLookup.cpp", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -93,8 +85,7 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_small_v8.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "HGBuildNumberLookup.cpp")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
+    context.fileSystem().add(createTestInputFile("HGBuildNumberLookup.cpp", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -112,10 +103,8 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
+    context.fileSystem().add(createTestInputFile("test-wildmatch.c", 100));
+    context.fileSystem().add(createTestInputFile("credential-store.c", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -133,10 +122,8 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
+    context.fileSystem().add(createTestInputFile("test-wildmatch.c", 100));
+    context.fileSystem().add(createTestInputFile("credential-store.c", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -154,10 +141,8 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_big.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "credential-store.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
+    context.fileSystem().add(createTestInputFile("test-wildmatch.c", 100));
+    context.fileSystem().add(createTestInputFile("credential-store.c", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
@@ -175,8 +160,7 @@ class CxxTestwellCtcTxtParserTest {
       "coverage-reports/TestwellCTC/report_empty.txt");
     context.setSettings(settings);
 
-    context.fileSystem().add(TestInputFileBuilder.create("ProjectKey", "test-wildmatch.c")
-      .setLanguage("cxx").initMetadata("\n".repeat(100)).build());
+    context.fileSystem().add(createTestInputFile("test-wildmatch.c", 100));
 
     var sensor = new CxxCoverageTestwellCtcTxtSensor();
     sensor.execute(context);
