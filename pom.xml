@@ -276,7 +276,7 @@
     <commons-lang.version>2.6</commons-lang.version>
     <cucumber.version>2.0.1</cucumber.version>
     <dd-plist.version>1.28</dd-plist.version>
-    <gherkin.version>30.0.4</gherkin.version>
+    <gherkin.version>31.0.0</gherkin.version>
     <gson.version>2.11.0</gson.version>
     <guava.version>33.4.0-jre</guava.version>
     <jackson-databind.version>2.18.2</jackson-databind.version>
