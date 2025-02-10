@@ -6,9 +6,10 @@ name: cxx plugin CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    types: [opened, synchronize, reopened]
 
 defaults:
   run:
@@ -213,89 +214,6 @@ jobs:
     #
     - name: Build and test with with Maven
       run: mvn -B -e -V verify --file pom.xml
-
-
-  # -----------------------------------------------------------------------------------------------------------
-  # Update SonarCloud results
-  # - Java 11 is no longer supported as scanner runtime environment
-  # -----------------------------------------------------------------------------------------------------------
-  sonar-cloud:
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        java: [ '17' ]
-        distribution: [ 'temurin' ]
-
-    if: github.event_name == 'push'
-    runs-on: ${{ matrix.os }}
-
-    steps:
-
-    # context information
-    #
-    - name: Dump GitHub Context
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump Matrix Context
-      env:
-        MATRIX_CONTEXT: ${{ toJSON(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
-
-    # checkout code
-    # - to provide complete SCM information to the sonar scanner,
-    #   all historical data for all branches and tags must be retrieved (fetch-depth: 0)
-    #
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    # setup Java
-    #
-    - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
-      uses: actions/setup-java@v4
-      with:
-        java-version: ${{ matrix.java }}
-        distribution: ${{ matrix.distribution }}
-        cache: maven
-
-    # read version number from POM
-    #
-    - name: get-pom-version
-      id: pom-version
-      uses: andreacomo/maven-gav-extractor@v2
-
-    # remove -SNAPSHOT from POM version (major.minor.patch-SNAPSHOT)
-    #
-    - run: echo "CXX_POM_VERSION=${{ steps.pom-version.outputs.version }}" >> $GITHUB_ENV
-    - run: echo "CXX_VERSION=${CXX_POM_VERSION%-*}" >> $GITHUB_ENV
-
-    # set version number of plugin JAR
-    # - 'major.minor.patch' and 'build' number from actions run number
-    #
-    - name: Sets the current project's version
-      run: mvn versions:set -DartifactId='cxx' -DnewVersion='${{ env.CXX_VERSION }}.${{ github.run_number }}'
-
-    - name: Dump environment variables
-      run: env
-
-    # Build and test with with Maven
-    # - use phase 'verify' to aggregate coverage results (part of integration-tests)
-    # - use phase 'install' to resolve dependencies (necessary for sonar-scanner)
-    #
-    - name: Build and test with Maven
-      run: mvn -B -e -V install --file pom.xml
-
-    # Update SonarCloud results
-    # - Secrets are not passed to the runner when a workflow is triggered from a forked repository!
-    #
-    - name: Update SonarCloud results
-      run: mvn sonar:sonar -B -e -V -Dsonar.organization=sonaropencommunity -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN -Dsonar.python.version=3.8
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 
   # -----------------------------------------------------------------------------------------------------------
