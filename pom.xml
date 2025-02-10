@@ -257,6 +257,10 @@
     <license.years>2010-2024</license.years>
     <license.name>GNU LGPL v3</license.name>
 
+    <!-- properties for SonarQube Cloud analysis -->
+    <sonar.organization>sonaropencommunity</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
