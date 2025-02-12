@@ -32,185 +32,175 @@
 
   <developers>
     <developer>
+      <id>guwirth</id>
+      <name>Günter Wirth</name>
+    </developer>
+    <developer>
       <id>wenns</id>
       <name>Waleri Enns</name>
-      <email>wen@contact.de</email>
     </developer>
     <developer>
       <name>Francois Dorin</name>
-      <email>f.dorin@free.fr</email>
     </developer>
     <developer>
       <id>jmecosta</id>
       <name>Jorge Costa</name>
-      <email>jmecosta@gmail.com</email>
     </developer>
     <developer>
       <name>Vincent Hardion</name>
-      <email>vincent.hardion@gmail.com</email>
     </developer>
     <developer>
       <name>Mathias Cocheril</name>
-      <email>mathias.cocheril-ext@sgcib.com</email>
     </developer>
     <developer>
       <name>JP Chemali</name>
-      <email>jshemali@hotmail.com</email>
     </developer>
     <developer>
       <name>Sylvain Hellegouarch</name>
-      <email>sh@defuze.org</email>
     </developer>
     <developer>
       <name>Przemyslaw Kociolek</name>
-      <email>przemyslaw.kociolek@sabre.com</email>
     </developer>
     <developer>
       <name>Patrick Gansterer</name>
-      <email>paroga@paroga.com</email>
     </developer>
     <developer>
       <id>Bertk</id>
       <name>Bert Kandert</name>
-      <email>bert.k@hotmail.com</email>
     </developer>
     <developer>
       <name>Wolfgang Buckel</name>
-      <email>wolfgang.buckel@siemens.com</email>
     </developer>
     <developer>
       <name>keithmarsh</name>
-      <email>bitbucket@keithmarsh.com</email>
-    </developer>
-    <developer>
-      <id>guwirth</id>
-      <name>Günter Wirth</name>
-      <email>guenter.wirth@etas.com</email>
     </developer>
     <developer>
       <id>Typz</id>
       <name>Francois Ferrand</name>
-      <email>thetypz@gmail.com</email>
     </developer>
     <developer>
       <id>lcintrat</id>
       <name>Ludovic Cintrat</name>
-      <email>lcintrat@gmail.com</email>
     </developer>
     <developer>
       <id>Zetten</id>
       <name>Peter van Zetten</name>
-      <email>peter.vanzetten@gmail.com</email>
     </developer>
     <developer>
       <id>cbagwell</id>
       <name>Chris Bagwell</name>
-      <email>chris@cnpbagwell.com</email>
     </developer>
     <developer>
       <id>mjdetullio</id>
       <name>Matthew DeTullio</name>
-      <email/>
     </developer>
     <developer>
       <id>felipebz</id>
       <name>Felipe Zorzo</name>
-      <email/>
     </developer>
     <developer>
       <id>selltc</id>
-      <name/>
-      <email/>
+      <name>selltc</name>
     </developer>
     <developer>
       <id>wichtounet</id>
       <name>Baptiste Wicht</name>
-      <email/>
     </developer>
     <developer>
       <id>arnaudsylvestre</id>
       <name>Arnaud SYLVESTRE</name>
-      <email>Arnaud.Sylvestre@gmail.com</email>
     </developer>
     <developer>
       <id>BobSilent</id>
       <name>BobSilent</name>
-      <email/>
     </developer>
     <developer>
       <id>Kochise</id>
       <name>Kochise</name>
-      <email/>
     </developer>
     <developer>
       <id>gyorb</id>
       <name>gyorb</name>
-      <email/>
     </developer>
     <developer>
       <id>nathanaelg</id>
       <name>nathanaelg</name>
-      <email/>
     </developer>
     <developer>
       <id>gena01</id>
       <name>gena01</name>
-      <email/>
     </developer>
     <developer>
       <id>MarcAntoineCRUE</id>
       <name>MarcAntoineCRUE</name>
-      <email/>
     </developer>
     <developer>
       <id>Pasick</id>
       <name>Pasick</name>
-      <email/>
     </developer>
     <developer>
       <id>stefanweiser</id>
       <name>stefanweiser</name>
-      <email/>
     </developer>
     <developer>
       <id>ericlemes</id>
       <name>Eric Lemes</name>
-      <email/>
     </developer>
     <developer>
       <id>ivangalkin</id>
       <name>ivangalkin</name>
-      <email/>
     </developer>
     <developer>
       <id>rufinio</id>
       <name>rufinio</name>
-      <email/>
     </developer>
     <developer>
       <id>moriarty</id>
       <name>Alex Moriarty</name>
-      <email/>
     </developer>
     <developer>
       <id>bloodlee</id>
       <name>Bloodlee</name>
-      <email/>
     </developer>
     <developer>
       <id>rudolfgrauberger</id>
       <name>Rudolf Grauberger</name>
-      <email/>
     </developer>
     <developer>
       <id>stalb</id>
       <name>Stéphane Talbot</name>
-      <email/>
     </developer>
     <developer>
       <id>tisoft</id>
       <name>Markus Heberling</name>
-      <email>markus@tisoft.de</email>
+    </developer>
+    <developer>
+      <id>cmorve-te</id>
+      <name>Cristian Morales Vega</name>
+    </developer>
+    <developer>
+      <id>agebert</id>
+      <name>Alfred Gebert</name>
+    </developer>
+    <developer>
+      <id>Nekto89</id>
+      <name>Marian Klymov</name>
+    </developer>
+    <developer>
+      <id>jenspopp</id>
+      <name>jenspopp</name>      
+    </developer>
+    <developer>
+      <id>opajonk</id>
+      <name>Oliver Pajonk</name>
+    </developer>
+    <developer>
+      <id>smileQiny</id>
+      <name>Smile Qy</name>
+    </developer>
+    <developer>
+      <id>kragens</id>
+      <name>kragens</name>
     </developer>
   </developers>
 
@@ -246,8 +236,8 @@
     <url>https://github.com/SonarOpenCommunity/sonar-cxx/issues?state=open</url>
   </issueManagement>
   <ciManagement>
-    <system>Travis-CI</system>
-    <url>https://travis-ci.org/SonarOpenCommunity/sonar-cxx/</url>
+    <system>GitHub Actions</system>
+    <url>https://github.com/SonarOpenCommunity/sonar-cxx/actions</url>
   </ciManagement>
 
   <properties>
