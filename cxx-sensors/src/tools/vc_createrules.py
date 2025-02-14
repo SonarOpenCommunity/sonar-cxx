@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # C++ Community Plugin (cxx plugin)
-# Copyright (C) 2020-2024 SonarOpenCommunity
+# Copyright (C) 2020-2025 SonarOpenCommunity
 # http://github.com/SonarOpenCommunity/sonar-cxx
 #
 # This program is free software; you can redistribute it and/or
