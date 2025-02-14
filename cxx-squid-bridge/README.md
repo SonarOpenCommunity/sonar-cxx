@@ -31,7 +31,7 @@ In the original version, some features were discontinued in subsequent versions,
 ```Java
 /*
  * C++ Community Plugin (cxx plugin)
- * Copyright (C) 2021-2024 SonarOpenCommunity
+ * Copyright (C) 2021-2025 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or

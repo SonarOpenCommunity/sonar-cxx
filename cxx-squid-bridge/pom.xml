@@ -14,7 +14,7 @@
   <name>Cxx :: Language Recognizer :: Squid Bridge</name>
 
   <properties>
-    <license.years>2021-2024</license.years>
+    <license.years>2021-2025</license.years>
     <!-- in addition, a dependency must be set in 'integration-tests/pom.xml' to aggregate the results -->
     <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
   </properties>

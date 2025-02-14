@@ -244,7 +244,7 @@
     <license.title>C++ Community Plugin (cxx plugin)</license.title>
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
-    <license.years>2010-2024</license.years>
+    <license.years>2010-2025</license.years>
     <license.name>GNU LGPL v3</license.name>
 
     <!-- properties for SonarQube Cloud analysis -->
