@@ -21455,6 +21455,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++11-narrowing</key>
     <name>clang-diagnostic-c++11-narrowing</name>
+    <deprecatedKey>clang-diagnostic-c++0x-narrowing</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -21837,6 +21838,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++17-compat-mangling</key>
     <name>clang-diagnostic-c++17-compat-mangling</name>
+    <deprecatedKey>clang-diagnostic-c++1z-compat-mangling</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
@@ -22046,6 +22048,7 @@ Derived();             // and so temporary construction is okay</code></pre>
   <rule>
     <key>clang-diagnostic-c++20-compat-pedantic</key>
     <name>clang-diagnostic-c++20-compat-pedantic</name>
+    <deprecatedKey>clang-diagnostic-c++2a-compat-pedantic</deprecatedKey>
     <description>
       <![CDATA[<p>Diagnostic text:</p>
 <ul>
