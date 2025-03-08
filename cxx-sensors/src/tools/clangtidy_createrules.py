@@ -287,6 +287,34 @@ SEVERITY_MAP = {
 
 }
 
+deprecated_diag_keys = {
+    'c++11-compat': ['c++0x-compat'],
+    'c++11-extensions': ['c++0x-extensions'],
+    'c++11-narrowing': ['c++0x-narrowing'],
+    'c++14-compat': ['c++1y-compat'],
+    'c++14-extensions': ['c++1y-extensions'],
+    'c++17-compat': ['c++1z-compat'],
+    'c++17-compat-mangling': ['c++1z-compat-mangling'],
+    'c++17-extensions': ['c++1z-extensions'],
+    'c++20-compat': ['c++2a-compat'],
+    'c++20-compat-pedantic': ['c++2a-compat-pedantic'],
+    'c++20-extensions': ['c++2a-extensions'],
+    'c++23-compat': ['c++2b-compat'],
+    'c++23-extensions': ['c++2b-extensions'],
+    'c++26-compat' :['c++2c-compat'],
+    'c++26-extensions': ['c++2c-extensions'],
+    'pre-c++14-compat': ['pre-c++1y-compat'],
+    'pre-c++14-compat-pedantic': ['pre-c++1y-compat-pedantic'],
+    'pre-c++17-compat': ['pre-c++1z-compat'],
+    'pre-c++17-compat-pedantic': ['pre-c++1z-compat-pedantic'],
+    'pre-c++20-compat': ['pre-c++2a-compat'],
+    'pre-c++20-compat-pedantic': ['pre-c++2a-compat-pedantic'],
+    'pre-c++23-compat': ['pre-c++2b-compat'],
+    'pre-c++23-compat-pedantic': ['pre-c++2b-compat-pedantic'],
+    'pre-c++26-compat': ['pre-c++2c-compat'],
+    'pre-c++26-compat-pedantic': ['pre-c++2c-compat-pedantic']
+}
+
 et = get_cdata_capable_xml_etree()
 
 CLANG_TIDY_DOC_URL_BASE = "http://clang.llvm.org/extra/clang-tidy/checks/"
@@ -578,38 +606,6 @@ def add_old_diagnostics_rules(rules):
     rules.append(rule)
 
     rule = et.Element('rule')
-    et.SubElement(rule, 'key').text = 'clang-diagnostic-pre-c++2b-compat'
-    et.SubElement(rule, 'name').text = 'clang-diagnostic-pre-c++2b-compat'
-    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
-<ul>
-<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++2b</li>
-<li>warning: alias declaration in this context is incompatible with C++ standards before C++2b</li>
-<li>warning: an attribute specifier sequence in this position is incompatible with C++ standards before C++2b</li>
-<li>warning: consteval if is incompatible with C++ standards before C++2b</li>
-<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++2b extension</li>
-</ul>
-<h2>References</h2>
-<p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wpre-c-2b-compat" target="_blank">Diagnostic flags in Clang</a></p>"""))
-    et.SubElement(rule, 'severity').text = "INFO"
-    rules.append(rule)
-
-    rule = et.Element('rule')
-    et.SubElement(rule, 'key').text = 'clang-diagnostic-pre-c++2b-compat-pedantic'
-    et.SubElement(rule, 'name').text = 'clang-diagnostic-pre-c++2b-compat-pedantic'
-    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
-<ul>
-<li>warning: 'size_t' suffix for literals is incompatible with C++ standards before C++2b</li>
-<li>warning: alias declaration in this context is incompatible with C++ standards before C++2b</li>
-<li>warning: an attribute specifier sequence in this position is incompatible with C++ standards before C++2b</li>
-<li>warning: consteval if is incompatible with C++ standards before C++2b</li>
-<li>warning: overloaded %0 with %select{no|a defaulted|more than one}1 parameter is a C++2b extension</li>
-</ul>
-<h2>References</h2>
-<p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wpre-c-2b-compat-pedantic" target="_blank">Diagnostic flags in Clang</a></p>"""))
-    et.SubElement(rule, 'severity').text = "INFO"
-    rules.append(rule)
-
-    rule = et.Element('rule')
     et.SubElement(rule, 'key').text = 'clang-diagnostic-deprecated-experimental-coroutine'
     et.SubElement(rule, 'name').text = 'clang-diagnostic-deprecated-experimental-coroutine'
     et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
@@ -707,6 +703,18 @@ def add_old_diagnostics_rules(rules):
     rules.append(rule)
 
     rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-enum-constexpr-conversion'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-enum-constexpr-conversion'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: integer value %0 is outside the valid range of values [%1, %2] for the enumeration type %3</li>
+</ul>
+<h2>References</h2>
+<p><a href="https://releases.llvm.org/19.1.0/tools/clang/docs/DiagnosticsReference.html#wenum-constexpr-conversion" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "CRITICAL"
+    rules.append(rule)
+
+    rule = et.Element('rule')
     et.SubElement(rule, 'key').text = 'clang-diagnostic-export-using-directive'
     et.SubElement(rule, 'name').text = 'clang-diagnostic-export-using-directive'
     et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
@@ -715,6 +723,30 @@ def add_old_diagnostics_rules(rules):
 </ul>
 <h2>References</h2>
 <p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wexport-using-directive" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-fixed-enum-extension'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-fixed-enum-extension'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: enumeration types with a fixed underlying type are a Clang extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="https://releases.llvm.org/19.1.0/tools/clang/docs/DiagnosticsReference.html#wfixed-enum-extension" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-higher-precision-fp'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-higher-precision-fp'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: higher precision floating-point type size has the same size than floating-point type size</li>
+</ul>
+<h2>References</h2>
+<p><a href="https://releases.llvm.org/19.1.0/tools/clang/docs/DiagnosticsReference.html#whigher-precision-fp" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
@@ -824,6 +856,11 @@ def diagnostics_to_rules_xml(json_file):
     # add clang default warnings
     create_clang_default_rules(rules)
 
+    all_deprecated_keys = []
+    for _, v in deprecated_diag_keys.items():
+        for deprecated_diag_key in v:
+            all_deprecated_keys.append(deprecated_diag_key)
+
     with open(json_file) as f:
         data = json.load(f)
         diag_groups = data["!instanceof"]["DiagGroup"]
@@ -836,6 +873,9 @@ def diagnostics_to_rules_xml(json_file):
             collect_warnings(data, diag_group_id, warnings_in_group)
 
             if not warnings_in_group:
+                continue
+
+            if data[diag_group_id]["GroupName"] in all_deprecated_keys:
                 continue
 
             # for each DiagGroup calculate the rule type and severity
@@ -852,6 +892,9 @@ def diagnostics_to_rules_xml(json_file):
             rule = et.Element('rule')
             et.SubElement(rule, 'key').text = rule_key
             et.SubElement(rule, 'name').text = rule_name
+            if data[diag_group_id]["GroupName"] in deprecated_diag_keys:
+                for deprecated_diag_key in deprecated_diag_keys[data[diag_group_id]["GroupName"]]:
+                    et.SubElement(rule, 'deprecatedKey').text = "clang-diagnostic-" + deprecated_diag_key
             et.SubElement(rule, 'description').append(CDATA(rule_description))
             if rule_severity != 'MAJOR': # MAJOR is the default
                 et.SubElement(rule, 'severity').text = rule_severity
