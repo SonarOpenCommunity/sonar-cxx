@@ -703,6 +703,18 @@ def add_old_diagnostics_rules(rules):
     rules.append(rule)
 
     rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-enum-constexpr-conversion'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-enum-constexpr-conversion'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: integer value %0 is outside the valid range of values [%1, %2] for the enumeration type %3</li>
+</ul>
+<h2>References</h2>
+<p><a href="https://releases.llvm.org/19.1.0/tools/clang/docs/DiagnosticsReference.html#wenum-constexpr-conversion" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "CRITICAL"
+    rules.append(rule)
+
+    rule = et.Element('rule')
     et.SubElement(rule, 'key').text = 'clang-diagnostic-export-using-directive'
     et.SubElement(rule, 'name').text = 'clang-diagnostic-export-using-directive'
     et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
@@ -711,6 +723,30 @@ def add_old_diagnostics_rules(rules):
 </ul>
 <h2>References</h2>
 <p><a href="https://releases.llvm.org/16.0.0/tools/clang/docs/DiagnosticsReference.html#wexport-using-directive" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-fixed-enum-extension'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-fixed-enum-extension'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: enumeration types with a fixed underlying type are a Clang extension</li>
+</ul>
+<h2>References</h2>
+<p><a href="https://releases.llvm.org/19.1.0/tools/clang/docs/DiagnosticsReference.html#wfixed-enum-extension" target="_blank">Diagnostic flags in Clang</a></p>"""))
+    et.SubElement(rule, 'severity').text = "INFO"
+    rules.append(rule)
+
+    rule = et.Element('rule')
+    et.SubElement(rule, 'key').text = 'clang-diagnostic-higher-precision-fp'
+    et.SubElement(rule, 'name').text = 'clang-diagnostic-higher-precision-fp'
+    et.SubElement(rule, 'description').append(CDATA("""<p>Diagnostic text:</p>
+<ul>
+<li>warning: higher precision floating-point type size has the same size than floating-point type size</li>
+</ul>
+<h2>References</h2>
+<p><a href="https://releases.llvm.org/19.1.0/tools/clang/docs/DiagnosticsReference.html#whigher-precision-fp" target="_blank">Diagnostic flags in Clang</a></p>"""))
     et.SubElement(rule, 'severity').text = "INFO"
     rules.append(rule)
 
