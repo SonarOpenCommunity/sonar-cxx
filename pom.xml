@@ -294,7 +294,7 @@
     <maven-dependency.version>3.8.1</maven-dependency.version>
     <maven-jacoco.version>0.8.12</maven-jacoco.version>
     <maven-jar.version>3.4.2</maven-jar.version>
-    <maven-license.version>4.6</maven-license.version>
+    <maven-license.version>5.0.0</maven-license.version>
     <maven-project.version>2.2.1</maven-project.version>
     <maven-python-test.version>1.0</maven-python-test.version>
     <maven-shade.version>3.6.0</maven-shade.version>
