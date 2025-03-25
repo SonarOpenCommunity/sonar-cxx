@@ -298,7 +298,7 @@
     <maven-project.version>2.2.1</maven-project.version>
     <maven-python-test.version>1.0</maven-python-test.version>
     <maven-shade.version>3.6.0</maven-shade.version>
-    <maven-sonar.version>5.0.0.4389</maven-sonar.version>
+    <maven-sonar.version>5.1.0.4751</maven-sonar.version>
 
   </properties>
 
