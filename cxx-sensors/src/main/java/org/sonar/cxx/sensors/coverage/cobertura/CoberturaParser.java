@@ -100,7 +100,7 @@ public class CoberturaParser implements CoverageParser {
         noHits = Integer.parseInt(line.getAttrValue("hits"));
       } catch (NumberFormatException e) {
         LOG.warn(
-          "CoverageParser: Truncating the actual number of hits to the maximum number supported by SonarQube, {}", e
+          "CoverageParser: Truncating the actual number of hits to the maximum number supported by SonarQube", e
         );
         noHits = Integer.MAX_VALUE;
       }
