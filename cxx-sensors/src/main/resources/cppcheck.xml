@@ -2760,6 +2760,23 @@ const reference which is usually faster and recommended in C++.
     <type>BUG</type>
   </rule>
   <rule>
+    <key>iterateByValue</key>
+    <name>Range variable 'var' should be declared as const reference</name>
+    <description>
+      <![CDATA[
+      <p>      
+Variable 'var' is used to iterate by value. It could be declared as a
+const reference which is usually faster and recommended in C++.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: 7PK - Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+  </rule>
+  <rule>
     <key>pointerArithBool</key>
     <name>Converting pointer arithmetic result to bool. The bool is always true unless there is undefined behaviour</name>
     <description>
