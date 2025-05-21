@@ -38,7 +38,7 @@ class CxxCompilerGccRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(378);
+    assertThat(repo.rules()).hasSize(397);
   }
 
 }

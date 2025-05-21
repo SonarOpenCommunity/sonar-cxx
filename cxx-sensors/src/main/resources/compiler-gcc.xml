@@ -49,7 +49,8 @@ By activating this rule, unknown rules in the reports are not discarded but mapp
       <![CDATA[
 <p>Warn about code affected by ABI changes.  This includes code that may
 not be compatible with the vendor-neutral C++ ABI as well as the psABI
-for the particular target.
+for the particular target.  The latter warnings are also controlled
+separately by <samp>-Wpsabi</samp>, which is implied by <samp>-Wabi</samp>.
 </p>
 <p>Since G++ now defaults to updating the ABI with each major release,
 normally <samp>-Wabi</samp> warns only about C++ ABI compatibility
@@ -139,23 +140,6 @@ did not affect the mangled name, leading to name collisions when
 function pointers were used as template arguments.
 
 <p>This was fixed in <samp>-fabi-version=10</samp>, the default for GCC 6.1.
-</p>
-</li></ul>
-<p>This option also enables warnings about psABI-related changes.
-The known psABI changes at this point include:
-</p>
-<ul>
-<li>For SysV/x86-64, unions with <code>long double</code> members are
-passed in memory as specified in psABI.  Prior to GCC 4.4, this was not
-the case.  For example:
-
-<div>
-<pre>union U {
-  long double ld;
-  int i;
-};
-</pre></div>
-<p><code>union U</code> is now always passed in memory.
 </p>
 </li></ul>]]>
       </description>
@@ -255,8 +239,9 @@ a warning.)
     <key>-Waggressive-loop-optimizations</key>
     <name>Warn if a loop with constant number of iterations triggers undefined behavior</name>
     <description>
-      <![CDATA[<p>Warn if in a loop with constant number of iterations the compiler detects
-undefined behavior in some statement during one or more of the iterations.
+      <![CDATA[<p>Warn if the compiler detects undefined behavior in a loop with
+a constant number of iterations.  <samp>-Waggressive-loop-optimizations</samp>
+is enabled by default.
 </p>]]>
       </description>
     </rule>
@@ -1135,6 +1120,23 @@ limit.  The <samp>-Wanalyzer-too-complex</samp> option warns if this occurs.
       </description>
     </rule>
   <rule>
+    <key>-Wanalyzer-undefined-behavior-ptrdiff</key>
+    <name>Warn about code paths in which pointer subtraction involves undefined behavior</name>
+    <description>
+      <![CDATA[<p>This warning requires <samp>-fanalyzer</samp>, which enables it; use
+<samp>-Wno-analyzer-undefined-behavior-ptrdiff</samp> to disable it.
+</p>
+<p>This diagnostic warns for paths through the code in which a pointer
+subtraction occurs where the pointers refer to different chunks of
+memory.  Such code relies on undefined behavior, as pointer subtraction
+is only defined for cases where both pointers point to within (or just
+after) the same array.
+</p>
+<p>See <a href="https://cwe.mitre.org/data/definitions/469.html">CWE-469: Use of Pointer Subtraction to Determine Size</a>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wanalyzer-undefined-behavior-strtok</key>
     <name>Warn about code paths in which a call is made to strtok with undefined behavior</name>
     <description>
@@ -1526,7 +1528,7 @@ of these declarations:
     <name>Warn about casting functions to incompatible types</name>
     <description>
       <![CDATA[<p>Warn when a function call is cast to a non-matching type.
-For example, warn if a call to a function returning an integer type 
+For example, warn if a call to a function returning an integer type
 is cast to a pointer type.
 </p>]]>
       </description>
@@ -1746,6 +1748,21 @@ standards mode.  Warnings are disabled in the expression that follows
 deprecated.
 </p>
 <p>When not compiling in C23 mode, these warnings are upgraded to errors
+by <samp>-pedantic-errors</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wc23-c2y-compat</key>
+    <name>Warn about features not present in ISO C23, but present in ISO C2Y</name>
+    <description>
+      <![CDATA[<p>Warn about features not present in ISO C23, but present in ISO C2Y.
+For instance, warn about <code>_Generic</code> selecting with a type name
+instead of an expression.  This option is independent of the standards
+mode.  Warnings are disabled in the expression that follows
+<code>__extension__</code>.
+</p>
+<p>When not compiling in C2Y mode, these warnings are upgraded to errors
 by <samp>-pedantic-errors</samp>.
 </p>]]>
       </description>
@@ -1984,8 +2001,10 @@ for code that is not valid in C++23 but used to be valid but deprecated
 in C++20 with a pedantic warning that can be disabled with
 <samp>-Wno-comma-subscript</samp>.
 </p>
-<p>Enabled by default with <samp>-std=c++20</samp> unless <samp>-Wno-deprecated</samp>,
-and with <samp>-std=c++23</samp> regardless of <samp>-Wno-deprecated</samp>.
+<p>Enabled by default with <samp>-std=c++20</samp> unless
+<samp>-Wno-deprecated</samp>, and after <samp>-std=c++23</samp> regardless of
+<samp>-Wno-deprecated</samp>.  Before <samp>-std=c++20</samp>, enabled with
+explicit <samp>-Wdeprecated</samp>.
 </p>
 <p>This warning is upgraded to an error by <samp>-pedantic-errors</samp> in
 C++23 mode or later.
@@ -2117,6 +2136,16 @@ Completely disabling the warning is not recommended.
 terms and GCC gives up coverage.  Coverage is given up when there are more
 terms in the conditional than there are bits in a <code>gcov_type_unsigned</code>.
 This warning is enabled by default.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wcoverage-too-many-paths</key>
+    <name>Warn if a function exceeds the number of paths (controlled by -fpath-coverage-limit) and path coverage give up instrumenting the function</name>
+    <description>
+      <![CDATA[<p>Warn if <samp>-fpath-coverage</samp> is used and a function has too many
+paths and GCC gives up coverage.  Giving up is controlled by
+<samp>-fpath-coverage-limit</samp>.  This warning is enabled by default.
 </p>]]>
       </description>
     </rule>
@@ -2346,7 +2375,7 @@ that has a pointer data member and a trivial destructor.
 <p>The warning can be disabled by using the <code>gnu::no_dangling</code> attribute
 (see <a href="C_002b_002b-Attributes.html">C++-Specific Variable, Function, and Type Attributes</a>).
 </p>
-<p>This warning is enabled by <samp>-Wall</samp>.
+<p>This warning is enabled by <samp>-Wextra</samp>.
 </p>]]>
       </description>
     </rule>
@@ -2390,6 +2419,17 @@ error alone, with <samp>-Wno-error=declaration-missing-parameter-type</samp>.
       </description>
     </rule>
   <rule>
+    <key>-Wdefaulted-function-deleted</key>
+    <name>Warn when an explicitly defaulted function is deleted</name>
+    <description>
+      <![CDATA[<p>Warn when an explicitly defaulted function is deleted by the compiler.
+That can occur when the function’s declared type does not match the type
+of the function that would have been implicitly declared.  This warning
+is enabled by default.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wdelete-incomplete</key>
     <name>Warn when deleting a pointer to incomplete type</name>
     <description>
@@ -2415,6 +2455,14 @@ by <samp>-Wall</samp>.
     <name>Warn if a deprecated compiler feature, class, method, or field is used</name>
     <description>
       <![CDATA[<p>Warn about usage of deprecated features.  See <a href="Deprecated-Features.html">Deprecated Features</a>.
+</p>
+<p>In C++, explicitly specifying <samp>-Wdeprecated</samp> also enables
+warnings about some features that are deprecated in later language
+standards, specifically <samp>-Wcomma-subscript</samp>,
+<samp>-Wvolatile</samp>, <samp>-Wdeprecated-enum-float-conversion</samp>,
+<samp>-Wdeprecated-enum-enum-conversion</samp>,
+<samp>-Wdeprecated-literal-operator</samp>, and
+<samp>-Wdeprecated-variadic-comma-omission</samp>.
 </p>]]>
       </description>
     </rule>
@@ -2464,7 +2512,7 @@ int k = f - e;
 </pre></div>
 <p><samp>-Wdeprecated-enum-enum-conversion</samp> is enabled by default with
 <samp>-std=c++20</samp>.  In pre-C++20 dialects, this warning can be enabled
-by <samp>-Wenum-conversion</samp>.
+by <samp>-Wenum-conversion</samp> or <samp>-Wdeprecated</samp>.
 </p>]]>
       </description>
     </rule>
@@ -2484,8 +2532,53 @@ bool b = e &lt;= 3.7;
 </pre></div>
 <p><samp>-Wdeprecated-enum-float-conversion</samp> is enabled by default with
 <samp>-std=c++20</samp>.  In pre-C++20 dialects, this warning can be enabled
-by <samp>-Wenum-conversion</samp>.
+by <samp>-Wenum-conversion</samp> or <samp>-Wdeprecated</samp>.
 </p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wdeprecated-literal-operator</key>
+    <name>Warn about deprecated space between "" and suffix in a user-defined literal operator</name>
+    <description>
+      <![CDATA[<p>Warn that the declaration of a user-defined literal operator with a
+space before the suffix is deprecated.  This warning is enabled by
+default in C++23, or with explicit <samp>-Wdeprecated</samp>.
+</p>
+<div>
+<pre>string operator "" _i18n(const char*, std::size_t); // deprecated
+string operator ""_i18n(const char*, std::size_t); // preferred
+</pre></div>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wdeprecated-non-prototype</key>
+    <name>Warn about calls with arguments to functions declared without parameters</name>
+    <description>
+      <![CDATA[<p>Warn if a function declared with an empty parameter list ‘<samp>()</samp>’ is
+called with one or more arguments, or if a function definition with one
+or more parameters is encountered after such a declaration.  Both cases
+are errors in C23 and later dialects  of C.
+</p>
+<p>This warning is also enabled by <samp>-Wc11-c23-compat</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wdeprecated-variadic-comma-omission</key>
+    <name>Warn about deprecated omission of comma before ... in varargs function declaration</name>
+    <description>
+      <![CDATA[<p>Warn that omitting a comma before the varargs <code>...</code> at the end of
+a function parameter list is deprecated.  This warning is enabled by
+default in C++26, or with explicit <samp>-Wdeprecated</samp>.
+</p>
+<div>
+<pre>void f1(int...); // deprecated
+void f1(int, ...); // preferred
+template &lt;typename ...T&gt;
+void f2(T...); // ok
+template &lt;typename ...T&gt;
+void f3(T......); // deprecated
+</pre></div>]]>
       </description>
     </rule>
   <rule>
@@ -2689,7 +2782,7 @@ This warning is on by default.
     <description>
       <![CDATA[<p>Warn about a comparison between values of different enumerated types.
 In C++ enumerated type mismatches in conditional expressions are also
-diagnosed and the warning is enabled by default.  In C this warning is 
+diagnosed and the warning is enabled by default.  In C this warning is
 enabled by <samp>-Wall</samp>.
 </p>]]>
       </description>
@@ -2698,7 +2791,7 @@ enabled by <samp>-Wall</samp>.
     <key>-Wenum-conversion</key>
     <name>Warn about implicit conversion of enum types</name>
     <description>
-      <![CDATA[<p>Warn when a value of enumerated type is implicitly converted to a 
+      <![CDATA[<p>Warn when a value of enumerated type is implicitly converted to a
 different enumerated type.  This warning is enabled by <samp>-Wextra</samp>
 in C.
 </p>]]>
@@ -2776,8 +2869,32 @@ of a derived class.
     <key>-Wextra-semi</key>
     <name>Warn about semicolon after in-class function definition</name>
     <description>
-      <![CDATA[<p>Warn about redundant semicolons after in-class function definitions.
-</p>]]>
+      <![CDATA[<p>Warn about redundant semicolons.  There are various contexts in which an extra
+semicolon can occur.  One is a semicolon after in-class function definitions,
+which is valid in all C++ dialects (and is never a pedwarn):
+</p>
+<div>
+<pre>struct S {
+  void foo () {};
+};
+</pre></div>
+<p>Another is an extra semicolon at namespace scope, which has been allowed
+since C++11 (therefore is a pedwarn in C++98):
+</p>
+<div>
+<pre>struct S {
+};
+;
+</pre></div>
+<p>And yet another is an extra semicolon in class definitions, which has been
+allowed since C++11 (therefore is a pedwarn in C++98):
+</p>
+<div>
+<pre>struct S {
+  int a;
+  ;
+};
+</pre></div>]]>
       </description>
     </rule>
   <rule>
@@ -3100,6 +3217,20 @@ Warnings controlled by the option can be disabled either by specifying
       </description>
     </rule>
   <rule>
+    <key>-Wfree-labels</key>
+    <name>Warn about labels on declarations and at the end of compound statements</name>
+    <description>
+      <![CDATA[<p>Warn if a label is applied to a non-statement, or occurs at the end of a
+compound statement.  Such labels are allowed by C23 and later dialects
+of C, and are available as a GCC extension in all other dialects.
+</p>
+<p>This warning is also enabled by <samp>-Wc11-c23-compat</samp>.  It is turned
+into an error if building for a C version before C23 by
+<samp>-pedantic-errors</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wfree-nonheap-object</key>
     <name>Warn when attempting to free a non-heap object</name>
     <description>
@@ -3138,11 +3269,28 @@ unit does not consist only of preprocessor directives.
       <![CDATA[<p>Warn when <samp>-fhardened</samp> did not enable an option from its set (for
 which see <samp>-fhardened</samp>).  For instance, using <samp>-fhardened</samp>
 and <samp>-fstack-protector</samp> at the same time on the command line causes
-<samp>-Whardened</samp> to warn because <samp>-fstack-protector-strong</samp> is
-not enabled by <samp>-fhardened</samp>.
+<samp>-Whardened</samp> to warn because <samp>-fstack-protector-strong</samp> will
+not be enabled by <samp>-fhardened</samp>.
 </p>
 <p>This warning is enabled by default and has effect only when <samp>-fhardened</samp>
 is enabled.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wheader-guard</key>
+    <name>Warn when #ifndef of a header guard is followed by #define of a different macro with the header guard macro not defined at the end of header</name>
+    <description>
+      <![CDATA[<p>Warn if a valid preprocessor header multiple inclusion guard has
+a <code>#define</code> directive right after <code>#ifndef</code> or <code>#if !defined</code>
+directive for the multiple inclusion guard, which defines a different macro
+from the guard macro with a similar name, the actual multiple inclusion guard
+macro isn’t defined at the corresponding <code>#ifndef</code> directive at the end
+of the header, and the <code>#define</code> directive defines an object-like macro
+with empty definition.  In such case, it often is just a misspelled guard
+name, either in the <code>#ifndef</code> or <code>#if !defined</code> directive or in the
+subsequent <code>#define</code> directive.  This warning is enabled
+by <samp>-Wall</samp>.
 </p>]]>
       </description>
     </rule>
@@ -3690,6 +3838,32 @@ can only be disabled by <samp>-Wno-larger-than</samp>.
       </description>
     </rule>
   <rule>
+    <key>-Wleading-whitespace</key>
+    <name>Warn about leading whitespace style issues on lines except when in raw string literals</name>
+    <description>
+      <![CDATA[<p>Warn about style issues in leading whitespace, but not about the amount of
+indentation.  Some projects use coding styles where only spaces are used
+for indentation, others use only tabs, others use zero or more tabs (for
+multiples of <code>-ftabstop=<var>n</var></code>) followed by zero or fewer than <var>n</var>
+spaces.  No warning is emitted on lines which contain solely whitespace
+(although <code>-Wtrailing-whitespace=</code> warning might be emitted), no
+warnings are emitted inside of raw string literals.  Warnings are also emitted
+for leading whitespace inside of multi-line comments.
+<code>-Wleading-whitespace=spaces</code> warns about leading whitespace other than
+spaces for projects which want to indent just by spaces.
+<code>-Wleading-whitespace=tabs</code> warns about leading whitespace other than
+horizontal tabs for projects which want to indent just by horizontal tabs.
+<code>-Wleading-whitespace=blanks</code> warns about leading whitespace other than
+spaces and horizontal tabs, or about horizontal tab after a space in the
+leading whitespace, or about <var>n</var> or more consecutive spaces in leading
+whitespace (where <var>n</var> is argument of <code>-ftabstop=<var>n</var></code>, 8 by
+default).
+<code>-Wleading-whitespace=none</code> disables the warning, which is the default.
+This is a coding style warning.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wliteral-suffix</key>
     <name>Warn when a string or character literal is followed by a ud-suffix which does not begin with an underscore</name>
     <description>
@@ -3789,6 +3963,50 @@ is enabled by default in C++ and is enabled by either <samp>-Wall</samp>
 or <samp>-Wpedantic</samp>.
 </p>
 <p>This warning is upgraded to an error by <samp>-pedantic-errors</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wmaybe-musttail-local-addr</key>
+    <name>Warn about pointer/reference to a local or temporary variable possibly escaping to a musttail call</name>
+    <description>
+      <![CDATA[<p>Warn when address of a local variable can escape to a <code>musttail</code>
+call, unless it goes out of scope already before the <code>musttail</code>
+call.
+</p>
+<div>
+<pre>int foo (int *);
+
+int
+bar (int *x)
+{
+  if (x[0] == 1)
+    {
+      int a = 42;
+      foo (&amp;a);
+      /* Without the <code>musttail</code> attribute this call would not
+         be tail called, because address of the <code>a</code> variable escapes
+         and the second foo call could dereference it.  With the attribute
+         the local variables are assumed to go out of scope immediately
+         before the tail call instruction and the compiler warns about
+         this.  */
+      [[gnu::musttail]] return foo (nullptr);
+    }
+  else
+    {
+      {
+        int a = 42;
+        foo (&amp;a);
+      }
+      /* The <code>a</code> variable isn't already in scope, so even when it
+         escaped, even without <code>musttail</code> attribute it would be
+         undefined behavior to dereference it and the compiler could
+         turn this into a tail call.  No warning is diagnosed here.  */
+      [[gnu::musttail]] return foo (nullptr);
+    }
+}
+</pre></div>
+<p>This warning is enabled by <samp>-Wextra</samp>.
 </p>]]>
       </description>
     </rule>
@@ -4149,6 +4367,21 @@ enabled by default by warning for -I and -J, only.
       </description>
     </rule>
   <rule>
+    <key>-Wmissing-parameter-name</key>
+    <name>Warn about function definitions omitting parameter names</name>
+    <description>
+      <![CDATA[<p>Warn if a function definition omits a parameter name, specifying only
+its type.  This can be used to document that a parameter is unused
+in the definition.  It is part of C23 and later dialects of C,
+and available as a GCC extension in all other dialects.
+</p>
+<p>This warning is also enabled by <samp>-Wc11-c23-compat</samp>.  It is turned
+into an error if building for a C version before C23 by
+<samp>-pedantic-errors</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wmissing-parameter-type</key>
     <name>Warn about function parameters declared without a type specifier in K&amp;R-style functions</name>
     <description>
@@ -4316,6 +4549,16 @@ if (c)
       </description>
     </rule>
   <rule>
+    <key>-Wmusttail-local-addr</key>
+    <name>Warn about passing a pointer/reference to a local or temporary variable to a musttail call argument</name>
+    <description>
+      <![CDATA[<p>Warn about passing a pointer (or in C++, a reference) to a
+local variable or label to argument of a <code>musttail</code> call.  Those
+variables go out of scope before the tail call instruction.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wnamespaces</key>
     <name>Warn on namespace definition</name>
     <description>
@@ -4380,7 +4623,7 @@ by <samp>-Wabi</samp> and <samp>-Wc++17-compat</samp>.
 <div>
 <pre>template &lt;class T&gt; void f(T t) { t(); };
 void g() noexcept;
-void h() { f(g); } 
+void h() { f(g); }
 </pre></div>
 <p>In C++14, <code>f</code> calls <code>f&lt;void(*)()&gt;</code>, but in
 C++17 it calls <code>f&lt;void(*)()noexcept&gt;</code>.
@@ -4393,10 +4636,10 @@ C++17 it calls <code>f&lt;void(*)()noexcept&gt;</code>.
     <description>
       <![CDATA[<p>Disable warnings when non-template friend functions are declared
 within a template.  In very old versions of GCC that predate implementation
-of the ISO standard, declarations such as 
+of the ISO standard, declarations such as
 ‘<samp>friend int foo(int)</samp>’, where the name of the friend is an unqualified-id,
 could be interpreted as a particular specialization of a template
-function; the warning exists to diagnose compatibility problems, 
+function; the warning exists to diagnose compatibility problems,
 and is enabled by default.
 </p>]]>
       </description>
@@ -4460,7 +4703,7 @@ recommended form for most uses.  It is equivalent to
 <samp>-Wnormalized</samp>.
 </p>
 <p>Unfortunately, there are some characters allowed in identifiers by
-ISO C and ISO C++ that, when turned into NFC, are not allowed in 
+ISO C and ISO C++ that, when turned into NFC, are not allowed in
 identifiers.  That is, there’s no way to use these symbols in portable
 ISO C or C++ and have all your identifiers in NFC.
 <samp>-Wnormalized=id</samp> suppresses the warning for these characters.
@@ -4483,7 +4726,7 @@ well, and GCC warns if your code is not in NFKC if you use
 <samp>-Wnormalized=nfkc</samp>.  This warning is comparable to warning
 about every identifier that contains the letter O because it might be
 confused with the digit 0, and so is not the default, but may be
-useful as a local coding convention if the programming environment 
+useful as a local coding convention if the programming environment
 cannot be fixed to display these characters distinctly.
 </p>]]>
       </description>
@@ -5006,6 +5249,15 @@ different size.
       </description>
     </rule>
   <rule>
+    <key>-Wpragma-once-outside-header</key>
+    <name>Warn about #pragma once outside of a header</name>
+    <description>
+      <![CDATA[<p>Warn when <code>#pragma once</code> is used in a file that is not a header
+file, such as a main file.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wpragmas</key>
     <name>Warn about misuses of pragmas</name>
     <description>
@@ -5048,6 +5300,25 @@ implemented in the class, even if a method implementation is inherited
 from the superclass.  If you use the <samp>-Wno-protocol</samp> option, then
 methods inherited from the superclass are considered to be implemented,
 and no warning is issued for them.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wpsabi</key>
+    <name>Warn about code affected by incompatible psABI changes</name>
+    <description>
+      <![CDATA[
+<p><samp>-Wpsabi</samp> enables warnings about processor-specific ABI
+changes, such as changes in alignment requirements or how function
+arguments are passed.  On several targets, including AArch64, ARM,
+x86, MIPS, RS6000/PowerPC, and S/390, these details have changed
+between different versions of GCC and/or different versions of the C
+or C++ language standards in ways that affect binary compatibility of
+compiled code.  With <samp>-Wpsabi</samp>, GCC can detect potentially
+incompatible usages and warn you about them.
+</p>
+<p><samp>-Wpsabi</samp> is enabled by default, and is also implied by
+<samp>-Wabi</samp>.
 </p>]]>
       </description>
     </rule>
@@ -5623,7 +5894,7 @@ Warnings controlled by the option can be disabled either by specifying
 It warns about code that might break the strict aliasing rules that the
 compiler is using for optimization.
 Higher levels correspond to higher accuracy (fewer false positives).
-Higher levels also correspond to more effort, similar to the way <samp>-O</samp> 
+Higher levels also correspond to more effort, similar to the way <samp>-O</samp>
 works.
 <samp>-Wstrict-aliasing</samp> is equivalent to <samp>-Wstrict-aliasing=3</samp>.
 </p>
@@ -5809,20 +6080,28 @@ void f (char *d)
     <key>-Wstringop-overflow</key>
     <name>Under the control of Object Size type, warn about buffer overflow in string manipulation functions like memcpy and strcpy</name>
     <description>
-      <![CDATA[<p>Warn for calls to string manipulation functions such as <code>memcpy</code> and
-<code>strcpy</code> that are determined to overflow the destination buffer.  The
+      <![CDATA[<p>Warn for code that can be statically determined to cause buffer overflows or
+memory overruns, such as calls to <code>memcpy</code> and
+<code>strcpy</code> that overflow the destination buffer.  The
 optional argument is one greater than the type of Object Size Checking to
 perform to determine the size of the destination.  See <a href="Object-Size-Checking.html">Object Size Checking</a>.
-The argument is meaningful only for functions that operate on character arrays
-but not for raw memory functions like <code>memcpy</code> which always make use
-of Object Size type-0.  The option also warns for calls that specify a size
+The argument is meaningful only for string functions
+that operate on character arrays; raw memory functions like <code>memcpy</code>
+always use type-zero Object Size Checking.
+</p>
+<p>The option also warns for calls that specify a size
 in excess of the largest possible object or at most <code>SIZE_MAX / 2</code> bytes.
-The option produces the best results with optimization enabled but can detect
+</p>
+<p>The option produces the best results with optimization enabled but can detect
 a small subset of simple buffer overflows even without optimization in
 calls to the GCC built-in functions like <code>__builtin_memcpy</code> that
 correspond to the standard functions.  In any case, the option warns about
 just a subset of buffer overflows detected by the corresponding overflow
-checking built-ins.  For example, the option issues a warning for
+checking built-ins, such as <code>__builtin___memcpy_chk</code>, which can perform
+run-time checking if the access cannot be identified as safe
+at compile time.
+</p>
+<p>For example, the option issues a warning for
 the <code>strcpy</code> call below because it copies at least 5 characters
 (the string <code>"blue"</code> including the terminating NUL) into the buffer
 of size 4.
@@ -5841,6 +6120,20 @@ const char* f (enum Color clr)
     }
 
   return strcpy (buf, str);   // warning here
+}
+</pre></div>
+<p>The effect of this option is not limited to string or memory
+manipulation functions.  In this example, a warning is diagnosed
+because a 1-element array is passed to a function requiring at least a
+4-element array argument:
+</p>
+<div>
+<pre>void f (int[static 4]);
+
+void g (void)
+{
+  int *p = (int *) malloc (1 * sizeof(int));
+  f (p);   // warning here
 }
 </pre></div>
 <p>Option <samp>-Wstringop-overflow=2</samp> is enabled by default.
@@ -5981,7 +6274,7 @@ file, as those are unlikely to have multiple definitions.
     <name>Warn about functions which might be candidates for __attribute__((cold))</name>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -5993,16 +6286,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6055,7 +6350,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
     <name>Warn about functions which might be candidates for __attribute__((const))</name>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -6067,16 +6362,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6130,7 +6427,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
     <deprecatedKey>-Wmissing-format-attribute</deprecatedKey>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -6142,16 +6439,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6204,7 +6503,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
     <name>Warn about functions which might be candidates for __attribute__((malloc))</name>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -6216,16 +6515,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6279,7 +6580,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
     <deprecatedKey>-Wmissing-noreturn</deprecatedKey>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -6291,16 +6592,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6353,7 +6656,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
     <name>Warn about functions which might be candidates for __attribute__((pure))</name>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -6365,16 +6668,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6427,7 +6732,7 @@ C++ <code>throw</code> or fatal error reporting functions leading to <code>abort
     <name>Warn about functions which might be candidates for __attribute__((returns_nonnull))</name>
     <description>
       <![CDATA[<p>Warn for cases where adding an attribute may be beneficial. The
-attributes currently supported are listed below.
+<var>attribute-name</var>s currently supported are listed below.
 </p>
 <dl>
 <dt><a id="index-Wno-suggest-attribute_003dpure"></a>
@@ -6439,16 +6744,18 @@ attributes currently supported are listed below.
 <a id="index-Wno-missing-noreturn"></a>
 <a id="index-Wsuggest-attribute_003dmalloc"></a>
 <a id="index-Wno-suggest-attribute_003dmalloc"></a>
+<a id="index-Wsuggest-attribute_003dreturns_005fnonnull"></a>
+<a id="index-Wno-suggest-attribute_003dreturns_005fnonnull"></a>
 <a id="index-Wsuggest-attribute_003dpure"></a><span><code>-Wsuggest-attribute=pure</code><a href="#index-Wsuggest-attribute_003dpure"> ¶</a></span></dt>
 <dt><code>-Wsuggest-attribute=const</code></dt>
 <dt><code>-Wsuggest-attribute=noreturn</code></dt>
 <dt><code>-Wmissing-noreturn</code></dt>
 <dt><code>-Wsuggest-attribute=malloc</code></dt>
 <dt><code>-Wsuggest-attribute=returns_nonnull</code></dt>
-<dt><code>-Wno-suggest-attribute=returns_nonnull</code></dt>
 <dd>
 <p>Warn about functions that might be candidates for attributes
-<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or <code>returns_nonnull</code>. The compiler
+<code>pure</code>, <code>const</code>, <code>noreturn</code>, <code>malloc</code> or
+<code>returns_nonnull</code>.  The compiler
 only warns for functions visible in other compilation units or (in the case of
 <code>pure</code> and <code>const</code>) if it cannot prove that the function returns
 normally. A function returns normally if it doesn’t contain an infinite loop or
@@ -6543,9 +6850,9 @@ more complete.
       <![CDATA[<p>Warn whenever a <code>switch</code> statement has an index of enumerated type
 and lacks a <code>case</code> for one or more of the named codes of that
 enumeration.  (The presence of a <code>default</code> label prevents this
-warning.)  <code>case</code> labels outside the enumeration range also
-provoke warnings when this option is used (even if there is a
-<code>default</code> label).
+warning.)  <code>case</code> labels that do not correspond to enumerators also
+provoke warnings when this option is used, unless the enumeration is marked
+with the <code>flag_enum</code> attribute.
 This warning is enabled by <samp>-Wall</samp>.
 </p>]]>
       </description>
@@ -6583,8 +6890,9 @@ case.
     <description>
       <![CDATA[<p>Warn whenever a <code>switch</code> statement has an index of enumerated type
 and lacks a <code>case</code> for one or more of the named codes of that
-enumeration.  <code>case</code> labels outside the enumeration range also
-provoke warnings when this option is used.  The only difference
+enumeration.  <code>case</code> labels that do not correspond to enumerators also
+provoke warnings when this option is used, unless the enumeration is marked
+with the <code>flag_enum</code> attribute.  The only difference
 between <samp>-Wswitch</samp> and this option is that this option gives a
 warning about an omitted enumeration code even if there is a
 <code>default</code> label.
@@ -6673,6 +6981,17 @@ to true or false, for instance:
       </description>
     </rule>
   <rule>
+    <key>-Wtemplate-body</key>
+    <name>Diagnose errors when parsing a template</name>
+    <description>
+      <![CDATA[<p>Disable diagnosing errors when parsing a template, and instead issue an
+error only upon instantiation of the template.  This flag can also be
+used to downgrade such errors into warnings with <samp>Wno-error=</samp> or
+<samp>-fpermissive</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
     <key>-Wtemplate-id-cdtor</key>
     <name>Warn about simple-template-id in a constructor or destructor</name>
     <description>
@@ -6688,6 +7007,27 @@ For example:
 </pre></div>
 <p><samp>-Wtemplate-id-cdtor</samp> is enabled by default with
 <samp>-std=c++20</samp>; it is also enabled by <samp>-Wc++20-compat</samp>.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wtemplate-names-tu-local</key>
+    <name>Warn about templates naming TU-local entities in a module</name>
+    <description>
+      <![CDATA[<p>Warn when a template body hides an exposure of a translation-unit-local
+entity.  In most cases, referring to a translation-unit-local entity
+(such as an internal linkage declaration) within an entity that is
+emitted into a module’s CMI is an error.  However, within the
+initializer of a variable, or in the body of a non-inline function,
+this is not an exposure and no error is emitted.
+</p>
+<p>This can cause variable or function templates to accidentally become
+unusable if they reference such an entity, because other translation
+units that import the template will never be able to instantiate it.
+This warning attempts to detect cases where this might occur.
+The presence of an explicit instantiation silences the warning.
+</p>
+<p>This flag is enabled by <samp>-Wextra</samp>.
 </p>]]>
       </description>
     </rule>
@@ -6797,6 +7137,22 @@ would happen to the same argument in the absence of a prototype.  This
 includes conversions of fixed point to floating and vice versa, and
 conversions changing the width or signedness of a fixed-point argument
 except when the same as the default promotion.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wtrailing-whitespace</key>
+    <name>Warn about trailing whitespace on lines except when in raw string literals</name>
+    <description>
+      <![CDATA[<p>Warn about trailing whitespace at the end of lines, including inside of
+comments, but excluding trailing whitespace in raw string literals.
+<code>-Wtrailing-whitespace</code> is equivalent to
+<code>-Wtrailing-whitespace=blanks</code> and warns just about trailing space and
+horizontal tab characters.  <code>-Wtrailing-whitespace=any</code> warns about
+those or trailing form feed or vertical tab characters.
+<code>-Wno-trailing-whitespace</code> or <code>-Wtrailing-whitespace=none</code>
+disables the warning, which is the default.
+This is a coding style warning.
 </p>]]>
       </description>
     </rule>
@@ -6946,7 +7302,7 @@ uninitialized in the following snippet:
     <key>-Wunknown-pragmas</key>
     <name>Warn about unrecognized pragmas</name>
     <description>
-      <![CDATA[<p>Warn when a <code>#pragma</code> directive is encountered that is not understood by 
+      <![CDATA[<p>Warn when a <code>#pragma</code> directive is encountered that is not understood by
 GCC.  If this command-line option is used, warnings are even issued
 for unknown pragmas in system header files.  This is not the case if
 the warnings are only enabled by the <samp>-Wall</samp> command-line option.
@@ -6963,6 +7319,26 @@ a suffix.  When used together with <samp>-Wsystem-headers</samp> it
 warns about such constants in system header files.  This can be useful
 when preparing code to use with the <code>FLOAT_CONST_DECIMAL64</code> pragma
 from the decimal floating-point extension to C99.
+</p>]]>
+      </description>
+    </rule>
+  <rule>
+    <key>-Wunterminated-string-initialization</key>
+    <name>Warn about character arrays initialized as unterminated character sequences with a string literal</name>
+    <description>
+      <![CDATA[<p>Warn about character arrays initialized as unterminated character sequences
+with a string literal, unless the declaration being initialized has
+the <code>nonstring</code> attribute.
+For example:
+</p>
+<div>
+<pre>char arr[3] = "foo"; /* Warning.  */
+char arr2[3] __attribute__((nonstring)) = "bar"; /* No warning.  */
+</pre></div>
+<p>This warning is enabled by <samp>-Wextra</samp>.  If <samp>-Wc++-compat</samp>
+is enabled, the warning has slightly different wording and warns even
+if the declaration being initialized has the <code>nonstring</code> warning,
+as in C++ such initializations are an error.
 </p>]]>
       </description>
     </rule>
@@ -7261,7 +7637,7 @@ messages, use <samp>-Wno-variadic-macros</samp>.
       <![CDATA[<p>Warn if vector operation is not implemented via SIMD capabilities of the
 architecture.  Mainly useful for the performance tuning.
 Vector operation can be implemented <code>piecewise</code>, which means that the
-scalar operation is performed on every vector element; 
+scalar operation is performed on every vector element;
 <code>in parallel</code>, which means that the vector operation is implemented
 using scalars of wider type, which normally is more performance efficient;
 and <code>as a single scalar</code>, which means that vector fits into a
@@ -7416,7 +7792,8 @@ non-class type, <code>volatile</code>-qualified function return type,
 <code>volatile</code>-qualified parameter type, and structured bindings of a
 <code>volatile</code>-qualified type.  This usage was deprecated in C++20.
 </p>
-<p>Enabled by default with <samp>-std=c++20</samp>.
+<p>Enabled by default with <samp>-std=c++20</samp>.  Before
+<samp>-std=c++20</samp>, enabled with explicit <samp>-Wdeprecated</samp>.
 </p>]]>
       </description>
     </rule>
@@ -7475,8 +7852,7 @@ hexadecimal as well as by compiling with <samp>-Wno-xor-used-as-pow</samp>.
     <key>-Wzero-as-null-pointer-constant</key>
     <name>Warn when a literal '0' is used as null pointer</name>
     <description>
-      <![CDATA[<p>Warn when a literal ‘<samp>0</samp>’ is used as null pointer constant.  This can
-be useful to facilitate the conversion to <code>nullptr</code> in C++11.
+      <![CDATA[<p>Warn when a literal ‘<samp>0</samp>’ is used as null pointer constant.
 </p>]]>
       </description>
     </rule>
