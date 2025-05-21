@@ -52,6 +52,13 @@ old_warnings = {'-Whsa':
                     }
                }
 
+deprecated_diag_keys = {
+    '-Wc++11-compat': ['-Wc++0x-compat'],
+    '-Wc++17-compat': ['-Wc++1z-compat'],
+    '-Wc11-c23-compat': ['-Wc11-c2x-compat'],
+    '-Wsuggest-attribute=format': ['-Wmissing-format-attribute'],
+    '-Wsuggest-attribute=noreturn': ['-Wmissing-noreturn'],
+}
 
 et = get_cdata_capable_xml_etree()
 
@@ -129,6 +136,9 @@ def create_rules(warnings, rules):
 
         et.SubElement(rule, 'key').text = key
         et.SubElement(rule, 'name').text = name
+        if key in deprecated_diag_keys.keys():
+            for deprecated_key in deprecated_diag_keys[key]:
+                et.SubElement(rule, 'deprecatedKey').text = deprecated_key
         if 'description' in data:
             cdata = CDATA(data['description'])
         else:
