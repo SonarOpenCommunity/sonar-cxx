@@ -33,7 +33,7 @@ from utils_createrules import write_rules_xml
 from utils_createrules import get_cdata_capable_xml_etree
 
 
-GCC_VERSION = "14.2.0"
+GCC_VERSION = "15.1.0"
 
 old_warnings = {'-Whsa':
                     {
@@ -52,6 +52,13 @@ old_warnings = {'-Whsa':
                     }
                }
 
+deprecated_diag_keys = {
+    '-Wc++11-compat': ['-Wc++0x-compat'],
+    '-Wc++17-compat': ['-Wc++1z-compat'],
+    '-Wc11-c23-compat': ['-Wc11-c2x-compat'],
+    '-Wsuggest-attribute=format': ['-Wmissing-format-attribute'],
+    '-Wsuggest-attribute=noreturn': ['-Wmissing-noreturn'],
+}
 
 et = get_cdata_capable_xml_etree()
 
@@ -128,7 +135,12 @@ def create_rules(warnings, rules):
         name = name.removesuffix('.').replace('\\"', '"')
 
         et.SubElement(rule, 'key').text = key
+        if len(name) >= 190:
+            name = name[:name.rfind('.')]
         et.SubElement(rule, 'name').text = name
+        if key in deprecated_diag_keys.keys():
+            for deprecated_key in deprecated_diag_keys[key]:
+                et.SubElement(rule, 'deprecatedKey').text = deprecated_key
         if 'description' in data:
             cdata = CDATA(data['description'])
         else:
@@ -236,7 +248,7 @@ def read_warning_options():
         f'https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/common.opt;hb=refs/tags/releases/gcc-{GCC_VERSION}',
         f'https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/c-family/c.opt;hb=refs/tags/releases/gcc-{GCC_VERSION}',
         f'https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/analyzer/analyzer.opt;hb=refs/tags/releases/gcc-{GCC_VERSION}',
-        f'https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/config/i386/mingw.opt;hb=refs/tags/releases/gcc-{GCC_VERSION}'
+        f'https://gcc.gnu.org/git/?p=gcc.git;a=blob_plain;f=gcc/config/mingw/mingw.opt;hb=refs/tags/releases/gcc-{GCC_VERSION}'
     ]
     for url in urls:
         with urllib.request.urlopen(url) as file:
