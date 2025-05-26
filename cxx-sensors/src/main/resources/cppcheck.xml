@@ -8154,6 +8154,81 @@ Pointer arithmetic overflow.
     <tag>cwe</tag>
     <severity>MINOR</severity>
     </rule>
+  <!-- ########### New in Cppcheck 2.17.1 ########### -->
+  <rule>
+    <key>class_X_Y</key>
+    <name>The code '   ' is not handled. You can use -I or --include to add handling of this code</name>
+    <description><![CDATA[
+        The code '   ' is not handled. You can use -I or --include to add handling of this code.
+        ]]></description>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>invalidConstFunctionType</key>
+    <name>It is unspecified behavior to const qualify a function type</name>
+    <description><![CDATA[
+        It is unspecified behavior to const qualify a function type.
+        ]]></description>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>macroWithSemicolon</key>
+    <name>Ensure that '' is defined either using -I, --include or -D</name>
+    <description><![CDATA[
+        Ensure that '' is defined either using -I, --include or -D.
+        ]]></description>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>nonStandardCharLiteral</key>
+    <name>Non-standard character literal. </name>
+    <description><![CDATA[
+        Non-standard character literal. 
+        ]]></description>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>nullPointerOutOfMemory</key>
+    <name>Null pointer dereference</name>
+    <description><![CDATA[
+        <p>
+  Null pointer dereference
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>nullPointerOutOfResources</key>
+    <name>Null pointer dereference</name>
+    <description><![CDATA[
+        <p>
+  Null pointer dereference
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
   <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->
   <rule>
     <key>internalAstError</key>
