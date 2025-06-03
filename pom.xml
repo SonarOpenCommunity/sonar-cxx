@@ -257,9 +257,14 @@
     <animal.sniffer.skip>true</animal.sniffer.skip>
     <aggregate.report.dir>integration-tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
 
-    <!-- we depend on API ${sonar.plugin.api.version} but we keep backward compatibility -->
-    <sonar.version>25.3.0.104237</sonar.version>
-    <sonar.plugin.api.version>11.3.0.2824</sonar.plugin.api.version>
+    <!-- we depend on API ${sonar.plugin.api.version} but we keep backward compatibility to SonarQube Server LTS
+         !!!Change below only if this changes for LTS version: https://github.com/SonarSource/sonar-plugin-api!!!
+           
+         The API version is stable for the lifetime of the LTA as the Sonar Plugin API is developed
+         alongside newer versions of the Sonar products and changes / fixes are only backported
+         to the LTA - but no (breaking) changes to the Sonar Plugin API. -->
+    <sonar.version>25.1.0.102122</sonar.version>
+    <sonar.plugin.api.version>11.1.0.2693</sonar.plugin.api.version>
     <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
 
     <!-- dependencies -->
