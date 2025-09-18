@@ -277,7 +277,7 @@
     <dd-plist.version>1.28</dd-plist.version>
     <gherkin.version>35.0.0</gherkin.version>
     <gson.version>2.13.2</gson.version>
-    <guava.version>33.4.8-jre</guava.version>
+    <guava.version>33.5.0-jre</guava.version>
     <jackson-databind.version>2.20.0</jackson-databind.version>
     <jaxen.version>2.0.0</jaxen.version>
     <jdom2.version>2.0.6.1</jdom2.version>
