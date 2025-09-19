@@ -270,7 +270,7 @@
     <!-- dependencies -->
     <ant.version>1.10.14</ant.version>
     <asm.version>9.8</asm.version>
-    <assertj-core.version>3.27.4</assertj-core.version>
+    <assertj-core.version>3.27.5</assertj-core.version>
     <commons-io.version>2.20.0</commons-io.version>
     <commons-lang.version>2.6</commons-lang.version>
     <cucumber.version>2.0.1</cucumber.version>
