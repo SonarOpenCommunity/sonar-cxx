@@ -284,7 +284,7 @@
     <jsr305.version>3.0.2</jsr305.version>
     <junit-jupiter.version>5.13.4</junit-jupiter.version>
     <mockito-all.version>1.10.19</mockito-all.version>
-    <mockito-core.version>5.19.0</mockito-core.version>
+    <mockito-core.version>5.20.0</mockito-core.version>
     <sonar-colorizer.version>5.1</sonar-colorizer.version>
     <staxmate.version>2.4.1</staxmate.version>
     <stax2-api.version>4.2.2</stax2-api.version>
