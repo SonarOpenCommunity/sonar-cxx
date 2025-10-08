@@ -288,7 +288,7 @@
     <sonar-colorizer.version>5.1</sonar-colorizer.version>
     <staxmate.version>2.4.1</staxmate.version>
     <stax2-api.version>4.2.2</stax2-api.version>
-    <tag-expressions.version>6.1.2</tag-expressions.version>
+    <tag-expressions.version>7.0.0</tag-expressions.version>
     <woodstox-core.version>7.1.1</woodstox-core.version>
 
     <!-- plugins -->
