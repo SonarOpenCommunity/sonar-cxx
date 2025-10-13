@@ -297,7 +297,7 @@
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-compiler.version>3.14.1</maven-compiler.version>
     <maven-dependency.version>3.9.0</maven-dependency.version>
-    <maven-jacoco.version>0.8.13</maven-jacoco.version>
+    <maven-jacoco.version>0.8.14</maven-jacoco.version>
     <maven-jar.version>3.4.2</maven-jar.version>
     <maven-license.version>5.0.0</maven-license.version>
     <maven-project.version>2.2.1</maven-project.version>
