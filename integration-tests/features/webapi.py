@@ -25,8 +25,14 @@ from requests.auth import HTTPBasicAuth
 
 
 SONAR_URL = ('http://localhost:9000')
-SONAR_LOGIN = os.getenv('sonar.login', 'admin')
-SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
+SONAR_TOKEN = os.getenv('SONAR_TOKEN', '')
+
+if SONAR_TOKEN:
+    SONAR_LOGIN = SONAR_TOKEN
+    SONAR_PASSWORD = ''
+else:
+    SONAR_LOGIN = os.getenv('sonar.login', 'admin')
+    SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
 
 
 def web_api_get(url, log=False):

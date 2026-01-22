@@ -16,6 +16,11 @@ Make sure the following preconditions are met, before running the test suite:
 
 Usage
 =====
+SonarQube credentials are read from environment variables:
+ - Set SONAR_TOKEN to use token based authentication
+ - To use legacy password based authentication, set sonar.login and sonar.password
+ - if none of the above is set, SonarQube default 'admin/admin' will be used
+
 Either install the plugin, startup SonarQube manually and simply run:
 
 $ behave
