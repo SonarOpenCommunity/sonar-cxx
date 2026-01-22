@@ -24,7 +24,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-SONAR_URL = ('http://localhost:9000')
+SONAR_URL = os.getenv('SONAR_HOST_URL', 'http://localhost:9000')
 SONAR_TOKEN = os.getenv('SONAR_TOKEN', '')
 
 if SONAR_TOKEN:
