@@ -34,6 +34,8 @@ In the latter case, the suite will automatically install and test the
 jar in sonar-python-plugin/target. So make sure the plugin is build
 and the jar is available.
 
+The test suite looks for the existing SonarQube server at http://localhost:9000.
+To change this, set environment variable SONAR_HOST_URL.
 
 Features to test
 ================
