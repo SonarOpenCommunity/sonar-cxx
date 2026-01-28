@@ -270,7 +270,7 @@
     <!-- dependencies -->
     <ant.version>1.10.14</ant.version>
     <asm.version>9.9.1</asm.version>
-    <assertj-core.version>3.27.6</assertj-core.version>
+    <assertj-core.version>3.27.7</assertj-core.version>
     <commons-io.version>2.21.0</commons-io.version>
     <commons-lang.version>2.6</commons-lang.version>
     <cucumber.version>2.0.1</cucumber.version>
@@ -288,14 +288,14 @@
     <sonar-colorizer.version>5.1</sonar-colorizer.version>
     <staxmate.version>2.4.1</staxmate.version>
     <stax2-api.version>4.2.2</stax2-api.version>
-    <tag-expressions.version>8.1.0</tag-expressions.version>
+    <tag-expressions.version>9.0.0</tag-expressions.version>
     <woodstox-core.version>7.1.1</woodstox-core.version>
 
     <!-- plugins -->
     <java.version>17</java.version>
     <jython-standalone.version>2.7.4</jython-standalone.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
-    <maven-compiler.version>3.14.1</maven-compiler.version>
+    <maven-compiler.version>3.15.0</maven-compiler.version>
     <maven-dependency.version>3.9.0</maven-dependency.version>
     <maven-jacoco.version>0.8.14</maven-jacoco.version>
     <maven-jar.version>3.5.0</maven-jar.version>
@@ -343,7 +343,7 @@
       <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.5.25</version>
+        <version>1.5.28</version>
         <scope>test</scope>
       </dependency>
 
