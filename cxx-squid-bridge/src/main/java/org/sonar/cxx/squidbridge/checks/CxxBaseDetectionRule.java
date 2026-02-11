@@ -33,9 +33,7 @@ import org.sonar.cxx.squidbridge.api.Type;
 /**
  * Base class for detection rules that analyze C++ code for specific patterns.
  *
- * <p>This class bridges the gap between the sonar-cxx check framework
- * ({@link SquidCheck}) and the CBOM (Cryptographic Bill of Materials) detection
- * engine pattern. It extends SquidCheck with convenience methods for:
+ * <p>This class extends {@link SquidCheck} with convenience methods for:
  *
  * <ul>
  *   <li>Subtree traversal (compensating for the missing {@code accept(Visitor)} pattern)</li>
@@ -55,12 +53,12 @@ import org.sonar.cxx.squidbridge.api.Type;
  *
  * <p>Usage example:
  * <pre>
- * public class WeakCipherCheck extends CxxBaseDetectionRule {
+ * public class ForbiddenFunctionCheck extends CxxBaseDetectionRule {
  *     &#64;Override
  *     protected void visitFunctionCall(AstNode callNode) {
  *         String name = getFunctionCallName(callNode);
- *         if ("EVP_des_ecb".equals(name)) {
- *             addIssue(callNode, "Weak cipher: DES ECB mode detected");
+ *         if ("dangerous_function".equals(name)) {
+ *             addIssue(callNode, "Avoid using dangerous_function");
  *         }
  *     }
  * }

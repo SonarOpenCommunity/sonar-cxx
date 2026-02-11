@@ -24,25 +24,25 @@ import java.util.List;
 /**
  * Interface for external plugins to register custom C++ checks.
  *
- * <p>This interface allows external plugins (such as sonar-cryptography) to provide
- * custom rule implementations that integrate with the sonar-cxx analysis framework.
+ * <p>This interface allows external plugins to provide custom rule implementations
+ * that integrate with the sonar-cxx analysis framework.
  *
  * <p>This interface provides a lightweight contract that external plugins can implement
  * without depending on the full sonar-cxx-plugin module.
  *
  * <p>Usage example in an external plugin:
  * <pre>
- * public class MyCryptoRuleRepository implements CxxCustomRuleRepository {
+ * public class MyCustomRuleRepository implements CxxCustomRuleRepository {
  *     &#64;Override
  *     public String repositoryKey() {
- *         return "my-crypto-rules";
+ *         return "my-custom-rules";
  *     }
  *
  *     &#64;Override
  *     public List&lt;Class&lt;?&gt;&gt; checkClasses() {
  *         return List.of(
- *             WeakCipherCheck.class,
- *             InsecureHashCheck.class
+ *             MyFirstCheck.class,
+ *             MySecondCheck.class
  *         );
  *     }
  * }
