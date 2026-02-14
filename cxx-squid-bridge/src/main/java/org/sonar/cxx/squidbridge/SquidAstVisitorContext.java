@@ -27,13 +27,23 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.CheckForNull;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
 import org.sonar.cxx.squidbridge.api.CheckMessage;
 import org.sonar.cxx.squidbridge.api.CodeCheck;
+import org.sonar.cxx.squidbridge.api.PreciseIssue;
 import org.sonar.cxx.squidbridge.api.SourceCode;
+import org.sonar.cxx.squidbridge.api.Symbol;
+import org.sonar.cxx.squidbridge.api.SymbolTable;
 
 public abstract class SquidAstVisitorContext<G extends Grammar> {
+
+  private SymbolTable symbolTable;
+  private AstNode rootTree;
+  private List<PreciseIssue> issues = new ArrayList<>();
 
   public abstract File getFile();
 
@@ -94,5 +104,97 @@ public abstract class SquidAstVisitorContext<G extends Grammar> {
   public abstract void createLineViolation(CodeCheck check, String message, int line, Object... messageParameters);
 
   public abstract void log(CheckMessage message);
+
+  /**
+   * Get the symbol table for the current file.
+   *
+   * <p>If no symbol table has been set, this creates a new one automatically.
+   *
+   * @return the symbol table for the current file
+   */
+  public SymbolTable getSymbolTable() {
+    if (symbolTable == null) {
+      symbolTable = new SymbolTable();
+    }
+    return symbolTable;
+  }
+
+  /**
+   * Set the symbol table for the current file.
+   *
+   * @param symbolTable the symbol table to use
+   */
+  public void setSymbolTable(SymbolTable symbolTable) {
+    this.symbolTable = symbolTable;
+  }
+
+  /**
+   * Get the symbol associated with an AST node.
+   *
+   * @param node the AST node
+   * @return the symbol associated with the node, or null if none exists
+   */
+  @CheckForNull
+  public Symbol getSymbol(AstNode node) {
+    return AstNodeSymbolExtension.getSymbol(node);
+  }
+
+  /**
+   * Associate a symbol with an AST node.
+   *
+   * @param node the AST node
+   * @param symbol the symbol to associate with the node
+   */
+  public void setSymbol(AstNode node, Symbol symbol) {
+    AstNodeSymbolExtension.setSymbol(node, symbol);
+  }
+
+  /**
+   * Get the root AST tree for the current file.
+   *
+   * @return the root AST node of the current file, or null if not set
+   */
+  @CheckForNull
+  public AstNode getTree() {
+    return rootTree;
+  }
+
+  /**
+   * Set the root AST tree for the current file.
+   *
+   * @param rootTree the root AST node
+   */
+  public void setTree(AstNode rootTree) {
+    this.rootTree = rootTree;
+  }
+
+  /**
+   * Get the semantic model for the current file.
+   *
+   * <p>In sonar-cxx, the semantic model is represented by the SymbolTable.
+   *
+   * @return the symbol table acting as the semantic model
+   */
+  public SymbolTable getSemanticModel() {
+    return getSymbolTable();
+  }
+
+  /**
+   * Add a precise issue to the current file.
+   *
+   * @param issue the precise issue to add
+   */
+  public void addIssue(PreciseIssue issue) {
+    issues.add(issue);
+  }
+
+  /**
+   * Get all precise issues reported for the current file.
+   *
+   * @return list of all precise issues
+   */
+  public List<PreciseIssue> getIssues() {
+    return issues;
+  }
 
 }
