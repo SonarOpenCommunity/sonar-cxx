@@ -263,8 +263,8 @@
          The API version is stable for the lifetime of the LTA as the Sonar Plugin API is developed
          alongside newer versions of the Sonar products and changes / fixes are only backported
          to the LTA - but no (breaking) changes to the Sonar Plugin API. -->
-    <sonar.version>25.1.0.102122</sonar.version>
-    <sonar.plugin.api.version>11.1.0.2693</sonar.plugin.api.version>
+    <sonar.version>25.8.0.112029</sonar.version>
+    <sonar.plugin.api.version>13.0.0.3026</sonar.plugin.api.version>
     <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
 
     <!-- dependencies -->
