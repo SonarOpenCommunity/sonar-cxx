@@ -8229,6 +8229,261 @@ Pointer arithmetic overflow.
     <remediationFunction>CONSTANT_ISSUE</remediationFunction>
     <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
   </rule>
+  <!-- ########### New in Cppcheck 2.19 ########### -->
+  <rule>
+    <key>UnionZeroInit</key>
+    <name>Zero initializing union '' does not guarantee its complete storage to be zero initialized as its largest member is not declared as the first member. Consider making  the first member or favor memset()</name>
+    <description><![CDATA[
+        Zero initializing union '' does not guarantee its complete storage to be zero initialized as its largest member is not declared as the first member. Consider making  the first member or favor memset().
+        ]]></description>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>containerOutOfBoundsIndexExpression</key>
+    <name>Out of bounds access of var, index 'var.size()' is out of bounds</name>
+    <description><![CDATA[
+        <p>
+  Out of bounds access of var, index 'var.size()' is out of bounds.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>dangerousTypeCast</key>
+    <name>Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast</name>
+    <description><![CDATA[
+        <p>
+  Potentially invalid type conversion in old-style C cast, clarify/fix
+  with C++ cast
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>ignoredReturnErrorCode</key>
+    <name>Error code from the return value of function func_name() is not used</name>
+    <description><![CDATA[
+        <p>
+  Error code from the return value of function func_name() is not used.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/252.html" target="_blank">CWE-252</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>includeNestedTooDeeply</key>
+    <name>message</name>
+    <description><![CDATA[
+        message
+        ]]></description>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>intToPointerCast</key>
+    <name>Casting non-zero decimal integer literal to pointer</name>
+    <description><![CDATA[
+        <p>
+  Casting non-zero decimal integer literal to pointer.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>invalidContainerReference</key>
+    <name>Reference to x that may be invalid</name>
+    <description><![CDATA[
+        <p>
+  Reference to x that may be invalid.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>invalidSuppression</key>
+    <name>message</name>
+    <description><![CDATA[
+        message
+        ]]></description>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>missingFile</key>
+    <name>message</name>
+    <description><![CDATA[
+        message
+        ]]></description>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>redundantContinue</key>
+    <name>'continue' is redundant since it is the last statement in a loop</name>
+    <description><![CDATA[
+        <p>
+  'continue' is redundant since it is the last statement in a loop.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/561.html" target="_blank">CWE-561</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>staticFunction</key>
+    <name>The function 'funcName' should have static linkage since it is not used outside of its translation unit</name>
+    <description><![CDATA[
+        The function 'funcName' should have static linkage since it is not used outside of its translation unit.
+        ]]></description>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>stlcstrAssignment</key>
+    <name>Assigning the result of c_str() to a std::string is slow and redundant</name>
+    <description><![CDATA[
+        <p>
+  Assigning a const char* to a std::string requires a call to strlen().
+  Solve that by directly assigning the string.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>stlcstrConcat</key>
+    <name>Concatenating the result of c_str() and a std::string is slow and redundant</name>
+    <description><![CDATA[
+        <p>
+  Concatenating a const char* with a std::string requires a call to
+  strlen(). Solve that by directly concatenating the strings.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>stlcstrConstructor</key>
+    <name>Constructing a std::string from the result of c_str() is slow and redundant</name>
+    <description><![CDATA[
+        <p>
+  Constructing a std::string from const char* requires a call to
+  strlen(). Solve that by directly passing the string.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>stlcstrStream</key>
+    <name>Passing the result of c_str() to a stream is slow and redundant</name>
+    <description><![CDATA[
+        <p>
+  Passing a const char* to a stream requires a call to strlen(). Solve
+  that by directly passing the string.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>throwInEntryPoint</key>
+    <name>Unhandled exception thrown in function that is an entry point</name>
+    <description><![CDATA[
+        <p>
+  Unhandled exception thrown in function that is an entry point.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>unhandledChar</key>
+    <name>message</name>
+    <description><![CDATA[
+        message
+        ]]></description>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>uselessCallsConstructor</key>
+    <name>Inefficient constructor call: container '' is assigned a partial copy of itself. Use erase() or resize() instead</name>
+    <description><![CDATA[
+        <p>
+  Inefficient constructor call: container '' is assigned a partial copy
+  of itself. Use erase() or resize() instead.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
   <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->
   <rule>
     <key>internalAstError</key>
