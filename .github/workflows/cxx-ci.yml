@@ -226,8 +226,8 @@ jobs:
         os: [ubuntu-latest]
         java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '9.9.8.100196', '25.3.0.104237' ]
-        sonarscanner: [ '7.0.2.4839' ]
+        sonarqube: [ '9.9.8.100196', '25.3.0.104237', '25.8.0.112029' ]
+        sonarscanner: [ '7.0.2.4839', '7.2.0.5079' ]
 
     runs-on: ${{ matrix.os }}
     needs: [build-linux, verify-rules]
@@ -353,7 +353,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: "LOG_sonarqube_${{ matrix.sonarqube }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
+        name: "LOG_sonarqube_${{ matrix.sonarqube }}_scanner_${{ matrix.sonarscanner }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
         path: "${{ env.SONARLOG }}"
 
 
@@ -367,8 +367,8 @@ jobs:
         os: [windows-latest]
         java: [ '17' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '9.9.8.100196', '25.3.0.104237' ]
-        sonarscanner: [ '7.0.2.4839' ]
+        sonarqube: [ '9.9.8.100196', '25.3.0.104237', '25.8.0.112029' ]
+        sonarscanner: [ '7.0.2.4839', '7.2.0.5079' ]
 
     runs-on: ${{ matrix.os }}
     # needs build-linux because of JAR artifacts
@@ -500,7 +500,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: "LOG_sonarqube_${{ matrix.sonarqube }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
+        name: "LOG_sonarqube_${{ matrix.sonarqube }}_scanner_${{ matrix.sonarscanner }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
         path: "${{ env.SONARLOG }}"
 
 
