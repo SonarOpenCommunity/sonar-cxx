@@ -282,7 +282,7 @@
     <jaxen.version>2.0.0</jaxen.version>
     <jdom2.version>2.0.6.1</jdom2.version>
     <jsr305.version>3.0.2</jsr305.version>
-    <junit-jupiter.version>6.0.2</junit-jupiter.version>
+    <junit-jupiter.version>6.0.3</junit-jupiter.version>
     <mockito-all.version>1.10.19</mockito-all.version>
     <mockito-core.version>5.21.0</mockito-core.version>
     <sonar-colorizer.version>5.1</sonar-colorizer.version>
