@@ -1,4 +1,3 @@
-@SqApi79
 Feature: JSON Compilation Database support
 
   As a CXX Plugin user, I want to use the JSON Compilation Database to analyze SonarQube projects

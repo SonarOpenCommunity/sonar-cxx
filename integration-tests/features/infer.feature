@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing Infer reports
   As a CXX plug-in user, I want to import Infer reports into SonarQube
 

@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Indexing files
 
   Test indexing of files depending on language and file extension settings

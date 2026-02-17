@@ -292,7 +292,7 @@
     <woodstox-core.version>7.1.1</woodstox-core.version>
 
     <!-- plugins -->
-    <java.version>17</java.version>
+    <java.version>21</java.version>
     <jython-standalone.version>2.7.4</jython-standalone.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
     <maven-compiler.version>3.15.0</maven-compiler.version>

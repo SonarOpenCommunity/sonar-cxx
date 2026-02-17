@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing Clang Static Analyzer reports
   As a CXX plug-in user, I want to import Cppcheck reports into SonarQube
 

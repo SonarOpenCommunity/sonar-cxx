@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing compiler reports
   As a CXX plug-in user, I want to import LOG files from compilers into SonarQube
 
