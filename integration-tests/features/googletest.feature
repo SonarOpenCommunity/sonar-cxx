@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Providing test execution measures
   As a CXX Plugin user, I want to import the Google Test execution reports into SonarQube
 

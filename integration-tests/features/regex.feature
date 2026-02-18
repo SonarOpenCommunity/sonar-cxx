@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Regex
 
   Testing rules with regex expressions.

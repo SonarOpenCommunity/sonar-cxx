@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing Clang-Tidy reports
   As a CXX plug-in user, I want to import Clang-Tidy reports into SonarQube
 

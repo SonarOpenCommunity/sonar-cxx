@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Smoketests
 
   This is for running smoketests using somewhat more complex test data.

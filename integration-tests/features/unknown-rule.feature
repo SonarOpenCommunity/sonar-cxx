@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing reports with unknown rules
   As a CXX plug-in user, I want to import a report with an unknown rule.
   Depending on the "unused" rule is active or not the rule should be reported or irgnored.

@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Samples
 
   This is for testing the sample projects.

@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing coverage data
   As a CXX Plugin user, I want to import coverage test reports into SonarQube
 

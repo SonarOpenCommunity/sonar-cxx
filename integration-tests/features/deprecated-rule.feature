@@ -1,4 +1,3 @@
-@SqApi79
 Feature: Importing reports with deprecated rules
   As a CXX plug-in user, I want to import a report with a deprecated rule.
 
