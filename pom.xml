@@ -264,7 +264,7 @@
          alongside newer versions of the Sonar products and changes / fixes are only backported
          to the LTA - but no (breaking) changes to the Sonar Plugin API. -->
     <sonar.version>25.8.0.112029</sonar.version>
-    <sonar.plugin.api.version>13.0.0.3026</sonar.plugin.api.version>
+    <sonar.plugin.api.version>13.4.3.4290</sonar.plugin.api.version>
     <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
 
     <!-- dependencies -->
