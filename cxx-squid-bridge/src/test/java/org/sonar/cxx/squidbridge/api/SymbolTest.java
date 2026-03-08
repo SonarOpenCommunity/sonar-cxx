@@ -20,6 +20,9 @@
 package org.sonar.cxx.squidbridge.api;
 
 import static org.assertj.core.api.Assertions.*;
+import com.sonar.cxx.sslr.api.AstNode;
+import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.TokenType;
 import org.junit.jupiter.api.Test;
 
 class SymbolTest {
@@ -180,5 +183,218 @@ class SymbolTest {
     assertThat(types).hasSize(2);
     assertThat(types.get(0).isUnknown()).isTrue();
     assertThat(types.get(1).isUnknown()).isTrue();
+  }
+
+  @Test
+  void testQualifierFlagsAllFalseByDefault() {
+    var symbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    assertThat(symbol.isStatic()).isFalse();
+    assertThat(symbol.isConst()).isFalse();
+    assertThat(symbol.isVolatile()).isFalse();
+    assertThat(symbol.isPublic()).isFalse();
+    assertThat(symbol.isPrivate()).isFalse();
+    assertThat(symbol.isProtected()).isFalse();
+  }
+
+  @Test
+  void testDeclarationNode() {
+    var symbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    assertThat(symbol.declaration()).isNull();
+
+    var node = createAstNode("x");
+    symbol.setDeclaration(node);
+    assertThat(symbol.declaration()).isSameAs(node);
+  }
+
+  @Test
+  void testAddAndRetrieveUsages() {
+    var symbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    assertThat(symbol.usages()).isEmpty();
+
+    var node = createAstNode("x");
+    var usage = new SourceCodeSymbol.SourceCodeUsage(node, symbol, Symbol.Usage.UsageKind.READ);
+    symbol.addUsage(usage);
+
+    assertThat(symbol.usages()).hasSize(1);
+    var retrieved = symbol.usages().get(0);
+    assertThat(retrieved.node()).isSameAs(node);
+    assertThat(retrieved.symbol()).isSameAs(symbol);
+    assertThat(retrieved.kind()).isEqualTo(Symbol.Usage.UsageKind.READ);
+  }
+
+  @Test
+  void testUsageKindValues() {
+    var symbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    var node = createAstNode("x");
+
+    for (var kind : Symbol.Usage.UsageKind.values()) {
+      symbol.addUsage(new SourceCodeSymbol.SourceCodeUsage(node, symbol, kind));
+    }
+    // READ, WRITE, READ_WRITE, DECLARATION, OTHER = 5 kinds
+    assertThat(symbol.usages()).hasSize(Symbol.Usage.UsageKind.values().length);
+  }
+
+  @Test
+  void testMultipleUsages() {
+    var symbol = new SourceCodeSymbol("counter", Symbol.Kind.VARIABLE, null);
+    var node1 = createAstNode("counter");
+    var node2 = createAstNode("counter");
+
+    symbol.addUsage(new SourceCodeSymbol.SourceCodeUsage(node1, symbol, Symbol.Usage.UsageKind.READ));
+    symbol.addUsage(new SourceCodeSymbol.SourceCodeUsage(node2, symbol, Symbol.Usage.UsageKind.WRITE));
+
+    assertThat(symbol.usages()).hasSize(2);
+    assertThat(symbol.usages().get(0).kind()).isEqualTo(Symbol.Usage.UsageKind.READ);
+    assertThat(symbol.usages().get(1).kind()).isEqualTo(Symbol.Usage.UsageKind.WRITE);
+  }
+
+  @Test
+  void testUsageListIsDefensiveCopy() {
+    var symbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    var node = createAstNode("x");
+    symbol.addUsage(new SourceCodeSymbol.SourceCodeUsage(node, symbol, Symbol.Usage.UsageKind.READ));
+
+    // Mutating the returned list should not affect the symbol's internal state
+    var usages = symbol.usages();
+    usages.clear();
+    assertThat(symbol.usages()).hasSize(1);
+  }
+
+  @Test
+  void testFunctionSymbolIsConstexpr() {
+    var funcSymbol = new SourceCodeSymbol.SourceCodeFunctionSymbol("constExprFunc", null);
+    assertThat(funcSymbol.isConstexpr()).isFalse();
+  }
+
+  @Test
+  void testFunctionSymbolIsConstructor() {
+    var funcSymbol = new SourceCodeSymbol.SourceCodeFunctionSymbol("MyClass", null);
+    assertThat(funcSymbol.isConstructor()).isFalse();
+  }
+
+  @Test
+  void testTypeSymbolIsClassAndIsStruct() {
+    var typeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol("MyClass", null);
+    // No sourceCode backing → isClass() = false, isStruct() = false
+    assertThat(typeSymbol.isClass()).isFalse();
+    assertThat(typeSymbol.isStruct()).isFalse();
+  }
+
+  @Test
+  void testSymbolIsUnknownForNormalSymbol() {
+    var symbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    assertThat(symbol.isUnknown()).isFalse();
+  }
+
+  @Test
+  void testSymbolKindIs() {
+    var symbol = new SourceCodeSymbol("ns", Symbol.Kind.NAMESPACE, null);
+    assertThat(symbol.is(Symbol.Kind.NAMESPACE)).isTrue();
+    assertThat(symbol.is(Symbol.Kind.TYPE)).isFalse();
+    assertThat(symbol.is(Symbol.Kind.TYPE, Symbol.Kind.NAMESPACE)).isTrue();
+  }
+
+  @Test
+  void testUnknownSymbolQualifierFlags() {
+    var unknown = Symbol.UNKNOWN_SYMBOL;
+    assertThat(unknown.isStatic()).isFalse();
+    assertThat(unknown.isConst()).isFalse();
+    assertThat(unknown.isVolatile()).isFalse();
+    assertThat(unknown.isPublic()).isFalse();
+    assertThat(unknown.isPrivate()).isFalse();
+    assertThat(unknown.isProtected()).isFalse();
+  }
+
+  @Test
+  void testUnknownTypeSymbolQualifierFlags() {
+    var unknownType = Symbol.TypeSymbol.UNKNOWN_TYPE;
+    assertThat(unknownType.isClass()).isFalse();
+    assertThat(unknownType.isStruct()).isFalse();
+    assertThat(unknownType.isUnion()).isFalse();
+    assertThat(unknownType.isEnum()).isFalse();
+    assertThat(unknownType.isTypedef()).isFalse();
+    assertThat(unknownType.isTemplate()).isFalse();
+  }
+
+  @Test
+  void testUnknownFunctionSymbolQualifierFlags() {
+    var unknownFunc = Symbol.FunctionSymbol.UNKNOWN_FUNCTION;
+    assertThat(unknownFunc.isVirtual()).isFalse();
+    assertThat(unknownFunc.isPureVirtual()).isFalse();
+    assertThat(unknownFunc.isInline()).isFalse();
+    assertThat(unknownFunc.isConstexpr()).isFalse();
+    assertThat(unknownFunc.isConstructor()).isFalse();
+    assertThat(unknownFunc.isDestructor()).isFalse();
+    assertThat(unknownFunc.isTemplate()).isFalse();
+  }
+
+  @Test
+  void testFunctionSymbolQualifierFlags() {
+    var func = new SourceCodeSymbol.SourceCodeFunctionSymbol("myMethod", null);
+    assertThat(func.isVirtual()).isFalse();
+    assertThat(func.isPureVirtual()).isFalse();
+    assertThat(func.isInline()).isFalse();
+    assertThat(func.isDestructor()).isFalse();
+    assertThat(func.isOperator()).isFalse();
+    assertThat(func.isTemplate()).isFalse();
+  }
+
+  @Test
+  void testTypeSymbolRemainingQualifierFlags() {
+    var type = new SourceCodeSymbol.SourceCodeTypeSymbol("MyClass", null);
+    assertThat(type.isUnion()).isFalse();
+    assertThat(type.isEnum()).isFalse();
+    assertThat(type.isTypedef()).isFalse();
+    assertThat(type.isTemplate()).isFalse();
+  }
+
+  @Test
+  void testEnclosingClassWithNoSourceCode() {
+    // enclosingClass() returns null when the symbol has no SourceCode backing
+    var sym = new SourceCodeSymbol("field", Symbol.Kind.VARIABLE, null);
+    assertThat(sym.enclosingClass()).isNull();
+  }
+
+  @Test
+  void testEnclosingClassWithSourceCodeParent() {
+    // Symbol with a SourceClass parent in the SourceCode hierarchy
+    var parentClass = new SourceClass("Outer", "Outer");
+    var memberFunc = new SourceFunction("method", "method()");
+    parentClass.addChild(memberFunc);
+
+    var sym = new SourceCodeSymbol(memberFunc, Symbol.Kind.FUNCTION);
+    var enclosing = sym.enclosingClass();
+    assertThat(enclosing).isNotNull();
+    assertThat(enclosing.name()).isEqualTo("Outer");
+  }
+
+  @Test
+  void testUsageKindContainsAllValues() {
+    var kinds = Symbol.Usage.UsageKind.values();
+    assertThat(kinds).contains(
+      Symbol.Usage.UsageKind.READ,
+      Symbol.Usage.UsageKind.WRITE,
+      Symbol.Usage.UsageKind.READ_WRITE,
+      Symbol.Usage.UsageKind.DECLARATION,
+      Symbol.Usage.UsageKind.OTHER
+    );
+    assertThat(kinds).hasSize(5);
+  }
+
+  private AstNode createAstNode(String value) {
+    var token = Token.builder()
+      .setLine(1)
+      .setColumn(0)
+      .setValueAndOriginalValue(value)
+      .setType(new TestTokenType())
+      .setURI(java.net.URI.create("file:///test.cpp"))
+      .build();
+    return new AstNode(token);
+  }
+
+  private static class TestTokenType implements TokenType {
+    @Override public String getName() { return "TEST"; }
+    @Override public String getValue() { return "test"; }
+    @Override public boolean hasToBeSkippedFromAst(AstNode node) { return false; }
   }
 }

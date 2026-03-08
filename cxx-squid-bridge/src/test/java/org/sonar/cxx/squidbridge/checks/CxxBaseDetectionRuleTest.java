@@ -20,15 +20,38 @@
 package org.sonar.cxx.squidbridge.checks;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeType;
+import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.cxx.squidbridge.CommentAnalyser;
+import org.sonar.cxx.squidbridge.SquidAstVisitorContext;
+import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
+import org.sonar.cxx.squidbridge.api.AstNodeTypeExtension;
+import org.sonar.cxx.squidbridge.api.CheckMessage;
+import org.sonar.cxx.squidbridge.api.CodeCheck;
+import org.sonar.cxx.squidbridge.api.PreciseIssue;
+import org.sonar.cxx.squidbridge.api.SourceCode;
+import org.sonar.cxx.squidbridge.api.SourceCodeSymbol;
+import org.sonar.cxx.squidbridge.api.Symbol;
+import org.sonar.cxx.squidbridge.api.Type;
 
 
 class CxxBaseDetectionRuleTest {
+
+  @AfterEach
+  void cleanup() {
+    AstNodeSymbolExtension.clear();
+    AstNodeTypeExtension.clear();
+  }
 
   @Test
   void testSubscribedNodeTypesDefault() {
@@ -181,6 +204,63 @@ class CxxBaseDetectionRuleTest {
     assertThat(calls).isEmpty();
   }
 
+  @Test
+  void testTraverseFunctionBodyNull() {
+    var rule = new TestDetectionRule();
+    // Should not throw
+    rule.traverseFunctionBody(null);
+  }
+
+  @Test
+  void testTraverseFunctionBodyNoBody() {
+    var rule = new TestDetectionRule();
+    // functionDefinition with no "functionBody" child — traversal is a no-op
+    var funcDef = createNode(new TestNodeType("functionDefinition"), "funcDef");
+    var calls = new java.util.ArrayList<String>();
+    var ruleWithSpy = new TestDetectionRule() {
+      @Override
+      protected void visitFunctionCall(AstNode callNode) {
+        calls.add("call:" + callNode.getTokenValue());
+      }
+    };
+    ruleWithSpy.traverseFunctionBody(funcDef);
+    assertThat(calls).isEmpty();
+  }
+
+  @Test
+  void testTraverseFunctionBodyDispatchesCallsInBody() {
+    // Build: functionDef → [functionBody → [postfixExpression → ["func", "(", ")"]]]
+    var calls = new java.util.ArrayList<String>();
+    var rule = new TestDetectionRule() {
+      @Override
+      protected void visitFunctionCall(AstNode callNode) {
+        calls.add("call:" + callNode.getTokenValue());
+      }
+    };
+
+    var postfixType = new TestNodeType("postfixExpression");
+    var postfixNode = createNode(postfixType, "func");
+    var parenToken = Token.builder()
+      .setLine(1).setColumn(4)
+      .setValueAndOriginalValue("(")
+      .setType(new TestTokenType())
+      .setURI(java.net.URI.create("file:///test.cpp"))
+      .build();
+    var parenNode = new AstNode(parenToken);
+    postfixNode.addChild(parenNode);
+
+    // "functionBody" type via string match
+    var bodyNode = createNode(new TestNodeType("functionBody"), "body");
+    bodyNode.addChild(postfixNode);
+
+    var funcDef = createNode(new TestNodeType("functionDefinition"), "funcDef");
+    funcDef.addChild(bodyNode);
+
+    rule.traverseFunctionBody(funcDef);
+
+    assertThat(calls).containsExactly("call:func");
+  }
+
   private AstNode createNode(AstNodeType type, String value) {
     var token = Token.builder()
       .setLine(1)
@@ -208,6 +288,84 @@ class CxxBaseDetectionRuleTest {
     }
   }
 
+  @Test
+  void testInitWithNoSubscribedTypes() {
+    // init() with default (empty) subscribedNodeTypes does not call subscribeTo
+    var rule = new TestDetectionRule();
+    var ctx = new StubContext();
+    rule.setContext(ctx);
+    // Should not throw — subscribedNodeTypes() returns empty array, so subscribeTo not called
+    rule.init();
+  }
+
+  @Test
+  void testInitWithSubscribedTypes() {
+    // init() with overridden subscribedNodeTypes subscribes to those types
+    var typeA = new TestNodeType("TYPE_A");
+    var rule = new TestDetectionRule() {
+      @Override
+      protected AstNodeType[] subscribedNodeTypes() {
+        return new AstNodeType[]{typeA};
+      }
+    };
+    var ctx = new StubContext();
+    rule.setContext(ctx);
+    // Should not throw
+    rule.init();
+  }
+
+  @Test
+  void testReportIssue() {
+    var rule = new TestDetectionRule();
+    var ctx = new StubContext();
+    rule.setContext(ctx);
+
+    var node = createNode(new TestNodeType("expr"), "x");
+    PreciseIssue issue = rule.reportIssue(node, "test issue message");
+
+    assertThat(issue).isNotNull();
+    assertThat(issue.getMessage()).isEqualTo("test issue message");
+    assertThat(ctx.getIssues()).hasSize(1);
+    assertThat(ctx.getIssues().get(0)).isSameAs(issue);
+  }
+
+  @Test
+  void testGetSymbolTable() {
+    var rule = new TestDetectionRule();
+    var ctx = new StubContext();
+    rule.setContext(ctx);
+
+    assertThat(rule.getSymbolTable()).isNotNull();
+  }
+
+  @Test
+  void testGetSymbol() {
+    var rule = new TestDetectionRule();
+    var ctx = new StubContext();
+    rule.setContext(ctx);
+
+    var node = mock(AstNode.class);
+    var sym = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    AstNodeSymbolExtension.setSymbol(node, sym);
+
+    assertThat(rule.getSymbol(node)).isEqualTo(sym);
+    assertThat(rule.getSymbol(null)).isNull();
+  }
+
+  @Test
+  void testGetType() {
+    var rule = new TestDetectionRule();
+    var ctx = new StubContext();
+    rule.setContext(ctx);
+
+    var node = mock(AstNode.class);
+    var type = new Type.CxxType("int");
+    AstNodeTypeExtension.setType(node, type);
+
+    assertThat(rule.getType(node)).isEqualTo(type);
+    assertThat(rule.getType(null)).isNull();
+  }
+
   private static class TestTokenType implements com.sonar.cxx.sslr.api.TokenType {
     @Override
     public String getName() {
@@ -223,5 +381,22 @@ class CxxBaseDetectionRuleTest {
     public boolean hasToBeSkippedFromAst(AstNode node) {
       return false;
     }
+  }
+
+  private static class StubContext extends SquidAstVisitorContext<Grammar> {
+    @Override public File getFile() { return null; }
+    @Override public InputFile getInputFile() { return null; }
+    @Override public String getInputFileContent() { return ""; }
+    @Override public List<String> getInputFileLines() { return List.of(); }
+    @Override public Grammar getGrammar() { return null; }
+    @Override public void addSourceCode(SourceCode child) {}
+    @Override public void popSourceCode() {}
+    @Override public SourceCode peekSourceCode() { return null; }
+    @Override public CommentAnalyser getCommentAnalyser() { return null; }
+    @Override public void createFileViolation(CodeCheck check, String message, Object... params) {}
+    @Override public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {}
+    @Override public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {}
+    @Override public void createLineViolation(CodeCheck check, String message, int line, Object... params) {}
+    @Override public void log(CheckMessage message) {}
   }
 }

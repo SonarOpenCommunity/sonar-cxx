@@ -24,13 +24,16 @@ import static org.mockito.Mockito.*;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
-import com.sonar.cxx.sslr.api.Token;
-import java.net.URI;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
+import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
+import org.sonar.cxx.squidbridge.api.AstNodeTypeExtension;
+import org.sonar.cxx.squidbridge.api.SourceCodeSymbol;
+import org.sonar.cxx.squidbridge.api.Symbol;
 
 class CxxConstantUtilsTest {
 
@@ -316,8 +319,8 @@ class CxxConstantUtilsTest {
     var unaryExpr = mock(AstNode.class);
     when(unaryExpr.is(CxxGrammarImpl.unaryExpression)).thenReturn(true);
 
-    var operatorNode = mock(AstNode.class, withSettings().lenient());
-    when(operatorNode.getTokenValue()).thenReturn(operator);
+    var operatorNode = mock(AstNode.class);
+    lenient().when(operatorNode.getTokenValue()).thenReturn(operator);
 
     // Mock the is() checks for CxxPunctuator
     switch (operator) {
@@ -339,8 +342,8 @@ class CxxConstantUtilsTest {
     var unaryExpr = mock(AstNode.class);
     when(unaryExpr.is(CxxGrammarImpl.unaryExpression)).thenReturn(true);
 
-    var operatorNode = mock(AstNode.class, withSettings().lenient());
-    when(operatorNode.getTokenValue()).thenReturn(operator);
+    var operatorNode = mock(AstNode.class);
+    lenient().when(operatorNode.getTokenValue()).thenReturn(operator);
 
     // Mock the is() checks for CxxPunctuator
     switch (operator) {
@@ -377,5 +380,172 @@ class CxxConstantUtilsTest {
     when(binaryExpr.getChildren()).thenReturn(List.of(left, operatorNode, right));
 
     return binaryExpr;
+  }
+
+  // =========================================================================
+  // Symbol resolution chain tests
+  // =========================================================================
+
+  @AfterEach
+  void cleanup() {
+    AstNodeSymbolExtension.clear();
+    AstNodeTypeExtension.clear();
+  }
+
+  @Test
+  void testResolveIdentifierNullSymbol() {
+    // primaryExpression with idExpression → IDENTIFIER with no symbol attached
+    // → resolveSymbolValue(null) → null
+    var identifier = mock(AstNode.class);
+    // No symbol set on identifier: AstNodeSymbolExtension.getSymbol returns null
+
+    var idExpr = mock(AstNode.class);
+    when(idExpr.getFirstDescendant(GenericTokenType.IDENTIFIER)).thenReturn(identifier);
+
+    var primaryExpr = mock(AstNode.class);
+    when(primaryExpr.is(CxxGrammarImpl.primaryExpression)).thenReturn(true);
+    when(primaryExpr.getChildren()).thenReturn(List.of());
+    when(primaryExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(idExpr);
+
+    assertThat(CxxConstantUtils.resolveAsConstant(primaryExpr)).isNull();
+  }
+
+  @Test
+  void testResolveEnumConstantWithInitializer() {
+    // Build an enum constant symbol whose declaration has a constantExpression child of "42"
+    var enumSymbol = new SourceCodeSymbol("MY_CONST", Symbol.Kind.ENUM_CONSTANT, null);
+
+    // Innermost value: primaryExpression containing literal "42"
+    var literalToken = mock(AstNode.class);
+    when(literalToken.getTokenValue()).thenReturn("42");
+    var constExpr = mock(AstNode.class);
+    when(constExpr.is(CxxGrammarImpl.primaryExpression)).thenReturn(true);
+    when(constExpr.getChildren()).thenReturn(List.of(literalToken));
+    when(constExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(null);
+
+    var declNode = mock(AstNode.class);
+    when(declNode.getFirstChild(CxxGrammarImpl.constantExpression)).thenReturn(constExpr);
+    enumSymbol.setDeclaration(declNode);
+
+    // Attach symbol to identifier and hook up resolution path
+    var identifier = mock(AstNode.class);
+    AstNodeSymbolExtension.setSymbol(identifier, enumSymbol);
+
+    var idExpr = mock(AstNode.class);
+    when(idExpr.getFirstDescendant(GenericTokenType.IDENTIFIER)).thenReturn(identifier);
+
+    var primaryExpr = mock(AstNode.class);
+    when(primaryExpr.is(CxxGrammarImpl.primaryExpression)).thenReturn(true);
+    when(primaryExpr.getChildren()).thenReturn(List.of());
+    when(primaryExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(idExpr);
+
+    assertThat(CxxConstantUtils.resolveAsConstant(primaryExpr)).isEqualTo(42);
+  }
+
+  @Test
+  void testResolveEnumConstantWithoutDeclaration() {
+    // Enum constant with no declaration → resolveSymbolValue returns null
+    var enumSymbol = new SourceCodeSymbol("MY_CONST", Symbol.Kind.ENUM_CONSTANT, null);
+
+    var identifier = mock(AstNode.class);
+    AstNodeSymbolExtension.setSymbol(identifier, enumSymbol);
+
+    var idExpr = mock(AstNode.class);
+    when(idExpr.getFirstDescendant(GenericTokenType.IDENTIFIER)).thenReturn(identifier);
+
+    var primaryExpr = mock(AstNode.class);
+    when(primaryExpr.is(CxxGrammarImpl.primaryExpression)).thenReturn(true);
+    when(primaryExpr.getChildren()).thenReturn(List.of());
+    when(primaryExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(idExpr);
+
+    assertThat(CxxConstantUtils.resolveAsConstant(primaryExpr)).isNull();
+  }
+
+  @Test
+  void testResolveConstVariableViaFindInitializer() {
+    // const variable whose initializer resolves to 314
+    var varSymbol = new SourceCodeSymbol.SourceCodeVariableSymbol("PI", null) {
+      @Override public boolean isConst() { return true; }
+    };
+
+    // Innermost literal "314"
+    var literalToken = mock(AstNode.class);
+    when(literalToken.getTokenValue()).thenReturn("314");
+    var innerExpr = mock(AstNode.class);
+    when(innerExpr.is(CxxGrammarImpl.primaryExpression)).thenReturn(true);
+    when(innerExpr.getChildren()).thenReturn(List.of(literalToken));
+    when(innerExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(null);
+
+    var initClause = mock(AstNode.class);
+    when(initClause.getFirstChild()).thenReturn(innerExpr);
+
+    var initializer = mock(AstNode.class);
+    when(initializer.getFirstChild(CxxGrammarImpl.initializerClause)).thenReturn(initClause);
+
+    var initDeclarator = mock(AstNode.class);
+    when(initDeclarator.is(CxxGrammarImpl.initDeclarator)).thenReturn(true);
+    when(initDeclarator.getFirstChild(CxxGrammarImpl.initializer)).thenReturn(initializer);
+    when(initDeclarator.getParent()).thenReturn(null);
+
+    var declNode = mock(AstNode.class);
+    when(declNode.getParent()).thenReturn(initDeclarator);
+    varSymbol.setDeclaration(declNode);
+
+    var identifier = mock(AstNode.class);
+    AstNodeSymbolExtension.setSymbol(identifier, varSymbol);
+
+    var idExpr = mock(AstNode.class);
+    when(idExpr.getFirstDescendant(GenericTokenType.IDENTIFIER)).thenReturn(identifier);
+
+    var primaryExpr = mock(AstNode.class);
+    when(primaryExpr.is(CxxGrammarImpl.primaryExpression)).thenReturn(true);
+    when(primaryExpr.getChildren()).thenReturn(List.of());
+    when(primaryExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(idExpr);
+
+    assertThat(CxxConstantUtils.resolveAsConstant(primaryExpr)).isEqualTo(314);
+  }
+
+  @Test
+  void testResolveBinaryAdditionLongs() {
+    // Use values > Integer.MAX_VALUE to force Long path in resolveArithmetic
+    var binaryNode = createBinaryExpression("9999999999", "+", "1");
+    var result = CxxConstantUtils.resolveAsConstant(binaryNode);
+    assertThat(result).isInstanceOf(Long.class);
+    assertThat(result).isEqualTo(10000000000L);
+  }
+
+  @Test
+  void testResolveIdExpressionDirectPath() {
+    // resolveAsConstant dispatches idExpression directly (not via primaryExpression)
+    var idExpr = mock(AstNode.class);
+    when(idExpr.is(CxxGrammarImpl.idExpression)).thenReturn(true);
+
+    var identifier = mock(AstNode.class);
+    when(idExpr.getFirstDescendant(com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER))
+      .thenReturn(identifier);
+    // No symbol attached → null
+    assertThat(CxxConstantUtils.resolveAsConstant(idExpr)).isNull();
+  }
+
+  @Test
+  void testResolveIdentifierUnknownSymbol() {
+    // UNKNOWN_SYMBOL is unknown → resolveSymbolValue returns null
+    var identifier = mock(AstNode.class);
+    AstNodeSymbolExtension.setSymbol(identifier, Symbol.UNKNOWN_SYMBOL);
+
+    var idExpr = mock(AstNode.class);
+    when(idExpr.is(CxxGrammarImpl.idExpression)).thenReturn(true);
+    when(idExpr.getFirstDescendant(com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER))
+      .thenReturn(identifier);
+
+    assertThat(CxxConstantUtils.resolveAsConstant(idExpr)).isNull();
+  }
+
+  @Test
+  void testResolveRawStringLiteral() {
+    // R"(hello world)" — raw string with empty delimiter
+    var node = createPrimaryExpression("R\"(hello world)\"");
+    var result = CxxConstantUtils.resolveAsConstant(node);
+    assertThat(result).isEqualTo("hello world");
   }
 }

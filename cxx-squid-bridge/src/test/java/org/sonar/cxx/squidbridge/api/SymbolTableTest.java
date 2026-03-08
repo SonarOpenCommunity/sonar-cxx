@@ -148,4 +148,10 @@ class SymbolTableTest {
     // Symbol with null name should not be added
     assertThat(symbolTable.size()).isEqualTo(0);
   }
+
+  @Test
+  void testToStringNotBlank() {
+    symbolTable.addSymbol(new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null));
+    assertThat(symbolTable.toString()).isNotBlank();
+  }
 }
