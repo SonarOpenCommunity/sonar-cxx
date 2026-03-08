@@ -125,21 +125,76 @@ class SquidAstVisitorContextTest {
     assertThat(ctx.getIssues().get(1).getMessage()).isEqualTo("second");
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({"deprecation", "java:S1874"})
   static class StubContext extends SquidAstVisitorContext<Grammar> {
-    @Override public File getFile() { return null; }
-    @Override public InputFile getInputFile() { return null; }
-    @Override public String getInputFileContent() { return ""; }
-    @Override public List<String> getInputFileLines() { return List.of(); }
-    @Override public Grammar getGrammar() { return null; }
-    @Override public void addSourceCode(SourceCode child) {}
-    @Override public void popSourceCode() {}
-    @Override public SourceCode peekSourceCode() { return null; }
-    @Override public CommentAnalyser getCommentAnalyser() { return null; }
-    @Override public void createFileViolation(CodeCheck check, String message, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, int line, Object... params) {}
-    @Override public void log(CheckMessage message) {}
+    @Override
+    public File getFile() {
+      return null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+      return null;
+    }
+
+    @Override
+    public String getInputFileContent() {
+      return "";
+    }
+
+    @Override
+    public List<String> getInputFileLines() {
+      return List.of();
+    }
+
+    @Override
+    public Grammar getGrammar() {
+      return null;
+    }
+
+    @Override
+    public void addSourceCode(SourceCode child) {
+      // test stub
+    }
+
+    @Override
+    public void popSourceCode() {
+      // test stub
+    }
+
+    @Override
+    public SourceCode peekSourceCode() {
+      return null;
+    }
+
+    @Override
+    public CommentAnalyser getCommentAnalyser() {
+      return null;
+    }
+
+    @Override
+    public void createFileViolation(CodeCheck check, String message, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, int line, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void log(CheckMessage message) {
+      // test stub
+    }
   }
 }

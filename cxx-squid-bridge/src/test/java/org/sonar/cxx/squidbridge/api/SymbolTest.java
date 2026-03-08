@@ -372,29 +372,137 @@ class SymbolTest {
   void testUsageKindContainsAllValues() {
     var kinds = Symbol.Usage.UsageKind.values();
     assertThat(kinds).contains(
-      Symbol.Usage.UsageKind.READ,
-      Symbol.Usage.UsageKind.WRITE,
-      Symbol.Usage.UsageKind.READ_WRITE,
-      Symbol.Usage.UsageKind.DECLARATION,
-      Symbol.Usage.UsageKind.OTHER
-    );
-    assertThat(kinds).hasSize(5);
+        Symbol.Usage.UsageKind.READ,
+        Symbol.Usage.UsageKind.WRITE,
+        Symbol.Usage.UsageKind.READ_WRITE,
+        Symbol.Usage.UsageKind.DECLARATION,
+        Symbol.Usage.UsageKind.OTHER).hasSize(5);
+  }
+
+  @Test
+  void testOwnerFromSourceCodeParent() {
+    var parentClass = new SourceClass("ParentClass", "ParentClass");
+    var childFunc = new SourceFunction("childFunc", "childFunc()");
+    parentClass.addChild(childFunc);
+
+    var sym = new SourceCodeSymbol(childFunc, Symbol.Kind.FUNCTION);
+    var owner = sym.owner();
+    assertThat(owner).isNotNull();
+    assertThat(owner.name()).isEqualTo("ParentClass");
+  }
+
+  @Test
+  void testFullyQualifiedNameFromSourceCode() {
+    var srcClass = new SourceClass("MyClass", "MyClass");
+    var sym = new SourceCodeSymbol(srcClass, Symbol.Kind.TYPE);
+    assertThat(sym.fullyQualifiedName()).isEqualTo("MyClass");
+  }
+
+  @Test
+  void testDeriveKindFromSourceCode() {
+    // SourceClass → TYPE
+    var srcClass = new SourceClass("X", "X");
+    var typeSym = new SourceCodeSymbol(srcClass, Symbol.Kind.TYPE);
+    // Verify through owner() which calls deriveKindFromSourceCode
+    var parentClass = new SourceClass("Parent", "Parent");
+    var childClass = new SourceClass("Child", "Child");
+    parentClass.addChild(childClass);
+    var childSym = new SourceCodeSymbol(childClass, Symbol.Kind.TYPE);
+    assertThat(childSym.owner()).isNotNull();
+    assertThat(childSym.owner().kind()).isEqualTo(Symbol.Kind.TYPE);
+
+    // SourceFunction → FUNCTION
+    var parentFunc = new SourceFunction("outer", "outer()");
+    var innerFunc = new SourceFunction("inner", "inner()");
+    parentFunc.addChild(innerFunc);
+    var innerSym = new SourceCodeSymbol(innerFunc, Symbol.Kind.FUNCTION);
+    assertThat(innerSym.owner()).isNotNull();
+    assertThat(innerSym.owner().kind()).isEqualTo(Symbol.Kind.FUNCTION);
+  }
+
+  @Test
+  void testMemberSymbolsWithChildren() {
+    var parentClass = new SourceClass("MyClass", "MyClass");
+    var memberFunc = new SourceFunction("method", "method()");
+    parentClass.addChild(memberFunc);
+
+    var typeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol(parentClass);
+    var members = typeSymbol.memberSymbols();
+    assertThat(members).hasSize(1);
+    assertThat(members.iterator().next().name()).isEqualTo("method()");
+  }
+
+  @Test
+  void testLookupSymbols() {
+    var parentClass = new SourceClass("MyClass", "MyClass");
+    var func1 = new SourceFunction("method1", "method1()");
+    var func2 = new SourceFunction("method2", "method2()");
+    parentClass.addChild(func1);
+    parentClass.addChild(func2);
+
+    var typeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol(parentClass);
+    var found = typeSymbol.lookupSymbols("method1()");
+    assertThat(found).hasSize(1);
+    assertThat(found.iterator().next().name()).isEqualTo("method1()");
+
+    var notFound = typeSymbol.lookupSymbols("nonexistent");
+    assertThat(notFound).isEmpty();
+  }
+
+  @Test
+  void testVariableSymbolFieldAndGlobal() {
+    var varSymbol = new SourceCodeSymbol.SourceCodeVariableSymbol("myField", null);
+    assertThat(varSymbol.isField()).isFalse();
+    assertThat(varSymbol.isGlobalVariable()).isFalse();
+
+    varSymbol.setField(true);
+    assertThat(varSymbol.isField()).isTrue();
+
+    varSymbol.setGlobalVariable(true);
+    assertThat(varSymbol.isGlobalVariable()).isTrue();
+  }
+
+  @Test
+  void testFullyQualifiedNameNoOwner() {
+    // No sourceCode, no ownerSymbol → buildQualifiedName returns just name
+    var sym = new SourceCodeSymbol("myVar", Symbol.Kind.VARIABLE, null);
+    assertThat(sym.fullyQualifiedName()).isEqualTo("myVar");
+  }
+
+  @Test
+  void testIsNamespaceSymbol() {
+    var ns = new SourceCodeSymbol("std", Symbol.Kind.NAMESPACE, null);
+    assertThat(ns.isNamespaceSymbol()).isTrue();
+
+    var notNs = new SourceCodeSymbol("myFunc", Symbol.Kind.FUNCTION, null);
+    assertThat(notNs.isNamespaceSymbol()).isFalse();
   }
 
   private AstNode createAstNode(String value) {
     var token = Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
   private static class TestTokenType implements TokenType {
-    @Override public String getName() { return "TEST"; }
-    @Override public String getValue() { return "test"; }
-    @Override public boolean hasToBeSkippedFromAst(AstNode node) { return false; }
+    @Override
+    public String getName() {
+      return "TEST";
+    }
+
+    @Override
+    public String getValue() {
+      return "test";
+    }
+
+    @Override
+    public boolean hasToBeSkippedFromAst(AstNode node) {
+      return false;
+    }
   }
 }

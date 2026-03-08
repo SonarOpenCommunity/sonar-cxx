@@ -52,21 +52,21 @@ class CxxMethodMatcherTest {
   @Test
   void testBuilderValidation() {
     var builder = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("test");
+        .ofAnyType()
+        .names("test");
 
-    assertThatThrownBy(() -> builder.build())
-      .isInstanceOf(IllegalStateException.class)
-      .hasMessageContaining("At least one parameter matcher must be defined");
+    assertThatThrownBy(builder::build)
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("At least one parameter matcher must be defined");
   }
 
   @Test
   void testMatchesWithAnyType() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("testFunc")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("testFunc")
+        .withAnyParameters()
+        .build();
 
     var symbol = createFunctionSymbol("testFunc", Type.UNKNOWN_TYPE, List.of());
     assertThat(matcher.matches(symbol)).isTrue();
@@ -75,10 +75,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesExactType() {
     var matcher = CxxMethodMatcher.create()
-      .ofTypes("int")
-      .names("getValue")
-      .withAnyParameters()
-      .build();
+        .ofTypes("int")
+        .names("getValue")
+        .withAnyParameters()
+        .build();
 
     var intType = new Type.CxxType("int", true, false, false, false, false, null);
     var symbol = createFunctionSymbol("getValue", intType, List.of());
@@ -92,10 +92,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesMultipleNames() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("init", "initialize", "setup")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("init", "initialize", "setup")
+        .withAnyParameters()
+        .build();
 
     var symbol1 = createFunctionSymbol("init", Type.UNKNOWN_TYPE, List.of());
     var symbol2 = createFunctionSymbol("initialize", Type.UNKNOWN_TYPE, List.of());
@@ -111,10 +111,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesWithoutParameters() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("getValue")
-      .addWithoutParametersMatcher()
-      .build();
+        .ofAnyType()
+        .names("getValue")
+        .addWithoutParametersMatcher()
+        .build();
 
     var noParamsSymbol = createFunctionSymbol("getValue", Type.UNKNOWN_TYPE, List.of());
     assertThat(matcher.matches(noParamsSymbol)).isTrue();
@@ -127,10 +127,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesExactParameters() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("setValue")
-      .addParametersMatcher("int")
-      .build();
+        .ofAnyType()
+        .names("setValue")
+        .addParametersMatcher("int")
+        .build();
 
     var intType = new Type.CxxType("int");
     var matchingSymbol = createFunctionSymbol("setValue", Type.UNKNOWN_TYPE, List.of(intType));
@@ -144,55 +144,55 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesMultipleParameters() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("process")
-      .addParametersMatcher("int", "std::string")
-      .build();
+        .ofAnyType()
+        .names("process")
+        .addParametersMatcher("int", "std::string")
+        .build();
 
     var intType = new Type.CxxType("int");
     var stringType = new Type.CxxType("std::string");
     var matchingSymbol = createFunctionSymbol("process", Type.UNKNOWN_TYPE,
-      List.of(intType, stringType));
+        List.of(intType, stringType));
     assertThat(matcher.matches(matchingSymbol)).isTrue();
 
     var wrongOrderSymbol = createFunctionSymbol("process", Type.UNKNOWN_TYPE,
-      List.of(stringType, intType));
+        List.of(stringType, intType));
     assertThat(matcher.matches(wrongOrderSymbol)).isFalse();
   }
 
   @Test
   void testMatchesWithWildcard() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("callback")
-      .addParametersMatcher("*", "int")
-      .build();
+        .ofAnyType()
+        .names("callback")
+        .addParametersMatcher("*", "int")
+        .build();
 
     var intType = new Type.CxxType("int");
     var stringType = new Type.CxxType("std::string");
     var doubleType = new Type.CxxType("double");
 
     var symbol1 = createFunctionSymbol("callback", Type.UNKNOWN_TYPE,
-      List.of(stringType, intType));
+        List.of(stringType, intType));
     assertThat(matcher.matches(symbol1)).isTrue();
 
     var symbol2 = createFunctionSymbol("callback", Type.UNKNOWN_TYPE,
-      List.of(doubleType, intType));
+        List.of(doubleType, intType));
     assertThat(matcher.matches(symbol2)).isTrue();
 
     var wrongSymbol = createFunctionSymbol("callback", Type.UNKNOWN_TYPE,
-      List.of(stringType, stringType));
+        List.of(stringType, stringType));
     assertThat(matcher.matches(wrongSymbol)).isFalse();
   }
 
   @Test
   void testMatchesMultipleParameterMatchers() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("setValue")
-      .addParametersMatcher("int")
-      .addParametersMatcher("std::string")
-      .build();
+        .ofAnyType()
+        .names("setValue")
+        .addParametersMatcher("int")
+        .addParametersMatcher("std::string")
+        .build();
 
     var intType = new Type.CxxType("int");
     var stringType = new Type.CxxType("std::string");
@@ -211,16 +211,16 @@ class CxxMethodMatcherTest {
   @Test
   void testOrCombination() {
     var matcher1 = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("init")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("init")
+        .withAnyParameters()
+        .build();
 
     var matcher2 = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("setup")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("setup")
+        .withAnyParameters()
+        .build();
 
     var combined = CxxMethodMatcher.or(matcher1, matcher2);
 
@@ -236,10 +236,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesNullNode() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("test")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("test")
+        .withAnyParameters()
+        .build();
 
     assertThat(matcher.matches((AstNode) null)).isFalse();
   }
@@ -247,10 +247,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesNullSymbol() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("test")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("test")
+        .withAnyParameters()
+        .build();
 
     assertThat(matcher.matches((Symbol) null)).isFalse();
   }
@@ -258,10 +258,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesNonFunctionSymbol() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("test")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("test")
+        .withAnyParameters()
+        .build();
 
     var varSymbol = new SourceCodeSymbol.SourceCodeVariableSymbol("test", null);
     assertThat(matcher.matches(varSymbol)).isFalse();
@@ -269,19 +269,17 @@ class CxxMethodMatcherTest {
 
   @Test
   void testNullParameterArrayThrows() {
-    assertThatThrownBy(() -> {
-      CxxMethodMatcher.create()
-        .ofAnyType()
-        .names((String[]) null);
-    }).isInstanceOf(NullPointerException.class);
+    var builder = CxxMethodMatcher.create()
+        .ofAnyType();
+    assertThatThrownBy(() -> builder.names((String[]) null))
+        .isInstanceOf(NullPointerException.class);
   }
 
   @Test
   void testNullPredicateThrows() {
-    assertThatThrownBy(() -> {
-      CxxMethodMatcher.create()
-        .ofType(null);
-    }).isInstanceOf(NullPointerException.class);
+    var builder = CxxMethodMatcher.create();
+    assertThatThrownBy(() -> builder.ofType(null))
+        .isInstanceOf(NullPointerException.class);
   }
 
   // =========================================================================
@@ -291,10 +289,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesAstNodeNull() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .anyName()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .anyName()
+        .withAnyParameters()
+        .build();
 
     assertThat(matcher.matches((AstNode) null)).isFalse();
   }
@@ -302,10 +300,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesAstNodeNotFunctionCall() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .anyName()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .anyName()
+        .withAnyParameters()
+        .build();
 
     // A primaryExpression is not a function call
     var node = createNode(CxxGrammarImpl.primaryExpression, "foo");
@@ -317,10 +315,10 @@ class CxxMethodMatcherTest {
     // A postfixExpression with a "(" child but no symbol attached → falls back to
     // typePredicate.test(UNKNOWN_TYPE) and parameterMatchers on empty list
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("myFunc")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("myFunc")
+        .withAnyParameters()
+        .build();
 
     // Build: postfixExpression → [idExpression → [IDENTIFIER "myFunc"], "(", ")"]
     var postfix = createNode(CxxGrammarImpl.postfixExpression, "myFunc");
@@ -336,10 +334,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesAstNodeFunctionCallNameMismatch() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("expectedName")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("expectedName")
+        .withAnyParameters()
+        .build();
 
     var postfix = createNode(CxxGrammarImpl.postfixExpression, "differentName");
     var idExpr = createNode(CxxGrammarImpl.idExpression, "differentName");
@@ -354,10 +352,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesAstNodeWithAttachedSymbol() {
     var matcher = CxxMethodMatcher.create()
-      .ofTypes("int")
-      .names("getValue")
-      .withAnyParameters()
-      .build();
+        .ofTypes("int")
+        .names("getValue")
+        .withAnyParameters()
+        .build();
 
     var postfix = createNode(CxxGrammarImpl.postfixExpression, "getValue");
     var idExpr = createNode(CxxGrammarImpl.idExpression, "getValue");
@@ -368,7 +366,7 @@ class CxxMethodMatcherTest {
 
     var intType = new Type.CxxType("int", true, false, false, false, false, null);
     var funcSymbol = (SourceCodeSymbol.SourceCodeFunctionSymbol) createFunctionSymbol(
-      "getValue", intType, List.of());
+        "getValue", intType, List.of());
     AstNodeSymbolExtension.setSymbol(postfix, funcSymbol);
 
     assertThat(matcher.matches(postfix)).isTrue();
@@ -377,10 +375,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesAstNodeWithAttachedSymbolTypeMismatch() {
     var matcher = CxxMethodMatcher.create()
-      .ofTypes("int")
-      .names("getValue")
-      .withAnyParameters()
-      .build();
+        .ofTypes("int")
+        .names("getValue")
+        .withAnyParameters()
+        .build();
 
     var postfix = createNode(CxxGrammarImpl.postfixExpression, "getValue");
     var idExpr = createNode(CxxGrammarImpl.idExpression, "getValue");
@@ -391,7 +389,7 @@ class CxxMethodMatcherTest {
 
     var stringType = new Type.CxxType("std::string");
     var funcSymbol = (SourceCodeSymbol.SourceCodeFunctionSymbol) createFunctionSymbol(
-      "getValue", stringType, List.of());
+        "getValue", stringType, List.of());
     AstNodeSymbolExtension.setSymbol(postfix, funcSymbol);
 
     assertThat(matcher.matches(postfix)).isFalse();
@@ -404,10 +402,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesDefinitionNull() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .anyName()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .anyName()
+        .withAnyParameters()
+        .build();
 
     assertThat(matcher.matchesDefinition(null)).isFalse();
   }
@@ -415,10 +413,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesDefinitionWrongNodeType() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .anyName()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .anyName()
+        .withAnyParameters()
+        .build();
 
     var node = createNode(CxxGrammarImpl.primaryExpression, "foo");
     assertThat(matcher.matchesDefinition(node)).isFalse();
@@ -427,10 +425,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesDefinitionNoSymbol() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .names("compute")
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .names("compute")
+        .withAnyParameters()
+        .build();
 
     var funcDef = createNode(CxxGrammarImpl.functionDefinition, "compute");
     var decl = createNode(CxxGrammarImpl.declarator, "compute");
@@ -447,10 +445,10 @@ class CxxMethodMatcherTest {
   @Test
   void testMatchesDefinitionWithSymbol() {
     var matcher = CxxMethodMatcher.create()
-      .ofTypes("void")
-      .names("process")
-      .withAnyParameters()
-      .build();
+        .ofTypes("void")
+        .names("process")
+        .withAnyParameters()
+        .build();
 
     var funcDef = createNode(CxxGrammarImpl.functionDefinition, "process");
     var decl = createNode(CxxGrammarImpl.declarator, "process");
@@ -463,7 +461,7 @@ class CxxMethodMatcherTest {
 
     var voidType = new Type.CxxType("void", true, false, false, false, false, null);
     var funcSymbol = (SourceCodeSymbol.SourceCodeFunctionSymbol) createFunctionSymbol(
-      "process", voidType, List.of());
+        "process", voidType, List.of());
     AstNodeSymbolExtension.setSymbol(funcDef, funcSymbol);
 
     assertThat(matcher.matchesDefinition(funcDef)).isTrue();
@@ -476,10 +474,10 @@ class CxxMethodMatcherTest {
   @Test
   void testAnyName() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .anyName()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .anyName()
+        .withAnyParameters()
+        .build();
 
     var symbol1 = createFunctionSymbol("anything", Type.UNKNOWN_TYPE, List.of());
     var symbol2 = createFunctionSymbol("somethingElse", Type.UNKNOWN_TYPE, List.of());
@@ -490,10 +488,10 @@ class CxxMethodMatcherTest {
   @Test
   void testOfSubTypesNoMatch() {
     var matcher = CxxMethodMatcher.create()
-      .ofSubTypes("BaseClass")
-      .names("method")
-      .withAnyParameters()
-      .build();
+        .ofSubTypes("BaseClass")
+        .names("method")
+        .withAnyParameters()
+        .build();
 
     // Type.UNKNOWN_TYPE → isUnknown() = true → ofSubTypes returns false
     var symbol = createFunctionSymbol("method", Type.UNKNOWN_TYPE, List.of());
@@ -503,10 +501,10 @@ class CxxMethodMatcherTest {
   @Test
   void testOfSubTypesWithConcreteType() {
     var matcher = CxxMethodMatcher.create()
-      .ofSubTypes("int")
-      .names("getValue")
-      .withAnyParameters()
-      .build();
+        .ofSubTypes("int")
+        .names("getValue")
+        .withAnyParameters()
+        .build();
 
     // CxxType.isSubtypeOf("int") → checks if the type name equals "int"
     var intType = new Type.CxxType("int", true, false, false, false, false, null);
@@ -517,10 +515,10 @@ class CxxMethodMatcherTest {
   @Test
   void testConstructorMatcherDoesNotMatchRegularFunctions() {
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .constructor()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .constructor()
+        .withAnyParameters()
+        .build();
 
     var symbol = createFunctionSymbol("myFunc", Type.UNKNOWN_TYPE, List.of());
     assertThat(matcher.matches(symbol)).isFalse();
@@ -530,12 +528,13 @@ class CxxMethodMatcherTest {
   void testConstructorMatcherMatchesQualifiedConstructor() {
     // constructor() matches names like "Foo::Foo" where class == method part
     var matcher = CxxMethodMatcher.create()
-      .ofAnyType()
-      .constructor()
-      .withAnyParameters()
-      .build();
+        .ofAnyType()
+        .constructor()
+        .withAnyParameters()
+        .build();
 
-    // "MyClass::MyClass" — qualified constructor: part before "::" == part after "::"
+    // "MyClass::MyClass" — qualified constructor: part before "::" == part after
+    // "::"
     var ctorSymbol = createFunctionSymbol("MyClass::MyClass", Type.UNKNOWN_TYPE, List.of());
     assertThat(matcher.matches(ctorSymbol)).isTrue();
 
@@ -549,26 +548,36 @@ class CxxMethodMatcherTest {
     // Use a TypeSymbol with a non-empty baseClasses() to exercise inheritance path
     var baseTypeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol("Base", null) {
       @Override
-      public java.util.List<Symbol.TypeSymbol> baseClasses() { return List.of(); }
+      public java.util.List<Symbol.TypeSymbol> baseClasses() {
+        return List.of();
+      }
+
       @Override
-      public String fullyQualifiedName() { return "Base"; }
+      public String fullyQualifiedName() {
+        return "Base";
+      }
     };
 
     // Create a TypeSymbol for Derived that has Base as a base class
     var derivedTypeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol("Derived", null) {
       @Override
-      public java.util.List<Symbol.TypeSymbol> baseClasses() { return List.of(baseTypeSymbol); }
+      public java.util.List<Symbol.TypeSymbol> baseClasses() {
+        return List.of(baseTypeSymbol);
+      }
+
       @Override
-      public String fullyQualifiedName() { return "Derived"; }
+      public String fullyQualifiedName() {
+        return "Derived";
+      }
     };
 
     var derivedType = new Type.CxxType("Derived", derivedTypeSymbol);
 
     var matcher = CxxMethodMatcher.create()
-      .ofSubTypes("Base")
-      .names("process")
-      .withAnyParameters()
-      .build();
+        .ofSubTypes("Base")
+        .names("process")
+        .withAnyParameters()
+        .build();
 
     var symbol = createFunctionSymbol("process", derivedType, List.of());
     assertThat(matcher.matches(symbol)).isTrue();
@@ -585,42 +594,53 @@ class CxxMethodMatcherTest {
 
   private AstNode createNode(com.sonar.cxx.sslr.api.AstNodeType type, String value) {
     var token = Token.builder()
-      .setLine(1).setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1).setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(type, value, token);
   }
 
   private AstNode createIdentifierNode(String name) {
     var token = Token.builder()
-      .setLine(1).setColumn(0)
-      .setValueAndOriginalValue(name)
-      .setType(com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER)
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1).setColumn(0)
+        .setValueAndOriginalValue(name)
+        .setType(com.sonar.cxx.sslr.api.GenericTokenType.IDENTIFIER)
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
   private AstNode createTokenNode(String value) {
     var token = Token.builder()
-      .setLine(1).setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1).setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
   private static class TestTokenType implements TokenType {
-    @Override public String getName() { return "TEST"; }
-    @Override public String getValue() { return "test"; }
-    @Override public boolean hasToBeSkippedFromAst(AstNode node) { return false; }
+    @Override
+    public String getName() {
+      return "TEST";
+    }
+
+    @Override
+    public String getValue() {
+      return "test";
+    }
+
+    @Override
+    public boolean hasToBeSkippedFromAst(AstNode node) {
+      return false;
+    }
   }
 
   private Symbol.FunctionSymbol createFunctionSymbol(String name, Type returnType,
-                                                      List<Type> paramTypes) {
+      List<Type> paramTypes) {
     var funcSymbol = new SourceCodeSymbol.SourceCodeFunctionSymbol(name, null);
     funcSymbol.setReturnType(returnType);
 

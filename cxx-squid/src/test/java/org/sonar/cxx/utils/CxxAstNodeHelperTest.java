@@ -46,7 +46,8 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetAssignedSymbolFromAssignmentExpression() {
-    // Build: assignmentExpression → [logicalOrExpression("x"), "=", initializerClause(→ expr)]
+    // Build: assignmentExpression → [logicalOrExpression("x"), "=",
+    // initializerClause(→ expr)]
     var assignExpr = createNode(CxxGrammarImpl.assignmentExpression, "x");
 
     // LHS: identifier "x" with an associated symbol
@@ -54,7 +55,8 @@ class CxxAstNodeHelperTest {
     var xSymbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
     AstNodeSymbolExtension.setSymbol(lhsId, xSymbol);
 
-    // The LHS in the grammar is a logicalOrExpression that eventually holds the identifier
+    // The LHS in the grammar is a logicalOrExpression that eventually holds the
+    // identifier
     var lhsExpr = createNode(CxxGrammarImpl.logicalOrExpression, "x");
     lhsExpr.addChild(lhsId);
     assignExpr.addChild(lhsExpr);
@@ -78,7 +80,8 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetAssignedSymbolFromDeclaration() {
-    // Build: initDeclarator → [declarator(→declaratorId(→IDENTIFIER "x")), initializer(→expr)]
+    // Build: initDeclarator → [declarator(→declaratorId(→IDENTIFIER "x")),
+    // initializer(→expr)]
     var initDecl = createNode(CxxGrammarImpl.initDeclarator, "x");
 
     var declarator = createNode(CxxGrammarImpl.declarator, "x");
@@ -92,6 +95,73 @@ class CxxAstNodeHelperTest {
     initDecl.addChild(declarator);
 
     // Initializer with expression
+    var initializer = createNode(CxxGrammarImpl.initializer, "=");
+    var initClause = createNode(CxxGrammarImpl.initializerClause, "foo()");
+    var funcCall = createNode(CxxGrammarImpl.postfixExpression, "foo");
+    initClause.addChild(funcCall);
+    initializer.addChild(initClause);
+    initDecl.addChild(initializer);
+
+    assertThat(CxxAstNodeHelper.getAssignedSymbol(funcCall)).isEqualTo(xSymbol);
+
+    AstNodeSymbolExtension.clear();
+  }
+
+  @Test
+  void testGetAssignedSymbolDirectLhsSymbol() {
+    // Symbol set directly on the LHS node (logicalOrExpression), not on a descendant
+    var assignExpr = createNode(CxxGrammarImpl.assignmentExpression, "x");
+
+    var lhsExpr = createNode(CxxGrammarImpl.logicalOrExpression, "x");
+    var xSymbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    AstNodeSymbolExtension.setSymbol(lhsExpr, xSymbol);
+    assignExpr.addChild(lhsExpr);
+    assignExpr.addChild(createTokenNode("="));
+
+    var rhsExpr = createNode(CxxGrammarImpl.initializerClause, "foo()");
+    var funcCall = createNode(CxxGrammarImpl.postfixExpression, "foo");
+    rhsExpr.addChild(funcCall);
+    assignExpr.addChild(rhsExpr);
+
+    assertThat(CxxAstNodeHelper.getAssignedSymbol(funcCall)).isEqualTo(xSymbol);
+
+    AstNodeSymbolExtension.clear();
+  }
+
+  @Test
+  void testGetAssignedSymbolDirectDeclaratorSymbol() {
+    // Symbol set directly on the declarator node (not on declaratorId or identifier)
+    var initDecl = createNode(CxxGrammarImpl.initDeclarator, "x");
+
+    var declarator = createNode(CxxGrammarImpl.declarator, "x");
+    var xSymbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    AstNodeSymbolExtension.setSymbol(declarator, xSymbol);
+    initDecl.addChild(declarator);
+
+    var initializer = createNode(CxxGrammarImpl.initializer, "=");
+    var initClause = createNode(CxxGrammarImpl.initializerClause, "foo()");
+    var funcCall = createNode(CxxGrammarImpl.postfixExpression, "foo");
+    initClause.addChild(funcCall);
+    initializer.addChild(initClause);
+    initDecl.addChild(initializer);
+
+    assertThat(CxxAstNodeHelper.getAssignedSymbol(funcCall)).isEqualTo(xSymbol);
+
+    AstNodeSymbolExtension.clear();
+  }
+
+  @Test
+  void testGetAssignedSymbolDeclaratorIdSymbol() {
+    // Symbol set on declaratorId node (not on the identifier descendant)
+    var initDecl = createNode(CxxGrammarImpl.initDeclarator, "x");
+
+    var declarator = createNode(CxxGrammarImpl.declarator, "x");
+    var declaratorId = createNode(CxxGrammarImpl.declaratorId, "x");
+    var xSymbol = new SourceCodeSymbol("x", Symbol.Kind.VARIABLE, null);
+    AstNodeSymbolExtension.setSymbol(declaratorId, xSymbol);
+    declarator.addChild(declaratorId);
+    initDecl.addChild(declarator);
+
     var initializer = createNode(CxxGrammarImpl.initializer, "=");
     var initClause = createNode(CxxGrammarImpl.initializerClause, "foo()");
     var funcCall = createNode(CxxGrammarImpl.postfixExpression, "foo");
@@ -187,34 +257,34 @@ class CxxAstNodeHelperTest {
 
   private AstNode createNode(AstNodeType type, String value) {
     var token = Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(type, value, token);
   }
 
   private AstNode createIdentifierNode(String name) {
     var token = Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setValueAndOriginalValue(name)
-      .setType(GenericTokenType.IDENTIFIER)
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(0)
+        .setValueAndOriginalValue(name)
+        .setType(GenericTokenType.IDENTIFIER)
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
   private AstNode createTokenNode(String value) {
     var token = Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
@@ -297,8 +367,8 @@ class CxxAstNodeHelperTest {
   void testGetFunctionCallNameSimple() {
     // postfixExpression → primaryExpression → idExpression → IDENTIFIER("myFunc")
     var callNode = createNode(CxxGrammarImpl.postfixExpression, "myFunc");
-    var primary  = createNode(CxxGrammarImpl.primaryExpression, "myFunc");
-    var idExpr   = createNode(CxxGrammarImpl.idExpression, "myFunc");
+    var primary = createNode(CxxGrammarImpl.primaryExpression, "myFunc");
+    var idExpr = createNode(CxxGrammarImpl.idExpression, "myFunc");
     idExpr.addChild(createIdentifierNode("myFunc"));
     primary.addChild(idExpr);
     callNode.addChild(primary);
@@ -332,10 +402,10 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetFunctionDefinitionNameValid() {
-    var funcDef  = createNode(CxxGrammarImpl.functionDefinition, "compute");
-    var decl     = createNode(CxxGrammarImpl.declarator, "compute");
-    var declId   = createNode(CxxGrammarImpl.declaratorId, "compute");
-    var idExpr   = createNode(CxxGrammarImpl.idExpression, "compute");
+    var funcDef = createNode(CxxGrammarImpl.functionDefinition, "compute");
+    var decl = createNode(CxxGrammarImpl.declarator, "compute");
+    var declId = createNode(CxxGrammarImpl.declaratorId, "compute");
+    var idExpr = createNode(CxxGrammarImpl.idExpression, "compute");
     idExpr.addChild(createIdentifierNode("compute"));
     declId.addChild(idExpr);
     decl.addChild(declId);
@@ -367,7 +437,7 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetFunctionDefinitionBodyValid() {
-    var funcDef  = createNode(CxxGrammarImpl.functionDefinition, "f");
+    var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
     var funcBody = createNode(CxxGrammarImpl.functionBody, "body");
     funcDef.addChild(funcBody);
     assertThat(CxxAstNodeHelper.getFunctionDefinitionBody(funcDef)).isEqualTo(funcBody);
@@ -404,11 +474,11 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetFunctionDefinitionParametersValid() {
-    var funcDef     = createNode(CxxGrammarImpl.functionDefinition, "f");
-    var decl        = createNode(CxxGrammarImpl.declarator, "f");
+    var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
+    var decl = createNode(CxxGrammarImpl.declarator, "f");
     var paramsQuals = createNode(CxxGrammarImpl.parametersAndQualifiers, "()");
-    var param1      = createNode(CxxGrammarImpl.parameterDeclaration, "int x");
-    var param2      = createNode(CxxGrammarImpl.parameterDeclaration, "int y");
+    var param1 = createNode(CxxGrammarImpl.parameterDeclaration, "int x");
+    var param2 = createNode(CxxGrammarImpl.parameterDeclaration, "int y");
     paramsQuals.addChild(param1);
     paramsQuals.addChild(param2);
     decl.addChild(paramsQuals);
@@ -436,7 +506,7 @@ class CxxAstNodeHelperTest {
   @Test
   void testGetEnclosingFunctionNested() {
     var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
-    var inner   = createNode(CxxGrammarImpl.primaryExpression, "x");
+    var inner = createNode(CxxGrammarImpl.primaryExpression, "x");
     funcDef.addChild(inner);
     assertThat(CxxAstNodeHelper.getEnclosingFunction(inner)).isEqualTo(funcDef);
   }
@@ -454,7 +524,7 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetEnclosingClassNested() {
-    var cls   = createNode(CxxGrammarImpl.classSpecifier, "MyClass");
+    var cls = createNode(CxxGrammarImpl.classSpecifier, "MyClass");
     var inner = createNode(CxxGrammarImpl.primaryExpression, "x");
     cls.addChild(inner);
     assertThat(CxxAstNodeHelper.getEnclosingClass(inner)).isEqualTo(cls);
@@ -507,8 +577,8 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testIsReturnStatementTrue() {
-    var jumpStmt  = createNode(CxxGrammarImpl.jumpStatement, "return");
-    var returnKw  = createKeywordNode(CxxKeyword.RETURN);
+    var jumpStmt = createNode(CxxGrammarImpl.jumpStatement, "return");
+    var returnKw = createKeywordNode(CxxKeyword.RETURN);
     jumpStmt.addChild(returnKw);
     assertThat(CxxAstNodeHelper.isReturnStatement(jumpStmt)).isTrue();
   }
@@ -516,7 +586,7 @@ class CxxAstNodeHelperTest {
   @Test
   void testIsReturnStatementBreak() {
     var jumpStmt = createNode(CxxGrammarImpl.jumpStatement, "break");
-    var breakKw  = createKeywordNode(CxxKeyword.BREAK);
+    var breakKw = createKeywordNode(CxxKeyword.BREAK);
     jumpStmt.addChild(breakKw);
     assertThat(CxxAstNodeHelper.isReturnStatement(jumpStmt)).isFalse();
   }
@@ -539,7 +609,7 @@ class CxxAstNodeHelperTest {
   @Test
   void testGetReturnExpressionNotReturn() {
     var jumpStmt = createNode(CxxGrammarImpl.jumpStatement, "break");
-    var breakKw  = createKeywordNode(CxxKeyword.BREAK);
+    var breakKw = createKeywordNode(CxxKeyword.BREAK);
     jumpStmt.addChild(breakKw);
     assertThat(CxxAstNodeHelper.getReturnExpression(jumpStmt)).isNull();
   }
@@ -579,7 +649,7 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetMemberAccessNameDot() {
-    var postfix   = createNode(CxxGrammarImpl.postfixExpression, "obj");
+    var postfix = createNode(CxxGrammarImpl.postfixExpression, "obj");
     var qualifier = createNode(CxxGrammarImpl.primaryExpression, "obj");
     postfix.addChild(qualifier);
     postfix.addChild(createTokenNode("."));
@@ -589,7 +659,7 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetMemberAccessNameArrow() {
-    var postfix   = createNode(CxxGrammarImpl.postfixExpression, "ptr");
+    var postfix = createNode(CxxGrammarImpl.postfixExpression, "ptr");
     var qualifier = createNode(CxxGrammarImpl.primaryExpression, "ptr");
     postfix.addChild(qualifier);
     postfix.addChild(createTokenNode("->"));
@@ -609,7 +679,7 @@ class CxxAstNodeHelperTest {
 
     // Inner member access: a.b
     var innerQualifier = createNode(CxxGrammarImpl.primaryExpression, "a");
-    var innerObjId     = createIdentifierNode("a");
+    var innerObjId = createIdentifierNode("a");
     AstNodeSymbolExtension.setSymbol(innerObjId, outerObj);
     innerQualifier.addChild(innerObjId);
 
@@ -640,8 +710,8 @@ class CxxAstNodeHelperTest {
   void testGetFunctionCallNameQualified() {
     // postfixExpression → idExpression → qualifiedId → ["ns", "::", "foo"]
     var postfix = createNode(CxxGrammarImpl.postfixExpression, "ns");
-    var idExpr  = createNode(CxxGrammarImpl.idExpression, "ns");
-    var qualId  = createNode(CxxGrammarImpl.qualifiedId, "ns::foo");
+    var idExpr = createNode(CxxGrammarImpl.idExpression, "ns");
+    var qualId = createNode(CxxGrammarImpl.qualifiedId, "ns::foo");
 
     // Add three tokens to qualifiedId: "ns", "::", "foo"
     qualId.addChild(createIdentifierNode("ns"));
@@ -656,17 +726,48 @@ class CxxAstNodeHelperTest {
     assertThat(CxxAstNodeHelper.getFunctionCallName(postfix)).isEqualTo("ns::foo");
   }
 
+  @Test
+  void testGetFunctionCallNameViaTypeName() {
+    // postfixExpression → typeName → className → IDENTIFIER("vector")
+    // This is a functional-style type conversion: vector(1, 2, 3)
+    var postfix = createNode(CxxGrammarImpl.postfixExpression, "vector");
+    var typeName = createNode(CxxGrammarImpl.typeName, "vector");
+    var className = createNode(CxxGrammarImpl.className, "vector");
+    className.addChild(createIdentifierNode("vector"));
+    typeName.addChild(className);
+    postfix.addChild(typeName);
+    postfix.addChild(createTokenNode("("));
+    postfix.addChild(createTokenNode(")"));
+    assertThat(CxxAstNodeHelper.getFunctionCallName(postfix)).isEqualTo("vector");
+  }
+
+  @Test
+  void testGetMemberAccessNameViaIdDescendant() {
+    // postfixExpression → [qualifier, ".", wrapper(→IDENTIFIER("field"))]
+    // Tests the path where the member node after "." isn't directly an IDENTIFIER
+    // but has a descendant IDENTIFIER
+    var postfix = createNode(CxxGrammarImpl.postfixExpression, "obj");
+    var qualifier = createNode(CxxGrammarImpl.primaryExpression, "obj");
+    postfix.addChild(qualifier);
+    postfix.addChild(createTokenNode("."));
+    // Wrapper node containing an IDENTIFIER descendant
+    var wrapper = createNode(CxxGrammarImpl.idExpression, "field");
+    wrapper.addChild(createIdentifierNode("field"));
+    postfix.addChild(wrapper);
+    assertThat(CxxAstNodeHelper.getMemberAccessName(postfix)).isEqualTo("field");
+  }
+
   // -------------------------------------------------------------------------
   // Private helpers
   // -------------------------------------------------------------------------
   private AstNode createKeywordNode(com.sonar.cxx.sslr.api.TokenType type) {
     var token = Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setValueAndOriginalValue(type.getValue())
-      .setType(type)
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(0)
+        .setValueAndOriginalValue(type.getValue())
+        .setType(type)
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
