@@ -23,10 +23,12 @@
  */
 package org.sonar.cxx.squidbridge.checks; // cxx: in use
 
+import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Grammar;
 import javax.annotation.CheckForNull;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.CodeCheck;
+import org.sonar.cxx.squidbridge.api.PreciseIssue;
 
 public abstract class SquidCheck<G extends Grammar> extends SquidAstVisitor<G> implements CodeCheck {
 
@@ -34,6 +36,39 @@ public abstract class SquidCheck<G extends Grammar> extends SquidAstVisitor<G> i
   @CheckForNull
   public String getKey() {
     return null;
+  }
+
+  /**
+   * Add a precise issue to the current file.
+   *
+   * @param node the AST node where the issue occurs
+   * @param message the issue message
+   * @return the PreciseIssue for further configuration (secondary locations, cost, etc.)
+   */
+  public PreciseIssue addIssue(AstNode node, String message) {
+    var issue = new PreciseIssue(this, node, message);
+    getContext().addIssue(issue);
+    return issue;
+  }
+
+  /**
+   * Add a pre-configured precise issue to the current file.
+   *
+   * @param issue the precise issue to add
+   */
+  public void addIssue(PreciseIssue issue) {
+    getContext().addIssue(issue);
+  }
+
+  /**
+   * Create a precise issue without immediately adding it.
+   *
+   * @param node the AST node where the issue occurs
+   * @param message the issue message
+   * @return a new PreciseIssue (not yet reported)
+   */
+  public PreciseIssue createIssue(AstNode node, String message) {
+    return new PreciseIssue(this, node, message);
   }
 
 }
