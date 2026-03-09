@@ -32,12 +32,17 @@ import org.sonar.cxx.squidbridge.api.Symbol;
 import org.sonar.cxx.squidbridge.api.Type;
 
 /**
- * Fluent API for matching C++ functions and methods based on type, name, and parameters.
+ * Fluent API for matching C++ functions and methods based on type, name, and
+ * parameters.
  *
- * <p>This class provides a builder pattern for creating function/method matchers,
- * similar to sonar-java's MethodMatchers but adapted for C++ grammar and semantics.
+ * <p>
+ * This class provides a builder pattern for creating function/method matchers,
+ * similar to sonar-java's MethodMatchers but adapted for C++ grammar and
+ * semantics.
  *
- * <p>Example usage:
+ * <p>
+ * Example usage:
+ * 
  * <pre>
  * CxxMethodMatcher matcher = CxxMethodMatcher.create()
  *     .ofTypes("EVP_CIPHER_CTX")
@@ -46,7 +51,7 @@ import org.sonar.cxx.squidbridge.api.Type;
  *     .build();
  *
  * if (matcher.matches(functionCallNode)) {
- *     // Handle matched function call
+ *   // Handle matched function call
  * }
  * </pre>
  */
@@ -57,12 +62,64 @@ public final class CxxMethodMatcher {
   private final List<Predicate<List<Type>>> parameterMatchers;
 
   private CxxMethodMatcher(Predicate<Type> typePredicate,
-                           Predicate<String> namePredicate,
-                           List<Predicate<List<Type>>> parameterMatchers) {
+      Predicate<String> namePredicate,
+      List<Predicate<List<Type>>> parameterMatchers) {
     this.typePredicate = Objects.requireNonNull(typePredicate, "typePredicate cannot be null");
     this.namePredicate = Objects.requireNonNull(namePredicate, "namePredicate cannot be null");
     this.parameterMatchers = new ArrayList<>(Objects.requireNonNull(parameterMatchers,
-      "parameterMatchers cannot be null"));
+        "parameterMatchers cannot be null"));
+  }
+
+  // ---- Static predicate factories (extracted to reduce Builder size S2972) ----
+
+  private static Predicate<Type> createSubTypePredicate(String... fullyQualifiedTypeNames) {
+    return (Type type) -> {
+      if (type == null || type.isUnknown()) {
+        return false;
+      }
+      for (String fqn : fullyQualifiedTypeNames) {
+        if (type.isSubtypeOf(fqn)) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
+
+  private static Predicate<Type> createExactTypePredicate(String... fullyQualifiedTypeNames) {
+    return (Type type) -> {
+      if (type == null || type.isUnknown()) {
+        return false;
+      }
+      for (String fqn : fullyQualifiedTypeNames) {
+        if (type.is(fqn)) {
+          return true;
+        }
+      }
+      return false;
+    };
+  }
+
+  private static Predicate<List<Type>> createParameterTypeMatcher(String... parametersType) {
+    List<String> expectedParams = Arrays.asList(parametersType);
+    return (List<Type> actualParams) -> {
+      if (actualParams.size() != expectedParams.size()) {
+        return false;
+      }
+      for (int i = 0; i < expectedParams.size(); i++) {
+        if (!matchesParameter(expectedParams.get(i), actualParams.get(i))) {
+          return false;
+        }
+      }
+      return true;
+    };
+  }
+
+  private static boolean matchesParameter(String expected, Type actual) {
+    if ("*".equals(expected)) {
+      return true;
+    }
+    return actual != null && !actual.isUnknown() && actual.is(expected);
   }
 
   /**
@@ -93,11 +150,12 @@ public final class CxxMethodMatcher {
   public static CxxMethodMatcher or(List<CxxMethodMatcher> matchers) {
     List<CxxMethodMatcher> matcherList = Objects.requireNonNull(matchers, "matchers cannot be null");
     return new Builder()
-      .ofType(type -> matcherList.stream().anyMatch(m -> m.typePredicate.test(type)))
-      .name(name -> matcherList.stream().anyMatch(m -> m.namePredicate.test(name)))
-      .addParametersMatcher(params -> matcherList.stream().anyMatch(m ->
-        m.parameterMatchers.stream().anyMatch(pm -> pm.test(params))))
-      .build();
+        .ofType((Type type) -> matcherList.stream().anyMatch(m -> m.typePredicate.test(type)))
+        .name((String name) -> matcherList.stream().anyMatch(m -> m.namePredicate.test(name)))
+        .addParametersMatcher(
+            (List<Type> params) -> matcherList.stream()
+                .anyMatch(m -> m.parameterMatchers.stream().anyMatch(pm -> pm.test(params))))
+        .build();
   }
 
   /**
@@ -116,21 +174,7 @@ public final class CxxMethodMatcher {
       return false;
     }
 
-    Symbol calleeSymbol = AstNodeSymbolExtension.getSymbol(callNode);
-    if (calleeSymbol != null && calleeSymbol.isFunctionSymbol()) {
-      Symbol.FunctionSymbol funcSymbol = (Symbol.FunctionSymbol) calleeSymbol;
-
-      Type returnType = funcSymbol.returnType();
-      if (!typePredicate.test(returnType)) {
-        return false;
-      }
-
-      List<Type> paramTypes = funcSymbol.parameterTypes();
-      return parameterMatchers.stream().anyMatch(pm -> pm.test(paramTypes));
-    }
-
-    return typePredicate.test(Type.UNKNOWN_TYPE)
-      && parameterMatchers.stream().anyMatch(pm -> pm.test(List.of()));
+    return matchesFunctionSymbol(AstNodeSymbolExtension.getSymbol(callNode));
   }
 
   /**
@@ -149,21 +193,23 @@ public final class CxxMethodMatcher {
       return false;
     }
 
-    Symbol funcSymbol = AstNodeSymbolExtension.getSymbol(functionDefNode);
-    if (funcSymbol != null && funcSymbol.isFunctionSymbol()) {
-      Symbol.FunctionSymbol fs = (Symbol.FunctionSymbol) funcSymbol;
+    return matchesFunctionSymbol(AstNodeSymbolExtension.getSymbol(functionDefNode));
+  }
 
-      Type returnType = fs.returnType();
-      if (!typePredicate.test(returnType)) {
+  /**
+   * Shared logic: when a function symbol is available, check return-type and
+   * parameter predicates; otherwise fall back to UNKNOWN_TYPE + empty params.
+   */
+  private boolean matchesFunctionSymbol(@CheckForNull Symbol symbol) {
+    if (symbol != null && symbol.isFunctionSymbol()) {
+      Symbol.FunctionSymbol fs = (Symbol.FunctionSymbol) symbol;
+      if (!typePredicate.test(fs.returnType())) {
         return false;
       }
-
-      List<Type> paramTypes = fs.parameterTypes();
-      return parameterMatchers.stream().anyMatch(pm -> pm.test(paramTypes));
+      return parameterMatchers.stream().anyMatch(pm -> pm.test(fs.parameterTypes()));
     }
-
     return typePredicate.test(Type.UNKNOWN_TYPE)
-      && parameterMatchers.stream().anyMatch(pm -> pm.test(List.of()));
+        && parameterMatchers.stream().anyMatch(pm -> pm.test(List.of()));
   }
 
   /**
@@ -264,6 +310,8 @@ public final class CxxMethodMatcher {
     CxxMethodMatcher build();
   }
 
+
+  @SuppressWarnings("java:S2972") // Builder implements 3 interfaces; size is inherent to the fluent API contract
   private static class Builder implements TypeBuilder, NameBuilder, ParametersBuilder {
     private Predicate<Type> typePredicate;
     private Predicate<String> namePredicate;
@@ -271,39 +319,19 @@ public final class CxxMethodMatcher {
 
     @Override
     public NameBuilder ofSubTypes(String... fullyQualifiedTypeNames) {
-      this.typePredicate = type -> {
-        if (type == null || type.isUnknown()) {
-          return false;
-        }
-        for (String fqn : fullyQualifiedTypeNames) {
-          if (type.isSubtypeOf(fqn)) {
-            return true;
-          }
-        }
-        return false;
-      };
+      this.typePredicate = createSubTypePredicate(fullyQualifiedTypeNames);
       return this;
     }
 
     @Override
     public NameBuilder ofAnyType() {
-      this.typePredicate = type -> true;
+      this.typePredicate = (Type type) -> true;
       return this;
     }
 
     @Override
     public NameBuilder ofTypes(String... fullyQualifiedTypeNames) {
-      this.typePredicate = type -> {
-        if (type == null || type.isUnknown()) {
-          return false;
-        }
-        for (String fqn : fullyQualifiedTypeNames) {
-          if (type.is(fqn)) {
-            return true;
-          }
-        }
-        return false;
-      };
+      this.typePredicate = createExactTypePredicate(fullyQualifiedTypeNames);
       return this;
     }
 
@@ -323,15 +351,14 @@ public final class CxxMethodMatcher {
 
     @Override
     public ParametersBuilder anyName() {
-      this.namePredicate = name -> true;
+      this.namePredicate = (String name) -> true;
       return this;
     }
 
     @Override
     public ParametersBuilder constructor() {
-      this.namePredicate = name -> name != null && (name.contains("::")
-        ? name.substring(name.lastIndexOf("::") + 2).equals(name.substring(0, name.indexOf("::")))
-        : false);
+      this.namePredicate = (String name) -> name != null && name.contains("::")
+          && name.substring(name.lastIndexOf("::") + 2).equals(name.substring(0, name.indexOf("::")));
       return this;
     }
 
@@ -343,7 +370,7 @@ public final class CxxMethodMatcher {
 
     @Override
     public ParametersBuilder withAnyParameters() {
-      this.parameterMatchers.add(params -> true);
+      this.parameterMatchers.add((List<Type> params) -> true);
       return this;
     }
 
@@ -356,36 +383,14 @@ public final class CxxMethodMatcher {
     @Override
     public ParametersBuilder addParametersMatcher(String... parametersType) {
       Objects.requireNonNull(parametersType, "parametersType cannot be null");
-      List<String> expectedParams = Arrays.asList(parametersType);
-      this.parameterMatchers.add(actualParams -> {
-        if (actualParams.size() != expectedParams.size()) {
-          return false;
-        }
-        for (int i = 0; i < expectedParams.size(); i++) {
-          String expected = expectedParams.get(i);
-          Type actual = actualParams.get(i);
-
-          if ("*".equals(expected)) {
-            continue;
-          }
-
-          if (actual == null || actual.isUnknown()) {
-            return false;
-          }
-
-          if (!actual.is(expected)) {
-            return false;
-          }
-        }
-        return true;
-      });
+      this.parameterMatchers.add(createParameterTypeMatcher(parametersType));
       return this;
     }
 
     @Override
     public ParametersBuilder addParametersMatcher(Predicate<List<Type>> parametersType) {
       this.parameterMatchers.add(Objects.requireNonNull(parametersType,
-        "parametersType predicate cannot be null"));
+          "parametersType predicate cannot be null"));
       return this;
     }
 

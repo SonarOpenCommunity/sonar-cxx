@@ -32,17 +32,19 @@ import org.sonar.cxx.squidbridge.api.Symbol;
 /**
  * Utility methods for resolving constant values from C++ expressions.
  *
- * <p>This class provides compile-time constant resolution for literals,
+ * <p>
+ * This class provides compile-time constant resolution for literals,
  * const variables, enum constants, and constant expressions. It's adapted
  * from sonar-java's ExpressionUtils for C++ semantics.
  *
- * <p>Supported constant types:
+ * <p>
+ * Supported constant types:
  * <ul>
- *   <li>Literals: integers, longs, strings, booleans, characters</li>
- *   <li>Const variables with constant initializers</li>
- *   <li>Enum constants</li>
- *   <li>Unary expressions: -, +, !, ~</li>
- *   <li>Binary expressions: +, -, *, /, %, |, &amp;, ^</li>
+ * <li>Literals: integers, longs, strings, booleans, characters</li>
+ * <li>Const variables with constant initializers</li>
+ * <li>Enum constants</li>
+ * <li>Unary expressions: -, +, !, ~</li>
+ * <li>Binary expressions: +, -, *, /, %, |, &amp;, ^</li>
  * </ul>
  */
 public final class CxxConstantUtils {
@@ -53,7 +55,8 @@ public final class CxxConstantUtils {
   /**
    * Attempts to resolve an expression node to a compile-time constant value.
    *
-   * <p>Returns null if the expression is not a compile-time constant or if
+   * <p>
+   * Returns null if the expression is not a compile-time constant or if
    * the value cannot be determined.
    *
    * @param node an expression node from the AST
@@ -77,11 +80,11 @@ public final class CxxConstantUtils {
     }
 
     if (expression.is(CxxGrammarImpl.additiveExpression,
-                     CxxGrammarImpl.multiplicativeExpression,
-                     CxxGrammarImpl.andExpression,
-                     CxxGrammarImpl.exclusiveOrExpression,
-                     CxxGrammarImpl.inclusiveOrExpression,
-                     CxxGrammarImpl.shiftExpression)) {
+        CxxGrammarImpl.multiplicativeExpression,
+        CxxGrammarImpl.andExpression,
+        CxxGrammarImpl.exclusiveOrExpression,
+        CxxGrammarImpl.inclusiveOrExpression,
+        CxxGrammarImpl.shiftExpression)) {
       return resolveBinaryExpression(expression);
     }
 
@@ -110,29 +113,9 @@ public final class CxxConstantUtils {
         return resolveSymbolValue(symbol);
       }
 
-      String tokenValue = child.getTokenValue();
-      if (tokenValue == null) {
-        continue;
-      }
-
-      if (child.is(CxxKeyword.TRUE)) {
-        return Boolean.TRUE;
-      }
-      if (child.is(CxxKeyword.FALSE)) {
-        return Boolean.FALSE;
-      }
-      if (child.is(CxxKeyword.NULLPTR)) {
-        return null;
-      }
-
-      if (isIntegerLiteral(tokenValue)) {
-        return parseIntegerLiteral(tokenValue);
-      }
-      if (isStringLiteral(tokenValue)) {
-        return parseStringLiteral(tokenValue);
-      }
-      if (isCharLiteral(tokenValue)) {
-        return parseCharLiteral(tokenValue);
+      Object resolved = resolveChildToken(child);
+      if (resolved != null) {
+        return resolved;
       }
     }
 
@@ -141,6 +124,49 @@ public final class CxxConstantUtils {
       return resolveIdentifier(idExpr);
     }
 
+    return null;
+  }
+
+  /**
+   * Resolves a single child token to a keyword constant or literal value.
+   */
+  @CheckForNull
+  private static Object resolveChildToken(AstNode child) {
+    String tokenValue = child.getTokenValue();
+    if (tokenValue == null) {
+      return null;
+    }
+
+    Object keyword = resolveKeyword(child);
+    if (keyword != null) {
+      return keyword;
+    }
+
+    return resolveLiteral(tokenValue);
+  }
+
+  @CheckForNull
+  private static Object resolveKeyword(AstNode child) {
+    if (child.is(CxxKeyword.TRUE)) {
+      return Boolean.TRUE;
+    }
+    if (child.is(CxxKeyword.FALSE)) {
+      return Boolean.FALSE;
+    }
+    return null;
+  }
+
+  @CheckForNull
+  private static Object resolveLiteral(String tokenValue) {
+    if (isIntegerLiteral(tokenValue)) {
+      return parseIntegerLiteral(tokenValue);
+    }
+    if (isStringLiteral(tokenValue)) {
+      return parseStringLiteral(tokenValue);
+    }
+    if (isCharLiteral(tokenValue)) {
+      return parseCharLiteral(tokenValue);
+    }
     return null;
   }
 
@@ -218,12 +244,8 @@ public final class CxxConstantUtils {
   @CheckForNull
   private static Object resolveUnaryExpression(AstNode unaryExpr) {
     AstNode operator = unaryExpr.getFirstChild();
-    if (operator == null) {
-      return null;
-    }
-
     AstNode operand = unaryExpr.getLastChild();
-    if (operand == null) {
+    if (operator == null || operand == null) {
       return null;
     }
 
@@ -233,25 +255,40 @@ public final class CxxConstantUtils {
     }
 
     if (operator.is(CxxPunctuator.MINUS)) {
-      if (value instanceof Long longValue) {
-        return -longValue;
-      } else if (value instanceof Integer intValue) {
-        return -intValue;
-      }
-    } else if (operator.is(CxxPunctuator.PLUS)) {
+      return applyUnaryNegate(value);
+    }
+    if (operator.is(CxxPunctuator.PLUS)) {
       return value;
-    } else if (operator.is(CxxPunctuator.NOT)) {
-      if (value instanceof Boolean boolValue) {
-        return !boolValue;
-      }
-    } else if (operator.is(CxxPunctuator.BW_NOT)) {
-      if (value instanceof Long longValue) {
-        return ~longValue;
-      } else if (value instanceof Integer intValue) {
-        return ~intValue;
-      }
+    }
+    if (operator.is(CxxPunctuator.NOT) && value instanceof Boolean boolValue) {
+      return !boolValue;
+    }
+    if (operator.is(CxxPunctuator.BW_NOT)) {
+      return applyUnaryBitwiseNot(value);
     }
 
+    return null;
+  }
+
+  @CheckForNull
+  private static Object applyUnaryNegate(Object value) {
+    if (value instanceof Long longValue) {
+      return -longValue;
+    }
+    if (value instanceof Integer intValue) {
+      return -intValue;
+    }
+    return null;
+  }
+
+  @CheckForNull
+  private static Object applyUnaryBitwiseNot(Object value) {
+    if (value instanceof Long longValue) {
+      return ~longValue;
+    }
+    if (value instanceof Integer intValue) {
+      return ~intValue;
+    }
     return null;
   }
 
@@ -265,22 +302,18 @@ public final class CxxConstantUtils {
       return null;
     }
 
-    AstNode left = children.get(0);
-    AstNode operator = children.get(1);
-    AstNode right = children.get(2);
-
-    Object leftValue = resolveAsConstant(left);
-    Object rightValue = resolveAsConstant(right);
-
+    Object leftValue = resolveAsConstant(children.get(0));
+    Object rightValue = resolveAsConstant(children.get(2));
     if (leftValue == null || rightValue == null) {
       return null;
     }
 
-    String op = operator.getTokenValue();
-    if (op == null) {
-      return null;
-    }
+    String op = children.get(1).getTokenValue();
+    return op != null ? applyBinaryOperator(op, leftValue, rightValue) : null;
+  }
 
+  @CheckForNull
+  private static Object applyBinaryOperator(String op, Object leftValue, Object rightValue) {
     return switch (op) {
       case "+" -> resolvePlus(leftValue, rightValue);
       case "-" -> resolveMinus(leftValue, rightValue);
@@ -319,20 +352,28 @@ public final class CxxConstantUtils {
 
   @CheckForNull
   private static Object resolveDivide(Object left, Object right) {
-    try {
-      return resolveArithmetic(left, right, (a, b) -> a / b, (a, b) -> a / b);
-    } catch (ArithmeticException e) {
-      return null;
+    if (isZero(right)) {
+      return null; // division by zero
     }
+    return resolveArithmetic(left, right, (a, b) -> a / b, (a, b) -> a / b);
   }
 
   @CheckForNull
   private static Object resolveModulo(Object left, Object right) {
-    try {
-      return resolveArithmetic(left, right, (a, b) -> a % b, (a, b) -> a % b);
-    } catch (ArithmeticException e) {
-      return null;
+    if (isZero(right)) {
+      return null; // modulo by zero
     }
+    return resolveArithmetic(left, right, (a, b) -> a % b, (a, b) -> a % b);
+  }
+
+  private static boolean isZero(Object value) {
+    if (value instanceof Long longValue) {
+      return longValue == 0L;
+    }
+    if (value instanceof Integer intValue) {
+      return intValue == 0;
+    }
+    return false;
   }
 
   @CheckForNull
@@ -372,16 +413,13 @@ public final class CxxConstantUtils {
 
   @CheckForNull
   private static Object resolveArithmetic(Object left, Object right,
-                                          LongBinaryOperator longOp,
-                                          IntBinaryOperator intOp) {
-    try {
-      if (left instanceof Integer leftInt && right instanceof Integer rightInt) {
-        return intOp.apply(leftInt, rightInt);
-      } else if (left instanceof Number leftNum && right instanceof Number rightNum) {
-        return longOp.apply(leftNum.longValue(), rightNum.longValue());
-      }
-    } catch (ArithmeticException e) {
-      return null;
+      LongBinaryOperator longOp,
+      IntBinaryOperator intOp) {
+    if (left instanceof Integer leftInt && right instanceof Integer rightInt) {
+      return intOp.apply(leftInt, rightInt);
+    }
+    if (left instanceof Number leftNum && right instanceof Number rightNum) {
+      return longOp.apply(leftNum.longValue(), rightNum.longValue());
     }
     return null;
   }
@@ -391,23 +429,25 @@ public final class CxxConstantUtils {
    */
   private static AstNode skipParentheses(AstNode node) {
     AstNode current = node;
-    while (current != null) {
-      var children = current.getChildren();
-      if (children.size() == 3) {
-        AstNode first = children.get(0);
-        AstNode last = children.get(2);
-        if (first != null && last != null
-          && "(".equals(first.getTokenValue())
-          && ")".equals(last.getTokenValue())) {
-          current = children.get(1);
-        } else {
-          break;
-        }
-      } else {
-        break;
-      }
+    while (isParenthesizedExpression(current)) {
+      current = current.getChildren().get(1);
     }
     return current;
+  }
+
+  private static boolean isParenthesizedExpression(AstNode node) {
+    if (node == null) {
+      return false;
+    }
+    var children = node.getChildren();
+    if (children.size() != 3) {
+      return false;
+    }
+    AstNode first = children.get(0);
+    AstNode last = children.get(2);
+    return first != null && last != null
+        && "(".equals(first.getTokenValue())
+        && ")".equals(last.getTokenValue());
   }
 
   private static boolean isIntegerLiteral(String tokenValue) {
@@ -415,18 +455,17 @@ public final class CxxConstantUtils {
       return false;
     }
     return tokenValue.matches("\\d[\\d']*[uUlL]*")
-      || tokenValue.matches("0[xX][\\da-fA-F][\\da-fA-F']*[uUlL]*")
-      || tokenValue.matches("0[bB][01][01']*[uUlL]*")
-      || tokenValue.matches("0[0-7][0-7']*[uUlL]*");
+        || tokenValue.matches("0[xX][\\da-fA-F][\\da-fA-F']*[uUlL]*")
+        || tokenValue.matches("0[bB][01][01']*[uUlL]*")
+        || tokenValue.matches("0[0-7][0-7']*[uUlL]*");
   }
 
   private static boolean isStringLiteral(String tokenValue) {
-    return tokenValue != null
-      && (tokenValue.startsWith("\"") || tokenValue.startsWith("R\""));
+    return tokenValue.startsWith("\"") || tokenValue.startsWith("R\"");
   }
 
   private static boolean isCharLiteral(String tokenValue) {
-    return tokenValue != null && tokenValue.startsWith("'");
+    return tokenValue.startsWith("'");
   }
 
   @CheckForNull
@@ -435,37 +474,35 @@ public final class CxxConstantUtils {
       String cleaned = literal.replaceAll("['uUlL]", "");
 
       if (cleaned.startsWith("0x") || cleaned.startsWith("0X")) {
-        String hex = cleaned.substring(2);
-        if (hex.length() <= 8) {
-          return Integer.parseUnsignedInt(hex, 16);
-        }
-        return Long.parseUnsignedLong(hex, 16);
+        return parseBasedInteger(cleaned.substring(2), 16, 8);
       }
-
       if (cleaned.startsWith("0b") || cleaned.startsWith("0B")) {
-        String bin = cleaned.substring(2);
-        if (bin.length() <= 31) {
-          return Integer.parseUnsignedInt(bin, 2);
-        }
-        return Long.parseUnsignedLong(bin, 2);
+        return parseBasedInteger(cleaned.substring(2), 2, 31);
       }
-
       if (cleaned.startsWith("0") && cleaned.length() > 1) {
-        String oct = cleaned.substring(1);
-        if (oct.length() <= 10) {
-          return Integer.parseUnsignedInt(oct, 8);
-        }
-        return Long.parseUnsignedLong(oct, 8);
+        return parseBasedInteger(cleaned.substring(1), 8, 10);
       }
 
-      long value = Long.parseLong(cleaned);
-      if (value >= Integer.MIN_VALUE && value <= Integer.MAX_VALUE) {
-        return (int) value;
-      }
-      return value;
+      return parseDecimalInteger(cleaned);
     } catch (NumberFormatException e) {
       return null;
     }
+  }
+
+  @CheckForNull
+  private static Object parseBasedInteger(String digits, int radix, int intThreshold) {
+    if (digits.length() <= intThreshold) {
+      return Integer.parseUnsignedInt(digits, radix);
+    }
+    return Long.parseUnsignedLong(digits, radix);
+  }
+
+  private static Object parseDecimalInteger(String cleaned) {
+    long value = Long.parseLong(cleaned);
+    if (value >= Integer.MIN_VALUE && value <= Integer.MAX_VALUE) {
+      return (int) value;
+    }
+    return value;
   }
 
   @CheckForNull
@@ -489,11 +526,11 @@ public final class CxxConstantUtils {
       return null;
     }
     return literal.substring(1, literal.length() - 1)
-      .replace("\\n", "\n")
-      .replace("\\t", "\t")
-      .replace("\\r", "\r")
-      .replace("\\\"", "\"")
-      .replace("\\\\", "\\");
+        .replace("\\n", "\n")
+        .replace("\\t", "\t")
+        .replace("\\r", "\r")
+        .replace("\\\"", "\"")
+        .replace("\\\\", "\\");
   }
 
   @CheckForNull
@@ -506,16 +543,21 @@ public final class CxxConstantUtils {
       return content.charAt(0);
     }
     if (content.startsWith("\\") && content.length() == 2) {
-      return switch (content.charAt(1)) {
-        case 'n' -> '\n';
-        case 't' -> '\t';
-        case 'r' -> '\r';
-        case '0' -> '\0';
-        case '\\' -> '\\';
-        case '\'' -> '\'';
-        default -> null;
-      };
+      return resolveEscapeChar(content.charAt(1));
     }
     return null;
+  }
+
+  @CheckForNull
+  private static Character resolveEscapeChar(char escape) {
+    return switch (escape) {
+      case 'n' -> '\n';
+      case 't' -> '\t';
+      case 'r' -> '\r';
+      case '0' -> '\0';
+      case '\\' -> '\\';
+      case '\'' -> '\'';
+      default -> null;
+    };
   }
 }

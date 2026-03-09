@@ -34,7 +34,6 @@ class CodeBufferTest {
   private final CodeReaderConfiguration defaulConfiguration = new CodeReaderConfiguration();
 
   @Test
-  @SuppressWarnings({"java:S5853"})
   void testPop() {
     var code = new CodeBuffer("pa", defaulConfiguration);
     assertThat((char) code.pop()).isEqualTo('p');
@@ -50,7 +49,6 @@ class CodeBufferTest {
   }
 
   @Test
-  @SuppressWarnings({"java:S5853"})
   void testPeek() {
     var code = new CodeBuffer("pa", defaulConfiguration);
     assertThat((char) code.peek()).isEqualTo('p');
@@ -162,7 +160,6 @@ class CodeBufferTest {
   }
 
   @Test
-  @SuppressWarnings({"java:S5853"})
   void testCodeReaderFilter() {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ReplaceNumbersFilter());
@@ -207,7 +204,6 @@ class CodeBufferTest {
   }
 
   @Test
-  @SuppressWarnings({"java:S5853"})
   void testSeveralCodeReaderFilter() {
     var configuration = new CodeReaderConfiguration();
     configuration.setCodeReaderFilters(new ReplaceNumbersFilter(), new ReplaceCharFilter());
@@ -237,7 +233,7 @@ class CodeBufferTest {
   }
 
   @Test
-  @SuppressWarnings({"unchecked", "rawtypes", "java:S5853"})
+  @SuppressWarnings({"unchecked", "rawtypes"})
   void testChannelCodeReaderFilter() {
     // create a windowing channel that drops the 2 first characters, keeps 6 characters and drops the rest of the line
     var configuration = new CodeReaderConfiguration();

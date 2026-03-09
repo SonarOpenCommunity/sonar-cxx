@@ -44,7 +44,6 @@ import org.sonar.cxx.squidbridge.api.SourceCodeSymbol;
 import org.sonar.cxx.squidbridge.api.Symbol;
 import org.sonar.cxx.squidbridge.api.Type;
 
-
 class CxxBaseDetectionRuleTest {
 
   @AfterEach
@@ -65,7 +64,7 @@ class CxxBaseDetectionRuleTest {
     var rule = new TestDetectionRule() {
       @Override
       protected AstNodeType[] subscribedNodeTypes() {
-        return new AstNodeType[]{type1};
+        return new AstNodeType[] { type1 };
       }
     };
     assertThat(rule.subscribedNodeTypes()).hasSize(1);
@@ -97,8 +96,8 @@ class CxxBaseDetectionRuleTest {
     root.addChild(child2);
 
     List<String> visited = new ArrayList<>();
-    rule.traverseSubtree(root, new AstNodeType[]{typeB},
-      node -> visited.add(node.getTokenValue()));
+    rule.traverseSubtree(root, new AstNodeType[] { typeB },
+        node -> visited.add(node.getTokenValue()));
 
     assertThat(visited).containsExactly("child1");
   }
@@ -150,12 +149,12 @@ class CxxBaseDetectionRuleTest {
     var postfixType = new TestNodeType("postfixExpression");
     var postfixNode = createNode(postfixType, "func");
     var parenToken = Token.builder()
-      .setLine(1)
-      .setColumn(4)
-      .setValueAndOriginalValue("(")
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(4)
+        .setValueAndOriginalValue("(")
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     var parenNode = new AstNode(parenToken);
     postfixNode.addChild(parenNode);
 
@@ -207,13 +206,11 @@ class CxxBaseDetectionRuleTest {
   @Test
   void testTraverseFunctionBodyNull() {
     var rule = new TestDetectionRule();
-    // Should not throw
-    rule.traverseFunctionBody(null);
+    assertThatCode(() -> rule.traverseFunctionBody(null)).doesNotThrowAnyException();
   }
 
   @Test
   void testTraverseFunctionBodyNoBody() {
-    var rule = new TestDetectionRule();
     // functionDefinition with no "functionBody" child — traversal is a no-op
     var funcDef = createNode(new TestNodeType("functionDefinition"), "funcDef");
     var calls = new java.util.ArrayList<String>();
@@ -229,7 +226,8 @@ class CxxBaseDetectionRuleTest {
 
   @Test
   void testTraverseFunctionBodyDispatchesCallsInBody() {
-    // Build: functionDef → [functionBody → [postfixExpression → ["func", "(", ")"]]]
+    // Build: functionDef → [functionBody → [postfixExpression → ["func", "(",
+    // ")"]]]
     var calls = new java.util.ArrayList<String>();
     var rule = new TestDetectionRule() {
       @Override
@@ -241,11 +239,11 @@ class CxxBaseDetectionRuleTest {
     var postfixType = new TestNodeType("postfixExpression");
     var postfixNode = createNode(postfixType, "func");
     var parenToken = Token.builder()
-      .setLine(1).setColumn(4)
-      .setValueAndOriginalValue("(")
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1).setColumn(4)
+        .setValueAndOriginalValue("(")
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     var parenNode = new AstNode(parenToken);
     postfixNode.addChild(parenNode);
 
@@ -263,12 +261,12 @@ class CxxBaseDetectionRuleTest {
 
   private AstNode createNode(AstNodeType type, String value) {
     var token = Token.builder()
-      .setLine(1)
-      .setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1)
+        .setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(type, value, token);
   }
 
@@ -294,8 +292,7 @@ class CxxBaseDetectionRuleTest {
     var rule = new TestDetectionRule();
     var ctx = new StubContext();
     rule.setContext(ctx);
-    // Should not throw — subscribedNodeTypes() returns empty array, so subscribeTo not called
-    rule.init();
+    assertThatCode(() -> rule.init()).doesNotThrowAnyException();
   }
 
   @Test
@@ -305,13 +302,12 @@ class CxxBaseDetectionRuleTest {
     var rule = new TestDetectionRule() {
       @Override
       protected AstNodeType[] subscribedNodeTypes() {
-        return new AstNodeType[]{typeA};
+        return new AstNodeType[] { typeA };
       }
     };
     var ctx = new StubContext();
     rule.setContext(ctx);
-    // Should not throw
-    rule.init();
+    assertThatCode(() -> rule.init()).doesNotThrowAnyException();
   }
 
   @Test
@@ -383,20 +379,76 @@ class CxxBaseDetectionRuleTest {
     }
   }
 
+  @SuppressWarnings({"deprecation", "java:S1874"})
   private static class StubContext extends SquidAstVisitorContext<Grammar> {
-    @Override public File getFile() { return null; }
-    @Override public InputFile getInputFile() { return null; }
-    @Override public String getInputFileContent() { return ""; }
-    @Override public List<String> getInputFileLines() { return List.of(); }
-    @Override public Grammar getGrammar() { return null; }
-    @Override public void addSourceCode(SourceCode child) {}
-    @Override public void popSourceCode() {}
-    @Override public SourceCode peekSourceCode() { return null; }
-    @Override public CommentAnalyser getCommentAnalyser() { return null; }
-    @Override public void createFileViolation(CodeCheck check, String message, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, int line, Object... params) {}
-    @Override public void log(CheckMessage message) {}
+    @Override
+    public File getFile() {
+      return null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+      return null;
+    }
+
+    @Override
+    public String getInputFileContent() {
+      return "";
+    }
+
+    @Override
+    public List<String> getInputFileLines() {
+      return List.of();
+    }
+
+    @Override
+    public Grammar getGrammar() {
+      return null;
+    }
+
+    @Override
+    public void addSourceCode(SourceCode child) {
+      // test stub
+    }
+
+    @Override
+    public void popSourceCode() {
+      // test stub
+    }
+
+    @Override
+    public SourceCode peekSourceCode() {
+      return null;
+    }
+
+    @Override
+    public CommentAnalyser getCommentAnalyser() {
+      return null;
+    }
+
+    @Override
+    public void createFileViolation(CodeCheck check, String message, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, int line, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void log(CheckMessage message) {
+      // test stub
+    }
   }
 }

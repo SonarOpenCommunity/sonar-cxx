@@ -102,7 +102,7 @@ class SquidCheckTest {
     var node = createNode("test");
     var primaryNode = createNode("secondary");
     var issue = check.addIssue(node, "Main issue")
-      .secondary(primaryNode, "Secondary location");
+        .secondary(primaryNode, "Secondary location");
 
     assertThat(issue.hasSecondaryLocations()).isTrue();
     assertThat(issue.getSecondaryLocations()).hasSize(1);
@@ -111,11 +111,11 @@ class SquidCheckTest {
 
   private AstNode createNode(String value) {
     var token = Token.builder()
-      .setLine(1).setColumn(0)
-      .setValueAndOriginalValue(value)
-      .setType(new TestTokenType())
-      .setURI(java.net.URI.create("file:///test.cpp"))
-      .build();
+        .setLine(1).setColumn(0)
+        .setValueAndOriginalValue(value)
+        .setType(new TestTokenType())
+        .setURI(java.net.URI.create("file:///test.cpp"))
+        .build();
     return new AstNode(token);
   }
 
@@ -123,27 +123,93 @@ class SquidCheckTest {
   }
 
   private static class TestTokenType implements TokenType {
-    @Override public String getName() { return "TEST"; }
-    @Override public String getValue() { return "test"; }
-    @Override public boolean hasToBeSkippedFromAst(AstNode node) { return false; }
+    @Override
+    public String getName() {
+      return "TEST";
+    }
+
+    @Override
+    public String getValue() {
+      return "test";
+    }
+
+    @Override
+    public boolean hasToBeSkippedFromAst(AstNode node) {
+      return false;
+    }
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({"deprecation", "java:S1874"})
   private static class StubContext extends SquidAstVisitorContext<Grammar> {
-    @Override public File getFile() { return null; }
-    @Override public InputFile getInputFile() { return null; }
-    @Override public String getInputFileContent() { return ""; }
-    @Override public List<String> getInputFileLines() { return List.of(); }
-    @Override public Grammar getGrammar() { return null; }
-    @Override public void addSourceCode(SourceCode child) {}
-    @Override public void popSourceCode() {}
-    @Override public SourceCode peekSourceCode() { return null; }
-    @Override public CommentAnalyser getCommentAnalyser() { return null; }
-    @Override public void createFileViolation(CodeCheck check, String message, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {}
-    @Override public void createLineViolation(CodeCheck check, String message, int line, Object... params) {}
-    @Override public void log(CheckMessage message) {}
+    @Override
+    public File getFile() {
+      return null;
+    }
+
+    @Override
+    public InputFile getInputFile() {
+      return null;
+    }
+
+    @Override
+    public String getInputFileContent() {
+      return "";
+    }
+
+    @Override
+    public List<String> getInputFileLines() {
+      return List.of();
+    }
+
+    @Override
+    public Grammar getGrammar() {
+      return null;
+    }
+
+    @Override
+    public void addSourceCode(SourceCode child) {
+      // test stub
+    }
+
+    @Override
+    public void popSourceCode() {
+      // test stub
+    }
+
+    @Override
+    public SourceCode peekSourceCode() {
+      return null;
+    }
+
+    @Override
+    public CommentAnalyser getCommentAnalyser() {
+      return null;
+    }
+
+    @Override
+    public void createFileViolation(CodeCheck check, String message, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, AstNode node, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, Token token, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void createLineViolation(CodeCheck check, String message, int line, Object... params) {
+      // test stub
+    }
+
+    @Override
+    public void log(CheckMessage message) {
+      // test stub
+    }
   }
 
 }
