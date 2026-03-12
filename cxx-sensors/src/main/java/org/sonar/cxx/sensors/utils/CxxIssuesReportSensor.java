@@ -33,6 +33,7 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.utils.CxxReportIssue;
 import org.sonar.cxx.utils.CxxReportLocation;
@@ -80,12 +81,7 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
   @Override
   public void executeImpl() {
     if (webApi != null) {
-      String url = context.config().get("sonar.host.url").orElse("http://localhost:9000");
-      String authenticationToken = context.config().get("sonar.token")
-        .or(() -> context.config().get("sonar.login")) // deprecated: can be removed in future
-        .orElse(System.getenv("SONAR_TOKEN"));
-
-      downloadRulesFromServer(url, authenticationToken);
+      downloadRulesFromServer(context.config());
     }
     List<File> reports = getReports(getReportPathsKey());
     for (var report : reports) {
@@ -93,13 +89,13 @@ public abstract class CxxIssuesReportSensor extends CxxReportSensor {
     }
   }
 
-  private void downloadRulesFromServer(String url, String authenticationToken) {
+  private void downloadRulesFromServer(Configuration configuration) {
     try {
-      LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
+        String url = configuration.get("sonar.host.url").orElse("http://localhost:9000");
+    	LOG.info("Downloading rules for '{}' from server '{}'", getRuleRepositoryKey(), url);
 
       var rules = webApi
-        .setServerUrl(url)
-        .setAuthenticationToken(authenticationToken)
+        .setServerConfig(configuration)
         .getRules("cxx", getRuleRepositoryKey());
 
       // deactivate mapping if 'unknown' rule is not active

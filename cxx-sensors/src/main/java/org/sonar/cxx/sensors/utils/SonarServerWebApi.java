@@ -19,8 +19,6 @@
  */
 package org.sonar.cxx.sensors.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -30,8 +28,16 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
+
+import javax.net.ssl.SSLContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Configuration;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SonarServerWebApi {
 
@@ -41,28 +47,10 @@ public class SonarServerWebApi {
   protected String serverUrl = "http://localhost:9000";
   protected String authorization = "";
 
-  /**
-   * Set URL of the SonarQube server.
-   *
-   * @param serverUrl URL of the SonarQube server
-   * @return return current object
-   */
-  public SonarServerWebApi setServerUrl(String serverUrl) {
-    this.serverUrl = serverUrl;
-    return this;
-  }
-
-  /**
-   * Set authentication token to use for API access.
-   *
-   * @param authenticationToken authentication token to use for API access
-   * @return return current object
-   */
-  public SonarServerWebApi setAuthenticationToken(String authenticationToken) {
-    this.authorization = "Basic " + Base64.getEncoder().encodeToString((authenticationToken + ":").getBytes());
-    return this;
-  }
-
+  protected HttpClient client;
+  
+  protected SSLContext sslContext;
+  
   /**
    * Get list with rule keys from server.
    *
@@ -107,6 +95,22 @@ public class SonarServerWebApi {
   }
 
   /**
+   * Only create new client if not exists or terminated
+   * 
+   * @return A correctly setup http client
+   */
+  private synchronized HttpClient getHttpClient() {
+      if (client == null || client.isTerminated()) {
+	  if (sslContext != null) {
+	      client = HttpClient.newBuilder().sslContext(sslContext).build();
+	  } else {
+	      client = HttpClient.newHttpClient();
+	  }
+      }
+      return client;
+  }
+  
+  /**
    * HTTP method GET.
    *
    * @param uri URI to use for the GET method
@@ -115,8 +119,9 @@ public class SonarServerWebApi {
    *
    * @throws IOException if an I/O error occurs when sending or receiving
    */
-  public static String get(String uri, String authorization) throws IOException {
-    HttpClient client = HttpClient.newHttpClient();
+  public String get(String uri, String authorization) throws IOException {
+//    if (uri==null || uri.isBlank()) return "";  
+    HttpClient client = getHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
       .uri(URI.create(uri))
       .header("Authorization", authorization)
@@ -153,6 +158,29 @@ public class SonarServerWebApi {
   @JsonIgnoreProperties(ignoreUnknown = true)
   public static record DeprecatedKeys(List<String> deprecatedKey) {
 
+  }
+
+  /**
+   * Set configuration of the SonarQube server.
+   *
+   * @param Configuration of the SonarQube server
+   * @return return current object
+   */
+  public SonarServerWebApi setServerConfig(Configuration configuration) {
+
+      var tempUrl = configuration.get("sonar.host.url").orElse("http://localhost:9000");
+      if (!Objects.equals(tempUrl, this.serverUrl)) {
+	      this.serverUrl = tempUrl;
+	      this.sslContext = SSLContextBuilder.createSSLContext(configuration);
+      }
+      // TODO: sonar.login is deprecated, remove in future version
+      String authenticationToken = configuration.get("sonar.token").or(() -> configuration.get("sonar.login"))
+	      .orElse(System.getenv("SONAR_TOKEN"));
+      var tempAuth = "Basic " + Base64.getEncoder().encodeToString((authenticationToken + ":").getBytes());
+      if (!Objects.equals(tempAuth, this.authorization)) {
+	  this.authorization = tempAuth; 
+      }
+      return this;
   }
 
 }
