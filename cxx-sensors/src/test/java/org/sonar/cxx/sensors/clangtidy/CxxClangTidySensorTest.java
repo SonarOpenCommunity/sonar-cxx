@@ -19,31 +19,36 @@
  */
 package org.sonar.cxx.sensors.clangtidy;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import static org.assertj.core.api.Assertions.*;
+import java.util.Optional;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.rule.internal.ActiveRulesBuilder;
 import org.sonar.api.batch.rule.internal.NewActiveRule;
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
+import org.sonar.api.config.Configuration;
 import org.sonar.api.config.internal.MapSettings;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.SonarServerWebApi;
 import org.sonar.cxx.sensors.utils.TestUtils;
-import static org.sonar.cxx.sensors.utils.TestUtils.createTestInputFile;
 
 class CxxClangTidySensorTest {
 
@@ -324,10 +329,36 @@ class CxxClangTidySensorTest {
 
     context.fileSystem().add(createTestInputFile("sources/utils/code_chunks.cpp", 3));
 
-    var webApi = mock(SonarServerWebApi.class);
-    when(webApi.setServerUrl(any())).thenCallRealMethod();
-    when(webApi.setAuthenticationToken(any())).thenCallRealMethod();
-    when(webApi.getRules(any(), any())).thenReturn(
+    var config = new Configuration() {
+
+	@Override
+	public boolean hasKey(String key) {
+	    return switch (key) {
+	    case "sonar.host.url" -> true;
+	    case "sonar.token" -> true;
+	    default -> false;
+	    };
+	}
+
+	@Override
+	public String[] getStringArray(String key) {
+	    return null;
+	}
+
+	@Override
+	public Optional<String> get(String key) {
+	    return switch (key) {
+	    case "sonar.host.url" -> Optional.of("http://localhost:9000");
+	    case "sonar.token" -> Optional.of("token");
+	    default -> Optional.empty();
+	    };
+	};
+    };
+
+    var realApi=new SonarServerWebApi().setServerConfig(config);
+    var webApi = spy(realApi);
+    doCallRealMethod().when(webApi).setServerConfig(config);
+    doReturn(
       List.of(
         new SonarServerWebApi.Rule("clangtidy:clang-diagnostic-c++20-compat",
           new SonarServerWebApi.DeprecatedKeys(
@@ -338,7 +369,7 @@ class CxxClangTidySensorTest {
           )
         )
       )
-    );
+    ).when(webApi).getRules(any(), any());
 
     var sensor = new CxxClangTidySensor().setWebApi(webApi);
     sensor.execute(context);
@@ -366,11 +397,36 @@ class CxxClangTidySensorTest {
       .build();
     builder.addRule(newRule);
     context.setActiveRules(builder.build());
+    SonarServerWebApi realApi = new SonarServerWebApi();
+    var config = new Configuration() {
 
-    var webApi = mock(SonarServerWebApi.class);
-    when(webApi.setServerUrl(any())).thenCallRealMethod();
-    when(webApi.setAuthenticationToken(any())).thenCallRealMethod();
-    when(webApi.getRules(any(), any())).thenReturn(
+	@Override
+	public boolean hasKey(String key) {
+	    return switch (key) {
+	    case "sonar.host.url" -> true;
+	    case "sonar.token" -> true;
+	    default -> false;
+	    };
+	}
+
+	@Override
+	public String[] getStringArray(String key) {
+	    return null;
+	}
+
+	@Override
+	public Optional<String> get(String key) {
+	    return switch (key) {
+	    case "sonar.host.url" -> Optional.of("http://localhost:9000");
+	    case "sonar.token" -> Optional.of("token");
+	    default -> Optional.empty();
+	    };
+	};
+    };
+    realApi.setServerConfig(config);
+    var webApi = spy(realApi);
+    doCallRealMethod().when(webApi).setServerConfig(config);
+    doReturn(
       List.of(
         new SonarServerWebApi.Rule("clangtidy:unknown",
           new SonarServerWebApi.DeprecatedKeys(
@@ -380,7 +436,7 @@ class CxxClangTidySensorTest {
           )
         )
       )
-    );
+    ).when(webApi).getRules(any(), any());
 
     var sensor = new CxxClangTidySensor().setWebApi(webApi);
     sensor.execute(context);

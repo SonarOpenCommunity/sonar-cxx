@@ -19,108 +19,124 @@
  */
 package org.sonar.cxx.sensors.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.withSettings;
+
 import java.io.IOException;
 import java.util.List;
-import static org.assertj.core.api.Assertions.*;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
-import static org.mockito.ArgumentMatchers.any;
-import org.mockito.MockedStatic;
-import static org.mockito.Mockito.mockStatic;
-import org.mockito.invocation.InvocationOnMock;
+import org.mockito.Answers;
+import org.mockito.MockedConstruction;
+import org.sonar.api.config.Configuration;
 
 class SonarServerWebApiTest {
 
-  @Test
-  void ruleTest() {
-    var rule = new SonarServerWebApi.Rule("key", null);
+    private static String jsonString = """
+       {
+         "total":1,
+         "p":1,
+         "ps":500,
+         "rules":[
+           {
+             "key":"clangtidy:clang-diagnostic-c++11-narrowing-const-reference",
+             "type":"CODE_SMELL",
+             "deprecatedKeys":{
+               "deprecatedKey":[
+                 "ClangTidy:clang-diagnostic-c++11-narrowing-const-reference"
+               ]
+             },
+             "impacts":[
+               {
+                 "softwareQuality":"MAINTAINABILITY",
+                 "severity":"HIGH"
+               }
+             ]
+           },
+           {
+             "key":"clangtidy:clang-diagnostic-c++20-compat",
+             "type":"CODE_SMELL",
+             "deprecatedKeys":{
+               "deprecatedKey":[
+                 "ClangTidy:clang-diagnostic-c++20-compat",
+                 "clangtidy:clang-diagnostic-c++2a-compat"
+               ]
+             },
+             "impacts":[
+               {
+                 "softwareQuality":"MAINTAINABILITY",
+                 "severity":"LOW"
+               }
+             ]
+           }
+         ],
+         "paging":{
+           "pageIndex":1,
+           "pageSize":500,
+           "total":1
+         }
+       }
+    """;
 
-    assertThat(rule.key()).isEqualTo("key");
-    assertThat(rule.deprecatedKeys()).isNotNull();
-  }
+    @Test
+    void ruleTest() {
+	var rule = new SonarServerWebApi.Rule("key", null);
 
-  @Test
-  void getRulesTest() throws IOException {
-
-    try (MockedStatic<SonarServerWebApi> sonarServerWebApiMock = mockStatic(
-      SonarServerWebApi.class,
-      InvocationOnMock::callRealMethod)) {
-
-      sonarServerWebApiMock.when(() -> SonarServerWebApi.get(any(), any()))
-        .thenReturn("""
-        {
-          "total":1,
-          "p":1,
-          "ps":500,
-          "rules":[
-            {
-              "key":"clangtidy:clang-diagnostic-c++11-narrowing-const-reference",
-              "type":"CODE_SMELL",
-              "deprecatedKeys":{
-                "deprecatedKey":[
-                  "ClangTidy:clang-diagnostic-c++11-narrowing-const-reference"
-                ]
-              },
-              "impacts":[
-                {
-                  "softwareQuality":"MAINTAINABILITY",
-                  "severity":"HIGH"
-                }
-              ]
-            },
-            {
-              "key":"clangtidy:clang-diagnostic-c++20-compat",
-              "type":"CODE_SMELL",
-              "deprecatedKeys":{
-                "deprecatedKey":[
-                  "ClangTidy:clang-diagnostic-c++20-compat",
-                  "clangtidy:clang-diagnostic-c++2a-compat"
-                ]
-              },
-              "impacts":[
-                {
-                  "softwareQuality":"MAINTAINABILITY",
-                  "severity":"LOW"
-                }
-              ]
-            }
-          ],
-          "paging":{
-            "pageIndex":1,
-            "pageSize":500,
-            "total":1
-          }
-        }
-        """
-        );
-
-      var sonarServerWebApi = new SonarServerWebApi()
-        .setServerUrl("http://localhost:9000")
-        .setAuthenticationToken("token");
-
-      List<SonarServerWebApi.Rule> rules = sonarServerWebApi.getRules("cxx", "clangtidy");
-      var rule1 = new SonarServerWebApi.Rule(
-        "clangtidy:clang-diagnostic-c++11-narrowing-const-reference",
-        new SonarServerWebApi.DeprecatedKeys(
-          List.of(
-            "ClangTidy:clang-diagnostic-c++11-narrowing-const-reference"
-          )
-        )
-      );
-      var rule2 = new SonarServerWebApi.Rule(
-        "clangtidy:clang-diagnostic-c++20-compat",
-        new SonarServerWebApi.DeprecatedKeys(
-          List.of(
-            "ClangTidy:clang-diagnostic-c++20-compat",
-            "clangtidy:clang-diagnostic-c++2a-compat"
-          )
-        )
-      );
-
-      assertThat(rules)
-        .hasSize(2)
-        .contains(rule1)
-        .contains(rule2);
+	assertThat(rule.key()).isEqualTo("key");
+	assertThat(rule.deprecatedKeys()).isNotNull();
     }
-  }
+
+    @Test
+    void getRulesTest() throws IOException {
+
+	SonarServerWebApi realApi = new SonarServerWebApi();
+
+	var config = new Configuration() {
+
+	    @Override
+	    public boolean hasKey(String key) {
+		return switch (key) {
+		case "sonar.host.url" -> true;
+		case "sonar.token" -> true;
+		default -> false;
+		};
+	    }
+
+	    @Override
+	    public String[] getStringArray(String key) {
+		return null;
+	    }
+
+	    @Override
+	    public Optional<String> get(String key) {
+		return switch (key) {
+		case "sonar.host.url" -> Optional.of("http://localhost:9000");
+		case "sonar.token" -> Optional.of("token");
+		default -> Optional.empty();
+		};
+	    }
+	};
+	realApi.setServerConfig(config);
+	var spyApi = spy(realApi);
+	doReturn(jsonString).when(spyApi).get(anyString(), anyString());
+	List<SonarServerWebApi.Rule> rules = spyApi.getRules("cxx", "clangtidy");
+	var rule1 = new SonarServerWebApi.Rule("clangtidy:clang-diagnostic-c++11-narrowing-const-reference",
+		new SonarServerWebApi.DeprecatedKeys(
+			List.of("ClangTidy:clang-diagnostic-c++11-narrowing-const-reference")));
+	var rule2 = new SonarServerWebApi.Rule("clangtidy:clang-diagnostic-c++20-compat",
+		new SonarServerWebApi.DeprecatedKeys(
+			List.of("ClangTidy:clang-diagnostic-c++20-compat", "clangtidy:clang-diagnostic-c++2a-compat")));
+
+	assertThat(rules).hasSize(2).contains(rule1).contains(rule2);
+
+    }
 
 }
