@@ -49,8 +49,8 @@
     <!-- TODO: this should be provided by sonar... but not in parent pom? -->
     <dependency>
         <groupId>io.github.hakky54</groupId>
-        <artifactId>sslcontext-kickstart</artifactId>
-        <version>9.2.1</version>
+        <artifactId>ayza</artifactId>
+        <version>10.0.4</version>
     </dependency>
 
 
