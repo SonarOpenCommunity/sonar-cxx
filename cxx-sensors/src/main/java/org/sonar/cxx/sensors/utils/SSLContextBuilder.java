@@ -101,12 +101,13 @@ public class SSLContextBuilder {
           password -> sslFactoryBuilder.withIdentityMaterial(keyStorePathString, password.toCharArray(), "PKCS12"),
           () -> sslFactoryBuilder.withIdentityMaterial(keyStorePathString, "changeit".toCharArray(), "PKCS12"));
     }
-    var trustStorePathString = config.get("sonar.scanner.truststorePath")
-        .orElse(findSonarHome(config).resolve("ssl/keystore.p12").toString());
-    if (trustStorePathString != null && Files.exists(Path.of(trustStorePathString))) {
+    var trustStorePath = config.get("sonar.scanner.truststorePath")
+        .map(Path::of)
+        .orElse(findSonarHome(config).resolve("ssl/keystore.p12"));
+    if (trustStorePath != null && Files.exists(trustStorePath)) {
       config.get("sonar.scanner.truststorePassword").ifPresentOrElse(
-          password -> sslFactoryBuilder.withTrustMaterial(trustStorePathString, password.toCharArray(), "PKCS12"),
-          () -> sslFactoryBuilder.withTrustMaterial(trustStorePathString, "changeit".toCharArray(), "PKCS12"));
+          password -> sslFactoryBuilder.withTrustMaterial(trustStorePath, password.toCharArray(), "PKCS12"),
+          () -> sslFactoryBuilder.withTrustMaterial(trustStorePath, "changeit".toCharArray(), "PKCS12"));
     }
     return sslFactoryBuilder.build().getSslContext();
   }
