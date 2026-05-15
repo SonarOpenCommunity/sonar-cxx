@@ -269,7 +269,7 @@
 
     <!-- dependencies -->
     <ant.version>1.10.17</ant.version>
-    <asm.version>9.9.1</asm.version>
+    <asm.version>9.10</asm.version>
     <assertj-core.version>3.27.7</assertj-core.version>
     <commons-io.version>2.22.0</commons-io.version>
     <commons-lang.version>2.6</commons-lang.version>
