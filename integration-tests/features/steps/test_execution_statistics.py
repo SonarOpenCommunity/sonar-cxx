@@ -3,7 +3,7 @@
 
 # SonarQube Python Plugin
 # Copyright (C) Waleri Enns, Günter Wirth
-# Copyright (C) 2010-2025 SonarOpenCommunity
+# Copyright (C) 2010-2026 SonarOpenCommunity
 # dev@sonar.codehaus.org
 
 # This program is free software; you can redistribute it and/or
