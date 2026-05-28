@@ -20,22 +20,15 @@
 package org.sonar.cxx.sensors.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockConstruction;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.withSettings;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Answers;
-import org.mockito.MockedConstruction;
 import org.sonar.api.config.Configuration;
 
 class SonarServerWebApiTest {
