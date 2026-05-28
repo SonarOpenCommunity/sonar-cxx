@@ -111,8 +111,9 @@ class TypeTest {
     var type2 = new Type.CxxType("std::string");
     var type3 = new Type.CxxType("std::vector");
 
-    assertThat(type1).isEqualTo(type2);
-    assertThat(type1).isNotEqualTo(type3);
+    assertThat(type1)
+        .isEqualTo(type2)
+        .isNotEqualTo(type3);
     assertThat(type1.hashCode()).isEqualTo(type2.hashCode());
   }
 
@@ -122,8 +123,9 @@ class TypeTest {
     var type2 = new Type.CxxType(null);
     var type3 = new Type.CxxType("int");
 
-    assertThat(type1).isEqualTo(type2);
-    assertThat(type1).isNotEqualTo(type3);
+    assertThat(type1)
+        .isEqualTo(type2)
+        .isNotEqualTo(type3);
   }
 
   @Test

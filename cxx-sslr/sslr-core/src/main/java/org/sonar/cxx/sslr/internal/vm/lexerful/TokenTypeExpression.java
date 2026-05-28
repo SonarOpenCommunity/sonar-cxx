@@ -38,7 +38,7 @@ public class TokenTypeExpression extends NativeExpression implements Matcher {
 
   @Override
   public void execute(Machine machine) {
-    if (machine.isEmpty() || type != machine.tokenAt(0).getType()) {
+    if (machine.length()==0|| type != machine.tokenAt(0).getType()) {
       machine.backtrack();
       return;
     }

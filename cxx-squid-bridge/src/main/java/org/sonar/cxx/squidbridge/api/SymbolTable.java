@@ -30,9 +30,10 @@ import javax.annotation.Nullable;
 /**
  * Symbol table for managing symbols within a scope.
  *
- * <p>This class provides a registry for symbols discovered during AST analysis,
- * allowing lookup and management of symbol information. It supports hierarchical
- * scopes through parent/child relationships.
+ * <p>
+ * This class provides a registry for symbols discovered during AST analysis,
+ * allowing lookup and management of symbol information. It supports
+ * hierarchical scopes through parent/child relationships.
  */
 public class SymbolTable {
 
@@ -75,7 +76,8 @@ public class SymbolTable {
   /**
    * Looks up a symbol by name in this scope.
    *
-   * <p>Only searches the current scope, not parent scopes.
+   * <p>
+   * Only searches the current scope, not parent scopes.
    *
    * @param name the name of the symbol to find
    * @return the symbol, or null if not found in this scope
@@ -86,7 +88,8 @@ public class SymbolTable {
   }
 
   /**
-   * Looks up a symbol by name, searching parent scopes if not found in this scope.
+   * Looks up a symbol by name, searching parent scopes if not found in this
+   * scope.
    *
    * @param name the name of the symbol to find
    * @return the symbol, or null if not found in any accessible scope
