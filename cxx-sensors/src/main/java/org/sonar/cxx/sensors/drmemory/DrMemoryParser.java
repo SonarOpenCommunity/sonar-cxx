@@ -111,7 +111,7 @@ public final class DrMemoryParser {
         ++cnt;
       }
 
-      if (sb.length() > 0) {
+      if (!sb.isEmpty()) {
         list.add(sb.toString());
       }
     } catch (IOException e) {

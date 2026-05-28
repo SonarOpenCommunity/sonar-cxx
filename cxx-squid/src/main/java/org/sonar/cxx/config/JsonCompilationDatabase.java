@@ -76,7 +76,7 @@ public class JsonCompilationDatabase {
       var ch = cmdLine.charAt(i);
 
       if (ch == ' ' && !insideStr) { // blanks separate arguments (outside of strings)
-        if (arg.length() > 0) {
+        if (!arg.isEmpty()) {
           args.add(removeApostophs(arg.toString()));
           arg.setLength(0);
         }
@@ -88,7 +88,7 @@ public class JsonCompilationDatabase {
       }
     }
 
-    if (arg.length() > 0) {
+    if (!arg.isEmpty()) {
       args.add(removeApostophs(arg.toString()));
     }
 

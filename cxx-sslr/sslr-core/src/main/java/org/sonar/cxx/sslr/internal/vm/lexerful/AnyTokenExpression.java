@@ -36,7 +36,7 @@ public final class AnyTokenExpression extends NativeExpression implements Matche
 
   @Override
   public void execute(Machine machine) {
-    if (machine.length() == 0) {
+    if (machine.isEmpty()) {
       machine.backtrack();
     } else {
       machine.createLeafNode(this, 1);

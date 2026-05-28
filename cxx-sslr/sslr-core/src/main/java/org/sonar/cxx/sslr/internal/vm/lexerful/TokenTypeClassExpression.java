@@ -37,7 +37,7 @@ public class TokenTypeClassExpression extends NativeExpression implements Matche
 
   @Override
   public void execute(Machine machine) {
-    if (machine.length() == 0 || typeClass != machine.tokenAt(0).getType().getClass()) {
+    if (machine.isEmpty() || typeClass != machine.tokenAt(0).getType().getClass()) {
       machine.backtrack();
       return;
     }
