@@ -41,7 +41,7 @@ class ParserAssertTest {
   private Parser parser;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     var lexer = Lexer.builder()
       .withFailIfNoChannelToConsumeOneCharacter(true)
       .withChannel(new RegexpChannel(GenericTokenType.IDENTIFIER, "[a-z]++"))

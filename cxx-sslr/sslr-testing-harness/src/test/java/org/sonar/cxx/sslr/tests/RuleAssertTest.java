@@ -34,7 +34,7 @@ class RuleAssertTest {
   private Rule rule;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     rule = new MutableParsingRule("ruleName").is("foo");
   }
 

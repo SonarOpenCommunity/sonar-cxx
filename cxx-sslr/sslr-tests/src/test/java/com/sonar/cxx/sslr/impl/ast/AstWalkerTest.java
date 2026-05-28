@@ -59,7 +59,7 @@ class AstWalkerTest {
   private final AstAndTokenVisitor astAndTokenVisitor = mock(AstAndTokenVisitor.class);
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     token = mock(Token.class);
     when(token.getType()).thenReturn(MockTokenType.WORD);
     when(token.getValue()).thenReturn("word");

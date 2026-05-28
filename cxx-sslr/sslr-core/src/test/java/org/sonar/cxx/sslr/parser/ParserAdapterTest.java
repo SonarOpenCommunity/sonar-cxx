@@ -48,7 +48,7 @@ class ParserAdapterTest {
   private ParserAdapter parser;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     grammar = new ExpressionGrammar();
     parser = new ParserAdapter(Charset.forName("UTF-8"), grammar);
   }

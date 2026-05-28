@@ -45,7 +45,7 @@ class CxxCompilerSensorTest {
   private CxxCompilerSensorMock sensor;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
     fs = TestUtils.mockFileSystem();
     context = SensorContextTester.create(fs.baseDir());

@@ -32,7 +32,7 @@ class ValgrindStackTest {
   private final ValgrindStack otherStack = new ValgrindStack();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     var frame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     var equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     var otherFrame = new ValgrindFrame("", "", "haha", "", "haha", "111");

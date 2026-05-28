@@ -34,7 +34,7 @@ class ParseErrorFormatterTest {
   private ParseErrorFormatter formatter;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     formatter = new ParseErrorFormatter();
   }
 

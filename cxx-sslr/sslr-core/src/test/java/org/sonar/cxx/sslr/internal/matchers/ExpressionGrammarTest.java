@@ -35,7 +35,7 @@ class ExpressionGrammarTest {
   private ExpressionGrammar grammar;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     grammar = new ExpressionGrammar();
   }
 

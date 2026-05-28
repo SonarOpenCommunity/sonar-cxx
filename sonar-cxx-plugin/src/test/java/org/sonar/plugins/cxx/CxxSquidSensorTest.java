@@ -46,7 +46,7 @@ class CxxSquidSensorTest {
   private final MapSettings settings = new MapSettings();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ActiveRules rules = mock(ActiveRules.class);
     var checkFactory = new CheckFactory(rules);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);

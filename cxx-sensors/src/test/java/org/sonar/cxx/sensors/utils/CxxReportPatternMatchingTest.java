@@ -43,7 +43,7 @@ class CxxReportPatternMatchingTest {
   private final List<String[]> examples = new LinkedList<>();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     //                        "pattern",      "matches",   "matches not"
     // relative
     examples.add(new String[]{"A.ext", "A.ext", "dir/B.ext"});

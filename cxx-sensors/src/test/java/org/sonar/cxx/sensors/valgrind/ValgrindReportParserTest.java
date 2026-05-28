@@ -34,7 +34,7 @@ class ValgrindReportParserTest {
   private ValgrindReportParser parser;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     parser = new ValgrindReportParser();
     TestUtils.mockFileSystem();
   }

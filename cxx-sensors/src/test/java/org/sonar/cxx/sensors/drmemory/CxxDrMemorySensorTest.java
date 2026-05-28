@@ -34,7 +34,7 @@ class CxxDrMemorySensorTest {
   private DefaultFileSystem fs;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     fs = TestUtils.mockFileSystem();
   }
 
