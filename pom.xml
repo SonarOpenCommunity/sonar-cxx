@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>86.0.0.3040</version>
+    <version>87.0.0.3057</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -33,7 +33,7 @@
   <developers>
     <developer>
       <id>guwirth</id>
-      <name>Günter Wirth</name>
+      <name>Guenter Wirth</name>
     </developer>
     <developer>
       <id>wenns</id>
@@ -244,7 +244,6 @@
     <license.title>C++ Community Plugin (cxx plugin)</license.title>
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
-    <license.years>2010-2026</license.years>
     <license.name>GNU LGPL v3</license.name>
 
     <!-- properties for SonarQube Cloud analysis -->
