@@ -14,10 +14,6 @@
   <name>Cxx :: Language Recognizer</name>
   <packaging>pom</packaging>
 
-  <properties>
-    <license.years>2022-2025</license.years>
-  </properties>
-
   <licenses>
     <license>
       <name>GNU LGPL 3</name>
