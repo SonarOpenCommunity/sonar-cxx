@@ -31,7 +31,7 @@ class ValgrindErrorTest {
   private ValgrindError otherError;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     error = new ValgrindError("kind", "text", Collections.singletonList(new ValgrindStack()));
     equalError = new ValgrindError("kind", "text", Collections.singletonList(new ValgrindStack()));
     otherError = new ValgrindError("otherkind", "othertext", Collections.singletonList(new ValgrindStack()));

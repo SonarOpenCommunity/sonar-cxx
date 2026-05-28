@@ -41,7 +41,7 @@ class CxxPCLintSensorTest {
   private final MapSettings settings = new MapSettings();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     fs = TestUtils.mockFileSystem();
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);
   }

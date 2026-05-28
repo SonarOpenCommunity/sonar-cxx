@@ -28,12 +28,15 @@ import javax.annotation.Nullable;
 /**
  * Interface to access symbol information for C/C++ code.
  *
- * <p>This abstraction provides semantic information about symbols (variables, functions, classes, etc.)
- * in the analyzed C/C++ code.
+ * <p>
+ * This abstraction provides semantic information about symbols (variables,
+ * functions, classes, etc.) in the analyzed C/C++ code.
  *
- * <p>The Symbol interface bridges the gap between the syntactic AST representation (AstNode) and
- * the semantic model (SourceCode hierarchy), providing a first-class abstraction for symbol
- * information that can be used by detection rules and code analysis.
+ * <p>
+ * The Symbol interface bridges the gap between the syntactic AST representation
+ * (AstNode) and the semantic model (SourceCode hierarchy), providing a
+ * first-class abstraction for symbol information that can be used by detection
+ * rules and code analysis.
  */
 public interface Symbol {
 
@@ -45,14 +48,16 @@ public interface Symbol {
   /**
    * Name of this symbol.
    *
-   * @return simple name of the symbol (e.g., "myVariable", "MyClass", "myFunction")
+   * @return simple name of the symbol (e.g., "myVariable", "MyClass",
+   * "myFunction")
    */
   String name();
 
   /**
    * The owner of this symbol.
    *
-   * @return the symbol that owns this symbol, null for global symbols or unknown symbols
+   * @return the symbol that owns this symbol, null for global symbols or
+   * unknown symbols
    */
   @Nullable
   Symbol owner();
@@ -60,8 +65,9 @@ public interface Symbol {
   /**
    * Fully qualified name of this symbol.
    *
-   * <p>For C++, this includes the namespace and class qualifiers.
-   * For example: "std::vector", "MyNamespace::MyClass::method"
+   * <p>
+   * For C++, this includes the namespace and class qualifiers. For example:
+   * "std::vector", "MyNamespace::MyClass::method"
    *
    * @return fully qualified name, or null if not available
    */
@@ -84,12 +90,14 @@ public interface Symbol {
   boolean is(Kind... kinds);
 
   /**
-   * @return true if this symbol represents a variable (local variable, parameter, field, etc.)
+   * @return true if this symbol represents a variable (local variable,
+   * parameter, field, etc.)
    */
   boolean isVariableSymbol();
 
   /**
-   * @return true if this symbol represents a type (class, struct, union, enum, typedef)
+   * @return true if this symbol represents a type (class, struct, union, enum,
+   * typedef)
    */
   boolean isTypeSymbol();
 
@@ -141,7 +149,8 @@ public interface Symbol {
   /**
    * The closest enclosing class or struct.
    *
-   * @return null for namespace-level symbols, the enclosing TypeSymbol for members
+   * @return null for namespace-level symbols, the enclosing TypeSymbol for
+   * members
    */
   @Nullable
   TypeSymbol enclosingClass();
@@ -149,15 +158,16 @@ public interface Symbol {
   /**
    * The usages of this symbol (references in the code).
    *
-   * @return a list of Usage objects representing where this symbol is referenced.
-   *         An empty list if this symbol is unused.
+   * @return a list of Usage objects representing where this symbol is
+   * referenced. An empty list if this symbol is unused.
    */
   List<Usage> usages();
 
   /**
    * Declaration node of this symbol.
    *
-   * @return the AstNode of the declaration of this symbol, or null if not available
+   * @return the AstNode of the declaration of this symbol, or null if not
+   * available
    */
   @Nullable
   AstNode declaration();
@@ -165,9 +175,11 @@ public interface Symbol {
   /**
    * Corresponding SourceCode entity for this symbol (if any).
    *
-   * <p>This bridges to the existing sonar-cxx semantic model.
+   * <p>
+   * This bridges to the existing sonar-cxx semantic model.
    *
-   * @return the SourceCode object representing this symbol, or null if not available
+   * @return the SourceCode object representing this symbol, or null if not
+   * available
    */
   @Nullable
   SourceCode sourceCode();
@@ -176,19 +188,33 @@ public interface Symbol {
    * Enumeration of symbol kinds for C/C++.
    */
   enum Kind {
-    /** Variable (local variable, global variable, field) */
+    /**
+     * Variable (local variable, global variable, field)
+     */
     VARIABLE,
-    /** Function or method */
+    /**
+     * Function or method
+     */
     FUNCTION,
-    /** Type (class, struct, union, enum, typedef) */
+    /**
+     * Type (class, struct, union, enum, typedef)
+     */
     TYPE,
-    /** Namespace */
+    /**
+     * Namespace
+     */
     NAMESPACE,
-    /** Enum constant */
+    /**
+     * Enum constant
+     */
     ENUM_CONSTANT,
-    /** Template parameter */
+    /**
+     * Template parameter
+     */
     TEMPLATE_PARAMETER,
-    /** Unknown or ambiguous symbol */
+    /**
+     * Unknown or ambiguous symbol
+     */
     UNKNOWN
   }
 
@@ -210,16 +236,19 @@ public interface Symbol {
     List<TypeSymbol> baseClasses();
 
     /**
-     * List of symbols defined by this type (member variables, methods, nested types).
+     * List of symbols defined by this type (member variables, methods, nested
+     * types).
      *
-     * <p>This will not return any inherited symbols.
+     * <p>
+     * This will not return any inherited symbols.
      *
      * @return the collection of symbols defined by this type
      */
     Collection<Symbol> memberSymbols();
 
     /**
-     * Lookup symbols accessible from this type with the name passed in parameter.
+     * Lookup symbols accessible from this type with the name passed in
+     * parameter.
      *
      * @param name name of searched symbol
      * @return a collection of symbols matching the looked up name
@@ -258,7 +287,8 @@ public interface Symbol {
   }
 
   /**
-   * Symbol for variables: local variables, parameters, fields, global variables.
+   * Symbol for variables: local variables, parameters, fields, global
+   * variables.
    */
   interface VariableSymbol extends Symbol {
 
@@ -289,23 +319,26 @@ public interface Symbol {
   interface FunctionSymbol extends Symbol {
 
     /**
-     * Instance of {@link FunctionSymbol} representing an unknown function symbol.
+     * Instance of {@link FunctionSymbol} representing an unknown function
+     * symbol.
      */
     FunctionSymbol UNKNOWN_FUNCTION = new UnknownFunctionSymbol();
 
     /**
      * Symbols of parameters declared by this function.
      *
-     * @return list of parameter symbols, empty list if function has no parameters
+     * @return list of parameter symbols, empty list if function has no
+     * parameters
      */
     List<VariableSymbol> parameters();
 
     /**
      * The return type of this function.
      *
-     * <p>This provides type information for the function's return value,
-     * enabling type-based matching in detection rules. Returns
-     * {@link Type#UNKNOWN_TYPE} if the return type cannot be determined.
+     * <p>
+     * This provides type information for the function's return value, enabling
+     * type-based matching in detection rules. Returns {@link Type#UNKNOWN_TYPE}
+     * if the return type cannot be determined.
      *
      * @return the return type, never null
      */
@@ -314,11 +347,13 @@ public interface Symbol {
     /**
      * The types of this function's parameters.
      *
-     * <p>This is a convenience method equivalent to extracting types from
-     * each parameter symbol. Useful for matching function signatures in
-     * detection rules.
+     * <p>
+     * This is a convenience method equivalent to extracting types from each
+     * parameter symbol. Useful for matching function signatures in detection
+     * rules.
      *
-     * @return list of parameter types in declaration order, empty list if no parameters
+     * @return list of parameter types in declaration order, empty list if no
+     * parameters
      */
     List<Type> parameterTypes();
 
@@ -367,6 +402,7 @@ public interface Symbol {
    * Represents a usage (reference) of a symbol in the code.
    */
   interface Usage {
+
     /**
      * The AST node representing this usage.
      *
@@ -392,15 +428,25 @@ public interface Symbol {
      * Enumeration of usage kinds.
      */
     enum UsageKind {
-      /** Symbol is being read/accessed */
+      /**
+       * Symbol is being read/accessed
+       */
       READ,
-      /** Symbol is being written/modified */
+      /**
+       * Symbol is being written/modified
+       */
       WRITE,
-      /** Symbol is being both read and written (e.g., +=) */
+      /**
+       * Symbol is being both read and written (e.g., +=)
+       */
       READ_WRITE,
-      /** Symbol is being declared */
+      /**
+       * Symbol is being declared
+       */
       DECLARATION,
-      /** Other/unknown usage */
+      /**
+       * Other/unknown usage
+       */
       OTHER
     }
   }
@@ -409,62 +455,222 @@ public interface Symbol {
    * Default implementation for unknown symbols.
    */
   class UnknownSymbol implements Symbol {
-    @Override public String name() { return "<unknown>"; }
-    @Override public Symbol owner() { return null; }
-    @Override public String fullyQualifiedName() { return null; }
-    @Override public Kind kind() { return Kind.UNKNOWN; }
-    @Override public boolean is(Kind... kinds) {
+
+    @Override
+    public String name() {
+      return "<unknown>";
+    }
+
+    @Override
+    public Symbol owner() {
+      return null;
+    }
+
+    @Override
+    public String fullyQualifiedName() {
+      return null;
+    }
+
+    @Override
+    public Kind kind() {
+      return Kind.UNKNOWN;
+    }
+
+    @Override
+    public boolean is(Kind... kinds) {
       for (Kind k : kinds) {
-        if (k == Kind.UNKNOWN) return true;
+        if (k == Kind.UNKNOWN) {
+          return true;
+        }
       }
       return false;
     }
-    @Override public boolean isVariableSymbol() { return false; }
-    @Override public boolean isTypeSymbol() { return false; }
-    @Override public boolean isFunctionSymbol() { return false; }
-    @Override public boolean isNamespaceSymbol() { return false; }
-    @Override public boolean isUnknown() { return true; }
-    @Override public boolean isStatic() { return false; }
-    @Override public boolean isConst() { return false; }
-    @Override public boolean isVolatile() { return false; }
-    @Override public boolean isPublic() { return false; }
-    @Override public boolean isPrivate() { return false; }
-    @Override public boolean isProtected() { return false; }
-    @Override public TypeSymbol enclosingClass() { return null; }
-    @Override public List<Usage> usages() { return List.of(); }
-    @Override public AstNode declaration() { return null; }
-    @Override public SourceCode sourceCode() { return null; }
+
+    @Override
+    public boolean isVariableSymbol() {
+      return false;
+    }
+
+    @Override
+    public boolean isTypeSymbol() {
+      return false;
+    }
+
+    @Override
+    public boolean isFunctionSymbol() {
+      return false;
+    }
+
+    @Override
+    public boolean isNamespaceSymbol() {
+      return false;
+    }
+
+    @Override
+    public boolean isUnknown() {
+      return true;
+    }
+
+    @Override
+    public boolean isStatic() {
+      return false;
+    }
+
+    @Override
+    public boolean isConst() {
+      return false;
+    }
+
+    @Override
+    public boolean isVolatile() {
+      return false;
+    }
+
+    @Override
+    public boolean isPublic() {
+      return false;
+    }
+
+    @Override
+    public boolean isPrivate() {
+      return false;
+    }
+
+    @Override
+    public boolean isProtected() {
+      return false;
+    }
+
+    @Override
+    public TypeSymbol enclosingClass() {
+      return null;
+    }
+
+    @Override
+    public List<Usage> usages() {
+      return List.of();
+    }
+
+    @Override
+    public AstNode declaration() {
+      return null;
+    }
+
+    @Override
+    public SourceCode sourceCode() {
+      return null;
+    }
   }
 
   /**
    * Default implementation for unknown type symbols.
    */
   class UnknownTypeSymbol extends UnknownSymbol implements TypeSymbol {
-    @Override public List<TypeSymbol> baseClasses() { return List.of(); }
-    @Override public Collection<Symbol> memberSymbols() { return List.of(); }
-    @Override public Collection<Symbol> lookupSymbols(String name) { return List.of(); }
-    @Override public boolean isClass() { return false; }
-    @Override public boolean isStruct() { return false; }
-    @Override public boolean isUnion() { return false; }
-    @Override public boolean isEnum() { return false; }
-    @Override public boolean isTypedef() { return false; }
-    @Override public boolean isTemplate() { return false; }
+
+    @Override
+    public List<TypeSymbol> baseClasses() {
+      return List.of();
+    }
+
+    @Override
+    public Collection<Symbol> memberSymbols() {
+      return List.of();
+    }
+
+    @Override
+    public Collection<Symbol> lookupSymbols(String name) {
+      return List.of();
+    }
+
+    @Override
+    public boolean isClass() {
+      return false;
+    }
+
+    @Override
+    public boolean isStruct() {
+      return false;
+    }
+
+    @Override
+    public boolean isUnion() {
+      return false;
+    }
+
+    @Override
+    public boolean isEnum() {
+      return false;
+    }
+
+    @Override
+    public boolean isTypedef() {
+      return false;
+    }
+
+    @Override
+    public boolean isTemplate() {
+      return false;
+    }
   }
 
   /**
    * Default implementation for unknown function symbols.
    */
   class UnknownFunctionSymbol extends UnknownSymbol implements FunctionSymbol {
-    @Override public List<VariableSymbol> parameters() { return List.of(); }
-    @Override public Type returnType() { return Type.UNKNOWN_TYPE; }
-    @Override public List<Type> parameterTypes() { return List.of(); }
-    @Override public boolean isVirtual() { return false; }
-    @Override public boolean isPureVirtual() { return false; }
-    @Override public boolean isInline() { return false; }
-    @Override public boolean isConstexpr() { return false; }
-    @Override public boolean isConstructor() { return false; }
-    @Override public boolean isDestructor() { return false; }
-    @Override public boolean isOperator() { return false; }
-    @Override public boolean isTemplate() { return false; }
+
+    @Override
+    public List<VariableSymbol> parameters() {
+      return List.of();
+    }
+
+    @Override
+    public Type returnType() {
+      return Type.UNKNOWN_TYPE;
+    }
+
+    @Override
+    public List<Type> parameterTypes() {
+      return List.of();
+    }
+
+    @Override
+    public boolean isVirtual() {
+      return false;
+    }
+
+    @Override
+    public boolean isPureVirtual() {
+      return false;
+    }
+
+    @Override
+    public boolean isInline() {
+      return false;
+    }
+
+    @Override
+    public boolean isConstexpr() {
+      return false;
+    }
+
+    @Override
+    public boolean isConstructor() {
+      return false;
+    }
+
+    @Override
+    public boolean isDestructor() {
+      return false;
+    }
+
+    @Override
+    public boolean isOperator() {
+      return false;
+    }
+
+    @Override
+    public boolean isTemplate() {
+      return false;
+    }
   }
 }

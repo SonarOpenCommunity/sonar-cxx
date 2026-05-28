@@ -39,7 +39,7 @@ class AstNodeNavigatorTest {
   private AstNodeNavigator navigator;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     navigator = new AstNodeNavigator();
   }
 

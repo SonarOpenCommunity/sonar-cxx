@@ -46,7 +46,7 @@ class CxxChecksTest {
   private CheckFactory checkFactory;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     var activeRules = new ActiveRulesBuilder()
       .addRule(new NewActiveRule.Builder()
         .setRuleKey(RuleKey.of(DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY))

@@ -32,7 +32,7 @@ public final class EndOfInputExpression extends NativeExpression {
 
   @Override
   public void execute(Machine machine) {
-    if (machine.length() == 0) {
+    if (machine.length()==0) {
       machine.jump(1);
     } else {
       machine.backtrack();

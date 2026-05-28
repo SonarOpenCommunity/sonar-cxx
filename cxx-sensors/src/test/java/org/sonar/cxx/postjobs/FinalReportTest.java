@@ -50,7 +50,7 @@ class FinalReportTest {
   private PostJobContext postJobContext;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     postJobContext = Mockito.mock(PostJobContext.class);
   }
 

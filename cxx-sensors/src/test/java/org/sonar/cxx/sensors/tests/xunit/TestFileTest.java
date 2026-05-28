@@ -30,7 +30,7 @@ class TestFileTest {
   private TestFile testFile;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     testFile = new TestFile("test.cpp");
   }
 

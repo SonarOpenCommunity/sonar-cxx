@@ -89,7 +89,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
       }
     }
 
-    if (identifierLine != -1 && sb.length() > 0) {
+    if (identifierLine != -1 && !sb.isEmpty()) {
       // part without CURLBR_LEFT is typically a syntax error
       LOG.debug("[{}:{}]:    syntax error: {}",
         getContext().getFile(), identifierLine, sb);

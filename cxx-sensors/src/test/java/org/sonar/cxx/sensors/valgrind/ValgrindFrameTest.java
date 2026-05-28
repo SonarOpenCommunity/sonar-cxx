@@ -31,7 +31,7 @@ class ValgrindFrameTest {
   private ValgrindFrame otherFrame;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     frame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
     otherFrame = new ValgrindFrame("", "", "haha", "", "haha", "111");

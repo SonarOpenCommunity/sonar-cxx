@@ -490,6 +490,7 @@ class SymbolTest {
   }
 
   private static class TestTokenType implements TokenType {
+
     @Override
     public String getName() {
       return "TEST";

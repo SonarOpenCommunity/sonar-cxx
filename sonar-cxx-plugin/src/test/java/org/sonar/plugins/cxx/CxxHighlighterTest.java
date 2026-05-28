@@ -44,7 +44,7 @@ class CxxHighlighterTest {
   private DefaultInputFile inputFile;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ActiveRules rules = mock(ActiveRules.class);
     var checkFactory = new CheckFactory(rules);
     FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);

@@ -43,7 +43,7 @@ class XlstSensorTest {
   private final MapSettings settings = new MapSettings();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     fs = TestUtils.mockFileSystem(TestUtils.loadResource("/org/sonar/cxx"));
 
     settings.setProperty(CxxReportSensor.ERROR_RECOVERY_KEY, true);

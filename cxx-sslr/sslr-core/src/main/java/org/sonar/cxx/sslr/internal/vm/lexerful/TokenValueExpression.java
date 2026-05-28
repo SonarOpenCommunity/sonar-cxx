@@ -37,7 +37,7 @@ public class TokenValueExpression extends NativeExpression implements Matcher {
 
   @Override
   public void execute(Machine machine) {
-    if (machine.length() == 0) {
+    if (machine.length()==0) {
       machine.backtrack();
       return;
     }

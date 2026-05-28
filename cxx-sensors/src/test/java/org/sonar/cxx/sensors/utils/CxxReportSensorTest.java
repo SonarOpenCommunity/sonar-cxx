@@ -39,7 +39,7 @@ class CxxReportSensorTest {
   private final MapSettings settings = new MapSettings();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     TestUtils.mockFileSystem();
     try {
       baseDir = new File(getClass().getResource("/org/sonar/cxx/sensors/reports-project/").toURI());

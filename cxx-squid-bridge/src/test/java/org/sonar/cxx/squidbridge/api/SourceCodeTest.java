@@ -36,7 +36,7 @@ class SourceCodeTest {
   private SourceCode sourceClass2;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     sourceProject = new SourceProject("ProjectKey", "Demo");
     sourceFile1 = new SourceFile("src/test/FileName1.cpp", "FileName1.cpp");
     sourceFile2 = new SourceFile("src/test/FileName2.cpp", "FileName2.cpp");

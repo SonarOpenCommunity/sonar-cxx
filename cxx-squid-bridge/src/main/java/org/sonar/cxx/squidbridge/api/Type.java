@@ -25,16 +25,19 @@ import javax.annotation.Nullable;
 /**
  * Interface representing the type of an expression or symbol in C/C++ code.
  *
- * <p>This abstraction provides type information for expressions, variables, and function
- * return values, enabling type-based matching for detection rules.
+ * <p>
+ * This abstraction provides type information for expressions, variables, and
+ * function return values, enabling type-based matching for detection rules.
  *
- * <p>For C++, type resolution is based on fully qualified names (FQN) of symbols.
- * The initial implementation uses exact FQN string matching via {@link #is(String)}.
- * Subtype checking via {@link #isSubtypeOf(String)} is supported but initially falls
- * back to exact matching, which can be enhanced incrementally as the semantic analysis
- * engine matures.
+ * <p>
+ * For C++, type resolution is based on fully qualified names (FQN) of symbols.
+ * The initial implementation uses exact FQN string matching via
+ * {@link #is(String)}. Subtype checking via {@link #isSubtypeOf(String)} is
+ * supported but initially falls back to exact matching, which can be enhanced
+ * incrementally as the semantic analysis engine matures.
  *
- * <p>Usage example:
+ * <p>
+ * Usage example:
  * <pre>
  * Type type = AstNodeTypeExtension.getType(expressionNode);
  * if (type != null &amp;&amp; type.is("std::string")) {
@@ -52,8 +55,9 @@ public interface Type {
   /**
    * The fully qualified name of this type.
    *
-   * <p>For C++, this includes namespace and class qualifiers.
-   * Examples: "int", "std::string", "std::vector", "MyNamespace::MyClass"
+   * <p>
+   * For C++, this includes namespace and class qualifiers. Examples: "int",
+   * "std::string", "std::vector", "MyNamespace::MyClass"
    *
    * @return the fully qualified type name, or null if unknown
    */
@@ -63,8 +67,9 @@ public interface Type {
   /**
    * Check if this type matches the given fully qualified name.
    *
-   * <p>This performs an exact string comparison against the fully qualified
-   * name of the type. For C++, this is the primary type-matching strategy.
+   * <p>
+   * This performs an exact string comparison against the fully qualified name
+   * of the type. For C++, this is the primary type-matching strategy.
    *
    * @param fullyQualifiedName the fully qualified name to compare against
    * @return true if this type's FQN matches the given name
@@ -72,13 +77,17 @@ public interface Type {
   boolean is(String fullyQualifiedName);
 
   /**
-   * Check if this type is a subtype of the type identified by the given fully qualified name.
+   * Check if this type is a subtype of the type identified by the given fully
+   * qualified name.
    *
-   * <p>For C++ classes/structs, this checks the inheritance hierarchy (base classes).
-   * In the initial implementation, this falls back to exact matching ({@link #is(String)}).
-   * As the semantic analysis engine matures, full subtype checking can be implemented.
+   * <p>
+   * For C++ classes/structs, this checks the inheritance hierarchy (base
+   * classes). In the initial implementation, this falls back to exact matching
+   * ({@link #is(String)}). As the semantic analysis engine matures, full
+   * subtype checking can be implemented.
    *
-   * @param fullyQualifiedName the fully qualified name of the potential supertype
+   * @param fullyQualifiedName the fully qualified name of the potential
+   * supertype
    * @return true if this type is a subtype of the given type
    */
   boolean isSubtypeOf(String fullyQualifiedName);
@@ -94,7 +103,8 @@ public interface Type {
   boolean isArray();
 
   /**
-   * @return true if this type represents a primitive type (int, char, bool, etc.)
+   * @return true if this type represents a primitive type (int, char, bool,
+   * etc.)
    */
   boolean isPrimitive();
 
@@ -124,8 +134,9 @@ public interface Type {
   /**
    * Default implementation for FQN-based type comparison.
    *
-   * <p>This implementation stores a fully qualified name string and performs
-   * exact string matching. It is the standard Type implementation for C++.
+   * <p>
+   * This implementation stores a fully qualified name string and performs exact
+   * string matching. It is the standard Type implementation for C++.
    */
   class CxxType implements Type {
 
@@ -160,8 +171,8 @@ public interface Type {
      * Create a type with full metadata.
      */
     public CxxType(String fullyQualifiedName, boolean primitive, boolean array,
-                   boolean classType, boolean pointer, boolean reference,
-                   @Nullable Symbol.TypeSymbol typeSymbol) {
+        boolean classType, boolean pointer, boolean reference,
+        @Nullable Symbol.TypeSymbol typeSymbol) {
       this.fqn = fullyQualifiedName;
       this.primitive = primitive;
       this.array = array;
@@ -298,7 +309,7 @@ public interface Type {
         fqn = symbol.name();
       }
       Symbol.TypeSymbol typeSymbol = symbol.isTypeSymbol() && symbol instanceof Symbol.TypeSymbol ts
-        ? ts : null;
+          ? ts : null;
       return new CxxType(fqn, typeSymbol);
     }
 
@@ -338,16 +349,60 @@ public interface Type {
    * Default implementation for unknown types.
    */
   class UnknownType implements Type {
-    @Override public String fullyQualifiedName() { return null; }
-    @Override public boolean is(String fullyQualifiedName) { return false; }
-    @Override public boolean isSubtypeOf(String fullyQualifiedName) { return false; }
-    @Override public boolean isUnknown() { return true; }
-    @Override public boolean isArray() { return false; }
-    @Override public boolean isPrimitive() { return false; }
-    @Override public boolean isClass() { return false; }
-    @Override public boolean isPointer() { return false; }
-    @Override public boolean isReference() { return false; }
-    @Override public Symbol.TypeSymbol symbol() { return null; }
-    @Override public String toString() { return "<unknown>"; }
+
+    @Override
+    public String fullyQualifiedName() {
+      return null;
+    }
+
+    @Override
+    public boolean is(String fullyQualifiedName) {
+      return false;
+    }
+
+    @Override
+    public boolean isSubtypeOf(String fullyQualifiedName) {
+      return false;
+    }
+
+    @Override
+    public boolean isUnknown() {
+      return true;
+    }
+
+    @Override
+    public boolean isArray() {
+      return false;
+    }
+
+    @Override
+    public boolean isPrimitive() {
+      return false;
+    }
+
+    @Override
+    public boolean isClass() {
+      return false;
+    }
+
+    @Override
+    public boolean isPointer() {
+      return false;
+    }
+
+    @Override
+    public boolean isReference() {
+      return false;
+    }
+
+    @Override
+    public Symbol.TypeSymbol symbol() {
+      return null;
+    }
+
+    @Override
+    public String toString() {
+      return "<unknown>";
+    }
   }
 }

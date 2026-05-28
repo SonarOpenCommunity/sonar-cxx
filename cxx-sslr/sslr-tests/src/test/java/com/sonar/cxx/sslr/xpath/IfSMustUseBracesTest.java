@@ -36,7 +36,7 @@ class IfSMustUseBracesTest {
   private AstNode fileNode;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     fileNode = parseFile("/xpath/ifSMustUseBraces.mc");
   }
 
