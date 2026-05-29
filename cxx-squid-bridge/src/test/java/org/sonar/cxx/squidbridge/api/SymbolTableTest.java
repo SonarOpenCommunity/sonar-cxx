@@ -109,7 +109,7 @@ class SymbolTableTest {
     symbolTable.clear();
 
     assertThat(symbolTable.isEmpty()).isTrue();
-    assertThat(symbolTable.size()).isEqualTo(0);
+    assertThat(symbolTable.size()).isZero();
     assertThat(symbolTable.getChildren()).isEmpty();
   }
 
@@ -138,7 +138,7 @@ class SymbolTableTest {
   @Test
   void testNullSymbol() {
     symbolTable.addSymbol(null);
-    assertThat(symbolTable.size()).isEqualTo(0);
+    assertThat(symbolTable.size()).isZero();
   }
 
   @Test
@@ -146,7 +146,7 @@ class SymbolTableTest {
     var symbol = new SourceCodeSymbol(null, Symbol.Kind.VARIABLE, null);
     symbolTable.addSymbol(symbol);
     // Symbol with null name should not be added
-    assertThat(symbolTable.size()).isEqualTo(0);
+    assertThat(symbolTable.size()).isZero();
   }
 
   @Test

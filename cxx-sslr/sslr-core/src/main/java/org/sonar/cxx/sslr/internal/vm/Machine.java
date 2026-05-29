@@ -263,7 +263,7 @@ public class Machine implements CharSequence {
   public void createNode() {
     var node = new ParseNode(stack.index(), index, stack.subNodes(), stack.matcher());
     stack.parent().subNodes().add(node);
-    if (stack.matcher() instanceof MemoParsingExpression && ((MemoParsingExpression) stack.matcher()).shouldMemoize()) {
+    if (stack.matcher() instanceof MemoParsingExpression exp && exp.shouldMemoize()) {
       memos[stack.index()] = node;
     }
   }

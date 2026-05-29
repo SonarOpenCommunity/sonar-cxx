@@ -65,7 +65,7 @@ class AstNodeTypeExtensionTest {
   void testSetTypeWithNullNode() {
     var type = Type.Types.of("int");
     AstNodeTypeExtension.setType(null, type);
-    assertThat(AstNodeTypeExtension.size()).isEqualTo(0);
+    assertThat(AstNodeTypeExtension.size()).isZero();
   }
 
   @Test
@@ -129,7 +129,7 @@ class AstNodeTypeExtensionTest {
     assertThat(AstNodeTypeExtension.size()).isEqualTo(2);
 
     AstNodeTypeExtension.clear();
-    assertThat(AstNodeTypeExtension.size()).isEqualTo(0);
+    assertThat(AstNodeTypeExtension.size()).isZero();
     assertThat(AstNodeTypeExtension.hasExplicitType(node1)).isFalse();
     assertThat(AstNodeTypeExtension.hasExplicitType(node2)).isFalse();
   }

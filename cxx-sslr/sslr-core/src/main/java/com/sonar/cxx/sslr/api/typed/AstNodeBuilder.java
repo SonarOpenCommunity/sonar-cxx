@@ -47,8 +47,8 @@ public class AstNodeBuilder implements NodeBuilder {
     Token token = null;
 
     for (var child : children) {
-      if (child instanceof AstNode && ((AstNode) child).hasToken()) {
-        token = ((AstNode) child).getToken();
+      if (child instanceof AstNode astNode && astNode.hasToken()) {
+        token = astNode.getToken();
         break;
       }
     }
