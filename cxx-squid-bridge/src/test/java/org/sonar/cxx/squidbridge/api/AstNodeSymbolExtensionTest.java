@@ -63,7 +63,7 @@ class AstNodeSymbolExtensionTest {
 
     AstNodeSymbolExtension.setSymbol(null, symbol);
 
-    assertThat(AstNodeSymbolExtension.size()).isEqualTo(0);
+    assertThat(AstNodeSymbolExtension.size()).isZero();
   }
 
   @Test
@@ -99,7 +99,7 @@ class AstNodeSymbolExtensionTest {
     assertThat(AstNodeSymbolExtension.size()).isEqualTo(2);
 
     AstNodeSymbolExtension.clear();
-    assertThat(AstNodeSymbolExtension.size()).isEqualTo(0);
+    assertThat(AstNodeSymbolExtension.size()).isZero();
     assertThat(AstNodeSymbolExtension.hasSymbol(node1)).isFalse();
     assertThat(AstNodeSymbolExtension.hasSymbol(node2)).isFalse();
   }

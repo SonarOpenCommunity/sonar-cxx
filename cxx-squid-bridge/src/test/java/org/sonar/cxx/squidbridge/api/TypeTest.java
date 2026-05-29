@@ -37,7 +37,7 @@ class TypeTest {
     assertThat(type.isPointer()).isFalse();
     assertThat(type.isReference()).isFalse();
     assertThat(type.symbol()).isNull();
-    assertThat(type.toString()).isEqualTo("<unknown>");
+    assertThat(type.toString()).hasToString("<unknown>");
   }
 
   @Test
@@ -142,8 +142,8 @@ class TypeTest {
 
   @Test
   void testCxxTypeToString() {
-    assertThat(new Type.CxxType("std::string").toString()).isEqualTo("std::string");
-    assertThat(new Type.CxxType(null).toString()).isEqualTo("<unknown>");
+    assertThat(new Type.CxxType("std::string").toString()).hasToString("std::string");
+    assertThat(new Type.CxxType(null).toString()).hasToString("<unknown>");
   }
 
   @Test
