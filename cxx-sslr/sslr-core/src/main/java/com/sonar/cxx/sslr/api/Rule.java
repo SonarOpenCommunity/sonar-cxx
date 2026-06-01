@@ -39,9 +39,8 @@ public interface Rule extends AstNodeType {
    * @return this (for method chaining)
    * @throws IllegalStateException if definition has been already done
    * @throws IllegalArgumentException if any of given arguments is not a parsing expression
-   * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#is(Object)} instead.
+   * deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#is(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   Rule is(Object... e);
 
   /**
@@ -53,26 +52,23 @@ public interface Rule extends AstNodeType {
    * @param e expression of grammar that defines this rule
    * @return this (for method chaining)
    * @throws IllegalArgumentException if any of given arguments is not a parsing expression
-   * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#override(Object)} instead.
+   * deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#override(Object)} instead.
    */
-  @Deprecated(since = "1.19")
   Rule override(Object... e);
 
   /**
    * Indicates that grammar rule should not lead to creation of AST node - its children should be attached directly to
    * its parent.
    *
-   * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skip()} instead.
+   * deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skip()} instead.
    */
-  @Deprecated(since = "1.19")
   void skip();
 
   /**
    * Indicates that grammar rule should not lead to creation of AST node if it has exactly one child.
    *
-   * @deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skipIfOneChild()} instead.
+   * deprecated in 1.19, use {@link org.sonar.cxx.sslr.grammar.GrammarRuleBuilder#skipIfOneChild()} instead.
    */
-  @Deprecated(since = "1.19")
   void skipIfOneChild();
 
 }
