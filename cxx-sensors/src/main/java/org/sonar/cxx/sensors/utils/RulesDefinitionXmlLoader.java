@@ -70,7 +70,6 @@ import org.sonar.api.server.ServerSide;
 import org.sonar.api.server.debt.DebtRemediationFunction;
 import org.sonar.api.server.rule.RuleParamType;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.check.Cardinality;
 import org.sonarsource.api.sonarlint.SonarLintSide;
 
 /**
@@ -375,7 +374,7 @@ public class RulesDefinitionXmlLoader {
           // "priority" is deprecated field and has been replaced by "severity"
           severity = StringUtils.trim(reader.getElementText());
         } else if ("cardinality".equalsIgnoreCase(elementName)) {
-          template = Cardinality.MULTIPLE == Cardinality.valueOf(StringUtils.trim(reader.getElementText()));
+          template = "MULTIPLE".equalsIgnoreCase(StringUtils.trim(reader.getElementText()));
         } else if ("gapDescription".equalsIgnoreCase(elementName) || "effortToFixDescription".equalsIgnoreCase(
           elementName)) {
           gapDescription = StringUtils.trim(reader.getElementText());
