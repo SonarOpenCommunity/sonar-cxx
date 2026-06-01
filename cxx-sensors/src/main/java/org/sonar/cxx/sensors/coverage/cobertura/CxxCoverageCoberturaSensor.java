@@ -22,9 +22,9 @@ package org.sonar.cxx.sensors.coverage.cobertura;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.coverage.CoverageSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -46,7 +46,7 @@ public class CxxCoverageCoberturaSensor extends CoverageSensor {
           the `Cobertura XML format`.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory("Cobertura")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build()
     ));

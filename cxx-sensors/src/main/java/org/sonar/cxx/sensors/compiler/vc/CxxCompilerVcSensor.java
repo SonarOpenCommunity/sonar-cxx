@@ -23,9 +23,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -50,7 +50,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
                      `Visual Studio` warnings. Ant patterns are accepted for relative paths.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
@@ -61,7 +61,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
         )
         .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("VC Regular Expression")
@@ -70,7 +70,7 @@ public class CxxCompilerVcSensor extends CxxCompilerSensor {
                      groups `<file>`, `<line>`, `<column>`, `<id>` and `<message>`.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build()
     ));
   }

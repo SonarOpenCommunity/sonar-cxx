@@ -23,9 +23,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.coverage.CoverageSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -51,7 +51,7 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
           `Testwell CTC++ textural format`.""")
         .category(category)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
@@ -62,7 +62,7 @@ public class CxxCoverageTestwellCtcTxtSensor extends CoverageSensor {
         )
         .category(category)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build()
     ));
   }

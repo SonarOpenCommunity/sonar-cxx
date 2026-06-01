@@ -21,9 +21,9 @@ package org.sonar.cxx.sensors.infer;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -44,7 +44,7 @@ public class CxxInferSensor extends CxxIssuesReportSensor {
         `Infer` issues. Ant patterns are accepted for relative paths.""")
       .category(CxxReportSensor.CATEGORY)
       .subCategory("Infer")
-      .onQualifiers(Qualifiers.PROJECT)
+      .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
       .multiValues(true)
       .build());
   }
