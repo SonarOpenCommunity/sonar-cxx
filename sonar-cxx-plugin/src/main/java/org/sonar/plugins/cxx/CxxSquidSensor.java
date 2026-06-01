@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 import javax.annotation.Nullable;
@@ -52,7 +53,6 @@ import org.sonar.api.issue.NoSonarFilter;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.cxx.CxxAstScanner;
@@ -134,7 +134,7 @@ public class CxxSquidSensor implements ProjectSensor {
           either absolute or relative to the project base directory. In the SonarQube UI, enter one entry per field.""")
         .category(category)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(FORCE_INCLUDES_KEY)
         .multiValues(true)
@@ -147,7 +147,7 @@ public class CxxSquidSensor implements ProjectSensor {
           line of every source file. If you add multiple files they are included in the order they are listed from \
           left to right. The path may be either absolute or relative to the project base directory. \
           In the SonarQube UI, enter one entry per field.""")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(SQUID_DISABLED_KEY)
         .defaultValue(Boolean.FALSE.toString())
@@ -158,7 +158,7 @@ public class CxxSquidSensor implements ProjectSensor {
           source files.""")
         .category(category)
         .subCategory("(1) General")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(DEFINES_KEY)
@@ -168,7 +168,7 @@ public class CxxSquidSensor implements ProjectSensor {
           the same as `#define` directives, except for the `#define` keyword itself.""")
         .category(category)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.TEXT)
         .build(),
       PropertyDefinition.builder(ERROR_RECOVERY_KEY)
@@ -179,7 +179,7 @@ public class CxxSquidSensor implements ProjectSensor {
           after an error or `True` (tolerant) continues.""")
         .category(category)
         .subCategory("(1) General")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(MsBuild.REPORT_PATH_KEY)
@@ -190,7 +190,7 @@ public class CxxSquidSensor implements ProjectSensor {
           project base directory. In the SonarQube UI, enter one entry per field.""")
         .category(category)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(MsBuild.REPORT_ENCODING_DEF)
@@ -201,7 +201,7 @@ public class CxxSquidSensor implements ProjectSensor {
         )
         .category(category)
         .subCategory(subcategory)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_KEY)
         .category(category)
@@ -211,7 +211,7 @@ public class CxxSquidSensor implements ProjectSensor {
           Read a JSON Compilation Database file to automatically extract the required macros `sonar.cxx.defines` and \
           include directories `sonar.cxx.includeDirectories` from a file. The path may be either absolute or relative \
           to the project base directory.""")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(JSON_COMPILATION_DATABASE_ONLY_CONTAINED_FILES_KEY)
         .defaultValue(Boolean.FALSE.toString())
@@ -222,7 +222,7 @@ public class CxxSquidSensor implements ProjectSensor {
           If 'analyzeOnlyContainedFiles=True' is used, the analyzed files will be limited to the files contained in \
           the 'JSON Compilation Database' file - the intersection of the files configured via 'sonar.projectBaseDir' \
           and the files contained in the 'JSON Compilation Database' file (default is False).""")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(CxxPublicApiVisitor.API_FILE_SUFFIXES_KEY)
@@ -234,7 +234,7 @@ public class CxxSquidSensor implements ProjectSensor {
           In the SonarQube UI, enter one entry per field.""")
         .category(category)
         .subCategory("(3) Metrics")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(FUNCTION_COMPLEXITY_THRESHOLD_KEY)
         .defaultValue("10")
@@ -244,7 +244,7 @@ public class CxxSquidSensor implements ProjectSensor {
           Functions and methods with a higher cyclomatic complexity are classified as `complex`.""")
         .category(category)
         .subCategory("(3) Metrics")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.INTEGER)
         .build(),
       PropertyDefinition.builder(FUNCTION_SIZE_THRESHOLD_KEY)
@@ -255,7 +255,7 @@ public class CxxSquidSensor implements ProjectSensor {
           Functions and methods with more lines of code are classified as `big`.""")
         .category(category)
         .subCategory("(3) Metrics")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.INTEGER)
         .build(),
       PropertyDefinition.builder(CPD_IGNORE_LITERALS_KEY)
@@ -267,7 +267,7 @@ public class CxxSquidSensor implements ProjectSensor {
           `foo=43;` will be seen as equivalent.""")
         .category(category)
         .subCategory("(4) Duplications")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.BOOLEAN)
         .build(),
       PropertyDefinition.builder(CPD_IGNORE_IDENTIFIERS_KEY)
@@ -278,7 +278,7 @@ public class CxxSquidSensor implements ProjectSensor {
           when evaluating a duplicate block e.g. variable names, methods names, and so forth.""")
         .category(category)
         .subCategory("(4) Duplications")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.BOOLEAN)
         .build()
     ));

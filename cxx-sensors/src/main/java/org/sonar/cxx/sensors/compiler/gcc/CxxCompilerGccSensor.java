@@ -23,11 +23,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -56,7 +56,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         )
         .category(CxxReportSensor.CATEGORY)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
@@ -67,7 +67,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         )
         .category(CxxReportSensor.CATEGORY)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(REPORT_REGEX_DEF)
         .name("GCC Regular Expression")
@@ -77,7 +77,7 @@ public class CxxCompilerGccSensor extends CxxCompilerSensor {
         )
         .category(CxxReportSensor.CATEGORY)
         .subCategory(subcateg)
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build()
     ));
   }

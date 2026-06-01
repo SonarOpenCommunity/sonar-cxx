@@ -28,12 +28,12 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.scanner.sensor.ProjectSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
@@ -59,7 +59,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
           is available. In the SonarQube UI, enter one entry per field.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory("Visual C++")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build(),
       PropertyDefinition.builder(UnitTestConfiguration.NUNIT_TEST_RESULTS_PROPERTY_KEY)
         .multiValues(true)
@@ -70,7 +70,7 @@ public class CxxUnitTestResultsImportSensor implements ProjectSensor {
           is available. In the SonarQube UI, enter one entry per field.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory("NUnit")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build()
     ));
   }

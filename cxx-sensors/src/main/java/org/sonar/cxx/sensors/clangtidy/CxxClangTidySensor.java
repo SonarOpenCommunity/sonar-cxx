@@ -24,9 +24,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.cxx.sensors.utils.CxxIssuesReportSensor;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.InvalidReportException;
@@ -49,7 +49,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           `Clang-Tidy` issues. Ant patterns are accepted for relative paths.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory("Clang-Tidy")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build(),
       PropertyDefinition.builder(REPORT_ENCODING_DEF)
@@ -59,7 +59,7 @@ public class CxxClangTidySensor extends CxxIssuesReportSensor {
           + " (default is `UTF-8`).")
         .category(CxxReportSensor.CATEGORY)
         .subCategory("Clang-Tidy")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build()
     ));
   }

@@ -24,10 +24,10 @@ import com.google.common.collect.Iterables;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import org.sonar.api.config.Configuration;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.AbstractLanguage;
-import org.sonar.api.resources.Qualifiers;
 
 /**
  * {@inheritDoc}
@@ -75,7 +75,7 @@ public class CxxLanguage extends AbstractLanguage {
           enter one file suffixe per field. To turn off the CXX language, set the first entry to `-`.""")
         .category("CXX")
         .subCategory("(1) General")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .build()
     ));
   }

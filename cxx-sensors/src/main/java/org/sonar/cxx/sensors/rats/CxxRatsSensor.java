@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 import javax.xml.XMLConstants;
 import org.jdom2.Element;
@@ -56,7 +57,7 @@ public class CxxRatsSensor extends CxxIssuesReportSensor {
           entry per field.""")
         .category(CxxReportSensor.CATEGORY)
         .subCategory("RATS")
-        .onQualifiers(Qualifiers.PROJECT)
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .multiValues(true)
         .build()
     ));
