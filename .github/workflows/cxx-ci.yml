@@ -226,11 +226,13 @@ jobs:
         os: [ubuntu-latest]
         java: [ '21' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '25.8.0.112029', '26.1.0.118079' ]
+        sonarqube: [ '25.8.0.112029', '26.1.0.118079', '26.7.0.124771' ]
         include:
           - sonarqube: '25.8.0.112029'
             sonarscanner: '7.2.0.5079'
           - sonarqube: '26.1.0.118079'
+            sonarscanner: '8.0.1.6346'
+          - sonarqube: '26.7.0.124771'
             sonarscanner: '8.0.1.6346'
 
 
@@ -377,11 +379,13 @@ jobs:
         os: [windows-latest]
         java: [ '21' ]
         distribution: [ 'temurin' ]
-        sonarqube: [ '25.8.0.112029', '26.1.0.118079' ]
+        sonarqube: [ '25.8.0.112029', '26.1.0.118079', '26.7.0.124771' ]
         include:
           - sonarqube: '25.8.0.112029'
             sonarscanner: '7.2.0.5079'
           - sonarqube: '26.1.0.118079'
+            sonarscanner: '8.0.1.6346'
+          - sonarqube: '26.7.0.124771'
             sonarscanner: '8.0.1.6346'
 
 
