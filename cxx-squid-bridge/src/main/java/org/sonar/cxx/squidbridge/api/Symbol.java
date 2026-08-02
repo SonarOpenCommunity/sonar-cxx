@@ -276,6 +276,23 @@ public interface Symbol {
     boolean isEnum();
 
     /**
+     * @return true if this is a scoped enum ({@code enum class} or {@code enum struct}); false for
+     *     an unscoped {@code enum} or any non-enum type
+     */
+    boolean isScopedEnum();
+
+    /**
+     * The scope containing this type's own members, reachable only via qualified access (e.g. a
+     * scoped enum's constants, accessible as {@code EnumName::CONSTANT} but not bare). Returns null
+     * for a type with no such qualified-only member scope (an unscoped enum, or any type that
+     * hasn't been given one).
+     *
+     * @return the qualified-access member scope, or null if none
+     */
+    @Nullable
+    SymbolTable memberScope();
+
+    /**
      * @return true if this type is a typedef
      */
     boolean isTypedef();
@@ -311,6 +328,24 @@ public interface Symbol {
      * @return true if this variable is a global variable
      */
     boolean isGlobalVariable();
+
+    /**
+     * @return the initializer expression of this variable's declaration, or null if it has none
+     */
+    @Nullable
+    AstNode initializer();
+
+    /**
+     * The {@link TypeSymbol} of this variable's own declared class/struct/union type, when
+     * statically known (e.g. for {@code S s;}, this variable's own {@code TypeSymbol} for
+     * {@code S}). Enables resolving a member-access expression's field (e.g. {@code s.fld}) against
+     * the correct class's member scope, rather than an ambient/unqualified lookup.
+     *
+     * @return the declared type's TypeSymbol, or null if unknown (builtin type, enum, typedef,
+     *         template parameter, or a type reference that could not be resolved)
+     */
+    @Nullable
+    TypeSymbol declaredType();
   }
 
   /**
@@ -600,6 +635,17 @@ public interface Symbol {
     @Override
     public boolean isEnum() {
       return false;
+    }
+
+    @Override
+    public boolean isScopedEnum() {
+      return false;
+    }
+
+    @Override
+    @Nullable
+    public SymbolTable memberScope() {
+      return null;
     }
 
     @Override
