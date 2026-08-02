@@ -486,7 +486,15 @@ public class CxxSquidSensor implements ProjectSensor {
 
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(sourceFile)) {
       for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(sourceFile)) {
-        var newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId()));
+        // a single ruleId string is not unique across rule repositories: issues raised by a
+        // third-party check (registered under its own repository via CxxCustomRuleRepository)
+        // must resolve to that check's actual repository, not sonar-cxx's own "cxx" repository
+        var checkClass = issue.getCheckClass();
+        RuleKey resolvedRuleKey = checkClass != null ? checks.ruleKeyForClass(checkClass) : null;
+        RuleKey ruleKey = resolvedRuleKey != null
+          ? resolvedRuleKey
+          : RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId());
+        var newIssue = context.newIssue().forRule(ruleKey);
         var locationNr = 0;
         for (var location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());

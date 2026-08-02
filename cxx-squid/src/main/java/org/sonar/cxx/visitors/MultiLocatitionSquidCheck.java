@@ -68,6 +68,24 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
     sourceFile.addData(DataKey.FILE_VIOLATIONS_WITH_MULTIPLE_LOCATIONS, messages);
   }
 
+  /**
+   * Adds a multi-location issue to an explicitly given {@code SourceFile}, rather than the
+   * "current" file on this visitor's own context ({@link #createMultiLocationViolation}). For a
+   * cross-file detection recorded against an earlier, already-finished file — e.g. a detached call
+   * whose triggering hook only fires while a later file is being visited — the target file is not
+   * the one currently being visited, so it must be looked up and passed in explicitly (see {@link
+   * org.sonar.cxx.squidbridge.indexer.SquidIndex#search(String)} to retrieve a {@code SourceFile}
+   * by key/path).
+   */
+  public static void addMultiLocationViolation(SourceFile sourceFile, CxxReportIssue message) {
+    Set<CxxReportIssue> messages = getMultiLocationCheckMessages(sourceFile);
+    if (messages == null) {
+      messages = new HashSet<>();
+    }
+    messages.add(message);
+    setMultiLocationViolation(sourceFile, messages);
+  }
+
   private SourceFile getSourceFile() {
     SquidAstVisitorContext<G> c = getContext();
     if (c.peekSourceCode() instanceof SourceFile sourceFile) {
