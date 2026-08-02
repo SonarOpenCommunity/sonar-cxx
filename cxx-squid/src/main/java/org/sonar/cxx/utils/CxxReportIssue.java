@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 /**
@@ -35,11 +36,30 @@ public class CxxReportIssue {
   private final List<String> aliasRuleIds = new ArrayList<>();
   private final List<CxxReportLocation> locations = new ArrayList<>();
   private final List<CxxReportLocation> flow = new ArrayList<>();
+  @Nullable
+  private final Class<?> checkClass;
 
   public CxxReportIssue(String ruleId, @Nullable String file, @Nullable String line, @Nullable String column,
     String info) {
+    this(ruleId, null, file, line, column, info);
+  }
+
+  /**
+   * @param checkClass the concrete {@code SquidAstVisitor} class raising this issue, used to resolve
+   *                    which rule repository it was registered under (a single {@code ruleId} is not
+   *                    unique across repositories); may be {@code null} for callers that report
+   *                    directly against sonar-cxx's own built-in repository
+   */
+  public CxxReportIssue(String ruleId, @Nullable Class<?> checkClass, @Nullable String file, @Nullable String line,
+    @Nullable String column, String info) {
     this.ruleId = ruleId;
+    this.checkClass = checkClass;
     addLocation(file, line, column, info);
+  }
+
+  @CheckForNull
+  public Class<?> getCheckClass() {
+    return checkClass;
   }
 
   public void addMappedInfo() {
