@@ -24,6 +24,7 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeType;
 import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Token;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
@@ -36,6 +37,46 @@ class CxxAstNodeHelperTest {
   @Test
   void testGetAssignedSymbolNull() {
     assertThat(CxxAstNodeHelper.getAssignedSymbol(null)).isNull();
+  }
+
+  @Test
+  void testGetInitDeclaratorsNull() {
+    assertThat(CxxAstNodeHelper.getInitDeclarators(null)).isEmpty();
+  }
+
+  @Test
+  void testGetDeclaratorIdNull() {
+    assertThat(CxxAstNodeHelper.getDeclaratorId(null)).isNull();
+  }
+
+  @Test
+  void testGetClassNameNull() {
+    assertThat(CxxAstNodeHelper.getClassName(null)).isNull();
+  }
+
+  @Test
+  void testGetClassKeywordNull() {
+    assertThat(CxxAstNodeHelper.getClassKeyword(null)).isNull();
+  }
+
+  @Test
+  void testGetMemberDeclaratorsNull() {
+    assertThat(CxxAstNodeHelper.getMemberDeclarators(null)).isEmpty();
+  }
+
+  @Test
+  void testGetEnumNameNull() {
+    assertThat(CxxAstNodeHelper.getEnumName(null)).isNull();
+  }
+
+  @Test
+  void testGetEnumeratorsNull() {
+    assertThat(CxxAstNodeHelper.getEnumerators(null)).isEmpty();
+  }
+
+  @Test
+  void testIsInsideDeclaratorNull() {
+    assertThat(CxxAstNodeHelper.isInsideDeclarator(null)).isFalse();
   }
 
   @Test
@@ -255,6 +296,33 @@ class CxxAstNodeHelperTest {
     assertThat(CxxAstNodeHelper.isInvocationOnVariable(postfix, symbol, false)).isFalse();
   }
 
+  @Test
+  void testGetClassNameNoClassHead() {
+    var node = createNode(CxxGrammarImpl.classSpecifier, "x");
+    assertThat(CxxAstNodeHelper.getClassName(node)).isNull();
+  }
+
+  @Test
+  void testGetClassKeywordNoClassHead() {
+    var node = createNode(CxxGrammarImpl.classSpecifier, "x");
+    assertThat(CxxAstNodeHelper.getClassKeyword(node)).isNull();
+  }
+
+  @Test
+  void testGetEnumNameNoEnumHead() {
+    var node = createNode(CxxGrammarImpl.enumSpecifier, "x");
+    assertThat(CxxAstNodeHelper.getEnumName(node)).isNull();
+  }
+
+  @Test
+  void testIsInsideDeclaratorFalseForExpressionUsage() {
+    var identifier = createIdentifierNode("foo");
+    var postfixExpr = createNode(CxxGrammarImpl.postfixExpression, "foo");
+    postfixExpr.addChild(identifier);
+
+    assertThat(CxxAstNodeHelper.isInsideDeclarator(identifier)).isFalse();
+  }
+
   private AstNode createNode(AstNodeType type, String value) {
     var token = Token.builder()
         .setLine(1)
@@ -286,6 +354,71 @@ class CxxAstNodeHelperTest {
         .setURI(java.net.URI.create("file:///test.cpp"))
         .build();
     return new AstNode(token);
+  }
+
+  // -------------------------------------------------------------------------
+  // isTypedefKeywordPresent / getClassName / getClassKeyword / getEnumName /
+  // getEnumerators
+  // -------------------------------------------------------------------------
+
+  @Test
+  void isTypedefKeywordPresentDetectsTypedefToken() {
+    AstNode declSpecifierSeq = createNode(CxxGrammarImpl.declSpecifierSeq, "declSpecifierSeq");
+    AstNode declSpecifier = createNode(CxxGrammarImpl.declSpecifier, "declSpecifier");
+    declSpecifier.addChild(createTokenNode("typedef"));
+    declSpecifierSeq.addChild(declSpecifier);
+
+    assertThat(CxxAstNodeHelper.isTypedefKeywordPresent(declSpecifierSeq)).isTrue();
+  }
+
+  @Test
+  void isTypedefKeywordPresentReturnsFalseWithoutTypedefToken() {
+    AstNode declSpecifierSeq = createNode(CxxGrammarImpl.declSpecifierSeq, "declSpecifierSeq");
+    AstNode declSpecifier = createNode(CxxGrammarImpl.declSpecifier, "declSpecifier");
+    declSpecifier.addChild(createTokenNode("int"));
+    declSpecifierSeq.addChild(declSpecifier);
+
+    assertThat(CxxAstNodeHelper.isTypedefKeywordPresent(declSpecifierSeq)).isFalse();
+  }
+
+  @Test
+  void getClassNameExtractsNameFromClassSpecifier() {
+    AstNode classSpecifier = createNode(CxxGrammarImpl.classSpecifier, "classSpecifier");
+    AstNode classHead = createNode(CxxGrammarImpl.classHead, "classHead");
+    AstNode classKey = createNode(CxxGrammarImpl.classKey, "classKey");
+    classKey.addChild(createTokenNode("struct"));
+    AstNode classHeadName = createNode(CxxGrammarImpl.classHeadName, "classHeadName");
+    AstNode className = createNode(CxxGrammarImpl.className, "className");
+    className.addChild(createIdentifierNode("MyStruct"));
+    classHeadName.addChild(className);
+    classHead.addChild(classKey);
+    classHead.addChild(classHeadName);
+    classSpecifier.addChild(classHead);
+
+    assertThat(CxxAstNodeHelper.getClassName(classSpecifier)).isEqualTo("MyStruct");
+    assertThat(CxxAstNodeHelper.getClassKeyword(classSpecifier)).isEqualTo("struct");
+  }
+
+  @Test
+  void getEnumNameAndEnumeratorsExtractFromEnumSpecifier() {
+    AstNode enumSpecifier = createNode(CxxGrammarImpl.enumSpecifier, "enumSpecifier");
+    AstNode enumHead = createNode(CxxGrammarImpl.enumHead, "enumHead");
+    AstNode enumHeadName = createNode(CxxGrammarImpl.enumHeadName, "enumHeadName");
+    enumHeadName.addChild(createIdentifierNode("Color"));
+    enumHead.addChild(enumHeadName);
+    AstNode enumeratorList = createNode(CxxGrammarImpl.enumeratorList, "enumeratorList");
+    AstNode enumeratorDefinition = createNode(CxxGrammarImpl.enumeratorDefinition, "enumeratorDefinition");
+    AstNode enumerator = createNode(CxxGrammarImpl.enumerator, "enumerator");
+    enumerator.addChild(createIdentifierNode("RED"));
+    enumeratorDefinition.addChild(enumerator);
+    enumeratorList.addChild(enumeratorDefinition);
+    enumSpecifier.addChild(enumHead);
+    enumSpecifier.addChild(enumeratorList);
+
+    assertThat(CxxAstNodeHelper.getEnumName(enumSpecifier)).isEqualTo("Color");
+    List<AstNode> enumerators = CxxAstNodeHelper.getEnumerators(enumSpecifier);
+    assertThat(enumerators).hasSize(1);
+    assertThat(CxxAstNodeHelper.getIdentifierName(enumerators.get(0))).isEqualTo("RED");
   }
 
   // -------------------------------------------------------------------------
@@ -474,17 +607,53 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetFunctionDefinitionParametersValid() {
+    // Matches the real grammar shape (parametersAndQualifiers -> parameterDeclarationClause ->
+    // parameterDeclarationList -> parameterDeclaration, direct children at each level), confirmed
+    // against a real parse: a hand-built tree that skips the intermediate wrapper nodes does not
+    // reflect what the grammar actually produces.
     var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
     var decl = createNode(CxxGrammarImpl.declarator, "f");
     var paramsQuals = createNode(CxxGrammarImpl.parametersAndQualifiers, "()");
+    var paramDeclClause = createNode(CxxGrammarImpl.parameterDeclarationClause, "int x, int y");
+    var paramDeclList = createNode(CxxGrammarImpl.parameterDeclarationList, "int x, int y");
     var param1 = createNode(CxxGrammarImpl.parameterDeclaration, "int x");
     var param2 = createNode(CxxGrammarImpl.parameterDeclaration, "int y");
-    paramsQuals.addChild(param1);
-    paramsQuals.addChild(param2);
+    paramDeclList.addChild(param1);
+    paramDeclList.addChild(param2);
+    paramDeclClause.addChild(paramDeclList);
+    paramsQuals.addChild(paramDeclClause);
     decl.addChild(paramsQuals);
     funcDef.addChild(decl);
     var params = CxxAstNodeHelper.getFunctionDefinitionParameters(funcDef);
     assertThat(params).containsExactly(param1, param2);
+  }
+
+  @Test
+  void testGetFunctionDefinitionParametersNestedDeclaratorNotIncluded() {
+    // A parameter whose own type is a function pointer/reference carries its own nested
+    // parametersAndQualifiers, with its own nested parameterDeclaration nodes -- these must not
+    // be included as if they were this function's own parameters.
+    var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
+    var decl = createNode(CxxGrammarImpl.declarator, "f");
+    var paramsQuals = createNode(CxxGrammarImpl.parametersAndQualifiers, "(int (*cb)(int inner))");
+    var paramDeclClause = createNode(CxxGrammarImpl.parameterDeclarationClause, "int (*cb)(int inner)");
+    var paramDeclList = createNode(CxxGrammarImpl.parameterDeclarationList, "int (*cb)(int inner)");
+    var outerParam = createNode(CxxGrammarImpl.parameterDeclaration, "int (*cb)(int inner)");
+    var nestedParamsQuals = createNode(CxxGrammarImpl.parametersAndQualifiers, "(int inner)");
+    var nestedParamDeclClause = createNode(CxxGrammarImpl.parameterDeclarationClause, "int inner");
+    var nestedParamDeclList = createNode(CxxGrammarImpl.parameterDeclarationList, "int inner");
+    var nestedParam = createNode(CxxGrammarImpl.parameterDeclaration, "int inner");
+    nestedParamDeclList.addChild(nestedParam);
+    nestedParamDeclClause.addChild(nestedParamDeclList);
+    nestedParamsQuals.addChild(nestedParamDeclClause);
+    outerParam.addChild(nestedParamsQuals);
+    paramDeclList.addChild(outerParam);
+    paramDeclClause.addChild(paramDeclList);
+    paramsQuals.addChild(paramDeclClause);
+    decl.addChild(paramsQuals);
+    funcDef.addChild(decl);
+    var params = CxxAstNodeHelper.getFunctionDefinitionParameters(funcDef);
+    assertThat(params).containsExactly(outerParam);
   }
 
   // -------------------------------------------------------------------------
