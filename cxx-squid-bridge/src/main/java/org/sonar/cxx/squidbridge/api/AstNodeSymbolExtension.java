@@ -20,6 +20,8 @@
 package org.sonar.cxx.squidbridge.api;
 
 import com.sonar.cxx.sslr.api.AstNode;
+import java.util.Collections;
+import java.util.Map;
 import java.util.WeakHashMap;
 import javax.annotation.CheckForNull;
 
@@ -32,10 +34,21 @@ import javax.annotation.CheckForNull;
  *
  * <p>The symbol mapping is stored using WeakHashMap to prevent memory leaks
  * when AstNodes are garbage collected.
+ *
+ * <p>The backing map is a single process-global instance, so it is wrapped with
+ * {@link Collections#synchronizedMap} to make concurrent access from more than one thread safe:
+ * an unsynchronized {@code HashMap}-family map (which {@code WeakHashMap} is) can enter an
+ * infinite loop or corrupt its internal structure under concurrent modification during a resize,
+ * not merely lose an update. This does not change single-threaded behavior or make entries
+ * visible across scans any differently than before -- callers that need scan-scoped symbol
+ * association (no visibility of a stale entry from a previous or concurrent scan) should still
+ * call {@link #clear()} at the start of their own scan, as {@code CxxSymbolResolverVisitor}
+ * already does in its {@code visitFile}.
  */
 public final class AstNodeSymbolExtension {
 
-  private static final WeakHashMap<AstNode, Symbol> SYMBOL_MAP = new WeakHashMap<>();
+  private static final Map<AstNode, Symbol> SYMBOL_MAP =
+      Collections.synchronizedMap(new WeakHashMap<>());
 
   private AstNodeSymbolExtension() {
   }
