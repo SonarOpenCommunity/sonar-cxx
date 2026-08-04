@@ -289,8 +289,29 @@ public class SourceCodeSymbol implements Symbol {
    */
   public static class SourceCodeTypeSymbol extends SourceCodeSymbol implements TypeSymbol {
 
+    /**
+     * What kind of type declaration a {@link SourceCodeTypeSymbol} represents. A type is exactly
+     * one of these -- never, for instance, both a class and an enum -- so this single field (rather
+     * than independent booleans with no mutual-exclusion invariant) is the source of truth; {@link
+     * #isClass()}, {@link #isStruct()}, {@link #isUnion()}, {@link #isEnum()}, and {@link
+     * #isTypedef()} are all derived from it.
+     */
+    public enum TypeKind {
+      UNKNOWN,
+      CLASS,
+      STRUCT,
+      UNION,
+      ENUM,
+      TYPEDEF
+    }
+
+    private TypeKind typeKind = TypeKind.UNKNOWN;
+    private boolean isScopedEnumFlag;
+    private SymbolTable memberScopeTable;
+
     public SourceCodeTypeSymbol(SourceClass sourceClass) {
       super(sourceClass, Kind.TYPE);
+      this.typeKind = TypeKind.CLASS;
     }
 
     public SourceCodeTypeSymbol(String name, @Nullable SourceCode sourceCode) {
@@ -329,27 +350,75 @@ public class SourceCodeSymbol implements Symbol {
 
     @Override
     public boolean isClass() {
-      return sourceCode instanceof SourceClass;
+      return typeKind == TypeKind.CLASS || sourceCode instanceof SourceClass;
     }
 
     @Override
     public boolean isStruct() {
-      return false;
+      return typeKind == TypeKind.STRUCT;
     }
 
     @Override
     public boolean isUnion() {
-      return false;
+      return typeKind == TypeKind.UNION;
     }
 
     @Override
     public boolean isEnum() {
-      return false;
+      return typeKind == TypeKind.ENUM;
+    }
+
+    /**
+     * @return this type symbol's declaration kind
+     */
+    public TypeKind typeKind() {
+      return typeKind;
+    }
+
+    /**
+     * Sets this type symbol's declaration kind (class, struct, union, enum, or typedef). A type
+     * symbol represents exactly one of these, so setting a new kind replaces any previously set
+     * one rather than accumulating alongside it.
+     *
+     * @param kind the declaration kind
+     */
+    public void setTypeKind(TypeKind kind) {
+      this.typeKind = kind;
+    }
+
+    @Override
+    public boolean isScopedEnum() {
+      return isScopedEnumFlag;
+    }
+
+    /**
+     * Marks this type symbol as representing a scoped enum ({@code enum class}/{@code enum
+     * struct}).
+     *
+     * @param value true if this is a scoped enum
+     */
+    public void setScopedEnum(boolean value) {
+      this.isScopedEnumFlag = value;
+    }
+
+    @Override
+    @Nullable
+    public SymbolTable memberScope() {
+      return memberScopeTable;
+    }
+
+    /**
+     * Sets the scope containing this type's qualified-access-only members.
+     *
+     * @param scope the member scope, or null to clear it
+     */
+    public void setMemberScope(@Nullable SymbolTable scope) {
+      this.memberScopeTable = scope;
     }
 
     @Override
     public boolean isTypedef() {
-      return false;
+      return typeKind == TypeKind.TYPEDEF;
     }
 
     @Override
@@ -367,6 +436,10 @@ public class SourceCodeSymbol implements Symbol {
     private boolean isField;
     private boolean isLocal;
     private boolean isGlobal;
+    @Nullable
+    private AstNode initializerNode;
+    @Nullable
+    private TypeSymbol declaredTypeSymbol;
 
     public SourceCodeVariableSymbol(String name, @Nullable SourceCode sourceCode) {
       super(name, Kind.VARIABLE, sourceCode);
@@ -415,6 +488,36 @@ public class SourceCodeSymbol implements Symbol {
 
     public void setGlobalVariable(boolean global) {
       this.isGlobal = global;
+    }
+
+    @Override
+    @Nullable
+    public AstNode initializer() {
+      return initializerNode;
+    }
+
+    /**
+     * Sets the initializer expression of this variable's declaration.
+     *
+     * @param node the initializer expression AstNode
+     */
+    public void setInitializer(@Nullable AstNode node) {
+      this.initializerNode = node;
+    }
+
+    @Override
+    @Nullable
+    public TypeSymbol declaredType() {
+      return declaredTypeSymbol;
+    }
+
+    /**
+     * Sets this variable's own declared class/struct/union type.
+     *
+     * @param typeSymbol the declared type's TypeSymbol
+     */
+    public void setDeclaredType(@Nullable TypeSymbol typeSymbol) {
+      this.declaredTypeSymbol = typeSymbol;
     }
   }
 
