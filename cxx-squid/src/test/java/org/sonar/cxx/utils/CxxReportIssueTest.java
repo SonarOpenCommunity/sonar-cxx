@@ -137,4 +137,20 @@ class CxxReportIssueTest {
     assertThat(flow.get(1)).isEqualTo(new CxxReportLocation("path1.cpp", "2", null, "b"));
     assertThat(flow.get(2)).isEqualTo(new CxxReportLocation("path0.cpp", "1", null, "a"));
   }
+
+  @Test
+  void reportIssueWithCheckClassStoresAndReturnsIt() {
+    var issue = new CxxReportIssue(
+      "nullPointer", CxxReportIssueTest.class, "path0.cpp", "1", null, "Null pointer dereference: ptr"
+    );
+    assertThat(issue.getCheckClass()).isEqualTo(CxxReportIssueTest.class);
+  }
+
+  @Test
+  void reportIssueWithoutCheckClassDefaultsToNull() {
+    var issue = new CxxReportIssue(
+      "nullPointer", "path0.cpp", "1", null, "Null pointer dereference: ptr"
+    );
+    assertThat(issue.getCheckClass()).isNull();
+  }
 }
