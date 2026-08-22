@@ -20,6 +20,8 @@
 package org.sonar.cxx.squidbridge.api;
 
 import java.util.List;
+import org.sonar.api.ExtensionPoint;
+import org.sonar.api.scanner.ScannerSide;
 
 /**
  * Interface for external plugins to register custom C++ checks.
@@ -48,6 +50,8 @@ import java.util.List;
  * }
  * </pre>
  */
+@ScannerSide
+@ExtensionPoint
 public interface CxxCustomRuleRepository {
 
   /**

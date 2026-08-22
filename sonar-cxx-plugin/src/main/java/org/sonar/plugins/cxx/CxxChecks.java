@@ -31,6 +31,7 @@ import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.api.CxxCustomRuleRepository;
 
 public final class CxxChecks {
 
@@ -58,6 +59,16 @@ public final class CxxChecks {
     if (customRulesDefinitions != null) {
       for (var rulesDefinition : customRulesDefinitions) {
         addChecks(rulesDefinition.repositoryKey(), new ArrayList<>(Arrays.asList(rulesDefinition.checkClasses())));
+      }
+    }
+
+    return this;
+  }
+
+  public CxxChecks addCustomRuleRepositories(@Nullable CxxCustomRuleRepository[] customRuleRepositories) {
+    if (customRuleRepositories != null) {
+      for (var repository : customRuleRepositories) {
+        addChecks(repository.repositoryKey(), new ArrayList<>(repository.checkClasses()));
       }
     }
 

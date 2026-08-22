@@ -39,6 +39,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxMetrics;
+import org.sonar.cxx.squidbridge.api.CxxCustomRuleRepository;
 
 class CxxSquidSensorTest {
 
@@ -242,6 +243,37 @@ class CxxSquidSensorTest {
     sensor.execute(context);
 
     assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
+  }
+
+  // `checks` is private with no test accessor, so this only checks the 5-arg constructor
+  // compiles and runs. Repository wiring itself is verified in
+  // CxxChecksTest#shouldReturnChecksFromCustomRuleRepository.
+  @Test
+  void constructorCompilesWithBothCustomRuleArrayParameters() {
+    ActiveRules rules = mock(ActiveRules.class);
+    var checkFactory = new CheckFactory(rules);
+    FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
+
+    CxxCustomRuleRepository repository = new CxxCustomRuleRepository() {
+      @Override
+      public String repositoryKey() {
+        return "test-repo";
+      }
+
+      @Override
+      public java.util.List<Class<?>> checkClasses() {
+        return java.util.List.of();
+      }
+    };
+
+    var sensorWithRepositories = new CxxSquidSensor(
+      fileLinesContextFactory,
+      checkFactory,
+      new DefaultNoSonarFilter(),
+      null,
+      new CxxCustomRuleRepository[]{repository});
+
+    assertThat(sensorWithRepositories).isNotNull();
   }
 
 }
