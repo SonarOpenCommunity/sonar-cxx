@@ -63,6 +63,7 @@ import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.config.MsBuild;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.api.CxxCustomRuleRepository;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.indexer.QueryByType;
@@ -118,6 +119,23 @@ public class CxxSquidSensor implements ProjectSensor {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
+    this.fileLinesContextFactory = fileLinesContextFactory;
+    this.noSonarFilter = noSonarFilter;
+  }
+
+  /**
+   * Greediest constructor; picked by SonarQube's IoC container. The 3-arg and 4-arg overloads
+   * above remain for direct instantiation (tests, older plugins).
+   */
+  public CxxSquidSensor(FileLinesContextFactory fileLinesContextFactory,
+    CheckFactory checkFactory,
+    NoSonarFilter noSonarFilter,
+    @Nullable CustomCxxRulesDefinition[] customRulesDefinition,
+    @Nullable CxxCustomRuleRepository[] customRuleRepositories) {
+    this.checks = CxxChecks.createCxxCheck(checkFactory)
+      .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
+      .addCustomChecks(customRulesDefinition)
+      .addCustomRuleRepositories(customRuleRepositories);
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.noSonarFilter = noSonarFilter;
   }
