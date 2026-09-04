@@ -294,7 +294,7 @@
     <java.version>21</java.version>
     <jython-standalone.version>2.7.4</jython-standalone.version>
     <lifecycle-mapping.version>1.0.0</lifecycle-mapping.version>
-    <maven-compiler.version>3.15.0</maven-compiler.version>
+    <maven-compiler.version>3.16.0</maven-compiler.version>
     <maven-dependency.version>3.11.0</maven-dependency.version>
     <maven-jacoco.version>0.8.15</maven-jacoco.version>
     <maven-jar.version>3.5.1</maven-jar.version>
