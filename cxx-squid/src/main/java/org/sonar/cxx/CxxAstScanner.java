@@ -55,6 +55,7 @@ import org.sonar.cxx.visitors.CxxLinesOfCodeInFunctionBodyVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
+import org.sonar.cxx.visitors.CxxSymbolResolverVisitor;
 
 public final class CxxAstScanner {
 
@@ -136,6 +137,9 @@ public final class CxxAstScanner {
           : comment.substring(HEADER_LEN);
       }
     });
+
+    /* Symbol resolution */
+    builder.withSquidAstVisitor(new CxxSymbolResolverVisitor<>());
 
     /* Functions / Methods */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {

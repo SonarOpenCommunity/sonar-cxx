@@ -31,6 +31,7 @@ import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.api.CxxCustomRuleRepository;
 
 public final class CxxChecks {
 
@@ -64,6 +65,16 @@ public final class CxxChecks {
     return this;
   }
 
+  public CxxChecks addCustomRuleRepositories(@Nullable CxxCustomRuleRepository[] customRuleRepositories) {
+    if (customRuleRepositories != null) {
+      for (var repository : customRuleRepositories) {
+        addChecks(repository.repositoryKey(), new ArrayList<>(repository.checkClasses()));
+      }
+    }
+
+    return this;
+  }
+
   public List<SquidAstVisitor<Grammar>> all() {
     var allVisitors = new ArrayList<SquidAstVisitor<Grammar>>();
 
@@ -80,6 +91,28 @@ public final class CxxChecks {
       RuleKey ruleKey = checks.ruleKey(check);
       if (ruleKey != null) {
         return ruleKey;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Resolves the rule key for a check by its class rather than a live instance, for callers (e.g.
+   * {@link org.sonar.cxx.utils.CxxReportIssue#getCheckClass()}) that only kept a {@code Class}
+   * reference. A single {@code ruleId} string is not unique across repositories, so this looks up
+   * the registered instance of {@code checkClass} and reuses its actual repository.
+   *
+   * @param checkClass the check's class
+   * @return the resolved rule key, or null if no registered check has this class
+   */
+  @CheckForNull
+  public RuleKey ruleKeyForClass(Class<?> checkClass) {
+    for (var check : all()) {
+      if (checkClass.equals(check.getClass())) {
+        RuleKey ruleKey = ruleKey(check);
+        if (ruleKey != null) {
+          return ruleKey;
+        }
       }
     }
     return null;
