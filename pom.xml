@@ -267,7 +267,7 @@
     <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
 
     <!-- dependencies -->
-    <ant.version>1.10.17</ant.version>
+    <ant.version>1.10.18</ant.version>
     <asm.version>9.10.1</asm.version>
     <assertj-core.version>3.27.7</assertj-core.version>
     <commons-io.version>2.22.0</commons-io.version>
