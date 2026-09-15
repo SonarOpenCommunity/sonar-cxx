@@ -282,12 +282,8 @@ public interface Symbol {
     boolean isScopedEnum();
 
     /**
-     * The scope containing this type's own members, reachable only via qualified access (e.g. a
-     * scoped enum's constants, accessible as {@code EnumName::CONSTANT} but not bare). Returns null
-     * for a type with no such qualified-only member scope (an unscoped enum, or any type that
-     * hasn't been given one).
-     *
-     * @return the qualified-access member scope, or null if none
+     * @return the scope containing this type's own members, reachable only via qualified access
+     *     (e.g. a scoped enum's constants as {@code EnumName::CONSTANT}), or null if none
      */
     @Nullable
     SymbolTable memberScope();
@@ -336,13 +332,8 @@ public interface Symbol {
     AstNode initializer();
 
     /**
-     * The {@link TypeSymbol} of this variable's own declared class/struct/union type, when
-     * statically known (e.g. for {@code S s;}, this variable's own {@code TypeSymbol} for
-     * {@code S}). Enables resolving a member-access expression's field (e.g. {@code s.fld}) against
-     * the correct class's member scope, rather than an ambient/unqualified lookup.
-     *
-     * @return the declared type's TypeSymbol, or null if unknown (builtin type, enum, typedef,
-     *         template parameter, or a type reference that could not be resolved)
+     * @return this variable's declared class/struct/union {@link TypeSymbol} (e.g. for
+     *     {@code S s;}, the {@code TypeSymbol} for {@code S}), or null if unknown
      */
     @Nullable
     TypeSymbol declaredType();
@@ -441,8 +432,9 @@ public interface Symbol {
     /**
      * The AST node representing this usage.
      *
-     * @return the AstNode where the symbol is referenced
+     * @return the AstNode where the symbol is referenced, or null if it is no longer available
      */
+    @Nullable
     AstNode node();
 
     /**

@@ -73,8 +73,6 @@ class CxxSymbolResolverVisitorTest {
       "src/test/resources/visitors/SymbolResolverDeletedFunctionParams.cc", ".", "");
     CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), squidConfig, visitor);
 
-    // "Foo(int x) = delete;" has a parameter but no compound-statement body: the walker never
-    // visits a functionBody node for it, so nothing should ever have been left pending.
     assertThat(visitor.lastResolvedFunctionName()).isEqualTo("Foo");
     assertThat(visitor.lastResolvedParameterNames()).containsExactly("x");
     assertThat(visitor.pendingScopeCount()).isZero();
@@ -120,10 +118,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void bareParameterPassedAsCallArgumentResolvesToItsParameterDeclaration() throws IOException {
-    // Reproduces the real-world motivating scenario: a bare function parameter passed straight
-    // through as a call argument (e.g. SSL_CTX_set1_sigalgs_list(ctx, signature_algorithms))
-    // must resolve, via the real Symbol API, to the declared parameter -- not be mistaken for a
-    // literal value or left unresolved.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -141,10 +135,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void parameterUsedInFunctionTryBlockBodyResolvesToItsParameterDeclaration() throws IOException {
-    // A function-try-block ("try { body } catch (...) { }") nests its real compound-statement
-    // body one level deeper than a plain function body (inside an intermediate functionTryBlock
-    // node), so the parameter usage inside it must still resolve through the scope pushed for the
-    // function rather than being silently skipped as a declaration-only body.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -225,15 +215,10 @@ class CxxSymbolResolverVisitorTest {
     SymbolTable rootScope = visitor.getContext().getSymbolTable();
     assertThat(rootScope).isNotNull();
 
-    // Unscoped enum's constant IS visible unqualified in the enclosing scope, unchanged.
     assertThat(rootScope.lookupSymbol("LOW")).isNotNull();
-
-    // Scoped enum's constants are NOT visible unqualified in the enclosing scope.
     assertThat(rootScope.lookupSymbol("STRICT")).isNull();
     assertThat(rootScope.lookupSymbol("LENIENT")).isNull();
 
-    // The scoped enum's own TypeSymbol correctly reports isScopedEnum() and exposes a non-null
-    // memberScope() containing its constants.
     Symbol modeSymbol = rootScope.lookupSymbol("Mode");
     assertThat(modeSymbol).isInstanceOf(Symbol.TypeSymbol.class);
     Symbol.TypeSymbol modeTypeSymbol = (Symbol.TypeSymbol) modeSymbol;
@@ -243,8 +228,6 @@ class CxxSymbolResolverVisitorTest {
     assertThat(memberScope.lookupSymbol("STRICT")).isNotNull();
     assertThat(memberScope.lookupSymbol("LENIENT")).isNotNull();
 
-    // The unscoped enum's own TypeSymbol correctly reports isScopedEnum() == false and has no
-    // member scope (its constants live in the enclosing scope, not a nested one).
     Symbol levelSymbol = rootScope.lookupSymbol("Level");
     assertThat(levelSymbol).isInstanceOf(Symbol.TypeSymbol.class);
     Symbol.TypeSymbol levelTypeSymbol = (Symbol.TypeSymbol) levelSymbol;
@@ -266,10 +249,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void anonymousClassMembersAreVisibleInEnclosingScope() throws IOException {
-    // With no class name to reach the anonymous struct's own member scope through, "x" would
-    // otherwise be registered only into a scope nothing else can ever reach. Real C++ semantics
-    // for an anonymous struct/union make its members transparently visible in the enclosing
-    // scope, so "x" must be reachable directly from the (here, root/global) enclosing scope too.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -285,10 +264,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void anonymousScopedEnumConstantsAreVisibleInEnclosingScope() throws IOException {
-    // An anonymous "enum class" has no name to qualify its constants with at all (Color::RED
-    // needs "Color" to exist), so its own child scope -- which a NAMED scoped enum's constants
-    // are correctly confined to -- would be unreachable from anywhere. Its constants must instead
-    // be registered directly into the enclosing scope, same as an unscoped anonymous enum.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -307,9 +282,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void anonymousEnumRegistersNoEnumNameButStillResolvesConstants() throws IOException {
-    // An anonymous enum has no enumHeadName for getEnumName() to find, so lastEnumName stays
-    // null -- but its constants are still registered into the enclosing scope, since constant
-    // registration in resolveEnumDeclaration does not depend on the enum itself being named.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -335,9 +307,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void memberDeclaratorListEmptyForForwardDeclaration() throws IOException {
-    // "struct Foo;" is an elaborated-type-specifier declaration with no init-declarator-list at
-    // all, so getInitDeclarators returns an empty list and resolveLocalVariableDeclaration's loop
-    // body never executes -- no local/global variable is registered for it.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -350,12 +319,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void aliasDeclarationOwnNameIsNotRecordedAsItsOwnUsage() throws IOException {
-    // aliasDeclaration's own name is a bare IDENTIFIER with no declaration-site wrapper node of
-    // its own, unlike every other declaration shape isInsideDeclarator recognizes -- without the
-    // direct-child check for it, this identifier would be looked up like any other usage,
-    // resolve to the symbol resolveAliasDeclaration just registered, and be recorded as a
-    // (spurious) usage of itself. "OtherAlias = MyAlias" exercises the opposite direction: the
-    // reference to MyAlias on the RHS is a genuine usage and must still be counted.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -376,10 +339,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void pureVirtualMemberFunctionIsRegisteredAsFunctionSymbolNotField() throws IOException {
-    // "draw" is a member function declarator (has a parametersAndQualifiers descendant), so
-    // resolveMemberFields registers it as a SourceCodeFunctionSymbol via resolveMemberFunction,
-    // not as a field -- it is excluded from lastResolvedFieldNames(), which reports data members
-    // only. "sides" is the plain data member used as a control.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -401,13 +360,6 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void bitFieldMembersAreRegisteredAsFields() throws IOException {
-    // memberDeclarator's bit-field alternative ([IDENTIFIER] [attrs] ":" constantExpression
-    // [init]) has no declarator child at all, unlike every other member shape -- "enabled" and
-    // "level" are named bit-fields that must still be registered as data-member fields, while the
-    // unnamed "unsigned int : 2;" padding bit-field has no name and is legitimately skipped. A
-    // bit-field's name is a bare IDENTIFIER token (not wrapped in a declaratorId like every other
-    // member shape), so it is looked up directly by token text rather than via
-    // findDeclarationIdentifier (which requires isInsideDeclarator to recognize the shape).
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -433,13 +385,7 @@ class CxxSymbolResolverVisitorTest {
 
   @Test
   void memberAccessResolvesFieldAgainstObjectsOwnType() throws IOException {
-    // "s.fld = 1;" must resolve "fld" against Outer's own member scope (via s's declaredType()),
-    // not against the ambient/current scope -- a same-named local "int fld = 5;" is deliberately
-    // declared just before it as a control: before this fix, the ambient-scope lookup that
-    // resolveIdentifierUsage used for every bare IDENTIFIER (including member-access RHS operands)
-    // would incorrectly resolve "fld" to this unrelated shadowing local instead of Outer::fld.
-    // "s.inner.val = 2;" is a chained member access: "inner" (itself a field, of type Inner) must
-    // resolve first via s's type, then "val" must resolve via inner's own declaredType().
+    // "int fld = 5;" is a deliberate shadowing control for Outer::fld.
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
     var tester = CxxFileTesterHelper.create(
@@ -448,8 +394,6 @@ class CxxSymbolResolverVisitorTest {
 
     List<AstNode> fldUsages = new ArrayList<>();
     collectIdentifiers(root, "fld", fldUsages);
-    // Declaration sites: Outer::fld field declarator, and the shadowing local's declarator.
-    // Usage site: the "fld" in "s.fld = 1;".
     AstNode fldUsageNode = fldUsages.stream()
       .filter(node -> !CxxAstNodeHelper.isInsideDeclarator(node))
       .findFirst()
@@ -469,6 +413,48 @@ class CxxSymbolResolverVisitorTest {
     Symbol valSymbol = AstNodeSymbolExtension.getSymbol(valUsageNode);
     assertThat(valSymbol).isInstanceOf(Symbol.VariableSymbol.class);
     assertThat(((Symbol.VariableSymbol) valSymbol).isField()).isTrue();
+  }
+
+  @Test
+  void memberAccessObjectOperandIsReadNotWrittenByTheAssignment() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverMemberAccess.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    List<AstNode> sUsages = new ArrayList<>();
+    collectIdentifiers(root, "s", sUsages);
+    AstNode sUsageNode = sUsages.stream()
+      .filter(node -> !CxxAstNodeHelper.isInsideDeclarator(node))
+      .findFirst()
+      .orElseThrow(() -> new AssertionError("No usage site of 's' found."));
+    Symbol sSymbol = AstNodeSymbolExtension.getSymbol(sUsageNode);
+    assertThat(sSymbol).isNotNull();
+
+    Symbol.Usage sUsage = sSymbol.usages().stream()
+      .filter(usage -> usage.node() == sUsageNode)
+      .findFirst()
+      .orElseThrow(() -> new AssertionError("No recorded usage for 's' found."));
+    assertThat(sUsage.kind()).isEqualTo(Symbol.Usage.UsageKind.READ);
+  }
+
+  @Test
+  void memberAccessOnUnresolvedObjectTypeDoesNotFallBackToAmbientScope() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverMemberAccessUnresolvedType.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    List<AstNode> knownFieldUsages = new ArrayList<>();
+    collectIdentifiers(root, "knownField", knownFieldUsages);
+    AstNode usageNode = knownFieldUsages.stream()
+      .filter(node -> !CxxAstNodeHelper.isInsideDeclarator(node))
+      .findFirst()
+      .orElseThrow(() -> new AssertionError("No usage site of 'knownField' found."));
+
+    assertThat(AstNodeSymbolExtension.getSymbol(usageNode)).isNull();
   }
 
   private static AstNode captureRoot(org.sonar.cxx.CxxFileTester tester,

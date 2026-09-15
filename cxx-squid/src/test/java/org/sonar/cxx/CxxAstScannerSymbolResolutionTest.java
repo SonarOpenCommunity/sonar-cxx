@@ -19,9 +19,12 @@
  */
 package org.sonar.cxx;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.config.CxxSquidConfiguration;
+import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
 
 class CxxAstScannerSymbolResolutionTest {
 
@@ -33,9 +36,23 @@ class CxxAstScannerSymbolResolutionTest {
     var scanner = CxxAstScanner.create(squidConfig);
     scanner.scanInputFile(tester.asInputFile());
 
-    // CxxAstScanner.create owns the symbol-resolution visitor instance internally, so no direct
-    // assertion on its state is possible from here; this confirms the full scan pipeline runs
-    // symbol resolution without throwing, across every declaration kind in one pass.
+    // Confirms the full pipeline runs symbol resolution without throwing.
+  }
+
+  @Test
+  void scanningANewFileClearsSymbolsFromThePreviousFile() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var scanner = CxxAstScanner.create(squidConfig);
+
+    var firstFile = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverFunctionLocals.cc", ".", "");
+    scanner.scanInputFile(firstFile.asInputFile());
+    assertThat(AstNodeSymbolExtension.size()).isPositive();
+
+    var secondFile = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverForwardDeclaration.cc", ".", "");
+    scanner.scanInputFile(secondFile.asInputFile());
+    assertThat(AstNodeSymbolExtension.size()).isZero();
   }
 
 }

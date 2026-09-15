@@ -43,13 +43,10 @@ import org.sonar.cxx.squidbridge.api.SymbolTable;
 import org.sonar.cxx.utils.CxxAstNodeHelper;
 
 /**
- * Populates sonar-cxx's Symbol/SymbolTable semantic model by resolving declarations and
- * identifier usages during the normal AST scan.
- *
- * <p>Maintains a stack of nested {@link SymbolTable} scopes, pushing a new child scope on
- * entering a namespace, class/struct/union body, or function body, and popping it on exit. The
- * root (file-level/global) scope is published to the scan context via
- * {@code getContext().setSymbolTable(...)} once the whole file has been visited.
+ * Resolves declarations and identifier usages into the Symbol/SymbolTable model during the AST
+ * scan. Maintains a stack of nested scopes, pushed on entering a namespace, class/struct/union
+ * body, or function body, and popped on exit; the root scope is published via
+ * {@code getContext().setSymbolTable(...)} after the file is visited.
  */
 public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor<G> {
 
@@ -101,10 +98,11 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
     lastGlobalVariableNames.clear();
     usageResolutionCounter = 0;
     scopeStack.clear();
-    // Guards against a leaked entry so state never accumulates across files on a reused instance.
     pendingFunctionScopes.clear();
     functionBodyCompoundStatements.clear();
     scopeStack.push(new SymbolTable());
+    // AstNodeSymbolExtension is process-global; clear per scan to avoid unbounded growth.
+    AstNodeSymbolExtension.clear();
   }
 
   @Override
@@ -137,20 +135,14 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       SourceCodeSymbol.SourceCodeTypeSymbol classTypeSymbol = resolveClassDeclaration(node);
       SymbolTable enclosingScopeForAnonymousClass = currentScope();
       pushScope();
-      // The class's own TypeSymbol is given this new child scope as its memberScope() so that
-      // member-access expressions (e.g. "s.fld") can resolve "fld" against the correct class's
-      // members instead of an ambient/unqualified lookup -- see resolveIdentifierUsage. This
-      // mirrors what resolveEnumDeclaration already does for scoped enums.
+      // memberScope() lets resolveIdentifierUsage resolve "s.fld" against Outer's own members.
       if (classTypeSymbol != null) {
         classTypeSymbol.setMemberScope(currentScope());
       }
       resolveMemberFields(node);
       if (classTypeSymbol == null && enclosingScopeForAnonymousClass != null) {
-        // Anonymous struct/union: there is no name to qualify its members by, so (matching real
-        // C++ semantics for anonymous unions/structs, where the members are transparently visible
-        // in the enclosing scope) copy its members into the enclosing scope too -- otherwise they
-        // would only exist in this class's own scope, which nothing else can ever reach, since
-        // there is no symbol anywhere pointing at it.
+        // Anonymous struct/union: no name to qualify members by, so expose them in the enclosing
+        // scope too, matching real C++ semantics.
         copySymbolsToEnclosingScope(currentScope(), enclosingScopeForAnonymousClass);
       }
       return;
@@ -164,9 +156,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
         ? pendingFunctionScopes.remove(functionDefinitionNode) : null;
       scopeStack.push(pendingScope != null ? pendingScope
         : (currentScope() != null ? currentScope().createChildScope() : new SymbolTable()));
-      // The compoundStatement this functionBody directly (or, via a function-try-block, one
-      // level deeper) wraps is this same scope's own body -- record it so the later
-      // compoundStatement visit for that exact node does not push a second, redundant scope.
+      // Record this functionBody's own compoundStatement so its later visit does not push
+      // a second, redundant scope.
       AstNode ownBody = findCompoundStatementBody(node);
       if (ownBody != null) {
         functionBodyCompoundStatements.add(ownBody);
@@ -192,16 +183,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Whether {@code visitNode} pushes a scope for this node, and so whether {@code leaveNode}
-   * must pop one on exit. {@code IDENTIFIER}, {@code functionDefinition},
-   * {@code simpleDeclaration}, {@code enumSpecifier}, and {@code aliasDeclaration} never push a
-   * scope. A {@code functionBody} pushes only when it has a real compound-statement body, in
-   * which case its own {@code compoundStatement} child is recorded in
-   * {@code functionBodyCompoundStatements} so that node's own visit does not push a second scope
-   * for the same block. Every other {@code compoundStatement} (a nested block, not a function's
-   * own body) opens its own scope, so declarations in an inner block do not shadow-overwrite a
-   * same-named declaration in an outer one. Every other node type, including
-   * {@code classSpecifier}, opens a scope.
+   * Whether {@code visitNode} pushes a scope for this node, so {@code leaveNode} knows whether
+   * to pop one.
    *
    * @param node the node being entered or left
    * @return true if {@code visitNode} pushes a scope for this node
@@ -222,17 +205,14 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
 
   @Override
   public void leaveFile(@Nullable AstNode astNode) {
-    // Pops the remaining root scope and publishes it for consumers (e.g. detection rules).
+    // Publishes the root scope for consumers (e.g. detection rules).
     if (!scopeStack.isEmpty()) {
       getContext().setSymbolTable(scopeStack.pop());
     }
   }
 
   /**
-   * Returns the innermost active scope, or null if no file is currently being visited (i.e.
-   * outside the visitFile/leaveFile lifecycle).
-   *
-   * @return the current scope, or null
+   * @return the innermost active scope, or null outside the visitFile/leaveFile lifecycle
    */
   @CheckForNull
   public SymbolTable currentScope() {
@@ -379,13 +359,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Locates the compound-statement body of a {@code functionBody} node. Two grammar shapes carry
-   * one: a plain body ({@code [ctorInitializer] compoundStatement}, a direct child) and a
-   * function-try-block ({@code TRY [ctorInitializer] compoundStatement handlerSeq}, one level
-   * deeper via {@code functionTryBlock}). Declaration-only bodies ({@code = delete;}/
-   * {@code = default;}) have neither and yield null. Each shape's direct child is checked
-   * explicitly rather than searching descendants, since a lambda inside a
-   * {@code ctorInitializer} may contain its own nested {@code compoundStatement}.
+   * Locates a {@code functionBody}'s own {@code compoundStatement}, either direct or one level
+   * deeper via a function-try-block. Declaration-only bodies ({@code = delete;}) have neither.
    *
    * @param functionBodyNode a {@code functionBody} node
    * @return the function's own {@code compoundStatement} body, or null if it has none
@@ -402,9 +377,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Same check as {@link #hasCompoundStatementBody(AstNode)}, starting from the enclosing
-   * {@code functionDefinition} node rather than its {@code functionBody} child. Declaration-only
-   * functions (e.g. {@code = delete;}, {@code = default;}) have no such body.
+   * Same as {@link #hasCompoundStatementBody(AstNode)}, starting from the enclosing
+   * {@code functionDefinition} node.
    */
   private static boolean functionDefinitionHasCompoundStatementBody(AstNode functionDefinitionNode) {
     AstNode functionBodyNode = CxxAstNodeHelper.getFunctionDefinitionBody(functionDefinitionNode);
@@ -420,8 +394,7 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
     lastFunctionName = functionName;
     lastParameterNames.clear();
 
-    // A declaration-only function (e.g. "= delete;", "= default;") has no functionBody node to
-    // consume a pending scope, so none is registered for it in the first place.
+    // Declaration-only function (e.g. "= delete;") has no body scope to register into.
     boolean hasBody = functionDefinitionHasCompoundStatementBody(functionDefinitionNode);
 
     for (AstNode parameterDeclaration : CxxAstNodeHelper.getFunctionDefinitionParameters(functionDefinitionNode)) {
@@ -438,13 +411,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       lastParameterNames.add(parameterName);
 
       if (!hasBody) {
-        // No body scope to bridge to; the parameter Symbol stays attached to functionSymbol
-        // above, so signature/parameters() introspection keeps working.
-        continue;
+        continue; // parameter stays attached to functionSymbol for parameters() introspection
       }
 
-      // Registers the parameter into the function's eventual body scope, created and pushed now
-      // rather than waiting for the functionBody node, so parameters are visible throughout it.
       registerInPendingFunctionScope(functionDefinitionNode, parameterDeclaration, declaratorId, parameterSymbol);
     }
 
@@ -456,13 +425,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
 
   private void registerInPendingFunctionScope(AstNode expectedFunctionDefinitionNode,
       AstNode parameterDeclaration, AstNode declaratorId, Symbol parameterSymbol) {
-    // The function body's scope is created here, ahead of the functionBody node itself, and
-    // keyed by the enclosing functionDefinition's identity so the functionBody visit later
-    // reuses it instead of pushing a duplicate. getEnclosingFunction's result is compared
-    // against the functionDefinition this parameter was collected for (rather than trusted on
-    // its own) so a parameter belonging to a different, nested function declarator (e.g. a
-    // function-pointer parameter's own parameter list) can never be attributed to the wrong
-    // function's scope even if a future change to parameter collection widens it again.
+    // Registers the parameter into the function's body scope, created here ahead of the
+    // functionBody node so parameters are visible throughout it.
     AstNode functionDefinitionNode = CxxAstNodeHelper.getEnclosingFunction(parameterDeclaration);
     if (functionDefinitionNode == null || functionDefinitionNode != expectedFunctionDefinitionNode) {
       return;
@@ -479,13 +443,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   private void resolveLocalVariableDeclaration(AstNode simpleDeclarationNode) {
-    // Distinguish local variables (inside a function body scope) from global/namespace-scope
-    // variables (no enclosing compoundStatement) from class data members (resolved separately by
-    // resolveMemberFields). A simpleDeclaration is a data member only when memberSpecification is
-    // the *nearest* enclosing boundary -- a member function's own body is itself nested inside
-    // memberSpecification, so a plain unbounded ancestor search for memberSpecification would
-    // wrongly classify every local variable declared inside a method as a data member and drop
-    // it entirely, since resolveMemberFields (not this method) is what actually registers fields.
+    // Distinguishes local/global variables from data members (resolved by resolveMemberFields).
+    // Uses the *nearest* enclosing boundary, since a member function's body nests inside
+    // memberSpecification too.
     AstNode nearestBoundary = simpleDeclarationNode.getFirstAncestor(
       CxxGrammarImpl.compoundStatement, CxxGrammarImpl.memberSpecification);
     if (nearestBoundary != null && nearestBoundary.is(CxxGrammarImpl.memberSpecification)) {
@@ -525,11 +485,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Resolves a variable or data member's own declared class/struct type (e.g. for {@code S s;},
-   * the {@code TypeSymbol} for {@code S}) by extracting the referenced type name and looking it up
-   * in the given scope's chain. Returns null for a builtin type, enum, typedef, or a type
-   * reference that could not be resolved (e.g. it is declared later in the same translation unit,
-   * or in a header not part of this scan).
+   * Resolves a variable or data member's own declared class/struct type (e.g. the
+   * {@code TypeSymbol} for {@code S} in {@code S s;}). Returns null if it isn't a class/struct
+   * type, or the type couldn't be resolved.
    */
   @CheckForNull
   private static Symbol.TypeSymbol resolveDeclaredTypeSymbol(AstNode declaringNode, SymbolTable scope) {
@@ -543,17 +501,16 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
 
   private void resolveIdentifierUsage(AstNode identifierNode) {
     if (CxxAstNodeHelper.isInsideDeclarator(identifierNode)) {
-      return; // this occurrence is a declaration site, already handled above
+      return; // declaration site, already handled above
     }
     Symbol resolved;
-    SymbolTable memberAccessScope = resolveMemberAccessScope(identifierNode);
-    if (memberAccessScope != null) {
-      // This identifier is the field name on the right of "." or "->" (e.g. "fld" in "s.fld") --
-      // it must be looked up in the accessed object's own type's member scope, never in the
-      // ambient/current scope: an ambient lookup here would incorrectly resolve it against any
-      // unrelated same-named symbol that happens to be visible at this point in the file (e.g. a
-      // same-named local variable shadowing an unrelated field of the same name).
-      resolved = memberAccessScope.getSymbol(identifierNode.getTokenValue());
+    if (isMemberAccessRhs(identifierNode)) {
+      // "fld" in "s.fld" must resolve against s's own type, never the ambient scope, or a
+      // same-named unrelated symbol could shadow it. Left unresolved if the type can't be found.
+      SymbolTable memberAccessScope = resolveMemberAccessScope(identifierNode);
+      resolved = memberAccessScope != null
+        ? memberAccessScope.getSymbol(identifierNode.getTokenValue())
+        : null;
     } else {
       SymbolTable scope = currentScope();
       if (scope == null) {
@@ -573,38 +530,32 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * If {@code identifierNode} is the field-name operand of a member-access expression (the
-   * {@code IDENTIFIER} directly following a {@code "."} or {@code "->"} inside a
-   * {@code postfixExpression}, e.g. {@code "fld"} in {@code "s.fld"}), resolves the accessed
-   * object's own declared type and returns that type's member scope, so the field name can be
-   * looked up there instead of in the ambient scope.
+   * True if {@code identifierNode} is a member-access field name (the {@code IDENTIFIER} after
+   * {@code "."}/{@code "->"}, e.g. {@code "fld"} in {@code "s.fld"}), regardless of whether the
+   * object's type can be resolved.
+   */
+  private static boolean isMemberAccessRhs(AstNode identifierNode) {
+    AstNode parent = identifierNode.getParent();
+    if (parent == null || !parent.is(CxxGrammarImpl.postfixExpression)) {
+      return false;
+    }
+    AstNode operatorNode = identifierNode.getPreviousSibling();
+    return operatorNode != null && operatorNode.is(CxxPunctuator.DOT, CxxPunctuator.ARROW);
+  }
+
+  /**
+   * Resolves the accessed object's declared type (see {@link #isMemberAccessRhs}) and returns
+   * its member scope. Handles chains ({@code "a.b.c"}) via left-to-right traversal order: by the
+   * time {@code "c"} is visited, {@code "b"} is already resolved. Only a plain
+   * {@code IDENTIFIER} operand is handled; a call result, {@code this->fld}, or array/pointer
+   * expressions are left unresolved. Callers must check {@link #isMemberAccessRhs} first -- a
+   * null result here must not fall back to an ambient lookup.
    *
-   * <p>Handles identifier chains ({@code "a.b.c"}) by relying on this visitor's left-to-right,
-   * depth-first traversal order: by the time {@code "c"} is visited, {@code "b"} has already been
-   * resolved and had its own symbol (and, transitively, its own declared type) recorded via
-   * {@link AstNodeSymbolExtension}.
-   *
-   * <p>Only handles the case where the operand immediately before the operator is itself a plain
-   * {@code IDENTIFIER} (a variable/field name, possibly mid-chain). More complex object
-   * expressions -- a function call's result ({@code getObj().fld}), {@code this->fld}, array
-   * subscript results, or pointer dereferences -- are not type-inferred by this visitor and are
-   * left unresolved rather than guessed at, which is strictly no worse than before this method
-   * existed (an unresolved usage, not a wrongly-resolved one).
-   *
-   * @return the member scope to look the field name up in, or null if this is not a member-access
-   *         RHS identifier, or the accessed object's type/member-scope could not be determined
+   * @return the member scope to look the field name up in, or null if unresolved
    */
   @CheckForNull
   private static SymbolTable resolveMemberAccessScope(AstNode identifierNode) {
-    AstNode parent = identifierNode.getParent();
-    if (parent == null || !parent.is(CxxGrammarImpl.postfixExpression)) {
-      return null;
-    }
     AstNode operatorNode = identifierNode.getPreviousSibling();
-    if (operatorNode == null
-        || !operatorNode.is(CxxPunctuator.DOT, CxxPunctuator.ARROW)) {
-      return null;
-    }
     AstNode objectNode = operatorNode.getPreviousSibling();
     if (objectNode == null || !objectNode.is(GenericTokenType.IDENTIFIER)) {
       return null;
@@ -618,12 +569,10 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Classifies whether an identifier occurrence is the target of a plain assignment ({@code
-   * WRITE}), a compound assignment such as {@code +=} ({@code READ_WRITE}), or neither ({@code
-   * READ}). An occurrence is an assignment target when it is or is contained in its enclosing
-   * {@code assignmentExpression}'s LHS. The grammar's LHS rule ({@code logicalOrExpression}) is
-   * {@code skipIfOneChild()}, so for a bare identifier target it collapses away and the
-   * identifier becomes the direct first child of {@code assignmentExpression}.
+   * Classifies an identifier occurrence as {@code WRITE} (plain assignment), {@code READ_WRITE}
+   * (compound assignment), or {@code READ}. For a member-access LHS ({@code s.fld = 1}), only the
+   * final field ({@code fld}) is WRITE -- an object operand like {@code s} is only read to
+   * navigate to it.
    */
   private static Symbol.Usage.UsageKind classifyUsageKind(AstNode identifierNode) {
     AstNode assignmentExpr = identifierNode.getFirstAncestor(CxxGrammarImpl.assignmentExpression);
@@ -631,7 +580,7 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       return Symbol.Usage.UsageKind.READ;
     }
     AstNode lhs = assignmentExpr.getFirstChild();
-    if (lhs == null || !isDescendantOrSelf(lhs, identifierNode)) {
+    if (lhs == null || !isDescendantOrSelf(lhs, identifierNode) || isMemberAccessObjectOperand(identifierNode)) {
       return Symbol.Usage.UsageKind.READ;
     }
     AstNode operatorNode = assignmentExpr.getFirstChild(CxxGrammarImpl.assignmentOperator);
@@ -639,6 +588,15 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       return Symbol.Usage.UsageKind.WRITE;
     }
     return Symbol.Usage.UsageKind.READ_WRITE;
+  }
+
+  /**
+   * True if {@code identifierNode} is a member-access object operand (e.g. {@code s} in
+   * {@code s.fld}), i.e. immediately followed by {@code "."}/{@code "->"}.
+   */
+  private static boolean isMemberAccessObjectOperand(AstNode identifierNode) {
+    AstNode nextSibling = identifierNode.getNextSibling();
+    return nextSibling != null && nextSibling.is(CxxPunctuator.DOT, CxxPunctuator.ARROW);
   }
 
   private static boolean isDescendantOrSelf(AstNode ancestor, AstNode node) {
@@ -651,11 +609,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Copies every symbol directly defined in {@code sourceScope} into {@code targetScope}, so
-   * members that were registered into a scope with no reachable owning symbol (an anonymous
-   * struct/union, or an anonymous scoped enum) become visible from the enclosing scope instead --
-   * matching real C++ semantics for anonymous unions/structs, whose members are transparently
-   * visible in the scope that declares them.
+   * Copies every symbol in {@code sourceScope} into {@code targetScope}, so members of an
+   * anonymous struct/union/scoped-enum become visible in the enclosing scope.
    */
   private static void copySymbolsToEnclosingScope(@Nullable SymbolTable sourceScope, SymbolTable targetScope) {
     if (sourceScope == null) {
@@ -705,14 +660,12 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
     for (AstNode memberDeclaration : memberSpecification.getChildren(CxxGrammarImpl.memberDeclaration)) {
       if (CxxAstNodeHelper.isTypedefKeywordPresent(
           memberDeclaration.getFirstChild(CxxGrammarImpl.memberDeclSpecifierSeq))) {
-        continue; // a typedef declares a type alias, not a data member
+        continue; // typedef declares a type alias, not a data member
       }
       for (AstNode memberDeclarator : CxxAstNodeHelper.getMemberDeclarators(memberDeclaration)) {
         AstNode declaratorNode = memberDeclarator.getFirstChild(CxxGrammarImpl.declarator);
         if (declaratorNode == null) {
-          // Bit-field alternative: [IDENTIFIER] [attributeSpecifierSeq] ":" constantExpression
-          // [braceOrEqualInitializer] -- there is no declarator child at all, only a bare
-          // (optional, since anonymous bit-field padding is legal) IDENTIFIER token.
+          // Bit-field alternative has no declarator child, just an optional bare IDENTIFIER.
           resolveBitFieldMember(classScope, memberDeclarator);
           continue;
         }
@@ -732,15 +685,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Registers a member function's own symbol (a {@code SourceCodeFunctionSymbol}, with its
-   * parameters) into the class scope, so a call to it from within the class resolves to a
-   * function symbol rather than either finding nothing or -- if member data fields and member
-   * functions were not distinguished -- a fabricated variable symbol with no real meaning.
-   * Prototype-only member declarations (e.g. {@code void meth(int);} with no body) are member
-   * functions reached only through this path: they are a {@code memberDeclarator}, never a
-   * {@code functionDefinition}, so {@link #resolveFunctionDeclaration} never sees them.
-   *
-   * <p>Not counted in {@code lastResolvedFieldNames()}, which reports data members only.
+   * Registers a member function's symbol into the class scope. Prototype-only declarations
+   * (e.g. {@code void meth(int);}) are reached only here, never via
+   * {@link #resolveFunctionDeclaration}. Not counted in {@code lastResolvedFieldNames()}.
    */
   private void resolveMemberFunction(SymbolTable classScope, String functionName,
       AstNode declaratorNode, @Nullable AstNode declaratorId) {
@@ -765,17 +712,14 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Registers a bit-field member ({@code memberDeclarator}'s
-   * {@code [IDENTIFIER] [attributeSpecifierSeq] ":" constantExpression [braceOrEqualInitializer]}
-   * alternative). This shape has no {@code declarator} child at all -- the bit-field's name, when
-   * present, is a bare {@code IDENTIFIER} token directly under {@code memberDeclarator}, unlike
-   * every other member shape which wraps its name in a {@code declaratorId}. An anonymous bit-field
-   * (used purely for padding, e.g. {@code int : 3;}) has no name at all and is legitimately skipped.
+   * Registers a bit-field member. Its name, when present, is a bare {@code IDENTIFIER} under
+   * {@code memberDeclarator}, unlike every other member shape's {@code declaratorId}. An
+   * anonymous bit-field (padding, e.g. {@code int : 3;}) has no name and is skipped.
    */
   private void resolveBitFieldMember(SymbolTable classScope, AstNode memberDeclarator) {
     AstNode identifier = memberDeclarator.getFirstChild(GenericTokenType.IDENTIFIER);
     if (identifier == null) {
-      return; // anonymous bit-field used only for padding -- nothing to register
+      return; // anonymous padding bit-field
     }
     String fieldName = identifier.getTokenValue();
     var fieldSymbol = new SourceCodeSymbol.SourceCodeVariableSymbol(fieldName, null);
@@ -804,21 +748,10 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Locates a class data member's initializer, given a {@code memberDeclarator} and its
-   * {@code declarator} child. Only called for data-member declarators (function declarators are
-   * handled separately by {@link #resolveMemberFunction}, so the {@code pureSpecifier}/
-   * {@code virtSpecifier}-bearing shapes below never actually occur for a data member in
-   * practice, but are still excluded defensively since the grammar itself does not prevent a
-   * {@code memberDeclarator} from carrying one).
-   *
-   * <p>{@code braceOrEqualInitializer} is a {@code .skip()} grammar rule, so it never materializes
-   * as its own {@link AstNode}: its children (the {@code "="} token plus the initializer clause,
-   * or a {@code bracedInitList}) splice directly into {@code memberDeclarator} as trailing
-   * siblings of {@code declarator}. The last such trailing child is the initializer's value node.
-   *
-   * <p>Other {@code memberDeclarator} alternatives place a {@code requiresClause}, a
-   * {@code virtSpecifierSeq}/{@code virtSpecifier}, {@code cliFunctionModifiers}, or
-   * {@code pureSpecifier} in that trailing position instead, so those node types are excluded.
+   * Locates a data member's initializer. {@code braceOrEqualInitializer} is a {@code .skip()}
+   * grammar rule, so its children splice directly into {@code memberDeclarator} as trailing
+   * siblings of {@code declarator} -- the last such child is the initializer, unless it's one of
+   * the non-initializer trailing shapes ({@code requiresClause}, {@code virtSpecifier}, etc.).
    *
    * @param memberDeclarator the {@code memberDeclarator} node
    * @param declaratorNode the {@code declarator} child of {@code memberDeclarator}, or null
@@ -856,13 +789,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       typeSymbol.setDeclaration(enumSpecifierNode);
       enclosingScope.addSymbol(typeSymbol);
     }
-    // A scoped enum (enum class/enum struct) only exposes its constants via qualified access
-    // (Color::RED), so they're registered into their own child scope rather than the enclosing
-    // one. An unscoped enum's constants are visible directly in the enclosing scope, not nested
-    // inside the enum's own scope, so they're registered there instead. An ANONYMOUS scoped enum
-    // (enum class { A, B };) has no name to qualify its constants with at all -- Color::RED needs
-    // "Color" to exist -- so its own child scope would be unreachable from anywhere; its constants
-    // are registered directly into the enclosing scope instead, same as an unscoped enum.
+    // A named scoped enum exposes constants only via qualified access (Color::RED), so they go
+    // in their own child scope. An unscoped or anonymous scoped enum's constants go directly in
+    // the enclosing scope (an anonymous scoped enum has no name to qualify them with anyway).
     SymbolTable constantScope;
     if (scoped && typeSymbol != null) {
       constantScope = enclosingScope.createChildScope();
@@ -884,9 +813,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * An enum is scoped ({@code enum class}/{@code enum struct}) when its {@code enumHead}'s {@code
-   * enumKey} child contains a {@code CLASS} or {@code STRUCT} token, per the grammar {@code enumKey
-   * = ENUM, [CLASS | STRUCT]}. A plain {@code enum} has neither.
+   * An enum is scoped ({@code enum class}/{@code enum struct}) when its {@code enumKey} contains
+   * a {@code CLASS} or {@code STRUCT} token.
    */
   private static boolean isScopedEnum(AstNode enumSpecifierNode) {
     AstNode enumHead = enumSpecifierNode.getFirstChild(CxxGrammarImpl.enumHead);

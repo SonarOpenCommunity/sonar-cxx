@@ -112,7 +112,7 @@ public class SymbolTable {
    * @return collection of all symbols in this scope
    */
   public Collection<Symbol> getSymbols() {
-    return symbols.values();
+    return new ArrayList<>(symbols.values());
   }
 
   /**

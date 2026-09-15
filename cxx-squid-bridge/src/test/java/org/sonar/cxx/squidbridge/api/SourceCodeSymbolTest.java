@@ -69,9 +69,7 @@ class SourceCodeSymbolTest {
 
   @Test
   void typeSymbolSettingNewKindReplacesThePreviousOne() {
-    // A type symbol represents exactly one kind of declaration -- setting a new TypeKind must
-    // fully replace the old one, not accumulate alongside it (e.g. a symbol must never report
-    // both isStruct() and isEnum() as true).
+    // A type symbol represents exactly one kind of declaration at a time.
     var typeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol("Thing", null);
 
     typeSymbol.setTypeKind(SourceCodeSymbol.SourceCodeTypeSymbol.TypeKind.STRUCT);
@@ -133,15 +131,59 @@ class SourceCodeSymbolTest {
 
   @Test
   void typeSymbolCanBeMarkedAsClassDirectly() {
-    // The two-arg constructor does not default to TypeKind.CLASS (only the SourceClass-taking
-    // constructor does, directly), so calling setTypeKind explicitly is the only way to exercise
-    // this path for a symbol built via the (String, SourceCode) constructor.
+    // Only the SourceClass-taking constructor defaults to TypeKind.CLASS.
     var typeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol("MyClass", null);
     assertThat(typeSymbol.isClass()).isFalse();
 
     typeSymbol.setTypeKind(SourceCodeSymbol.SourceCodeTypeSymbol.TypeKind.CLASS);
 
     assertThat(typeSymbol.isClass()).isTrue();
+  }
+
+  @Test
+  void ownerFallbackIsCachedSoMutationsThroughItPersist() {
+    var outerClass = new SourceClass("Outer", "Outer");
+    var innerFunction = new SourceFunction(outerClass, "Outer::method", "method()", 1);
+    outerClass.addChild(innerFunction);
+    var functionSymbol = new SourceCodeSymbol(innerFunction, Symbol.Kind.FUNCTION);
+
+    Symbol firstCall = functionSymbol.owner();
+    Symbol secondCall = functionSymbol.owner();
+
+    // Both calls must return the exact same fallback-constructed instance.
+    assertThat(secondCall).isSameAs(firstCall);
+  }
+
+  @Test
+  void enclosingClassFallbackIsCachedSoMutationsThroughItPersist() {
+    var outerClass = new SourceClass("Outer", "Outer");
+    var innerFunction = new SourceFunction(outerClass, "Outer::method", "method()", 1);
+    outerClass.addChild(innerFunction);
+    var functionSymbol = new SourceCodeSymbol(innerFunction, Symbol.Kind.FUNCTION);
+
+    Symbol.TypeSymbol firstCall = functionSymbol.enclosingClass();
+    assertThat(firstCall).isNotNull();
+    var memberScope = new SymbolTable();
+    firstCall.memberScope(); // no-op read to document the getter exists before mutating below
+    ((SourceCodeSymbol.SourceCodeTypeSymbol) firstCall).setMemberScope(memberScope);
+
+    Symbol.TypeSymbol secondCall = functionSymbol.enclosingClass();
+
+    assertThat(secondCall).isSameAs(firstCall);
+    assertThat(secondCall.memberScope()).isSameAs(memberScope);
+  }
+
+  @Test
+  void changingTypeKindOnAClassBackedInstanceUpdatesIsClass() {
+    // SourceCodeTypeSymbol(SourceClass) sets typeKind=CLASS; isClass() must track that field.
+    var sourceClass = new SourceClass("Outer", "Outer");
+    var typeSymbol = new SourceCodeSymbol.SourceCodeTypeSymbol(sourceClass);
+    assertThat(typeSymbol.isClass()).isTrue();
+
+    typeSymbol.setTypeKind(SourceCodeSymbol.SourceCodeTypeSymbol.TypeKind.STRUCT);
+
+    assertThat(typeSymbol.isClass()).isFalse();
+    assertThat(typeSymbol.isStruct()).isTrue();
   }
 
   @Test
@@ -156,10 +198,7 @@ class SourceCodeSymbolTest {
 
   @Test
   void memberSymbolsMapUnrecognizedSourceCodeKindToUnknown() {
-    // SourceClass and SourceFunction are mapped to TYPE/FUNCTION respectively by
-    // deriveKindFromSourceCode; any other concrete SourceCode subtype (e.g. SourceFile, which is
-    // trivially constructible and exposes the same addChild parent/child API) falls through to
-    // the final `return Kind.UNKNOWN;` branch.
+    // SourceFile falls through deriveKindFromSourceCode to the UNKNOWN branch.
     var sourceClass = new SourceClass("Outer", "Outer");
     var unrelatedChild = new SourceFile("Outer.cpp", "Outer.cpp");
     sourceClass.addChild(unrelatedChild);
