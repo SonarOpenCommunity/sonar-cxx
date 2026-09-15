@@ -371,21 +371,11 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Get the symbol of the variable that an expression is being assigned to.
-   *
-   * <p>Handles two C++ assignment patterns:
-   * <ul>
-   *   <li>Assignment expression: {@code x = expr} — navigates up from the
-   *       expression to the enclosing {@code assignmentExpression} and returns
-   *       the symbol associated with the LHS identifier.</li>
-   *   <li>Simple declaration with initializer: {@code auto x = expr} — navigates
-   *       up from the expression to the enclosing {@code initDeclarator} and returns
-   *       the symbol associated with the declarator identifier.</li>
-   * </ul>
+   * Gets the symbol of the variable an expression is being assigned to, via either an
+   * assignment ({@code x = expr}) or a declaration with initializer ({@code auto x = expr}).
    *
    * @param expressionNode an expression node (e.g., a function call)
-   * @return the symbol of the variable being assigned to, or null if the
-   *         expression is not in an assignment context or no symbol is available
+   * @return the symbol of the variable being assigned to, or null if none
    */
   @CheckForNull
   public static Symbol getAssignedSymbol(@Nullable AstNode expressionNode) {
@@ -442,17 +432,11 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Check if a function call is an invocation on a specific variable.
-   *
-   * <p>For member function calls like {@code obj.method()}, this checks whether
-   * the qualifier ({@code obj}) has a symbol that matches the specified variable
-   * symbol. This is useful for tracking method calls on specific objects in
-   * detection rules.
+   * Checks if a function call (e.g. {@code obj.method()}) is invoked on the given variable.
    *
    * @param callNode a postfixExpression node representing a function call
    * @param variableSymbol the variable symbol to check against
-   * @param acceptParentMemberAccess if true, also check parent member access
-   *        chains (e.g., {@code a.b.method()} matches for symbol of {@code a})
+   * @param acceptParentMemberAccess if true, also check parent chains (e.g. {@code a.b.method()})
    * @return true if the function call is invoked on the specified variable
    */
   public static boolean isInvocationOnVariable(@Nullable AstNode callNode,
@@ -644,23 +628,12 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Extracts the class/struct name referenced by a variable or data member's own declared type,
-   * given its enclosing {@code simpleDeclaration} or {@code memberDeclaration} node -- e.g. for
-   * {@code S s;} or {@code S fld;}, returns {@code "S"}. Used to resolve a variable/field's static
-   * type to that type's own {@code TypeSymbol}, so member-access expressions ({@code s.fld}) can
-   * look the member up in the correct class scope instead of the ambient scope.
-   *
-   * <p>{@code declSpecifierSeq}/{@code memberDeclSpecifierSeq} are both {@code .skipIfOneChild()}
-   * grammar rules, so for the common single-specifier case (no {@code static}/{@code const}/etc.
-   * qualifiers) the node collapses directly to its own {@code declSpecifier} child; both shapes are
-   * handled here by searching the first child that is either node type -- always the specifier
-   * sequence, never the {@code initDeclaratorList}/{@code memberDeclaratorList} sibling that comes
-   * after it, so an initializer's own type references (e.g. {@code S s = OtherType{};}) are never
-   * mistaken for the declared type.
+   * Extracts the class/struct name referenced by a variable or data member's declared type
+   * (e.g. {@code "S"} for {@code S s;}). {@code declSpecifierSeq}/{@code memberDeclSpecifierSeq}
+   * are {@code .skipIfOneChild()} rules, so both shapes are searched for directly.
    *
    * @param declaringNode a simpleDeclaration or memberDeclaration node
-   * @return the referenced class/struct name, or null if the declared type is not a class/struct
-   *         reference (e.g. a builtin type, enum, or typedef) or none could be found
+   * @return the referenced class/struct name, or null if not a class/struct reference
    */
   @CheckForNull
   public static String getDeclaredClassTypeName(@Nullable AstNode declaringNode) {
@@ -722,26 +695,9 @@ public final class CxxAstNodeHelper {
 
   /**
    * Checks whether an IDENTIFIER node is part of a declaration (declaratorId, memberDeclarator,
-   * enumerator, classHeadName, enumHeadName ancestor, or the direct name-token child of an
-   * aliasDeclaration), as opposed to being a usage reached through an expression
-   * (primaryExpression/postfixExpression/idExpression not wrapped by one of those declaration
-   * node types).
-   *
-   * <p>{@code className} is deliberately not checked directly: it is the generic
-   * identifier-shaped-like-a-class-name grammar rule, used both at a class/struct/union's own
-   * definition site ({@code classHead -> classHeadName -> className}) and at any ordinary
-   * reference to an existing type by name ({@code typeName -> className}, e.g. the right-hand
-   * side of {@code using Alias = SomeExistingType;}). Only {@code classHeadName} distinguishes
-   * the definition-site shape; checking {@code className} directly would treat every type
-   * reference as a declaration site and never register it as a usage.
-   *
-   * <p>{@code aliasDeclaration}'s own name ({@code USING IDENTIFIER ... "=" definingTypeId ";"})
-   * is a bare IDENTIFIER token with no wrapper node of its own, unlike every other declaration
-   * shape this method recognizes -- so it is checked only when the identifier is a direct child
-   * of aliasDeclaration, not via the general ancestor walk below. A general ancestor check would
-   * incorrectly also suppress genuine identifier usages inside the RHS definingTypeId (e.g. a
-   * type name referenced in {@code using Alias = SomeType;}), which are real usages, not
-   * declarations.
+   * enumerator, classHeadName ancestor, or a direct child of aliasDeclaration), as opposed to a
+   * usage. {@code className} is not checked directly -- it also matches ordinary type references,
+   * only {@code classHeadName} distinguishes a real definition site.
    *
    * @param identifierNode an IDENTIFIER token node
    * @return true if this identifier occurrence is a declaration site, not a usage

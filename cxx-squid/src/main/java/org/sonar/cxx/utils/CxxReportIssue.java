@@ -45,10 +45,8 @@ public class CxxReportIssue {
   }
 
   /**
-   * @param checkClass the concrete {@code SquidAstVisitor} class raising this issue, used to resolve
-   *                    which rule repository it was registered under (a single {@code ruleId} is not
-   *                    unique across repositories); may be {@code null} for callers that report
-   *                    directly against sonar-cxx's own built-in repository
+   * @param checkClass the {@code SquidAstVisitor} class raising this issue, used to resolve its
+   *                    rule repository; may be {@code null} for sonar-cxx's own built-in repository
    */
   public CxxReportIssue(String ruleId, @Nullable Class<?> checkClass, @Nullable String file, @Nullable String line,
     @Nullable String column, String info) {

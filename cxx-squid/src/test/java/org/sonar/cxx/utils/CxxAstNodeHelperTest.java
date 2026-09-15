@@ -607,10 +607,6 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetFunctionDefinitionParametersValid() {
-    // Matches the real grammar shape (parametersAndQualifiers -> parameterDeclarationClause ->
-    // parameterDeclarationList -> parameterDeclaration, direct children at each level), confirmed
-    // against a real parse: a hand-built tree that skips the intermediate wrapper nodes does not
-    // reflect what the grammar actually produces.
     var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
     var decl = createNode(CxxGrammarImpl.declarator, "f");
     var paramsQuals = createNode(CxxGrammarImpl.parametersAndQualifiers, "()");
@@ -630,9 +626,6 @@ class CxxAstNodeHelperTest {
 
   @Test
   void testGetFunctionDefinitionParametersNestedDeclaratorNotIncluded() {
-    // A parameter whose own type is a function pointer/reference carries its own nested
-    // parametersAndQualifiers, with its own nested parameterDeclaration nodes -- these must not
-    // be included as if they were this function's own parameters.
     var funcDef = createNode(CxxGrammarImpl.functionDefinition, "f");
     var decl = createNode(CxxGrammarImpl.declarator, "f");
     var paramsQuals = createNode(CxxGrammarImpl.parametersAndQualifiers, "(int (*cb)(int inner))");
