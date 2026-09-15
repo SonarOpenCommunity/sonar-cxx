@@ -55,6 +55,7 @@ import org.sonar.cxx.visitors.CxxLinesOfCodeInFunctionBodyVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
+import org.sonar.cxx.visitors.CxxSymbolHighlighterVisitor;
 import org.sonar.cxx.visitors.CxxSymbolResolverVisitor;
 
 public final class CxxAstScanner {
@@ -139,7 +140,13 @@ public final class CxxAstScanner {
     });
 
     /* Symbol resolution */
-    builder.withSquidAstVisitor(new CxxSymbolResolverVisitor<>());
+    // Gated behind sonar.cxx.symbolTable (default: on) so it costs nothing when unused.
+    if (squidConfig.getBoolean(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES,
+      CxxSquidConfiguration.SYMBOL_TABLE_ENABLED).orElse(Boolean.TRUE)) {
+      // leaveFile runs in reverse registration order, so register the highlighter first.
+      builder.withSquidAstVisitor(new CxxSymbolHighlighterVisitor<>());
+      builder.withSquidAstVisitor(new CxxSymbolResolverVisitor<>());
+    }
 
     /* Functions / Methods */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>((SourceCode parentSourceCode, AstNode astNode) -> {

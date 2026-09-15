@@ -78,6 +78,33 @@ class CxxSquidSensorTest {
   }
 
   @Test
+  void testSymbolHighlightingEnabledByDefault() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
+    var inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
+
+    var context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile0);
+    sensor.execute(context);
+
+    // "int isatty(int fn)": fn declared at line 12, column 15 (0-based).
+    assertThat(context.referencesForSymbolAt(inputFile0.key(), 12, 15)).isNotEmpty();
+  }
+
+  @Test
+  void testSymbolHighlightingDisabledPublishesNoSymbols() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
+    var inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
+
+    settings.setProperty(CxxSquidSensor.SYMBOL_TABLE_KEY, false);
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    context.fileSystem().add(inputFile0);
+    sensor.execute(context);
+
+    assertThat(context.referencesForSymbolAt(inputFile0.key(), 12, 15)).isNullOrEmpty();
+  }
+
+  @Test
   void testCpdTokens() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx");
     var context = SensorContextTester.create(baseDir);
@@ -245,9 +272,7 @@ class CxxSquidSensorTest {
     assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
   }
 
-  // `checks` is private with no test accessor, so this only checks the 5-arg constructor
-  // compiles and runs. Repository wiring itself is verified in
-  // CxxChecksTest#shouldReturnChecksFromCustomRuleRepository.
+  // Repository wiring itself is verified in CxxChecksTest#shouldReturnChecksFromCustomRuleRepository.
   @Test
   void constructorCompilesWithBothCustomRuleArrayParameters() {
     ActiveRules rules = mock(ActiveRules.class);
