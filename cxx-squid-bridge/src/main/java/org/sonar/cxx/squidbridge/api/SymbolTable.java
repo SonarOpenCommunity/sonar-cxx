@@ -96,12 +96,11 @@ public class SymbolTable {
    */
   @CheckForNull
   public Symbol lookupSymbol(String name) {
-    Symbol symbol = symbols.get(name);
-    if (symbol != null) {
-      return symbol;
-    }
-    if (parent != null) {
-      return parent.lookupSymbol(name);
+    for (SymbolTable scope = this; scope != null; scope = scope.parent) {
+      Symbol symbol = scope.symbols.get(name);
+      if (symbol != null) {
+        return symbol;
+      }
     }
     return null;
   }
