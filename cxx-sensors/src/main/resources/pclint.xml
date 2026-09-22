@@ -1741,7 +1741,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[The indicated Symbol declared static was previously declared without the static storage class. This is technically a violation of the ANSI standard. Some compilers will accept this situation without complaint and regard the Symbol as static.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>402</key>
@@ -1749,7 +1748,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[The named Symbol was declared as a static function in the current module and was referenced but was not defined (in the module).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>403</key>
@@ -1757,7 +1755,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[Some type modifiers such as _export are inconsistent with the static storage class.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>404</key>
@@ -1765,7 +1762,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[A struct (or union or enum) definition was started within a header file but was not completed within the same header file.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>405</key>
@@ -1773,7 +1769,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[An #if construct was begun within a header file (name given) but was not completed within that header file. Was this intentional?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>406</key>
@@ -1781,7 +1776,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[A comment was begun within a header file (name given) but was not completed within that header file. Was this intentional?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>407</key>
@@ -1790,7 +1784,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A tag specified as a union, struct or enum was respecified as being one of the other two in the same module. For example: struct tag *p; union tag *q;
     will elicit this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>408</key>
@@ -1798,7 +1791,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[The expression within a case does not agree exactly with the type within the switch expression. For example, an enumerated type is matched against an int.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>409</key>
@@ -1806,7 +1798,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[An expression of the form i[...] was encountered where i is an integral expression. This could be legitimate depending on the subscript operand. For example, if i is an int and a is an array then i[a] is legitimate but unusual. If this is your coding style, suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>410</key>
@@ -1814,7 +1805,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[This warning is issued if you had previously attempted to set the type of sizeof by use of the options +fzl, -fzl, or -fzu, and a later size_t declaration contradicts the setting. This usually means you are attempting to lint programs for another system using header files for your own system. If this is the case we suggest you create a directory housing header files for that foreign system, alter size_t within that directory, and lint using that directory.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>411</key>
@@ -1822,7 +1812,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[This warning is issued if you had previously attempted to set the type of pointer differences by use of the fdl option and a later ptrdiff_t declaration contradicts the setting. See suggestion in Error Message 410.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>412</key>
@@ -1830,7 +1819,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[The format specifier %X when used with one of the scanf family, is ambiguous. With Microsoft C it means %lx whereas in ANSI C it has the meaning of %x. This ambiguous format specification has no place in any serious C program and should be replaced by one of the above.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>413</key>
@@ -1838,7 +1826,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[From information gleaned from earlier statements, it appears certain that a null pointer (a pointer whose value is 0) has been used in a context where null pointers are inappropriate. These include: Unary *, pointer increment (++) or decrement, addition of pointer to numeric, and subtraction of two pointers. In the case of binary operators, one of the words 'left' or 'right' is used to designate which operand is null. Symbol identifies the pointer variable that may be null.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>414</key>
@@ -1846,7 +1833,6 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>
       <![CDATA[The second argument to either the division operator (/) or the modulus operator (%) may be zero. Information is taken from earlier statements including assignments, initialization and tests.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>415</key>
@@ -1865,7 +1851,6 @@ results in an overflow message containing the phrase '1 beyond end of data'.
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1886,7 +1871,6 @@ Here, an illicit pointer value is created and is flagged as such by PC-lint/Flex
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1895,7 +1879,6 @@ Here, an illicit pointer value is created and is flagged as such by PC-lint/Flex
     <description>
       <![CDATA[The longest possible integer is by default 8 bytes (see the +fll flag and then the -sll# option). An integral constant was found to be even larger than such a quantity. For example: 0xFFFF0000FFFF0000F. String is the token in error.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>418</key>
@@ -1910,7 +1893,6 @@ A NULL pointer is being passed to a function identified by Symbol. The argument 
     ]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1920,7 +1902,6 @@ A NULL pointer is being passed to a function identified by Symbol. The argument 
       <![CDATA[This message is for data transfer functions such as memcpy, strcpy, fgets, etc. when the size indicated by the first cited argument (or arguments) exceeds the size of the buffer area cited by the second. The message may also be issued for user functions via the -function option.]]>
     </description>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1936,7 +1917,6 @@ This message is issued for several library functions (such as fwrite, memcmp, et
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1953,7 +1933,6 @@ This message is issued (by default) for the built-in function gets. This functio
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1965,7 +1944,6 @@ This message is issued (by default) for the built-in function gets. This functio
     will result in the warnings indicated. Note that casting the expression does not inhibit the warning.
     There is a slight difference in behavior on 32-bit systems versus 16-bit systems. If long is the same size as int (as in 32-bit systems) the warning is issued based upon the sign bit. If long is larger than an int (as is true on typical 16-bit systems) the warning is issued if the value was a converted negative as in the examples above. It is not issued if an unsigned int has the high-order bit set. This is because it is not unreasonable to malloc more that 32,176 bytes in a 16-bit system.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>423</key>
@@ -1981,7 +1959,6 @@ An assignment was made to a pointer variable (designated by Symbol) which appear
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -1993,7 +1970,6 @@ An assignment was made to a pointer variable (designated by Symbol) which appear
     malloc data is data obtained from a call to malloc, calloc or realloc. new and new[] data is data derived from calls to new. static data is either static data within a function or external data. auto data is non-static data in a function. member data is a component of a structure (and hence can't be independently freed). modified data is the result of applying pointer arithmetic to some other pointer. E.g. p = malloc(100); free( p+1 ); // warning
     p+1 is considered modified. constant data is the result of casting a constant to a pointer. E.g. int *p = (int *) Ox80002; free(p); // warning]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>425</key>
@@ -2001,7 +1977,6 @@ An assignment was made to a pointer variable (designated by Symbol) which appear
     <description>
       <![CDATA[This warning is issued when a syntax error is encountered while processing a Semantic option (-sem). The 'Message' depends upon the error. The first 'String' represents the portion of the semantic being processed. The second 'String' denotes the token being scanned when the error is first noticed.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>426</key>
@@ -2011,7 +1986,6 @@ An assignment was made to a pointer variable (designated by Symbol) which appear
     results in the message:
     Call to function 'f(int, int)' violates semantic '(1n>10)']]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>427</key>
@@ -2019,7 +1993,6 @@ An assignment was made to a pointer variable (designated by Symbol) which appear
     <description>
       <![CDATA[A one-line comment terminates in the back-slash escape sequence. This means that the next line will be absorbed in the comment (by a standards-conforming compiler -- not all compilers do the absorption, so beware). It is much safer to end the line with something other than a back-slash. Simply tacking on a period will do. If you really intend the next line to be a comment, the line should be started with its own double slash (//).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>428</key>
@@ -2028,7 +2001,6 @@ An assignment was made to a pointer variable (designated by Symbol) which appear
       <![CDATA[A negative integer was added to an array or to a pointer to an allocated area (allocated by malloc, operator new, etc.) This message is not given for pointers whose origin is unknown since a negative subscript is, in general, legal.
     The addition could have occurred as part of a subscript operation or as part of a pointer arithmetic operation. The operator is denoted by String. The value of the integer is given by Integer.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>429</key>
@@ -2057,7 +2029,6 @@ Then p still has custody of storage allocated.
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>430</key>
@@ -2066,7 +2037,6 @@ Then p still has custody of storage allocated.
       <![CDATA[Many compilers for embedded systems have a declaration syntax that specifies a location in place of an initial value for a variable. For example: int x @0x2000;
     specifies that variable x is actually location 0x2000. This message is a reminder that this syntax is non-standard (although quite common). If you are using this syntax on purpose, suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>431</key>
@@ -2074,7 +2044,6 @@ Then p still has custody of storage allocated.
     <description>
       <![CDATA[A template object parameter (as opposed to a type parameter) was not provided with an identifier. Was this an oversight?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>432</key>
@@ -2092,7 +2061,6 @@ Then p still has custody of storage allocated.
 <pre><code>
     malloc( strlen(e)-1 )</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>433</key>
@@ -2117,7 +2085,6 @@ For example:</p>
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -2128,7 +2095,6 @@ For example:</p>
     defines A to be 34. If a blank or tab intervenes between the back-slash and the new-line then according to a strict interpretation of the standard you have defined A to be a back-slash. But this blank is invisible to the naked eye and hence could lead to confusion. Worse, some compilers silently ignore the white-space and the program becomes non-portable.
     You should never deliberately place a blank at the end of a line and any such blanks should be removed. If you really need to define a macro with a terminal back-slash you can use a comment as in: #define A \ /* commentary */]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>435</key>
@@ -2137,7 +2103,6 @@ For example:</p>
       <![CDATA[An integer constant was found that had a precision that was too large for a long but would fit within a long long. Yet the +fll flag that enables the long long type was not set.
     Check the sizes that you specified for long (-sl#) and for long long (-sll#) and make sure they are correct. Turn on +fll if your compiler supports long long. Otherwise use smaller constants.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>436</key>
@@ -2162,7 +2127,6 @@ For example:</p>
        preprocessor directive as a directive.  This is logical but not
        portable.  It is therefore best to avoid this construct.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>437</key>
@@ -2170,7 +2134,6 @@ For example:</p>
     <description>
       <![CDATA[A struct is being passed to a function at a parameter position identified by an ellipsis. For example: void g() { struct A { int a; } x; void f( int, ... ); f( 1, x ); ... } This is sufficiently unusual that it is worth pointing out on the likely hood that this is unintended. The situation becomes more severe in the case of a Non-POD struct [10]. In this case the behavior is considered undefined.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>438</key>
@@ -2179,7 +2142,6 @@ For example:</p>
       <![CDATA[A value had been assigned to a variable that was not subsequently used. The message is issued either at a return statement or at the end of a block when the variable goes out of scope. For example, consider the following function: void f( int n ) { int x = 0, y = 1; if( n > 0 ) { int z; z = x + y; if( n > z ) { x = 3; return; } z = 12; } } Here we can report that x was assigned a value that had not been used by the time the return statement had been encountered. We also report that the most recently assigned value to z is unused at the point that z goes out of scope. See message 838 in Section 13.4 C Informational Messages and flags -fiw and -fiz in Sections 2.3.6 Initialization-is-considered-a-Write flag (-fiw) and 2.3.7 Initialization-by-Zero-is-considered-a-Write flag (-fiz) .
     This message is suppressed if the variable's address is assigned to a pointer (or, equivalently, the variable is used to directly initialize a reference to non-const).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>440</key>
@@ -2187,7 +2149,6 @@ For example:</p>
     <description>
       <![CDATA[A for clause has a suspicious structure. The loop variable, as determined by an examination of the 3rd for clause expression, does not match the variable that is tested in the 2nd for clause expression. For example: for( i = 0; i < 10; j++ ) ... would draw this complaint since the 'i' of the 2nd expression does not match the 'j' of the third expression.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>441</key>
@@ -2195,7 +2156,6 @@ For example:</p>
     <description>
       <![CDATA[The loop variable is determined by an examination of the 3rd for clause expression. A loop variable was found (and its name is given in the message) but it did not appear as one of the accessed symbols of the condition expression (the 2nd for expression). For example: for( p = a; *p; j++ ) ... would draw this complaint since the 2nd expression does not contain the 'j' of the third expression.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>442</key>
@@ -2206,7 +2166,6 @@ A for clause was encountered that appeared to have a parity problem. For example
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>443</key>
@@ -2214,7 +2173,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A for clause has a suspicious structure. The loop variable, as determined by an examination of the 3rd for clause expression, does not match the variable that is initialized in the 1st expression. For example: for( ii = 0; i < 10; i++ ) ... would draw this complaint since the 'ii' of the 1st expression does not match the 'i' of the third expression.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>444</key>
@@ -2222,7 +2180,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[The following kind of situation has been detected: for( ... ; p == NULL; p++ ) ... A loop variable being incremented or decremented would not normally be checked to see if it is NULL. This is more likely a programmer error.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>445</key>
@@ -2230,7 +2187,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A for loop nested within another for loop employed the same loop variable. For example: for( i = 0; i < 100; i++ ) { ... for( i = 0; i < n; i++ ) { ... } }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>446</key>
@@ -2246,7 +2202,6 @@ A for clause was encountered that appeared to have a parity problem. For example
 </code></pre>
 <p>       The values of the array elements are unspecified because the order of evaluation is unspecified by the C standard.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>447</key>
@@ -2254,7 +2209,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A named file was found to contain either leading or trailing whitespace in the #include directive. While legal, the ISO Standards allow compilers to define how files are specified or the header is identified, including the appearance of whitespace characters immediately after the < or opening " or before the > or closing ". Since filenames tend not to contain leading or trailing whitespace, Lint ignores the (apparently) extraneous characters and processes the directive as though the characters were never given. The use of a -efile option on either String for this message will cause Lint to process #include's with whitespace intact.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>448</key>
@@ -2262,7 +2216,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[Accessing past the terminating nul character is often an indication of a programmer error. For example: char buf[20]; strcpy( buf, "a" ); char c = buf[4]; // legal but suspect. Although buf has 20 characters, after the strcpy, there would be only two that the programmer would normally be interested in.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>449</key>
@@ -2270,7 +2223,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A pointer variable (designated in the message) was freed or deleted in an earlier statement.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>451</key>
@@ -2280,7 +2232,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     This warning may also be accompanied by a 537 (repeated include header). Message 537 is often suppressed because if you are working with include guards, it is not a helpful message. However, the message 451 should be left on in order to check the consistency of the include guards themselves.
     See also Elective Note 967 in Section 13.5 C Elective Notes.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>452</key>
@@ -2288,7 +2239,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A typedef symbol is being declared to be a different type. This can be legal, especially with multiple modules, but is not good programming practice. It inteferes with program legibility.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>453</key>
@@ -2297,7 +2247,6 @@ A for clause was encountered that appeared to have a parity problem. For example
       <![CDATA[A semantic option designated that the named function, Symbol, is pure (lacking non-local side-effects; see the pure semantic in Section 4. Semantics ). However, an impurity was detected. Such impurities include calling a function through a function pointer, accessing a volatile variable, modifying a static variable or calling a function whose purity PC-lint/FlexeLint cannot verify. String describes which of these reasons apply and Name shows the related variable or function, as appropriate.
     Despite the inconsistency reported, the function will continue to be regarded as pure.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>454</key>
@@ -2305,7 +2254,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A return point in a function has been reached such that a mutex lock that had been previously set has not been unlocked. E.g., //lint -sem( lock, thread_lock ) void f( int x ) { lock(); if( x < 0 ) return; // Warning 454 ...]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>455</key>
@@ -2313,7 +2261,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A call to an unlock() function was made that was not preceded by a balancing lock(). It is assumed that every mutex lock() function must be balanced by exactly one unlock() function, no more, no less. For example: //lint -sem( lock, thread_lock ) //lint -sem( unlock, thread_unlock ) void f( bool x ) { lock(); /* something */; unlock(); /* something else */ unlock(); // Warning 455 }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>456</key>
@@ -2322,7 +2269,6 @@ A for clause was encountered that appeared to have a parity problem. For example
       <![CDATA[It is the purpose of this message to make absolutely certain that every lock has a corresponding unlock in the same unbroken sequence of code in the same function.
     Execution paths can be combined at the end of an if statement, switch statement, or the beginning of while, for and do statements, a label (target of goto), etc. In all these cases we check to make sure that the mutex lock states are the same. For example: //lint -sem( lock, thread_lock ) void f( bool x ) { if( x ) lock(); // Warning 456 issued here ... It could be argued that if an unlock() call would appear under control of the very same bool x in the example above then all would be well. And if this is your coding style you are free to turn this message off. But errors in mutex locking have such horrible programming consequences as to suggest especially strong measures to assure code correctness. We recommend, for example: //lint -sem( lock, thread_lock ) //lint -sem( unlock, thread_unlock ) void f( bool x ) { if( x ) { lock(); /* something */; unlock(); } else { /* something */ } } If the 'something' that is being executed is sufficiently complex, then it can be made into a function.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>457</key>
@@ -2330,7 +2276,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A variable (Symbol3) was modified by function (Symbol1) of thread (Symbol2) outside of any recognized mutex lock. It was also accessed by a function (Symbol4) of a second thread (Symbol5). The latter access may or may not have been protected. If unprotected, a second message will be issued with the roles of Symbol1 and Symbol4 interchanged.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>458</key>
@@ -2338,7 +2283,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A variable identified in the message was accessed (non-modifying) by a function (Symbol1) of thread (Symbol2) outside of any recognized mutex lock. It was also modified by a function (Symbol4) in a second thread (Symbol5). The modification may or may not have been protected. If unprotected, Warning 457 will also be issued.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>459</key>
@@ -2348,7 +2292,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     If a function's address is taken, we presume that we are unable to determine statically all the locations from which the function may be called and so we presume that any and all threads can call this function and so the function needs to have protected access to every static variable that it might touch.
     There are several remedies to such a message. If multiple threads can indeed access this function, then place a mutex lock in the function. If there already is a mutex lock and we don't recognize it, then set the thread_protected semantic for the function. If only one thread really accesses this function or if the access is guaranteed to be benign, then, after making sure this condition is commented in the code, use the same thread_protected semantic for the function.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>460</key>
@@ -2357,7 +2300,6 @@ A for clause was encountered that appeared to have a parity problem. For example
       <![CDATA[The second symbol in the message represents a function that was designated as being thread_unsafe through the -sem option. It was being called in an unprotected region of a thread whose root function is the first symbol in the message. Another thread is also accessing this function and this thread is identified by the third parameter of the message.
     Calls to thread unsafe functions need to be protected by mutex locks if they are to be employed by more than one thread.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>461</key>
@@ -2365,7 +2307,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[This message is similar to Warning 460 in that a thread (identified in the message as the first Symbol) is making a call on a function (the second Symbol) which had been deduced (through options) as being thread unsafe. Like message 460 there is another thread that is also doing some calling. In this case the other thread is not calling the same function as the first but one which has been placed within the same group (identified by the third parameter) as the first function. See Section 8. Multi-thread Support to obtain further information on thread unsafe function groups and options to determine them.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>462</key>
@@ -2375,7 +2316,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     thread_not thread_not( list ) thread_only( list )
     If the second form is given, it means that the thread appears on the list. If the 3rd form is given it means that the thread was not on the list.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>464</key>
@@ -2383,7 +2323,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[This is issued when we encounter a function argument expression used in such a way that there will be an attempt to copy its contents onto itself. E.g. sprintf( s, "%s", s );]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>483</key>
@@ -2391,7 +2330,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[organization has expressed the perspective, if the expression of a switch-statement is boolean in nature, if-else should be used instead.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>484</key>
@@ -2399,7 +2337,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[Due to order of evaluation issues, the mixing of stringizing and pasting operators, particularly when appearing in the order # parameter ##, results in unspecified behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>485</key>
@@ -2407,7 +2344,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[This message is given upon an inconsistent use of designated initializers (used for specific fields of arrays or structures). It is possible for an element of such an aggregate to be initialized twice either through the use of two separate designators or through a designator and the conventional sequential initialization process. In either case the end result is not specified and the construction is usually a sign of a logic error.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>486</key>
@@ -2415,7 +2351,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A file pointer was obtained with a call to an fopen-like function in read-only mode. This pointer was then used in an attempt to write to the file. The ISO standards leave the behavior in such cases as unspecified.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>488</key>
@@ -2431,7 +2366,6 @@ A for clause was encountered that appeared to have a parity problem. For example
 </code></pre>
 <p>       will not.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>489</key>
@@ -2439,7 +2373,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[An assignment to an element of a string literal was seen. Doing so results in undefined behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>491</key>
@@ -2454,7 +2387,6 @@ A for clause was encountered that appeared to have a parity problem. For example
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>501</key>
@@ -2462,7 +2394,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[The unary minus operator was applied to an unsigned type. The resulting value is a positive unsigned quantity and may not be what was intended.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>502</key>
@@ -2470,7 +2401,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[Unary ~ being a bit operator would more logically be applied to unsigned quantities rather than signed quantities.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>503</key>
@@ -2478,7 +2408,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[Normally a relational would not have a Boolean as argument. An example of this is a < b < c which is technically legal but does not produce the same result as the mathematical expression which it resembles.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>504</key>
@@ -2486,7 +2415,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[Either the quantity being shifted or the amount by which a quantity is to be shifted was derived in an unusual way such as with a bit-wise logical operator, a negation, or with an unparenthesized expression. If the shift value is a compound expression that is not parenthesized, parenthesize it.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>505</key>
@@ -2494,7 +2422,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[The left argument to the comma operator had no side effects in its top-most operator and hence is redundant.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>506</key>
@@ -2502,7 +2429,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A Boolean, i.e., a quantity found in a context that requires a Boolean such as an argument to && or || or an if() or while() clause or ! was found to be a constant and hence will evaluate the same way each time.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>507</key>
@@ -2510,7 +2436,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A cast was made to an integral quantity from a pointer and according to other information given or implied it would not fit. For example a cast to an unsigned int was specified and information provided by the options indicate that a pointer is are larger than an int.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>508</key>
@@ -2518,7 +2443,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A function definition was accompanied with an extern storage class. extern is normally used with declarations rather than with definitions. At best the extern is redundant. At worst you may trip up a compiler.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>509</key>
@@ -2526,7 +2450,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A data object was defined with a storage class of extern. This is technically legal in ANSI and you may want to suppress this message. However, it can easily trip up a compiler and so the practice is not recommended at this time.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>510</key>
@@ -2534,7 +2457,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[File name extensions that are not those recognized as implying C++ source code or indirect files for lint or pre-compiled headers for lint or lint object modules or project files are assumed to be C source code. If we recognize a new file extension in some future version of lint it can be beneficial to warn about the use of this file extension in any earlier version of lint. One reason for this is to aid in the transition between versions of the product. During this transition period a new file extension may be provided unintentionally to a former version of the product resulting in surprising behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>511</key>
@@ -2542,7 +2464,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[A cast was made from an integral type to a pointer and the size of the quantity was too large to fit into the pointer. For example if a long is cast to a pointer and if options indicate that a long is larger than a pointer, this warning would be reported.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>512</key>
@@ -2550,7 +2471,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[The Symbol name given is a function name that was declared as static in some other module (the location of that declaration is provided). The use of a name as static in one module and external in another module is legal but suspect.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>514</key>
@@ -2560,7 +2480,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     if( flags & 4 == 0 )
     where the ==, having higher precedence than &, is done first (to the puzzlement of the programmer).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>515</key>
@@ -2568,7 +2487,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[An inconsistency was found in the number of actual arguments provided in a function call and either the number of formal parameters in its definition or the number of actual arguments in some other function call. See the +fva option to selectively suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>516</key>
@@ -2576,7 +2494,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[An inconsistency was found in the type of an actual argument in a function call with either the type of the corresponding formal parameter in the function definition or the type of an actual argument in another call to the same function or with the type specified for the argument in the function's prototype. The call is not made in the presence of a prototype. See options -ean, -eau, -eas and -eai for selective suppression of some kinds of type differences. If the conflict involves types char or short then you may want to consider using the +fxc or +fxs option.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>517</key>
@@ -2587,7 +2504,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>518</key>
@@ -2595,7 +2511,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[sizeof type is not strict C. sizeof(type) or sizeof expression are both permissible.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>519</key>
@@ -2603,7 +2518,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[An attempt was made to cast a pointer to a pointer of unequal size. This could occur for example in a P model where pointers to functions require 4 bytes whereas pointers to data require only 2. This error message can be circumvented by first casting the pointer to an integral quantity (int or long) before casting to a pointer.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>520</key>
@@ -2611,7 +2525,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The first expression of a for clause should either be one of the privileged operators: assignment, increment, decrement or call to an impure function or one modifying its argument(s).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>521</key>
@@ -2619,7 +2532,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The third expression of a for clause should either be one of the privileged operators: assignment, increment, decrement or call to an impure function or one modifying its argument(s).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>522</key>
@@ -2628,7 +2540,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
       <![CDATA[If a statement consists only of an expression, it should either be one of the privileged operators: assignment, increment, decrement or call to an impure function or one modifying its argument(s). For example if operator * is the built-in operator, the statement *p++; draws this message but p++; does not. This is because the highest operator is '*' which has no side effects.
     The definition of pure and impure functions and function calls which have side effects are given in the discussion of the pure semantic in section 4. Semantics]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>524</key>
@@ -2636,7 +2547,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[There is a possible loss of a fraction in converting from a float to an integral quantity. Use of a cast will suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>525</key>
@@ -2644,7 +2554,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The current line was found to be negatively indented (i.e., not indented as much) from the indicated line. The latter corresponds to a clause introducing a control structure and statements and other control clauses and braces within its scope are expected to have no less indentation. If tabs within your program are other than 8 blanks you should use the -t option.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>526</key>
@@ -2652,7 +2561,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The named external was referenced but not defined and did not appear declared in any library header file nor did it appear in a Library Module. This message is suppressed for unit checkout (-u option). Please note that a declaration, even one bearing prototype information is not a definition. See the glossary at the beginning of this chapter. If the Symbol is a library symbol, make sure that it is declared in a header file that you're including. Also make sure that the header file is regarded by PC-lint/FlexeLint as a Library Header file. Alternatively, the symbol may be declared in a Library Module.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>527</key>
@@ -2660,7 +2568,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[A portion of the program cannot be reached.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>528</key>
@@ -2668,7 +2575,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The named static variable or static function was not referenced in the module after having been declared.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>529</key>
@@ -2676,7 +2582,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The named variable was declared but not referenced in a function.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>530</key>
@@ -2684,7 +2589,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[An auto variable was used before it was initialized.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>531</key>
@@ -2692,7 +2596,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The size given for a bit field of a structure exceeds the size of an int.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>532</key>
@@ -2700,7 +2603,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[A declaration (or a definition) of a function implies a different return mode than a previous statement. (The return mode of a function has to do with whether the function does, or does not, return a value). A return mode is determined from a declaration by seeing if the function returns void or, optionally, by observing whether an explicit type is given. See the fdr flag for a further explanation of this. See also the fvr and fvo flags.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>533</key>
@@ -2708,7 +2610,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[A return statement within a function (or lack of a return at the end of the function) implies a different return mode than a previous statement at Location (The return mode of a function has to do with whether the function does, or does not, return a value.)]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>534</key>
@@ -2716,7 +2617,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[A function that returns a value is called just for side effects as, for example, in a statement by itself or the left-hand side of a comma operator. Try: (void) function(); to call a function and ignore its return value. See also the fvr, fvo and fdr flags.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>537</key>
@@ -2724,7 +2624,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The file whose inclusion within a module is being requested has already been included in this compilation. The file is processed normally even if the message is given. If it is your standard practice to repeat included files then simply suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>538</key>
@@ -2732,7 +2631,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The size of an array equals or exceeds 64K bytes.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>539</key>
@@ -2741,7 +2639,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
       <![CDATA[The current line was found to be positively indented from a clause that did not control the line in question. For example: if( n > 0 ) x = 3; y = 4;
     will result in this warning being issued for y = 4;. The Location cited will be that of the if clause.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>540</key>
@@ -2749,7 +2646,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[A string initializer required more space than what was allocated.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>541</key>
@@ -2757,7 +2653,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The size of a character constant specified with \xddd or \xhhh equaled or exceeded 2**b where b is the number of bits in a byte (established by the -sb option). The default is -sb8.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>542</key>
@@ -2767,7 +2662,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     You may get this message unexpectedly if the base of the bit field is an int. For example: struct { int b : 1 } s; s.b = 1; /* Warning - - requires 0 or -1 */
     The solution in this case is to use 'unsigned' rather than 'int' in the declaration of b.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>544</key>
@@ -2775,7 +2669,6 @@ The defined function (not a K&amp;R construct) was employed and the K&amp;R prep
     <description>
       <![CDATA[The preprocessor directive #endif should be followed by an end-of-line. Some compilers specifically allow commentary to follow the #endif. If you are following that convention simply turn this error message off.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>545</key>
@@ -2790,7 +2683,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>546</key>
@@ -2798,7 +2690,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[An attempt was made to take the address of a function name. Since names of functions by themselves are promoted to address, the use of the & is redundant and could be erroneous.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>547</key>
@@ -2806,7 +2697,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[The indicated symbol had previously been defined (vis #define)to some other value.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>548</key>
@@ -2814,7 +2704,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[A construct of the form if(e); was found which was not followed by an else. This is almost certainly an unwanted semi-colon as it inhibits the if from having any effect.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>549</key>
@@ -2822,7 +2711,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[A cast was made from a pointer to some enumerated type or from an enumerated type to a pointer. This is probably an error. Check your code and if this is not an error, then cast the item to an intermediate form (such as an int or a long) before making the final cast.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>550</key>
@@ -2830,7 +2718,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[A variable (local to some function) was not accessed. This means that the value of a variable was never used. Perhaps the variable was assigned a value but was never used. Note that a variable's value is not considered accessed by autoincrementing or autodecrementing unless the autoincrement/decrement appears within a larger expression which uses the resulting value. The same applies to a construct of the form: var += expression. If an address of a variable is taken, its value is assumed to be accessed. An array, struct or union is considered accessed if any portion thereof is accessed.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>551</key>
@@ -2838,7 +2725,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[A variable (declared static at the module level) was not accessed though the variable was referenced. See the explanation under message 550 (above) for a description of "access".]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>552</key>
@@ -2846,7 +2732,6 @@ Then a and &amp;a, as pointers, both represent the same bit pattern, but whereas
     <description>
       <![CDATA[An external variable was not accessed though the variable was referenced. See the explanation under message 550 above for a description of "access".]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>553</key>
@@ -2861,7 +2746,6 @@ Conventionally all variables in preprocessor expressions should be pre-defined. 
 ]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>555</key>
@@ -2872,7 +2756,6 @@ Conventionally all variables in preprocessor expressions should be pre-defined. 
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>556</key>
@@ -2883,7 +2766,6 @@ A preprocessor directive appeared indented within a line and the K&amp;R preproc
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>557</key>
@@ -2891,7 +2773,6 @@ A preprocessor directive appeared indented within a line and the K&amp;R preproc
     <description>
       <![CDATA[The format string supplied to printf, fprintf, sprintf, scanf, fscanf, or sscanf was not recognized. It is neither a standard format nor is it a user-defined format (see printf_code and scanf_code).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>558</key>
@@ -2899,7 +2780,6 @@ A preprocessor directive appeared indented within a line and the K&amp;R preproc
     <description>
       <![CDATA[The number of arguments supplied to printf, sprintf, fprintf, scanf, fscanf or sscanf was inconsistent with the number expected as a result of analyzing the format string.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>559</key>
@@ -2914,7 +2794,6 @@ will show an error in argument number 3 because constant 371 is not floating poi
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>560</key>
@@ -2930,7 +2809,6 @@ will generate the message that argument no. 2 should be a pointer.
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>561</key>
@@ -2945,7 +2823,6 @@ will elicit this message for argument number 2.
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>562</key>
@@ -2953,7 +2830,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[Within a function prototype a comma was immediately followed by a right parenthesis. This is taken by some compilers to be equivalent to an ellipsis (three dots) and this is what is assumed by PC-lint/FlexeLint. If your compiler does not accept the ellipsis but makes this assumption, then you should suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>563</key>
@@ -2961,7 +2837,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The Symbol at the cited Location appeared as a label but there was no statement that referenced this label.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>564</key>
@@ -2969,7 +2844,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The named variable was both modified and accessed in the same expression in such a way that the result depends on whether the order of evaluation is left-to-right or right-to-left. One such example is: n + n++ since there is no guarantee that the first access to n occurs before the increment of n. Other, more typical cases, are given in the manual. Volatile variables are also checked for repeated use in an expression.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>565</key>
@@ -2979,7 +2853,6 @@ will elicit this message for argument number 2.
     struct name;
     is sufficient to reserve a place for name in the symbol table at the appropriate level.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>566</key>
@@ -2987,7 +2860,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[This message is given for format specifiers within formats for the printf/scanf family of functions. The indicated character Char found in a format specifier was inconsistent or redundant with an earlier character found in the same format specifier. For example a format containing "%ls" will yield this error with the character 's' indicated. This is because the length modifier is designed to be used with integral or float conversions and has no meaning with the string conversion. Such characters are normally ignored by compilers.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>567</key>
@@ -2995,7 +2867,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[This message is given for format specifiers within formats for the printf/scanf family of functions. A numeric field or asterisk was expected at a particular point in the scanning of the format. For example: %-d requests left justification of a decimal integer within a format field. But since no field width is given, the request is meaningless.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>568</key>
@@ -3009,7 +2880,6 @@ will elicit this message for argument number 2.
 </code></pre>
 <p>are suspicious if u is an unsigned quantity or a quantity judged to be never less then 0. See also message 775.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>569</key>
@@ -3017,7 +2887,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[An assignment (or implied assignment, see Context) was made from a constant to an integral variable that is not large enough to hold the constant. Examples include placing a hex constant whose bit requirement is such as to require an unsigned int into a variable typed as int. The number of bits given does not count the sign bit.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>570</key>
@@ -3025,7 +2894,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[An assignment (or implied assignment, see Context) is being made from a negative constant into an unsigned quantity. Casting the constant to unsigned will remove the diagnostic but is this what you want. If you are assigning all ones to an unsigned, remember that ~0 represents all ones and is more portable than -1.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>571</key>
@@ -3039,7 +2907,6 @@ will elicit this message for argument number 2.
     (unsigned) (int) ch
     Although these examples have been given in terms of casting a char they will also be given whenever this cast is made upon a signed quantity whose size is less than the casted type. Examples include signed bit fields (a possibility in the new standard), expressions involving char, and expressions involving short when this type is smaller than int or a direct cast of an int to an unsigned long (if int's is smaller than long). This message is not issued for constants or for expressions involving bit operations.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>572</key>
@@ -3049,7 +2916,6 @@ will elicit this message for argument number 2.
     ch >> 10
     will elicit this message if ch is typed char and where char is less than 10 bits wide (the usual case). To suppress the message you may cast the shifted quantity to a type whose length is at least the length of the shift value.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>573</key>
@@ -3071,7 +2937,6 @@ will elicit this message for argument number 2.
 <p>will, if n is -2 and u is 2, not assign -1 to n but will assign some very large value.</p>
 <p>To resolve this problem, either cast the integer to unsigned if you know it can never be less than zero or cast the unsigned to an integer if you know it can never exceed the maximum integer.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>574</key>
@@ -3101,7 +2966,6 @@ will elicit this message for argument number 2.
 <p>is false because the promotion to unsigned makes n very large.</p>
 <p>To resolve this problem, either cast the integer to unsigned if you know it can never be less than zero or cast the unsigned to an int if you know it can never exceed the maximum int.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>575</key>
@@ -3109,7 +2973,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[For many compilers the value of an enumeration constant is limited to those values that can fit within a signed or unsigned int.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>577</key>
@@ -3117,7 +2980,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The indicated option requested a change to the memory model after part or all of another module was processed. The memory model option should be specified before any module is processed. The most common cause of this error is specifying the memory model after having specified the standard library. This would be a natural error to make if the standard library file were specified via a LINT environment variable.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>578</key>
@@ -3125,7 +2987,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[A local symbol has the identical name as a global symbol ( or possibly another local symbol). This could be dangerous. Was this deliberate? It is usually best to rename the local symbol.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>579</key>
@@ -3133,7 +2994,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[When an ellipsis is used, the type preceding the ellipsis should not be a type that would undergo a default promotion such as char, short or float. The reason is that many compilers' variable argument schemes (using stdarg.h) will break down.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>580</key>
@@ -3141,7 +3001,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[A declaration of a function within a block hides a declaration in an outer scope in such a way that the inner declaration has no prototype and the outer declaration does. A common misconception is that the resulting declaration is a composite of both declarations but this is only the case when the declarations are in the same scope not within nested scopes. If you don't care about prototypes you may suppress this message. You will still receive other type-difference warnings.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>581</key>
@@ -3149,7 +3008,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[This message is issued whenever we encounter an option that appears to do more harm than good. 'String' is the option in question.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>582</key>
@@ -3157,7 +3015,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The name provided to esym should not contain a (. For example, to suppress message 534 when calling f(int) use the option -esym(534,f) even if f is overloaded.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>583</key>
@@ -3166,7 +3023,6 @@ will elicit this message for argument number 2.
       <![CDATA[The message is issued when some form of character is compared against the EOF macro. EOF is normally defined to be -1. For example: while( (ch = getchar()) != EOF ) ... If ch is defined to be an int all is well. If however it is defined to be some form of char, then trouble might ensue. If ch is an unsigned char then it can never equal EOF. If ch is a signed char then you could get a premature termination because some data character happened to be all ones.
     Note that getchar returns an int. The reason it returns an int and not a char is because it must be capable of returning 257 different values (256 different characters plus EOF, assuming an 8-bit character). Once this value is assigned to a char only 256 values are then possible -- a clear loss of information.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>584</key>
@@ -3174,7 +3030,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[This message is issued whenever a trigraph sequence is detected and the trigraph processing has been turned off (with a -ftg). If this is not within a string (or character) constant then the trigraph sequence is ignored. This is useful if your compiler does not process trigraph sequences and you want linting to mirror compilation. Outside of a string we issue the Warning but we do translate the sequence since it cannot make syntactic sense in its raw state.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>585</key>
@@ -3189,7 +3044,6 @@ will elicit this message for argument number 2.
     pattern = "(" Q Q Q ") " Q Q Q "-" Q Q Q Q // no warning
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>586</key>
@@ -3197,7 +3051,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The Name has been deprecated by some use of the deprecate option. See Section 2.5.7 -deprecate. The first String is one of the allowed categories of deprecation. The trailing String is part of the deprecate option and should explain why the facility has been deprecated.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>587</key>
@@ -3205,7 +3058,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The predicate, identified by the first String, (one of greater than, greater than or equal, less than, less than or equal, equal, or not equal), cannot possibly be other than what is indicated by the second String parameter. For example: unsigned u; ... if( (u & 0x10) == 0x11 ) ... would be greeted with the message that '==' always evaluates to 'False'.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>588</key>
@@ -3213,7 +3065,6 @@ will elicit this message for argument number 2.
     <description>
       <![CDATA[The predicate, identified by the first String, cannot possibly be other than what is indicated by the second String parameter unless an overflow occurred. For example: unsigned u; ... if( (u + 2) != 1 ) ... would be greeted with the message that '!=' always evaluates to 'True'. See also Message 587.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>589</key>
@@ -3223,7 +3074,6 @@ will elicit this message for argument number 2.
     By standard integer division semantics we mean truncation toward zero so that, for example, -1/4 has quotient 0 and remainder -1 and not quotient -1, remainder 3. Although the current C standard [4] has endorsed this, the current C++ standard [10] regards integer division involving negative numbers to be 'implementation defined'.
     See also Message 587.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>590</key>
@@ -3233,7 +3083,6 @@ will elicit this message for argument number 2.
     As another example: int n; ... if( (n >> 5) >= 0 ) ... would always be regarded as true. This is because shifting a negative number to the right yields results that are implementation defined.
     See also Message 587.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>591</key>
@@ -3242,7 +3091,6 @@ will elicit this message for argument number 2.
       <![CDATA[The indicated variable (given by the first Symbol) was involved in an expression that contained a call of a function (given by the second Symbol) that would use or modify the variable. Further, the order of evaluation of the two is not determinable. For example: extern int n; void f() { n++; } int g() { f(); return 1; } int h() { return n + g(); } // Warning 591 The above code, on the second pass, will elicit the following warning: Warning 591: Variable 'n' depends on the order of evaluation; it is modified through function 'g(void)' via calls: g() => f() If the function g() is called and then n is added, you will obtain a different result than if n were first evaluated and then the call made.
     The programmer should generally rewrite these expressions so that the compiler is constrained to use the intended order. For example if the programmer wanted to use the n prior to the call on g() it can alter h() to the following: int h() { int k = n; return k + g(); } This analysis requires two passes; the first pass builds the necessary call trees.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>592</key>
@@ -3267,7 +3115,6 @@ A printf/scanf style function received a non-literal format specifier without tr
     ]]>
     </description>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>593</key>
@@ -3288,7 +3135,6 @@ Please see message 429 for an explanation of "custodial" and ways of regulating 
 </p>
   ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>598</key>
@@ -3302,7 +3148,6 @@ Please see message 429 for an explanation of "custodial" and ways of regulating 
 <p>will elicit this message if i is typed int and where int is 32 bits wide or less (the usual case). Such shift results in undefined behavior.</p>
 <p>To suppress the message you may cast the shifted quantity to a type whose length is at least the length of the shift value.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>601</key>
@@ -3310,7 +3155,6 @@ Please see message 429 for an explanation of "custodial" and ways of regulating 
     <description>
       <![CDATA[A declaration did not have an explicit type. int was assumed. Was this a mistake? This could easily happen if an intended comma was replaced by a semicolon. For example, if instead of typing: double radius, diameter; the programmer had typed: double radius; diameter; this message would be raised.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>602</key>
@@ -3319,7 +3163,6 @@ Please see message 429 for an explanation of "custodial" and ways of regulating 
       <![CDATA[The sequence /* was found within a comment. Was this deliberate? Or was a comment end inadvertently omitted? If you want PC-lint/FlexeLint to recognize nested comments you should set the Nested Comment flag using the +fnc option. Then this warning will not be issued. If it is your practice to use the sequence: /* /* */
     then use -e602.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>603</key>
@@ -3327,7 +3170,6 @@ Please see message 429 for an explanation of "custodial" and ways of regulating 
     <description>
       <![CDATA[The address of the named symbol is being passed to a function where the corresponding parameter is declared as pointer to const. This implies that the function will not modify the object. If this is the case then the original object should have been initialized sometime earlier.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>604</key>
@@ -3335,7 +3177,6 @@ Please see message 429 for an explanation of "custodial" and ways of regulating 
     <description>
       <![CDATA[The address of the named symbol is being passed back by a function. Since the object is an auto and since the duration of an auto is not guaranteed past the return, this is most likely an error. You may want to copy the value into a global variable and pass back the address of the global or you might consider having the caller pass an address of one of its own variables to the callee.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>605</key>
@@ -3372,7 +3213,6 @@ The message may also be given for function pointer assignments when the prototyp
 </code></pre>
 <p>Troy() will call horse() with an argument that it considers precious believing the horse() will do no harm. Before compilers knew better and believing that adding in a const to the destination never hurt anything, earlier compilers allowed the Greeks to pass warrior() to Troy and the rest, as they say, is history.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>606</key>
@@ -3382,7 +3222,6 @@ The message may also be given for function pointer assignments when the prototyp
     \' \" \? \\ \a \b \f \n \r \t \v
     \octal-digits \xhex-digits]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>607</key>
@@ -3392,7 +3231,6 @@ The message may also be given for function pointer assignments when the prototyp
     #define mac(n) printf( "n = %d,", n );
     Is this a coincidence? The ANSI standard indicates that the name will not be replaced but since many C compilers do replace such names the construction is suspect. Examine the macro definition and if you do not want substitution, change the name of the parameter. If you do want substitution, set the +fps flag (Parameter within String) and suppress the message with -e607.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>608</key>
@@ -3400,7 +3238,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An assignment is being made to a parameter that is typed array. For the purpose of the assignment, the parameter is regarded as a pointer. Normally such parameters are typed as pointers rather than arrays. However if this is your coding style you should suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>609</key>
@@ -3408,7 +3245,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An assignment is being made between two pointers which differ in size (one is far and the other is near) but which are otherwise compatible.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>610</key>
@@ -3416,7 +3252,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[Pointers of different size (one is far and the other is near) are being compared, subtracted, or paired (in a conditional expression). This is suspicious because normally pointers entering into such operations are the same size.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>611</key>
@@ -3424,7 +3259,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[Either a pointer to a function is being cast to a pointer to an object or vice versa. This is regarded as questionable by the ANSI standard. If this is not a user error, suppress this warning.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>612</key>
@@ -3432,7 +3266,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A declaration contained just a storage class and a type. This is almost certainly an error since the only time a type without a declarator makes sense is in the case of a struct, union or enum but in that case you wouldn't use a storage class.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>613</key>
@@ -3440,7 +3273,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[From information gleaned from earlier statements, it is possible that a null pointer (a pointer whose value is 0) can be used in a context where null pointers are inappropriate. Such contexts include: Unary *, pointer increment (++) or decrement(--), addition of pointer to numeric, and subtraction of two pointers. In the case of binary operators, one of the words 'left' or 'right' is used to designate which operand is null. Symbol identifies the pointer variable that may be NULL. See also messages 413 and 794.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>614</key>
@@ -3448,7 +3280,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An initializer for an auto aggregate normally consists of a collection of constant-valued expressions. Some compilers may, however, allow variables in this context in which case you may suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>615</key>
@@ -3456,7 +3287,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[This warning is similar to 614. Auto aggregates (arrays, structures and union) are normally initialized by a collection of constant-valued expressions without side-effects. A compiler could support side-effects in which case you might want to suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>616</key>
@@ -3466,7 +3296,6 @@ The message may also be given for function pointer assignments when the prototyp
     case 'a': a = 0; /* fall through */ case 'b': a++;
     Note that the message will not be given for a case that merely follows another case without an intervening statement. Also, there must actually be a possibility for flow to occur from above.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>617</key>
@@ -3474,7 +3303,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The named file is being used as both an include file and as a module. Was this a mistake? Unlike Error 306 (repeated module) this is just a warning and processing of the file is attempted.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>618</key>
@@ -3482,7 +3310,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A storage class specifier (static, extern, typedef, register or auto) was found after a type was specified. This is legal but deprecated. Either place the storage class specifier before the type or suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>619</key>
@@ -3490,7 +3317,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A far pointer is being assigned to a near pointer either in an assignment statement or an implied assignment such as an initializer, a return statement, or passing an argument in the presence of a prototype (Context indicates which). Such assignments are a frequent source of error when the actual segment is not equal to the default data segment. If you are sure that the segment of the far pointer equals the default data segment you should use a cast to suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>620</key>
@@ -3498,7 +3324,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A constant ended in a lower-case letter 'l'. Was this intended to be a one? The two characters look very similar. To avoid misinterpretations, use the upper-case letter 'L'.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>621</key>
@@ -3506,7 +3331,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The two symbols appeared in the same name space but are identical to within the first count characters set by option -idlen(count,option). See -idlen.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>622</key>
@@ -3516,7 +3340,6 @@ The message may also be given for function pointer assignments when the prototyp
     int far *p; scanf( "%d", p );
     will draw this warning (in the default memory model).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>623</key>
@@ -3524,7 +3347,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An inter-module symbol was a typedef symbol in one module and an ordinary symbol in another module. This is legal but potentially confusing. Is this what the programmer intended?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>624</key>
@@ -3532,7 +3354,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A symbol was declared in a typedef differently in two different modules. This is technically legal but is not a wise programming practice.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>625</key>
@@ -3540,7 +3361,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[Some type modifiers such as far, near, fortran are inappropriate for auto variables.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>626</key>
@@ -3548,7 +3368,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The argument to a printf (or fprintf or sprintf) was inconsistent with the format. Although the size of the quantity was appropriate the type was not. You might consider casting the quantity to the correct type. You could also suppress this message, as more flagrant violations are picked up with warning 559.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>627</key>
@@ -3556,7 +3375,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The type of an argument to scanf (or fscanf or sscanf) was inappropriate to the format. However, the argument was a pointer and it pointed to a quantity of the expected size.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>628</key>
@@ -3564,7 +3382,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The named function was called but there was no argument information supplied. Argument information can come from a prototype or from a function definition. This usually happens when an old-style function declaration indicates that the function is in a library but no prototype is given for the function nor is any argument information provided in a standard library file. This message is suppressed if you are producing a lint object module because presumably the object module will be compared with a library file at some later time.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>629</key>
@@ -3572,7 +3389,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A static class was found for a function declaration within a function. The static class is only permitted for functions in declarations that have file scope (i.e., outside any function). Either move the declaration outside the function or change static to extern; if the second choice is made, make sure that a static declaration at file scope also exists before the extern declaration. Though technically the construct is not portable, many compilers do tolerate it. If you suppress the message, PC-lint/FlexeLint will treat it as a proper function declaration.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>630</key>
@@ -3580,7 +3396,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[If the +fab flag is set, then if two structures containing the same member name (not necessarily different kinds of structures) are embedded in the same structure and a reference to this member name omits one of the intervening (disambiguating) names, this warning is emitted.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>631</key>
@@ -3588,7 +3403,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The struct, union or enum tag Symbol was defined differently in different scopes. This is not necessarily an error since C permits the redefinition, but it can be a source of subtle error. It is not generally a programming practice to be recommended.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>632</key>
@@ -3596,7 +3410,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An assignment (or implied assignment, Context indicates which) violates a Strong type check as requested by a -strong(A... option.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>633</key>
@@ -3604,7 +3417,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An assignment (or implied assignment, Context indicates which) violates a Strong type check as requested by a -strong(X... option.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>634</key>
@@ -3612,7 +3424,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An equality operation (== or !=) or a conditional operation (? :) violates a Strong type check as requested by a -strong(J... option. This message would have been suppressed using flags "Je".]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>635</key>
@@ -3620,7 +3431,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[The strong parent of the given Symbol is being reset. This is being done with a -parent option or by a typedef. Note that this may not necessarily be an error; you are being alerted to the fact that the old link is being erased.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>636</key>
@@ -3631,7 +3441,6 @@ The message may also be given for function pointer assignments when the prototyp
     if( p == q ) /* Warning 636 */
     will elicit this warning. This message would have been suppressed using flags "Je" or "Jr" or both.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>637</key>
@@ -3639,7 +3448,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[This is the message you receive when an inconsistency with the -index option is recognized. A subscript is not the stipulated type (the first type mentioned in the message) nor equivalent to it within the hierarchy of types.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>638</key>
@@ -3647,7 +3455,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A relational operation ( >= <= > < ) violates a Strong type check as requested by a -strong(J... option. This message would have been suppressed using flags "Jr".]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>639</key>
@@ -3655,7 +3462,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A binary operation other than an equality or a relational operation violates a Strong type check as requested by a -strong(J... option. This message would have been suppressed using flags "Jo".]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>640</key>
@@ -3663,7 +3469,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A Boolean context expected a type specified by a -strong(B... option.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>641</key>
@@ -3674,7 +3479,6 @@ The message may also be given for function pointer assignments when the prototyp
     enum {false,true};
     This cannot be used as a separate type. PC-lint/FlexeLint recognizes this and treats false and true as arithmetic constants.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>642</key>
@@ -3682,7 +3486,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[This means that you are using an option of the form: -printf(w... and you are using a format character not supported by the Microsoft Windows function wsprintf. If you are not really using wsprintf but are using the w flag to get far pointers you should turn this message off.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>643</key>
@@ -3690,7 +3493,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A far pointer was cast to a near pointer. Such casts have had disastrous consequences for Windows programmers. If you really need to make such a cast, you can do it in stages. If you cast to a long first (i.e., some integral type that can hold the pointer) and then into a shorter value, we don't complain.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>644</key>
@@ -3698,7 +3500,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An auto variable was not necessarily assigned a value before use.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>645</key>
@@ -3706,7 +3507,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[An auto variable was conditionally assigned a value before being passed to a function expecting a pointer to a const object. See Warning 603 for an explanation of the dangers of such a construct.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>646</key>
@@ -3714,7 +3514,6 @@ The message may also be given for function pointer assignments when the prototyp
     <description>
       <![CDATA[A case or default statement was found within a for, do, or while loop. Was this intentional? At the very least, this reflects poor programming style.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>647</key>
@@ -3740,7 +3539,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>648</key>
@@ -3752,7 +3550,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     because the unsigned char is promoted to int before shifting. The resulting quantity is actually negative. You would need to revive the unsigned nature of the expression with
     (unsigned) (unsigned char) OxFFF << 8 /* OK */]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>649</key>
@@ -3760,7 +3557,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[During the evaluation of a constant expression a negative integer was shifted right causing sign fill of vacated positions. If this is what is intended, suppress this error, but be aware that sign fill is implementation-dependent.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>650</key>
@@ -3773,7 +3569,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     if( (n & 0xFF) >> 4 == 16 ) ...
     will receive this warning because the left-hand side is limited to 4 bits of precision.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>651</key>
@@ -3781,7 +3576,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[An initializer for a complex aggregate is being processed that contains some subaggregates that are bracketed and some that are not. ANSI recommends either "minimally bracketed" initializers in which there are no interior braces or "fully bracketed" initializers in which all interior aggregates are bracketed.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>652</key>
@@ -3791,7 +3585,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     int n; #define n N
     will draw this complaint. Prior symbols checked are local and global variables, functions and typedef symbols, and struct, union and enum tags. Not checked are struct and union member.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>653</key>
@@ -3801,7 +3594,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     double x = 5 / 2;
     appears to assign 2.5 to x it actually assigns 2.0. To make sure you don't lose the fraction, cast at least one of the operands to a floating point type. If you really wish to do the truncation, cast the resulting divide to an integral (int or long) before assigning to the floating point variable.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>654</key>
@@ -3809,7 +3601,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[The option -w is now used to set the warning level and should no longer be used to specify the width of error messages. Instead use -width with the same arguments as before to set the width. To set the warning level to 3, for example, use the option -w3, not -w(3).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>655</key>
@@ -3817,7 +3608,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[A bit-wise operator (one of '|', '&' or '^') is used to combine two compatible enumerations. The type of the result is considered to be the enumeration. This is considered a very minor deviation from the strict model and you may elect to suppress this warning.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>656</key>
@@ -3825,7 +3615,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[An arithmetic operator (one of '+', or '-') is used to combine two compatible enumerations. The type of the result is considered to be the enumeration. This is considered a very minor deviation from the strict model and you may elect to suppress this warning.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>657</key>
@@ -3833,7 +3622,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[A struct or union declaration without a declarator was taken to be anonymous. However, the anonymous union supported by C++ and other dialects of C require untagged union's. Tagged unions and tagged or untagged structs are rarely supported, as anonymous.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>658</key>
@@ -3841,7 +3629,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[A union without a declarator was found. Was this an attempt to define an anonymous union? If so, anonymous unions should be activated with the +fan flag. This flag is activated automatically for C++.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>659</key>
@@ -3849,7 +3636,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[A struct/union/class/enum definition occurred and the closing '}' was not followed on the same line by another token. It looks suspicious. Missing semi-colons after such definitions can be a source of strange and mysterious messages. If you intentionally omitted the semi-colon then simply place the token which follows on the same line as the '}'. At the very least follow the '}' with a comment.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>660</key>
@@ -3857,7 +3643,6 @@ In this way PC-lint/FlexeLint will know you are aware of and approve of the trun
     <description>
       <![CDATA[A number of options use the '-' prefix to remove and '+' to add elements to a list. For example to add (the most unusual) extension .C++ to designate C++ processing of files bearing that extension, a programmer should employ the option: +cpp(.C++) However, if a leading '-' is employed (a natural mistake) this warning will be emitted.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>661</key>
@@ -3878,7 +3663,6 @@ Here the programmer presumably should have written n&lt;10. This message is simi
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -3900,7 +3684,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -3910,7 +3693,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
       <![CDATA[This warning occurs in the following kind of situation: struct x { int a; } y[2]; ... y->a ...
     Here, the programmer forgot to index the array but the error normally goes undetected because the array reference is automatically and implicitly converted to a pointer to the first element of the array. If you really mean to access the first element use y[0].a.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>664</key>
@@ -3919,7 +3701,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
       <![CDATA[An exiting function was found on the left hand side of an operator implying that the right hand side would never be executed. For example: if( (exit(0),n == 0) || n > 2 ) ...
     Since the exit function does not return, control can never flow to the right hand operator.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>665</key>
@@ -3931,7 +3712,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
     The message is not arbitrarily given for any unparenthesized parameter but only when the actual macro argument sufficiently resembles an expression and the expression involves binary operators. The priority of the operator is not considered except that it must have lower priority than the unary operators. The message is not issued at the point of macro definition because it may not be appropriate to parenthesize the parameter. For example, the following macro expects that an operator will be passed as argument. It would be an error to enclose op in parentheses.
     #define check(x,op,y) if( ((x) op (y)) == 0 ) print( ... )]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>666</key>
@@ -3941,7 +3721,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
     ... ABS( n++ )
     Although the ABS macro is correctly defined to specify the absolute value of its argument, the repeated use of the parameter x implies a repeated evaluation of the actual argument n++. This results in two increments to the variable n. [22, ?20.6] Any expression containing a function call is also considered to have side-effects.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>667</key>
@@ -3949,7 +3728,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
     <description>
       <![CDATA[A declaration for the identified Symbol is inconsistent with a prior declaration for the same symbol. There was a nominal difference in the declaration but owing to the memory model chosen there was no real difference. For example, in large model, one declaration declares external symbol alpha to be a far pointer and another declaration omits the memory model specification.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>668</key>
@@ -3957,7 +3735,6 @@ Here, it appears as though an illicit pointer is being created, but PC-lint/Flex
     <description>
       <![CDATA[A NULL pointer is possibly being passed to a function identified by Symbol. The argument in question is given by Context. The function is either a library function designed not to receive a NULL pointer or a user function dubbed so via the option -function.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>669</key>
@@ -3973,7 +3750,6 @@ This message is for data transfer functions such as memcpy, strcpy, fgets, etc. 
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -3990,7 +3766,6 @@ This message is issued for several library functions (such as fwrite, memcmp, et
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -3999,7 +3774,6 @@ This message is issued for several library functions (such as fwrite, memcmp, et
     <description>
       <![CDATA[An integral value that may possibly be negative is being passed to a function that is expecting only positive values for a particular argument. The message contains the name of the function (Symbol), the questionable value (Integer) and the argument number (Context). The function may be a standard library function designed to accept only positive values such as malloc or memcpy (third argument), or may have been identified by the user as such through the -function or -sem options. See message 422 for an example and further explanation.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>672</key>
@@ -4015,7 +3789,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -4024,7 +3797,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[This message indicates that a deallocation (free(), delete, or delete[]) as specified by String1 may be inappropriate for the data being freed. The kind of data is one or more of: malloc, new, new[], static, auto, member, modified or constant. The word 'Possibly' is used in the message to indicate that only some of the lines of flow to the deallocation show data inconsistent with the allocation.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>674</key>
@@ -4032,7 +3804,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[The value held by a pointer variable contains the address of an auto variable. It is normally incorrect to return the address of an item on the stack because the portion of the stack allocated to the returning function is subject to being obliterated after return.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>675</key>
@@ -4040,7 +3811,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[The -function option is used to transfer semantics from its first argument to subsequent arguments. However it was found that the first argument Name did not have semantics.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>676</key>
@@ -4048,7 +3818,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[An integer whose value was possibly negative was added to an array or to a pointer to an allocated area (allocated by malloc, operator new, etc.) This message is not given for pointers whose origin is unknown since a negative subscript is in general legal.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>677</key>
@@ -4056,7 +3825,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[Whereas the use of sizeof during preprocessing is supported by a number of compilers it is not a part of the ANSI C or C++ standard.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>678</key>
@@ -4065,7 +3833,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
       <![CDATA[A bit field was found to be too small to support all the values of an enumeration (that was used as the base of the bit field). For example: enum color { red, green, yellow, blue }; struct abc { enum color c:2; };
     Here, the message is not given because the four enumeration values of color will just fit within 2 bits. However, if one additional color is inserted, Warning 678 will be issued informing the programmer of the undesirable and dangerous condition.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>679</key>
@@ -4076,7 +3843,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     If the expression were p + n * m then, to suppress the warning, a cast is needed. If long were the same size as pointers you could use the expression:
     return p + ((long) n * m);]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>680</key>
@@ -4084,7 +3850,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[An arithmetic expression was cast to pointer. Moreover, the size of the pointer is greater than the size of the expression. In computing the expression, any overflow would be lost even though the pointer type would be able to accommodate the lost information. To suppress the message, cast one of the operands to an integral type large enough to hold the pointer. Alternatively, if you are sure there is no problem you may cast the expression to an integral type before casting to pointer. See messages 647, 776, 790 and 679.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>681</key>
@@ -4092,7 +3857,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     <description>
       <![CDATA[The controlling expression for a loop (either the expression within a while clause or the second expression within a for clause) evaluates initially to 0 and so it appears as though the loop is never entered.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>682</key>
@@ -4102,7 +3866,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     unsigned f( char a[100] ) { return sizeof(a); }
     Here it looks as though function f() will return the value 100 but it will actually return the size of a pointer which is usually 4.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>683</key>
@@ -4114,7 +3877,6 @@ An assignment was made to a pointer variable (designated by Symbol) which may al
     #define strlen __strlen
     will not produce this message. It will produce Info 828 instead.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>684</key>
@@ -4128,7 +3890,6 @@ See also Warning 604.
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>685</key>
@@ -4145,7 +3906,6 @@ will also raise a 685 because the expression on the left hand side has an effect
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>686</key>
@@ -4162,7 +3922,6 @@ will also raise a 685 because the expression on the left hand side has an effect
 <li>a lack of an argument -- A -message() was found to not include text between the parentheses, rendering the option meaningless. Did the User possibly intend to include the text immediately after this option?</li>
  </ul>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>687</key>
@@ -4171,7 +3930,6 @@ will also raise a 685 because the expression on the left hand side has an effect
       <![CDATA[A comma operator appeared unbraced and unparenthesized in a statement following an if, else, while or for clause. For example: if( n > 0 ) n = 1, n = 2; Thus the comma could be mistaken for a semi-colon and hence be the source of subtle bugs.
     If the statement is enclosed in curly braces or if the expression is enclosed in parentheses, the message is not issued.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>688</key>
@@ -4179,7 +3937,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[A cast was used within a preprocessor conditional statement such as #if or #elif. As an example you may have written: #define VERSION 11.3 ... #if (int) VERSION == 11 ... #endif Such casts are not allowed by the various C and C++ standards.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>689</key>
@@ -4187,7 +3944,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[The pair of characters '*/' was found not within a comment. As an example: void f( void*/*comment*/ ); This is taken to be the equivalent of: void f( void* ); That is, an implied blank is inserted between the '*' and the '/'. To avoid this message simply place an explicit blank between the two characters.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>690</key>
@@ -4195,7 +3951,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[Accessing past the terminating nul character is often an indication of a programmer error. For example: char buf[20]; char c; strcpy( buf, "a" ); if( i < 20 ) c = buf[i]; // legal but suspect. See also Warning 448 in Section 13.3 and Info 836 in Section 13.4]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>691</key>
@@ -4203,7 +3958,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[The backslash character has been used in a way that may produce unexpected results. Typically this would occur within a macro such as: #define A b \ // comment The coder might be thinking that the macro definition will be continued on to the next line. The standard indicates, however, that the newline will not be dropped in the event of an intervening comment. This should probably be recoded as: #define A b /* comment */ \]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>692</key>
@@ -4212,7 +3966,6 @@ will also raise a 685 because the expression on the left hand side has an effect
       <![CDATA[A String was found that contains an '8' or '9' after an octal escape sequence with no more than two octal digits, e.g. "\079" contains two characters: Octal seven (ASCII BEL) followed by '9'. The casual reader of the code (and perhaps even the programmer) could be fooled into thinking this is a single character. If this is what the programmer intended he can also render this as "\07" "9" so that there can be no misunderstanding.
     On the other hand, "\1238" will not raise a message because it is assumed that the programmer knows that octal escape sequences cannot exceed four characters (including the initial backslash).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>693</key>
@@ -4220,7 +3973,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[A String was found that looks suspiciously like (but is not) a hexadecimal escape sequence; rather, it is a null character followed by letter "x" followed by some hexadecimal digit, e.g.: "\0x62" was found where the programmer probably meant to type "\x62". If you need precisely this sequence you can use: "\0" "x62" and this warning will not be issued.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>694</key>
@@ -4229,7 +3981,6 @@ will also raise a 685 because the expression on the left hand side has an effect
       <![CDATA[A decimal integer constant that requires all the bits of an unsigned long for its representation has a type that depends on the dialect of C or C++ implemented by the compiler you are using. For example, the constant 3000000000 requires 32 bits for its representation. If longs are 32 bits, then the constant is judged to be unsigned long in C90, long long in C99 and undefined in C++.
     You can remove the ambiguity by applying a clarifying suffix. If you intend this to be unsigned use the 'U' suffix. If you intend this to be a long long use the 'LL' suffix. If the latter and you are using C++ then turn on the +fll flag.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>695</key>
@@ -4240,7 +3991,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     /* In module_2.c */ inline void f() {} void g() { f(); } /* which f() is called? */ The C99 Standard dictates that the above call to f() from g() in module_2.c may result in the execution of either f().
     The programmer may avoid confusion and improve portability by using the keyword 'static' in addition to 'inline'. The keyword 'extern' can also be used along with the 'inline' to resolve this ambiguity; however, we recommend using 'static' because, as of this writing, more compilers correctly interpret 'static inline'.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>696</key>
@@ -4248,7 +3998,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[The variable cited in the message is being compared (using one of the 6 comparison operations) with some other expression called the comperand. The variable has a value that is out of the range of values of this comperand. For example consider: void f( unsigned char ch ) { int n = 1000; if( ch < n ) // Message 696 ... Here a message 696 will be issued stating that n has a value of 1000 that is out of range because 1000 is not in the set of values that ch can hold (assuming default sizes of scalars).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>697</key>
@@ -4257,7 +4006,6 @@ will also raise a 685 because the expression on the left hand side has an effect
       <![CDATA[A quasi-boolean value is being compared (using either != or ==) with a value that is not the literal zero. A quasi-boolean value is any value whose type is a strong boolean type and that could conceivably be something other than zero or one. This is significant because in C, all non-zero values are equally true. Example: /*lint -strong(AJXb, B) */ typedef int B; #define YES ((B)1) #define NO ((B)0)
     B f( B a, B b ) { B c = ( a == NO ); /* OK, no Warning here */ B d = ( a == (b != NO) ); /* Warning 697 for == but not for != */ B e = ( a == YES ); /* Warning 697 here */ return d == c; /* Warning 697 here */ } Note that if a and b had instead been declared with true boolean types, such as 'bool' in C++ or '_Bool' in C99, this diagnostic would not have been issued.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>698</key>
@@ -4265,7 +4013,6 @@ will also raise a 685 because the expression on the left hand side has an effect
     <description>
       <![CDATA[A statement of the form: v = realloc( v, ... ); has been detected. Note the repeated use of the same variable. The problem is that realloc can fail to allocate the necessary storage. In so doing it will return NULL. But then the original value of v is overwritten resulting in a memory leak.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>701</key>
@@ -7700,7 +7447,6 @@ Note that the Microsoft compiler implements this extension. For that reason, the
     <description>
       <![CDATA[The indicated member symbol was not initialized by a constructor. Was this an oversight?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1402</key>
@@ -7708,7 +7454,6 @@ Note that the Microsoft compiler implements this extension. For that reason, the
     <description>
       <![CDATA[The indicated member symbol was not initialized prior to use. Either this is in a constructor where it is presumed that no members are pre-initialized or this is after a statement which will remove its initialization such as a delete or a free.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1403</key>
@@ -7716,7 +7461,6 @@ Note that the Microsoft compiler implements this extension. For that reason, the
     <description>
       <![CDATA[The indicated member symbol was not initialized prior to a point where its address is being passed to a constant pointer. This looks suspicious. Either this is in a constructor where it is presumed that no members are pre-initialized or this is after a statement which will remove its initialization such as a delete or a free.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1404</key>
@@ -7733,7 +7477,6 @@ Note that the Microsoft compiler implements this extension. For that reason, the
 <p>A delete before the class is defined is dangerous because, among other things, any operator delete that may be defined within the class could be ignored.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1405</key>
@@ -7744,7 +7487,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
 
     ]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1411</key>
@@ -7752,7 +7494,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A member function has the same name as a virtual member of a derived class but it has a different signature (different parameter list). This is legal but suspicious, because it looks as though the function would override the virtual function but doesn't. You should either adjust the parameters of the member so that the signatures conform or choose a different name. See also message 1511.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1412</key>
@@ -7760,7 +7501,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A class member typed reference to class (or struct or union) is mentioned in a constructor initializer list. But the class (or struct or union) referenced has no constructor and so is never initialized.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1413</key>
@@ -7769,7 +7509,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
       <![CDATA[It appears that a function (identified as Symbol in the message) declared to return a reference is returning a temporary. According to the C++ standard (Section 12.2), in addressing the issue of binding temporary values to references, says "A temporary bound to the returned value in a function return statement ... persists until the function exits". Thus the information being returned is not guaranteed to last longer than the function being called.
     It would probably be better to return by value rather than reference. Alternatively, you may return a static variable by reference. This will have validity at least until the next call upon the same function.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1414</key>
@@ -7790,7 +7529,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
 <p>Here the address of y is being passed to member x but this is dangerous (if not ridiculous) since when the function returns, the storage allocated for y is deallocated and the pointer could very easily harm something.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1415</key>
@@ -7799,7 +7537,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
       <![CDATA[A non-POD class is one which goes beyond containing just Plain Old Data (POD). In particular it may have private or protected data or it may have constructors or destructors or copy assignment. All of these things disqualify it from being a POD. A POD is fully defined in the C++ standard (Clause 9).
     Some functions such as memcpy, memcmp, memmove, etc. are expected to be given only pointers to POD objects. The reason is that only POD objects have the property that they can be copied to an array of bytes and back again with a guarantee that they will retain their original value. (See Section 3.9 of the C++ standard). See also Semantic pod(i) in Section 4. Semantics]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1416</key>
@@ -7816,7 +7553,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
 <p>Here m is initialized properly to be identical to k.  However, the initialization of n, taking place, as it does, before m is so initialized, is erroneous.  It is undefined what location n will reference.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1417</key>
@@ -7831,7 +7567,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
                    };
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1419</key>
@@ -7839,7 +7574,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A destructor was declared without a throw() specification.  At least one author has warned against throwing exceptions from destructors and the practice can result in undefined behavior.  A safer approach is to provide an explciit throw() for each destructor.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1501</key>
@@ -7847,7 +7581,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A data member had zero size. It could be an array of zero length or a class with no data members. This is considered an error in C (Error 43) but in C++ we give this warning. Check your code to make sure this is not an error. Some libraries employ clever templating which will elicit this message. In such a case it is necessary for you to inhibit the message outright (using -e1501) or through a judicious use of -esym(1501,...).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1502</key>
@@ -7855,7 +7588,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A variable (Symbol) is being instantiated that belongs to a class that contains no data members (either directly or indirectly through inheritance). [11, ?9]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1503</key>
@@ -7863,7 +7595,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A tagged union without a declarator appeared within a struct/union declaration. An anonymous union requires no tag. [11, ?9.5]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1504</key>
@@ -7871,7 +7602,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[An untagged struct declaration appeared within a struct/union and has no declarator. It is not treated like an anonymous union. Was this intended?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1505</key>
@@ -7888,7 +7618,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
 <p>is preferred if that's what you want.  [11,#1.1]
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1506</key>
@@ -7896,7 +7625,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A call to a virtual function was found in a constructor or a destructor of a class. If this class is a base class of some other class (why else make a virtual call?), then the function called is not the overriding function of the derived class but rather the function associated with the base class. If you use an explicit scope operator this message will not be produced. [20, ?9]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1507</key>
@@ -7904,7 +7632,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[The type of an object to be delete'd is usually a pointer. This is because operator new always returns a pointer and delete may only delete that which has been allocated via new. Perhaps this is a programmer error attempting to delete an auto array? [19]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1509</key>
@@ -7912,7 +7639,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[The indicated class is a base class for some derived class. It has a destructor which is not virtual. Was this a mistake? It is conventional to virtualize destructors of base classes so that it is safe to delete a base class pointer. [19]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1510</key>
@@ -7920,7 +7646,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[The indicated class is a base class for some derived class that has a destructor. The base class does not have a destructor. Is this a mistake? The difficulty that you may encounter is this; if you represent (and manipulate) a heterogeneous collection of possibly derived objects via a pointer to the base class then you will need a virtual base class destructor to invoke the derived class destructor. [13, ?4]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1511</key>
@@ -7928,7 +7653,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[The named member of a derived class hides a similarly named member of a base class. Moreover, the base class member is not virtual. Is this a mistake? Was the base member supposed to have been declared virtual? By unnecessarily using the same name, confusion could be created.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1512</key>
@@ -7936,7 +7660,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[In a final pass through all the classes, we have found a class (named in the message) that is the base class of a derivation and has a destructor but the destructor is not virtual. It is conventional for inherited classes to have virtual destructors so that it is safe to 'delete' a pointer to a base class. [19]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1513</key>
@@ -7944,7 +7667,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A storage class (one of auto, extern, or register) was found within a class definition. The only storage classes that are significant when declaring members are static and typedef. [11, ?9.2]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1514</key>
@@ -7952,7 +7674,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A temporary was created in order to initialize (or pass a value to or return a value to) a reference. This is suspect because any modification to the value will be a modification of this temporary. This message is not issued when initializing a const reference. [11, ?12.2]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1515</key>
@@ -7960,7 +7681,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A member of a class was found that had a type for which a constructor was defined but for which a default constructor (one with no arguments) was not defined.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1516</key>
@@ -7968,7 +7688,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A data member of a class happens to have the same name as a member of a base class. Was this deliberate? Identical names can cause confusion. To inhibit this message for a particular symbol or for an identifiable set of symbols use -esym().]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1520</key>
@@ -7982,7 +7701,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
 <p>Which is to be used for assignment?
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1521</key>
@@ -7990,7 +7708,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[For a given class, more than one function was declared that could serve as a copy constructor. Typically this means that you declared both X( X& ) and X( const X& ) for the same class. This is probably a mistake.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1522</key>
@@ -7998,7 +7715,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[An array (Symbol) is being allocated. Each member of the array appears to be empty. Although this is legal, it could be the result of human error. If this is deliberate policy, inhibit the message, either globally, or for this Symbol.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1524</key>
@@ -8006,7 +7722,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A call to new has been found in a constructor for a class for which no explicit destructor has been declared. A destructor was expected because how else can the storage be freed? [10, ?12.5]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1526</key>
@@ -8014,7 +7729,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A member function (named in the message) of a non-library class was not defined. This message is suppressed for unit checkout (-u option).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1527</key>
@@ -8022,7 +7736,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[A static data member (named in the message) of a non-library class was not defined. In addition to its declaration within the class, it must be defined in some module.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1528</key>
@@ -8030,7 +7743,6 @@ According to Section 5.2.8 (para 6) of the C++ standard [10], "If the header &lt
     <description>
       <![CDATA[The first String of the message designates an actual function call that appeared to be the invocation of the template function identified by the second String. No match could be made between the arguments of the call and the template parameters.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1529</key>
@@ -8056,7 +7768,6 @@ If you are currently using the following test</p>
                  if( &amp;arg == this || arg == *this)
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1531</key>
@@ -8064,7 +7775,6 @@ If you are currently using the following test</p>
     <description>
       <![CDATA[This warning is given for either operator new or operator delete when defined as member functions of a class that is the base class of a derivation. In this case you can't be certain of the size of allocation and therefore your allocation functions should test the size parameter for equality to the sizeof the class. See Elective Note 1921 for more details.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1532</key>
@@ -8072,7 +7782,6 @@ If you are currently using the following test</p>
     <description>
       <![CDATA[This message is given for a function operator delete which is a member function of a class that does not have a destructor. It should check for NULL because delete p where p has the NULL value will be passed in to it. See also 1922.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1533</key>
@@ -8080,7 +7789,6 @@ If you are currently using the following test</p>
     <description>
       <![CDATA[A friend declaration for a particular symbol (class or function) was repeated in the same class. Usually this is a harmless redundancy.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1534</key>
@@ -8088,7 +7796,6 @@ If you are currently using the following test</p>
     <description>
       <![CDATA[A static variable (Symbol) was found within an inline function within a header file. This can be a source of error since the static variable will not retain the same value across multiple modules. Rather each module will retain its own version of the variable. If multiple modules need to use the function then have the function refer to an external variable rather than a static variable. Conversely if only one module needs to use the function then place the definition of the function within the module that requires it. [23, Item 26].]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1535</key>
@@ -8096,7 +7803,6 @@ If you are currently using the following test</p>
     <description>
       <![CDATA[A member function is returning an address being held by the indicated member symbol (presumably a pointer). The member's access (such as private or protected) is lower than the access of the function returning the address.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1536</key>
@@ -8118,7 +7824,6 @@ If you are currently using the following test</p>
                  const int *f() { return &amp;a; }
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1537</key>
@@ -8142,7 +7847,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
     </description>
     <tag>cert</tag>
     <tag>security</tag>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1538</key>
@@ -8158,7 +7862,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
                      };
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1539</key>
@@ -8167,7 +7870,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
       <![CDATA[The indicated Symbol was not assigned by an assignment operator. Was this an oversight? It is not strictly necessary to initialize all members in an assignment operator because the 'this' class is presumably already initialized. But it is easy to overlook the assignment of individual members. It is also easy to overlook your responsibility to assign base class members. This is not done for you automatically. [12, Item 16]
     The message is not given for const members or reference members. If you have a member that is deliberately not initialized you may suppress the message for that member only using -esym.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1540</key>
@@ -8175,7 +7877,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
     <description>
       <![CDATA[The indicated member is a non-static pointer member of a class that was apparently not freed by the class' destructor. Was this an oversight? By freeing, we mean either a call to the free() function or use of the delete operator. If the pointer is only intended to point to static information during its lifetime then, of course, it never should be freed. In that case you should signal closure by assigning it the NULL pointer (0).]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1541</key>
@@ -8183,7 +7884,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
     <description>
       <![CDATA[The indicated member symbol may not have been initialized by a constructor. Was this an oversight? Some of the paths that the constructor takes do initialize the member.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1542</key>
@@ -8191,7 +7891,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
     <description>
       <![CDATA[The indicated member symbol may not have been initialized prior to use. Either this is in a constructor where it is presumed that no members are pre-initialized or this is after a statement which will remove its initialization such as a delete or a free.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1543</key>
@@ -8199,7 +7898,6 @@ Note, if a const function returns the address of a data member then a 605 (capab
     <description>
       <![CDATA[The indicated member symbol may not have been initialized prior to a point where its address is being passed to a constant pointer. This looks suspicious. Either this is in a constructor where it is presumed that no members are pre-initialized or this is after a statement which will remove its initialization such as a delete or a free.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1544</key>
@@ -8221,7 +7919,6 @@ Whereas addresses are completely known at initialization time values may not be.
 <p>It is theoretically possible, but unlikely, that the constructor X() is interested only in the address of its argument and not its current value.  If so, it only means you will be getting a spurious report which you can suppress based on variable name. However, if the const is missing when passing a reference parameter (or a pointer parameter) then we cannot easily assume that values are being used.  In this case no report will be issued.  The moral is that if you want to get the checking implied by this message you should make your constructor reference arguments const.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1545</key>
@@ -8229,7 +7926,6 @@ Whereas addresses are completely known at initialization time values may not be.
     <description>
       <![CDATA[A variable identified by Symbol was used previously to initialize some other variable. This variable is now itself being initialized with run-time code. The order of these initializations cannot be predicted. See also message 1544.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1546</key>
@@ -8237,7 +7933,6 @@ Whereas addresses are completely known at initialization time values may not be.
     <description>
       <![CDATA[The body of a destructor (signature provided within the message) contains a throw not within a try block. This is dangerous because destructors are themselves triggered by exceptions in sometimes unpredictable ways. The result can be a perpetual loop. [23, Item 11]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1547</key>
@@ -8256,7 +7951,6 @@ Whereas addresses are completely known at initialization time values may not be.
 We do not warn about the assignment to q because it appears that the programmer realizes the situation and wishes to confine q to the base object of the zeroeth element of a only.  As a further precaution against inappropriate array access, out of bounds warnings are issued for subsequent references to p[1] and q[1].
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1548</key>
@@ -8264,7 +7958,6 @@ We do not warn about the assignment to q because it appears that the programmer 
     <description>
       <![CDATA[The exception specification of a function begins with the keyword 'throw' and follows the prototype. Two declarations were found for the same function with inconsistent exception specifications.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1549</key>
@@ -8272,7 +7965,6 @@ We do not warn about the assignment to q because it appears that the programmer 
     <description>
       <![CDATA[An exception was thrown (i.e., a throw was detected) within a function and not within a try block; moreover the function was declared to throw but the exception thrown was not on the list. If you provide an exception specification, include all the exception types you potentially will throw. [23, Item 14]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1550</key>
@@ -8280,7 +7972,6 @@ We do not warn about the assignment to q because it appears that the programmer 
     <description>
       <![CDATA[A function was called (first Symbol) which was declared as potentially throwing an exception. The call was not made from within a try block and the function making the call had an exception specification. Either add the exception to the list, or place the call inside a try block and catch the throw. [23, Item 14]]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1551</key>
@@ -8288,7 +7979,6 @@ We do not warn about the assignment to q because it appears that the programmer 
     <description>
       <![CDATA[A call to a function (name given by the first Symbol) was made from within a destructor. The function was declared as potentially throwing an exception. Such exceptions need to be caught within a try block because destructors should never throw exceptions. [23, Item 11].]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1552</key>
@@ -8306,7 +7996,6 @@ For example,</p>
 <p>[23, Item 3]  Also, see the article by Mark Nelson (Bug++ of the Month, Windows developer's Journal, May 1997, pp. 43-44).
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1553</key>
@@ -8314,7 +8003,6 @@ For example,</p>
     <description>
       <![CDATA[A C++ substructure was found in a structure or class declared as extern "C". Was this intended?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1554</key>
@@ -8333,7 +8021,6 @@ For example,</p>
 <p>Here, member p is expected to be recreated using new or some variant.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1555</key>
@@ -8352,7 +8039,6 @@ For example,</p>
 <p>Here, member p is expected to be recreated using new or some variant.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1556</key>
@@ -8367,7 +8053,6 @@ For example,</p>
 The warning is only given when the type T has no constructor.  If T has a constructor then either a syntactic error will result because no constructor matches the argument or a match will be found.  In the latter case no warning will or should be issued.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1557</key>
@@ -8375,7 +8060,6 @@ The warning is only given when the type T has no constructor.  If T has a constr
     <description>
       <![CDATA[A class member typed const class (or struct or union) is mentioned in a constructor initializer list. But the class (or struct or union) referenced has no constructor and hence the member is not initialized. See also messages 1558 and 1769.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1558</key>
@@ -8391,7 +8075,6 @@ The warning is only given when the type T has no constructor.  If T has a constr
 <p>Virtual functions by their nature require an address and so inlining such a function seems contradictory.  We recommend that the 'inline' function specifier be removed.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1559</key>
@@ -8399,7 +8082,6 @@ The warning is only given when the type T has no constructor.  If T has a constr
     <description>
       <![CDATA[The named exception occurred within a try block and was either not caught by any handler or was caught but then thrown from the handler. Destructors should normally not throw exceptions [23, Item 11].]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1560</key>
@@ -8407,7 +8089,6 @@ The warning is only given when the type T has no constructor.  If T has a constr
     <description>
       <![CDATA[A direct or indirect throw of the named exception occurred within a try block and was either not caught by any handler or was rethrown by the handler. Moreover, the function has an exception specification and the uncaught exception is not on the list. Note that a function that fails to declare a list of thrown exceptions is assumed to potentially throw any exception.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1561</key>
@@ -8436,7 +8117,6 @@ The message can also be issued when a pointer is initialized. Consider the follo
 There are many subtle cases that can boggle the mind.  See the commentary to Message 605.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1562</key>
@@ -8452,7 +8132,6 @@ There are many subtle cases that can boggle the mind.  See the commentary to Mes
 It would not be reasonable for D::f() to throw an exception outside the range of those thrown by B::f() because in general the compiler will only see calls to B::f() and it should be possible for the compiler to deduce what exceptions could be thrown by examining the static call
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1563</key>
@@ -8471,7 +8150,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
                (p ? a : b) = 1
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1564</key>
@@ -8484,7 +8162,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>Although there is an implicit conversion from integral to bool and assigning an integer varaible to a bool to obtain its Boolean meaning is legitimate, assigning an integer such as this looks suspicious.  As the message suggests, the warning is not given if the value assigned is either 0 or 1.  An Elective Note would be raised in that instance.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1565</key>
@@ -8492,7 +8169,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
     <description>
       <![CDATA[A function dubbed 'initializer' by a -sem option is not initializing (i.e., assigning to) every data member of a class. Reference members and const members theoretically can only be initialized via the constructor so that these members are not candidates for this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1566</key>
@@ -8514,7 +8190,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>This will suppress Warning 1566 for any constructor of class A that calls A::f.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1567</key>
@@ -8531,7 +8206,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>The initialization of both x and y are dynamic.  Although the order of dynamic initialization within a module is pre-ordained the order in which modules are initialized is not.  Therefore it is perfectly possible for b.cpp to be initialized before a.cpp. Thus when the call is made upon function f() to initialize x, variable y may not yet have been initialized.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1568</key>
@@ -8548,7 +8222,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>The initialization of both x and y are dynamic.  The order of dynamic initialization within a module is in the order in which the initialization is specified.  Thus when the call is made upon function f() to initialize x, variable y will not yet have been initialized.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1569</key>
@@ -8561,7 +8234,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>The constructor A() contains an initializer list within which it initializes n.  But n will be bound to a temporary created by the compiler to hold the value 3.  The lifetime of this temporary is limited; it "persists until the constructor exits" [10 section class.temporary]
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1570</key>
@@ -8574,7 +8246,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>In this example member n is being bound to variable k which, although a parameter, is nonetheless placed into auto storage. But the lifetime of k is only the duration of the call to the constructor, whereas the lifetime of n is the lifetime of the class object constructed.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1571</key>
@@ -8582,7 +8253,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
     <description>
       <![CDATA[A function that is declared to return a reference is returning an auto variable (that is not itself a reference). The auto variable is not guaranteed to exist beyond the lifetime of the function. This can result in unreliable and unpredictable behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1572</key>
@@ -8595,7 +8265,6 @@ It would not be reasonable for D::f() to throw an exception outside the range of
 <p>The reference r will be permanently bound to an auto variable n. The lifetime of n will not extend beyond the life of the function.  On the second and subsequent calls to function f the static variable r will be bound to a non-existent entity.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1573</key>
@@ -8628,7 +8297,6 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
 <p>Now an argument of type X::A will not automatically trigger a consideration of X::f.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1574</key>
@@ -8644,7 +8312,6 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
                    }
 </code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1576</key>
@@ -8654,7 +8321,6 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     As if this wasn't enough, if the explicit specialization could match two separate function templates then the result you obtain could depend on which function templates are in scope.
     See also the next message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1577</key>
@@ -8663,7 +8329,6 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
       <![CDATA[There is a danger in declaring an explicit specialization or a partial specialization in a file other than that which holds the primary class template. The reason is that a given implicit specialization will differ depending on what headers it sees. It can easily differ from module to module and undefined behavior can be the result.
     See also Warning 1576 which diagnoses a similar problem with function templates.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1578</key>
@@ -8671,7 +8336,6 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <description>
       <![CDATA[The indicated member is a non-static data member of a class that was apparently not cleared by a function that had previously been given the cleanup semantic. By clearing we mean that the pointer was either zeroed or the storage associated with the pointer released via the free function or its semantic equivalent or some form of delete. See also Warning 1540.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1579</key>
@@ -8693,7 +8357,6 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
 <p>A separate message (Warning 1578) will be issued if the cleanup function fails to clear all pointers.  See also Warning 1566.
 </p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1701</key>
@@ -15337,7 +15000,6 @@ the value true to the object. Note the decrementing an object of bool
 type has never been allowed in Standard and will instead be greeted with
 an error.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1420</key>
@@ -15348,7 +15010,6 @@ Despite this, at least one vendor's compiler not only supports this use
 but relies on the ability to do so in their own library headers. If your
 compiler supports this use, you can suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1421</key>
@@ -15357,7 +15018,6 @@ compiler supports this use, you can suppress this message.]]>
       <![CDATA[explicitly forbids redefining the default argument of a template
 parameter. If your compiler allows this, you can suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>1731</key>
@@ -15599,7 +15259,6 @@ interesting circumstances that may be of use to Gimpel Software
 engineering staff. This message is not emitted unless appropriate
 debugging options are enabled.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2401</key>
@@ -15614,7 +15273,6 @@ non-positional arguments results in undefined behavior. For example:
 
 will elicit this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2402</key>
@@ -15626,7 +15284,6 @@ conversion specifier whose width or precision is given as an asterisk
 argument, which should have type int, but this argument was not
 provided.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2403</key>
@@ -15645,7 +15302,6 @@ will yield the messages:
 
     field width should have type 'int', but argument has type 'double']]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2404</key>
@@ -15670,7 +15326,6 @@ data argument is:
 
     printf(";%1$*2$d";, 1, 2);]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2405</key>
@@ -15683,7 +15338,6 @@ specifiers and a field width to be used with any conversion specifiers
 except for n. Use of field width/precision outside of these conversion
 specifiers results in undefined behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2406</key>
@@ -15694,7 +15348,6 @@ denoting the start of a scan list but there was no terminating ']'. The
 lack of a closing bracket makes the conversion specification invalid and
 results in undefined behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2407</key>
@@ -15705,7 +15358,6 @@ width. Standard C specifies that the maximum field width for scanf must
 be a ";decimal integer greater than zero";. Providing a zero as the width
 makes the conversion specifier invalid resulting in undefined behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2408</key>
@@ -15717,7 +15369,6 @@ function. The first type specifies the type of the argument that was
 provided, the second type specifies the type that was expected from the
 format string.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2409</key>
@@ -15731,7 +15382,6 @@ function was a wide string literal but should instead be an ordinary
 
 will elicit this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2410</key>
@@ -15742,7 +15392,6 @@ undefined behavior, even if it appears not to cause an infinite loop. An
 implementation with proper support for thread-safe static initialization
 is likely to deadlock.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2423</key>
@@ -15768,7 +15417,6 @@ will elicit the message:
     acos(x + y);
            ^]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2425</key>
@@ -15782,7 +15430,6 @@ exist, a return value of a type that conflicts with the actual return
 value, or the use of a symbol or macro in the semantic that cannot be
 resolved at the time of the call.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2426</key>
@@ -15796,7 +15443,6 @@ This represents a likely error in either the implementation of the
 function or the specification of the semantic. See also ";Return Semantic
 Validation"; in the Reference Manual in the Semantics chapter.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2427</key>
@@ -15818,7 +15464,6 @@ initializer list will contain dangling pointers. For example:</p>
         auto x = f(); // Attempting to access the elements of x will read invalid memory.
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2430</key>
@@ -15842,7 +15487,6 @@ name and definition:
 
     #define MINUS -]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2431</key>
@@ -15855,7 +15499,6 @@ treated as #line 34, not as #line 28 (the decimal equivalent of octal
 34). As such, a #line directive with a line number beginning with a zero
 is suspicious.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2432</key>
@@ -15882,7 +15525,6 @@ from functioning as intended. This message can be suppressed with
 -estring using the name of the macro being defined, e.g.
 -estring(2432, FOO_INCLODED) if the difference was intentional.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2433</key>
@@ -15892,7 +15534,6 @@ from functioning as intended. This message can be suppressed with
 standard. The bounds-checked printf-like functions forbid the use of the
 %n conversion specifier.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2434</key>
@@ -15901,7 +15542,6 @@ standard. The bounds-checked printf-like functions forbid the use of the
       <![CDATA[This message is a less certain variant of 449 and is issued when the
 deallocation was dependent on conditional execution flow at runtime.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2435</key>
@@ -15916,7 +15556,6 @@ will elicit this message. Was this intended? While legal, it is suspect.
 Other specifiers that will be diagnosed for duplicates include virtual,
 explicit, _Noreturn, friend, and constexpr.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2436</key>
@@ -15926,7 +15565,6 @@ explicit, _Noreturn, friend, and constexpr.]]>
 _Noreturn or a GCC or attribute contained a return statement. Returning
 from a function designated as not returning invokes undefined behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2437</key>
@@ -15940,7 +15578,6 @@ remove the offending indirection instead. The null pointer should be
 volatile to indicate to the compiler that it should not be optimized
 out.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2438</key>
@@ -15961,7 +15598,6 @@ doesn't make sense to compare them. For example:
 
 The message is parameterized by the two enumeration types compared.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2439</key>
@@ -15977,7 +15613,6 @@ Since e714 does not start with a -, +, or !, it, along with everything
 that follows, is assumed to be commentary. In this case -e714 was
 probably meant.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2440</key>
@@ -15998,7 +15633,6 @@ given for null checks of function or object pointers. For example:</p>
 of' and the second string parameter represents the corresponding
 function, array, or variable.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2441</key>
@@ -16019,7 +15653,6 @@ example:</p>
 of' and the second string parameter represents the corresponding
 function, array, or variable.</p>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2444</key>
@@ -16039,7 +15672,6 @@ in the enum. For example:
         }
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2445</key>
@@ -16069,7 +15701,6 @@ The message is parameterized by the types of the pointer before and
 after the cast and the alignment requirements of the types before and
 after the cast.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2446</key>
@@ -16104,7 +15735,6 @@ macros:
     #define CATX(x, y) x##y
     #define CAT(x, y) XCAT(x, y)]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2447</key>
@@ -16114,7 +15744,6 @@ macros:
 inline, constexpr, or deleted. The Standard forbids the main function to
 be declared with these specifiers.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2448</key>
@@ -16125,7 +15754,6 @@ hosted environment but a return type other than int was specified for
 main. If you are targeting a freestanding/embedded platform or making
 use of non-standard extensions, you should suppress this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2450</key>
@@ -16134,7 +15762,6 @@ use of non-standard extensions, you should suppress this message.]]>
       <![CDATA[A literal null character was encountered within the module being
 processed and will be ignored by PC-lint Plus.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2452</key>
@@ -16147,7 +15774,6 @@ a pointer to the corresponding unsigned integer type. For example:
         unsigned *up = p;   // Warning 2452
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2453</key>
@@ -16160,7 +15786,6 @@ For example:
         int i = p;  // Warning 2453
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2454</key>
@@ -16173,7 +15798,6 @@ For example:
         int *pi = pf;  // Warning 2454
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2455</key>
@@ -16186,7 +15810,6 @@ function pointer type. For example:</p>
         int (*pf)(float) = &amp;foo;    // Warning 2455
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2456</key>
@@ -16204,7 +15827,6 @@ linkage specifications in C mode are supported by some embedded
 compilers. If your compiler supports this, feel free to suppress this
 message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2465</key>
@@ -16216,7 +15838,6 @@ will only be visible within the function. It would be better to use
 another name and/or place the desired definition outside the function if
 the intention is to make the tag visible elsewhere.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2466</key>
@@ -16233,7 +15854,6 @@ specified. For example:
 
 Message 2466 will be issued if i, j, or k are subsequently used.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2491</key>
@@ -16244,7 +15864,6 @@ conditional. Furthermore, the expression appearing within sizeof was not
 previously registered with the -pp_sizeof option and will evaluate to
 zero. See the -pp_sizeof option for more information.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2501</key>
@@ -16259,7 +15878,6 @@ type does not yield a negative value (see message 501). For example:
     -(unsigned)5; // 2^32 - 5, type is still unsigned int
     -(unsigned short)5; // -5, type is signed int]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2586</key>
@@ -16292,7 +15910,6 @@ This message is not used to report the use of entities that are
 deprecated with the -deprecate option, such instances are instead
 reported by message 586.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2623</key>
@@ -16321,7 +15938,6 @@ eliminate the diagnostic, the test should be corrected as in
 
     if (i <= 1)]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2641</key>
@@ -16332,7 +15948,6 @@ Since enumerations are always represented using integral underlying
 types, it is suspicious to use an enumeration value in a floating point
 context. This message can be suppressed by using a cast.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2650</key>
@@ -16353,7 +15968,6 @@ suspicious (perhaps a was intended to be compared to a different value).
 See also message 650 which is issued when the provided constant is out
 of range for the entire comparison operator.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2662</key>
@@ -16372,7 +15986,6 @@ value itself with the operand zero is ignored. For example:</p>
         p + 1;      // Warning 2662
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>2701</key>
@@ -16699,7 +16312,6 @@ formed by accident due to its similarity to a canonical copy
 constructor. This message will not be given if the move constructor is
 deleted, as this is occasionally useful.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3402</key>
@@ -16709,7 +16321,6 @@ deleted, as this is occasionally useful.]]>
 pointer by value if any non-static members are used. For clarity, some
 prefer to explicitly specify this in the capture list.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3403</key>
@@ -16725,7 +16336,6 @@ std::move instead of std::forward was likely accidental. For example:</p>
         g(std::move(t)); // might unexpectedly move from the caller&apos;s lvalue
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3405</key>
@@ -16735,7 +16345,6 @@ std::move instead of std::forward was likely accidental. For example:</p>
 returns a type that is not compatible with C so what is the point in
 having C linkage?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3406</key>
@@ -16744,7 +16353,6 @@ having C linkage?]]>
       <![CDATA[A function that was specified as having C language linkage has an
 incomplete return type.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3407</key>
@@ -16755,7 +16363,6 @@ return null but the function is not declared with 'throw()' or
 'noexcept'. Operator new functions should never return null except in
 these cases.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3408</key>
@@ -16771,7 +16378,6 @@ well-formed code</p>
       if (&amp;i != 0) return;   // 3408
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3409</key>
@@ -16787,7 +16393,6 @@ suspicious because such an address can never be false. For example:</p>
       if (!&amp;i) return;   // 3409
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3410</key>
@@ -16803,7 +16408,6 @@ never be called. For example:
 
 will elicit this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3411</key>
@@ -16820,7 +16424,6 @@ never be called. For example:
 
 will elicit this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3412</key>
@@ -16834,7 +16437,6 @@ properly destructed. The declaration of a virtual function implies that
 this class is meant to be used as a base class and as such it should
 provide a virtual destructor.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3413</key>
@@ -16844,7 +16446,6 @@ provide a virtual destructor.]]>
 potential problem that could arise from having a non-virtual destructor,
 this message warns when delete is applied to such an object.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3414</key>
@@ -16852,7 +16453,6 @@ this message warns when delete is applied to such an object.]]>
     <description>
       <![CDATA[This message is similar to 3413 but is reported for abstract types.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3415</key>
@@ -16870,7 +16470,6 @@ For example:
                                // will cease to exist after initialization.
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3416</key>
@@ -16883,7 +16482,6 @@ For example:
 Was this a mistake? The this pointer is never null in well-formed so
 such a test is suspect.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3417</key>
@@ -16896,7 +16494,6 @@ such a test is suspect.]]>
 Was this a mistake? The this pointer is never null in well-formed so
 such a test is suspect.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3418</key>
@@ -16906,7 +16503,6 @@ such a test is suspect.]]>
 class type in an unsafe way; static_cast should probably be used
 instead.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3420</key>
@@ -16922,7 +16518,6 @@ a template specialization. For example:</p>
     template&lt;&gt;
     int foo(int);</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3421</key>
@@ -16932,7 +16527,6 @@ a template specialization. For example:</p>
 presence of one or more template parameters that cannot be deduced means
 that the specialization will never be used. Was this a mistake?]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3423</key>
@@ -16954,7 +16548,6 @@ example:</p>
     struct S { unsigned char value = I; };
     S&lt;300&gt; s;           // warning 3423, cannot narrow 300 to unsigned char</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3424</key>
@@ -16966,7 +16559,6 @@ expression is required. The specified function was marked as constexpr
 but does not ever produce a constant expression so the use of constexpr
 is suspect.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3425</key>
@@ -16985,7 +16577,6 @@ an allowed implicit conversion within an initializer list. The issue can
 be corrected by correcting the type used in the initializer, casting the
 type, or not using list initialization.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3426</key>
@@ -17006,7 +16597,6 @@ will elicit this message while:
 will not. The issue can be corrected by correcting the type used in the
 initializer, casting the type, or not using list initialization.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3427</key>
@@ -17022,7 +16612,6 @@ will elicit this message, assuming 8-bit chars. The message can be
 avoided by correcting the value, using a cast, or by not employing list
 initialization.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3428</key>
@@ -17039,7 +16628,6 @@ declaration) must have a definition. For example:
 
 The second declaration of A::foo must contain a definition.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3429</key>
@@ -17060,7 +16648,6 @@ using the syntax for initializing class types:
 
 This parenthesis around the initializer here are not Standard.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3430</key>
@@ -17075,7 +16662,6 @@ example:</p>
         &amp;X();       // warning 3430
     }</code></pre>]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3431</key>
@@ -17094,7 +16680,6 @@ This message is issued for non-integral static data members with an
 in-class initializer of a type for which constexpr is expected but not
 provided.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3432</key>
@@ -17104,7 +16689,6 @@ provided.]]>
 separating the two and the identifier was not a valid suffix for the
 literal.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>3450</key>
@@ -17126,7 +16710,6 @@ If for some reason explicitly applying a negative offset to the this
 pointer based on a member value is actually desired then the member name
 can be enclosed in parentheses to avoid confusion.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>365</key>
@@ -17405,7 +16988,6 @@ unspecified. If an extern C specification is necessary for the
 declarations within the namespace, it should be inside the namespace
 rather than outside.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>463</key>
@@ -17417,7 +16999,6 @@ specification that caused the error and the second string provides
 additional information about the error such as ";unmatched right
 parenthesis";.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>466</key>
@@ -17436,7 +17017,6 @@ behavior may occur too easily. For example:
         pf(12, 2);   // undefined behavior
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>473</key>
@@ -17463,7 +17043,6 @@ than the size of the array. For example:
         init(0);        // 473 - null argument
     }]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>474</key>
@@ -17474,7 +17053,6 @@ Furthermore, there is no default case and no case statement that matches
 the constant expression. 'string' contains the constant used as the
 switch condition.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>477</key>
@@ -17484,7 +17062,6 @@ switch condition.]]>
 without static storage duration. Repeatedly reallocating such arrays can
 impair performance.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>490</key>
@@ -17493,7 +17070,6 @@ impair performance.]]>
       <![CDATA[This message is issued as a result of processing a #warning preprocessor
 directive. string is the message provided to the directive.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>492</key>
@@ -17508,7 +17084,6 @@ will yield the message:
 
     incomplete format specifier '%ll']]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>493</key>
@@ -17520,7 +17095,6 @@ indexed at 1 so this is not valid. For example:
 
     printf(";%0$d";, 3);]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>494</key>
@@ -17536,7 +17110,6 @@ will yield the message:
 
     data argument position '2' exceeds the number of data arguments (1)]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>495</key>
@@ -17551,7 +17124,6 @@ inclusion is likely a mistake. For example:
 
 will elicit this message.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>496</key>
@@ -17561,7 +17133,6 @@ will elicit this message.]]>
 terminated with a nul character, which will cause the function to read
 past the end of the string causing undefined behavior.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>497</key>
@@ -17571,7 +17142,6 @@ past the end of the string causing undefined behavior.]]>
 Calling these functions with an empty format string is legal but suspect
 as there is no effect to doing so.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>498</key>
@@ -17585,7 +17155,6 @@ character is encountered, failing to provide a maximum field width can
 easily result in buffer overflow. 'string' contains the unbounded format
 specifier.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>499</key>
@@ -17595,7 +17164,6 @@ specifier.]]>
 was combined with a conversion specifier that is not supported by
 Standard C.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>513</key>
@@ -17604,7 +17172,6 @@ Standard C.]]>
       <![CDATA[The specified option is not supported in this version of PC-lint Plus
 but may be available in a future version.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>523</key>
@@ -17621,7 +17188,6 @@ statement lacks side effects. For example:
 While the operator + lacks side effects, the statement doesn't so 522
 will be issued here but not 523.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>576</key>
@@ -17635,7 +17201,6 @@ this is a constraint violation in C. For example:
 
 In an error is emitted instead.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>597</key>
@@ -17655,7 +17220,6 @@ between the = and the -/+ and when there is a space between the -/+ and
 its operand. 'string' contains the form of compound assignment that the
 expression may be confused for.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>599</key>
@@ -17665,7 +17229,6 @@ expression may be confused for.]]>
 there were no files found that match the given pattern so it will be
 ignored. 'string' contains the offending pattern.]]>
     </description>
-    <severity>MAJOR</severity>
     </rule>
   <rule>
     <key>709</key>
@@ -19093,7 +18656,6 @@ defaulted outside of the class definition. C++ performs initialization of classe
 constructors (declared but not defaulted in the class definition) differently than classes without a user provided
 default constructor.]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>1423</key>
@@ -19103,7 +18665,6 @@ default constructor.]]>
 was attempted using reintepret_cast that was not included in this list which will result in undefined
 behavior.]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>1756</key>
@@ -19146,7 +18707,6 @@ conversion operator that has been marked as explicit.]]>
 PC-lint Plus is encountered. The use of non-standard literal suffixes is not portable. The suffixes reported by
 this message include q/Q, I8/I16/I32/I64 (and the lowercase equivalents), NaN and Infinity.]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2449</key>
@@ -19157,7 +18717,6 @@ this message include q/Q, I8/I16/I32/I64 (and the lowercase equivalents), NaN an
 incompatible type warning has been moved to message 2449.</p>
 ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2460</key>
@@ -19175,7 +18734,6 @@ target="_blank">MSC32-C. Properly seed pseudorandom number generators</a></p>
 target="_blank">MSC41-C. Never hard code sensitive information</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2461</key>
@@ -19190,7 +18748,6 @@ found.
 target="_blank">MSC32-C. Properly seed pseudorandom number generators</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2470</key>
@@ -19205,7 +18762,6 @@ multiple characters, this is non-portable.
 target="_blank">FIO13-C. Never push back anything other than one read character</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2471</key>
@@ -19220,7 +18776,6 @@ target="_blank">FIO46-C. Do not access a closed file</a></p>]]>
     </description>
     <tag>cert</tag>
     <tag>misra</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2472</key>
@@ -19235,7 +18790,6 @@ behavior.
 target="_blank">FIO11-C. Take care when specifying the mode parameter of fopen()</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2473</key>
@@ -19258,7 +18812,6 @@ combinations are:</p>
 target="_blank">FIO11-C. Take care when specifying the mode parameter of fopen()</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2474</key>
@@ -19268,7 +18821,6 @@ target="_blank">FIO11-C. Take care when specifying the mode parameter of fopen()
 as fflush. Attempting to flush a file stream that wasn’t opened for writing (or update) results in undefined
 behavior.]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2475</key>
@@ -19277,7 +18829,6 @@ behavior.]]>
       <![CDATA[An attempt was made to flush a file stream immediately following an input operation; this results in undefined
 behavior.]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2476</key>
@@ -19286,7 +18837,6 @@ behavior.]]>
       <![CDATA[An attempt was made to read from a file stream that was not opened for reading. This results in undefined
 behavior.]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2477</key>
@@ -19296,7 +18846,6 @@ behavior.]]>
 behavior.]]>
     </description>
     <tag>misra</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2478</key>
@@ -19310,7 +18859,6 @@ or reposition the stream between a write and subsequent read operation results i
 target="_blank">FIO39-C. Do not alternately input and output from a stream without an intervening flush or positioning call</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2479</key>
@@ -19324,7 +18872,6 @@ the stream between a read and subsequent write operation results in undefined be
 target="_blank">FIO39-C. Do not alternately input and output from a stream without an intervening flush or positioning call</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2480</key>
@@ -19338,7 +18885,6 @@ undefined behavior.
 target="_blank">STR38-C. Do not confuse narrow and wide character strings and functions</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2481</key>
@@ -19352,7 +18898,6 @@ undefined behavior.
 target="_blank">STR38-C. Do not confuse narrow and wide character strings and functions</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2498</key>
@@ -19367,7 +18912,6 @@ target="_blank">FLP37-C. Do not use object representations to compare floating-p
     </description>
     <tag>cert</tag>
     <tag>misra</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2499</key>
@@ -19384,7 +18928,6 @@ target="_blank">FLP37-C. Do not use object representations to compare floating-p
     </description>
     <tag>cert</tag>
     <tag>misra</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2601</key>
@@ -19417,7 +18960,6 @@ function performing the call, for example:</p>
 target="_blank">POS34-C. Do not call putenv() with a pointer to an automatic variable as the argument</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2618</key>
@@ -19431,7 +18973,6 @@ appearing after a type and message 963 which reports on const and volatile quali
 type.</p>
 ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2666</key>
@@ -19461,7 +19002,6 @@ message, any expression appearing to contain a function call is considered to ha
 target="_blank">PRE31-C. Avoid side effects in arguments to unsafe macros</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2670</key>
@@ -19474,7 +19014,6 @@ target="_blank">PRE31-C. Avoid side effects in arguments to unsafe macros</a></p
 target="_blank">SIG30-C. Call only asynchronous-safe functions within signal handlers</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2671</key>
@@ -19487,7 +19026,6 @@ target="_blank">SIG30-C. Call only asynchronous-safe functions within signal han
 target="_blank">SIG35-C. Do not return from a computational exception signal handler</a></p>]]>
     </description>
     <tag>cert</tag>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>2760</key>
@@ -19598,7 +19136,6 @@ suppressed for specific constant values.</p>
 extension.</p>
 ]]>
     </description>
-    <severity>MAJOR</severity>
   </rule>
   <rule>
     <key>9010</key>
