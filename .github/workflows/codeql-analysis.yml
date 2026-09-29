@@ -42,11 +42,11 @@ jobs:
     steps:
     # Checkout repository
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # setup Java
     - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v6
       with:
         java-version: ${{ matrix.java }}
         distribution: ${{ matrix.distribution }}
