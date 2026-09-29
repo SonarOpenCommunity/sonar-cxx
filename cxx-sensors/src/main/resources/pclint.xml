@@ -199,6 +199,7 @@ After a #include is detected and after macro substitution is performed, a file s
     int x;;]]>
     </description>
     <tag>bad-practice</tag>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>20</key>
@@ -1495,7 +1496,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[Internal error occurred - subcode is part of message. This inconsistency should be brought to the attention of Gimpel Software]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>301</key>
@@ -1504,7 +1505,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[There was a stack overflow while processing declarations. Approximately 50 nested declarators were found. For example, if a '/' followed by 50 consecutive '*'s were to introduce a box-like comment and if the '/' were omitted, then this message would be produced.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>302</key>
@@ -1513,7 +1514,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[Main memory has been exhausted.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>303</key>
@@ -1522,7 +1523,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A single #define definition or macro invocation exceeded an internal limit (of 4096 characters). As the diagnostic indicates the problem can be corrected with an option.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>304</key>
@@ -1531,7 +1532,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A PC-lint/FlexeLint object file is apparently corrupted. Please delete the object module and recreate it using the -oo option. The special code identifier number as well as a list of symbol names are optionally suffixed to the message as an aid in diagnosing the problem by technical support.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>305</key>
@@ -1540,7 +1541,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[file name is the name of the file. The named module could not be opened for reading. Perhaps you misspelled the name.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>306</key>
@@ -1549,7 +1550,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[FileName is the name of the module. The named module was previously encountered. This is probably a user blunder.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>307</key>
@@ -1558,7 +1559,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[FileName is the name of the indirect file. The named indirect file (ending in .lnt) could not be opened for reading.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>308</key>
@@ -1567,7 +1568,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[stdout was found to equal NULL. This is most unusual.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>309</key>
@@ -1576,7 +1577,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[The #error directive was encountered. The ellipsis reflects the original line. Normally processing is terminated at this point. If you set the fce (continue on #error) flag, processing will continue.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>310</key>
@@ -1585,7 +1586,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A single declaration was found to be too long for an internal buffer (about 2000 characters). This occurred when attempting to write out the declaration using the -o... option. The first 30 characters of the declaration is given in String. Typically this is caused by a very long struct whose substructures, if any, are untagged. First identify the declaration that is causing the difficulty. If a struct or union, assign a tag to any unnamed substructures or subunion. A typedef can also be used to reduce the size of such a declaration.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>312</key>
@@ -1594,7 +1595,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A lint precompiled header or object module was produced with a prior or different version of PC-lint/FlexeLint. Delete the.lob  or .lph file and recreate it using your new version of PC-lint/FlexeLint.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>313</key>
@@ -1603,7 +1604,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[The number of files that PC-lint/FlexeLint can process has exceeded an internal limit. The FlexeLint user may recompile his system to increase this limit. Look for symbol FSETLEN in custom.h. Currently, the number of files is limited to 4096.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>314</key>
@@ -1612,7 +1613,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[The indirect file named was previously encountered. If this was not an accident, you may suppress this message.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>315</key>
@@ -1621,7 +1622,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[The maximum number of messages was exceeded. Normally there is no limit unless one is imposed by the -limit(n) option.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>316</key>
@@ -1630,7 +1631,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[The given file could not be opened for output.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>317</key>
@@ -1639,7 +1640,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[Lint detected a byte order mark at the beginning of a file which indicated the file is encoded in the given format. As of this writing, the only formats supported to any extent are ASCII and UTF-8 (for which Lint presumes ASCII encoding).]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>318</key>
@@ -1648,7 +1649,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[We found the end of a module within the argument list of a macro.  Since such situations are almost certain to be erroneous, we gracefully shut down, alerting the User to the reason.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>321</key>
@@ -1657,7 +1658,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[An overflow occurred in the stack used to contain array, pointer, function or reference modifiers when processing a declarator.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>322</key>
@@ -1666,7 +1667,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[FileName is the name of the include file which could not be opened. Directory search is controlled by options: -i +fdi and the INCLUDE environment variable. This is a suppressible fatal message. If option -e322 is used, Error message 7 will kick in. A diagnostic will be issued but processing will continue.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>323</key>
@@ -1675,7 +1676,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[In attempting to save a token for later reuse, a fixed size buffer was exceeded (governed by the size M_TOKEN).]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>324</key>
@@ -1684,7 +1685,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[Too many symbols were encountered. An internal limit was reached.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>325</key>
@@ -1693,7 +1694,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[In the case of a large number of nested includes, files in the outer fringe need to be closed before new ones are opened. These outer files then need to be re-opened. An error occurred when attempting to re-open such a file.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>326</key>
@@ -1702,7 +1703,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A string (first 40 characters provided in the message) exceeds some internal limit (provided in the message). There is no antidote to this condition in the form of an option. FlexeLint customers may recompile with a redefinition of either M_STRING (maximum string) or M_NAME (maximum name). To override the definition in custom.h we suggest recompiling with an appropriate -dvar=value option assuming your compiler supports the option.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>328</key>
@@ -1714,7 +1715,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     It was necessary to make this message a fatal error since attempting to bypass headers that do not follow a consistent header sequence is an act of folly. It is possible to continue on after the 328 in hopes of picking up more inconsistencies in other modules. This can be done using the +fce (Continue-on-Error) flag.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>330</key>
@@ -1723,7 +1724,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[For the indicated static_assert directive, Lint evaluated the constant expression to false, and the resulting message is given by the String]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>333</key>
@@ -1732,7 +1733,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
       <![CDATA[A 'forbidden' file was opened. Opening such a file is considered a security violation by a hosted implementation.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>401</key>
@@ -2126,7 +2127,6 @@ For example:</p>
        preprocessor directive as a directive.  This is logical but not
        portable.  It is therefore best to avoid this construct.</p>]]>
     </description>
-    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>437</key>
@@ -2373,7 +2373,6 @@ A for clause was encountered that appeared to have a parity problem. For example
     <description>
       <![CDATA[An assignment to an element of a string literal was seen. Doing so results in undefined behavior.]]>
     </description>
-    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>491</key>
@@ -5339,6 +5338,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[This message exists to provide some way of ensuring that an output message is always produced, even if there are no other messages. This is required for some windowing systems. For this purpose use the option +e900.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>904</key>
@@ -5346,6 +5346,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A return statement was found before the end of a function definition. Many programming standards require that functions contain a single exit point located at the end of the function. This can enhance readability and may make subsequent modification less error prone.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>905</key>
@@ -5353,6 +5354,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A printf/scanf style function received a non-literal format specifier but, unlike the case covered by Warning 592 in Section 13.3 the function also received additional arguments. E.g. char *fmt; int a, b; ... printf( fmt, a, b ); Variable formats represent a very powerful feature of C/C++ but they need to be used judiciously. Unlike the case covered by Warning 592, this case cannot be easily rewritten with an explicit visible format. But this Elective Note can be used to examine code with non-literal formats to make sure that no errors are present and that the formats themselves are properly constructed and contain no user-provided data. See also Warning 592 in Section 13.3]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>909</key>
@@ -5361,6 +5363,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
       <![CDATA[A non-bool was tested as a Boolean. For example, in the following function: int f(int n) { if( n ) return n; else return 0; }
     the programmer tests 'n' directly rather than using an explicit Boolean expression such as 'n != 0'. Some shops prefer the explicit test.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>910</key>
@@ -5373,6 +5376,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     This will inhibit message 910 in expressions which use NULL. This method will also work in C.
     Both methods assume that you expressly turn on this message with a +e910 or equivalent.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>911</key>
@@ -5380,6 +5384,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Notes whenever a sub-integer expression such as a char, short, enum, or bit-field is promoted to int for the purpose of participating in some arithmetic operation or function call.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>912</key>
@@ -5387,6 +5392,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Notes whenever a binary operation (other than assignment) requires a type balancing. A smaller range type is promoted to a larger range type. For example: 3 + 5.5 will trigger such a message because int is converted to double.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>913</key>
@@ -5396,6 +5402,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     int f( ch, x ) char ch; float x; { ...
     contains two 913 adjustments.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>914</key>
@@ -5403,6 +5410,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Notes whenever the function return value is implicitly adjusted. This message is given only for functions returning arrays.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>915</key>
@@ -5410,6 +5418,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Notes whenever an assignment, initialization or return implies an arithmetic conversion (Context specifies which).]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>916</key>
@@ -5417,6 +5426,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Notes whenever an assignment, initialization or return implies an implicit pointer conversion (Context specifies which).]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>917</key>
@@ -5426,6 +5436,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     double sqrt(double); ... sqrt(3); ...
     will elicit this message because 3 is quietly converted to double.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>918</key>
@@ -5433,6 +5444,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Notes whenever a pointer is implicitly converted because of a prototype. Because of prototype conversion, near pointers will otherwise be silently mapped into far pointers. far pointers mapped into near pointers also generate message 619.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>919</key>
@@ -5440,6 +5452,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A lower precision quantity was assigned to a higher precision variable as when an int is assigned to a double.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>920</key>
@@ -5447,6 +5460,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made from the given type to void.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>921</key>
@@ -5454,6 +5468,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made from one integral type to another.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>922</key>
@@ -5461,6 +5476,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made to or from one of the floating types (float, double, long double).]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>923</key>
@@ -5468,6 +5484,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made either from a pointer to a non-pointer or from a non-pointer to a pointer.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>924</key>
@@ -5475,6 +5492,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made from a struct or a union. If the cast is not to a compatible struct or union error 69 is issued.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>925</key>
@@ -5482,6 +5500,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made to convert one pointer to another such that one of the pointers is a pointer to void. Such conversions are considered harmless and normally do not even need a cast.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>926</key>
@@ -5489,6 +5508,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made to convert a char pointer to a char pointer (one or both of the char's may be unsigned). This is considered a 'safe' cast.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>927</key>
@@ -5496,6 +5516,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made to convert a char (or unsigned char) pointer to a non-char pointer. char pointers are sometimes implemented differently from other pointers and there could be an information loss in such a conversion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>928</key>
@@ -5503,6 +5524,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made from a non-char pointer to a char pointer. This is generally considered to be a 'safe' conversion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>929</key>
@@ -5510,6 +5532,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made to convert one pointer to another that does not fall into one of the classifications described in 925 through 928 above. This could be non-portable on machines that distinguish between pointer to char and pointer to word. Consider casting a pointer to pointer to char to a pointer to pointer to word. The indirect bit pattern remains unchanged.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>930</key>
@@ -5517,6 +5540,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A cast is being made to or from an enumeration type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>931</key>
@@ -5524,6 +5548,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[Indicates when both sides of an expression have side-effects. An example is n++ + f(). This is normally benign. The really troublesome cases such as n++ + n are caught via Warning 564.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>932</key>
@@ -5531,6 +5556,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A source of error in Windows programming is to pass a near pointer to a library function. If the library is a DLL library, then in supplying the missing segment, the library would assume its own data segment which would probably be wrong. See also messages 933 and 934.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>933</key>
@@ -5538,6 +5564,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A source of error in Windows programming is to pass a near pointer to a DLL function. Most Microsoft functions in DLLs are declared with the far modifier. Hence this can be tentatively used as a discriminant to decide that a pointer is too short. An advantage that this Note has over 932 is that it can catch functions designated only by pointer. Also you may be using libraries that are not DLLs and that share the same DS segment. In this case, 932 may produce too many superfluous messages. See also message 934.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>934</key>
@@ -5545,6 +5572,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[A source of error in writing DLL libraries is that the stack segment may be different from the data segment. In taking the address of a near data object only the offset is obtained. In supplying the missing segment, the compiler would assume the data segment which could be wrong. See also messages 932 and 933.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>935</key>
@@ -5552,6 +5580,7 @@ size_t s3 = sizeof(A[0]); // OK, get the size of an element. size_t s4 = sizeof(
     <description>
       <![CDATA[This Note helps to locate non-portable data items within struct's. If instead of containing int's and unsigned int's, a struct were to contain short's and long's then the data would be more portable across machines and memory models. Note that bit fields and union's do not get complaints.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>936</key>
@@ -5562,6 +5591,7 @@ An "old-style" function definition is one in which the types are not included be
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>937</key>
@@ -5569,6 +5599,7 @@ An "old-style" function definition is one in which the types are not included be
     <description>
       <![CDATA[An "old-style" function declaration is one which does not have type information for its arguments.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>938</key>
@@ -5576,6 +5607,7 @@ An "old-style" function definition is one in which the types are not included be
     <description>
       <![CDATA[In an "old-style" function definition it is possible to let a function parameter default to int by simply not providing a separate declaration for it.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>939</key>
@@ -5583,6 +5615,7 @@ An "old-style" function definition is one in which the types are not included be
     <description>
       <![CDATA[A function was declared without an explicit return type. If no explicit storage class is given, then Informational 745 is also given provided the Deduce Return mode flag (fdr) is off. This is meant to catch all cases.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>940</key>
@@ -5597,6 +5630,7 @@ This is legal C but may violate local programming standards. The worst violation
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>941</key>
@@ -5607,6 +5641,7 @@ The result of a constant evaluation is 0 owing to one of the operands of a binar
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>942</key>
@@ -5614,6 +5649,7 @@ The result of a constant evaluation is 0 owing to one of the operands of a binar
     <description>
       <![CDATA[An integral expression (signed or unsigned) involving addition or subtraction is converted to a floating point number. If an overflow occurred, information would be lost. See also messages 647, 776 and 790.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>943</key>
@@ -5621,6 +5657,7 @@ The result of a constant evaluation is 0 owing to one of the operands of a binar
     <description>
       <![CDATA[The initializer {0} was used to initialize an aggregate of more than one item. Since this is a very common thing to do it is given a separate message number which is normally suppressed. See 785 for more flagrant abuses.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>944</key>
@@ -5631,6 +5668,7 @@ The indicated operator (given by String has an argument that appears to always e
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>945</key>
@@ -5640,6 +5678,7 @@ The indicated operator (given by String has an argument that appears to always e
     extern struct X s;
     where struct X is not yet defined. This note can alert a programmer porting to such platforms.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>946</key>
@@ -5650,6 +5689,7 @@ A relational operator (one of &gt;, &gt;=, &lt;, &lt;=) or the subtract operator
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>947</key>
@@ -5659,6 +5699,7 @@ A relational operator (one of &gt;, &gt;=, &lt;, &lt;=) or the subtract operator
     The alert reader will note that a potential problem exists whenever the size of the type of a pointer difference equals the size of a pointer. But the problem doesn't usually manifest itself since the highest pointer values are usually less than what a pointer could theoretically hold. For this reason, the message cannot be given automatically based on scalar types and hence has been made an Elective Note.
     Compare this Note with that of 946 which was designed for a slightly different pointer difference problem.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>948</key>
@@ -5669,6 +5710,7 @@ The operator named in the message is one of four relational operators or two equ
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>950</key>
@@ -5676,6 +5718,7 @@ The operator named in the message is one of four relational operators or two equ
     <description>
       <![CDATA[Symbol is either a reserved word that is non-ANSI or a construct (such as the // form of comment in a C module). This Elective Note is enabled automatically by the -A option. If these messages are occurring in a compiler or library header file over which you have no control, you may want to use the option -elib(950). If the reserved word is one which you want to completely disable, then use the option -rw(Word).]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>951</key>
@@ -5684,6 +5727,7 @@ The operator named in the message is one of four relational operators or two equ
       <![CDATA[A pointer to an incomplete type (for example, struct X where struct X has not yet been defined in the current module) was employed in an assignment or in a comparison (for equality) operator. For example, suppose a module consisted only of the following function: struct A * f(struct A *p ) { return p; }
     Since struct A had not been defined, this message will be issued. Such employment is permitted by the standard but is not permitted by all C compilers. If you want to deploy your application to the maximum number of platforms you should enable this Elective Note.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>952</key>
@@ -5708,6 +5752,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>953</key>
@@ -5715,6 +5760,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
     <description>
       <![CDATA[A local variable (either static or auto) is initialized but never modified thereafter. Such a variable could be declared const. One advantage in making such a declaration is that it can furnish a clue to the program reader that the variable is unchanging. In the case of static data it can mean that the data is ROM'able. Other situations in which a const can be added to a declaration are covered in messages 818, 952, 954 and 1764.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>954</key>
@@ -5724,6 +5770,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
     can be redeclared as: { const char *p = "abc"; for( ; *p; p++ ) print(*p); }
     It is interesting to contrast this situation with that of pointer parameters. The latter is given Informational status (818) because it has an effect of enhancing the set of pointers that can be passed into a function. Other situations in which a const can be added to a declaration are covered in messages 952, 953 and 1764.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>955</key>
@@ -5736,6 +5783,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
     would presumably be more meaningful. [27, Rule 34].
     This message is not given for function definitions, only function declarations.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>956</key>
@@ -5745,6 +5793,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
     If the purpose is to obtain a count of all the bump()'s by a given thread then this program clearly will not do since the global variable count sums up the bump()'s from all the threads. Moreover, if the purpose of the code is to obtain a count of all bump()'s by all threads, it still may contain a subtle error (depending on the compiler and the machine). If it is possible to interrupt a thread between the access of count and the subsequent store, then two threads that are bump()'ing at the same time, may register an increase in the count by just one.
     Please note that not all code is intended to be re-entrant. In fact most programs are not designed that way and so this Elective Note need not be enabled for the majority of programs. If the program is intended to be re-entrant, all uses of non-const static variables should be examined carefully for non-reentrant properties.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>957</key>
@@ -5753,6 +5802,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
       <![CDATA[A function was defined without a prototype in scope. It is usually good practice to declare prototypes for all functions in header files and have those header files checked against the definitions of the function to assure that they match.
     If you are linting all the files of your project together such cross checking will be done in the natural course of things. For this reason this message has been given a relatively low urgency of Elective Note.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>958</key>
@@ -5761,6 +5811,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
       <![CDATA[This message is given whenever padding is necessary within a struct to achieve a required member alignment. Consider: struct A { char c; int n; }; Assuming that int must be aligned on a 4-byte boundary and assuming the size of a char to be 1, then this message will be issued indicating that there will be a padding of 3 bytes.
     The alignment requirements vary with the compiler, the machine and, sometimes, compiler options. When separately compiled programs need to share data at the binary level it helps to remove any artificially created padding from any of the structures that may be shared.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>959</key>
@@ -5769,6 +5820,7 @@ Marking a parameter as const does not affect the type of argument that can be pa
       <![CDATA[The alignment of a structure (or union) is equal to the maximum alignment of any of its members. When an array of structures is allocated, the compiler ensures that each structure is allocated at an address with the proper alignment. This will require padding if the size of the structure is not an even multiple of its maximum alignment. For example: struct A { int n; char ch; } a[10]; Assuming the size and alignment of int is 4 then the size of each struct is 5 but its alignment is 4. As a result each struct in the array will be padded with 3 bytes.
     Alignment can vary with the compiler and the machine. If binary data is to be shared by separately compiled modules, it is safer to make sure that all shared structures and unions are explicitly padded.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>960</key>
@@ -5855,6 +5907,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <p>will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>961</key>
@@ -5869,6 +5922,7 @@ MISRA 2004 checks, use -misra(2)</p>
     (Rule 19.2) Header file name contains non-standard character. (Rule 19.13) No use of '#' or '##'.
     Messages can be suppressed based on rule number. See also Message 960.</p>]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>962</key>
@@ -5876,6 +5930,7 @@ MISRA 2004 checks, use -misra(2)</p>
     <description>
       <![CDATA[The same macro was defined in the same way in two different places in the source code. This is not a good practice since a subsequent change to one of the macros could lead to confusion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>963</key>
@@ -5885,6 +5940,7 @@ MISRA 2004 checks, use -misra(2)</p>
     There is a diametrically opposite convention, viz. that of placing the qualifier after the type. As the message itself reminds the user you will obtain the reverse test if you turn off the fqb (place qualifiers before types) flag. Thus //lint -fqb turn off the Qualifiers Before types flag //lint +e963 report on type-qualifier inversion extern const char *p; // Note 963 extern char const *p; Note that the use of this flag will cause 'follows' in the message to be replaced by 'precedes' and the alternative option mentioned within the 'use' clause is changed to its opposite orientation.
     Dan Saks [36] and Vandevoorde and Josuttis [32, section 1.4] (14. Added Bibliography), provide convincing evidence that this alternative convention is indeed the better one.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>964</key>
@@ -5892,6 +5948,7 @@ MISRA 2004 checks, use -misra(2)</p>
     <description>
       <![CDATA[The given header file was not used in the given module, however it, itself, included a header file (possibly indirectly) that was used. An example of this is os2.h that is an umbrella header serving only to include other headers. Compare this message with 766.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>966</key>
@@ -5899,6 +5956,7 @@ MISRA 2004 checks, use -misra(2)</p>
     <description>
       <![CDATA[The header file given by FileName was unused directly or indirectly in a given module outside of its group. It was not, however, directly included by the module and so may not easily be excluded without disturbing the header including it. Since this header may be included in other places caution is advised. This message is a weaker version of 766.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>967</key>
@@ -5907,6 +5965,7 @@ MISRA 2004 checks, use -misra(2)</p>
       <![CDATA[You may protect against the repeated inclusion of headers by means of a standard include guard having the following form: #ifndef Name #define Name ... #endif The header file cited in the message does not have such a guard. It is standard practice in many organizations to always place include guards within every header.
     See Warning 451 in Section 13.3 for more information about header include guards.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>970</key>
@@ -5917,6 +5976,7 @@ MISRA 2004 checks, use -misra(2)</p>
     This message is normally issued for the standard intrinsic types: bool, char, wchar_t, int, float, double, and for modifiers unsigned, signed, short and long. You may enable this message and then suppress the message for individual types to obtain special effects. For example the following will enable the message for all but bool.
     +e970 -esym(970,bool)]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>971</key>
@@ -5924,6 +5984,7 @@ MISRA 2004 checks, use -misra(2)</p>
     <description>
       <![CDATA[The 'char' type was specified without an explicit modifier to indicate whether the char was signed or unsigned. The plain char type can be regarded by the compiler as identifying a signed or an unsigned quantity whichever is more efficient to implement. Because of this ambiguity, some standards do not like the use of char without an explicit modifier to indicate its signedness.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>973</key>
@@ -5935,6 +5996,7 @@ MISRA 2004 checks, use -misra(2)</p>
     #define N (-1)
     This has been placed in the elective note category because we cannot find an instance when this really produces a problem. The important case of unparenthesized binary operators is covered with message 773.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>974</key>
@@ -5950,6 +6012,7 @@ If you can assure yourself through code analysis that there is an upper bound to
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>975</key>
@@ -5959,6 +6022,7 @@ If you can assure yourself through code analysis that there is an upper bound to
     Moreover, if the pragma occurs in a libary header this message would not normally be issued because the option -wlib(1) would be in effect (this option is present in all of our compiler option files).
     But if the pragma occurs in user code then it should be examined to see if there is something there that might interest a lint processor. There are a variety of facilities to deal with pragmas; in particular, they can be mapped into languistic constructs or lint options or both. See 3.5 pragmas push_macro and pop_macro and 3.6 Casting pragmas as macros.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1001</key>
@@ -7357,7 +7421,7 @@ Note that the Microsoft compiler implements this extension. For that reason, the
       <![CDATA[Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
     be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software]]>
     </description>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>1268</key>
@@ -7366,7 +7430,7 @@ Note that the Microsoft compiler implements this extension. For that reason, the
       <![CDATA[Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
     be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software]]>
     </description>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>1270</key>
@@ -7375,7 +7439,7 @@ Note that the Microsoft compiler implements this extension. For that reason, the
       <![CDATA[Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
     be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software]]>
     </description>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>1401</key>
@@ -9191,6 +9255,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[PC-lint/FlexeLint judges that a temporary needs to be created. This occurs, typically, when a conversion is required to a user object (i.e. class object). Where temporaries are created, can be an issue of some concern to programmers seeking a better understanding of how their programs are likely to behave. But compilers differ in this regard.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1902</key>
@@ -9198,6 +9263,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[It is possible to follow a function body with a useless semi-colon. This is not necessarily 'lint' to be removed but may be a preferred style of programming (as semi-colons are placed at the end of other declarations).]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1904</key>
@@ -9205,6 +9271,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[For the real bridge-burner one can hunt down and remove all instances of the /* ... */ form of comment. [12, Item 4]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1905</key>
@@ -9212,6 +9279,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[A default constructor was not defined for a class but a base class or a member has a non-trivial default constructor and so a non-trivial default constructor is generated for this class.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1907</key>
@@ -9219,6 +9287,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[The named class does not itself have an explicit destructor but either had a base class that has a destructor or has a member class that has a destructor (or both). In this case a destructor will be generated by the compiler. [11, ?12.4]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1908</key>
@@ -9226,6 +9295,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[The destructor cited was inherited from a base class with a virtual destructor. This word 'virtual' was omitted from the declaration. It is common practice to omit this keyword when implied. A warning is issued (1512) when a base class's destructor is not virtual. See also 1909.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1909</key>
@@ -9233,6 +9303,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[The named function overrides a base class virtual function and so is virtual. It is common practice to omit the virtual keyword in these cases although some feel that this leads to sloppy programming. This message allows programmers to detect and make explicit which functions are actually virtual.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1911</key>
@@ -9240,6 +9311,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[The Symbol in the message is the name of a constructor called to make an implicit conversion. This message can be helpful in tracking down hidden sources of inefficiencies. [11, ?12.1]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1912</key>
@@ -9247,6 +9319,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[A conversion function (one of the form Symbol::operator Type ()) was implicitly called. This message can be helpful in tracking down hidden sources of inefficiencies.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1914</key>
@@ -9255,6 +9328,7 @@ Confusion can arise in determining which of the two function templates the speci
       <![CDATA[A default constructor was not referenced. When a member function of a class is not referenced, you will normally receive an Informational message (1714) to that effect. When the member function is the default constructor, however, we give this Elective Note instead.
     The rationale for this different treatment lay in the fact that many authors recommend defining a default constructor as a general principle. Indeed we give an Informational message (1712) when a default constructor is not defined for a class. Therefore, if you are following a modus operandi of not always defining a default constructor you may want to turn off message 1712 and turn on message 1914 instead.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1915</key>
@@ -9262,6 +9336,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[A virtual function that overrides a base class function was not declared with the override virt-specifier. This message is only emitted for C++11 and higher.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1916</key>
@@ -9269,6 +9344,7 @@ Confusion can arise in determining which of the two function templates the speci
     <description>
       <![CDATA[An ellipsis was encountered while processing the prototype of some function declaration. An ellipsis is a way of breaking the typing system of C or C++.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1917</key>
@@ -9283,6 +9359,7 @@ The reason for this is that the declaration form has a different meaning in C an
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1918</key>
@@ -9290,6 +9367,7 @@ The reason for this is that the declaration form has a different meaning in C an
     <description>
       <![CDATA[A function declaration within a class contains an empty prototype. This case is similar to Info 1717 which complains about an empty prototype outside a class. It receives a lighter classification (Elective Note) because an empty prototype within a class cannot be ambiguous because C does not allow functions within classes. [11, ?8.2.5]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1919</key>
@@ -9297,6 +9375,7 @@ The reason for this is that the declaration form has a different meaning in C an
     <description>
       <![CDATA[For a given class more than one function was declared whose name was 'operator ='. This is not necessarily a bad thing. For example, a String class may very well have an assignment from char * and such an assignment may be advisable from an efficiency standpoint. However, it represents a loss of elegance because there will almost certainly be a char * constructor and an assignment operator which will represent another way of achieving the same effect.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1920</key>
@@ -9304,6 +9383,7 @@ The reason for this is that the declaration form has a different meaning in C an
     <description>
       <![CDATA[The ARM[11] (Section 5.4) states that reference casts are often 'misguided'. However, too many programs are openly using reference casts to place such casts in the Informational category. [11, ?5.4]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1921</key>
@@ -9325,6 +9405,7 @@ or the equivalent. If any such function is found that is a member of a class tha
   ]]>
     </description>
     <tag>cert</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1922</key>
@@ -9341,6 +9422,7 @@ This message is given for a function operator delete which is not checking its p
 etc. Classes which have destructors will normally filter out passing the NULL pointer into the operator delete so that this message is only in the Elective Note category. If there is no destructor you obtain a warning. See Warning 1532.
   ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1923</key>
@@ -9349,6 +9431,7 @@ etc. Classes which have destructors will normally filter out passing the NULL po
       <![CDATA[The designated macro could probably be replaced by a const variable. A const variable is preferred in some quarters where, for example, a local debugger may not understand macros but would understand variables. [12, Item 1].
     The message is issued for macros containing at least one constant or constant equivalent (an earlier const-able macro or const variable) and no other variables or tokens such as ';' of a non-expression nature.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1924</key>
@@ -9359,6 +9442,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1925</key>
@@ -9366,6 +9450,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     <description>
       <![CDATA[The indicated Symbol is a public data member of a class. If the class is introduced with the keyword struct the message is not issued. In some quarters the use of public data members is deprecated. The rationale is that if function calls replace data references in the public interface, the implementation can change without affecting the interface. [12, Item 20]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1926</key>
@@ -9373,6 +9458,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     <description>
       <![CDATA[A member of a class (identified by Symbol) did not appear in the constructor initialization list. Since it had a default constructor this constructor was implicitly called. Is this what the user intended? Some authorities suggest that all members should appear in the constructor initialization list. [12, Item 12].]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1927</key>
@@ -9380,6 +9466,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     <description>
       <![CDATA[A member of a class (identified by Symbol) did not appear in a constructor initialization list. If the item remains uninitialized through the whole of the constructor, a Warning 1401 is issued. Some authorities suggest that all members should appear in the constructor initialization list. [12, Item 12].]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1928</key>
@@ -9387,6 +9474,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     <description>
       <![CDATA[A base class (identified by Symbol) did not appear in a constructor initialization list. If a constructor does not appear, then the default constructor is called. This may or may not be valid behavior. If a base class is missing from a copy constructor's initializer list, then a more severe Warning (1538) is issued. [12, Item 12].]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1929</key>
@@ -9394,6 +9482,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     <description>
       <![CDATA[A non-member function was found to be returning a reference. This is not normally considered good practice because responsibility for deleting the object is not easily assigned. [12, Item 23].]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1930</key>
@@ -9402,6 +9491,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
       <![CDATA[A conversion operator is a member function of the form: operator Type ();
     This will be called implicitly by the compiler whenever an object (of the class type) is to be converted to type Type. Some programmers consider such implicit calls to be potentially harmful leading to programming situations that are difficult to diagnose. See for example [23, Item 5].]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1931</key>
@@ -9411,6 +9501,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     Here, any int (or type convertible to int) could be automatically converted to X. This can sometimes cause confusing behavior [23, Item 5]. If this is not what was intended, use the keyword 'explicit' as in: explicit X(int);
     This will also serve to suppress this message.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1932</key>
@@ -9418,6 +9509,7 @@ A C-style cast was detected. This can be replaced by one of the newer C++ casts 
     <description>
       <![CDATA[An abstract class is a class with at least one pure virtual specifier. At least one author has argued [23, Item 33] that all base classes should be abstract although this suggestion flies in the face of existing practice.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1933</key>
@@ -9432,6 +9524,7 @@ Even if total abstinence is unwarranted, turning on message 1933 occasionally ca
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1934</key>
@@ -9440,6 +9533,7 @@ Even if total abstinence is unwarranted, turning on message 1933 occasionally ca
       <![CDATA[It has been suggested [12, Item 19] that you should never make a shift operator a member function unless you're defining ostream or istream (the message is suppressed in these two cases). The reason is that there is a temptation on the part of the novice to, for example, define output to ostream as a class member function left shift that takes ostream as an argument. This is exactly backwards. The shift operator normally employs the destination (or source) on the left.
     On the other hand, if the class you are defining is the source or destination then defining the shift operators is entirely appropriate.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1935</key>
@@ -9454,6 +9548,7 @@ This will elicit Elective Note 1935 that x is being initialized dynamically by a
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1936</key>
@@ -9462,6 +9557,7 @@ This will elicit Elective Note 1935 that x is being initialized dynamically by a
       <![CDATA[A static scalar whose name is Symbol1 is dynamically initialized and references Symbol2 during the initialization. For example, let a module consist only of: int f(); int n = f();
     Here we report that n is dynamically initialized by f(). There may be other symbols referenced, Symbol2 is just the first. The reason for noting this initialization is that the order of inter-module dynamic initializations is not defined. (Within a module, however, the initializations are done in the order of appearance.) If Symbol2 were a variable, then PC-lint/FlexeLint could determine that the variable is dynamically initialized in another module and issue a 1544 or 1545 as appropriate. However, the symbol referenced could be a function (as in the example) and PC-lint/FlexeLint does not analyze the complete function call graph to determine whether there is a dependency on another dynamic initialization. See also 1935 and 1937.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1937</key>
@@ -9469,6 +9565,7 @@ This will elicit Elective Note 1935 that x is being initialized dynamically by a
     <description>
       <![CDATA[A static scalar whose name is Symbol has a destructor. Destructors of static objects are invoked in a predictable order only for objects within the same module (the reverse order of construction). For objects in different modules this order is indeterminate. Hence, if the correct operation of a destructor depends on the existence of an object in some other module an indeterminacy could result. See also 1935, 1936, 1544 and 1545.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1938</key>
@@ -9476,6 +9573,7 @@ This will elicit Elective Note 1935 that x is being initialized dynamically by a
     <description>
       <![CDATA[A constructor is accessing global data. It is generally not a good idea for constructors to access global data because order of initialization dependencies can be created. If the global data is itself initialized in another module and if the constructor is accessed during initialization, a 'race' condition is established. [12, Item 47]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1939</key>
@@ -9483,6 +9581,7 @@ This will elicit Elective Note 1935 that x is being initialized dynamically by a
     <description>
       <![CDATA[A down cast is a cast from a pointer (or reference) to a base class to a pointer (or reference) to a derived class. A cast down the class hierarchy is fraught with danger. Are you sure that the alleged base class pointer really points to an object in the derived class. Some amount of down casting is necessary but a wise programmer will reduce this to a minimum. [12, Item 39]]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1940</key>
@@ -9494,6 +9593,7 @@ The particular instance at hand is with a reference to a non-const and as such i
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1941</key>
@@ -9503,6 +9603,7 @@ The particular instance at hand is with a reference to a non-const and as such i
     Since it is almost never the case that this variable is to be reassigned, i.e. we almost never wish to write: (x = y) = z; // unusual as a general rule it is better to make the assignment operator return a const reference. This will generate a warning when the unusual case is attempted.
     But experts differ. Some maintain that in order to support non-const member functions operating directly on the result of an assignment as in: (x = y).mangle(); where, as its name suggests, mangle is non-const it would be necessary for the return value of assignment to be non-const. Another reason to not insist on the const qualifier is that the default assignment operator returns simply a reference to object and not a reference to const object. In an age of generic programming, compatibility may more important than the additional protection that the const would offer.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1942</key>
@@ -9514,6 +9615,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1960</key>
@@ -9590,6 +9692,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
 <p>You may disable individual rules to your taste by using the Rule number in an esym option; see Message 960.</p>
  ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1961</key>
@@ -9600,6 +9703,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
     Nonetheless, a particularly rigorous user may want to hunt down such virtual functions and make them all const and so this Note is provided.
     This message is also similar to Note 1962 which is issued for functions that make deep modifications. Note 1962 takes priority over 1961. That is, a virtual function that makes a deep modification (but no shallow modifications) will have Note 1962 issued but not Note 1961.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1962</key>
@@ -9608,6 +9712,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
       <![CDATA[The designated member function could be declared const but shouldn't be because it contains a deep modification. For example: class X { char *p; public: void f() { *p = 0; } x(); };
     will elicit this message indicating that X::f() contains a deep modification. A modification is considered shallow if it modifies (or exposes for modification) a class member directly. A modification is considered deep if it modifies information indirectly through a class member pointer. This Elective Note is available for completeness so that a programmer can find all functions that could result in a class being modified. It does not indicate that the programming is deficient. In particular, if the function is marked const an Info 1763 will be issued. See also 1762, 1763.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1963</key>
@@ -9626,6 +9731,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
 </code></pre>
 ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9001</key>
@@ -9634,6 +9740,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
       <![CDATA[An octal constant appears in the code. Octal constants may be inadvertently interpreted by engineers as decimal values.
     This message is not issued for a constant zero written as a single digit.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9003</key>
@@ -9642,6 +9749,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
       <![CDATA[A variable was declared at global scope but only utilized within one function.
     Moving the declaration of this variable to that function reduces the chance the variable will be used incorrectly.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9004</key>
@@ -9650,6 +9758,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
       <![CDATA[The named symbol was declared in multiple locations, not counting the point of definition for that symbol.
     Declaring a symbol in one location and in one file helps to ensure consistency between declaration and definition as well as avoiding the risk of conflicting definitions across modules.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9005</key>
@@ -9658,6 +9767,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
       <![CDATA[A cast attempted to remove the qualifiers from an object to which a pointer points or a reference refers.
     Doing so can result in undesired or unexpected modification of the object in question and may result in an exception being thrown.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9006</key>
@@ -9666,6 +9776,7 @@ To eliminate the ambiguity, the name should be fully qualified (or referenced us
       <![CDATA[If the operand of the sizeof operator is an expression, it is not usually evaluated.
     Attempting to apply sizeof to such an expression can result, therefore, in code one expects to be evaluated actually not being evaluated and the side-effects not taking place.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9007</key>
@@ -9677,6 +9788,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9008</key>
@@ -9684,6 +9796,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The comma operator is thought by some to reduce readability in code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9009</key>
@@ -9691,6 +9804,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The use of floating point variables as loop counters can produce surprising behavior if the accumulation of rounding errors results in a different number of iterations than anticipated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9011</key>
@@ -9698,6 +9812,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[More than one break statement was seen in a loop. Minimizing the number of exits from a loop is thought by some to reduce visual complexity of the code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9012</key>
@@ -9706,6 +9821,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[Multiple authors have advised making sure the body of every iteration-statement and selection-statement be a compound-statement.
     However, no { was seen to begin the compound-statement.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9013</key>
@@ -9714,6 +9830,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[An if ... else if
        chain was seen without a final else statement. Providing such a statement helps to act as an analog to the default case of a switch-statement.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9014</key>
@@ -9721,6 +9838,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A switch-statement was found without a default case.  Providing such a case provides defensive programming.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9015</key>
@@ -9729,6 +9847,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[A macro argument was used both as an operand to the stringizing or pasting operators and not used as such.
     Moreover, this macro argument is subject to further replacement.  This could cause confusion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9016</key>
@@ -9736,6 +9855,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Array indexing is thought, by some, to be more readily understood and less error prone than other forms of pointer arithmetic.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9017</key>
@@ -9744,6 +9864,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[While at least one standards organization cautions against using any pointer arithmetic besides array indexing, the use of increment or decrement operators with pointers may represent an intuitive application and illustration of the underlying logic.
     Consequently, such constructs are separated from the prior message #9016 and placed under this one, allowing more fine tuning of Lint diagnostics.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9018</key>
@@ -9751,6 +9872,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Depending upon padding, alignment, and endianness of union, as well as the size and bit-order of their members, the use of unions can result in unspecified, undefined, or implementation defined behavior, prompting some to advise against their use.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9019</key>
@@ -9759,6 +9881,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[The symbol mentioned in String was seen in a module with a subsequent #include directive.
     It can be argued that collecting all #include directives at the beginning of the module helps improve code readability and helps reduce the risk of undefined behavior resulting from any use of the ISO standard library before the relevant #include directive.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9020</key>
@@ -9766,6 +9889,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The use of non-standard characters in #include directives results in undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9021</key>
@@ -9773,6 +9897,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The use of the #undef directive can lead to confusion about whether or not a particular macro exists at a randomly given point of code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9022</key>
@@ -9781,6 +9906,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[Multiple authors have cautioned against the use of unparenthesized macro parameters in cases where the parameter is used as an expression.
     If care is not taken, unparenthesized macro parameters can result in operator precedence rules producing expressions other than intended.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9023</key>
@@ -9788,6 +9914,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Multiple use of such operators is thought by some to increase the risk of undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9024</key>
@@ -9795,6 +9922,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The use of such operators is thought to reduce code clarity and increase the risk of undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9025</key>
@@ -9802,6 +9930,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Three or more levels of pointer indirection may make it harder to understand the code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9026</key>
@@ -9809,6 +9938,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Multiple authors have expressed reasons why a function, when possible, should be used in place of a function-like macro.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9027</key>
@@ -9816,6 +9946,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Out of concern for unspecified, undefined, and/or implementation defined behavior, some standards urge restrictions on certain types of operands when used with certain operators.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9028</key>
@@ -9824,6 +9955,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concept of essentially character type and placed restrictions on the use of expressions with such a type.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9029</key>
@@ -9832,6 +9964,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concept of essential type and placed restrictions on the use of expressions with certain types with respect to binary operators.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9030</key>
@@ -9840,6 +9973,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concept of essential type and placed restrictions on the use of casts between certain types.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9031</key>
@@ -9848,6 +9982,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concepts of composite expression and essential type and placed restrictions on assignments of the former.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9032</key>
@@ -9856,6 +9991,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concepts of composite expression and essential type and placed restrictions on operands to binary operators when at least one of the operands meets the definition of the former concept.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9033</key>
@@ -9864,6 +10000,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concepts of composite expression and essential type and placed restrictions on casts of the former. This message, when given, is also followed by text explaining why the cast is considered "impermissible".]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9034</key>
@@ -9872,6 +10009,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concept of essential type and placed restrictions on assignments in relation to such types.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9035</key>
@@ -9879,6 +10017,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Some have expressed concern over the use of variable length arrays, noting how, even in common use cases of arrays, use of such arrays can result in undefined or unspecified behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9036</key>
@@ -9887,6 +10026,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[MISRA C 2012 has defined the concept of essentially Boolean type and requires that the conditional expressions of all if and iteration-statements comply with this definition.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9037</key>
@@ -9894,6 +10034,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Some urge such a practice in the interest of strong typing.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9038</key>
@@ -9901,6 +10042,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Flexible array members can alter the behavior of sizeof in surprising ways. Additionally, flexible array members often require dynamic memory allocation which may be problematic in safety critical code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9039</key>
@@ -9908,6 +10050,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An octal or hexadecimal escape sequence has been detected within a string or character literal which is not immediately followed by another escape sequence or end of literal.  Such escape sequence usage has been deprecated on the grounds of potential confusion when attempting to read such code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9041</key>
@@ -9933,6 +10076,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
 </code></pre>
 <p>label: lies in block 1.2.1.</p>]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9042</key>
@@ -9940,6 +10084,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A switch-statement was found which does not comply with the MISRA switch-statement syntax.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9043</key>
@@ -9947,6 +10092,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Some advocate against using the keyword static in array declarations due to a perceived increased risk of undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9044</key>
@@ -9954,6 +10100,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[It has been advocated that function parameters be first copied to local variables where they can be modified rather than modifying the parameters directly.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9045</key>
@@ -9961,6 +10108,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Some advise against including structure definitions unless the definition is required for the current module.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9046</key>
@@ -9969,6 +10117,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[Some have warned against the use o identifiers which may be considered typographically ambiguous.
     In addition to the name of the previously seen symbol, the reasons Lint considers the identifiers to be ambiguous and the location of said previous symbol are provided in the message, if available.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9047</key>
@@ -9976,6 +10125,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[At least one standards organization urges against this practice, directly or indirectly.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9048</key>
@@ -9983,6 +10133,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An integer literal of unsigned type was found without a 'U' suffix.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9049</key>
@@ -9990,6 +10141,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An expression was seen involving an increment or decrement operator and the expression also contained potential side-effects other than those resulting from said operator.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9050</key>
@@ -9997,6 +10149,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Reliance on operator precedence was found in a particular expression.  Using parentheses, it is felt, helps clarify the order of evaluation.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9051</key>
@@ -10004,6 +10157,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A macro was defined with the same name as an ISO C keyword. The use of such a macro causes undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9052</key>
@@ -10011,6 +10165,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A macro was defined with the same name as an ISO C++ keyword. The use of such a macro causes undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9053</key>
@@ -10018,6 +10173,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[MISRA 2012 defines the notion of an "essential type". A quantity with a certain essential type, as defined by MISRA, was left shifted by a number exceeding the number of bits used to represent that essential type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9054</key>
@@ -10025,6 +10181,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[It has been advocated, when array initializers contain designators, the dimension of the array should be explicitly stated in the declaration. The initializer of the array in  question has been found in violation of this recommendation.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9055</key>
@@ -10032,6 +10189,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Switch labels nested inside of compound statements within the corresponding switch are legal but can reduce comprehension and lead to unstructured code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9056</key>
@@ -10040,6 +10198,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[This message is issued for all inline functions defined with a storage-class specifier.
     +estring can be used to find all inline functions defined with a specific specifier. For example, +estring(9056, extern) will report all inline functions defined with extern.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9057</key>
@@ -10050,6 +10209,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     This is less likely to happen when there is a "u" between the number and the "l" (as in 35ul), but some coding standards forbid the use of "l" in any literals.
     Message 620 reports the more suspicious case where the "l" immediately follows a number (as in 35l).]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9058</key>
@@ -10058,6 +10218,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
       <![CDATA[A tag was used only in the course of creating a typedef.
     Was the tag unused by mistake (say a recursive reference inside the body of the struct was accidentally omitted)?  Such tags are most often redundant and can be eliminated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9059</key>
@@ -10065,6 +10226,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A C++-style comment was seen inside a C-style comment.  This can be confusing.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9060</key>
@@ -10072,6 +10234,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A trigraph was seen inside a comment. Since trigraphs are translated before preprocessing, a trigraph sequence like ??/ can have surprising results, especially in a C++ style comment where the trigraph sequence translates into a backslash.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9063</key>
@@ -10079,6 +10242,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An else-branch was seen which contained neither a comment nor an actionable statement. At least one standards organization cautions against such "empty else" branches]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9064</key>
@@ -10086,6 +10250,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A goto makes reference to a label appearing earlier in the code. At least one author recommends all such statements referencing points later in the code, instead, in an attempt to reduce visual code complexity]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9066</key>
@@ -10093,6 +10258,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A C-style comment was seen inside a C++-style comment.  This can result in confusion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9067</key>
@@ -10100,6 +10266,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An array was declared without a dimension. At least one standards organization advises against such a practice in the interest of safety. Note: this message is not given if the array is initialized at the time of declaration.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9068</key>
@@ -10107,6 +10274,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An array has been initialized only partly. Providing an explicit initialization for each element of an array makes it clear every element has been considered. This diagnostic is not issued if the array is initialized with a {0} initializer or if the initializer consists entirely of designated initializers or if the array is initialized using a string literal.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9069</key>
@@ -10114,6 +10282,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An array is initialized without sufficient braces or designators to clarify exactly which elements are initialized with which values.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9070</key>
@@ -10121,6 +10290,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The named function has been found to potentially call itself, either directly or indirectly. Recursion carries with it the danger of exceeding available stack space, which can lead to a run-time failure. All else being equal, the more recursion is constrained, the easier determining the worst-case stack usage can be.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9071</key>
@@ -10128,6 +10298,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9072</key>
@@ -10135,6 +10306,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The numed function was found declared with one parameter list and another which differs either by type or parameter name. At least one author advises against such inconsistency for various reasons.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9074</key>
@@ -10142,6 +10314,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A conversion was seen between a pointer to function and a different type. The conversion of a pointer to a function into or from a pointer to object, pointer to incomplete type, or pointer to void results in undefined behavior and, consequently, at least one standards organization advises against such practice. This diagnostic is suppressed if the conversion is to void.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9075</key>
@@ -10149,6 +10322,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[If a declaration for an object or function is visible when that object or function is defined, a compiler must verfiy the declaration and definition are compatible. A lack of prior declaration prevents such checking.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9076</key>
@@ -10156,6 +10330,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Conversions involving pointers to incomplete types causes undefined behavior if converted to or from a floating point type and can cause incorrect alignment if to or from a pointer type. This message is suppressed if the conversion is to void. Also, for purposes of this diagnostic, pointers to void are not treated as pointers to incomplete types.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9077</key>
@@ -10163,6 +10338,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A case at the end of a switch had no unconditional break. Some coding guidelines require the use of a break for every switch case, including the last one, for maintenance reasons.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9078</key>
@@ -10170,6 +10346,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A conversion between a pointer type and an integer/enum type was seen. Such conversions can result in undefined behavior if the pointer value cannot be represented in the integer/enum type. This diagnostic is not given for null pointer constants.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9079</key>
@@ -10177,6 +10354,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Conversion of a pointer to void into a pointer to object may result in a pointer which is not correctly aligned, resulting in undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9080</key>
@@ -10184,6 +10362,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An integer null pointer constant other than the NULL macro was used. Using the NULL macro makes it clear a null pointer constant was intended.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9081</key>
@@ -10191,6 +10370,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A switch was seen with less than two non-consecutive case labels. A switch with less than two such cases is redundant and may indicate a programming error.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9082</key>
@@ -10198,6 +10378,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Placing the default label either first or last makes locating it easier.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9083</key>
@@ -10205,6 +10386,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A #undef was seen applied to an identifier given by String and that identifier is reserved to the compiler by the ISO C/C++ standards.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9084</key>
@@ -10212,6 +10394,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An assignment expression was seen inside a larger expression. The use of assignment operators, simple or compound, in combination with other arithmetic operations can significantly impair the readability of the code.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9085</key>
@@ -10219,6 +10402,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A default was seen without a comment or statement between it and either the corresponding break or, if default is the last case in the switch, the closing }. Adding a statement to take action or adding a comment to explain why no action is taken is a form of defensive programming.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9086</key>
@@ -10226,6 +10410,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A #include directive is followed by more than one angle bracket sequence or string literal. The ISO standards do not define behavior in such cases.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9087</key>
@@ -10233,6 +10418,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A cast was seen between two pointer types which differ with respect to what those types point. Additionally, the type to which the expression was cast is not a pointer to char, whether signed or unsigned. At least one standards organization has cautioned against such a practice.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9088</key>
@@ -10240,6 +10426,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A named bit-field was declared with a signed data type and only one bit of width. According to the ISO C Standard, a single-bit signed bit-field has one sign bit and no value bits and, consequently does not specify a meaningful value.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9089</key>
@@ -10247,6 +10434,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[An argument to sizeof was found to have a potential side-effect. Arguments to sizeof are not usually evaluated, unless the argument names a variable length array type. Avoidance of such arguments is advised.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9090</key>
@@ -10254,6 +10442,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A switch case was seen which did not conclude with an unconditional break. Some authors advise against such absences on the grounds they are often errors.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9091</key>
@@ -10261,6 +10450,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A cast of a pointer to an integer type was seen. Since the size of the integer required when a pointer is converted to an integer is implementation defined, some coding guidelines advise against such casts.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9092</key>
@@ -10268,6 +10458,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A cast of a pointer to void and an integral type was seen, some coding guidelines advise against such casts.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9102</key>
@@ -10275,6 +10466,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A possible digraph was seen. At least one set of coding guidelines advises against such due to the risk of failure to meet developer expectations.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9104</key>
@@ -10282,6 +10474,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Octal escape sequences can be problematic because the inadvertent introduction of a decimal digit (i.e. 8 or 9) ends the octal escape and introduces another character. This diagnostic is not given for \0.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9105</key>
@@ -10289,6 +10482,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The inclusion of such a suffix makes clear the value has unsigned type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9106</key>
@@ -10296,6 +10490,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Using upper case literal suffixes removes the potential for ambiguity with respect to literal values.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9107</key>
@@ -10303,6 +10498,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[One set of guidelines advises the use of headers in such a way as to avoid the definition of objects or functions which occupy storage.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9108</key>
@@ -10310,6 +10506,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A function declared at block scope will refer to a member of the enclosing namespace. Additionally, where a declaration statement could either declare a function or an object, the compiler will choose to declare the function. Declaring the function at file scope reduces the likelihood of confusion in both cases.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9109</key>
@@ -10317,6 +10514,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Having a single declaration of a type helps the compiler detect type incompatibility. One simple solution to ensure type declaration consistency is to declare a type in a header if it is used in multiple modules.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9110</key>
@@ -10324,6 +10522,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The underlying bit representation of floating point values can differ from compiler to compiler, making reliance upon such representation non-portable.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9111</key>
@@ -10331,6 +10530,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The use of expressions of bool with certain operators, such as the bitwise operators, is not likely to be either meaningful or intended.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9112</key>
@@ -10338,6 +10538,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[With the exception of the sequence of character values representing 0 thru 9, the exact value of any other particular character is not guaranteed and reliance upon such an order is non-portable.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9113</key>
@@ -10345,6 +10546,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[The use of parentheses instead of relying upon operator precedence can help make the code easier to understand.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9114</key>
@@ -10352,6 +10554,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and, to help ensure operations in a given expression are performed within a particular fashion, the guidelines caution against such a value undergoing implicit conversions.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9115</key>
@@ -10359,6 +10562,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Such conversions between these two types of values can result in inexact representation.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9116</key>
@@ -10366,6 +10570,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and, to help ensure operations in a given expression are performed within a particular fashion, the guidelines caution against such a value undergoing implicit conversions.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9117</key>
@@ -10373,6 +10578,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Some such conversions can lead to implementation defined behavior. Reliance upon such behavior is, therefore, not portable.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9118</key>
@@ -10380,6 +10586,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[Such conversions between these two types of values can result in undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9119</key>
@@ -10387,6 +10594,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of an underlying type. Such conversions when said underlying type is an integral type can result in the loss of information.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9120</key>
@@ -10394,6 +10602,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of an underlying type. Such conversions when said underlying type is floating point type can result in the loss of information.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9121</key>
@@ -10401,6 +10610,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9122</key>
@@ -10408,6 +10618,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9123</key>
@@ -10415,6 +10626,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9124</key>
@@ -10422,6 +10634,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9125</key>
@@ -10429,6 +10642,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of a cvalue expression and an underlying type. Casting a cvalue expression from an (un)signed underlying type to the other may lead to a value inconsistent with expectations.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9126</key>
@@ -10436,6 +10650,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of an underlying type. Casting an expression resulting from these operators, when the operand has an underlying type has type of unsigned char or unsigned short, reduces the risk of unexpected high order bits resulting from integral promotion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9127</key>
@@ -10443,6 +10658,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the char type be used only for character values.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9128</key>
@@ -10450,6 +10666,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the char type not be mixed with other types.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9129</key>
@@ -10457,6 +10674,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the signed char and unsigned char types not be used for character values.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9130</key>
@@ -10464,6 +10682,7 @@ Consequently, code which expects the right hand side to be evaluated regardless 
     <description>
       <![CDATA[A prominent coding standard has defined the notion of an underlying type and notes the fact bitwise operations are not typically meaningful when applied to operands of signed type and can even result in implementation defined behavior. As such, when the underlying type of an expression is signed, bitwise operations are discouraged.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9131</key>
@@ -10474,6 +10693,7 @@ Using only postfix-expressions with logical operators helps to improve readabili
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9132</key>
@@ -10481,6 +10701,7 @@ Using only postfix-expressions with logical operators helps to improve readabili
     <description>
       <![CDATA[Array-to-pointer decay results in a loss of array bound information. A function depending upon an array to have a certain length, if that array decays to a pointer, can result in out-of-bounds operations, depending upon whether or not the bound of the original array matches with expectations.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9133</key>
@@ -10491,6 +10712,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
 
     ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9134</key>
@@ -10498,6 +10720,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A prominent coding standard has defined the notion of an underlying type and notes the application of certain operators to expressions of unsigned type creates a result of the same type for type of rank unsigned int or above and is not a meaningful operation in such cases. For cases where such an operator is applied to unsigned sub-int expressions, the same standard deprecates such a practice.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9135</key>
@@ -10505,6 +10728,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[The unary operator & was overloaded.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9136</key>
@@ -10512,6 +10736,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[The value specified for the right hand side of a shift operator was out of bounds for the MISRA C++ underlying type on the left hand side of the operator.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9137</key>
@@ -10519,6 +10744,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A floating point value was tested, directly or indirectly, for (in)equality with another value.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9138</key>
@@ -10526,6 +10752,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A null statement was encountered that, before preprocessing, did not appear on a line by itself. Comments following the null statement are allowed as long as there is whitespace separating the null statement from the comment.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9139</key>
@@ -10533,6 +10760,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A case label was encountered following the default label of a switch statement.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9140</key>
@@ -10540,6 +10768,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A continue statement appears outside what one author calls a "well-formed for loop". Said author advises against such usage in the interest of reducing code complexity.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9141</key>
@@ -10547,6 +10776,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[The specified symbol was declared in the global namespace.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9142</key>
@@ -10554,6 +10784,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A function with the name 'main' was declared that was not the global main function.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9144</key>
@@ -10561,6 +10792,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A using directive was encountered.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9145</key>
@@ -10568,6 +10800,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A using directive or using declaration was encountered in a header file.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9146</key>
@@ -10575,6 +10808,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A declaration was encountered that contains multiple declarators. For example:  int i, j;  will elicit this message.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9147</key>
@@ -10582,6 +10816,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[The unadorned name of a function was encountered that was not part of a function call.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9148</key>
@@ -10589,6 +10824,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[Unintentional duplication of enumerator values can occur when an enumeration consists of members with explicit and implicit values.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9149</key>
@@ -10596,6 +10832,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[When using 'int' or 'wchar_t' as the bit-field type, it is implementation defined whether or not the type used is a signed type. Explicitly specifying 'signed' or 'unsigned' makes it clear what type will be used as the underlying type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9150</key>
@@ -10603,6 +10840,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A member of a non-POD structure was declared public or protected.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9151</key>
@@ -10610,6 +10848,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A public copy assignment operator was declared in an abstract class.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9152</key>
@@ -10617,6 +10856,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[An explicit specialization of one of the named function templates was seen. Since explicit specializations are considered only after overload resolution chooses a best match from a set of primary function templates, at least one set of coding guidelines suggests avoiding such specialization to reduce the risk of developer confusion.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9153</key>
@@ -10624,6 +10864,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[In a context where a name resolves either to a non-template function or to a specialization of a function template (typically a call), the set of viable candidates included both.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9154</key>
@@ -10631,6 +10872,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A pointer type was passed to a throw expression. It may not be clear who is responsible for cleaning up the pointed to object.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9156</key>
@@ -10638,6 +10880,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[An empty throw expression was encountered outside of a try-catch block. An empty throw re-throws the currently handled exception. If there is no such exception std::terminate() will be called. This is  likely to be unintended.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9158</key>
@@ -10645,6 +10888,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A macro definition occurred inside of a braced region such as in a function or class definition. Such usage could imply the belief that the scope of the macro definition is limited to the braced region which is not the case.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9159</key>
@@ -10652,6 +10896,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A macro was undefined inside of a braced region such as in a function or class definition. Such usage could imply the mistaken belief that the scope of the directive is limited to the braced region.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9160</key>
@@ -10659,6 +10904,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[The first token on a line was a '#' but was not part of a valid preprocessing directive.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9162</key>
@@ -10666,6 +10912,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[Either a static_assert() or a using-declaration was seen at global scope, as indicated by the String.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9163</key>
@@ -10673,6 +10920,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[One of these two operatorions appears in combination with another arithmetic operator. At least one author advises against such practice for purposes of code readability and concerns about undefined behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9165</key>
@@ -10680,6 +10928,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[The named function is defined to take a variable number of arguments. At least one author advises against such a practice because doing so avoids the type checking provided by the compiler.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9166</key>
@@ -10687,6 +10936,7 @@ The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaning
     <description>
       <![CDATA[A function's parameter list has been found to differ from either the parameter list of a prior declaration of that function or from an overload of that function. At least one author recommends making counterpart parameters identical in name in the interest of documentation. Note: In the case of overloaded functions, if one function has fewer parameters than the other, only the number of parameters in the shorter parameter list are examined.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>M1.1</key>
@@ -12094,7 +12344,7 @@ need &lt; or " after #include
     </rule>
   <rule>
     <key>M2-13-3</key>
-    <name>M2-13-3: unsigned octal &amp; hexadecimal literals require a &#8216;U&#8217; suffix (MISRA C++)</name>
+    <name>M2-13-3: unsigned octal &amp; hexadecimal literals require a ‘U’ suffix (MISRA C++)</name>
     <description>
       <![CDATA[(Required) A "U" suffix shall be applied to all octal or hexadecimal integer literals of unsigned type.]]>
     </description>
@@ -12480,7 +12730,7 @@ immediately cast to the underlying type of the operand.
     </rule>
   <rule>
     <key>M5-2-11</key>
-    <name>M5-2-11: overloading special operators &#8211; ',' '&amp;&amp;' '||' (MISRA C++)</name>
+    <name>M5-2-11: overloading special operators – ',' '&amp;&amp;' '||' (MISRA C++)</name>
     <description>
       <![CDATA[
 (Required) The comma operator, '&amp;&amp;' operator and the '||' operator shall not be overloaded.
@@ -14727,7 +14977,7 @@ immediately cast to the underlying type of the operand.
 __make_integer_seq with a negative length.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>1302</key>
@@ -14738,7 +14988,7 @@ __make_integer_seq with a non-integral type. As the name implies,
 __make_integer_seq generates a sequence of integers.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>1407</key>
@@ -14780,6 +15030,7 @@ point, aspects often with conflicting motives and audiences. Rather than
 make the virtual function public consider making it protected. This way
 members of the hierarchy may still customize behavior.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>175</key>
@@ -14817,6 +15068,7 @@ distinguish between different types of exceptions and the potential to
 hide serious issues. The somewhat less serious use of an exception
 handler with preceding catch clauses is diagnosed by message 1966.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>177</key>
@@ -14861,6 +15113,7 @@ linker errors if one expects the declared function to introduce a
 namespace member into the innermost enclosing namespace or the global
 namespace.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>1906</key>
@@ -14871,6 +15124,7 @@ contend exception specifications are not worth using due to a presumably
 false sense of security associated with the specifications. See for
 example .]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1943</key>
@@ -14881,6 +15135,7 @@ a non-trivial constructor that requires the constructor to be executed
 to initialize the object at startup time. This can be a potential
 performance concern.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1944</key>
@@ -14891,6 +15146,7 @@ a non-trivial destructor that requires the destructor to be executed to
 destroy the object at shutdown time. This can be a potential performance
 concern.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1945</key>
@@ -14901,6 +15157,7 @@ a non-trivial destructor that requires the destructor to be executed to
 destroy the object at shutdown time. This can be a potential performance
 concern.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1966</key>
@@ -14916,6 +15173,7 @@ and the potential to hide serious issues. The use of such an exception
 handler without any preceding catch clauses is diagnosed by message
 1766.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1970</key>
@@ -14928,6 +15186,7 @@ situations and as such it has been suggested that default capture
 never be used. For an in-depth discussion of the issue, see Scott Meyers: Effective Modern C++ (O&apos;Reilly, 2015).
 ]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1971</key>
@@ -14941,6 +15200,7 @@ function-try blocks are allowed for non-constructor functions, the same
 functionality can be obtained using the more general try-catch block
 inside the body of the function.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1972</key>
@@ -14953,6 +15213,7 @@ semi-colon:
 
 Note: In PC-lint this was reported as error 19.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>1973</key>
@@ -14963,6 +15224,7 @@ This is legal and not necessarily suspect. See also message 1726 reports
 on cases where the pointer being deleted is a function parameter, which
 is more likely to result in unexpected behavior.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>2001</key>
@@ -15734,6 +15996,7 @@ inside the same module. If the symbol is defined in another module, it
 would be better to place the declaration of the symbol in a header and
 include that header in the modules that use the symbol.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2702</key>
@@ -15743,6 +16006,7 @@ include that header in the modules that use the symbol.]]>
 but was not used within the including module. If the symbol had been
 declared in the module itself, warning 528 would be issued instead.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2703</key>
@@ -15777,6 +16041,7 @@ statement to make the intention explicit:
         return 2;
     }]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2704</key>
@@ -15795,6 +16060,7 @@ example:
         // yields the same negative value in many compilers.
     }]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2705</key>
@@ -15809,6 +16075,7 @@ reference to the type returned, or something else? For example:
 will be met with this message as const qualifier has no effect in this
 context.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2706</key>
@@ -15831,6 +16098,7 @@ enumeration's enumerators. For example:
 The values 3 and 4 are not part of the enumeration 'color' so 2706 will
 be issued in these cases.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2707</key>
@@ -15842,6 +16110,7 @@ C11 _Noreturn keyword, the noreturn attribute, or the GCC noreturn
 attribute. Adding this information to the declaration may help clarify
 the purpose of the function.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2709</key>
@@ -15851,6 +16120,7 @@ the purpose of the function.]]>
 a signed type on some platforms, relying on the signedness of 'char' in
 this was is not wise.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2712</key>
@@ -15861,6 +16131,7 @@ by-value. It may be more efficient to have the function receive a
 pointer or reference instead. The threshold for determining what
 constitutes a large object is specified using the -size option.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2713</key>
@@ -15871,6 +16142,7 @@ function; you might want to consider returning the object by pointer or
 reference instead. The threshold for determining what constitutes a
 large object is specified using the -size option.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2715</key>
@@ -15883,6 +16155,7 @@ is technically undefined and could result in different behavior on a
 compiler that doesn't support this extension. See the discussion for the
 frc macro for more details.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2716</key>
@@ -15900,6 +16173,7 @@ element. This might represent an oversight in the program. If this was
 intentional, it would be clearer to define the array explicitly with one
 element.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2865</key>
@@ -15908,6 +16182,7 @@ element.]]>
       <![CDATA[A #pragma message directive was encountered. The text of this message is
 the string provided in the pragma.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>2901</key>
@@ -15918,6 +16193,7 @@ message will be issued once for each function in the stack report with
 detail containing the stack information for the function. See -stack for
 details.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>2902</key>
@@ -15932,6 +16208,7 @@ the value is not used but some may prefer to use pre-increment or
 pre-decrement operators instead for clarity and consistency. See also
 1757 for potentially more serious cases involving user-defined types.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>2932</key>
@@ -15945,6 +16222,7 @@ that do not follow this pattern. The more egregious violations (those
 that define a macro with a very similar name) are flagged by message
 2432.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>319</key>
@@ -15958,7 +16236,7 @@ language, this message will be issued. Such an example would include
 specifying a byte size for short int that is larger than int.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>331</key>
@@ -15972,7 +16250,7 @@ Plus will terminate. To resolve the issue either rebuild the precompiled
 header file or remove the option to use the pre-compiled header.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>334</key>
@@ -15987,7 +16265,7 @@ and reconstituted using the current version of PC-lint Plus with the
 same options that will be used when loading the file.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>336</key>
@@ -15998,7 +16276,7 @@ UTF-16 text. The provided source file was presumed to contain UTF-8 text
 but an invalid byte sequence was encountered.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>338</key>
@@ -16010,7 +16288,7 @@ prevents it from being loaded. The details of the issue are provided in
 the message text.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>339</key>
@@ -16022,7 +16300,7 @@ rendered the corresponding AST information unsuitable for use in a
 precompiled header file.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>3401</key>
@@ -16442,7 +16720,7 @@ pipe program. The details of the error are specified in the message in
 'string'.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>366</key>
@@ -16452,7 +16730,7 @@ pipe program. The details of the error are specified in the message in
 specific error is provided in 'string'.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>367</key>
@@ -16462,7 +16740,7 @@ specific error is provided in 'string'.]]>
 The limit that was reached is specified by 'integer'.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>368</key>
@@ -16472,7 +16750,7 @@ The limit that was reached is specified by 'integer'.]]>
 The specific error is provided in the text of the message.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>369</key>
@@ -16482,7 +16760,7 @@ The specific error is provided in the text of the message.]]>
 walk action was attempted on a non-walkable hook field.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>370</key>
@@ -16496,7 +16774,7 @@ not be opened and this message will be issued instead. Processing will
 then continue normally for the current module.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>3701</key>
@@ -16505,6 +16783,7 @@ then continue normally for the current module.]]>
       <![CDATA[A push, push_back, or insert function is called in a situation where
 emplace_back or emplace could be used instead.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>3702</key>
@@ -16514,6 +16793,7 @@ emplace_back or emplace could be used instead.]]>
 lambda. For clarity, some prefer to explicitly specify this in the
 capture list.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>3703</key>
@@ -16530,6 +16810,7 @@ function. For example:</p>
         }...);
     }</code></pre>]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>3704</key>
@@ -16560,6 +16841,7 @@ There are multiple ways to force interpretation of a variable, e.g.:
 
 See also message 3705.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>3705</key>
@@ -16614,6 +16896,7 @@ e.g.:</p>
     int i1( (int) d );              // OK, variable declaration
     int i2( static_cast&lt;int&gt;(d) );  // OK, variable declaration</code></pre>]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>3706</key>
@@ -16625,6 +16908,7 @@ used as a base class. Since abstract classes cannot be instantiated,
 what would be the purpose of having abstract class that cannot be
 inherited from?]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>3707</key>
@@ -16639,6 +16923,7 @@ linkage specifier other than C or C++ is encountered. For example:
     extern ";C++"; int b;     // Okay
     extern ";ADA"; int c;     // Info 3707]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>373</key>
@@ -16650,7 +16935,7 @@ Either place the lint comment before the #include directive, on the next
 line, or inside the file being included.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>CRITICAL</severity>
     </rule>
   <rule>
     <key>3901</key>
@@ -16671,6 +16956,7 @@ the potential for confusion when local objects or functions with the
 same name as a member exist in the same scope. See also message 578,
 which will be issued if a local symbol is declared that hides a member.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>3902</key>
@@ -16690,6 +16976,7 @@ This way, in a situation where it's necessary to catch everything,
 information about the kind of error can at least be logged or
 translated.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>450</key>
@@ -16951,6 +17238,7 @@ ignored. 'string' contains the offending pattern.]]>
 suspicious because the first -pch option has no effect in such a case as
 only one PCH file can be used per module.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>8000</key>
@@ -16959,7 +17247,7 @@ only one PCH file can be used per module.]]>
       <![CDATA[Messages in the 8xxx range are reserved for user-defined diagnostics,
 see +message for more information.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>MINOR</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -16976,6 +17264,7 @@ While legal, this is suspect since the point of a switch statement is
 usually to specify different actions depending on the value of a
 variable.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>853</key>
@@ -16987,6 +17276,7 @@ enabled, the next '*/' sequence that is encountered will only terminate
 the nested comment, not the containing comment. The purpose of this
 message is to alert you of this fact.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>854</key>
@@ -16995,6 +17285,7 @@ message is to alert you of this fact.]]>
       <![CDATA[This message is issued when trigraphs are enabled and a trigraph
 sequence is replaced.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>855</key>
@@ -17005,6 +17296,7 @@ expected on systems that do not support this extension. PC-lint Plus
 understands and will diagnose misuse specific to positional arguments
 via messages 493, 494, 2401, and 2404.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>856</key>
@@ -17026,6 +17318,7 @@ padded with zeroes (requested via the '0' flag). Such combinations do
 not result in undefined behavior but likely represent a programming
 error.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>857</key>
@@ -17035,6 +17328,7 @@ error.]]>
 compatible. Using these functions to compare or copy data between
 different types may have unexpected results.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>865</key>
@@ -17048,6 +17342,7 @@ different types may have unexpected results.]]>
 
 will issue the message only if N is undefined. See option -message.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>868</key>
@@ -17079,6 +17374,7 @@ To automatically suppress this message in this case use:
 
     -emacro( 868, REGION )]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>870</key>
@@ -17093,6 +17389,7 @@ time by employing multiple threads using the -max_threads option. If a
 single thread is explicitly requested using -max_threads=1, this message
 will be suppressed.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>879</key>
@@ -17107,6 +17404,7 @@ multiple overloads, it is possible to specify a semantic that applies to
 all overloads or just one, similarly for function templates. See also
 ";Overload-Specific Semantics"; in the Reference Manual]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>882</key>
@@ -17117,6 +17415,7 @@ using array syntax without a size. Using sizeof in this way will yield
 the size of the pointer, not the size of the array. If an array size if
 provided, message 682 is issued instead.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>890</key>
@@ -17125,6 +17424,7 @@ provided, message 682 is issued instead.]]>
       <![CDATA[Provides supplemental information about the location in the manual that
 should be consulted to address an issue.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>891</key>
@@ -17135,6 +17435,7 @@ previous message at a different location. For example, this message may
 be used to reference an earlier declaration, a conflicting definition,
 etc.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>892</key>
@@ -17144,6 +17445,7 @@ etc.]]>
 appears that a forgotten conversion factor may be responsible for a
 dimensional type difference.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>893</key>
@@ -17153,6 +17455,7 @@ dimensional type difference.]]>
 location that was the result of a macro expansion. It specifies the
 macro from which the expansion occurred.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>894</key>
@@ -17164,6 +17467,7 @@ the walk. The location of the call, name of the called function, and the
 arguments passed will be displayed. This information is rendered as
 described in section [subsec:valuedisplayformat].]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>896</key>
@@ -17173,6 +17477,7 @@ described in section [subsec:valuedisplayformat].]]>
 semantic that contains a macro expansion. It provides information about
 the macro that was expanded.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>897</key>
@@ -17182,6 +17487,7 @@ the macro that was expanded.]]>
 template instantiation. It provides details of the relevant
 instantiation.]]>
     </description>
+    <severity>MINOR</severity>
     </rule>
   <rule>
     <key>901</key>
@@ -17192,6 +17498,7 @@ the use of an uninitialized variable is caught by warning 530, some
 style guidelines insist that variables should be initialized at
 definition. For example, see , .]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>902</key>
@@ -17201,6 +17508,7 @@ definition. For example, see , .]]>
 header file. One common programming practice is to place all function
 declarations in headers.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>907</key>
@@ -17211,6 +17519,7 @@ passed to a parameter) whose type is void*. This is permitted in both C
 and . But the practice is potentially dangerous and this Elective Note
 allows one to see where this takes place. See also Note 908.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9073</key>
@@ -17232,7 +17541,7 @@ as an int in both cases but in the definition the typedef name INT is
 used while in the preceding declaration the name INT is not employed.
 Such inconsistencies can result in unnecessary confusion.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17246,6 +17555,7 @@ But the conversion is permitted in C. Like the implicit conversion
 described by Message 907, the practice is potentially dangerous and this
 Elective Note allows one to see where this takes place.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9093</key>
@@ -17253,7 +17563,7 @@ Elective Note allows one to see where this takes place.]]>
     <description>
       <![CDATA[A symbol was delcared with a name reserved to the compiler.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17273,7 +17583,7 @@ was used for a previous declaration. For example:
 
 will yield this message.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17301,7 +17611,7 @@ declared. For example:
 
 will elicit the same complaint for the declaration of A.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17328,7 +17638,7 @@ issued.
 A supplemental message (891) provides the location of the offending
 macro definition.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17344,7 +17654,7 @@ larger expression, e.g.:
 was this meant to be sizeof(x) + y or sizeof(x + y)? Using parenthesis
 can eliminate such questions.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17356,7 +17666,7 @@ copied from memcmp) was not either 1) a pointer to a pointer or 2) a
 pointer to a MISRA C 2012 essentially signed, unsigned, boolean, or enum
 type.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17367,7 +17677,7 @@ type.]]>
 and not static in another. Some coding guidelines advise against such
 practice due to the potential for programmer confusion.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17389,7 +17699,7 @@ will result in the message:
 
     macro 'A' defined in function 'foo' not undefined in same function]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17403,7 +17713,7 @@ identical, have different alias names. For example:
     extern int var;
     INT var;            // note 9168]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17418,7 +17728,7 @@ classes, etc.). Like message 1931, if the constructor is declared with
 the keyword explicit, this message will not be emitted. This message is
 also not be emitted for variadic constructors.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17428,7 +17738,7 @@ also not be emitted for variadic constructors.]]>
       <![CDATA[The specified function is declared as pure but overrides a non-pure
 function in a base class. Was this a mistake?]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17439,7 +17749,7 @@ function in a base class. Was this a mistake?]]>
 contains or inherits one or more virtual functions) to a pointer to a
 derived class.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17450,7 +17760,7 @@ derived class.]]>
 underlying type. This message is not produced if either operand is an
 integer constant expression.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17461,7 +17771,7 @@ integer constant expression.]]>
 deallocate dynamic memory. Placement new is not reported as it does not
 allocate memory.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17471,7 +17781,7 @@ allocate memory.]]>
       <![CDATA[A class derivation was marked as virtual; some coding standards prohibit
 virtual inheritance due to the potential complexities involved.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17482,7 +17792,7 @@ virtual inheritance due to the potential complexities involved.]]>
 and does not return any information so what is the purpose of calling
 the function?]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17493,7 +17803,7 @@ the function?]]>
 pointer type and the source pointee type was not a class or structure
 derived from the destination pointee type.]]>
     </description>
-    <severity>CRITICAL</severity>
+    <severity>INFO</severity>
     <type>BUG</type>
     </rule>
   <rule>
@@ -17504,7 +17814,7 @@ derived from the destination pointee type.]]>
 literal.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9209</key>
@@ -17519,7 +17829,7 @@ used as an operand to a unary operator or a binary operator other than
 =, ==, and !=.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9212</key>
@@ -17535,7 +17845,7 @@ of any other type results in implementation-defined behavior.
 _Bool type. See also message 9149, which is similar but more lenient.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9224</key>
@@ -17556,7 +17866,7 @@ example, given that x is an integer:</p>
 !=, &lt;=, &gt;=, &lt;, &gt;, !, ||, and &amp;&amp;.</p>]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9225</key>
@@ -17566,7 +17876,7 @@ example, given that x is an integer:</p>
 not a wider type of the same signedness.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9226</key>
@@ -17579,7 +17889,7 @@ different type while being passed to or returned from a function.
 function return value.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9227</key>
@@ -17589,7 +17899,7 @@ function return value.]]>
 not a wider type.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9228</key>
@@ -17601,7 +17911,7 @@ in a context in which a cast should be used to be compliant with MISRA C
 complex expression, a function argument, or a return value.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9229</key>
@@ -17612,7 +17922,7 @@ different signedness or whose underlying type is wider than the
 underlying type of the expression.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9230</key>
@@ -17623,7 +17933,7 @@ whose underlying type is wider than the underlying type of the
 expression.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9231</key>
@@ -17634,7 +17944,7 @@ type of unsigned char or unsigned short but the result was not cast to
 the appropriate underlying type.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9232</key>
@@ -17649,7 +17959,7 @@ should not be used with operators other than &&, ||, !, =, ==, !=, and
  ?:.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9233</key>
@@ -17659,7 +17969,7 @@ should not be used with operators other than &&, ||, !, =, ==, !=, and
 operand to a bitwise operator.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9234</key>
@@ -17669,7 +17979,7 @@ operand to a bitwise operator.]]>
 the bit width of the expression's MISRA C underlying type.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9235</key>
@@ -17679,7 +17989,7 @@ the bit width of the expression's MISRA C underlying type.]]>
 MISRA C underlying type.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9236</key>
@@ -17689,7 +17999,7 @@ MISRA C underlying type.]]>
 comparing the result of assignment to a specific value.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9237</key>
@@ -17699,7 +18009,7 @@ comparing the result of assignment to a specific value.]]>
 to a different type that was not a pointer to an integral type.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9238</key>
@@ -17709,7 +18019,7 @@ to a different type that was not a pointer to an integral type.]]>
 effectively boolean type.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9240</key>
@@ -17719,7 +18029,7 @@ effectively boolean type.]]>
 not primary-expressions.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9252</key>
@@ -17732,7 +18042,7 @@ the corresponding floating point representation, such as 0 or 13.5. In
 such cases, this message is issued instead.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9254</key>
@@ -17742,7 +18052,7 @@ such cases, this message is issued instead.]]>
 continue statements.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9259</key>
@@ -17760,7 +18070,7 @@ This message fills the gap by reporting on the instances not reported by
 9059.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9260</key>
@@ -17770,7 +18080,7 @@ This message fills the gap by reporting on the instances not reported by
 until C99 and may not be consistently supported by older compilers.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9264</key>
@@ -17781,7 +18091,7 @@ until C99 and may not be consistently supported by older compilers.]]>
 that array subscript operations should only be applied to array types.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9272</key>
@@ -17805,7 +18115,7 @@ first parameter while the overridden function B::foo uses the name
 depth.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9273</key>
@@ -17833,7 +18143,7 @@ parameter of type int while the overridden function B::foo declared the
 parameter with type INT, a type alias name difference.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9287</key>
@@ -17844,7 +18154,7 @@ to a character type. The actual pointer types are provided in the
 message.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9288</key>
@@ -17853,7 +18163,7 @@ message.]]>
       <![CDATA[An unnamed signed bit-field was declared with a single bit.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9294</key>
@@ -17878,7 +18188,7 @@ overrides. For example:
 will yield this message.]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9295</key>
@@ -17894,7 +18204,7 @@ For example:
     }]]>
     </description>
     <tag>tool-error</tag>
-    <severity>BLOCKER</severity>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9401</key>
@@ -17903,6 +18213,7 @@ For example:
       <![CDATA[The specified function returns a pointer to void, which some consider to
 be unsafe because it can compromise type safety.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9402</key>
@@ -17911,6 +18222,7 @@ be unsafe because it can compromise type safety.]]>
       <![CDATA[The specified function accepts a void pointer as an argument, which some
 consider to be unsafe because such pointers can compromise type safety.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9403</key>
@@ -17924,6 +18236,7 @@ misordered arguments are more likely to be caused by the compiler. When
 consecutive parameters are of the same type, calls to the function that
 accidentally transpose the arguments are less likely to be noticed.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9404</key>
@@ -17932,6 +18245,7 @@ accidentally transpose the arguments are less likely to be noticed.]]>
       <![CDATA[Given that destructors should never throw, declaring them as 'noexcept'
 is wise as it allows the compiler to ensure this is the case.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9405</key>
@@ -17940,6 +18254,7 @@ is wise as it allows the compiler to ensure this is the case.]]>
       <![CDATA[Move constructors should not throw; declaring them as 'noexcept' allows
 the compiler to ensure this is the case.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9406</key>
@@ -17948,6 +18263,7 @@ the compiler to ensure this is the case.]]>
       <![CDATA[Move assignment functions should not throw; declaring them as 'noexcept'
 allows the compiler to ensure this is the case.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9407</key>
@@ -17956,6 +18272,7 @@ allows the compiler to ensure this is the case.]]>
       <![CDATA[A copy assignment operator was declared as virtual; this is rarely the
 right thing to do.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9408</key>
@@ -17963,6 +18280,7 @@ right thing to do.]]>
     <description>
       <![CDATA[A copy assignment operator should take a const reference argument.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9409</key>
@@ -17971,6 +18289,7 @@ right thing to do.]]>
       <![CDATA[A copy assignment operator should return a non-const lvalue-reference
 type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9410</key>
@@ -17979,6 +18298,7 @@ type.]]>
       <![CDATA[A move assignment operator was declared as virtual, this is rarely the
 right thing to do.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9411</key>
@@ -17987,6 +18307,7 @@ right thing to do.]]>
       <![CDATA[A move assignment operator was declared whose argument is not a
 non-const reference.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9412</key>
@@ -17995,6 +18316,7 @@ non-const reference.]]>
       <![CDATA[A move assignment operator was declared that doesn't return a non-const
 lvalue-reference type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9413</key>
@@ -18002,6 +18324,7 @@ lvalue-reference type.]]>
     <description>
       <![CDATA[A class contains data members declared with different access levels.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9416</key>
@@ -18009,6 +18332,7 @@ lvalue-reference type.]]>
     <description>
       <![CDATA[A typedef was used to define a type alias instead of a using alias.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9417</key>
@@ -18017,6 +18341,7 @@ lvalue-reference type.]]>
       <![CDATA[The specified data member of a class has an access level of protected.
 Some authors suggest against using protected data members.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>972</key>
@@ -18034,6 +18359,7 @@ suppress this message for this character use the option.
 
     -estring( 972, ";\\{x60}"; )]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>977</key>
@@ -18058,6 +18384,7 @@ The message won't be issued for:
 
 A cast can also be used to suppress this message.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>978</key>
@@ -18079,6 +18406,7 @@ will elicit:
     int strmin;
         ^]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>979</key>
@@ -18091,6 +18419,7 @@ default when the definition is not visible from the current module,
 specifying this function as pure could improve analysis related to
 side-effects and purity.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>980</key>
@@ -18119,6 +18448,7 @@ the version in which the pattern is applicable. For example, names
 starting with INT and ending in _C are diagnosed only in C99 and
 later.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>981</key>
@@ -18128,6 +18458,7 @@ later.]]>
 being cast to making the cast redundant. This message is not issued for
 casting enumerations to their underlying type.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>983</key>
@@ -18141,6 +18472,7 @@ dash in this position is implementation defined, some implementations
 interpret this as a range of characters to include in the scan set (e.g.
 all characters from A to Z) while others treat it literally.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>986</key>
@@ -18154,6 +18486,7 @@ diagnosed. To diagnose uses of a type through a typedef, the basetype
 deprecation category can be used. See the -deprecate option for more
 information.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>987</key>
@@ -18162,6 +18495,7 @@ information.]]>
       <![CDATA[This message is a weaker form of message 578 for cases where a field is
 shadowed by a constructor parameter.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9901</key>
@@ -18173,6 +18507,7 @@ because the semantic contains more specific information than was gleaned
 from walking the body of the called function or because the fso flag was
 set.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9902</key>
@@ -18182,6 +18517,7 @@ set.]]>
 function call because the semantic does not provide any information that
 was not already known from walking the call.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9903</key>
@@ -18190,6 +18526,7 @@ was not already known from walking the call.]]>
       <![CDATA[This message shows the step-by-step evaluation of how an expression's
 MISRA C 2012 essential type is calculated. See the f12 flag for details.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9904</key>
@@ -18198,6 +18535,7 @@ MISRA C 2012 essential type is calculated. See the f12 flag for details.]]>
       <![CDATA[This message is emitted every time a hookable event is reached in the
 AST walking phase.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>9905</key>
@@ -18205,6 +18543,7 @@ AST walking phase.]]>
     <description>
       <![CDATA[value tracking debug assertion not known to be unequivocally true]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <rule>
     <key>999</key>
@@ -18216,6 +18555,7 @@ concurrent linting threads for parallel analysis. If n is specified as
 value for n. This message serves to inform the programmer of the value
 that was selected.]]>
     </description>
+    <severity>INFO</severity>
     </rule>
   <!-- Begin: Copyright 2021 Siemens Mobility GmbH -->
   <rule>
@@ -18232,6 +18572,7 @@ to the language standard, situations may arise where it is not possible to syste
 name to allow an entity to be cross-referenced between translation units. This message is parameterized by
 the category of grammatical entity for which mangling failed.</p>]]>
     </description>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>311</key>
@@ -18240,6 +18581,7 @@ the category of grammatical entity for which mangling failed.</p>]]>
       <![CDATA[The indirect (.lnt) file nesting depth has reached an internal limit (the current limit is 100). The most likely
 cause of this error is unintended recursion between indirect files.]]>
     </description>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>337</key>
@@ -18250,6 +18592,7 @@ cause of this error is unintended recursion between indirect files.]]>
 contents.</p>
 ]]>
     </description>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>398</key>
@@ -18257,6 +18600,7 @@ contents.</p>
     <description>
       <![CDATA[A suppressible fatal error was requested through the use of the option -fatal_error. See also 399.]]>
     </description>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>399</key>
@@ -18264,6 +18608,7 @@ contents.</p>
     <description>
       <![CDATA[An unsuppressible fatal error was requested through the use of the option +fatal_error. See also 398.]]>
     </description>
+    <severity>CRITICAL</severity>
   </rule>
   <rule>
     <key>823</key>
@@ -18284,6 +18629,7 @@ what appears to be a larger expression. For example, in:</p>
 target="_blank">PRE11-C. Do not conclude macro definitions with a semicolon</a></p>]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>886</key>
@@ -18299,6 +18645,7 @@ region. For example:</p>
 </code></pre>
 <p>will cause this message to be issued for the #pragma directive.</p>]]>
     </description>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>1422</key>
@@ -18328,6 +18675,7 @@ with a non-POD type. C++ doesn’t define the order in which static or thread st
 in different modules are initialized which can be a source of subtle errors. This message isn’t issued for
 constexpr variables.]]>
     </description>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>1779</key>
@@ -18339,6 +18687,7 @@ derived class. If the intention is for this function to override a virtual funct
 class function as virtual. Otherwise either remove the final specifier on the class or the virtual specifier
 on the function.]]>
     </description>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>1946</key>
@@ -18348,6 +18697,7 @@ on the function.]]>
 conversion operator that has been marked as explicit.]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>2414</key>
@@ -18695,6 +19045,7 @@ numbers that will be generated can render various algorithms insecure.
 target="_blank">MSC32-C. Properly seed pseudorandom number generators</a></p>]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>2761</key>
@@ -18707,6 +19058,7 @@ target="_blank">SIG30-C. Call only asynchronous-safe functions within signal han
 ]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>2762</key>
@@ -18719,6 +19071,7 @@ target="_blank">SIG34-C. Do not call signal() from within interruptible signal h
 ]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>2763</key>
@@ -18731,6 +19084,7 @@ target="_blank">SIG34-C. Do not call signal() from within interruptible signal h
 ]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>2764</key>
@@ -18743,6 +19097,7 @@ target="_blank">SIG35-C. Do not return from a computational exception signal han
 ]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>2765</key>
@@ -18755,6 +19110,7 @@ target="_blank">SIG31-C. Do not access shared objects in signal handlers</a></p>
 ]]>
     </description>
     <tag>cert</tag>
+    <severity>MINOR</severity>
   </rule>
   <rule>
     <key>2960</key>
@@ -18769,6 +19125,7 @@ expression to ensure it produces a different sequence on each execution. This me
 suppressed for specific constant values.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>3419</key>
@@ -18790,6 +19147,7 @@ than void*).</p>
 ]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9040</key>
@@ -18817,6 +19175,7 @@ target="_blank">DCL38-C. Use the correct syntax when declaring a flexible array 
 ]]>
     </description>
     <tag>cert</tag>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9181</key>
@@ -18827,6 +19186,7 @@ target="_blank">DCL38-C. Use the correct syntax when declaring a flexible array 
 better expressed as an if statement. See also message 9081.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9215</key>
@@ -18837,6 +19197,7 @@ better expressed as an if statement. See also message 9081.</p>
 ]]>
     </description>
     <tag>misra</tag>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9414</key>
@@ -18848,6 +19209,7 @@ expression that would have side effects if it were evaluated could result in con
 apparent side-effects will actually take place.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9415</key>
@@ -18870,6 +19232,7 @@ can prevent unintended results. The string parameter is either ’direct’ or �
 initialization employed (copy list initialization uses an equal sign, direct list initialization does not).</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9418</key>
@@ -18881,6 +19244,7 @@ is issued for enums that do not explicitly specify an underlying type in their d
 issued in C or C++03 modes.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9419</key>
@@ -18892,6 +19256,7 @@ scope of the enumeration constants to the enumeration. This message is issued fo
 message is not issued in C or C++03 modes.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9420</key>
@@ -18906,6 +19271,7 @@ message is suppressed. As it is only possible to specify an explicit underlying 
 C++11, the message will be issued for all bitfields of enum type in C or C++03 modes.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9421</key>
@@ -18917,6 +19283,7 @@ final. This message is only emitted for C++11 and higher. See also 1915 which is
 function is not specified with override, even if final is specified.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9422</key>
@@ -18929,6 +19296,7 @@ specified with either override or final and without a redundant virtual specifie
 issued for C++11 and higher.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9432</key>
@@ -18941,6 +19309,7 @@ to C++11). This message is issued when a class inherits from more than one non-i
 non-interface bases are provided in a supplemental message.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9433</key>
@@ -18952,6 +19321,7 @@ introduce user-defined literal suffixes that can be applied to certain types of 
 which is issued when a literal operator is invoked by a user-defined literal.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9434</key>
@@ -18963,6 +19333,7 @@ used and can be suppressed for individual suffixes using -estring. See also mess
 the declaration of literal operator functions which introduce user-defined suffixes.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9435</key>
@@ -18976,6 +19347,7 @@ is the class in which the friend declaration appeared. Some authors suggest that
 encapsulation and should be avoided.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9436</key>
@@ -18989,6 +19361,7 @@ such as std::array or std::vector. This message is not issued for static constex
 (or static const data members in C++03 where constexpr is not available).</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9437</key>
@@ -18999,6 +19372,7 @@ such as std::array or std::vector. This message is not issued for static constex
 that non-POD types should be defined using the class keyword which forces private default access control.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9501</key>
@@ -19041,6 +19415,7 @@ be enabled for specific functions using either +esym or +ecall.
 target="_blank">PRE32-C. Do not use preprocessor directives in invocations of function-like macros</a></p>]]>
     </description>
     <tag>cert</tag>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9502</key>
@@ -19099,6 +19474,7 @@ Wrapping the replacement text in a do/while (0) loop addresses all of the relate
 target="_blank">PRE10-C. Wrap multistatement macros in a do-while loop</a></p>]]>
     </description>
     <tag>cert</tag>
+    <severity>INFO</severity>
   </rule>
   <rule>
     <key>9906</key>
@@ -19111,6 +19487,7 @@ subexpression as it would be displayed in a Value Tracking message. This may occ
 same expression during specific walks.</p>
 ]]>
     </description>
+    <severity>INFO</severity>
   </rule>
   <!-- End: Copyright 2021 Siemens Mobility GmbH -->
   </rules>
