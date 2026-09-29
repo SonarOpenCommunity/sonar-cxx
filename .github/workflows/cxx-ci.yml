@@ -286,8 +286,8 @@ jobs:
       #if: steps.sonar-qube.outputs.cache-hit != 'true'
       run: |
         pushd test
-        wget -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-${{ matrix.sonarqube }}.zip
-        unzip -qq sonarqube-${{ matrix.sonarqube }}.zip
+        wget -nv --timeout=10 https://repo1.maven.org/maven2/org/sonarsource/sonarqube/sonar-application/{{ matrix.sonarqube }}/sonar-application-${{ matrix.sonarqube }}.zip
+        unzip -qq sonar-application-${{ matrix.sonarqube }}.zip
         popd
 
     # Download & install SonarScanner
@@ -439,8 +439,8 @@ jobs:
       shell: cmd
       run: |
         pushd test
-        C:\msys64\usr\bin\wget.exe -nv --timeout=10 https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-${{ matrix.sonarqube }}.zip
-        unzip -qq sonarqube-${{ matrix.sonarqube }}.zip
+        C:\msys64\usr\bin\wget.exe -nv --timeout=10 https://repo1.maven.org/maven2/org/sonarsource/sonarqube/sonar-application/{{ matrix.sonarqube }}/sonar-application-${{ matrix.sonarqube }}.zip
+        unzip -qq sonar-application-${{ matrix.sonarqube }}.zip
         popd
 
     # Download & install SonarScanner
