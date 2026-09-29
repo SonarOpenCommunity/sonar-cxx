@@ -36,12 +36,12 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # setup Python
     #
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: '3.13'
 
@@ -95,14 +95,14 @@ jobs:
     #   all historical data for all branches and tags must be retrieved (fetch-depth: 0)
     #
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         fetch-depth: 0
 
     # setup Java
     #
     - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v6
       with:
         java-version: ${{ matrix.java }}
         distribution: ${{ matrix.distribution }}
@@ -150,7 +150,7 @@ jobs:
     #
     - name: Packaging workflow data as artifacts
       if: hashFiles('staging') != ''
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: JAR_Files
         path: staging
@@ -186,12 +186,12 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # setup Java
     #
     - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v6
       with:
         java-version: ${{ matrix.java }}
         distribution: ${{ matrix.distribution }}
@@ -247,12 +247,12 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # setup Java
     #
     - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v6
       with:
         java-version: ${{ matrix.java }}
         distribution: ${{ matrix.distribution }}
@@ -261,7 +261,7 @@ jobs:
     # setup Python
     #
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: '3.13'
         # cache not working with 2.7?
@@ -277,7 +277,7 @@ jobs:
     #
     #- name: Set up SonarQube (Cache)
     #  id: sonar-qube
-    #  uses: actions/cache@v3
+    #  uses: actions/cache@v6
     #  with:
     #    path: test/sonarqube-${{ matrix.sonarqube }}
     #    key: install-sonarqube-${{ matrix.sonarqube }}-${{ runner.os }}
@@ -294,7 +294,7 @@ jobs:
     #
     #- name: Set up SonarScanner (Cache)
     #  id: sonar-scanner
-    #  uses: actions/cache@v3
+    #  uses: actions/cache@v6
     #  with:
     #    path: test/sonar-scanner-${{ matrix.sonarscanner }}
     #    key: install-sonar-scanner-cli-${{ matrix.sonarscanner }}-${{ runner.os }}
@@ -311,7 +311,7 @@ jobs:
     # - copy it to target folder, behave script expect it there
     #
     - name: Download cxx plugin
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: JAR_Files
 
@@ -361,7 +361,7 @@ jobs:
 
     - name: Upload LOG files as artifact
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: "LOG_sonarqube_${{ matrix.sonarqube }}_scanner_${{ matrix.sonarscanner }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
         path: "${{ env.SONARLOG }}"
@@ -399,12 +399,12 @@ jobs:
     # checkout code
     #
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     # setup Java
     #
     - name: Set up JDK Java ${{ matrix.java }} | ${{ matrix.distribution }} | ${{ matrix.os }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v6
       with:
         java-version: ${{ matrix.java }}
         distribution: ${{ matrix.distribution }}
@@ -413,7 +413,7 @@ jobs:
     # setup Python
     #
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: '3.13'
         # cache not working with 2.7?
@@ -429,7 +429,7 @@ jobs:
     #
     #- name: Set up SonarQube (Cache)
     #  id: sonar-qube
-    #  uses: actions/cache@v3
+    #  uses: actions/cache@v6
     #  with:
     #    path: test/sonarqube-${{ matrix.sonarqube }}
     #    key: install-sonarqube-${{ matrix.sonarqube }}-${{ runner.os }}
@@ -447,7 +447,7 @@ jobs:
     #
     #- name: Set up SonarScanner (Cache)
     #  id: sonar-scanner
-    #  uses: actions/cache@v3
+    #  uses: actions/cache@v6
     #  with:
     #    path: test/sonar-scanner-${{ matrix.sonarscanner }}
     #    key: install-sonar-scanner-cli-${{ matrix.sonarscanner }}-${{ runner.os }}
@@ -465,7 +465,7 @@ jobs:
     # - copy it to target folder, behave script expect it there
     #
     - name: Download cxx plugin
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: JAR_Files
 
@@ -518,7 +518,7 @@ jobs:
 
     - name: Upload LOG files as artifact
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: "LOG_sonarqube_${{ matrix.sonarqube }}_scanner_${{ matrix.sonarscanner }}_java_${{ matrix.java }}_os_${{ matrix.os }}"
         path: "${{ env.SONARLOG }}"
@@ -542,7 +542,7 @@ jobs:
     #
     - name: Download JAR files
       if: github.event_name == 'push'
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
         name: JAR_Files
 
