@@ -8484,6 +8484,67 @@ Pointer arithmetic overflow.
     <remediationFunction>CONSTANT_ISSUE</remediationFunction>
     <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
     </rule>
+  <!-- ########### New in Cppcheck 2.21 ########### -->
+  <rule>
+    <key>fcloseInLoopCondition</key>
+    <name>fclose() used as loop condition may skip loop body or double-close file handle</name>
+    <description><![CDATA[
+        <p>
+  fclose() closes 'fp' each time it is evaluated. On success the loop
+  body might never execute, on failure fclose() might be called again on
+  the already-closed file handle.
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/910.html" target="_blank">CWE-910</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>missingIncludeExplicit</key>
+    <name>message</name>
+    <description><![CDATA[
+        message
+        ]]></description>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>overlappingInnerCondition</key>
+    <name>Overlapping inner 'if' condition is always true</name>
+    <description><![CDATA[
+        <p>
+  Overlapping inner 'if' condition is always true (outer condition is
+  'x' and inner condition is 'x').
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <type>BUG</type>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
+  <rule>
+    <key>shadowMember</key>
+    <name>Local variable 'local variable' shadows outer member</name>
+    <description><![CDATA[
+        <p>
+  Local variable 'local variable' shadows outer member
+  </p>
+  <h2>References</h2>
+  <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398</a></p>
+        ]]></description>
+    <tag>cwe</tag>
+    <severity>MINOR</severity>
+    <remediationFunction>CONSTANT_ISSUE</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    </rule>
   <!-- ########### Internal Cppcheck errors (not in errorlist) ########### -->
   <rule>
     <key>internalAstError</key>
