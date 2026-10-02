@@ -86,8 +86,14 @@ class UndocumentedApiCheckTest {
       .next().atLine(154) // aliasDeclaration1
       .next().atLine(156) // aliasDeclaration2
       .next().atLine(161) // class ClassWithFriend
-      .next().atLine(166) // class EnclosingClass
-      .next().atLine(170); // nestedClassMethod method
+      .next().atLine(166) // class EnclosingClass1
+      .next().atLine(170) // nestedClassMethod1 method
+      .next().atLine(177) // class EnclosingClass2  
+      .next().atLine(181) // class NestedClass2
+      .next().atLine(183) // nestedClassMethod2 method        
+      .next().atLine(188) // class EnclosingClass3  
+      .next().atLine(190) // class NestedClass3
+      .next().atLine(192); // class NestedClass4
       
     for (var msg : file.getCheckMessages()) {
       assertThat(msg.formatDefaultMessage()).isNotEmpty();
