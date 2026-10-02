@@ -162,3 +162,14 @@ class ClassWithFriend {
 public:
     template<typename S> friend S& operator<<(S&, A const&);
 };
+
+class EnclosingClass {
+private:
+    class NestedClass1 {
+    public:
+        void nestedClassMethod();
+    };
+    struct NestedStruct1 {
+        void nestedStructMethod();
+    };
+};

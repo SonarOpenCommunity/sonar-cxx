@@ -85,8 +85,10 @@ class UndocumentedApiCheckTest {
       .next().atLine(148) // struct ComplexOverrideInClass
       .next().atLine(154) // aliasDeclaration1
       .next().atLine(156) // aliasDeclaration2
-      .next().atLine(161); // class ClassWithFriend
-
+      .next().atLine(161) // class ClassWithFriend
+      .next().atLine(166) // class EnclosingClass
+      .next().atLine(170); // nestedClassMethod method
+      
     for (var msg : file.getCheckMessages()) {
       assertThat(msg.formatDefaultMessage()).isNotEmpty();
     }
