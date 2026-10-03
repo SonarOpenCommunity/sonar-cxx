@@ -276,6 +276,19 @@ public interface Symbol {
     boolean isEnum();
 
     /**
+     * @return true if this is a scoped enum ({@code enum class} or {@code enum struct}); false for
+     *     an unscoped {@code enum} or any non-enum type
+     */
+    boolean isScopedEnum();
+
+    /**
+     * @return the scope containing this type's own members, reachable only via qualified access
+     *     (e.g. a scoped enum's constants as {@code EnumName::CONSTANT}), or null if none
+     */
+    @Nullable
+    SymbolTable memberScope();
+
+    /**
      * @return true if this type is a typedef
      */
     boolean isTypedef();
@@ -311,6 +324,19 @@ public interface Symbol {
      * @return true if this variable is a global variable
      */
     boolean isGlobalVariable();
+
+    /**
+     * @return the initializer expression of this variable's declaration, or null if it has none
+     */
+    @Nullable
+    AstNode initializer();
+
+    /**
+     * @return this variable's declared class/struct/union {@link TypeSymbol} (e.g. for
+     *     {@code S s;}, the {@code TypeSymbol} for {@code S}), or null if unknown
+     */
+    @Nullable
+    TypeSymbol declaredType();
   }
 
   /**
@@ -406,8 +432,9 @@ public interface Symbol {
     /**
      * The AST node representing this usage.
      *
-     * @return the AstNode where the symbol is referenced
+     * @return the AstNode where the symbol is referenced, or null if it is no longer available
      */
+    @Nullable
     AstNode node();
 
     /**
@@ -600,6 +627,17 @@ public interface Symbol {
     @Override
     public boolean isEnum() {
       return false;
+    }
+
+    @Override
+    public boolean isScopedEnum() {
+      return false;
+    }
+
+    @Override
+    @Nullable
+    public SymbolTable memberScope() {
+      return null;
     }
 
     @Override

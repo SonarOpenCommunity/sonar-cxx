@@ -20,15 +20,12 @@
 package org.sonar.cxx.squidbridge.api;
 
 import java.util.List;
+import org.sonar.api.ExtensionPoint;
+import org.sonar.api.scanner.ScannerSide;
 
 /**
- * Interface for external plugins to register custom C++ checks.
- *
- * <p>This interface allows external plugins to provide custom rule implementations
- * that integrate with the sonar-cxx analysis framework.
- *
- * <p>This interface provides a lightweight contract that external plugins can implement
- * without depending on the full sonar-cxx-plugin module.
+ * Interface for external plugins to register custom C++ checks, without depending on the full
+ * sonar-cxx-plugin module.
  *
  * <p>Usage example in an external plugin:
  * <pre>
@@ -48,24 +45,18 @@ import java.util.List;
  * }
  * </pre>
  */
+@ScannerSide
+@ExtensionPoint
 public interface CxxCustomRuleRepository {
 
   /**
-   * The unique key of the custom rule repository.
-   *
-   * <p>This key is used to identify the rule repository in SonarQube.
-   *
-   * @return the repository key
+   * @return the unique key identifying this rule repository in SonarQube
    */
   String repositoryKey();
 
   /**
-   * The check classes provided by this custom rule repository.
-   *
-   * <p>Each class should extend {@code SquidCheck<Grammar>} and be annotated
-   * with {@code @Rule} to define its metadata.
-   *
-   * @return list of check classes
+   * @return the check classes provided by this repository, each extending
+   *     {@code SquidCheck<Grammar>} and annotated with {@code @Rule}
    */
   List<Class<?>> checkClasses();
 }

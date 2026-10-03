@@ -39,6 +39,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.CxxMetrics;
+import org.sonar.cxx.squidbridge.api.CxxCustomRuleRepository;
 
 class CxxSquidSensorTest {
 
@@ -74,6 +75,33 @@ class CxxSquidSensorTest {
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.COGNITIVE_COMPLEXITY).value()).isEqualTo(8);
     softly.assertThat(context.measure(inputFile0.key(), CoreMetrics.COMMENT_LINES).value()).isEqualTo(15);
     softly.assertAll();
+  }
+
+  @Test
+  void testSymbolHighlightingEnabledByDefault() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
+    var inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
+
+    var context = SensorContextTester.create(baseDir);
+    context.fileSystem().add(inputFile0);
+    sensor.execute(context);
+
+    // "int isatty(int fn)": fn declared at line 12, column 15 (0-based).
+    assertThat(context.referencesForSymbolAt(inputFile0.key(), 12, 15)).isNotEmpty();
+  }
+
+  @Test
+  void testSymbolHighlightingDisabledPublishesNoSymbols() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
+    var inputFile0 = TestUtils.buildInputFile(baseDir, "code_chunks.cc");
+
+    settings.setProperty(CxxSquidSensor.SYMBOL_TABLE_KEY, false);
+    var context = SensorContextTester.create(baseDir);
+    context.setSettings(settings);
+    context.fileSystem().add(inputFile0);
+    sensor.execute(context);
+
+    assertThat(context.referencesForSymbolAt(inputFile0.key(), 12, 15)).isNullOrEmpty();
   }
 
   @Test
@@ -242,6 +270,35 @@ class CxxSquidSensorTest {
     sensor.execute(context);
 
     assertThat(context.measure(inputFile.key(), CoreMetrics.NCLOC).value()).isEqualTo(1);
+  }
+
+  // Repository wiring itself is verified in CxxChecksTest#shouldReturnChecksFromCustomRuleRepository.
+  @Test
+  void constructorCompilesWithBothCustomRuleArrayParameters() {
+    ActiveRules rules = mock(ActiveRules.class);
+    var checkFactory = new CheckFactory(rules);
+    FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
+
+    CxxCustomRuleRepository repository = new CxxCustomRuleRepository() {
+      @Override
+      public String repositoryKey() {
+        return "test-repo";
+      }
+
+      @Override
+      public java.util.List<Class<?>> checkClasses() {
+        return java.util.List.of();
+      }
+    };
+
+    var sensorWithRepositories = new CxxSquidSensor(
+      fileLinesContextFactory,
+      checkFactory,
+      new DefaultNoSonarFilter(),
+      null,
+      new CxxCustomRuleRepository[]{repository});
+
+    assertThat(sensorWithRepositories).isNotNull();
   }
 
 }

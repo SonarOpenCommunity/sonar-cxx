@@ -98,6 +98,8 @@ class AstNodeExtensionsTest {
     AstNodeSymbolExtension.setSymbol(node, sym);
 
     assertThat(symbol(node)).isEqualTo(sym);
+
+    AstNodeSymbolExtension.clear();
   }
 
   @Test
