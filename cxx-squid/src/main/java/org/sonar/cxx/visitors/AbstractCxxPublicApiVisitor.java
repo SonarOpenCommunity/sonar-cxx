@@ -23,6 +23,7 @@ import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
 import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
+import com.sonar.cxx.sslr.api.TokenType;
 import com.sonar.cxx.sslr.impl.ast.AstXmlPrinter;
 import java.util.ArrayList;
 import java.util.List;
@@ -243,60 +244,70 @@ public abstract class AbstractCxxPublicApiVisitor<G extends Grammar> extends Squ
   }
 
   private static boolean isPublicApiMember(AstNode node) {
-    AstNode access = node;
-
-    // retrieve the accessSpecifier
-    do {
-      access = access.getPreviousAstNode();
-    } while (access != null
-      && !access.getType().equals(CxxGrammarImpl.accessSpecifier));
-
-    if (access != null) {
-      return access.getToken().getType().equals(CxxKeyword.PUBLIC)
-        || access.getToken().getType().equals(CxxKeyword.PROTECTED);
-    } else {
-      AstNode classSpecifier = node
-        .getFirstAncestor(CxxGrammarImpl.classSpecifier);
-
-      if (classSpecifier != null) {
-
-        AstNode enclosingSpecifierNode = classSpecifier
-          .getFirstDescendant(CxxKeyword.STRUCT, CxxKeyword.CLASS,
-            CxxKeyword.ENUM, CxxKeyword.UNION);
-
-        if (enclosingSpecifierNode != null) {
-          var type = enclosingSpecifierNode.getToken().getType();
-          if (type.equals(CxxKeyword.STRUCT) || type.equals(CxxKeyword.UNION)) {
-            // struct and union members have public access, thus access level
-            // is the access level of the enclosing classSpecifier
-            return isPublicApiMember(classSpecifier);
-
-          } else if (type.equals(CxxKeyword.CLASS)) {
-            // default access in classes is private
-            return false;
-
-          } else {
-            LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(),
-              enclosingSpecifierNode.getTokenLine());
-            return false;
-          }
-        } else {
-          LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}",
-            node.getTokenLine());
+    TokenType accessSpecifierType = null;
+        
+    // searches nested structures from the inside out
+    for(AstNode itr = node; itr != null; ) {
+      if( itr.is(CxxGrammarImpl.accessSpecifier) ) {
+        accessSpecifierType = itr.getToken().getType();
+        if( accessSpecifierType.equals(CxxKeyword.PRIVATE) ) {
+          // the first private terminates
           return false;
         }
+        itr = itr.getParent();
       }
-
-      if (node.is(CxxGrammarImpl.functionDefinition)) {
-        // filter out function definitions with nested name specifier: should be documented inside of class
-        var declarator = node.getFirstChild(CxxGrammarImpl.declarator);
-        if ((declarator != null) && declarator.hasDescendant(CxxGrammarImpl.nestedNameSpecifier)) {
-          return false;
-        }
+      else {
+        itr = itr.getPreviousAstNode();
       }
-
-      return true;
     }
+    
+    // found a "public" access specifier
+    if( accessSpecifierType != null ) {
+      if( accessSpecifierType.equals(CxxKeyword.PUBLIC) ||
+          accessSpecifierType.equals(CxxKeyword.PROTECTED) ) {
+        return true;
+      }
+    }
+                
+    AstNode classSpecifier = node.getFirstAncestor(CxxGrammarImpl.classSpecifier);
+
+    if (classSpecifier != null) {
+      AstNode enclosingSpecifierNode = classSpecifier
+        .getFirstDescendant(CxxKeyword.STRUCT, CxxKeyword.CLASS,
+          CxxKeyword.ENUM, CxxKeyword.UNION);
+
+      if (enclosingSpecifierNode != null) {
+        var type = enclosingSpecifierNode.getToken().getType();
+        if (type.equals(CxxKeyword.STRUCT) || type.equals(CxxKeyword.UNION)) {
+          // struct and union members have public access, thus access level
+          // is the access level of the enclosing classSpecifier
+          return isPublicApiMember(classSpecifier);
+
+        } else if (type.equals(CxxKeyword.CLASS)) {
+          // default access in classes is private
+          return false;
+
+        } else {
+          LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(),
+            enclosingSpecifierNode.getTokenLine());
+          return false;
+        }
+      } else {
+        LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}",
+          node.getTokenLine());
+        return false;
+      }
+    }
+
+    if (node.is(CxxGrammarImpl.functionDefinition)) {
+      // filter out function definitions with nested name specifier: should be documented inside of class
+      var declarator = node.getFirstChild(CxxGrammarImpl.declarator);
+      if ((declarator != null) && declarator.hasDescendant(CxxGrammarImpl.nestedNameSpecifier)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**
