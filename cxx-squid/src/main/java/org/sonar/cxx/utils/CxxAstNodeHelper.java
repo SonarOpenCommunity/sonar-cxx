@@ -22,6 +22,7 @@ package org.sonar.cxx.utils;
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeType;
 import com.sonar.cxx.sslr.api.GenericTokenType;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.CheckForNull;
@@ -176,14 +177,55 @@ public final class CxxAstNodeHelper {
     if (node == null || !node.is(CxxGrammarImpl.functionDefinition)) {
       return Collections.emptyList();
     }
-    AstNode declarator = node.getFirstChild(CxxGrammarImpl.declarator);
-    if (declarator != null) {
-      AstNode paramsAndQuals = declarator.getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers);
-      if (paramsAndQuals != null) {
-        return paramsAndQuals.getDescendants(CxxGrammarImpl.parameterDeclaration);
-      }
+    return getDeclaratorParameters(node.getFirstChild(CxxGrammarImpl.declarator));
+  }
+
+  /**
+   * Get parameter declaration nodes from any declarator that is a function declarator (has a
+   * {@code parametersAndQualifiers} descendant), such as a member function's own declarator in a
+   * {@code memberDeclarator} that has no enclosing {@code functionDefinition} (a prototype-only
+   * member declaration with no body).
+   *
+   * @param declaratorNode a declarator node, or null
+   * @return list of parameterDeclaration nodes, empty if this declarator is not a function
+   *         declarator or has no parameters
+   */
+  public static List<AstNode> getDeclaratorParameters(@Nullable AstNode declaratorNode) {
+    if (declaratorNode == null) {
+      return Collections.emptyList();
     }
-    return Collections.emptyList();
+    // A parameter's own type can itself be a function pointer/reference, which carries its own
+    // nested parametersAndQualifiers and, inside that, its own nested parameterDeclaration nodes
+    // (e.g. void outer(int (*cb)(int inner1, int inner2))). Only the direct-child path from this
+    // declarator's own parametersAndQualifiers through parameterDeclarationClause/
+    // parameterDeclarationList is walked, so a nested declarator's own parameters are never
+    // mistaken for this declarator's parameters.
+    AstNode paramsAndQuals = declaratorNode.getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers);
+    if (paramsAndQuals == null) {
+      return Collections.emptyList();
+    }
+    AstNode paramDeclClause = paramsAndQuals.getFirstChild(CxxGrammarImpl.parameterDeclarationClause);
+    if (paramDeclClause == null) {
+      return Collections.emptyList();
+    }
+    AstNode paramDeclList = paramDeclClause.getFirstChild(CxxGrammarImpl.parameterDeclarationList);
+    if (paramDeclList == null) {
+      return Collections.emptyList();
+    }
+    return paramDeclList.getChildren(CxxGrammarImpl.parameterDeclaration);
+  }
+
+  /**
+   * Whether a declarator is a function declarator (declares a function, not a variable/field),
+   * identified by the presence of a {@code parametersAndQualifiers} descendant -- only a function
+   * declarator's grammar shape includes one.
+   *
+   * @param declaratorNode a declarator node, or null
+   * @return true if this declarator declares a function
+   */
+  public static boolean isFunctionDeclarator(@Nullable AstNode declaratorNode) {
+    return declaratorNode != null
+        && declaratorNode.getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers) != null;
   }
 
   /**
@@ -329,21 +371,11 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Get the symbol of the variable that an expression is being assigned to.
-   *
-   * <p>Handles two C++ assignment patterns:
-   * <ul>
-   *   <li>Assignment expression: {@code x = expr} — navigates up from the
-   *       expression to the enclosing {@code assignmentExpression} and returns
-   *       the symbol associated with the LHS identifier.</li>
-   *   <li>Simple declaration with initializer: {@code auto x = expr} — navigates
-   *       up from the expression to the enclosing {@code initDeclarator} and returns
-   *       the symbol associated with the declarator identifier.</li>
-   * </ul>
+   * Gets the symbol of the variable an expression is being assigned to, via either an
+   * assignment ({@code x = expr}) or a declaration with initializer ({@code auto x = expr}).
    *
    * @param expressionNode an expression node (e.g., a function call)
-   * @return the symbol of the variable being assigned to, or null if the
-   *         expression is not in an assignment context or no symbol is available
+   * @return the symbol of the variable being assigned to, or null if none
    */
   @CheckForNull
   public static Symbol getAssignedSymbol(@Nullable AstNode expressionNode) {
@@ -400,17 +432,11 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Check if a function call is an invocation on a specific variable.
-   *
-   * <p>For member function calls like {@code obj.method()}, this checks whether
-   * the qualifier ({@code obj}) has a symbol that matches the specified variable
-   * symbol. This is useful for tracking method calls on specific objects in
-   * detection rules.
+   * Checks if a function call (e.g. {@code obj.method()}) is invoked on the given variable.
    *
    * @param callNode a postfixExpression node representing a function call
    * @param variableSymbol the variable symbol to check against
-   * @param acceptParentMemberAccess if true, also check parent member access
-   *        chains (e.g., {@code a.b.method()} matches for symbol of {@code a})
+   * @param acceptParentMemberAccess if true, also check parent chains (e.g. {@code a.b.method()})
    * @return true if the function call is invoked on the specified variable
    */
   public static boolean isInvocationOnVariable(@Nullable AstNode callNode,
@@ -483,6 +509,223 @@ public final class CxxAstNodeHelper {
       return identifier.getTokenValue();
     }
     return node.getTokenValue();
+  }
+
+  /**
+   * Checks whether a declSpecifierSeq (or memberDeclSpecifierSeq) contains the {@code typedef}
+   * keyword, indicating the associated declarator names are type aliases rather than variables.
+   *
+   * @param declSpecifierSeqNode a declSpecifierSeq or memberDeclSpecifierSeq node
+   * @return true if a typedef keyword token is present among its children
+   */
+  public static boolean isTypedefKeywordPresent(@Nullable AstNode declSpecifierSeqNode) {
+    if (declSpecifierSeqNode == null) {
+      return false;
+    }
+    for (AstNode declSpecifier : declSpecifierSeqNode.getChildren()) {
+      for (AstNode child : declSpecifier.getChildren()) {
+        if ("typedef".equals(child.getTokenValue())) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Extracts the initDeclarator nodes from a simpleDeclaration's initDeclaratorList.
+   *
+   * @param simpleDeclarationNode a simpleDeclaration node
+   * @return list of initDeclarator nodes, empty if none present
+   */
+  public static List<AstNode> getInitDeclarators(@Nullable AstNode simpleDeclarationNode) {
+    if (simpleDeclarationNode == null) {
+      return Collections.emptyList();
+    }
+    AstNode initDeclaratorList = simpleDeclarationNode.getFirstChild(CxxGrammarImpl.initDeclaratorList);
+    if (initDeclaratorList == null) {
+      return Collections.emptyList();
+    }
+    return initDeclaratorList.getChildren(CxxGrammarImpl.initDeclarator);
+  }
+
+  /**
+   * Finds the declaratorId descendant of a declarator (or initDeclarator/memberDeclarator, which
+   * both wrap a declarator), which holds the declared name.
+   *
+   * @param declaratorNode a declarator, initDeclarator, or memberDeclarator node
+   * @return the declaratorId node, or null if not found
+   */
+  @CheckForNull
+  public static AstNode getDeclaratorId(@Nullable AstNode declaratorNode) {
+    if (declaratorNode == null) {
+      return null;
+    }
+    return declaratorNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
+  }
+
+  /**
+   * Extracts the class/struct/union's own name from a classSpecifier node.
+   *
+   * @param classSpecifierNode a classSpecifier node
+   * @return the class name, or null if anonymous or not found
+   */
+  @CheckForNull
+  public static String getClassName(@Nullable AstNode classSpecifierNode) {
+    if (classSpecifierNode == null) {
+      return null;
+    }
+    AstNode classHead = classSpecifierNode.getFirstChild(CxxGrammarImpl.classHead);
+    if (classHead == null) {
+      return null;
+    }
+    AstNode classHeadName = classHead.getFirstChild(CxxGrammarImpl.classHeadName);
+    if (classHeadName == null) {
+      return null;
+    }
+    AstNode className = classHeadName.getFirstChild(CxxGrammarImpl.className);
+    return getIdentifierName(className);
+  }
+
+  /**
+   * Extracts the class-key keyword ("class", "struct", or "union") from a classSpecifier node.
+   *
+   * @param classSpecifierNode a classSpecifier node
+   * @return the keyword text, or null if not found
+   */
+  @CheckForNull
+  public static String getClassKeyword(@Nullable AstNode classSpecifierNode) {
+    if (classSpecifierNode == null) {
+      return null;
+    }
+    AstNode classHead = classSpecifierNode.getFirstChild(CxxGrammarImpl.classHead);
+    if (classHead == null) {
+      return null;
+    }
+    AstNode classKey = classHead.getFirstChild(CxxGrammarImpl.classKey);
+    if (classKey == null || classKey.getFirstChild() == null) {
+      return null;
+    }
+    return classKey.getFirstChild().getTokenValue();
+  }
+
+  /**
+   * Extracts the memberDeclarator nodes from a memberDeclaration's memberDeclaratorList.
+   *
+   * @param memberDeclarationNode a memberDeclaration node
+   * @return list of memberDeclarator nodes, empty if this member-declaration has no declarator
+   *         list (e.g. it is a functionDefinition, using-declaration, or similar)
+   */
+  public static List<AstNode> getMemberDeclarators(@Nullable AstNode memberDeclarationNode) {
+    if (memberDeclarationNode == null) {
+      return Collections.emptyList();
+    }
+    AstNode memberDeclaratorList = memberDeclarationNode.getFirstChild(CxxGrammarImpl.memberDeclaratorList);
+    if (memberDeclaratorList == null) {
+      return Collections.emptyList();
+    }
+    return memberDeclaratorList.getChildren(CxxGrammarImpl.memberDeclarator);
+  }
+
+  /**
+   * Extracts the class/struct name referenced by a variable or data member's declared type
+   * (e.g. {@code "S"} for {@code S s;}). {@code declSpecifierSeq}/{@code memberDeclSpecifierSeq}
+   * are {@code .skipIfOneChild()} rules, so both shapes are searched for directly.
+   *
+   * @param declaringNode a simpleDeclaration or memberDeclaration node
+   * @return the referenced class/struct name, or null if not a class/struct reference
+   */
+  @CheckForNull
+  public static String getDeclaredClassTypeName(@Nullable AstNode declaringNode) {
+    if (declaringNode == null) {
+      return null;
+    }
+    AstNode specifierNode = declaringNode.getFirstChild(
+      CxxGrammarImpl.declSpecifierSeq, CxxGrammarImpl.declSpecifier,
+      CxxGrammarImpl.memberDeclSpecifierSeq);
+    if (specifierNode == null) {
+      return null;
+    }
+    AstNode className = specifierNode.getFirstDescendant(CxxGrammarImpl.className);
+    return getIdentifierName(className);
+  }
+
+  /**
+   * Extracts the enum's own name from an enumSpecifier node.
+   *
+   * @param enumSpecifierNode an enumSpecifier node
+   * @return the enum name, or null if anonymous or not found
+   */
+  @CheckForNull
+  public static String getEnumName(@Nullable AstNode enumSpecifierNode) {
+    if (enumSpecifierNode == null) {
+      return null;
+    }
+    AstNode enumHead = enumSpecifierNode.getFirstChild(CxxGrammarImpl.enumHead);
+    if (enumHead == null) {
+      return null;
+    }
+    AstNode enumHeadName = enumHead.getFirstChild(CxxGrammarImpl.enumHeadName);
+    return getIdentifierName(enumHeadName);
+  }
+
+  /**
+   * Extracts the enumerator nodes (one per enum constant) from an enumSpecifier node.
+   *
+   * @param enumSpecifierNode an enumSpecifier node
+   * @return list of enumerator nodes, empty if none present
+   */
+  public static List<AstNode> getEnumerators(@Nullable AstNode enumSpecifierNode) {
+    if (enumSpecifierNode == null) {
+      return Collections.emptyList();
+    }
+    AstNode enumeratorList = enumSpecifierNode.getFirstChild(CxxGrammarImpl.enumeratorList);
+    if (enumeratorList == null) {
+      return Collections.emptyList();
+    }
+    List<AstNode> result = new ArrayList<>();
+    for (AstNode enumeratorDefinition : enumeratorList.getChildren(CxxGrammarImpl.enumeratorDefinition)) {
+      AstNode enumerator = enumeratorDefinition.getFirstChild(CxxGrammarImpl.enumerator);
+      if (enumerator != null) {
+        result.add(enumerator);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Checks whether an IDENTIFIER node is part of a declaration (declaratorId, memberDeclarator,
+   * enumerator, classHeadName ancestor, or a direct child of aliasDeclaration), as opposed to a
+   * usage. {@code className} is not checked directly -- it also matches ordinary type references,
+   * only {@code classHeadName} distinguishes a real definition site.
+   *
+   * @param identifierNode an IDENTIFIER token node
+   * @return true if this identifier occurrence is a declaration site, not a usage
+   */
+  public static boolean isInsideDeclarator(@Nullable AstNode identifierNode) {
+    if (identifierNode == null) {
+      return false;
+    }
+    AstNode parent = identifierNode.getParent();
+    if (parent != null && parent.is(CxxGrammarImpl.aliasDeclaration)
+        && parent.getFirstChild(GenericTokenType.IDENTIFIER) == identifierNode) {
+      return true;
+    }
+    AstNode current = parent;
+    while (current != null) {
+      if (current.is(CxxGrammarImpl.declaratorId)
+        || current.is(CxxGrammarImpl.memberDeclarator)
+        || current.is(CxxGrammarImpl.enumerator)
+        || current.is(CxxGrammarImpl.classHeadName)
+        || current.is(CxxGrammarImpl.enumHeadName)) {
+        return true;
+      }
+      if (current.is(CxxGrammarImpl.primaryExpression) || current.is(CxxGrammarImpl.postfixExpression)) {
+        return false;
+      }
+      current = current.getParent();
+    }
+    return false;
   }
 
   /**

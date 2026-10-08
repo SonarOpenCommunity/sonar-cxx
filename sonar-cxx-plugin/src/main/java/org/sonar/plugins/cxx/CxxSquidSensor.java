@@ -47,6 +47,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
 import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
+import org.sonar.api.batch.sensor.symbol.NewSymbolTable;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.issue.NoSonarFilter;
@@ -63,12 +64,14 @@ import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.config.MsBuild;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.squidbridge.SquidAstVisitor;
+import org.sonar.cxx.squidbridge.api.CxxCustomRuleRepository;
 import org.sonar.cxx.squidbridge.api.SourceCode;
 import org.sonar.cxx.squidbridge.api.SourceFile;
 import org.sonar.cxx.squidbridge.indexer.QueryByType;
 import org.sonar.cxx.visitors.CxxCpdVisitor;
 import org.sonar.cxx.visitors.CxxHighlighterVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
+import org.sonar.cxx.visitors.CxxSymbolHighlighterVisitor;
 import org.sonar.cxx.visitors.MultiLocatitionSquidCheck;
 
 /**
@@ -90,6 +93,8 @@ public class CxxSquidSensor implements ProjectSensor {
 
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.metric.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.metric.cpd.ignoreIdentifiers";
+
+  public static final String SYMBOL_TABLE_KEY = "sonar.cxx.symbolTable";
 
   private static final Logger LOG = LoggerFactory.getLogger(CxxSquidSensor.class);
 
@@ -118,6 +123,22 @@ public class CxxSquidSensor implements ProjectSensor {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
+    this.fileLinesContextFactory = fileLinesContextFactory;
+    this.noSonarFilter = noSonarFilter;
+  }
+
+  /**
+   * Greediest constructor; picked by SonarQube's IoC container.
+   */
+  public CxxSquidSensor(FileLinesContextFactory fileLinesContextFactory,
+    CheckFactory checkFactory,
+    NoSonarFilter noSonarFilter,
+    @Nullable CustomCxxRulesDefinition[] customRulesDefinition,
+    @Nullable CxxCustomRuleRepository[] customRuleRepositories) {
+    this.checks = CxxChecks.createCxxCheck(checkFactory)
+      .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
+      .addCustomChecks(customRulesDefinition)
+      .addCustomRuleRepositories(customRuleRepositories);
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.noSonarFilter = noSonarFilter;
   }
@@ -280,6 +301,18 @@ public class CxxSquidSensor implements ProjectSensor {
         .subCategory("(4) Duplications")
         .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
         .type(PropertyType.BOOLEAN)
+        .build(),
+      PropertyDefinition.builder(SYMBOL_TABLE_KEY)
+        .defaultValue(Boolean.TRUE.toString())
+        .name("Symbol Table")
+        .description("""
+          Resolves declarations and usages of identifiers (variables, functions, types) so the UI can highlight all \
+          occurrences of a symbol when one is selected. `False` skips symbol resolution entirely, so a project that \
+          does not need this has no scanning cost for it.""")
+        .category(category)
+        .subCategory("(3) Metrics")
+        .onConfigScopes(Set.of(PropertyDefinition.ConfigScope.PROJECT))
+        .type(PropertyType.BOOLEAN)
         .build()
     ));
   }
@@ -351,6 +384,8 @@ public class CxxSquidSensor implements ProjectSensor {
       context.config().getStringArray(CxxPublicApiVisitor.API_FILE_SUFFIXES_KEY));
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.JSON_COMPILATION_DATABASE,
       context.config().get(JSON_COMPILATION_DATABASE_KEY));
+    squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.SYMBOL_TABLE_ENABLED,
+      context.config().get(SYMBOL_TABLE_KEY));
 
     squidConfig.add(CxxSquidConfiguration.SONAR_PROJECT_PROPERTIES, CxxSquidConfiguration.DEFINES,
       stripValue(DEFINES_KEY, "\\R"));
@@ -420,6 +455,7 @@ public class CxxSquidSensor implements ProjectSensor {
         saveFileLinesContext(inputFile, sourceFile);
         saveCpdTokens(inputFile, sourceFile);
         saveHighlighting(inputFile, sourceFile);
+        saveSymbols(inputFile, sourceFile);
       } catch (IllegalStateException e) {
         var msg = "Cannot save all measures for file '" + sourceCodeFile.getKey() + "'";
         CxxUtils.validateRecovery(msg, e, context.config());
@@ -486,7 +522,13 @@ public class CxxSquidSensor implements ProjectSensor {
 
     if (MultiLocatitionSquidCheck.hasMultiLocationCheckMessages(sourceFile)) {
       for (var issue : MultiLocatitionSquidCheck.getMultiLocationCheckMessages(sourceFile)) {
-        var newIssue = context.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId()));
+        // ruleId alone is not unique across repositories, so resolve by check class first.
+        var checkClass = issue.getCheckClass();
+        RuleKey resolvedRuleKey = checkClass != null ? checks.ruleKeyForClass(checkClass) : null;
+        RuleKey ruleKey = resolvedRuleKey != null
+          ? resolvedRuleKey
+          : RuleKey.of(CheckList.REPOSITORY_KEY, issue.getRuleId());
+        var newIssue = context.newIssue().forRule(ruleKey);
         var locationNr = 0;
         for (var location : issue.getLocations()) {
           final Integer line = Integer.valueOf(location.getLine());
@@ -562,6 +604,31 @@ public class CxxSquidSensor implements ProjectSensor {
     });
 
     newHighlighting.save();
+  }
+
+  @SuppressWarnings("unchecked")
+  private void saveSymbols(InputFile inputFile, SourceFile sourceFile) {
+    var data = (List<CxxSymbolHighlighterVisitor.SymbolReference>) sourceFile.getData(CxxMetric.SYMBOL_TABLE_DATA);
+    if (data == null || data.isEmpty()) {
+      return;
+    }
+
+    NewSymbolTable newSymbolTable = context.newSymbolTable().onFile(inputFile);
+    data.forEach((CxxSymbolHighlighterVisitor.SymbolReference reference) -> {
+      try {
+        var declaration = reference.declaration();
+        var newSymbol = newSymbolTable.newSymbol(declaration.startLine(), declaration.startLineOffset(),
+          declaration.endLine(), declaration.endLineOffset());
+        reference.usages().forEach(usage ->
+          newSymbol.newReference(usage.startLine(), usage.startLineOffset(), usage.endLine(),
+            usage.endLineOffset()));
+      } catch (IllegalArgumentException | IllegalStateException e) {
+        // ignore symbol errors: parsing errors could lead to wrong location data
+        LOG.debug("Symbol highlighting error in file '{}'", inputFile.filename(), e);
+      }
+    });
+
+    newSymbolTable.save();
   }
 
   private <T extends Serializable> void saveMetric(InputFile file, Metric<T> metric, T value) {

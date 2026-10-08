@@ -48,7 +48,8 @@ public enum CxxMetric implements MetricDef {
   NCLOC_DATA,
   EXECUTABLE_LINES_DATA,
   CPD_TOKENS_DATA,
-  HIGHLIGTHING_DATA;
+  HIGHLIGTHING_DATA,
+  SYMBOL_TABLE_DATA;
 
   @Override
   public String getName() {

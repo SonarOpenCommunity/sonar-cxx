@@ -38,6 +38,27 @@ class SymbolTest {
   }
 
   @Test
+  void testUnknownSymbolRemainingAccessors() {
+    var unknown = Symbol.UNKNOWN_SYMBOL;
+    assertThat(unknown.owner()).isNull();
+    assertThat(unknown.fullyQualifiedName()).isNull();
+    assertThat(unknown.isVariableSymbol()).isFalse();
+    assertThat(unknown.isTypeSymbol()).isFalse();
+    assertThat(unknown.isFunctionSymbol()).isFalse();
+    assertThat(unknown.isNamespaceSymbol()).isFalse();
+    assertThat(unknown.enclosingClass()).isNull();
+    assertThat(unknown.declaration()).isNull();
+    assertThat(unknown.sourceCode()).isNull();
+  }
+
+  @Test
+  void testUnknownSymbolIsFalseForEveryOtherKind() {
+    var unknown = Symbol.UNKNOWN_SYMBOL;
+    assertThat(unknown.is(Symbol.Kind.VARIABLE)).isFalse();
+    assertThat(unknown.is(Symbol.Kind.VARIABLE, Symbol.Kind.FUNCTION)).isFalse();
+  }
+
+  @Test
   void testSymbolKind() {
     var symbol = new SourceCodeSymbol("foo", Symbol.Kind.VARIABLE, null);
     assertThat(symbol.kind()).isEqualTo(Symbol.Kind.VARIABLE);
@@ -314,6 +335,16 @@ class SymbolTest {
     assertThat(unknownType.isEnum()).isFalse();
     assertThat(unknownType.isTypedef()).isFalse();
     assertThat(unknownType.isTemplate()).isFalse();
+  }
+
+  @Test
+  void testUnknownTypeSymbolRemainingAccessors() {
+    var unknownType = Symbol.TypeSymbol.UNKNOWN_TYPE;
+    assertThat(unknownType.baseClasses()).isEmpty();
+    assertThat(unknownType.memberSymbols()).isEmpty();
+    assertThat(unknownType.lookupSymbols("anything")).isEmpty();
+    assertThat(unknownType.isScopedEnum()).isFalse();
+    assertThat(unknownType.memberScope()).isNull();
   }
 
   @Test

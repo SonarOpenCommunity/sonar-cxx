@@ -20,6 +20,8 @@
 package org.sonar.cxx.squidbridge.api;
 
 import com.sonar.cxx.sslr.api.AstNode;
+import java.util.Collections;
+import java.util.Map;
 import java.util.WeakHashMap;
 import javax.annotation.CheckForNull;
 
@@ -31,11 +33,14 @@ import javax.annotation.CheckForNull;
  * without modifying the AstNode class itself.
  *
  * <p>The symbol mapping is stored using WeakHashMap to prevent memory leaks
- * when AstNodes are garbage collected.
+ * when AstNodes are garbage collected. The backing map is process-global, wrapped with
+ * {@link Collections#synchronizedMap} for thread safety, and cleared per scan (see
+ * {@link #clear()}) by {@code CxxSymbolResolverVisitor}.
  */
 public final class AstNodeSymbolExtension {
 
-  private static final WeakHashMap<AstNode, Symbol> SYMBOL_MAP = new WeakHashMap<>();
+  private static final Map<AstNode, Symbol> SYMBOL_MAP =
+      Collections.synchronizedMap(new WeakHashMap<>());
 
   private AstNodeSymbolExtension() {
   }

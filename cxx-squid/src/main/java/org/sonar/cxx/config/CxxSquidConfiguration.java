@@ -130,6 +130,7 @@ public class CxxSquidConfiguration extends SquidConfiguration {
   public static final String FUNCTION_SIZE_THRESHOLD = "FunctionSizeThreshold";
   public static final String API_FILE_SUFFIXES = "ApiFileSuffixes";
   public static final String JSON_COMPILATION_DATABASE = "JsonCompilationDatabase";
+  public static final String SYMBOL_TABLE_ENABLED = "SymbolTableEnabled";
 
   // Global/File Properties
   public static final String DEFINES = "Defines";

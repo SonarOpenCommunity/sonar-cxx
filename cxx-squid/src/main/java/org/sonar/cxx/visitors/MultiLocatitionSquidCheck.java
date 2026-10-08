@@ -68,6 +68,19 @@ public class MultiLocatitionSquidCheck<G extends Grammar> extends SquidCheck<G> 
     sourceFile.addData(DataKey.FILE_VIOLATIONS_WITH_MULTIPLE_LOCATIONS, messages);
   }
 
+  /**
+   * Adds a multi-location issue to an explicitly given {@code SourceFile}, for a cross-file
+   * detection recorded against a file other than the one currently being visited.
+   */
+  public static void addMultiLocationViolation(SourceFile sourceFile, CxxReportIssue message) {
+    Set<CxxReportIssue> messages = getMultiLocationCheckMessages(sourceFile);
+    if (messages == null) {
+      messages = new HashSet<>();
+    }
+    messages.add(message);
+    setMultiLocationViolation(sourceFile, messages);
+  }
+
   private SourceFile getSourceFile() {
     SquidAstVisitorContext<G> c = getContext();
     if (c.peekSourceCode() instanceof SourceFile sourceFile) {

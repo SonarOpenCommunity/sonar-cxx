@@ -136,6 +136,21 @@ class SymbolTableTest {
   }
 
   @Test
+  void lookupSymbolResolvesThroughADeepScopeChain() {
+    // Matches the real-world depth seen scanning nested C code (e.g. libuv's fs.c), to prove
+    // the walk-to-root cost stays correct (and doesn't stack overflow) at that depth.
+    SymbolTable deepest = symbolTable;
+    for (int i = 0; i < 200; i++) {
+      deepest = deepest.createChildScope();
+    }
+    var globalSymbol = new SourceCodeSymbol("root", Symbol.Kind.VARIABLE, null);
+    symbolTable.addSymbol(globalSymbol);
+
+    assertThat(deepest.lookupSymbol("root")).isEqualTo(globalSymbol);
+    assertThat(deepest.lookupSymbol("neverDeclared")).isNull();
+  }
+
+  @Test
   void testNullSymbol() {
     symbolTable.addSymbol(null);
     assertThat(symbolTable.size()).isZero();
