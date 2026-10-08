@@ -25,14 +25,14 @@ import org.sonar.api.Plugin;
 import org.sonar.api.SonarEdition;
 import org.sonar.api.SonarQubeSide;
 import org.sonar.api.SonarRuntime;
-import org.sonar.api.internal.SonarRuntimeImpl;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestSonarRuntime;
 import org.sonar.api.utils.Version;
 
 class CxxPluginTest {
 
   @Test
   void testGetExtensions() {
-    SonarRuntime runtime = SonarRuntimeImpl.forSonarQube(
+    SonarRuntime runtime = TestSonarRuntime.forSonarQube(
       Version.create(8, 6),
       SonarQubeSide.SCANNER,
       SonarEdition.COMMUNITY

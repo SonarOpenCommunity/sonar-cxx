@@ -44,7 +44,7 @@
     <dependency>
       <groupId>org.sonarsource.api.plugin</groupId>
       <artifactId>sonar-plugin-api-test-fixtures</artifactId>
-      <scope>provided</scope>
+      <scope>test</scope>
     </dependency>
     <!-- TODO: this should be provided by sonar... but not in parent pom? -->
     <dependency>
@@ -53,10 +53,14 @@
         <version>10.1.0</version>
     </dependency>
 
-
     <dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
-      <artifactId>sonar-plugin-api-impl</artifactId>
+      <groupId>org.sonarsource.scanner.engine</groupId>
+      <artifactId>plugin-api-scanner-impl</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.scanner.engine</groupId>
+      <artifactId>sensor-test-fixtures</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

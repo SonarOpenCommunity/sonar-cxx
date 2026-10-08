@@ -20,7 +20,7 @@
 package org.sonar.cxx;
 
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.SensorContextTester;
 
 public class CxxFileTester {
 

@@ -233,7 +233,10 @@ def start_script(sonarhome):
     #    )
 
     if platform.system() == 'Linux':
-        command = [os.path.join(sonarhome, 'bin/linux-x86-64/sonar.sh'), 'start']
+        script_path = os.path.join(sonarhome, 'bin/linux-x86-64/sonar.sh')
+        command = [script_path, 'start']
+        # workaround for bug in SQ 2026.5 LTA (https://sonarsource.atlassian.net/browse/SONAR-32171)
+        os.chmod(script_path, 0o755)
 
     elif platform.system() == 'Windows':
         command = ['cmd.exe', '/c', os.path.join(sonarhome, 'bin/windows-x86-64/StartSonar.bat')]
