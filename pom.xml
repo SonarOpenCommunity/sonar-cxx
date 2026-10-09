@@ -268,7 +268,7 @@
 
     <!-- dependencies -->
     <ant.version>1.10.18</ant.version>
-    <asm.version>9.10.1</asm.version>
+    <asm.version>9.11</asm.version>
     <assertj-core.version>3.27.7</assertj-core.version>
     <commons-io.version>2.22.0</commons-io.version>
     <commons-lang.version>2.6</commons-lang.version>
