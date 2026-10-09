@@ -82,11 +82,7 @@ public final class CxxAstNodeHelper {
   /**
    * Extract argument nodes from a function call postfixExpression.
    *
-   * <p>Returns one node per argument passed to the function. The grammar reads the arguments as an
-   * expressionList holding an initializerList ({@code initializerClause (',' initializerClause)*});
-   * the argument nodes are the clauses of that list, without the commas. A chain such as {@code
-   * foo(a).bar(x)} is a single postfixExpression that stands for its last call, so the arguments
-   * are those of {@code bar}.
+   * <p>For a chain such as {@code foo(a).bar(x)}, returns the arguments of the last call ({@code bar}).
    *
    * @param node a postfixExpression that represents a function call
    * @return list of argument expression nodes, empty if no arguments
@@ -185,10 +181,8 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Gets the name of the called function from the expression in front of a call's parenthesis: an
-   * identifier ({@code foo}, {@code ns::foo}) or a name the grammar parses as a type, as for a
-   * functional-style type conversion (typeName &gt; className) or a qualified name
-   * (simpleTypeSpecifier).
+   * Gets the name of the called function ({@code foo}, {@code ns::foo}), also when the grammar
+   * parses it as a type (typeName, simpleTypeSpecifier).
    *
    * @param callee the expression in front of the call's parenthesis
    * @return the function name, or null if the callee is not a name
@@ -326,11 +320,8 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Whether a declarator is a function declarator (declares a function, not a variable/field).
-   * The declarator-id is a function when the first declarator operator applied to it, going
-   * outwards and through grouping parentheses, is a parameter list: {@code f} in
-   * {@code int f(int)} or {@code int *f(int)}, but not {@code fp} in {@code int (*fp)(int)}, a
-   * pointer to a function, or {@code a} in {@code int (*a[2])(int)}, an array.
+   * Whether a declarator declares a function ({@code int f(int)}, {@code int *f(int)}), not a
+   * variable, a function pointer ({@code int (*fp)(int)}) or an array ({@code int (*a[2])(int)}).
    *
    * @param declaratorNode a declarator node, or null
    * @return true if this declarator declares a function
@@ -902,18 +893,11 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Gets the parameters of a declarator that are each a name without a type, {@code name} in
-   * {@code T x(name);}, as the parser reads the arguments of a constructor call when it does not
-   * know the names as values: as the declaration of a function {@code x} with untyped parameters.
-   * The declaration is the construction of an object {@code x} when the names name values, and the
-   * declaration of a function {@code x} with parameters of those types when they name types, so
-   * whether the parameters are arguments depends on what the names are declared as. Only the
-   * declarator of a declaration that is not a function definition, all of whose parameters have
-   * this form, has such parameters.
+   * Gets the untyped parameters ({@code name} in {@code T x(name);}) the parser reads when constructor
+   * arguments look like a function declaration; they are arguments if the names name values.
    *
    * @param declaratorNode the declarator of an initDeclarator
-   * @return the parameterDeclaration nodes, in order, or an empty list if the declarator does not
-   *   have this form
+   * @return the parameterDeclaration nodes, or an empty list if the declarator does not have this form
    */
   public static List<AstNode> getUntypedParameters(@Nullable AstNode declaratorNode) {
     if (declaratorNode == null || !declaratorNode.is(CxxGrammarImpl.declarator)) {
@@ -978,16 +962,11 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Gets the variables declared by an expression statement of the form {@code T *x;},
-   * {@code T *x = init;} or {@code T **x = init;}, also with several declarators, as in
-   * {@code T *x = init, *y, z;}, where {@code T} is a plain identifier. Without a declaration of
-   * {@code T} in the parsed code, the parser reads such a statement as a multiplication, optionally
-   * used as the target of an assignment and followed by further comma-separated operands. A product
-   * can neither be assigned to nor usefully discarded, so the statement declares the variables.
+   * Gets the variables of a pointer declaration ({@code T *x = init, *y;}) that the parser read as a
+   * multiplication because {@code T} is not declared in the parsed code.
    *
    * @param expressionStatementNode an expressionStatement node
-   * @return the IDENTIFIER nodes of the declared variables, in order, or an empty list if the
-   *   statement does not have this form
+   * @return the IDENTIFIER nodes of the declared variables, or an empty list if not of this form
    */
   public static List<AstNode> getPointerDeclarationIdentifiers(@Nullable AstNode expressionStatementNode) {
     if (expressionStatementNode == null || !expressionStatementNode.is(CxxGrammarImpl.expressionStatement)) {

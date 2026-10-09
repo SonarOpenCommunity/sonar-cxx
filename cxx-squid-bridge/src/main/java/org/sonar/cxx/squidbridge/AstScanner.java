@@ -156,12 +156,12 @@ public class AstScanner<G extends Grammar> {
   }
 
   /**
-   * Code nested deeper than the recursive descent parser can follow exhausts the thread stack. Like a syntax error,
-   * this fails the parsing of that file only: the file is reported as unparsable and the scan goes on.
+   * Code nested too deeply for the recursive descent parser fails only that file, like a syntax error. When the
+   * error is caught here, only the parser's own frames have been unwound, so the scan goes on with the next file.
    */
   private static Exception handleParserStackOverflow(File file, StackOverflowError e) {
     LOG.error(UNABLE_TO_PARSE + "{}", file.getAbsolutePath());
-    LOG.error("Code nested too deeply for the parser; a larger thread stack size (-Xss) allows to analyze it");
+    LOG.error("Code nested too deeply for the parser; a larger thread stack size (-Xss) may allow analyzing it");
     return new AnalysisException(UNABLE_TO_PARSE + file.getAbsolutePath(), e);
   }
 

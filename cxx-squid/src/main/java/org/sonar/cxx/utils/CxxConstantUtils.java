@@ -391,10 +391,19 @@ public final class CxxConstantUtils {
       return null; // modulo by zero
     }
     // the remainder is defined only where the quotient is
-    if (resolveDivide(left, right) == null) {
+    if (isQuotientOverflow(left, right)) {
       return null;
     }
     return resolveArithmetic(left, right, (a, b) -> a % b, (a, b) -> a % b);
+  }
+
+  /** True for {@code MIN / -1} in the width of the operands, the only division that overflows. */
+  private static boolean isQuotientOverflow(Object left, Object right) {
+    if (left instanceof Integer leftInt && right instanceof Integer rightInt) {
+      return leftInt == Integer.MIN_VALUE && rightInt == -1;
+    }
+    return left instanceof Number leftNum && right instanceof Number rightNum
+      && leftNum.longValue() == Long.MIN_VALUE && rightNum.longValue() == -1;
   }
 
   private static boolean isZero(Object value) {
