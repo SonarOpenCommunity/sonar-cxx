@@ -23,11 +23,21 @@ import static org.assertj.core.api.Assertions.*;
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.AstNodeType;
 import com.sonar.cxx.sslr.api.GenericTokenType;
+import com.sonar.cxx.sslr.api.Grammar;
 import com.sonar.cxx.sslr.api.Token;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
 import org.sonar.cxx.squidbridge.api.SourceCodeSymbol;
 import org.sonar.cxx.squidbridge.api.Symbol;
@@ -346,11 +356,17 @@ class CxxAstNodeHelperTest {
   }
 
   private AstNode createTokenNode(String value) {
+    // punctuators get the token type the lexer gives them
+    com.sonar.cxx.sslr.api.TokenType type = Arrays.stream(CxxPunctuator.values())
+        .filter(punctuator -> punctuator.getValue().equals(value))
+        .findFirst()
+        .map(com.sonar.cxx.sslr.api.TokenType.class::cast)
+        .orElseGet(TestTokenType::new);
     var token = Token.builder()
         .setLine(1)
         .setColumn(0)
         .setValueAndOriginalValue(value)
-        .setType(new TestTokenType())
+        .setType(type)
         .setURI(java.net.URI.create("file:///test.cpp"))
         .build();
     return new AstNode(token);
@@ -481,6 +497,24 @@ class CxxAstNodeHelperTest {
     assertThat(args).hasSize(2);
   }
 
+  @Test
+  void testGetFunctionCallArgumentsOfInitializerList() {
+    // postfixExpression → ["(", expressionList → initializerList → [a, ",", b], ")"]
+    var callNode = createNode(CxxGrammarImpl.postfixExpression, "foo");
+    callNode.addChild(createTokenNode("("));
+    var exprList = createNode(CxxGrammarImpl.expressionList, "args");
+    var initList = createNode(CxxGrammarImpl.initializerList, "args");
+    var arg1 = createNode(CxxGrammarImpl.initializerClause, "a");
+    var arg2 = createNode(CxxGrammarImpl.initializerClause, "b");
+    initList.addChild(arg1);
+    initList.addChild(createTokenNode(","));
+    initList.addChild(arg2);
+    exprList.addChild(initList);
+    callNode.addChild(exprList);
+    callNode.addChild(createTokenNode(")"));
+    assertThat(CxxAstNodeHelper.getFunctionCallArguments(callNode)).containsExactly(arg1, arg2);
+  }
+
   // -------------------------------------------------------------------------
   // getFunctionCallName
   // -------------------------------------------------------------------------
@@ -586,6 +620,24 @@ class CxxAstNodeHelperTest {
   // -------------------------------------------------------------------------
   // getFunctionDefinitionParameters
   // -------------------------------------------------------------------------
+
+  @Test
+  void testGetFunctionDefinitionParameters() throws IOException {
+    var tester = CxxFileTesterHelper.create("src/test/resources/utils/FunctionParameters.cc", ".", "");
+    List<AstNode> definitions = new ArrayList<>();
+    var visitor = new SquidAstVisitor<Grammar>() {
+      @Override
+      public void visitFile(AstNode astNode) {
+        definitions.addAll(astNode.getDescendants(CxxGrammarImpl.functionDefinition));
+      }
+    };
+    CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), new CxxSquidConfiguration(), visitor);
+
+    // an empty parameter list and (void) declare no parameters
+    assertThat(definitions)
+      .extracting(definition -> CxxAstNodeHelper.getFunctionDefinitionParameters(definition).size())
+      .containsExactly(0, 0, 1, 1, 2);
+  }
 
   @Test
   void testGetFunctionDefinitionParametersNull() {
@@ -764,6 +816,26 @@ class CxxAstNodeHelperTest {
   // -------------------------------------------------------------------------
 
   @Test
+  void testGetReturnExpression() throws IOException {
+    var tester = CxxFileTesterHelper.create("src/test/resources/utils/ReturnStatements.cc", ".", "");
+    List<AstNode> returns = new ArrayList<>();
+    var visitor = new SquidAstVisitor<Grammar>() {
+      @Override
+      public void visitFile(AstNode astNode) {
+        returns.addAll(astNode.getDescendants(CxxGrammarImpl.jumpStatement));
+      }
+    };
+    CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), new CxxSquidConfiguration(), visitor);
+
+    assertThat(returns)
+      .extracting(statement -> {
+        AstNode expression = CxxAstNodeHelper.getReturnExpression(statement);
+        return expression == null ? null : tokens(List.of(expression));
+      })
+      .containsExactly("\"SHA256\"", "a+1", "{}", null);
+  }
+
+  @Test
   void testGetReturnExpressionNull() {
     assertThat(CxxAstNodeHelper.getReturnExpression(null)).isNull();
   }
@@ -920,8 +992,182 @@ class CxxAstNodeHelperTest {
   }
 
   // -------------------------------------------------------------------------
+  // Call chains: foo(a).bar(x) is a single postfixExpression standing for its last call
+  // -------------------------------------------------------------------------
+
+  @Test
+  void testGetFunctionCallNameOfCallChain() throws IOException {
+    assertThat(parseCalls("src/test/resources/utils/CallChains.cc"))
+      .extracting(CxxAstNodeHelper::getFunctionCallName)
+      .containsExactly("bar", "method", "r", "use", "g", "ns::k", "run");
+  }
+
+  @Test
+  void testGetFunctionCallArgumentsOfCallChain() throws IOException {
+    assertThat(parseCalls("src/test/resources/utils/CallChains.cc"))
+      .extracting(call -> tokens(CxxAstNodeHelper.getFunctionCallArguments(call)))
+      .containsExactly("x", "y", "z", "2,3", "h(4),5", "6", "");
+  }
+
+  @Test
+  void testGetMemberAccessNameOfCallChain() throws IOException {
+    assertThat(parseCalls("src/test/resources/utils/CallChains.cc"))
+      .extracting(CxxAstNodeHelper::getMemberAccessName)
+      .containsExactly("bar", "method", "r", "use", null, null, "run");
+  }
+
+  @Test
+  void testIsCallOnCallResult() throws IOException {
+    assertThat(parseCalls("src/test/resources/utils/CallChains.cc"))
+      .extracting(CxxAstNodeHelper::isCallOnCallResult)
+      .containsExactly(true, false, false, true, false, false, false);
+  }
+
+  @Test
+  void testIsCallOnCallResultNull() {
+    assertThat(CxxAstNodeHelper.isCallOnCallResult(null)).isFalse();
+  }
+
+  @Test
+  void testIsCallOnCallResultNotPostfixExpression() {
+    var node = createNode(CxxGrammarImpl.primaryExpression, "foo");
+    assertThat(CxxAstNodeHelper.isCallOnCallResult(node)).isFalse();
+  }
+
+  // -------------------------------------------------------------------------
+  // getPointerDeclarationIdentifiers: T *x = init; parsed as an expression statement
+  // -------------------------------------------------------------------------
+
+  @Test
+  void testGetPointerDeclarationIdentifiers() throws IOException {
+    assertThat(parseStatements("src/test/resources/utils/PointerDeclarations.cc"))
+      .extracting(statement -> CxxAstNodeHelper.getPointerDeclarationIdentifiers(statement).stream()
+        .map(AstNode::getTokenValue)
+        .toList())
+      .containsExactly(
+        List.of("p"), List.of("pp"), List.of("q"), List.of("b"),
+        List.of(), List.of(), List.of(), List.of(), List.of(),
+        List.of("m", "n", "o"), List.of());
+  }
+
+  @Test
+  void testGetPointerDeclarationIdentifierOf() throws IOException {
+    AstNode statement = parseStatements("src/test/resources/utils/PointerDeclarations.cc").get(9);
+    AstNode make = statement.getDescendants(CxxGrammarImpl.postfixExpression).get(0);
+    assertThat(CxxAstNodeHelper.getPointerDeclarationIdentifierOf(make).getTokenValue()).isEqualTo("m");
+    AstNode n = CxxAstNodeHelper.getPointerDeclarationIdentifiers(statement).get(1);
+    assertThat(CxxAstNodeHelper.getPointerDeclarationIdentifierOf(n)).isSameAs(n);
+  }
+
+  @Test
+  void testGetPointerDeclarationIdentifiersNull() {
+    assertThat(CxxAstNodeHelper.getPointerDeclarationIdentifiers(null)).isEmpty();
+    assertThat(CxxAstNodeHelper.getPointerDeclarationIdentifierOf(null)).isNull();
+  }
+
+  @Test
+  void testGetPointerDeclarationIdentifiersNotExpressionStatement() {
+    var node = createNode(CxxGrammarImpl.simpleDeclaration, "T *p;");
+    assertThat(CxxAstNodeHelper.getPointerDeclarationIdentifiers(node)).isEmpty();
+  }
+
+  // -------------------------------------------------------------------------
+  // getUntypedParameters: T x(name); parsed as a function declaration
+  // -------------------------------------------------------------------------
+
+  @Test
+  void testGetUntypedParameters() throws IOException {
+    var tester = CxxFileTesterHelper.create("src/test/resources/utils/UntypedParameters.cc", ".", "");
+    List<AstNode> declarators = new ArrayList<>();
+    var visitor = new SquidAstVisitor<Grammar>() {
+      @Override
+      public void visitFile(AstNode astNode) {
+        astNode.getDescendants(CxxGrammarImpl.initDeclarator)
+          .forEach(initDeclarator -> declarators.add(initDeclarator.getFirstChild(CxxGrammarImpl.declarator)));
+        astNode.getDescendants(CxxGrammarImpl.functionDefinition).stream()
+          .filter(definition -> "definition".equals(CxxAstNodeHelper.getFunctionDefinitionName(definition)))
+          .forEach(definition -> declarators.add(definition.getFirstChild(CxxGrammarImpl.declarator)));
+      }
+    };
+    CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), new CxxSquidConfiguration(), visitor);
+
+    assertThat(declarators)
+      .extracting(declarator -> CxxAstNodeHelper.getUntypedParameters(declarator).stream()
+        .map(parameter -> CxxAstNodeHelper.getUntypedParameterName(parameter).getTokenValue())
+        .toList())
+      .containsExactly(
+        List.of("name"), List.of("name", "size"), List.of("Config"), List.of(), List.of(), List.of(),
+        List.of(), List.of(), List.of(), List.of(), List.of());
+  }
+
+  @Test
+  void testGetUntypedParametersNull() {
+    assertThat(CxxAstNodeHelper.getUntypedParameters(null)).isEmpty();
+    assertThat(CxxAstNodeHelper.getUntypedParameterName(null)).isNull();
+    assertThat(CxxAstNodeHelper.isUntypedParameterName(null)).isFalse();
+  }
+
+  // -------------------------------------------------------------------------
+  // isFunctionDeclarator: a function, not a pointer, reference or array of functions
+  // -------------------------------------------------------------------------
+
+  @Test
+  void testIsFunctionDeclarator() throws IOException {
+    assertThat(parseMemberDeclarators("src/test/resources/utils/FunctionDeclarators.cc"))
+      .filteredOn(CxxAstNodeHelper::isFunctionDeclarator)
+      .extracting(declarator -> CxxAstNodeHelper.getIdentifierName(CxxAstNodeHelper.getDeclaratorId(declarator)))
+      .containsExactly("function", "functionReturningPointer", "parenthesizedFunction", "trailingReturnFunction");
+  }
+
+  @Test
+  void testIsFunctionDeclaratorNull() {
+    assertThat(CxxAstNodeHelper.isFunctionDeclarator(null)).isFalse();
+  }
+
+  // -------------------------------------------------------------------------
   // Private helpers
   // -------------------------------------------------------------------------
+
+  private static List<AstNode> parseMemberDeclarators(String path) throws IOException {
+    var tester = CxxFileTesterHelper.create(path, ".", "");
+    List<AstNode> declarators = new ArrayList<>();
+    var visitor = new SquidAstVisitor<Grammar>() {
+      @Override
+      public void visitFile(AstNode astNode) {
+        for (AstNode memberDeclarator : astNode.getDescendants(CxxGrammarImpl.memberDeclarator)) {
+          declarators.add(memberDeclarator.getFirstChild(CxxGrammarImpl.declarator));
+        }
+      }
+    };
+    CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), new CxxSquidConfiguration(), visitor);
+    return declarators;
+  }
+
+  private static List<AstNode> parseStatements(String path) throws IOException {
+    var tester = CxxFileTesterHelper.create(path, ".", "");
+    List<AstNode> statements = new ArrayList<>();
+    var visitor = new SquidAstVisitor<Grammar>() {
+      @Override
+      public void visitFile(AstNode astNode) {
+        statements.addAll(astNode.getDescendants(CxxGrammarImpl.expressionStatement));
+      }
+    };
+    CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), new CxxSquidConfiguration(), visitor);
+    return statements;
+  }
+
+  private static List<AstNode> parseCalls(String path) throws IOException {
+    return parseStatements(path).stream()
+      .map(statement -> statement.getFirstDescendant(CxxGrammarImpl.postfixExpression))
+      .toList();
+  }
+
+  /** The arguments, each as the text of its tokens, separated by commas. */
+  private static String tokens(List<AstNode> arguments) {
+    return arguments.stream()
+      .map(argument -> argument.getTokens().stream().map(Token::getValue).collect(Collectors.joining()))
+      .collect(Collectors.joining(","));
+  }
   private AstNode createKeywordNode(com.sonar.cxx.sslr.api.TokenType type) {
     var token = Token.builder()
         .setLine(1)

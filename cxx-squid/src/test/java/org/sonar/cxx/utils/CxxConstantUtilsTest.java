@@ -24,12 +24,19 @@ import static org.mockito.Mockito.*;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
+import com.sonar.cxx.sslr.api.Grammar;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
 import org.sonar.cxx.parser.CxxPunctuator;
+import org.sonar.cxx.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
 import org.sonar.cxx.squidbridge.api.AstNodeTypeExtension;
 import org.sonar.cxx.squidbridge.api.SourceCodeSymbol;
@@ -744,5 +751,38 @@ class CxxConstantUtilsTest {
     when(primaryExpr.getFirstDescendant(CxxGrammarImpl.idExpression)).thenReturn(idExpr);
 
     assertThat(CxxConstantUtils.resolveAsConstant(primaryExpr)).isNull();
+  }
+
+  @Test
+  void testResolveParsedExpressions() throws IOException {
+    // arguments of g(...): product, shift, left-associative sum, unary minus and complement,
+    // parenthesized, cast, bitwise or, and a non-constant operand
+    assertThat(resolveArgumentsOfCallsTo("g", "src/test/resources/utils/ConstantExpressions.cc"))
+      .containsExactly(4096, 2048, 3071, -5, -1, 2048, 3072, 17, null);
+  }
+
+  @Test
+  void testResolveOverflowingExpressions() throws IOException {
+    // signed overflow and shift counts out of range have no value; a shift into the sign bit keeps
+    // its bits, as flags such as 1U << 31 do; long arithmetic within range is folded
+    assertThat(resolveArgumentsOfCallsTo("g", "src/test/resources/utils/ConstantOverflow.cc"))
+      .containsExactly(null, null, null, null, null, null, null, Integer.MIN_VALUE, 3_000_000_001L);
+  }
+
+  private static List<Object> resolveArgumentsOfCallsTo(String function, String path) throws IOException {
+    var tester = CxxFileTesterHelper.create(path, ".", "");
+    List<Object> values = new ArrayList<>();
+    var visitor = new SquidAstVisitor<Grammar>() {
+      @Override
+      public void visitFile(AstNode astNode) {
+        for (AstNode call : astNode.getDescendants(CxxGrammarImpl.postfixExpression)) {
+          if (function.equals(CxxAstNodeHelper.getFunctionCallName(call))) {
+            values.add(CxxConstantUtils.resolveAsConstant(CxxAstNodeHelper.getFunctionCallArguments(call).get(0)));
+          }
+        }
+      }
+    };
+    CxxAstScanner.scanSingleInputFileConfig(tester.asInputFile(), new CxxSquidConfiguration(), visitor);
+    return values;
   }
 }
