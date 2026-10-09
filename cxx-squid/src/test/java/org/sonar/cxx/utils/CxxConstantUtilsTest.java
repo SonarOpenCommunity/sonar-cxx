@@ -769,6 +769,13 @@ class CxxConstantUtilsTest {
       .containsExactly(null, null, null, null, null, null, null, Integer.MIN_VALUE, 3_000_000_001L);
   }
 
+  @Test
+  void testResolveModulo() throws IOException {
+    // the remainder has no value where the quotient overflows: MIN % -1 of the operands' width
+    assertThat(resolveArgumentsOfCallsTo("g", "src/test/resources/utils/ConstantModulo.cc"))
+      .containsExactly(1, -1, null, null, 0L, 4L, null);
+  }
+
   private static List<Object> resolveArgumentsOfCallsTo(String function, String path) throws IOException {
     var tester = CxxFileTesterHelper.create(path, ".", "");
     List<Object> values = new ArrayList<>();

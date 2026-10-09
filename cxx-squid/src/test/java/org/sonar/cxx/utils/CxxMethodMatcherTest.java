@@ -25,12 +25,10 @@ import static org.mockito.Mockito.*;
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.Token;
 import com.sonar.cxx.sslr.api.TokenType;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
 import org.sonar.cxx.squidbridge.api.AstNodeTypeExtension;
 import org.sonar.cxx.squidbridge.api.Symbol;
@@ -616,11 +614,7 @@ class CxxMethodMatcherTest {
 
   private AstNode createTokenNode(String value) {
     // punctuators get the token type the lexer gives them
-    TokenType type = Arrays.stream(CxxPunctuator.values())
-        .filter(punctuator -> punctuator.getValue().equals(value))
-        .findFirst()
-        .map(TokenType.class::cast)
-        .orElseGet(TestTokenType::new);
+    TokenType type = TestUtils.punctuatorType(value).orElseGet(TestTokenType::new);
     var token = Token.builder()
         .setLine(1).setColumn(0)
         .setValueAndOriginalValue(value)

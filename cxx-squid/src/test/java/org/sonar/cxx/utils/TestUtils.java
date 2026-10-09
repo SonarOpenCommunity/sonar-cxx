@@ -19,10 +19,14 @@
  */
 package org.sonar.cxx.utils;
 
+import com.sonar.cxx.sslr.api.TokenType;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Optional;
 import javax.annotation.CheckForNull;
+import org.sonar.cxx.parser.CxxPunctuator;
 
 public final class TestUtils {
 
@@ -59,6 +63,16 @@ public final class TestUtils {
       }
     }
     return null;
+  }
+
+  /**
+   * @return the punctuator token type the lexer gives {@code value}, or empty if it is no punctuator
+   */
+  public static Optional<TokenType> punctuatorType(String value) {
+    return Arrays.stream(CxxPunctuator.values())
+      .filter(punctuator -> punctuator.getValue().equals(value))
+      .findFirst()
+      .map(TokenType.class::cast);
   }
 
   private TestUtils() {

@@ -496,11 +496,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * Registers the local variables of a pointer declaration that the parser read as an expression
-   * statement ({@code T *x = init, *y;}, see {@link CxxAstNodeHelper#getPointerDeclarationIdentifiers}).
-   * The statement stays an expression when {@code T} names a variable or function in scope, since
-   * it is then a real product of two values, and when a declared name is already declared in the
-   * current scope, since a name cannot be declared twice in one scope.
+   * Registers the variables of a pointer declaration parsed as an expression ({@code T *x = init;}),
+   * unless {@code T} names a value in scope or a declared name already exists in the current scope.
    */
   private void resolvePointerDeclaration(AstNode expressionStatementNode) {
     List<AstNode> declaredIdentifiers = CxxAstNodeHelper.getPointerDeclarationIdentifiers(expressionStatementNode);
@@ -628,11 +625,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
 
   /**
    * Classifies an identifier occurrence as {@code WRITE} (plain assignment), {@code READ_WRITE}
-   * (compound assignment), or {@code READ}. Only the assigned operand itself is written: {@code x} in
-   * {@code x = 1} or {@code (x) = 1}, and the final field in {@code s.fld = 1}. An object operand
-   * ({@code s} in {@code s.fld = 1}), an array whose element is assigned ({@code a} in
-   * {@code a[i] = 1}), an index ({@code i}) and a pointer written through ({@code p} in
-   * {@code *p = 1}) are only read to reach the assigned location.
+   * (compound assignment), or {@code READ}. Only the assigned operand is written ({@code x}, {@code fld}
+   * in {@code s.fld = 1}); {@code s}, {@code a}/{@code i} in {@code a[i] = 1} and {@code p} in
+   * {@code *p = 1} are only read.
    */
   private static Symbol.Usage.UsageKind classifyUsageKind(AstNode identifierNode) {
     AstNode assignmentExpr = identifierNode.getFirstAncestor(CxxGrammarImpl.assignmentExpression);
