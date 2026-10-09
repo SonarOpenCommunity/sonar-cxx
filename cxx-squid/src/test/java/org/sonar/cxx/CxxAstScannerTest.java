@@ -21,13 +21,16 @@ package org.sonar.cxx;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
@@ -49,6 +52,27 @@ class CxxAstScannerTest {
     );
     var project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
     assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
+  }
+
+  @Test
+  void parserStackOverflowSkipsOnlyThatFile() throws IOException {
+    var depth = 20_000;
+    var nested = "int f() { return " + "(".repeat(depth) + "1" + ")".repeat(depth) + "; }\n";
+    var deep = TestInputFileBuilder.create("", "deep.cc")
+      .setProjectBaseDir(Path.of("."))
+      .setContents(nested)
+      .build();
+    var trivial = TestInputFileBuilder.create("", "trivial.cc")
+      .setProjectBaseDir(Path.of("."))
+      .setContents("int g() { return 1; }\n")
+      .build();
+
+    var scanner = CxxAstScanner.create(new CxxSquidConfiguration());
+    scanner.scanInputFiles(List.of(deep, trivial));
+
+    var project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
+    assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
+    assertThat(project.getInt(CxxMetric.FUNCTIONS)).isEqualTo(1);
   }
 
   @Test

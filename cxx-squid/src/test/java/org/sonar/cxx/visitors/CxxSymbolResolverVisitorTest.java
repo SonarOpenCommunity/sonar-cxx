@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.cxx.config.CxxSquidConfiguration;
@@ -151,6 +153,90 @@ class CxxSymbolResolverVisitorTest {
   }
 
   @Test
+  void resolvesPointerDeclarationsParsedAsExpressionStatements() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverPointerDeclarations.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    // "a * b" in product() is a multiplication of two parameters, not a declaration
+    assertThat(visitor.lastResolvedLocalVariableNames()).containsExactly("kdf", "ctx", "session");
+
+    Symbol kdf = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "kdf"));
+    assertThat(kdf).isInstanceOf(Symbol.VariableSymbol.class);
+    assertThat(kdf.declaration().getTokenValue()).isEqualTo("kdf");
+    assertThat(kdf.usages()).hasSize(1);
+    AstNode initializer = ((Symbol.VariableSymbol) kdf).initializer();
+    assertThat(initializer).isNotNull();
+    assertThat(initializer.getLastChild().getTokenValue()).isEqualTo("EVP_KDF_fetch");
+
+    AstNode fetchCall = root.getDescendants(CxxGrammarImpl.postfixExpression).stream()
+      .filter(node -> "EVP_KDF_fetch".equals(CxxAstNodeHelper.getFunctionCallName(node)))
+      .findFirst()
+      .orElseThrow();
+    assertThat(CxxAstNodeHelper.getAssignedSymbol(fetchCall)).isSameAs(kdf);
+
+    Symbol ctx = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "ctx"));
+    assertThat(ctx).isInstanceOf(Symbol.VariableSymbol.class);
+    assertThat(((Symbol.VariableSymbol) ctx).initializer()).isNull();
+  }
+
+  @Test
+  void resolvesEveryDeclaratorOfAPointerDeclarationParsedAsAnExpressionStatement() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverPointerDeclarators.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    Symbol first = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "first"));
+    Symbol second = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "second"));
+    assertThat(first).isInstanceOf(Symbol.VariableSymbol.class);
+    assertThat(second).isInstanceOf(Symbol.VariableSymbol.class).isNotSameAs(first);
+
+    List<AstNode> calls = root.getDescendants(CxxGrammarImpl.postfixExpression).stream()
+      .filter(node -> "EVP_PKEY_CTX_new_id".equals(CxxAstNodeHelper.getFunctionCallName(node)))
+      .toList();
+    assertThat(CxxAstNodeHelper.getAssignedSymbol(calls.get(0))).isSameAs(first);
+    assertThat(CxxAstNodeHelper.getAssignedSymbol(calls.get(1))).isSameAs(second);
+    assertThat(((Symbol.VariableSymbol) second).initializer().getLastChild().getTokenValue())
+      .isEqualTo("EVP_PKEY_CTX_new_id");
+  }
+
+  @Test
+  void keepsAProductNamingAVariableOfTheScopeAnExpression() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverPointerDeclarators.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    // "UNKNOWN_FACTOR * ctx;" does not declare a second ctx in the scope of the first one
+    Symbol ctx = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "ctx"));
+    assertThat(ctx).isInstanceOf(Symbol.VariableSymbol.class);
+    assertThat(ctx.declaration().getTokenLine()).isEqualTo(8);
+  }
+
+  @Test
+  void resolvesDeclaredTypeOfPointerDeclarationsParsedAsExpressionStatements() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverPointerDeclarations.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    Symbol session = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "session"));
+    assertThat(session).isInstanceOf(Symbol.VariableSymbol.class);
+    Symbol.TypeSymbol declaredType = ((Symbol.VariableSymbol) session).declaredType();
+    assertThat(declaredType).isNotNull();
+    assertThat(declaredType.name()).isEqualTo("Session");
+
+    Symbol kdf = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, "kdf"));
+    assertThat(((Symbol.VariableSymbol) kdf).declaredType()).isNull();
+  }
+
+  @Test
   void resolvesInitializerForLocalGlobalAndFieldVariables() throws IOException {
     CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
     var visitor = new CxxSymbolResolverVisitor<Grammar>();
@@ -202,6 +288,70 @@ class CxxSymbolResolverVisitorTest {
     assertThat(countsByKind.getOrDefault(Symbol.Usage.UsageKind.WRITE, 0L)).isEqualTo(1L);
     assertThat(countsByKind.getOrDefault(Symbol.Usage.UsageKind.READ_WRITE, 0L)).isEqualTo(1L);
     assertThat(countsByKind.getOrDefault(Symbol.Usage.UsageKind.READ, 0L)).isEqualTo(1L);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "values, false",
+    "index, false",
+    "target, false",
+    "plain, true",
+    "grouped, true"
+  })
+  void onlyTheAssignedOperandIsWritten(String name, boolean written) throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverAssignedOperand.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    Symbol symbol = AstNodeSymbolExtension.getSymbol(findCallArgumentIdentifier(root, name));
+    assertThat(symbol).isNotNull();
+
+    assertThat(symbol.usages())
+      .extracting(Symbol.Usage::kind)
+      .as("usage kinds of %s", name)
+      .matches(kinds -> kinds.contains(Symbol.Usage.UsageKind.WRITE) == written)
+      .doesNotContain(Symbol.Usage.UsageKind.READ_WRITE);
+  }
+
+  @Test
+  void anArgumentReadAsAParameterIsAUsageOfTheVariable() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverConstructorArguments.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    List<AstNode> names = new ArrayList<>();
+    collectIdentifiers(root, "name", names);
+    AstNode argument = names.get(names.size() - 1);
+    assertThat(argument.getTokenLine()).isEqualTo(10);
+    assertThat(CxxAstNodeHelper.isUntypedParameterName(argument)).isTrue();
+
+    Symbol symbol = AstNodeSymbolExtension.getSymbol(argument);
+    assertThat(symbol).isInstanceOf(Symbol.VariableSymbol.class);
+    assertThat(((Symbol.VariableSymbol) symbol).isLocalVariable()).isTrue();
+    assertThat(symbol.declaration().getTokenLine()).isEqualTo(9);
+    assertThat(symbol.usages())
+      .extracting(Symbol.Usage::kind)
+      .containsExactly(Symbol.Usage.UsageKind.READ);
+  }
+
+  @Test
+  void anUntypedParameterNamingATypeIsNotAUsage() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverConstructorArguments.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    List<AstNode> configs = new ArrayList<>();
+    collectIdentifiers(root, "Config", configs);
+    AstNode parameter = configs.get(configs.size() - 1);
+    assertThat(parameter.getTokenLine()).isEqualTo(11);
+    assertThat(CxxAstNodeHelper.isUntypedParameterName(parameter)).isTrue();
+    assertThat(AstNodeSymbolExtension.getSymbol(parameter)).isNull();
   }
 
   @Test
@@ -455,6 +605,44 @@ class CxxSymbolResolverVisitorTest {
       .orElseThrow(() -> new AssertionError("No usage site of 'knownField' found."));
 
     assertThat(AstNodeSymbolExtension.getSymbol(usageNode)).isNull();
+  }
+
+  @Test
+  void memberAccessResolvesAgainstParameterAndElaboratedDeclaredTypes() throws IOException {
+    CxxSquidConfiguration squidConfig = new CxxSquidConfiguration();
+    var visitor = new CxxSymbolResolverVisitor<Grammar>();
+    var tester = CxxFileTesterHelper.create(
+      "src/test/resources/visitors/SymbolResolverParameterMemberAccess.cc", ".", "");
+    var root = captureRoot(tester, squidConfig, visitor);
+
+    Map<String, String> declaredTypes = Map.of(
+      "api", "DigestApi", "taggedApi", "DigestApi", "hasher", "Hasher", "constHasher", "Hasher",
+      "local", "DigestApi");
+    declaredTypes.forEach((variable, type) -> {
+      Symbol symbol = AstNodeSymbolExtension.getSymbol(findDeclarationIdentifier(root, variable));
+      assertThat(symbol).isInstanceOf(Symbol.VariableSymbol.class);
+      Symbol.TypeSymbol declaredType = ((Symbol.VariableSymbol) symbol).declaredType();
+      assertThat(declaredType).isNotNull();
+      assertThat(declaredType.name()).isEqualTo(type);
+    });
+
+    List<AstNode> digestCalls = new ArrayList<>();
+    collectIdentifiers(root, "digest", digestCalls);
+    digestCalls.removeIf(CxxAstNodeHelper::isInsideDeclarator);
+    assertThat(digestCalls).hasSize(3);
+    for (AstNode digestCall : digestCalls) {
+      Symbol digestSymbol = AstNodeSymbolExtension.getSymbol(digestCall);
+      assertThat(digestSymbol).isInstanceOf(Symbol.VariableSymbol.class);
+      assertThat(((Symbol.VariableSymbol) digestSymbol).isField()).isTrue();
+    }
+
+    List<AstNode> hashCalls = new ArrayList<>();
+    collectIdentifiers(root, "hash", hashCalls);
+    hashCalls.removeIf(CxxAstNodeHelper::isInsideDeclarator);
+    assertThat(hashCalls).hasSize(2);
+    for (AstNode hashCall : hashCalls) {
+      assertThat(AstNodeSymbolExtension.getSymbol(hashCall)).isInstanceOf(Symbol.FunctionSymbol.class);
+    }
   }
 
   private static AstNode captureRoot(org.sonar.cxx.CxxFileTester tester,
