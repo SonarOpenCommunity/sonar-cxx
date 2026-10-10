@@ -21,6 +21,7 @@ package org.sonar.cxx.utils;
 
 import com.sonar.cxx.sslr.api.AstNode;
 import com.sonar.cxx.sslr.api.GenericTokenType;
+import java.util.function.Supplier;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.parser.CxxGrammarImpl;
@@ -92,6 +93,17 @@ public final class CxxConstantUtils {
       return resolveIdentifier(expression);
     }
 
+    if (expression.is(CxxGrammarImpl.castExpression)) {
+      // "(type) operand": the value of the operand
+      return resolveAsConstant(expression.getLastChild());
+    }
+
+    // Grammar rules with a single child are elided from the tree, so an operand is often the bare
+    // literal or identifier token itself.
+    if (expression.getNumberOfChildren() == 0) {
+      return resolveToken(expression);
+    }
+
     // Recurse through single-child wrapper nodes (e.g. initializerClause →
     // assignmentExpression → ... → primaryExpression) that are not directly
     // recognized above.
@@ -100,6 +112,17 @@ public final class CxxConstantUtils {
     }
 
     return null;
+  }
+
+  /**
+   * Resolves a literal or identifier token.
+   */
+  @CheckForNull
+  private static Object resolveToken(AstNode token) {
+    if (token.is(GenericTokenType.IDENTIFIER)) {
+      return resolveSymbolValue(AstNodeSymbolExtension.getSymbol(token));
+    }
+    return resolveChildToken(token);
   }
 
   /**
@@ -248,6 +271,9 @@ public final class CxxConstantUtils {
     if (operator == null || operand == null) {
       return null;
     }
+    if (operator.is(CxxGrammarImpl.unaryOperator)) {
+      operator = operator.getFirstChild();
+    }
 
     Object value = resolveAsConstant(operand);
     if (value == null) {
@@ -273,10 +299,10 @@ public final class CxxConstantUtils {
   @CheckForNull
   private static Object applyUnaryNegate(Object value) {
     if (value instanceof Long longValue) {
-      return -longValue;
+      return exactly(() -> Math.negateExact(longValue));
     }
     if (value instanceof Integer intValue) {
-      return -intValue;
+      return exactly(() -> Math.negateExact(intValue));
     }
     return null;
   }
@@ -302,14 +328,15 @@ public final class CxxConstantUtils {
       return null;
     }
 
-    Object leftValue = resolveAsConstant(children.get(0));
-    Object rightValue = resolveAsConstant(children.get(2));
-    if (leftValue == null || rightValue == null) {
-      return null;
+    // Operators of the same precedence are left-associative and share one node:
+    // "a - b + c" has the children a, -, b, +, c.
+    Object result = resolveAsConstant(children.get(0));
+    for (int i = 1; result != null && i + 1 < children.size(); i += 2) {
+      Object rightValue = resolveAsConstant(children.get(i + 1));
+      String op = children.get(i).getTokenValue();
+      result = rightValue != null && op != null ? applyBinaryOperator(op, result, rightValue) : null;
     }
-
-    String op = children.get(1).getTokenValue();
-    return op != null ? applyBinaryOperator(op, leftValue, rightValue) : null;
+    return result;
   }
 
   @CheckForNull
@@ -337,17 +364,17 @@ public final class CxxConstantUtils {
     if (right instanceof String rightStr) {
       return left + rightStr;
     }
-    return resolveArithmetic(left, right, Long::sum, Integer::sum);
+    return resolveArithmetic(left, right, Math::addExact, Math::addExact);
   }
 
   @CheckForNull
   private static Object resolveMinus(Object left, Object right) {
-    return resolveArithmetic(left, right, (a, b) -> a - b, (a, b) -> a - b);
+    return resolveArithmetic(left, right, Math::subtractExact, Math::subtractExact);
   }
 
   @CheckForNull
   private static Object resolveMultiply(Object left, Object right) {
-    return resolveArithmetic(left, right, (a, b) -> a * b, (a, b) -> a * b);
+    return resolveArithmetic(left, right, Math::multiplyExact, Math::multiplyExact);
   }
 
   @CheckForNull
@@ -355,7 +382,7 @@ public final class CxxConstantUtils {
     if (isZero(right)) {
       return null; // division by zero
     }
-    return resolveArithmetic(left, right, (a, b) -> a / b, (a, b) -> a / b);
+    return resolveArithmetic(left, right, Math::divideExact, Math::divideExact);
   }
 
   @CheckForNull
@@ -363,7 +390,20 @@ public final class CxxConstantUtils {
     if (isZero(right)) {
       return null; // modulo by zero
     }
+    // the remainder is defined only where the quotient is
+    if (isQuotientOverflow(left, right)) {
+      return null;
+    }
     return resolveArithmetic(left, right, (a, b) -> a % b, (a, b) -> a % b);
+  }
+
+  /** True for {@code MIN / -1} in the width of the operands, the only division that overflows. */
+  private static boolean isQuotientOverflow(Object left, Object right) {
+    if (left instanceof Integer leftInt && right instanceof Integer rightInt) {
+      return leftInt == Integer.MIN_VALUE && rightInt == -1;
+    }
+    return left instanceof Number leftNum && right instanceof Number rightNum
+      && leftNum.longValue() == Long.MIN_VALUE && rightNum.longValue() == -1;
   }
 
   private static boolean isZero(Object value) {
@@ -391,14 +431,35 @@ public final class CxxConstantUtils {
     return resolveArithmetic(left, right, (a, b) -> a ^ b, (a, b) -> a ^ b);
   }
 
+  /**
+   * A left shift keeps the bits shifted into the sign bit, as flags such as {@code 1U << 31} need,
+   * since the unsigned suffix is not kept.
+   */
   @CheckForNull
   private static Object resolveLeftShift(Object left, Object right) {
+    if (!isShiftCountInRange(left, right)) {
+      return null;
+    }
     return resolveArithmetic(left, right, (a, b) -> a << b, (a, b) -> a << b);
   }
 
   @CheckForNull
   private static Object resolveRightShift(Object left, Object right) {
+    if (!isShiftCountInRange(left, right)) {
+      return null;
+    }
     return resolveArithmetic(left, right, (a, b) -> a >> b, (a, b) -> a >> b);
+  }
+
+  /**
+   * A shift by a negative count or by at least the width of the shifted operand has no value in C.
+   */
+  private static boolean isShiftCountInRange(Object left, Object right) {
+    if (!(right instanceof Number count)) {
+      return false;
+    }
+    int width = left instanceof Integer && right instanceof Integer ? Integer.SIZE : Long.SIZE;
+    return count.longValue() >= 0 && count.longValue() < width;
   }
 
   @FunctionalInterface
@@ -411,17 +472,31 @@ public final class CxxConstantUtils {
     Integer apply(Integer a, Integer b);
   }
 
+  /**
+   * Applies an operator to two integers, as {@code int} if both are {@code int} and as {@code long}
+   * otherwise. An operation that overflows has no value, as signed overflow is undefined in C.
+   */
   @CheckForNull
   private static Object resolveArithmetic(Object left, Object right,
       LongBinaryOperator longOp,
       IntBinaryOperator intOp) {
     if (left instanceof Integer leftInt && right instanceof Integer rightInt) {
-      return intOp.apply(leftInt, rightInt);
+      return exactly(() -> intOp.apply(leftInt, rightInt));
     }
     if (left instanceof Number leftNum && right instanceof Number rightNum) {
-      return longOp.apply(leftNum.longValue(), rightNum.longValue());
+      return exactly(() -> longOp.apply(leftNum.longValue(), rightNum.longValue()));
     }
     return null;
+  }
+
+  /** The result of an exact arithmetic operation, or null if it overflows. */
+  @CheckForNull
+  private static Object exactly(Supplier<Number> operation) {
+    try {
+      return operation.get();
+    } catch (ArithmeticException e) {
+      return null;
+    }
   }
 
   /**

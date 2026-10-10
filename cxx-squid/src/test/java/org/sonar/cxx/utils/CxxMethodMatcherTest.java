@@ -613,10 +613,12 @@ class CxxMethodMatcherTest {
   }
 
   private AstNode createTokenNode(String value) {
+    // punctuators get the token type the lexer gives them
+    TokenType type = TestUtils.punctuatorType(value).orElseGet(TestTokenType::new);
     var token = Token.builder()
         .setLine(1).setColumn(0)
         .setValueAndOriginalValue(value)
-        .setType(new TestTokenType())
+        .setType(type)
         .setURI(java.net.URI.create("file:///test.cpp"))
         .build();
     return new AstNode(token);

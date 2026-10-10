@@ -29,7 +29,9 @@ import com.sonar.cxx.sslr.api.AstVisitor;
 import com.sonar.cxx.sslr.api.Grammar;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.Nullable;
 import org.sonar.cxx.squidbridge.api.CodeVisitor;
 
@@ -41,7 +43,7 @@ import org.sonar.cxx.squidbridge.api.CodeVisitor;
  */
 public abstract class SquidAstVisitor<G extends Grammar> implements CodeVisitor, AstVisitor {
 
-  private final List<AstNodeType> astNodeTypesToVisit = new ArrayList<>();
+  private final Set<AstNodeType> astNodeTypesToVisit = new LinkedHashSet<>();
   private SquidAstVisitorContext<G> context = null;
 
   /**
@@ -73,6 +75,7 @@ public abstract class SquidAstVisitor<G extends Grammar> implements CodeVisitor,
 
   /**
    * This method must called into the init() method when an AST visitor wants to subscribe to a set of AST node type.
+   * A node type the visitor is already subscribed to is kept once, so its nodes are visited once.
    */
   public void subscribeTo(AstNodeType... astNodeTypes) {
     astNodeTypesToVisit.addAll(Arrays.asList(astNodeTypes));
@@ -80,8 +83,7 @@ public abstract class SquidAstVisitor<G extends Grammar> implements CodeVisitor,
 
   /**
    * Initialize the visitor. This is the time to verify that the visitor has everything required to perform it job. This
-   * method is called
-   * once.
+   * method is called at the start of each scan of the AstScanner.
    */
   public void init() {
   }

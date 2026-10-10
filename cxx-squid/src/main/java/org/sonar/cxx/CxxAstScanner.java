@@ -83,6 +83,7 @@ public final class CxxAstScanner {
    * @param visitors AST checks and visitors to use
    * @return file checked with measures and issues
    */
+  @SafeVarargs
   public static SourceFile scanSingleInputFileConfig(InputFile inputFile, CxxSquidConfiguration squidConfig,
     SquidAstVisitor<Grammar>... visitors) {
     if (!inputFile.isFile()) {
