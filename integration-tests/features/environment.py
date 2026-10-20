@@ -87,12 +87,16 @@ def before_all(context):
     check_logs(sonarhome)
 
     try:
-        print(f"\nCreate 'SONAR_TOKEN' for SonarScanner ...\n", flush=True)
-        url = ('/api/user_tokens/generate')
-        payload = {'login': 'admin', 'name': 'SonarScanner', 'type': 'GLOBAL_ANALYSIS_TOKEN'}
-        response = web_api_set(url, payload)
-        token = response.json()['token']
-        os.environ['SONAR_TOKEN'] = token
+        token = os.getenv('SONAR_TOKEN', '')
+        if not token:
+            print(f"\nCreate 'SONAR_TOKEN' for SonarScanner ...\n", flush=True)
+            url = ('/api/user_tokens/generate')
+            payload = {'login': 'admin', 'name': 'SonarScanner', 'type': 'GLOBAL_ANALYSIS_TOKEN'}
+            response = web_api_set(url, payload)
+            token = response.json()['token']
+            os.environ['SONAR_TOKEN'] = token
+        else:
+            print(f"\nUsing 'SONAR_TOKEN' from environment variable for SonarScanner ...\n", flush=True)
     except:
         print(f"\tCannot create 'SONAR_TOKEN' for SonarScanner.\n", flush=True)
         sys.exit(1)

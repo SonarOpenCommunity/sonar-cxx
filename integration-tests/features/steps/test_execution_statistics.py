@@ -28,6 +28,8 @@ from behave import given, when, then, model # pylint: disable=no-name-in-module
 from common import analyse_log, build_regexp, get_sonar_log_file, analyse_log_lines, sonar_analysis_finished
 from webapi import web_api_get, web_api_set
 
+SONAR_URL = os.getenv('SONAR_HOST_URL', 'http://localhost:9000')
+
 TESTDATADIR = os.path.normpath(os.path.join(os.path.realpath(__file__),
                                             '..', '..', '..', 'testdata'))
 TEST_METRICS_ORDER = ['tests',
@@ -240,13 +242,13 @@ def step_impl(context, command):
 
 @when('I run sonar-scanner with "{params}"')
 def step_impl(context, params):
-    _run_command(context, 'sonar-scanner -Dsonar.host.url=http://localhost:9000 ' + params) # use token from SONAR_TOKEN
+    _run_command(context, 'sonar-scanner -Dsonar.host.url=' + SONAR_URL + ' ' + params) # use token from SONAR_TOKEN
 
 
 @when('I run sonar-scanner with following options')
 def step_impl(context):
     arguments = [line for line in context.text.split('\n') if line != '']
-    command = 'sonar-scanner -Dsonar.host.url=http://localhost:9000 ' + ' '.join(arguments) # use token from SONAR_TOKEN
+    command = 'sonar-scanner -Dsonar.host.url=' + SONAR_URL + ' ' + ' '.join(arguments) # use token from SONAR_TOKEN
     _run_command(context, command)
 
 
