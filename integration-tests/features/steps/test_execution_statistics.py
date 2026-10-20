@@ -248,7 +248,7 @@ def step_impl(context, params):
 @when('I run sonar-scanner with following options')
 def step_impl(context):
     arguments = [line for line in context.text.split('\n') if line != '']
-    command = 'sonar-scanner -Dsonar.host.url=' + SONAR_URL + ' + ' '.join(arguments) # use token from SONAR_TOKEN
+    command = 'sonar-scanner -Dsonar.host.url=' + SONAR_URL + ' + ' .join(arguments) # use token from SONAR_TOKEN
     _run_command(context, command)
 
 
