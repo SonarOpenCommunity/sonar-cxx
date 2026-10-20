@@ -167,15 +167,21 @@ public class SonarServerWebApi {
    */
   public SonarServerWebApi setServerConfig(Configuration configuration) {
 
-    var tempUrl = configuration.get("sonar.host.url").orElse("http://localhost:9000");
+    var tempUrl = configuration.get("sonar.host.url")
+      .orElseGet(() -> Objects.requireNonNullElse(
+        System.getenv("SONAR_HOST_URL"), 
+        "http://localhost:9000"
+    ));
+
     if (!Objects.equals(tempUrl, this.serverUrl)) {
       LOG.info("Download url for server is '{}'", tempUrl);
       this.serverUrl = tempUrl;
       this.sslContext = SSLContextBuilder.createSSLContext(configuration);
     }
-    // TODO: sonar.login is deprecated, remove in future version
-    String authenticationToken = configuration.get("sonar.token").or(() -> configuration.get("sonar.login"))
-        .orElse(System.getenv("SONAR_TOKEN"));
+
+    String authenticationToken = configuration.get("sonar.token")
+      .orElse(System.getenv("SONAR_TOKEN"));
+
     var tempAuth = "Basic " + Base64.getEncoder().encodeToString((authenticationToken + ":").getBytes());
     if (!Objects.equals(tempAuth, this.authorization)) {
       this.authorization = tempAuth;

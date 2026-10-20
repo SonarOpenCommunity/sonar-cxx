@@ -24,10 +24,8 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-SONAR_URL = ('http://localhost:9000')
-SONAR_LOGIN = os.getenv('sonar.login', 'admin')
-SONAR_PASSWORD = os.getenv('sonar.password', 'admin')
-
+SONAR_URL = os.getenv('SONAR_HOST_URL', 'http://localhost:9000')
+SONAR_TOKEN = os.getenv('SONAR_TOKEN', 'admin')
 
 def web_api_get(url, log=False):
     try:
@@ -36,7 +34,7 @@ def web_api_get(url, log=False):
         response = None
         if log:
             print(f"\n'{url}' response:", flush=True)
-        response = requests.get(url, timeout=60, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
+        response = requests.get(url, timeout=60, auth=HTTPBasicAuth(SONAR_TOKEN, ''))
         response.raise_for_status()
         if not response.text:
             assert False, f"error web_api_get: no response {url}"
@@ -53,7 +51,7 @@ def web_api_set(url, payload):
     try:
         url = SONAR_URL + url
         response = None
-        response = requests.post(url, payload, timeout=60, auth=HTTPBasicAuth(SONAR_LOGIN, SONAR_PASSWORD))
+        response = requests.post(url, payload, timeout=60, auth=HTTPBasicAuth(SONAR_TOKEN, ''))
         response.raise_for_status()
         return response
     except requests.exceptions.RequestException as error:

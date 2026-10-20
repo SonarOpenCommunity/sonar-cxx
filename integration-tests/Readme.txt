@@ -29,6 +29,16 @@ In the latter case, the suite will automatically install and test the
 jar in sonar-python-plugin/target. So make sure the plugin is build
 and the jar is available.
 
+The URL to your SonarQube instance is per default http://localhost:9000.
+You can set the environment variable SONAR_HOST_URL to use a different one.
+
+Environment variable SONAR_TOKEN is used by the scanner to authenticate to
+your SonarQube instance. A token can be specific to a project (allows you to
+run analyses on the specific project) or global (allows you to run analyses on
+any project). The corresponding SonarQube user must have the Execute Analysis
+permission on the project or the Global Execute Analysis permission, respectively.
+If no SONAR_TOKEN exists the Python script creates an own one over the Web API.
+
 
 Features to test
 ================
