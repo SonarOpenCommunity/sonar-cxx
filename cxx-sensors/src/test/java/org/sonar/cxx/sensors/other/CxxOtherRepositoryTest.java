@@ -21,7 +21,7 @@ package org.sonar.cxx.sensors.other;
 
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.sonar.api.config.internal.MapSettings;
+import org.sonar.scanner.plugin.api.impl.config.MapSettings;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.sensors.utils.RulesDefinitionXmlLoader;
 

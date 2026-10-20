@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>87.0.0.3057</version>
+    <version>88.0.0.3367</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -261,10 +261,15 @@
            
          The API version is stable for the lifetime of the LTA as the Sonar Plugin API is developed
          alongside newer versions of the Sonar products and changes / fixes are only backported
-         to the LTA - but no (breaking) changes to the Sonar Plugin API. -->
-    <sonar.version>25.8.0.112029</sonar.version>
-    <sonar.plugin.api.version>13.4.3.4290</sonar.plugin.api.version>
-    <pluginApiMinVersion>9.14.0.375</pluginApiMinVersion>
+         to the LTA - but no (breaking) changes to the Sonar Plugin API.
+         -->
+    <sonar.version>26.9.0.129388</sonar.version>
+    <sonar.plugin.api.version>14.0.0.4498</sonar.plugin.api.version>
+    
+    <!-- ensure that version fits to 'sonar.plugin.api.version'.
+         Compare changes in mvn repository: version should use same 'sonar-plugin-api' https://mvnrepository.com/artifact/org.sonarsource.scanner.engine/plugin-api-scanner-impl
+         -->
+    <sonar.scanner.version>13.14.0.6149</sonar.scanner.version>
 
     <!-- dependencies -->
     <ant.version>1.10.18</ant.version>
@@ -321,11 +326,17 @@
         <version>${sonar.plugin.api.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.sonarsource.sonarqube</groupId>
-        <artifactId>sonar-plugin-api-impl</artifactId>
-        <version>${sonar.version}</version>
+        <groupId>org.sonarsource.scanner.engine</groupId>
+        <artifactId>plugin-api-scanner-impl</artifactId>
+        <version>${sonar.scanner.version}</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.sonarsource.scanner.engine</groupId>
+        <artifactId>sensor-test-fixtures</artifactId>
+        <version>${sonar.scanner.version}</version>
+        <scope>test</scope>
+      </dependency> 
       <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-testing-harness</artifactId>

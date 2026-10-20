@@ -26,8 +26,8 @@ import java.nio.charset.StandardCharsets;
 import javax.annotation.CheckForNull;
 import org.assertj.core.util.Files;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.scanner.plugin.api.impl.fs.DefaultInputFile;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestInputFileBuilder;
 
 public final class TestUtils {
 
