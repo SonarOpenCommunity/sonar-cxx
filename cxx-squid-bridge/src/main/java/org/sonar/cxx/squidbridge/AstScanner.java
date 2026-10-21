@@ -101,6 +101,8 @@ public class AstScanner<G extends Grammar> {
           ast = parser.parse(file);
         } catch (Exception e) {
           parseException = handleParseException(file, e);
+        } catch (StackOverflowError e) {
+          parseException = handleParserStackOverflow(file, e);
         }
         walkAndVisit(astWalker, ast, parseException);
       } catch (Throwable e) {
@@ -129,6 +131,8 @@ public class AstScanner<G extends Grammar> {
           ast = parser.parse(inputFile.contents());
         } catch (Exception e) {
           parseException = handleParseException(file, e);
+        } catch (StackOverflowError e) {
+          parseException = handleParserStackOverflow(file, e);
         }
         walkAndVisit(astWalker, ast, parseException);
       } catch (Throwable e) {
@@ -149,6 +153,16 @@ public class AstScanner<G extends Grammar> {
       LOG.error(UNABLE_TO_PARSE + "{}", file.getAbsolutePath(), e);
     }
     return e;
+  }
+
+  /**
+   * Code nested too deeply for the recursive descent parser fails only that file, like a syntax error. When the
+   * error is caught here, only the parser's own frames have been unwound, so the scan goes on with the next file.
+   */
+  private static Exception handleParserStackOverflow(File file, StackOverflowError e) {
+    LOG.error(UNABLE_TO_PARSE + "{}", file.getAbsolutePath());
+    LOG.error("Code nested too deeply for the parser; a larger thread stack size (-Xss) may allow analyzing it");
+    return new AnalysisException(UNABLE_TO_PARSE + file.getAbsolutePath(), e);
   }
 
   private void walkAndVisit(AstWalker astWalker, AstNode ast, @Nullable Exception parseException) throws Throwable {

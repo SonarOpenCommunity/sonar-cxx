@@ -81,6 +81,7 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       CxxGrammarImpl.simpleDeclaration,
       CxxGrammarImpl.enumSpecifier,
       CxxGrammarImpl.aliasDeclaration,
+      CxxGrammarImpl.expressionStatement,
       GenericTokenType.IDENTIFIER);
   }
 
@@ -125,6 +126,10 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
     }
     if (node.is(CxxGrammarImpl.aliasDeclaration)) {
       resolveAliasDeclaration(node);
+      return;
+    }
+    if (node.is(CxxGrammarImpl.expressionStatement)) {
+      resolvePointerDeclaration(node);
       return;
     }
     if (node.is(CxxGrammarImpl.enumSpecifier)) {
@@ -191,7 +196,8 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
    */
   private boolean opensScope(AstNode node) {
     if (node.is(GenericTokenType.IDENTIFIER, CxxGrammarImpl.functionDefinition,
-        CxxGrammarImpl.simpleDeclaration, CxxGrammarImpl.enumSpecifier, CxxGrammarImpl.aliasDeclaration)) {
+        CxxGrammarImpl.simpleDeclaration, CxxGrammarImpl.enumSpecifier, CxxGrammarImpl.aliasDeclaration,
+        CxxGrammarImpl.expressionStatement)) {
       return false;
     }
     if (node.is(CxxGrammarImpl.functionBody)) {
@@ -396,6 +402,7 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
 
     // Declaration-only function (e.g. "= delete;") has no body scope to register into.
     boolean hasBody = functionDefinitionHasCompoundStatementBody(functionDefinitionNode);
+    SymbolTable enclosingScope = currentScope();
 
     for (AstNode parameterDeclaration : CxxAstNodeHelper.getFunctionDefinitionParameters(functionDefinitionNode)) {
       AstNode declaratorId = parameterDeclaration.getFirstDescendant(CxxGrammarImpl.declaratorId);
@@ -407,6 +414,11 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       parameterSymbol.setParameter(true);
       parameterSymbol.setOwner(functionSymbol);
       parameterSymbol.setDeclaration(declaratorId);
+      if (enclosingScope != null) {
+        // the class/struct a parameter, a pointer to it or a reference to it is declared with,
+        // e.g. S in "S *s", against which "s->fld" is resolved
+        parameterSymbol.setDeclaredType(resolveDeclaredTypeSymbol(parameterDeclaration, enclosingScope));
+      }
       functionSymbol.addParameter(parameterSymbol);
       lastParameterNames.add(parameterName);
 
@@ -417,7 +429,6 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       registerInPendingFunctionScope(functionDefinitionNode, parameterDeclaration, declaratorId, parameterSymbol);
     }
 
-    SymbolTable enclosingScope = currentScope();
     if (enclosingScope != null) {
       enclosingScope.addSymbol(functionSymbol);
     }
@@ -485,6 +496,43 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
+   * Registers the variables of a pointer declaration parsed as an expression ({@code T *x = init;}),
+   * unless {@code T} names a value in scope or a declared name already exists in the current scope.
+   */
+  private void resolvePointerDeclaration(AstNode expressionStatementNode) {
+    List<AstNode> declaredIdentifiers = CxxAstNodeHelper.getPointerDeclarationIdentifiers(expressionStatementNode);
+    SymbolTable scope = currentScope();
+    if (declaredIdentifiers.isEmpty() || scope == null) {
+      return;
+    }
+    Symbol typeCandidate = scope.lookupSymbol(expressionStatementNode.getTokenValue());
+    if (typeCandidate != null && !(typeCandidate instanceof Symbol.TypeSymbol)) {
+      return;
+    }
+    for (AstNode declaredIdentifier : declaredIdentifiers) {
+      if (scope.getSymbol(declaredIdentifier.getTokenValue()) != null) {
+        return;
+      }
+    }
+    for (AstNode declaredIdentifier : declaredIdentifiers) {
+      var variableSymbol = new SourceCodeSymbol.SourceCodeVariableSymbol(declaredIdentifier.getTokenValue(), null);
+      variableSymbol.setLocalVariable(true);
+      lastLocalVariableNames.add(declaredIdentifier.getTokenValue());
+      variableSymbol.setDeclaration(declaredIdentifier);
+      AstNode assignmentExpression = declaredIdentifier.getFirstAncestor(CxxGrammarImpl.assignmentExpression);
+      if (assignmentExpression != null && assignmentExpression.getParent().is(CxxGrammarImpl.expression)) {
+        // the assigned value is the last child, as for a declarator's initializer
+        variableSymbol.setInitializer(assignmentExpression);
+      }
+      if (typeCandidate instanceof Symbol.TypeSymbol typeSymbol) {
+        variableSymbol.setDeclaredType(typeSymbol);
+      }
+      scope.addSymbol(variableSymbol);
+      AstNodeSymbolExtension.setSymbol(declaredIdentifier, variableSymbol);
+    }
+  }
+
+  /**
    * Resolves a variable or data member's own declared class/struct type (e.g. the
    * {@code TypeSymbol} for {@code S} in {@code S s;}). Returns null if it isn't a class/struct
    * type, or the type couldn't be resolved.
@@ -500,8 +548,15 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   private void resolveIdentifierUsage(AstNode identifierNode) {
-    if (CxxAstNodeHelper.isInsideDeclarator(identifierNode)) {
+    // the name of an untyped parameter of a declaration, "name" in "T x(name);", is an argument of
+    // the construction of x when it names a value (see CxxAstNodeHelper#getUntypedParameters)
+    boolean untypedParameter = CxxAstNodeHelper.isUntypedParameterName(identifierNode);
+    if (!untypedParameter && CxxAstNodeHelper.isInsideDeclarator(identifierNode)) {
       return; // declaration site, already handled above
+    }
+    Symbol declared = AstNodeSymbolExtension.getSymbol(identifierNode);
+    if (declared != null && declared.declaration() == identifierNode) {
+      return; // declaration site registered by resolvePointerDeclaration
     }
     Symbol resolved;
     if (isMemberAccessRhs(identifierNode)) {
@@ -518,7 +573,7 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       }
       resolved = scope.lookupSymbol(identifierNode.getTokenValue());
     }
-    if (resolved == null) {
+    if (resolved == null || (untypedParameter && resolved.isTypeSymbol())) {
       return;
     }
     AstNodeSymbolExtension.setSymbol(identifierNode, resolved);
@@ -570,9 +625,9 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
 
   /**
    * Classifies an identifier occurrence as {@code WRITE} (plain assignment), {@code READ_WRITE}
-   * (compound assignment), or {@code READ}. For a member-access LHS ({@code s.fld = 1}), only the
-   * final field ({@code fld}) is WRITE -- an object operand like {@code s} is only read to
-   * navigate to it.
+   * (compound assignment), or {@code READ}. Only the assigned operand is written ({@code x}, {@code fld}
+   * in {@code s.fld = 1}); {@code s}, {@code a}/{@code i} in {@code a[i] = 1} and {@code p} in
+   * {@code *p = 1} are only read.
    */
   private static Symbol.Usage.UsageKind classifyUsageKind(AstNode identifierNode) {
     AstNode assignmentExpr = identifierNode.getFirstAncestor(CxxGrammarImpl.assignmentExpression);
@@ -580,7 +635,7 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
       return Symbol.Usage.UsageKind.READ;
     }
     AstNode lhs = assignmentExpr.getFirstChild();
-    if (lhs == null || !isDescendantOrSelf(lhs, identifierNode) || isMemberAccessObjectOperand(identifierNode)) {
+    if (lhs == null || !isAssignedOperand(lhs, identifierNode)) {
       return Symbol.Usage.UsageKind.READ;
     }
     AstNode operatorNode = assignmentExpr.getFirstChild(CxxGrammarImpl.assignmentOperator);
@@ -591,21 +646,51 @@ public class CxxSymbolResolverVisitor<G extends Grammar> extends SquidAstVisitor
   }
 
   /**
-   * True if {@code identifierNode} is a member-access object operand (e.g. {@code s} in
-   * {@code s.fld}), i.e. immediately followed by {@code "."}/{@code "->"}.
+   * True if {@code identifierNode} is the location the left-hand side {@code lhs} of an assignment
+   * designates: the identifier itself, possibly parenthesized, qualified ({@code ns::x}) or accessed
+   * as the member of an object ({@code s.fld}, {@code p->fld}).
    */
-  private static boolean isMemberAccessObjectOperand(AstNode identifierNode) {
-    AstNode nextSibling = identifierNode.getNextSibling();
-    return nextSibling != null && nextSibling.is(CxxPunctuator.DOT, CxxPunctuator.ARROW);
+  private static boolean isAssignedOperand(AstNode lhs, AstNode identifierNode) {
+    AstNode current = identifierNode;
+    while (current != lhs) {
+      AstNode parent = current.getParent();
+      if (parent == null
+        || !(isSoleExpression(parent) || isParenthesized(parent, current) || isDesignatedBy(parent, current))) {
+        return false;
+      }
+      current = parent;
+    }
+    return true;
   }
 
-  private static boolean isDescendantOrSelf(AstNode ancestor, AstNode node) {
-    for (AstNode current = node; current != null; current = current.getParent()) {
-      if (current == ancestor) {
-        return true;
-      }
+  /** True if {@code node} is an expression of a single operand, e.g. the content of {@code (x)}. */
+  private static boolean isSoleExpression(AstNode node) {
+    return node.is(CxxGrammarImpl.expression) && node.getNumberOfChildren() == 1;
+  }
+
+  /** True if {@code parent} is {@code ( child )}. */
+  private static boolean isParenthesized(AstNode parent, AstNode child) {
+    return parent.is(CxxGrammarImpl.primaryExpression)
+      && parent.getNumberOfChildren() == 3
+      && parent.getFirstChild().is(CxxPunctuator.BR_LEFT)
+      && parent.getChildren().get(1) == child;
+  }
+
+  /**
+   * True if {@code parent} designates the same location as its last child {@code child}: a qualified
+   * name ({@code ns::x}) or a member access ({@code s.fld}, {@code p->fld}).
+   */
+  private static boolean isDesignatedBy(AstNode parent, AstNode child) {
+    if (parent.getLastChild() != child) {
+      return false;
     }
-    return false;
+    if (parent.is(CxxGrammarImpl.qualifiedId)) {
+      return true;
+    }
+    AstNode operatorNode = child.getPreviousSibling();
+    return parent.is(CxxGrammarImpl.postfixExpression)
+      && operatorNode != null
+      && operatorNode.is(CxxPunctuator.DOT, CxxPunctuator.ARROW);
   }
 
   /**

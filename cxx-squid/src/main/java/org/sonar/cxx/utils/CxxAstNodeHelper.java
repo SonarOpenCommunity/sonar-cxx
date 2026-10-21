@@ -29,6 +29,7 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.parser.CxxKeyword;
+import org.sonar.cxx.parser.CxxPunctuator;
 import org.sonar.cxx.squidbridge.api.AstNodeSymbolExtension;
 import org.sonar.cxx.squidbridge.api.Symbol;
 
@@ -81,8 +82,7 @@ public final class CxxAstNodeHelper {
   /**
    * Extract argument nodes from a function call postfixExpression.
    *
-   * <p>Returns the expressionList children, which represent the arguments
-   * passed to the function.
+   * <p>For a chain such as {@code foo(a).bar(x)}, returns the arguments of the last call ({@code bar}).
    *
    * @param node a postfixExpression that represents a function call
    * @return list of argument expression nodes, empty if no arguments
@@ -91,11 +91,42 @@ public final class CxxAstNodeHelper {
     if (node == null || !isFunctionCall(node)) {
       return Collections.emptyList();
     }
-    AstNode expressionList = node.getFirstDescendant(CxxGrammarImpl.expressionList);
-    if (expressionList != null) {
-      return expressionList.getChildren();
+    var children = node.getChildren();
+    int open = lastCallParenthesis(node);
+    AstNode arguments = open + 1 < children.size() ? children.get(open + 1) : null;
+    if (arguments == null || !arguments.is(CxxGrammarImpl.expressionList)) {
+      return Collections.emptyList();
     }
-    return Collections.emptyList();
+    AstNode initializerList = arguments.getFirstChild(CxxGrammarImpl.initializerList);
+    if (initializerList == null) {
+      return arguments.getChildren();
+    }
+    return initializerList.getChildren().stream()
+      .filter(argument -> !argument.is(CxxPunctuator.COMMA))
+      .toList();
+  }
+
+  /**
+   * Gets the index of the opening parenthesis of the last call in a postfixExpression.
+   *
+   * @param node a postfixExpression node
+   * @return index of the parenthesis among the children of the node, -1 if it has none
+   */
+  private static int lastCallParenthesis(AstNode node) {
+    var children = node.getChildren();
+    for (int i = children.size() - 1; i >= 0; i--) {
+      if (children.get(i).is(CxxPunctuator.BR_LEFT)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Check if a node is a member access operator ({@code .} or {@code ->}).
+   */
+  private static boolean isMemberAccessOperator(AstNode node) {
+    return node.is(CxxPunctuator.DOT, CxxPunctuator.ARROW);
   }
 
   /**
@@ -113,6 +144,23 @@ public final class CxxAstNodeHelper {
     if (node == null || !node.is(CxxGrammarImpl.postfixExpression)) {
       return null;
     }
+    if (isFunctionCall(node)) {
+      // the called expression is what precedes the last call's parenthesis
+      int open = lastCallParenthesis(node);
+      var children = node.getChildren();
+      if (open >= 2 && isMemberAccessOperator(children.get(open - 2))) {
+        // member call: obj.method(...), p->q->method(...), foo(a).method(...)
+        AstNode member = children.get(open - 1);
+        return member.is(GenericTokenType.IDENTIFIER)
+          ? member.getTokenValue()
+          : getIdentifierText(member);
+      }
+      if (open != 1) {
+        // the result of an expression is called, e.g. f(a)(b)
+        return null;
+      }
+      return getCalleeName(children.get(0));
+    }
     // The first child of a postfixExpression is typically the callee expression.
     // For simple calls, it's a primaryExpression containing an idExpression.
     AstNode idExpr = node.getFirstDescendant(CxxGrammarImpl.idExpression);
@@ -123,6 +171,42 @@ public final class CxxAstNodeHelper {
     // as functional-style type conversions, producing typeName > className instead of
     // idExpression. Extract the name from the className node in this case.
     AstNode typeName = node.getFirstChild(CxxGrammarImpl.typeName);
+    if (typeName != null) {
+      AstNode className = typeName.getFirstChild(CxxGrammarImpl.className);
+      if (className != null) {
+        return getIdentifierName(className);
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Gets the name of the called function ({@code foo}, {@code ns::foo}), also when the grammar
+   * parses it as a type (typeName, simpleTypeSpecifier).
+   *
+   * @param callee the expression in front of the call's parenthesis
+   * @return the function name, or null if the callee is not a name
+   */
+  @CheckForNull
+  private static String getCalleeName(AstNode callee) {
+    if (callee.is(GenericTokenType.IDENTIFIER)) {
+      return callee.getTokenValue();
+    }
+    AstNode idExpr = callee.is(CxxGrammarImpl.idExpression)
+      ? callee : callee.getFirstDescendant(CxxGrammarImpl.idExpression);
+    if (idExpr != null) {
+      return getIdentifierText(idExpr);
+    }
+    if (callee.is(CxxGrammarImpl.qualifiedId)) {
+      return getIdentifierText(callee);
+    }
+    if (callee.is(CxxGrammarImpl.simpleTypeSpecifier)) {
+      // qualified name parsed as a type, e.g. ns::foo(...)
+      var sb = new StringBuilder();
+      callee.getTokens().forEach(token -> sb.append(token.getValue()));
+      return sb.toString();
+    }
+    AstNode typeName = callee.is(CxxGrammarImpl.typeName) ? callee : null;
     if (typeName != null) {
       AstNode className = typeName.getFirstChild(CxxGrammarImpl.className);
       if (className != null) {
@@ -212,20 +296,62 @@ public final class CxxAstNodeHelper {
     if (paramDeclList == null) {
       return Collections.emptyList();
     }
-    return paramDeclList.getChildren(CxxGrammarImpl.parameterDeclaration);
+    List<AstNode> parameters = paramDeclList.getChildren(CxxGrammarImpl.parameterDeclaration);
+    if (parameters.size() == 1 && declaresNoParameter(parameters.get(0))) {
+      return Collections.emptyList();
+    }
+    return parameters;
   }
 
   /**
-   * Whether a declarator is a function declarator (declares a function, not a variable/field),
-   * identified by the presence of a {@code parametersAndQualifiers} descendant -- only a function
-   * declarator's grammar shape includes one.
+   * Whether the only parameter declaration of a parameter list declares no parameter: the parser
+   * reads an empty list, {@code f()}, as one empty parameter declaration, and {@code f(void)}
+   * declares no parameter either.
+   */
+  private static boolean declaresNoParameter(AstNode parameterDeclaration) {
+    if (parameterDeclaration.getNumberOfChildren() != 1) {
+      return false;
+    }
+    AstNode type = parameterDeclaration.getFirstChild();
+    if (type.is(CxxGrammarImpl.parameterDeclSpecifierSeq) && !type.hasChildren()) {
+      return true;
+    }
+    return type.getToken() == type.getLastToken() && type.getToken().getType() == CxxKeyword.VOID;
+  }
+
+  /**
+   * Whether a declarator declares a function ({@code int f(int)}, {@code int *f(int)}), not a
+   * variable, a function pointer ({@code int (*fp)(int)}) or an array ({@code int (*a[2])(int)}).
    *
    * @param declaratorNode a declarator node, or null
    * @return true if this declarator declares a function
    */
   public static boolean isFunctionDeclarator(@Nullable AstNode declaratorNode) {
-    return declaratorNode != null
-        && declaratorNode.getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers) != null;
+    AstNode node = getDeclaratorId(declaratorNode);
+    if (node == null) {
+      return false;
+    }
+    while (node != declaratorNode) {
+      AstNode parent = node.getParent();
+      if (parent.is(CxxGrammarImpl.ptrDeclarator) && parent.hasDirectChildren(CxxGrammarImpl.ptrOperator)) {
+        return false; // a pointer or reference to what follows
+      }
+      // a declarator holds the parameter list itself when it has a trailing return type
+      if (parent.is(CxxGrammarImpl.noptrDeclarator, CxxGrammarImpl.declarator)) {
+        AstNode next = node.getNextSibling();
+        while (next != null && next.is(CxxPunctuator.BR_RIGHT)) {
+          next = next.getNextSibling(); // the end of a grouping parenthesis
+        }
+        if (next != null && next.is(CxxGrammarImpl.parametersAndQualifiers)) {
+          return true;
+        }
+        if (next != null && next.is(CxxPunctuator.SQBR_LEFT)) {
+          return false; // an array of what follows
+        }
+      }
+      node = parent;
+    }
+    return false;
   }
 
   /**
@@ -296,7 +422,10 @@ public final class CxxAstNodeHelper {
     if (node == null || !isReturnStatement(node)) {
       return null;
     }
-    return node.getFirstChild(CxxGrammarImpl.exprOrBracedInitList);
+    // exprOrBracedInitList is a skipIfOneChild rule, so the returned expression is the child after
+    // the return keyword, unless the statement ends there
+    AstNode expression = node.getFirstChild().getNextSibling();
+    return expression == null || expression.is(CxxPunctuator.SEMICOLON) ? null : expression;
   }
 
   /**
@@ -348,26 +477,46 @@ public final class CxxAstNodeHelper {
     if (node == null || !isMemberAccess(node)) {
       return null;
     }
-    // After the . or -> operator, find the identifier
-    boolean foundOperator = false;
-    for (var child : node.getChildren()) {
-      if (foundOperator) {
-        AstNode id = child.getFirstDescendant(GenericTokenType.IDENTIFIER);
-        if (id != null) {
-          return id.getTokenValue();
+    // the member following the last . or -> operator (a->b->c accesses c)
+    var children = node.getChildren();
+    for (int i = children.size() - 2; i >= 0; i--) {
+      if (isMemberAccessOperator(children.get(i))) {
+        AstNode member = children.get(i + 1);
+        if (member.is(GenericTokenType.IDENTIFIER)) {
+          return member.getTokenValue();
         }
-        // If child is itself an IDENTIFIER
-        if (child.is(GenericTokenType.IDENTIFIER)) {
-          return child.getTokenValue();
-        }
-        return child.getTokenValue();
-      }
-      String value = child.getTokenValue();
-      if (".".equals(value) || "->".equals(value)) {
-        foundOperator = true;
+        AstNode id = member.getFirstDescendant(GenericTokenType.IDENTIFIER);
+        return id != null ? id.getTokenValue() : member.getTokenValue();
       }
     }
     return null;
+  }
+
+  /**
+   * Check if a member access is applied to the result of a call, e.g. {@code foo(a).bar(x)} or
+   * {@code make()->use()}, as in a builder pattern.
+   *
+   * @param node a postfixExpression node
+   * @return true if a call precedes the last member access operator of the expression
+   */
+  public static boolean isCallOnCallResult(@Nullable AstNode node) {
+    if (node == null || !node.is(CxxGrammarImpl.postfixExpression)) {
+      return false;
+    }
+    var children = node.getChildren();
+    int lastOperator = -1;
+    for (int i = children.size() - 1; i >= 0; i--) {
+      if (isMemberAccessOperator(children.get(i))) {
+        lastOperator = i;
+        break;
+      }
+    }
+    for (int i = 0; i < lastOperator; i++) {
+      if (children.get(i).is(CxxPunctuator.BR_LEFT)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -386,6 +535,11 @@ public final class CxxAstNodeHelper {
     // Case 1: Assignment expression (x = expr)
     AstNode assignmentExpr = getFirstAncestor(expressionNode, CxxGrammarImpl.assignmentExpression);
     if (assignmentExpr != null) {
+      // A pointer declaration read as an assignment to a product (T *x = expr)
+      AstNode declaredPointer = getPointerDeclarationIdentifierOf(assignmentExpr);
+      if (declaredPointer != null) {
+        return AstNodeSymbolExtension.getSymbol(declaredPointer);
+      }
       // The LHS is the first child (logicalOrExpression that resolves to an identifier)
       AstNode lhs = assignmentExpr.getFirstChild();
       if (lhs != null) {
@@ -628,11 +782,12 @@ public final class CxxAstNodeHelper {
   }
 
   /**
-   * Extracts the class/struct name referenced by a variable or data member's declared type
-   * (e.g. {@code "S"} for {@code S s;}). {@code declSpecifierSeq}/{@code memberDeclSpecifierSeq}
+   * Extracts the class/struct name referenced by a variable, data member or parameter's declared
+   * type (e.g. {@code "S"} for {@code S s;}, {@code const S &s} or {@code struct S *s}).
+   * {@code declSpecifierSeq}/{@code memberDeclSpecifierSeq}/{@code parameterDeclSpecifierSeq}
    * are {@code .skipIfOneChild()} rules, so both shapes are searched for directly.
    *
-   * @param declaringNode a simpleDeclaration or memberDeclaration node
+   * @param declaringNode a simpleDeclaration, memberDeclaration or parameterDeclaration node
    * @return the referenced class/struct name, or null if not a class/struct reference
    */
   @CheckForNull
@@ -642,12 +797,21 @@ public final class CxxAstNodeHelper {
     }
     AstNode specifierNode = declaringNode.getFirstChild(
       CxxGrammarImpl.declSpecifierSeq, CxxGrammarImpl.declSpecifier,
-      CxxGrammarImpl.memberDeclSpecifierSeq);
+      CxxGrammarImpl.memberDeclSpecifierSeq, CxxGrammarImpl.parameterDeclSpecifierSeq);
     if (specifierNode == null) {
       return null;
     }
     AstNode className = specifierNode.getFirstDescendant(CxxGrammarImpl.className);
-    return getIdentifierName(className);
+    if (className != null) {
+      return getIdentifierName(className);
+    }
+    // an elaborated type specifier names the class without a className node, e.g. "struct S"
+    AstNode elaboratedTypeSpecifier = specifierNode.getFirstDescendant(CxxGrammarImpl.elaboratedTypeSpecifier);
+    if (elaboratedTypeSpecifier == null || !elaboratedTypeSpecifier.hasDirectChildren(CxxGrammarImpl.classKey)) {
+      return null;
+    }
+    AstNode name = elaboratedTypeSpecifier.getLastChild(GenericTokenType.IDENTIFIER);
+    return name != null ? name.getTokenValue() : null;
   }
 
   /**
@@ -726,6 +890,177 @@ public final class CxxAstNodeHelper {
       current = current.getParent();
     }
     return false;
+  }
+
+  /**
+   * Gets the untyped parameters ({@code name} in {@code T x(name);}) the parser reads when constructor
+   * arguments look like a function declaration; they are arguments if the names name values.
+   *
+   * @param declaratorNode the declarator of an initDeclarator
+   * @return the parameterDeclaration nodes, or an empty list if the declarator does not have this form
+   */
+  public static List<AstNode> getUntypedParameters(@Nullable AstNode declaratorNode) {
+    if (declaratorNode == null || !declaratorNode.is(CxxGrammarImpl.declarator)) {
+      return Collections.emptyList();
+    }
+    AstNode parent = declaratorNode.getParent();
+    if (parent == null || !parent.is(CxxGrammarImpl.initDeclarator)) {
+      return Collections.emptyList();
+    }
+    AstNode noptrDeclarator = declaratorNode.getFirstChild(CxxGrammarImpl.noptrDeclarator);
+    if (noptrDeclarator == null
+      || !noptrDeclarator.hasDirectChildren(CxxGrammarImpl.declaratorId)
+      || !noptrDeclarator.hasDirectChildren(CxxGrammarImpl.parametersAndQualifiers)) {
+      return Collections.emptyList();
+    }
+    List<AstNode> parameters = getDeclaratorParameters(noptrDeclarator);
+    for (AstNode parameter : parameters) {
+      if (getUntypedParameterName(parameter) == null) {
+        return Collections.emptyList();
+      }
+    }
+    return parameters;
+  }
+
+  /**
+   * Gets the name a parameter declaration without a type declares, {@code name} in
+   * {@code T x(name);}.
+   *
+   * @param parameterDeclarationNode a parameterDeclaration node
+   * @return the IDENTIFIER node of the name, or null if the parameter has a type or no name
+   */
+  @CheckForNull
+  public static AstNode getUntypedParameterName(@Nullable AstNode parameterDeclarationNode) {
+    if (parameterDeclarationNode == null || !parameterDeclarationNode.is(CxxGrammarImpl.parameterDeclaration)) {
+      return null;
+    }
+    AstNode type = parameterDeclarationNode.getFirstChild(CxxGrammarImpl.parameterDeclSpecifierSeq);
+    AstNode declarator = parameterDeclarationNode.getFirstChild(CxxGrammarImpl.declarator);
+    if (type == null || type.hasChildren() || declarator == null || declarator.getNumberOfChildren() != 1) {
+      return null;
+    }
+    AstNode declaratorId = declarator.getFirstChild(CxxGrammarImpl.declaratorId);
+    AstNode name = declaratorId != null ? declaratorId.getFirstChild() : null;
+    return name != null && name.is(GenericTokenType.IDENTIFIER) ? name : null;
+  }
+
+  /**
+   * Whether an IDENTIFIER node is the name of one of the untyped parameters of a declarator, see
+   * {@link #getUntypedParameters}.
+   *
+   * @param identifierNode an IDENTIFIER token node
+   * @return true if the identifier is the name of such a parameter
+   */
+  public static boolean isUntypedParameterName(@Nullable AstNode identifierNode) {
+    AstNode parameter = identifierNode != null
+      ? identifierNode.getFirstAncestor(CxxGrammarImpl.parameterDeclaration) : null;
+    if (parameter == null || getUntypedParameterName(parameter) != identifierNode) {
+      return false;
+    }
+    AstNode declarator = parameter.getFirstAncestor(CxxGrammarImpl.declarator);
+    return declarator != null && getUntypedParameters(declarator).contains(parameter);
+  }
+
+  /**
+   * Gets the variables of a pointer declaration ({@code T *x = init, *y;}) that the parser read as a
+   * multiplication because {@code T} is not declared in the parsed code.
+   *
+   * @param expressionStatementNode an expressionStatement node
+   * @return the IDENTIFIER nodes of the declared variables, or an empty list if not of this form
+   */
+  public static List<AstNode> getPointerDeclarationIdentifiers(@Nullable AstNode expressionStatementNode) {
+    if (expressionStatementNode == null || !expressionStatementNode.is(CxxGrammarImpl.expressionStatement)) {
+      return Collections.emptyList();
+    }
+    AstNode expression = expressionStatementNode.getFirstChild(CxxGrammarImpl.expression);
+    if (expression == null) {
+      return Collections.emptyList();
+    }
+    List<AstNode> declared = new ArrayList<>();
+    for (AstNode operand : expression.getChildren()) {
+      if (operand.is(CxxPunctuator.COMMA)) {
+        continue;
+      }
+      AstNode identifier = declared.isEmpty()
+        ? firstPointerDeclarator(declaratorOf(operand))
+        : dereferencedIdentifier(declaratorOf(operand));
+      if (identifier == null) {
+        return Collections.emptyList();
+      }
+      declared.add(identifier);
+    }
+    return declared;
+  }
+
+  /**
+   * Gets the variable declared by the operand of a pointer declaration read as an expression
+   * statement (see {@link #getPointerDeclarationIdentifiers}) that contains the given node, e.g.
+   * {@code y} for the call {@code g()} in {@code T *x = f(), *y = g();}.
+   *
+   * @param node a node inside the statement
+   * @return the IDENTIFIER node of the variable, or null if the node is not inside such a
+   *   declaration
+   */
+  @CheckForNull
+  public static AstNode getPointerDeclarationIdentifierOf(@Nullable AstNode node) {
+    AstNode statement = getFirstAncestor(node, CxxGrammarImpl.expressionStatement);
+    List<AstNode> declared = getPointerDeclarationIdentifiers(statement);
+    if (declared.isEmpty()) {
+      return null;
+    }
+    AstNode expression = statement.getFirstChild(CxxGrammarImpl.expression);
+    int index = 0;
+    for (AstNode operand : expression.getChildren()) {
+      if (operand.is(CxxPunctuator.COMMA)) {
+        continue;
+      }
+      if (isSelfOrAncestor(operand, node)) {
+        return declared.get(index);
+      }
+      index++;
+    }
+    return null;
+  }
+
+  private static boolean isSelfOrAncestor(AstNode ancestor, AstNode node) {
+    for (AstNode current = node; current != null; current = current.getParent()) {
+      if (current == ancestor) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** The declarator of an operand: the target of a plain assignment, or the operand itself. */
+  private static AstNode declaratorOf(AstNode operand) {
+    if (operand.is(CxxGrammarImpl.assignmentExpression)) {
+      AstNode operator = operand.getFirstChild(CxxGrammarImpl.assignmentOperator);
+      return operator != null && operator.hasDirectChildren(CxxPunctuator.ASSIGN) ? operand.getFirstChild() : null;
+    }
+    return operand;
+  }
+
+  /** The variable of the first declarator, {@code T *x} read as a product of {@code T} and {@code *x}. */
+  @CheckForNull
+  private static AstNode firstPointerDeclarator(@Nullable AstNode product) {
+    if (product == null || !product.is(CxxGrammarImpl.multiplicativeExpression) || product.getNumberOfChildren() != 3
+        || !product.getFirstChild().is(GenericTokenType.IDENTIFIER)
+        || !product.getChildren().get(1).is(CxxPunctuator.MUL)) {
+      return null;
+    }
+    return dereferencedIdentifier(product.getLastChild());
+  }
+
+  /** The identifier of {@code x}, {@code *x} or {@code **x}, or null for any other expression. */
+  @CheckForNull
+  private static AstNode dereferencedIdentifier(@Nullable AstNode declarator) {
+    AstNode declared = declarator;
+    while (declared != null && declared.is(CxxGrammarImpl.unaryExpression) && declared.getNumberOfChildren() == 2
+        && declared.getFirstChild().is(CxxGrammarImpl.unaryOperator)
+        && declared.getFirstChild().hasDirectChildren(CxxPunctuator.MUL)) {
+      declared = declared.getLastChild();
+    }
+    return declared != null && declared.is(GenericTokenType.IDENTIFIER) ? declared : null;
   }
 
   /**
