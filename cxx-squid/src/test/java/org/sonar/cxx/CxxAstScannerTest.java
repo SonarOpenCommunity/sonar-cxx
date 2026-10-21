@@ -30,7 +30,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import com.sonarsource.scanner.engine.sensor.test.fixtures.TestInputFileBuilder;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.config.CxxSquidConfiguration;
 import org.sonar.cxx.squidbridge.api.SourceFile;
