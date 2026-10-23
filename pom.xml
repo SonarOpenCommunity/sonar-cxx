@@ -269,7 +269,7 @@
     <!-- ensure that version fits to 'sonar.plugin.api.version'.
          Compare changes in mvn repository: version should use same 'sonar-plugin-api' https://mvnrepository.com/artifact/org.sonarsource.scanner.engine/plugin-api-scanner-impl
          -->
-    <sonar.scanner.version>13.15.0.6376</sonar.scanner.version>
+    <sonar.scanner.version>13.16.0.6705</sonar.scanner.version>
 
     <!-- dependencies -->
     <ant.version>1.10.18</ant.version>
